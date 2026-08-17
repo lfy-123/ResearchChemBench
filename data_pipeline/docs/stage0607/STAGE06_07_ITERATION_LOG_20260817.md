@@ -44,7 +44,32 @@
   - objective-retry 流程不能把空 handoff 发布成有效任务。
 - 本轮发现并修复的新增代码问题：Guard 会修改两个模式继承的输入，但旧的派生哈希仍指向修改前树，导致有效修复被最终门禁误判；现已在 Guard 完成后通用刷新既有 provenance，不跳过校验。
 
-真实回归运行目录、提交 ID、六篇结果和后续轨迹问题将在任务启动后继续追加。
+### Iteration 1 真实六篇回归
+
+- Git：`3c8c20b`
+- 输出：`runs/stage06-07-tiered-pilot-20260817-flash-r13-final-gate-3c8c20b`
+- 时间：52 分 33 秒；六篇 runner 均正常完成，无 API/harness failure。
+- Stage06：六篇均为 `provisional_constructed`；工具调用分别为 62、95、80、86、105、69。Gallaphosphene 出现 `input_assets` map/list schema drift，触发 `metadata_materialization_deferred:AttributeError`。
+- Stage07：工具调用分别为 95、88、78、94、92、44。六篇 Agent 原始 receipt 均为 `approved_with_repairs`，但 post-Agent deterministic gate 将六篇全部覆盖为 `rejected_scientific_unrepairable`。
+- Stage07 token：Codex stdout 中存在真实 `turn.completed.usage`，checkpoint 却全部记录为 0，确认 native Responses usage fallback 缺失。
+- Fusadiene：Agent 同时返回 approved 和高严重度关键输入缺失，说明需要 receipt 自洽 recovery，而不是代码科学改判。
+- Ni(111)：Stage06/07 Agent 把结构构建说明当成可替代坐标的输入。该现象应由 Stage07 科学审核处理，不在代码中加入论文或结构特例。
+
+结论：Iteration 1 的事后确定性科学门禁与“Agent 负责科学裁决”的设计目标冲突，不能继续作为发布裁决。它的 findings 可用于离线诊断，但不应覆盖 Agent 结果。
+
+## Iteration 2：恢复 Agent 科学裁决与通用编排修复
+
+- 方案文档：`STAGE06_07_CODE_DEFECT_FIX_PLAN_20260817.md` 修订版。
+- 实施中：
+  - 移除 Stage07 post-Agent scientific gate；
+  - approved receipt 若内部矛盾则触发 Agent recovery；
+  - public-surface guard 改为 manifest/provenance-only，不修改科学内容；
+  - Stage06 map/list 资产声明归一化并回退 task spec；
+  - Stage07 预算提升至 120/160，finalization reserve 16；
+  - Codex stdout token usage fallback；
+  - 软件版本完全忽略，且 prompt 不再承诺代码替 Agent 修复泄漏。
+
+本轮单元测试、Git 提交和第二轮六篇真实回归结果将在验证完成后补充。
 
 ## 后续记录模板
 
@@ -57,3 +82,35 @@
 5. 发现的代码问题；
 6. 下一轮通用修复方案；
 7. 是否重新提交测试。
+
+## Iteration 3：目标中心双 Agent Stage06/07 实测
+
+- 方案：`STAGE06_07_OBJECTIVE_CENTERED_TWO_AGENT_REVISION_PLAN_20260817.md`
+- 实现版本：`v6-objective-centered-two-agent-20260817` / `v6-objective-centered-audit-repair-20260817`
+- 测试论文：`paper_6904a9c8c09855cc`，DOI `10.1002/anie.202525581`
+- Harness/模型：`codex` + `deepseek-v4-flash`（API 仍来自 `config.local.env`）
+- 输出：`runs/stage06-07-objective-centered-test-20260817-paper6904-codex`
+
+### 本轮代码实现
+
+- Stage06A 改为围绕一个科学目标抽取闭合 workflow，并生成论文复现任务、Objective Card、Key Points 和转换 manifest。
+- Stage06B 在独立 workspace 中从复现目录复制并递归清理 autonomous public surface；转换范围覆盖 Markdown、JSON、输入元数据、嵌套文件名和 `data/`，不再依赖旧的四文件白名单。
+- Stage07 继续由 Agent 审计和修复；编排器只负责 workspace、文件复制、receipt 和发布目录，不覆盖 Agent 的科学裁决。
+- 发布时生成两个物理隔离的 mode bundle，不包含 hidden reference、paper_info、Stage06/07 轨迹或 route/evidence 内部文件。
+
+### 测试结果
+
+- Stage06：`provisional_constructed=1`，`retryable_failures=0`，`toolbox_gaps=0`。
+- Stage07：`approved_with_repairs=1`，`selected_workflow_preserved=true`，`workflow_redesign=false`，`toolbox_status=available`，`resource_status=feasible`。
+- Stage07 实际修复了 autonomous public surface 的 3 个通用问题：路线竞争信息、特定旋转步骤和特定环结构措辞；论文复现模式保留完整路线信息。
+- 第二次 resume 运行确认旧 manifest 会被规范化为 `recursive_autonomous_public_surface`，且 Stage06B 能重新生成 autonomous 目录；Stage07 随后重新审计并发布两个 bundle。
+- 发布目录各包含 10 个文件，未发现 hidden、paper_info、stage06、stage07、conversion、workflow、route 或 evidence 文件。
+- 回归测试：`385 passed`；`python -m compileall -q src` 通过。
+
+### 轨迹分析与后续建议
+
+- 目标中心闭环、复现→自主转换、Stage07 优先修复原 workflow 的行为符合方案预期。
+- 本次 Stage07 不是机械判定：它读取候选、发现公开面泄漏并直接修改三个任务文件，最终以 `approved_with_repairs` 返回。
+- 仍需关注成本：Codex 轨迹显示 Stage06B/Stage07 会反复读取同一批公开文件，单篇测试的上下文和工具调用较大。下一步应从 workspace 输入 manifest 和 prompt 去重入手，避免重复材料；不应为本论文添加关键词特例。
+- 轨迹中出现一次 Agent 自己编写的 shell 检查错误，随后自行修正，未影响最终产物；这属于 Agent 行为，不应在代码中加入论文特例。
+- `direct_api` 仍不适合当前需要 workspace 工具调用的 Agent 角色；应继续使用 `codex`、`claude` 或 `opencode` harness。

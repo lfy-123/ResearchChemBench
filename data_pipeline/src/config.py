@@ -51,6 +51,10 @@ def load_config(path: str | Path) -> dict[str, Any]:
     stage00 = config.setdefault("stage00", {})
     if stage00.get("credentials"):
         stage00["credentials"] = str(_resolve(source.parent, stage00["credentials"]))
+    if stage00.get("publication_index_path"):
+        stage00["publication_index_path"] = str(
+            _resolve(source.parent, stage00["publication_index_path"])
+        )
     stage03 = config.setdefault("stage03", {})
     stage03["toolbox_capabilities"] = str(
         _resolve(
@@ -69,12 +73,18 @@ def load_config(path: str | Path) -> dict[str, Any]:
     )
     stage01 = config.setdefault("stage01", {})
     normalization = stage01.setdefault("normalization", {})
+    # The managed GROBID runtime always materializes this mapping. Normalize it
+    # before resume fingerprints are computed so service startup cannot look
+    # like a scientific configuration change.
+    grobid = normalization.setdefault("grobid", {})
+    grobid.setdefault("environment", {})
     config.setdefault("stage02", {})
     stage04 = config.setdefault("stage04", {})
     mineru = stage04.setdefault("mineru", {})
     mineru.setdefault("managed_gpu", False)
     mineru.setdefault("api_concurrency", 3)
     mineru.setdefault("request_batch_size", 1)
+    mineru.setdefault("cleanup_successful_intermediates", True)
     if mineru.get("managed_gpu"):
         mineru["gpu_env_dir"] = str(
             _resolve(
@@ -113,22 +123,34 @@ def load_config(path: str | Path) -> dict[str, Any]:
     ) or stage06.get("scientific_review_model_role", "builder")
     stage06["mode_generation_strategy"] = os.environ.get(
         "RCB_STAGE06_MODE_GENERATION_STRATEGY"
-    ) or stage06.get("mode_generation_strategy", "single_agent")
+    ) or stage06.get("mode_generation_strategy", "two_agent_objective_centered")
+    stage06["converter_harness"] = os.environ.get("RCB_STAGE06_CONVERTER_HARNESS") or stage06.get(
+        "converter_harness", stage06["harness"]
+    )
     stage06.setdefault("preferred_scope", "full_paper_computational_workflow")
     stage06.setdefault("minimum_complexity", "medium")
     stage06.setdefault("reject_trivial_single_call", True)
-    stage06.setdefault("task_pair_builder_max_tool_calls", 72)
+    stage06.setdefault("task_pair_builder_max_tool_calls", 120)
     stage06.setdefault("task_pair_builder_timeout_seconds", 7200)
-    stage06.setdefault("task_pair_builder_search_max_tool_calls", 36)
-    stage06.setdefault("task_pair_builder_finalization_reserve", 2)
-    stage06.setdefault("task_pair_builder_recovery_max_tool_calls", 24)
-    stage06.setdefault("task_pair_builder_recovery_finalization_reserve", 2)
+    stage06.setdefault("task_pair_builder_search_max_tool_calls", 72)
+    stage06.setdefault("task_pair_builder_finalization_reserve", 12)
+    stage06.setdefault("autonomous_converter_max_tool_calls", 60)
+    stage06.setdefault("autonomous_converter_finalization_reserve", 8)
+    stage06.setdefault("autonomous_converter_timeout_seconds", 3600)
+    stage06.setdefault("task_pair_builder_recovery_max_tool_calls", 160)
+    stage06.setdefault("task_pair_builder_recovery_finalization_reserve", 12)
+    stage06.setdefault("model_context_window", 1_000_000)
+    stage06.setdefault("model_auto_compact_token_limit", 750_000)
+    stage06.setdefault("model_auto_compact_token_limit_scope", "total")
     stage07["harness"] = os.environ.get("RCB_STAGE07_HARNESS") or stage07.get(
         "harness", "codex"
     )
-    stage07.setdefault("audit_repair_max_tool_calls", 64)
-    stage07.setdefault("audit_repair_finalization_reserve", 10)
-    stage07.setdefault("audit_repair_recovery_max_tool_calls", 20)
+    stage07.setdefault("audit_repair_max_tool_calls", 120)
+    stage07.setdefault("audit_repair_finalization_reserve", 16)
+    stage07.setdefault("audit_repair_recovery_max_tool_calls", 160)
+    stage07.setdefault("model_context_window", 1_000_000)
+    stage07.setdefault("model_auto_compact_token_limit", 750_000)
+    stage07.setdefault("model_auto_compact_token_limit_scope", "total")
     for stage in (stage06, stage07):
         stage.setdefault("toolbox_capabilities", stage03["toolbox_capabilities"])
         if stage.get("toolbox_capabilities"):
@@ -294,15 +316,23 @@ def _validate(config: dict[str, Any]) -> None:
         )
     config["stage06"]["scientific_review_model_role"] = review_role
     strategy = str(config["stage06"].get("mode_generation_strategy") or "single_agent")
-    if strategy not in {"single_agent", "isolated_converter", "legacy_multi_phase"}:
+    if strategy not in {
+        "single_agent",
+        "two_agent_objective_centered",
+        "isolated_converter",
+        "legacy_multi_phase",
+    }:
         raise ValueError(
-            "stage06.mode_generation_strategy must be single_agent, isolated_converter, "
-            "or legacy_multi_phase"
+            "stage06.mode_generation_strategy must be single_agent, two_agent_objective_centered, "
+            "isolated_converter, or legacy_multi_phase"
         )
     config["stage06"]["mode_generation_strategy"] = strategy
-    if config["stage06"].get("preferred_scope") != "full_paper_computational_workflow":
+    if config["stage06"].get("preferred_scope") not in {
+        "full_paper_computational_workflow",
+        "objective_centered_workflow",
+    }:
         raise ValueError(
-            "stage06.preferred_scope must be full_paper_computational_workflow"
+            "stage06.preferred_scope must be full_paper_computational_workflow or objective_centered_workflow"
         )
     if config["stage06"].get("minimum_complexity") not in {"medium", "high"}:
         raise ValueError("stage06.minimum_complexity must be medium or high")
@@ -335,6 +365,8 @@ def _validate(config: dict[str, Any]) -> None:
         if int(value) < 1:
             raise ValueError(f"microbatch.stage_concurrency.{stage} must be at least 1")
     mineru = config["stage04"].get("mineru") or {}
+    if not isinstance(mineru.get("cleanup_successful_intermediates"), bool):
+        raise ValueError("stage04.mineru.cleanup_successful_intermediates must be true or false")
     if mineru.get("managed_gpu"):
         if not config["models"]["screening"].get("managed_rlaunch"):
             raise ValueError("stage04.mineru.managed_gpu requires models.screening.managed_rlaunch")

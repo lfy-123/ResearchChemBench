@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v5-stage07-repair-first-auditor-20260817-r15-final-gate"
+STAGE07_AUDIT_VERSION = "v6-stage07-objective-centered-auditor-20260817"
 
 
 def audit_instructions(
@@ -30,11 +30,13 @@ one. Never report `approved_with_repairs` unless at least one claimed task-pair-
 actually different from `inputs/stage06_candidate/`.
 
 SCIENTIFIC WORKFLOW
-1. Read the Stage06 receipt, workflow review, task pair, and its exact open questions. Treat
+1. Read the Stage06 receipt, Objective Card, Key Points, conversion report, workflow review, task pair, and its exact open questions. Treat
    Stage02-05 material only as navigation hints; decide from the paper, SI, and parsed evidence.
-2. First audit and attempt to repair the workflow selected by Stage06. Check whether its author-
-   performed computational process, necessary inputs, parameters, intermediate Ground Truth,
-   final conclusions, and evidence are sufficiently complete and reproducible.
+2. First audit and attempt to repair the workflow selected by Stage06 (specifically, its
+   objective-centered process). Check
+   whether its scientific question, necessary inputs, author-performed calculations, parameters,
+   intermediate Key Points, final conclusions, and evidence are sufficiently complete and
+   reproducible. Do not require the task to cover every calculation in the paper.
 3. Repair minor or recoverable defects directly: missing source-provided assets or instructions,
    incomplete intermediate/final Ground Truth, acceptance profiles, rubrics, provenance, or
    autonomous-mode disclosure. Never invent a missing scientific value or structure.
@@ -42,9 +44,10 @@ SCIENTIFIC WORKFLOW
    workflows. If another complete, non-trivial author-performed workflow exists, rebuild the pair
    and return `approved_after_workflow_redesign`; otherwise return
    `rejected_scientific_unrepairable`.
-5. Prefer the whole-paper computational workflow. If it is incomplete, retain the largest complete
-   meaningful subworkflow. Preserve difficult calculations, dependencies, branches, validation,
-   and scientific reasoning; avoid a trivial one-call benchmark.
+5. Prefer the whole-paper workflow only when it forms one coherent objective. Otherwise retain the
+   largest complete objective-centered workflow. Preserve difficult calculations, dependencies,
+   branches, validation, and scientific reasoning; avoid a trivial one-call benchmark without
+   imposing a fixed step count.
 
 MODE CONTRACT
 - Paper reproduction discloses the authors' executable method and route.
@@ -71,23 +74,21 @@ pathway member, or ordered route position, because those labels disclose the pap
 chemically necessary, answer-independent reactant identities without publishing the hidden mapping
 from neutral assets to author route labels.
 
-The orchestrator's deterministic delivery guard will normalize public XYZ filenames/comments in
-both modes, update literal filename references, remove reproduction-only route files from autonomous
-mode, and refresh manifests after an approval. It does not decide whether semantic JSON values such
-as structure roles or source labels leak the route. Do not spend Agent calls performing mechanical
-filename normalization. Do not spend Agent calls performing that mechanical work; do audit and
-repair those semantic disclosures. You remain responsible for
-substantive disclosure in Markdown/JSON and for ensuring the two public input trees describe the
-same scientific inputs.
+You are responsible for repairing the complete autonomous public surface, including
+XYZ filenames/comments, other filenames, Markdown, and every JSON field. The orchestrator will only refresh hashes and
+manifests after approval; it will not rename files, remove route artifacts, rewrite text, or repair
+scientific disclosure for you. Preserve meaningful paper-route labels in reproduction mode while
+using neutral, answer-independent identifiers in autonomous mode. Ensure the two public input trees
+still contain the same underlying scientific inputs.
 
 TOOLBOX AND COST
 - `inputs/toolbox_snapshot.json` is the authoritative read-only installed-software inventory.
   Every listed software ID, display name, and alias is installed and available. The inventory
   intentionally omits preset Actions and task-specific feature coverage; never infer missing
   software from an absent Action, and do not audit Action coverage.
-- Match software by family, software ID, display name, or alias. Ignore software release/version
-  numbers completely: Gaussian 09 and Gaussian 16 are the same installed Gaussian software family
-  for inventory purposes, and a version difference must never create a software gap.
+- Match software by family, software ID, display name, or alias. Ignore every software
+  release/version number completely. Different releases of the same software are the same installed
+  software family for inventory purposes and must never create a software gap.
 - `outputs/task_pair/toolbox_requirements.json` and `required_additions` contain software gaps
   only. An empty Stage06 gap file means no known software gap, not a missing inventory. If all
   required programs match the installed inventory, set `toolbox_status=available`, leave
@@ -97,6 +98,10 @@ TOOLBOX AND COST
   Missing software never causes scientific rejection: complete the task and list precise
   additions for later human installation.
 - Reject for cost only when no complete meaningful scope is feasible under the supplied policy.
+
+Your toolbox assessment remains authoritative. After you finish, the orchestrator may write a
+separate `orchestrator_inventory_observation.json` containing a mechanical name-to-inventory
+comparison. It never rewrites your toolbox fields and never changes your scientific decision.
 
 DECISION SEMANTICS
 - `approved`: no repair was necessary.

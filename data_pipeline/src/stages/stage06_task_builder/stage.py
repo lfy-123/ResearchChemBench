@@ -18,6 +18,7 @@ from pypdf import __version__ as pypdf_version
 from src.agents import AgentExecutionError, AgentRunRequest, create_agent_harness
 from src.agents.schemas import (
     STAGE06_AUTONOMOUS_SCHEMA,
+    STAGE06_AUTONOMOUS_CONVERTER_SCHEMA,
     STAGE06_HIDDEN_SCHEMA,
     STAGE06_REPRODUCTION_SCHEMA,
     STAGE06_REVIEW_SCHEMA,
@@ -55,11 +56,13 @@ from src.core.concurrency import ordered_parallel_map
 from src.core.toolbox_inventory import installed_software_inventory
 from src.stages.stage06_task_builder.prompts import (
     STAGE06_AUTONOMOUS_VERSION,
+    STAGE06_AUTONOMOUS_CONVERTER_VERSION,
     STAGE06_HIDDEN_VERSION,
     STAGE06_REPRODUCTION_VERSION,
     STAGE06_REVIEW_VERSION,
     STAGE06_TASK_PAIR_BUILDER_VERSION,
     autonomous_instructions,
+    autonomous_converter_instructions,
     hidden_reference_instructions,
     reproduction_instructions,
     review_instructions,
@@ -78,7 +81,7 @@ from src.stages.stage06_task_builder.validation import (
     validate_workflow_review,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v5-provisional-builder-handoff-20260817-r2-integrity"
+STAGE06_IMPLEMENTATION_VERSION = "v6-objective-centered-two-agent-20260817"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
@@ -98,8 +101,10 @@ def run_stage06(
 ):
     """Construct benchmark pairs with the configured Stage06 generation strategy."""
 
-    strategy = str(config.get("mode_generation_strategy") or "single_agent")
-    if strategy == "single_agent":
+    strategy = str(
+        config.get("mode_generation_strategy") or "two_agent_objective_centered"
+    )
+    if strategy in {"single_agent", "two_agent_objective_centered"}:
         return _run_stage06_single_agent(
             candidates=candidates,
             stage04_records=stage04_records,
@@ -111,22 +116,10 @@ def run_stage06(
             workspace=workspace,
             run_id=run_id,
         )
-    if strategy in {"legacy_multi_phase", "isolated_converter"}:
-        return _run_stage06_legacy(
-            candidates=candidates,
-            stage04_records=stage04_records,
-            documents=documents,
-            stage02_records=stage02_records,
-            stage03_records=stage03_records,
-            config=config,
-            model=model,
-            review_model=review_model,
-            workspace=workspace,
-            run_id=run_id,
-        )
     raise ValueError(
-        "stage06.mode_generation_strategy must be single_agent, isolated_converter, "
-        "or legacy_multi_phase"
+        "stage06.mode_generation_strategy must be single_agent; the legacy multi-phase "
+        "strategies are disabled because their deterministic semantic validators can "
+        "override Agent scientific decisions"
     )
 
 
@@ -142,6 +135,7 @@ def _run_stage06_single_agent(
     workspace: Path,
     run_id: str,
 ):
+    generation_strategy = str(config.get("mode_generation_strategy") or "single_agent")
     stage_root = workspace / STAGE06_DIRECTORY
     stage_root.mkdir(parents=True, exist_ok=True)
     coverage = {str(row["paper_id"]): row for row in stage04_records}
@@ -163,6 +157,13 @@ def _run_stage06_single_agent(
     harness_name = str(config.get("harness") or "codex")
     harness = create_agent_harness(
         harness_name,
+        config=config,
+        model_config=model_config,
+        model_client=model,
+    )
+    converter_harness_name = str(config.get("converter_harness") or harness_name)
+    converter_harness = create_agent_harness(
+        converter_harness_name,
         config=config,
         model_config=model_config,
         model_client=model,
@@ -277,6 +278,75 @@ def _run_stage06_single_agent(
             make_writable(staging_root)
             write_json(staging_root / "workflow_review.json", review)
             write_json(staging_root / "construction_receipt.json", receipt)
+            _ensure_objective_handoff_artifacts(staging_root, review)
+            use_converter = generation_strategy == "two_agent_objective_centered"
+            if use_converter:
+                converter_response, converter_audit, converter_workspace = _run_phase(
+                    harness=converter_harness,
+                    stage_root=stage_root,
+                    paper_id=paper_id,
+                    phase="autonomous_converter",
+                    prompt_version=STAGE06_AUTONOMOUS_CONVERTER_VERSION,
+                    instructions=autonomous_converter_instructions(
+                        paper_id=paper_id,
+                        task_pair_id=task_pair_id,
+                        max_tool_calls=int(
+                            config.get(
+                                "autonomous_converter_max_tool_calls",
+                                config.get("max_tool_calls", 60),
+                            )
+                        ),
+                    ),
+                    output_schema=STAGE06_AUTONOMOUS_CONVERTER_SCHEMA,
+                    fingerprint_value={
+                        "task_pair_id": task_pair_id,
+                        "paper_reproduction_hash": directory_manifest(
+                            staging_root / "paper_reproduction"
+                        )["content_hash"],
+                        "objective_card_hash": canonical_hash(
+                            read_json(staging_root / "objective_card.json")
+                            if (staging_root / "objective_card.json").is_file()
+                            else review.get("objective_card") or {}
+                        ),
+                        "prompt_version": STAGE06_AUTONOMOUS_CONVERTER_VERSION,
+                        "harness": converter_harness_name,
+                        "model": converter_harness.model,
+                    },
+                    config=config,
+                    setup=lambda root: _setup_converter_inputs(root, staging_root),
+                    semantic_validator=_converter_phase_findings,
+                )
+            else:
+                # Explicit legacy mode remains available for old fixtures and migration runs.
+                converter_response = {"status": "converted", "artifact_path": "outputs/autonomous_research"}
+                converter_audit = {"status": "skipped", "reason": "legacy_single_agent_mode"}
+                converter_workspace = None
+            if converter_response.get("status") != "converted":
+                return _artifact_delivery_failure(
+                    run_id,
+                    paper_id,
+                    candidate_id,
+                    "autonomous_conversion_failed",
+                    str(
+                        converter_response.get("summary")
+                        or converter_response.get("invalid_reasons")
+                        or "Stage06B did not produce an autonomous task."
+                    ),
+                    agent_run=converter_audit,
+                )
+            if use_converter:
+                converted_root = converter_workspace / "outputs" / "autonomous_research"
+                if not converted_root.is_dir():
+                    raise FileNotFoundError("Stage06B autonomous task artifact is unavailable")
+                old_autonomous_root = staging_root / "autonomous_research"
+                if old_autonomous_root.exists() and converted_root != old_autonomous_root:
+                    shutil.rmtree(old_autonomous_root)
+                if converted_root != old_autonomous_root:
+                    copytree_exact(converted_root, old_autonomous_root)
+                make_writable(old_autonomous_root)
+                report_path = converter_workspace / "outputs" / "conversion_report.json"
+                if report_path.is_file():
+                    shutil.copy2(report_path, staging_root / "conversion_report.json")
             requirements_path = outputs / "toolbox_requirements.json"
             requirements = (
                 read_json(requirements_path)
@@ -309,9 +379,16 @@ def _run_stage06_single_agent(
                         reproduction_root=reproduction_root,
                         construction_harness=harness,
                         review_harness=harness,
-                        phase_audits={"task_pair_builder": agent_audit},
+                        phase_audits={
+                            "task_pair_builder": agent_audit,
+                            **(
+                                {"autonomous_converter": converter_audit}
+                                if use_converter
+                                else {}
+                            ),
+                        },
                         mode_generation_order=["paper_reproduction", "autonomous_research"],
-                        mode_generation_strategy="single_agent",
+                        mode_generation_strategy=generation_strategy,
                     )
                 except (
                     AttributeError,
@@ -381,7 +458,9 @@ def _run_stage06_single_agent(
                 "handoff_warnings": handoff_warnings,
                 "agent_harness": harness.name,
                 "agent_model": harness.model,
-                "mode_generation_strategy": "single_agent",
+                "mode_generation_strategy": generation_strategy,
+                "converter_harness": converter_harness.name,
+                "converter_model": converter_harness.model,
             }
         except AgentExecutionError as exc:
             if exc.failure_class in {"partial_agent_artifact", "missing_agent_artifact"}:
@@ -428,7 +507,7 @@ def _run_stage06_single_agent(
     summary = {
         **record_header(run_id=run_id, stage="stage06"),
         "implementation_version": STAGE06_IMPLEMENTATION_VERSION,
-        "mode_generation_strategy": "single_agent",
+        "mode_generation_strategy": generation_strategy,
         "papers": len(records),
         "provisional_constructed": sum(
             row.get("decision") == "provisional_constructed" for row in records
@@ -1328,7 +1407,7 @@ def _prepare_input_snapshot(
     write_json(
         root / "task_contract.json",
         {
-            "schema_version": "stage06-single-agent-task-pair/v1",
+            "schema_version": "stage06-objective-centered-two-agent/v1",
             "receipt_schema": STAGE06_TASK_PAIR_BUILDER_SCHEMA,
             "workflow_review_schema": STAGE06_WORKFLOW_REVIEW_SCHEMA,
             "workflow_review_normalization": {
@@ -1351,18 +1430,18 @@ def _prepare_input_snapshot(
                 ],
             },
             "mode_generation_order": ["paper_reproduction", "autonomous_research"],
+            "objective_contract": {
+                "files": ["objective_card.json", "key_points.json", "conversion_manifest.json"],
+                "selection": "objective_first",
+                "scientific_decision_authority": "stage06_agent_and_stage07_agent",
+            },
             "bootstrap_script": "inputs/scripts/bootstrap_task_pair.py",
             "bootstrap_usage": (
                 "After candidate_ready workflow_review.json, run the bootstrap script once. "
                 "It creates a syntax-complete draft from the review and copies only source-provided "
                 "public input content; replace marked prose and validate before writing the receipt."
             ),
-            "autonomous_editable_files": [
-                "task.md",
-                "task_info.json",
-                "task_spec.json",
-                "process_rubric.json",
-            ],
+            "autonomous_editable_files": "recursive_autonomous_public_surface",
             "shared_across_modes": [
                 "data/inputs",
                 "submission_contract.json",
@@ -1741,7 +1820,7 @@ def _run_phase(
                     "Run bootstrap_task_pair.py only when the reproduction scaffold is absent; otherwise "
                     "repair the listed fields in one grouped command. If reproduction is complete and "
                     "autonomous_research is missing, run copy_reproduction_to_autonomous.py and then "
-                    "rewrite only the autonomous allowlist files. Only write scientific_not_constructible "
+                    "rewrite the recursive autonomous public surface through Stage06B. Only write scientific_not_constructible "
                     "when the source evidence itself proves a required input, route, or scoreable "
                     "claim cannot be recovered.\n"
                 )
@@ -2487,6 +2566,32 @@ def _synchronize_builder_receipt(
     receipt["milestones"] = milestones
 
 
+def _normalize_public_asset_declarations(raw: Any) -> list[dict[str, Any]]:
+    """Normalize list/map asset syntax without creating scientific inputs."""
+
+    if isinstance(raw, list):
+        candidates = [(str(index), value) for index, value in enumerate(raw, start=1)]
+    elif isinstance(raw, dict):
+        candidates = [(str(key), value) for key, value in raw.items()]
+    else:
+        return []
+
+    rows: list[dict[str, Any]] = []
+    for label, value in candidates:
+        if isinstance(value, dict):
+            row = dict(value)
+        elif isinstance(value, str) and value.strip():
+            row = {"description": value.strip()}
+        else:
+            continue
+        if isinstance(raw, dict):
+            row.setdefault("asset_id", label)
+            if not row.get("path") and ("/" in label or Path(label).suffix):
+                row["path"] = label
+        rows.append(row)
+    return rows
+
+
 def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]:
     """Normalize harmless Agent naming variants before scientific validation.
 
@@ -2496,6 +2601,14 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
     """
 
     value = json.loads(json.dumps(review, ensure_ascii=False))
+    public_basis = value.get("public_task_basis")
+    if isinstance(public_basis, dict) and isinstance(
+        public_basis.get("input_assets"), (list, dict)
+    ):
+        public_basis["input_assets"] = _normalize_public_asset_declarations(
+            public_basis.get("input_assets")
+        )
+
     scope = value.get("workflow_scope")
     if isinstance(scope, dict):
         aliases = {
@@ -3576,8 +3689,10 @@ def _recover_workflow_review_from_pair_artifacts(
         )
     boundaries = _normalize_boundary_contract(boundaries, evidence_ids=scope_evidence)
     public_basis["boundary_conditions"] = boundaries
-    declared_assets = public_basis.get("input_assets") or []
-    raw_assets = declared_assets or []
+    declared_assets = _normalize_public_asset_declarations(
+        public_basis.get("input_assets")
+    )
+    raw_assets = declared_assets
     assets, unresolved = _recover_public_assets(
         mode_roots=[reproduction_root, autonomous_root],
         rows=raw_assets,
@@ -3585,21 +3700,27 @@ def _recover_workflow_review_from_pair_artifacts(
         evidence_index=evidence_index,
         discover_source_matched_files=not bool(declared_assets),
     )
-    if not assets and not declared_assets:
+    if not assets or unresolved:
         # A partially built reproduction may retain declarations only in its
         # task spec. They remain untrusted unless the staged bytes match a
         # canonical source/derived asset.
-        fallback_assets = (
+        fallback_assets = _normalize_public_asset_declarations(
             reproduction_spec.get("input_assets")
             or autonomous_spec.get("input_assets")
             or []
         )
-        assets, unresolved = _recover_public_assets(
-            mode_roots=[reproduction_root, autonomous_root],
-            rows=fallback_assets,
-            source_root=source_root,
-            evidence_index=evidence_index,
-        )
+        if fallback_assets:
+            fallback_recovered, fallback_unresolved = _recover_public_assets(
+                mode_roots=[reproduction_root, autonomous_root],
+                rows=fallback_assets,
+                source_root=source_root,
+                evidence_index=evidence_index,
+            )
+            if len(fallback_recovered) > len(assets) or (
+                len(fallback_recovered) == len(assets)
+                and len(fallback_unresolved) < len(unresolved)
+            ):
+                assets, unresolved = fallback_recovered, fallback_unresolved
     public_basis["input_assets"] = assets
     completeness = dict(public_basis.get("input_completeness") or {})
     completeness["status"] = (
@@ -4655,6 +4776,121 @@ def _copy_phase_inputs(source: Path, destination: Path) -> None:
     make_read_only(destination)
 
 
+def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
+    """Give Stage06B an immutable copy of Stage06A's pair.
+
+    The converter must never edit the builder's staging tree. Keeping the complete pair under
+    ``inputs/task_pair`` also makes the conversion operation auditable and resumable.
+    """
+
+    destination = root / "inputs" / "task_pair"
+    copytree_exact(source_pair, destination)
+    make_read_only(destination)
+
+
+def _ensure_objective_handoff_artifacts(pair_root: Path, review: dict[str, Any]) -> None:
+    """Materialize lightweight objective contracts from the Agent review when omitted.
+
+    This is a lossless transport fallback: it only projects fields already supplied by Stage06A
+    and never invents a structure, parameter, result, or conclusion.
+    """
+
+    objective_path = pair_root / "objective_card.json"
+    if not objective_path.is_file():
+        objective = review.get("objective_card")
+        if not isinstance(objective, dict):
+            objective = {
+                "objective_id": str(review.get("objective_id") or "objective-1"),
+                "task_family": str(
+                    review.get("task_family") or review.get("category") or "computational_chemistry"
+                ),
+                "scientific_question": review.get("scientific_question") or "",
+                "public_question": review.get("public_scientific_question") or "",
+                "problem_inputs": (review.get("public_task_basis") or {}).get(
+                    "input_assets"
+                ) or [],
+                "unknowns": [],
+                "selected_scope": review.get("workflow_scope") or {},
+                "workflow_steps": review.get("workflow_steps") or [],
+                "key_points": review.get("key_points") or review.get("ground_truth_items") or [],
+                "final_claim": review.get("final_claim") or {},
+                "evidence_ids": [],
+            }
+        write_json(objective_path, objective)
+    key_points_path = pair_root / "key_points.json"
+    if not key_points_path.is_file():
+        points = review.get("key_points") or review.get("ground_truth_items") or []
+        write_json(key_points_path, points if isinstance(points, list) else [])
+    manifest_path = pair_root / "conversion_manifest.json"
+    if not manifest_path.is_file():
+        write_json(
+            manifest_path,
+            {
+                "schema_version": "stage06-conversion-manifest-v1",
+                "common_problem_inputs": [
+                    row.get("path")
+                    for row in ((review.get("public_task_basis") or {}).get("input_assets") or [])
+                    if isinstance(row, dict) and row.get("path")
+                ],
+                "reproduction_route_assets": [
+                    "paper_route.md",
+                    "workflow_spec.json",
+                    "route_evidence_map.json",
+                ],
+                "hidden_reference_assets": ["hidden_reference/"],
+                "notes": "Generated from Stage06A fields; Stage06B must inspect all nested public files.",
+            },
+        )
+    else:
+        # Older builder prompts advertised a four-file autonomous allowlist.  That is
+        # incompatible with recursive filename/XYZ/JSON disclosure cleanup, so normalize
+        # only this transport field while preserving the Agent's scientific manifest fields.
+        try:
+            manifest = read_json(manifest_path)
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            manifest = {}
+        if isinstance(manifest, dict):
+            manifest["autonomous_editable_files"] = "recursive_autonomous_public_surface"
+            manifest["conversion_scope"] = [
+                "task.md",
+                "task_info.json",
+                "task_spec.json",
+                "process_rubric.json",
+                "submission_contract.json",
+                "data/",
+                "all nested filenames and metadata",
+            ]
+            write_json(manifest_path, manifest)
+
+
+def _converter_phase_findings(response: dict[str, Any], workspace: Path) -> list[str]:
+    """Check only the converter's file contract; scientific decisions remain with the Agents."""
+
+    if response.get("status") != "converted":
+        return []
+    outputs = workspace / "outputs"
+    autonomous = outputs / "autonomous_research"
+    required = {
+        "task.md",
+        "task_info.json",
+        "task_spec.json",
+        "submission_contract.json",
+        "process_rubric.json",
+    }
+    if not autonomous.is_dir():
+        return ["autonomous_converter_artifact_missing"]
+    present = {
+        path.relative_to(autonomous).as_posix()
+        for path in autonomous.rglob("*")
+        if path.is_file()
+    }
+    findings = [f"autonomous_converter_missing:{name}" for name in sorted(required - present)]
+    report = outputs / "conversion_report.json"
+    if not report.is_file():
+        findings.append("autonomous_converter_conversion_report_missing")
+    return findings
+
+
 def _persist_phase_artifacts(workspace: Path, destination: Path) -> None:
     available = [name for name in ("outputs", "task") if (workspace / name).is_dir()]
     if not available:
@@ -5019,8 +5255,10 @@ def _public_reproduction_workflow_steps(review: dict[str, Any]) -> list[dict[str
     }
     public_inputs = [
         f"data/inputs/{_normalize_public_input_path(str(asset.get('path') or ''))}"
-        for asset in (review.get("public_task_basis") or {}).get("input_assets") or []
-        if asset.get("path")
+        for asset in _normalize_public_asset_declarations(
+            (review.get("public_task_basis") or {}).get("input_assets")
+        )
+        if isinstance(asset, dict) and asset.get("path")
     ]
     output: list[dict[str, Any]] = []
     for index, source in enumerate(review.get("workflow_steps") or []):
@@ -5104,8 +5342,10 @@ def _write_reproduction_route_scaffold(
     workflow_steps = _public_reproduction_workflow_steps(review)
     public_input_assets = [
         f"data/inputs/{_normalize_public_input_path(str(asset.get('path') or ''))}"
-        for asset in (review.get("public_task_basis") or {}).get("input_assets") or []
-        if asset.get("path")
+        for asset in _normalize_public_asset_declarations(
+            (review.get("public_task_basis") or {}).get("input_assets")
+        )
+        if isinstance(asset, dict) and asset.get("path")
     ]
     workflow_spec = {
         "schema_version": "1.0",
@@ -5997,10 +6237,12 @@ def _materialize_pair_metadata(
             "stage05_candidates_hash": canonical_hash(candidates),
         },
     )
-    write_json(
-        root / "toolbox_requirements.json",
-        _normalize_toolbox_requirements(review.get("toolbox_requirements") or []),
-    )
+    toolbox_requirements_path = root / "toolbox_requirements.json"
+    if not toolbox_requirements_path.is_file():
+        write_json(
+            toolbox_requirements_path,
+            _normalize_toolbox_requirements(review.get("toolbox_requirements") or []),
+        )
     hidden_root = root / "hidden_reference"
     hidden_root.mkdir(parents=True, exist_ok=True)
     write_json(hidden_root / "ground_truth_common.json", hidden)
@@ -6146,10 +6388,14 @@ def _normalize_toolbox_requirements(rows: Any) -> list[dict[str, Any]]:
             continue
         normalized = dict(row)
         normalized["status"] = _toolbox_requirement_status(row)
-        normalized.setdefault(
-            "software",
-            row.get("tool") or row.get("normalized_backend") or "unknown",
-        )
+        if not normalized.get("software"):
+            normalized["software"] = (
+                row.get("software_id")
+                or row.get("display_name")
+                or row.get("tool")
+                or row.get("normalized_backend")
+                or "unknown"
+            )
         normalized.setdefault("capability", row.get("requirement") or "unspecified")
         normalized.setdefault("missing_capabilities", [])
         normalized.setdefault("incompatible_capabilities", [])

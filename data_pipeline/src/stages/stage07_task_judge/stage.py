@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import re
 import shutil
 import time
 import uuid
@@ -45,11 +44,11 @@ from src.stages.stage07_task_judge.prompts import (
 )
 from src.stages.stage07_task_judge.validation import (
     deterministic_stage07_audit,
-    merge_audit_outcomes,
+    reconcile_toolbox_requirements,
     validate_agent_audit,
 )
 
-STAGE07_IMPLEMENTATION_VERSION = "v5-repair-first-audit-redesign-20260817-r13-final-gate"
+STAGE07_IMPLEMENTATION_VERSION = "v6-objective-centered-audit-repair-20260817"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -143,6 +142,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 )
             final_task_pair_id = str(response.get("final_task_pair_id") or task_pair_id)
             final_path: str | None = None
+            published_paths: dict[str, str] = {}
             if decision in STAGE07_APPROVED_DECISIONS:
                 task_root = _stage07_approved_artifact(response, artifact_root)
                 target = stage_root / "audited_tasks" / safe_component(paper_id)
@@ -150,6 +150,11 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 write_json(target / "stage07_audit.json", response)
                 write_json(target / "stage06_handoff_record.json", record)
                 write_manifest(target, target / "audit_manifest.json")
+                published_paths = _publish_mode_bundles(
+                    target,
+                    stage_root / "published_tasks",
+                    task_pair_id=final_task_pair_id or task_pair_id,
+                )
                 final_path = str(target)
             else:
                 target = _publish_stage07_rejection(
@@ -177,6 +182,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 "required_additions": response.get("required_additions") or [],
                 "resource_status": response.get("resource_status"),
                 "task_pair_path": final_path,
+                "published_task_paths": published_paths,
                 "audit_path": str(target),
                 "agent_harness": harness.name,
                 "agent_model": harness.model,
@@ -354,7 +360,7 @@ def _run_audit_repair_agent(
             int(
                 config.get(
                     "audit_repair_max_tool_calls",
-                    config.get("audit_max_tool_calls", config.get("max_tool_calls", 96)),
+                    config.get("audit_max_tool_calls", config.get("max_tool_calls", 120)),
                 )
             ),
         )
@@ -364,7 +370,7 @@ def _run_audit_repair_agent(
                 int(
                     config.get(
                         "audit_repair_recovery_max_tool_calls",
-                        config.get("recovery_max_tool_calls", 128),
+                        config.get("recovery_max_tool_calls", 160),
                     )
                 ),
             )
@@ -417,13 +423,10 @@ def _run_audit_repair_agent(
         try:
             result = harness.run(request)
             response = result.response or {}
-            if (
-                response.get("audit_decision") == "objective_failure_retryable"
-                and not response.get("remaining_issues")
-            ):
-                message = (
-                    "Stage07 returned objective_failure_retryable without a concrete "
-                    "remaining objective blocker"
+            contract_findings = _approved_receipt_contract_findings(response)
+            if contract_findings:
+                message = "Stage07 receipt is internally inconsistent: " + "; ".join(
+                    contract_findings
                 )
                 result.status = "failed"
                 result.failure_class = "invalid_phase_contract"
@@ -509,67 +512,41 @@ def _run_audit_repair_agent(
 def _finalize_stage07_response(
     *, response: dict[str, Any], task_root: Path, toolbox: dict[str, Any]
 ) -> dict[str, Any]:
-    """Reconcile the Agent receipt with the final files before publication."""
+    """Write file-management metadata without changing the Agent's decision."""
 
     decision = str(response.get("audit_decision") or "")
     if decision not in STAGE07_APPROVED_DECISIONS:
         return response
 
-    deterministic = deterministic_stage07_audit(
-        task_root, toolbox_snapshot=toolbox
+    inventory = installed_software_inventory(toolbox)
+    requirement_path = task_root / "toolbox_requirements.json"
+    requirement_read_error: str | None = None
+    try:
+        requirements = read_json(requirement_path) if requirement_path.is_file() else []
+    except (OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
+        requirements = []
+        requirement_read_error = f"{type(exc).__name__}: {exc}"
+    reconciled, gaps = reconcile_toolbox_requirements(
+        requirements, inventory
     )
-    pair_findings = list(deterministic.get("findings") or [])
-    model_outcomes = response.get("outcomes") or []
-    response["deterministic_findings"] = pair_findings
-    response["deterministic_audit"] = deterministic
-    response["outcomes"] = merge_audit_outcomes(
-        deterministic.get("outcomes") or [], model_outcomes
+    write_json(
+        task_root / "orchestrator_inventory_observation.json",
+        {
+            "schema_version": "1.0",
+            "role": "non_authoritative_file_management_observation",
+            "scientific_decision_authority": "stage07_agent",
+            "versions_ignored": True,
+            "preset_actions_considered": False,
+            "inventory_available": bool(inventory.get("installed_software")),
+            "installed_software_count": len(inventory.get("installed_software") or []),
+            "agent_toolbox_status": response.get("toolbox_status"),
+            "agent_required_additions": response.get("required_additions") or [],
+            "requirement_file_read_error": requirement_read_error,
+            "normalized_requirement_observations": reconciled,
+            "unmatched_inventory_observations": gaps,
+        },
     )
-    response["toolbox_status"] = str(
-        deterministic.get("toolbox_status") or response.get("toolbox_status") or "unknown"
-    )
-    response["required_additions"] = list(
-        deterministic.get("required_additions")
-        if deterministic.get("required_additions") is not None
-        else response.get("required_additions") or []
-    )
-    response["audit_summary"] = "issues_found" if response["outcomes"] else "passed_audit"
-    semantic_findings = validate_agent_audit(response)
 
-    blockers: list[str] = list(pair_findings)
-    blockers.extend(f"agent_contract:{finding}" for finding in semantic_findings)
-    for issue in response.get("remaining_issues") or []:
-        if not isinstance(issue, dict):
-            blockers.append("agent_remaining_issue:invalid")
-            continue
-        category = str(issue.get("category") or "").casefold()
-        severity = str(issue.get("severity") or "").casefold()
-        if category in {"unavailable_software", "missing_software", "needs_software"}:
-            continue
-        if severity in {"blocking", "critical", "high"}:
-            blockers.append(str(issue.get("details") or category or "agent blocker"))
-    if blockers:
-        response["audit_decision"] = "rejected_scientific_unrepairable"
-        response["final_task_pair_id"] = ""
-        response["artifact_path"] = "outputs/stage07_audit.json"
-        remaining = list(response.get("remaining_issues") or [])
-        remaining.append(
-            {
-                "category": "deterministic_task_integrity",
-                "severity": "high",
-                "details": "; ".join(dict.fromkeys(blockers))[:12000],
-                "evidence_ids": [],
-            }
-        )
-        response["remaining_issues"] = remaining
-        response["summary"] = (
-            str(response.get("summary") or "").rstrip()
-            + " Final deterministic validation found unresolved task-integrity blockers; "
-            "the task pair was not published."
-        ).strip()
-
-    # The deterministic validator may rewrite the normalized requirement list.
-    # Refresh manifests after that write so the receipt and delivered tree agree.
     for mode_root in (
         task_root / "paper_reproduction",
         task_root / "autonomous_research",
@@ -580,259 +557,22 @@ def _finalize_stage07_response(
     return response
 
 
-_NEUTRAL_XYZ_NAME_RE = re.compile(r"^structure-(\d{3,})\.xyz$", re.IGNORECASE)
+def _approved_receipt_contract_findings(response: dict[str, Any]) -> list[str]:
+    """Check only fields needed to locate an approved file artifact."""
 
-
-def _xyz_payload(path: Path) -> bytes:
-    """Return XYZ content without its free-text comment line.
-
-    Recovery attempts can leave an original file beside the neutral copy and
-    the two files can differ only in the comment.  Comparing the scientific
-    payload lets the delivery guard remove that duplicate without changing an
-    atom count or coordinate record.
-    """
-
-    try:
-        lines = path.read_bytes().splitlines(keepends=True)
-    except OSError:
-        return b""
-    if len(lines) < 2:
-        return b"".join(lines)
-    return b"".join((lines[0], *lines[2:]))
-
-
-def _normalize_public_xyz_inputs(
-    *, task_root: Path, note: Any
-) -> dict[str, str]:
-    """Make every public XYZ input neutral and keep both modes in lockstep.
-
-    The Agent is allowed to rename files, and an interrupted recovery can
-    leave both the old and new names in its writable tree.  This routine is a
-    deterministic delivery safeguard: it preserves all distinct coordinate
-    payloads, removes only duplicate old-name copies, assigns stable
-    ``structure-NNN.xyz`` names to every remaining XYZ file, and rewrites the
-    second (comment) line.  It returns task-pair-relative old->new path
-    mappings so receipts can describe the actual delivered files.
-    """
-
-    mode_inputs = {
-        mode: task_root / mode / "data" / "inputs"
-        for mode in ("paper_reproduction", "autonomous_research")
-    }
-    all_paths: set[str] = set()
-    for inputs in mode_inputs.values():
-        if inputs.is_dir():
-            all_paths.update(
-                path.relative_to(inputs).as_posix()
-                for path in inputs.rglob("*.xyz")
-                if path.is_file()
-            )
-    if not all_paths:
-        return {}
-
-    # Preserve already-neutral names and assign new numbers to every old name
-    # in a stable union order.  A number is reserved globally so the two modes
-    # cannot diverge after a recovery copy.
-    used_numbers = {
-        int(match.group(1))
-        for relative in all_paths
-        if (match := _NEUTRAL_XYZ_NAME_RE.match(Path(relative).name))
-    }
-    neutral_by_payload: dict[bytes, str] = {}
-    for relative in sorted(all_paths):
-        if not _NEUTRAL_XYZ_NAME_RE.match(Path(relative).name):
-            continue
-        for inputs in mode_inputs.values():
-            candidate = inputs / relative
-            if candidate.is_file():
-                neutral_by_payload.setdefault(_xyz_payload(candidate), relative)
-                break
-    next_number = max(used_numbers or {0}) + 1
-    path_map: dict[str, str] = {}
-    for relative in sorted(all_paths):
-        if _NEUTRAL_XYZ_NAME_RE.match(Path(relative).name):
-            continue
-        matching_neutral: str | None = None
-        for inputs in mode_inputs.values():
-            candidate = inputs / relative
-            if candidate.is_file():
-                matching_neutral = neutral_by_payload.get(_xyz_payload(candidate))
-                if matching_neutral:
-                    break
-        if matching_neutral:
-            path_map[relative] = matching_neutral
-            continue
-        parent = Path(relative).parent.as_posix()
-        while next_number in used_numbers:
-            next_number += 1
-        target_name = f"structure-{next_number:03d}.xyz"
-        used_numbers.add(next_number)
-        next_number += 1
-        path_map[relative] = (
-            f"{parent}/{target_name}" if parent not in {"", "."} else target_name
-        )
-
-    # Stage all renames through temporary names to avoid collisions with an
-    # existing neutral file.  The same mapping is applied to both modes.
-    for inputs in mode_inputs.values():
-        if not inputs.is_dir():
-            continue
-        staged: list[tuple[Path, Path, str]] = []
-        for old_relative, new_relative in path_map.items():
-            old_path = inputs / old_relative
-            if not old_path.is_file():
-                continue
-            target_path = inputs / new_relative
-            target_path.parent.mkdir(parents=True, exist_ok=True)
-            if target_path.exists():
-                if _xyz_payload(old_path) == _xyz_payload(target_path):
-                    old_path.unlink()
-                    note(old_path)
-                    continue
-                # A genuine distinct payload already occupies the proposed
-                # name.  Keep the old payload under a fresh neutral name and
-                # update the mapping for this mode-independent path.
-                suffix = 1
-                candidate = target_path.with_name(
-                    f"{target_path.stem}-{suffix}{target_path.suffix}"
-                )
-                while candidate.exists():
-                    suffix += 1
-                    candidate = target_path.with_name(
-                        f"{target_path.stem}-{suffix}{target_path.suffix}"
-                    )
-                target_path = candidate
-                new_relative = target_path.relative_to(inputs).as_posix()
-                path_map[old_relative] = new_relative
-            temporary = old_path.with_name(
-                f".{old_path.name}.neutralize-{uuid.uuid4().hex[:8]}"
-            )
-            old_path.rename(temporary)
-            staged.append((temporary, target_path, old_relative))
-            note(target_path)
-            note(old_path)
-        for temporary, target_path, _ in staged:
-            target_path.parent.mkdir(parents=True, exist_ok=True)
-            temporary.rename(target_path)
-
-    # Normalize comments after all renames.  This is metadata-only; atom and
-    # coordinate lines remain byte-for-byte unchanged.
-    for inputs in mode_inputs.values():
-        if not inputs.is_dir():
-            continue
-        for path in sorted(inputs.rglob("*.xyz")):
-            if not path.is_file():
-                continue
-            try:
-                lines = path.read_text(encoding="utf-8", errors="replace").splitlines(
-                    keepends=True
-                )
-            except OSError:
-                continue
-            if len(lines) < 2:
-                continue
-            neutral_comment = f"# {path.stem}\n"
-            if lines[1] != neutral_comment:
-                lines[1] = neutral_comment
-                path.write_text("".join(lines), encoding="utf-8")
-                note(path)
-
-    # A recovery may have copied a stale manifest containing old paths.  The
-    # caller rewrites manifests after this function; returning the mapping is
-    # enough to repair receipts and textual references first.
-    return path_map
-
-
-def _rewrite_public_xyz_references(
-    *, task_root: Path, path_map: dict[str, str], note: Any
-) -> None:
-    if not path_map:
-        return
-    for path in sorted(task_root.rglob("*")):
-        if not path.is_file() or path.name in {"public_manifest.json", "task_pair_manifest.json"}:
-            continue
-        if path.suffix.casefold() not in {".json", ".md", ".txt"}:
-            continue
-        try:
-            text = path.read_text(encoding="utf-8", errors="replace")
-        except OSError:
-            continue
-        updated = text
-        for old_relative, new_relative in path_map.items():
-            updated = updated.replace(old_relative, new_relative)
-            updated = updated.replace(old_relative.replace("/", "\\"), new_relative)
-            old_coords = f"coordinates/{Path(old_relative).name}"
-            new_coords = f"coordinates/{Path(new_relative).name}"
-            updated = updated.replace(old_coords, new_coords)
-            # Autonomous text must not retain a bare route-specific filename.
-            # Reproduction route prose may retain author labels, but path-like
-            # references still use the neutral asset name.
-            if "autonomous_research" in path.relative_to(task_root).parts:
-                updated = updated.replace(Path(old_relative).name, Path(new_relative).name)
-        if updated != text:
-            path.write_text(updated, encoding="utf-8")
-            note(path)
-
-
-def _normalize_reported_change_paths(
-    *, response: dict[str, Any], task_root: Path, path_map: dict[str, str]
-) -> None:
-    """Convert Agent pre-rename receipt paths to delivered neutral paths."""
-
-    def normalize(raw: Any) -> str | None:
-        try:
-            relative = validate_relative_path(str(raw))
-        except ValueError:
-            return None
-        mapped = relative
-        for mode in ("paper_reproduction", "autonomous_research"):
-            prefix = f"{mode}/data/inputs/"
-            if relative.startswith(prefix):
-                inner = relative[len(prefix) :]
-                mapped_inner = path_map.get(inner, inner)
-                mapped = prefix + mapped_inner
-                break
-        candidate = task_root / mapped
-        if candidate.exists():
-            return mapped
-        # Deleted old paths are represented by their delivered replacement.
-        if mapped != relative and (task_root / mapped).exists():
-            return mapped
-        return None
-
-    for repair in response.get("repairs") or []:
-        if not isinstance(repair, dict):
-            continue
-        repair["changed_files"] = list(
-            dict.fromkeys(
-                value
-                for value in (normalize(raw) for raw in repair.get("changed_files") or [])
-                if value
-            )
-        )
-    redesign = response.get("workflow_redesign")
-    if isinstance(redesign, dict):
-        redesign["changed_files"] = list(
-            dict.fromkeys(
-                value
-                for value in (normalize(raw) for raw in redesign.get("changed_files") or [])
-                if value
-            )
-        )
+    decision = str(response.get("audit_decision") or "")
+    if decision not in STAGE07_APPROVED_DECISIONS:
+        return []
+    findings: list[str] = []
+    if response.get("artifact_path") != "outputs/task_pair":
+        findings.append("approved_artifact_path_invalid")
+    return sorted(set(findings))
 
 
 def _apply_autonomous_public_surface_guard(
     *, response: dict[str, Any], workspace: Path
 ) -> list[str]:
-    """Enforce the non-negotiable public/private boundary after Agent approval.
-
-    This is deliberately a narrow delivery guard rather than a scientific
-    validator. Stage07's Agent remains responsible for workflow selection,
-    completeness, disclosure review, and scientific repairs. The guard only
-    keeps public input trees aligned, removes the reproduction-only route bundle,
-    and refreshes manifests after a low-cost Agent forgot to do so. It does not
-    contain paper-, molecule-, software-, or route-specific substitutions.
-    """
+    """Refresh mechanical delivery metadata without editing scientific content."""
 
     decision = str(response.get("audit_decision") or "")
     if decision not in STAGE07_APPROVED_DECISIONS:
@@ -857,32 +597,8 @@ def _apply_autonomous_public_surface_guard(
         if rel not in changed:
             changed.append(rel)
 
-    # Normalize every XYZ input, not only the handful of names seen in an
-    # earlier pilot.  This also repairs recovery trees that contain both an
-    # old route-specific file and a neutral copy.
-    xyz_path_map = _normalize_public_xyz_inputs(task_root=task_root, note=note)
-    _rewrite_public_xyz_references(
-        task_root=task_root,
-        path_map=xyz_path_map,
-        note=note,
-    )
-
-    # A route bundle has no place in autonomous public inputs, even if an Agent
-    # accidentally retained it while copying the reproduction task.
-    for forbidden_name in ("paper_route.md", "workflow_spec.json", "route_evidence_map.json"):
-        path = autonomous / forbidden_name
-        if path.exists():
-            if path.is_dir():
-                shutil.rmtree(path)
-            else:
-                path.unlink()
-            note(path)
-
-    # Public-surface normalization can legitimately change files inherited from
-    # the reproduction tree.  Keep the copy provenance aligned with the final
-    # delivered trees; otherwise an otherwise valid repair is rejected because
-    # derived_from.json still describes the pre-guard copy.  This only refreshes
-    # hashes in an existing provenance contract and never invents provenance.
+    # Stage07's Agent owns disclosure and scientific repairs. The orchestrator
+    # updates only hashes/manifests that describe the already-delivered bytes.
     _refresh_derived_copy_provenance(
         autonomous=autonomous,
         reproduction=reproduction,
@@ -905,48 +621,6 @@ def _apply_autonomous_public_surface_guard(
     if before_pair != pair_manifest.read_bytes():
         note(pair_manifest)
 
-    # Agent receipts are written before deterministic delivery edits and may
-    # therefore mention the pre-rename paths.  Translate those claims to the
-    # files that actually exist in the delivered tree before the objective
-    # delivery gate runs.
-    _normalize_reported_change_paths(
-        response=response,
-        task_root=task_root,
-        path_map=xyz_path_map,
-    )
-
-    # Deleted old names are useful internally for the guard, but a receipt must
-    # list delivered paths.  Keep only paths that exist after normalization.
-    changed = [
-        relative
-        for relative in changed
-        if (task_root / relative).exists()
-    ]
-
-    if changed:
-        response["audit_decision"] = (
-            "approved_with_repairs"
-            if decision == "approved"
-            else decision
-        )
-        response["repair_origin"] = response.get("repair_origin") or "stage07_public_surface_guard"
-        repairs = response.setdefault("repairs", [])
-        repairs.append(
-            {
-                "category": "autonomous_public_surface_guard",
-                "details": (
-                    "Normalized public input names/comments, removed reproduction-only route "
-                    "files, and refreshed mode and pair manifests."
-                ),
-                "source_evidence_ids": [],
-                "changed_files": changed,
-            }
-        )
-        response["summary"] = (
-            str(response.get("summary") or "").rstrip()
-            + " A deterministic public-surface guard removed residual route metadata and "
-            "refreshed manifests after the Agent write."
-        ).strip()
     return changed
 
 
@@ -1050,6 +724,10 @@ def _require_reported_stage07_changes(
 
     if decision == "approved_with_repairs" and not reported:
         raise ValueError("approved_with_repairs did not report any changed task file")
+    if decision == "approved_after_workflow_redesign" and not reported:
+        raise ValueError(
+            "approved_after_workflow_redesign did not report any changed task file"
+        )
 
     unchanged: list[str] = []
     missing: list[str] = []
@@ -1069,45 +747,11 @@ def _require_reported_stage07_changes(
             "Stage07 reported changed files that were not delivered: " + ", ".join(missing)
         )
 
-    # Low-cost Agents occasionally include a file in ``changed_files`` after
-    # inspecting it but leave its bytes untouched (for example, a reproduction
-    # route file that was already normalized by Stage06).  This is an objective
-    # receipt issue, not a scientific audit failure.  Remove those stale claims
-    # from the receipt while retaining the hard requirement that at least one
-    # actual repair was delivered for ``approved_with_repairs``.
     if unchanged:
-        unchanged_set = set(unchanged)
-        filtered_repairs: list[tuple[dict[str, Any], list[str]]] = []
-        for repair in response.get("repairs") or []:
-            if not isinstance(repair, dict):
-                continue
-            filtered_repairs.append((repair, [
-                str(path)
-                for path in repair.get("changed_files") or []
-                if validate_relative_path(str(path)) not in unchanged_set
-            ]))
-        filtered_redesign: list[str] = []
-        if isinstance(response.get("workflow_redesign"), dict):
-            redesign = response["workflow_redesign"]
-            filtered_redesign = [
-                str(path)
-                for path in redesign.get("changed_files") or []
-                if validate_relative_path(str(path)) not in unchanged_set
-            ]
-        remaining_reported = [
-            str(path)
-            for _, paths in filtered_repairs
-            for path in paths
-        ]
-        remaining_reported.extend(filtered_redesign)
-        if decision == "approved_with_repairs" and not remaining_reported:
-            raise ValueError(
-                "Stage07 approved_with_repairs delivered no file that differs from the baseline"
-            )
-        for repair, paths in filtered_repairs:
-            repair["changed_files"] = paths
-        if isinstance(response.get("workflow_redesign"), dict):
-            response["workflow_redesign"]["changed_files"] = filtered_redesign
+        raise ValueError(
+            "Stage07 reported unchanged files as repairs; the Agent must correct its receipt: "
+            + ", ".join(unchanged)
+        )
 
 
 def _stage07_paths_equal(left: Path, right: Path) -> bool:
@@ -1157,6 +801,49 @@ def _publish_stage07_rejection(
     target = stage_root / "rejected_tasks" / safe_component(paper_id)
     atomic_commit_tree(staging, target)
     return target
+
+
+def _publish_mode_bundles(
+    pair_root: Path,
+    published_root: Path,
+    *,
+    task_pair_id: str,
+) -> dict[str, str]:
+    """Export each approved mode as an isolated benchmark task directory.
+
+    The internal audited pair remains available for provenance, while the published bundles contain
+    only the files the evaluation workspace needs. In particular, the sibling mode, hidden reference,
+    paper metadata, conversion report and Stage06/07 traces are never copied into a published task.
+    """
+
+    published_root.mkdir(parents=True, exist_ok=True)
+    exported: dict[str, str] = {}
+    required_files = (
+        "task.md",
+        "task_info.json",
+        "task_spec.json",
+        "submission_contract.json",
+        "process_rubric.json",
+        "public_manifest.json",
+    )
+    for mode in ("paper_reproduction", "autonomous_research"):
+        source = pair_root / mode
+        if not source.is_dir():
+            continue
+        destination = published_root / f"{safe_component(task_pair_id)}_{mode}"
+        if destination.exists():
+            shutil.rmtree(destination)
+        destination.mkdir(parents=True, exist_ok=True)
+        for name in required_files:
+            source_file = source / name
+            if source_file.is_file():
+                shutil.copy2(source_file, destination / name)
+        source_data = source / "data"
+        if source_data.is_dir():
+            shutil.copytree(source_data, destination / "data")
+        write_manifest(destination, destination / "published_manifest.json")
+        exported[mode] = str(destination)
+    return exported
 
 
 def _resolve_stage07_source_root(
@@ -1306,6 +993,13 @@ def _run_audit_agent(
     deterministic: dict[str, Any],
     config: dict[str, Any],
 ) -> tuple[dict[str, Any], dict[str, Any]]:
+    raise RuntimeError(
+        "The legacy objective-audit path is disabled: only the Stage07 audit-repair "
+        "Agent may make scientific decisions"
+    )
+
+    # Retained temporarily for checkpoint migration reference. This code is
+    # unreachable and must not be reconnected to the publication path.
     toolbox = _toolbox_snapshot_from_pair(pair_root, config)
     resource_policy = config.get("resource_policy") or {}
     fingerprint = input_fingerprint(
@@ -1384,13 +1078,13 @@ def _run_audit_agent(
         )
         make_read_only(inputs)
         max_tool_calls = int(
-            config.get("audit_max_tool_calls", config.get("max_tool_calls", 96))
+            config.get("audit_max_tool_calls", config.get("max_tool_calls", 120))
         )
         if recovery_context:
             max_tool_calls = int(
                 config.get(
                     "audit_recovery_max_tool_calls",
-                    config.get("recovery_max_tool_calls", 128),
+                    config.get("recovery_max_tool_calls", 160),
                 )
             )
         max_tool_calls = max(2, max_tool_calls)
@@ -1544,21 +1238,11 @@ def _cached_audit_inputs_match(
 
 
 def deterministic_judge_audit(pair: Any) -> dict[str, Any]:
-    """Compatibility entry point with support for the new task-pair directory."""
+    """Reject use of the former code-side scientific judge."""
 
-    if isinstance(pair, (str, Path)):
-        return deterministic_stage07_audit(Path(pair))
-    findings = []
-    for mode in ("autonomous", "reproduction"):
-        if not pair.get(mode, {}).get("task_info") or not pair.get(mode, {}).get("task_markdown"):
-            findings.append(f"{mode}_incomplete")
-    if (
-        not pair.get("scientific_record")
-        or not pair.get("hidden_reference")
-        or not pair.get("evidence_map")
-    ):
-        findings.append("shared_record_incomplete")
-    return {"passed": not findings, "findings": findings}
+    raise RuntimeError(
+        "deterministic_judge_audit is disabled; Stage07 Agent decisions are authoritative"
+    )
 
 
 def run_gold(record, config, stage_root):

@@ -25,9 +25,6 @@ STAGE06_TASK_PAIR_BUILDER_SCHEMA = object_schema(
         "decision",
         "task_pair_id",
         "artifact_path",
-        "milestones",
-        "failure_code",
-        "failure_reasons",
         "summary",
     ],
     {
@@ -49,6 +46,8 @@ STAGE06_TASK_PAIR_BUILDER_SCHEMA = object_schema(
         "failure_code": STRING,
         "failure_reasons": OBJECT_ARRAY,
         "summary": STRING,
+        "objective_id": STRING,
+        "task_family": STRING,
     },
 )
 
@@ -96,6 +95,21 @@ STAGE06_WORKFLOW_REVIEW_SCHEMA = object_schema(
         "failure_code": STRING,
         "failure_reasons": OBJECT_ARRAY,
         "warnings": EMPTY_STRING_ARRAY,
+        "objective_card": OBJECT,
+        "key_points": OBJECT_ARRAY,
+        "conversion_manifest": OBJECT,
+    },
+)
+
+
+STAGE06_AUTONOMOUS_CONVERTER_SCHEMA = object_schema(
+    ["status", "artifact_path", "summary"],
+    {
+        "status": {"enum": ["converted", "needs_conversion_retry", "objective_consistency_error"]},
+        "artifact_path": STRING,
+        "summary": STRING,
+        "conversion_report": OBJECT,
+        "invalid_reasons": EMPTY_STRING_ARRAY,
     },
 )
 
@@ -191,17 +205,7 @@ STAGE06_HIDDEN_SCHEMA = object_schema(
 STAGE07_AUDIT_SCHEMA = object_schema(
     [
         "audit_decision",
-        "source_stage06_decision",
-        "original_task_pair_id",
-        "final_task_pair_id",
         "artifact_path",
-        "selected_workflow_preserved",
-        "repairs",
-        "workflow_redesign",
-        "remaining_issues",
-        "toolbox_status",
-        "required_additions",
-        "resource_status",
         "summary",
     ],
     {
