@@ -39,5 +39,6 @@
 
 | 版本 | Git commit | 测试状态 | 结果 |
 |---|---|---|---|
-| Round 2 | 待提交 | 待运行 | 待运行 |
+| Round 2 | `e7fb258` | Pro-0813 待运行 | 待运行 |
 
+本地验证：Stage06/07 定向测试 120 passed；全量测试 505 passed。相较 Round 1，本轮净删除了大量已失去运行职责的代码侧内容验证、changed-files 对比和 verified snapshot 逻辑。
