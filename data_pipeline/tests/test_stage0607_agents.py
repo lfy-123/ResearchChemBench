@@ -48,6 +48,7 @@ from src.stages.stage06_task_builder.stage import (
     _agent_public_basis,
     _canonicalize_review_evidence_ids,
     _compact_toolbox_snapshot,
+    _copy_phase_inputs,
     _extract_markdown_tables,
     _interrupted_phase_artifact_recovery,
     _layout_coordinate_blocks,
@@ -5853,6 +5854,27 @@ def test_stage07_publisher_copies_agent_mode_without_semantic_gate(tmp_path: Pat
     assert (reproduction_export / "agent_selected_asset.dat").read_text() == "needed"
     assert not (reproduction_export / "public_manifest.json").exists()
     assert (Path(exported["autonomous_research"]) / "task.md").is_file()
+
+
+def test_stage06_input_packet_excludes_visual_duplicates_by_default(tmp_path: Path) -> None:
+    source = tmp_path / "source"
+    (source / "documents" / "doc" / "images").mkdir(parents=True)
+    (source / "documents" / "doc" / "parser_structured").mkdir(parents=True)
+    (source / "supplementary").mkdir()
+    (source / "main_paper.pdf").write_bytes(b"pdf")
+    (source / "documents" / "doc" / "images" / "figure.jpg").write_bytes(b"jpg")
+    (source / "documents" / "doc" / "parser_structured" / "model.json").write_text("{}")
+    (source / "documents" / "doc" / "normalized_document.md").write_text("text")
+    (source / "documents" / "doc" / "pypdf_layout.txt").write_text("layout")
+    _copy_phase_inputs(source, tmp_path / "default")
+    assert not (tmp_path / "default" / "main_paper.pdf").exists()
+    assert not (tmp_path / "default" / "documents" / "doc" / "images").exists()
+    assert not (tmp_path / "default" / "documents" / "doc" / "parser_structured").exists()
+    assert (tmp_path / "default" / "documents" / "doc" / "normalized_document.md").exists()
+
+    _copy_phase_inputs(source, tmp_path / "fallback", include_visual_fallback=True)
+    assert (tmp_path / "fallback" / "main_paper.pdf").exists()
+    assert (tmp_path / "fallback" / "documents" / "doc" / "images" / "figure.jpg").exists()
 
 
 def test_converter_report_is_recovered_from_response_or_nested_file(tmp_path: Path) -> None:

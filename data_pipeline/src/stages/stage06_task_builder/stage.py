@@ -243,7 +243,11 @@ def _run_stage06_single_agent(
                     ),
                 },
                 config=config,
-                setup=lambda root: _copy_phase_inputs(snapshot["root"], root / "inputs"),
+                setup=lambda root: _copy_phase_inputs(
+                    snapshot["root"],
+                    root / "inputs",
+                    include_visual_fallback=bool(config.get("stage06_include_visual_fallback", False)),
+                ),
             )
             if agent_workspace is None:
                 raise FileNotFoundError("Stage06 task-pair builder workspace is unavailable")
@@ -651,7 +655,11 @@ def _run_stage06_legacy(
                     "model": review_harness.model,
                 },
                 config=config,
-                setup=lambda root: _copy_phase_inputs(snapshot["root"], root / "inputs"),
+                setup=lambda root: _copy_phase_inputs(
+                    snapshot["root"],
+                    root / "inputs",
+                    include_visual_fallback=bool(config.get("stage06_include_visual_fallback", False)),
+                ),
                 semantic_validator=lambda response, root: _scientific_review_phase_findings(
                     response, root, evidence_ids
                 ),
@@ -4735,7 +4743,12 @@ def _require_claimed_phase_artifact(
     )
 
 
-def _copy_phase_inputs(source: Path, destination: Path) -> None:
+def _copy_phase_inputs(
+    source: Path,
+    destination: Path,
+    *,
+    include_visual_fallback: bool = False,
+) -> None:
     copytree_exact(source, destination)
     make_writable(destination)
     removed: list[str] = []
@@ -4754,6 +4767,29 @@ def _copy_phase_inputs(source: Path, destination: Path) -> None:
         if candidate.is_file() or candidate.is_symlink():
             candidate.unlink()
             removed.append(relative)
+
+    if not include_visual_fallback:
+        # Stage06 normally has complete normalized/layout text plus deterministic table and
+        # coordinate derivatives.  Raster images, parser-internal JSON and duplicate PDF copies
+        # are therefore excluded from the Agent-visible packet by default.  They remain in the
+        # immutable source snapshot and can be enabled for a paper whose evidence genuinely needs
+        # visual fallback.
+        for relative in ("main_paper.pdf", "supplementary"):
+            candidate = destination / relative
+            if candidate.is_dir():
+                shutil.rmtree(candidate)
+                removed.append(f"{relative}/:visual_fallback_excluded")
+            elif candidate.is_file():
+                candidate.unlink()
+                removed.append(f"{relative}:visual_fallback_excluded")
+        for document_root in (destination / "documents").glob("*"):
+            if not document_root.is_dir():
+                continue
+            for relative in ("images", "parser_structured"):
+                candidate = document_root / relative
+                if candidate.is_dir():
+                    shutil.rmtree(candidate)
+                    removed.append(f"{candidate.relative_to(destination).as_posix()}/:visual_fallback_excluded")
     evidence_path = destination / "evidence_index.json"
     if evidence_path.is_file():
         try:
@@ -4773,6 +4809,7 @@ def _copy_phase_inputs(source: Path, destination: Path) -> None:
             "removed_duplicate_materials": removed,
             "canonical_upstream_file": "upstream_hints.json",
             "evidence_index_mode": "metadata_with_previews",
+            "visual_fallback": "included" if include_visual_fallback else "excluded_by_default",
         },
     )
     make_read_only(destination)
