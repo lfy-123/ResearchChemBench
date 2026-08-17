@@ -31,5 +31,10 @@
 
 | 轮次 | Git commit | 测试论文 | 模型/结果 | 发现 | 后续 |
 |---|---|---|---|---|---|
-| Round 1 | 待提交 | `paper_6904a9c8c09855cc` | 待运行 | 待运行 | 根据通用问题决定是否进入 Round 2 |
+| Round 1 | `960a2d4` | `paper_6904a9c8c09855cc` | 本地回归通过；Pro 测试待提交 | 尚未观察线上轨迹 | 根据通用问题决定是否进入 Round 2 |
 
+### Round 1 本地验证
+
+- `PYTHONPATH=. pytest -q tests/test_stage0607_agents.py`：120 passed。
+- `PYTHONPATH=. pytest -q`：505 passed。
+- 版本包含 Stage07 Agent receipt 恢复、非权威合同诊断、精简 source packet，以及 Stage06B public-only 输入隔离。
