@@ -81,7 +81,7 @@ from src.stages.stage06_task_builder.validation import (
     validate_workflow_review,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v6-objective-centered-two-agent-20260817"
+STAGE06_IMPLEMENTATION_VERSION = "v7-objective-centered-two-agent-20260817-public-contracts"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
@@ -248,8 +248,13 @@ def _run_stage06_single_agent(
             if agent_workspace is None:
                 raise FileNotFoundError("Stage06 task-pair builder workspace is unavailable")
             outputs = agent_workspace / "outputs"
-            review = read_json(outputs / "workflow_review.json")
             if receipt.get("decision") == "scientific_not_constructible":
+                # A scientific rejection is allowed to stop after the receipt; it is
+                # not required to emit a workflow review or any task files.  Do not
+                # turn that Agent decision into a filesystem failure by reading a
+                # success-only artifact first.
+                review_path = outputs / "workflow_review.json"
+                review = read_json(review_path) if review_path.is_file() else {}
                 return _publish_provisional_not_constructible(
                     stage_root=stage_root,
                     run_id=run_id,
@@ -262,6 +267,8 @@ def _run_stage06_single_agent(
                     snapshot=snapshot,
                     documents=paper_documents,
                 )
+
+            review = read_json(outputs / "workflow_review.json")
 
             task_pair_id = str(
                 review.get("task_pair_id")
@@ -1233,32 +1240,11 @@ if target.exists():
 shutil.copytree(source, target)
 for name in ("paper_route.md", "workflow_spec.json", "route_evidence_map.json", "public_manifest.json"):
     (target / name).unlink(missing_ok=True)
-editable = ["process_rubric.json", "task.md", "task_info.json", "task_spec.json"]
-contract = {
-    "schema_version": "1.0",
-    "source_mode": "paper_reproduction",
-    "target_mode": "autonomous_research",
-    "base_manifest_hash": base_hash,
-    "editable_files": editable,
-    "removed_route_files": ["paper_route.md", "workflow_spec.json", "route_evidence_map.json"],
-}
-(target / "conversion_contract.json").write_text(
-    json.dumps(contract, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-)
-(target / "derived_from.json").write_text(
-    json.dumps(
-        {
-            "derived_from_mode": "paper_reproduction",
-            "base_manifest_hash": base_hash,
-            "editable_files": editable,
-        },
-        ensure_ascii=False,
-        indent=2,
-    ) + "\n",
-    encoding="utf-8",
-)
+for name in ("conversion_contract.json", "conversion_receipt.json", "derived_from.json", "conversion_manifest.json"):
+    (target / name).unlink(missing_ok=True)
+editable = {"process_rubric.json", "task.md", "task_info.json", "task_spec.json"}
 for path in target.rglob("*"):
-    if path.is_file() and path.relative_to(target).as_posix() not in set(editable):
+    if path.is_file() and path.relative_to(target).as_posix() not in editable:
         path.chmod(0o444)
 print(base_hash)
 '''
@@ -2541,8 +2527,6 @@ def _synchronize_builder_receipt(
             "task_spec.json",
             "submission_contract.json",
             "process_rubric.json",
-            "derived_from.json",
-            "conversion_contract.json",
         )
     )
     milestones["hidden_reference_validated"] = hidden.is_dir() and all(
@@ -4190,30 +4174,16 @@ def _normalize_task_pair_artifact_contracts(
             if row.get("path") != "public_manifest.json"
         ]
     )
-    editable = ["process_rubric.json", "task.md", "task_info.json", "task_spec.json"]
-    write_json(
-        autonomous / "derived_from.json",
-        {
-            "derived_from_mode": "paper_reproduction",
-            "base_manifest_hash": base_hash,
-            "editable_files": editable,
-        },
-    )
-    write_json(
-        autonomous / "conversion_contract.json",
-        {
-            "schema_version": "1.0",
-            "source_mode": "paper_reproduction",
-            "target_mode": "autonomous_research",
-            "base_manifest_hash": base_hash,
-            "editable_files": editable,
-            "removed_route_files": [
-                "paper_route.md",
-                "workflow_spec.json",
-                "route_evidence_map.json",
-            ],
-        },
-    )
+    # Derivation/source contracts are internal handoff metadata. Never place them
+    # in either public evaluation mode; retain only the pair-level conversion report.
+    for internal_name in (
+        "derived_from.json",
+        "conversion_contract.json",
+        "conversion_receipt.json",
+        "conversion_manifest.json",
+    ):
+        (autonomous / internal_name).unlink(missing_ok=True)
+        (reproduction / internal_name).unlink(missing_ok=True)
 
     hidden_root = outputs / "hidden_reference"
     hidden_path = hidden_root / "ground_truth_common.json"
@@ -4885,10 +4855,56 @@ def _converter_phase_findings(response: dict[str, Any], workspace: Path) -> list
         if path.is_file()
     }
     findings = [f"autonomous_converter_missing:{name}" for name in sorted(required - present)]
-    report = outputs / "conversion_report.json"
-    if not report.is_file():
+    report = _normalize_converter_report(response, workspace)
+    if report is None:
         findings.append("autonomous_converter_conversion_report_missing")
     return findings
+
+
+def _normalize_converter_report(
+    response: dict[str, Any], workspace: Path
+) -> dict[str, Any] | None:
+    """Normalize the converter's optional report into one pair-level handoff file.
+
+    Agents occasionally return the report in their structured response, or write it below the
+    autonomous task directory.  Both are equivalent mechanical delivery forms.  Recovering the
+    report here prevents a response/file-placement mismatch from causing a retry, while keeping
+    the report out of the public task directory.  This helper deliberately does not inspect the
+    scientific content of the report.
+    """
+
+    outputs = workspace / "outputs"
+    root_report = outputs / "conversion_report.json"
+    candidates: list[Path] = [root_report, outputs / "autonomous_research" / "conversion_report.json"]
+    report: dict[str, Any] | None = None
+    for path in candidates:
+        if not path.is_file():
+            continue
+        try:
+            value = read_json(path)
+        except (OSError, TypeError, ValueError, json.JSONDecodeError):
+            continue
+        if isinstance(value, dict):
+            report = value
+            break
+    if report is None:
+        value = response.get("conversion_report")
+        if isinstance(value, dict):
+            report = value
+    if report is None:
+        return None
+    existing_root: Any = None
+    if root_report.is_file():
+        try:
+            existing_root = read_json(root_report)
+        except (OSError, TypeError, ValueError, json.JSONDecodeError):
+            existing_root = None
+    if existing_root != report:
+        write_json(root_report, report)
+    nested = outputs / "autonomous_research" / "conversion_report.json"
+    if nested.is_file() and nested != root_report:
+        nested.unlink(missing_ok=True)
+    return report
 
 
 def _persist_phase_artifacts(workspace: Path, destination: Path) -> None:
@@ -5875,14 +5891,15 @@ def _materialize_reproduction(
         root / "route_evidence_map.json",
         _normalize_evaluation_references(response.get("route_evidence_map") or {}),
     )
-    write_json(
-        root / "derived_from.json",
-        {
-            "derived_from_mode": "autonomous_research",
-            "base_manifest_hash": base_manifest_hash,
-            "allowed_differences": sorted(_REPRODUCTION_ALLOWED_DIFFERENCES),
-        },
-    )
+    # The mode directory is a public evaluation surface. Source/derivation
+    # provenance belongs to the pair-level audit record, never in the task.
+    for internal_name in (
+        "derived_from.json",
+        "conversion_contract.json",
+        "conversion_receipt.json",
+        "conversion_manifest.json",
+    ):
+        (root / internal_name).unlink(missing_ok=True)
     manifest = directory_manifest(root)
     write_json(root / "public_manifest.json", manifest)
 

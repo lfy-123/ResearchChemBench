@@ -57,6 +57,7 @@ from src.stages.stage06_task_builder.stage import (
     _normalize_scientific_failure_contract,
     _normalize_submission_contract,
     _normalize_task_pair_artifact_contracts,
+    _normalize_converter_report,
     _normalize_workflow_review_aliases,
     _reconcile_task_phase_receipt,
     _recover_public_assets,
@@ -84,6 +85,7 @@ from src.stages.stage06_task_builder.validation import (
 from src.stages.stage07_task_judge.prompts import STAGE07_AUDIT_VERSION, audit_instructions
 from src.stages.stage07_task_judge.stage import (
     _apply_autonomous_public_surface_guard,
+    _approved_receipt_contract_findings,
     _audit_pair_manifest,
     _cached_audit_inputs_match,
     _finalize_stage07_response,
@@ -4463,6 +4465,41 @@ def test_task_pair_bootstrap_creates_contract_scaffold_from_review(tmp_path: Pat
     assert read_json(root / "toolbox_requirements.json")
 
 
+def test_task_pair_bootstrap_accepts_keyed_public_asset_map(tmp_path: Path) -> None:
+    review = _mock_responses()["stage06_scientific_review"]
+    review["public_task_basis"] = {
+        "input_assets": {
+            "structures/reactant.xyz": {
+                "content": "1\nsource geometry\nH 0 0 0\n",
+                "description": "Source-provided reactant geometry",
+                "source_evidence_ids": ["ev_main_1"],
+            }
+        }
+    }
+    root = tmp_path / "outputs"
+    root.mkdir()
+    review_path = root / "workflow_review.json"
+    review_path.write_text(json.dumps(review), encoding="utf-8")
+    script = Path("src/stages/stage06_task_builder/bootstrap_task_pair.py").resolve()
+
+    subprocess.run(
+        [sys.executable, str(script), str(root), str(review_path)],
+        check=True,
+    )
+
+    asset_path = root / "paper_reproduction" / "data" / "inputs" / "structures" / "reactant.xyz"
+    assert asset_path.read_text(encoding="utf-8") == "1\nsource geometry\nH 0 0 0\n"
+    spec = read_json(root / "paper_reproduction" / "task_spec.json")
+    assert spec["input_assets"] == [
+        {
+            "path": "data/inputs/structures/reactant.xyz",
+            "description": "Source-provided reactant geometry",
+            "role": "computational_input",
+            "source_evidence_ids": ["ev_main_1"],
+        }
+    ]
+
+
 def test_submission_contract_accepts_named_artifact_path_mapping() -> None:
     contract = _normalize_submission_contract(
         {
@@ -4681,16 +4718,17 @@ def test_stage07_prompt_audits_the_entire_autonomous_public_surface() -> None:
     assert "target answers, rankings, trends" in prompt
     assert "XYZ filenames/comments" in prompt
     assert "Neutral filenames do not make semantic metadata neutral" in prompt
-    assert "It does not decide whether semantic JSON values" in prompt
-    assert "same scientific inputs" in prompt
+    assert "orchestrator will only refresh hashes" in prompt
+    assert "never changes your scientific decision" in prompt
+    assert "same underlying scientific inputs" in prompt
     assert "relative to `outputs/task_pair/`" in prompt
     assert "never `outputs/task_pair/autonomous_research/task.md`" in prompt
     assert "LOW-BUDGET RECOVERY CHECKLIST" in prompt
     assert "do not rely on a fixed list" in prompt
-    assert "Do not spend Agent calls performing that mechanical" in prompt
+    assert "it will not rename files" in prompt
 
 
-def test_stage07_retries_inconsistent_objective_failure_with_recovery_budget(
+def test_stage07_preserves_agent_objective_failure_without_code_side_reclassification(
     tmp_path: Path,
 ) -> None:
     handoff = tmp_path / "handoff"
@@ -4757,16 +4795,17 @@ def test_stage07_retries_inconsistent_objective_failure_with_recovery_budget(
         },
     )
 
-    # The retry contract is exercised, but an empty handoff can no longer be
-    # published merely because the recovery Agent says "approved".
-    assert result["audit_decision"] == "rejected_scientific_unrepairable"
+    # The orchestrator preserves this Agent decision. It does not infer a
+    # scientific rejection or force a recovery merely because the receipt has
+    # no issue detail.
+    assert result["audit_decision"] == "objective_failure_retryable"
     assert agent_run["cache_hit"] is False
     assert artifact_root.is_dir()
-    assert [request.metadata["max_tool_calls"] for request in calls] == [96, 128]
+    assert [request.metadata["max_tool_calls"] for request in calls] == [96]
     assert all(request.metadata["inline_contract"] is True for request in calls)
 
 
-def test_stage07_public_guard_neutralizes_all_xyz_and_recovery_duplicates(
+def test_stage07_public_guard_does_not_rewrite_scientific_task_content(
     tmp_path: Path,
 ) -> None:
     baseline = tmp_path / "inputs" / "stage06_candidate"
@@ -4809,16 +4848,9 @@ def test_stage07_public_guard_neutralizes_all_xyz_and_recovery_duplicates(
         neutral.write_text("".join(lines), encoding="utf-8")
 
     response = {
-        "audit_decision": "approved_with_repairs",
+        "audit_decision": "approved",
         "artifact_path": "outputs/task_pair",
-        "repairs": [
-            {
-                "changed_files": [
-                    "autonomous_research/data/inputs/coordinates/Int-1.xyz",
-                    "paper_reproduction/data/inputs/coordinates/Int-1.xyz",
-                ]
-            }
-        ],
+        "repairs": [],
         "workflow_redesign": {"changed_files": []},
     }
 
@@ -4834,39 +4866,24 @@ def test_stage07_public_guard_neutralizes_all_xyz_and_recovery_duplicates(
         files = sorted(path.relative_to(inputs).as_posix() for path in inputs.rglob("*.xyz"))
         mode_files.append(files)
         assert files == [
+            "coordinates/H2O.xyz",
+            "coordinates/Int-1.xyz",
             "coordinates/structure-001.xyz",
-            "coordinates/structure-002.xyz",
         ]
-        for path in inputs.rglob("*.xyz"):
-            assert path.read_text(encoding="utf-8").splitlines()[1] == f"# {path.stem}"
+        assert (inputs / "coordinates" / "Int-1.xyz").read_text(
+            encoding="utf-8"
+        ).splitlines()[1].startswith("# Int-1")
     assert mode_files[0] == mode_files[1]
-    assert (delivered / "paper_reproduction" / "data" / "inputs").is_dir()
-    assert not list(delivered.rglob("Int-1.xyz"))
-    assert not list(delivered.rglob("H2O.xyz"))
-
     autonomous_text = "\n".join(
         path.read_text(encoding="utf-8", errors="replace")
         for path in (delivered / "autonomous_research").rglob("*")
         if path.is_file()
     )
-    assert "Int-1.xyz" not in autonomous_text
-    # The deterministic guard deliberately does not rewrite scientific prose or
-    # paper-specific identifiers. Those disclosure decisions belong to the
-    # Stage07 Agent and must remain general rather than a hard-coded replacement
-    # table. It only normalizes filenames/comments and removes route-only files.
+    assert "Int-1.xyz" in autonomous_text
     assert "wf-nh3-mechanism" in autonomous_text
     assert "claim-1" in autonomous_text
-    # XYZ comments are metadata and are intentionally normalized by the generic
-    # input guard; this does not rewrite task prose or JSON scientific fields.
-    assert "PBE0-D3BJ" not in autonomous_text
+    assert "PBE0-D3BJ" in autonomous_text
 
-    reported = [
-        path
-        for repair in response["repairs"]
-        for path in repair.get("changed_files") or []
-    ]
-    assert reported
-    assert all((delivered / path).exists() for path in reported)
     _require_stage07_artifact_delivery(
         response,
         tmp_path,
@@ -5139,8 +5156,9 @@ def test_stage06_single_agent_builds_reproduction_first_task_pair(tmp_path: Path
     ]
     assert construction["mode_generation_strategy"] == "single_agent"
     assert set(construction["phase_audits"]) == {"task_pair_builder"}
-    derived = read_json(pair / "autonomous_research" / "derived_from.json")
-    assert derived["derived_from_mode"] == "paper_reproduction"
+    assert not (pair / "autonomous_research" / "derived_from.json").exists()
+    assert not (pair / "autonomous_research" / "conversion_contract.json").exists()
+    assert not (pair / "autonomous_research" / "conversion_receipt.json").exists()
     assert not (pair / "autonomous_research" / "paper_route.md").exists()
     assert (pair / "paper_reproduction" / "paper_route.md").is_file()
     audit_packet = _stage07_audit_packet(
@@ -5225,7 +5243,7 @@ def test_stage06_hands_partial_candidate_to_stage07_without_content_retry(
     assert Path(record["handoff_path"]).is_dir()
 
 
-def test_stage06_defers_mapping_shaped_public_assets_to_stage07(
+def test_stage06_normalizes_mapping_shaped_public_assets_without_scientific_guessing(
     tmp_path: Path,
 ) -> None:
     toolbox = tmp_path / "toolbox.json"
@@ -5271,7 +5289,7 @@ def test_stage06_defers_mapping_shaped_public_assets_to_stage07(
 
     record = result["records"][0]
     assert record["decision"] == "provisional_constructed"
-    assert any(
+    assert not any(
         warning.startswith("metadata_materialization_deferred:AttributeError:")
         for warning in record["handoff_warnings"]
     )
@@ -5412,7 +5430,7 @@ def test_pair_contract_normalizer_repairs_harness_field_drift(tmp_path: Path) ->
     ]
 
 
-def test_stage06_builds_isolated_task_pair_with_toolbox_gap(tmp_path: Path) -> None:
+def test_stage06_disables_legacy_multi_phase_strategy(tmp_path: Path) -> None:
     toolbox = tmp_path / "toolbox.json"
     toolbox.write_text(json.dumps({"profile_id": "test", "backends": {}}), encoding="utf-8")
     documents = [
@@ -5435,109 +5453,33 @@ def test_stage06_builds_isolated_task_pair_with_toolbox_gap(tmp_path: Path) -> N
             "resource_profile": {"walltime_hours": 4},
         }
     ]
-    output = run_stage06(
-        candidates=[{"paper_id": "paper-test", "candidate_id": "candidate-1"}],
-        stage04_records=stage04_records,
-        documents=documents,
-        config=config,
-        model=_Model(),
-        workspace=tmp_path / "run",
-        run_id="test-run",
-    )
+    with pytest.raises(ValueError, match="must be single_agent"):
+        run_stage06(
+            candidates=[{"paper_id": "paper-test", "candidate_id": "candidate-1"}],
+            stage04_records=stage04_records,
+            documents=documents,
+            config=config,
+            model=_Model(),
+            workspace=tmp_path / "run",
+            run_id="test-run",
+        )
 
-    record = output["records"][0]
-    assert record["decision"] == "constructed"
-    assert record["toolbox_gap_present"] is True
-    pair = Path(record["task_pair_path"])
-    assert (pair / "paper_info.json").is_file()
-    assert not (pair / "autonomous_research" / "paper_route.md").exists()
-    assert (pair / "paper_reproduction" / "paper_route.md").is_file()
-    assert (pair / "hidden_reference" / "ground_truth_common.json").is_file()
-    assert not (pair / "autonomous_research" / "hidden_reference").exists()
-    assert not (pair / "paper_reproduction" / "hidden_reference").exists()
-    assert validate_task_pair(pair)["passed"] is True
-    for mode, task_mode, suffix in (
-        ("autonomous_research", "open_discovery", "_autonomous"),
-        ("paper_reproduction", "guided_reproduction", "_reproduction"),
-    ):
-        task_info = read_json(pair / mode / "task_info.json")
-        task_spec = read_json(pair / mode / "task_spec.json")
-        assert task_info["mode"] == mode
-        assert task_info["scientific_mode"] == mode
-        assert task_info["task_mode"] == task_mode
-        assert task_info["task_id"].endswith(suffix)
-        assert task_spec["mode"] == mode
-        assert task_spec["scientific_mode"] == mode
-        assert task_spec["task_mode"] == task_mode
-        assert task_spec["task_id"] == task_info["task_id"]
-        assert task_spec["task_pair_id"] == task_info["task_pair_id"]
 
-    autonomous_truth = read_json(pair / "hidden_reference" / "ground_truth_autonomous.json")
-    reproduction_truth = read_json(pair / "hidden_reference" / "ground_truth_reproduction.json")
-    assert (
-        autonomous_truth["scientific_conclusion_rubric"]
-        == reproduction_truth["scientific_conclusion_rubric"]
-    )
-    assert autonomous_truth["scoring_rubric"] != reproduction_truth["scoring_rubric"]
-
-    rerun = run_stage06(
-        candidates=[{"paper_id": "paper-test", "candidate_id": "candidate-1"}],
-        stage04_records=stage04_records,
-        documents=documents,
-        config=config,
-        model=_Model(),
-        workspace=tmp_path / "run",
-        run_id="test-run",
-    )
-    assert rerun["records"][0]["decision"] == "constructed"
-    rerun_pair = Path(rerun["records"][0]["task_pair_path"])
-    phase_audits = read_json(rerun_pair / "construction_record.json")["phase_audits"]
-    assert all(
-        phase_audits[phase]["cache_hit"]
-        for phase in ("review", "autonomous", "reproduction", "hidden_reference")
-    )
-
-    judge_model = _Model()
-    judge_model.role = "judge"
-
-    def stage07_responder(request: AgentRunRequest) -> dict:
-        response = _mock_responses()[request.phase]
-        requirements_path = request.workspace / "outputs" / "task_pair" / "toolbox_requirements.json"
-        requirements = read_json(requirements_path)
-        if isinstance(requirements, dict):
-            requirements["stage07_verified"] = True
-        else:
-            requirements.append(
-                {
-                    "software": "ORCA",
-                    "status": "missing",
-                    "stage07_verified": True,
-                }
-            )
-        write_json(requirements_path, requirements)
-        return response
-
-    stage07 = run_stage07(
-        build_records=output["records"],
-        documents=documents,
-        config={
-            **config,
-            "mock_responses": _mock_responses(),
-            "mock_responder": stage07_responder,
-            "resource_policy": {"walltime_hours": 1},
-        },
-        model=judge_model,
-        workspace=tmp_path / "run",
-        run_id="test-run",
-    )
-    audit = stage07["records"][0]
-    assert audit["audit_decision"] == "approved_with_repairs"
-    assert audit["selected_workflow_preserved"] is True
-    # An empty inventory is absence of evidence, not evidence that ORCA is
-    # missing.  Stage07 preserves the task and reports the inventory as unknown.
-    assert audit["toolbox_status"] == "unknown"
-    assert Path(audit["task_pair_path"]).is_dir()
-    assert not (Path(audit["audit_path"]) / "gold_run").exists()
+def test_stage07_approved_receipt_only_requires_artifact_locator() -> None:
+    assert _approved_receipt_contract_findings(
+        {
+            "audit_decision": "approved",
+            "artifact_path": "outputs/task_pair",
+            "summary": "Agent approved the delivered task pair.",
+        }
+    ) == []
+    assert _approved_receipt_contract_findings(
+        {
+            "audit_decision": "approved",
+            "artifact_path": "outputs/elsewhere",
+            "summary": "Agent approved the delivered task pair.",
+        }
+    ) == ["approved_artifact_path_invalid"]
 
 
 def test_stage06_canonicalizes_stale_and_wildcard_evidence_ids() -> None:
@@ -5839,20 +5781,16 @@ def test_stage07_final_integrity_scans_unknown_evidence_ids(tmp_path: Path) -> N
     ]
 
 
-def test_stage07_cannot_approve_a_high_nonsoftware_remaining_issue(
+def test_stage07_does_not_override_agent_for_high_nonsoftware_remaining_issue(
     tmp_path: Path, monkeypatch
 ) -> None:
     (tmp_path / "paper_reproduction").mkdir()
     (tmp_path / "autonomous_research").mkdir()
     monkeypatch.setattr(
         "src.stages.stage07_task_judge.stage.deterministic_stage07_audit",
-        lambda *_args, **_kwargs: {
-            "passed": True,
-            "findings": [],
-            "outcomes": [],
-            "toolbox_status": "available",
-            "required_additions": [],
-        },
+        lambda *_args, **_kwargs: pytest.fail(
+            "the file-management finalizer must not call the scientific validator"
+        ),
     )
     response = {
         "audit_decision": "approved",
@@ -5872,5 +5810,61 @@ def test_stage07_cannot_approve_a_high_nonsoftware_remaining_issue(
         task_root=tmp_path,
         toolbox={"installed_software": []},
     )
-    assert finalized["audit_decision"] == "rejected_scientific_unrepairable"
-    assert finalized["artifact_path"] == "outputs/stage07_audit.json"
+    assert finalized["audit_decision"] == "approved"
+    assert finalized["artifact_path"] == "outputs/task_pair"
+    observation = read_json(tmp_path / "orchestrator_inventory_observation.json")
+    assert observation["role"] == "non_authoritative_file_management_observation"
+    assert observation["scientific_decision_authority"] == "stage07_agent"
+
+
+def test_stage07_inventory_observation_does_not_rewrite_agent_toolbox_fields(
+    tmp_path: Path,
+) -> None:
+    (tmp_path / "paper_reproduction").mkdir()
+    (tmp_path / "autonomous_research").mkdir()
+    requirements = [{"software": "Gaussian 16", "status": "missing"}]
+    write_json(tmp_path / "toolbox_requirements.json", requirements)
+    response = {
+        "audit_decision": "approved",
+        "artifact_path": "outputs/task_pair",
+        "toolbox_status": "needs_software",
+        "required_additions": [{"software": "Gaussian 16"}],
+    }
+    original_response = json.loads(json.dumps(response))
+
+    finalized = _finalize_stage07_response(
+        response=response,
+        task_root=tmp_path,
+        toolbox={
+            "installed_software": [
+                {
+                    "software_id": "gaussian",
+                    "display_name": "Gaussian",
+                    "aliases": ["G16"],
+                }
+            ]
+        },
+    )
+
+    assert finalized == original_response
+    assert read_json(tmp_path / "toolbox_requirements.json") == requirements
+    observation = read_json(tmp_path / "orchestrator_inventory_observation.json")
+    assert observation["agent_toolbox_status"] == "needs_software"
+    assert observation["unmatched_inventory_observations"] == []
+
+
+def test_converter_report_is_recovered_from_response_or_nested_file(tmp_path: Path) -> None:
+    workspace = tmp_path
+    (workspace / "outputs" / "autonomous_research").mkdir(parents=True)
+    report = {"removed_files": ["paper_route.md"], "remaining_disclosures": []}
+    response = {"status": "converted", "conversion_report": report}
+
+    recovered = _normalize_converter_report(response, workspace)
+    assert recovered == report
+    assert read_json(workspace / "outputs" / "conversion_report.json") == report
+
+    nested = workspace / "outputs" / "autonomous_research" / "conversion_report.json"
+    write_json(nested, {"rewritten_files": ["task.md"]})
+    recovered_nested = _normalize_converter_report({"status": "converted"}, workspace)
+    assert recovered_nested == report
+    assert not nested.exists()

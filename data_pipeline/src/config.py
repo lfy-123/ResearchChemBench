@@ -5,6 +5,7 @@ import os
 from copy import deepcopy
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 from src.contracts import PIPELINE_CONTRACT
 
@@ -226,6 +227,15 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
         base_url_env = str(value.get("base_url_env") or f"{env_prefix}_BASE_URL")
         model_env = str(value.get("model_env") or f"{env_prefix}_MODEL")
         value["base_url"] = os.environ.get(base_url_env) or value.get("base_url")
+        # Explicit loopback endpoints are local services.  Do not route them through
+        # the cluster's outbound proxy even when the shared remote-model defaults
+        # enable proxying for this role.
+        try:
+            hostname = urlparse(str(value.get("base_url") or "")).hostname
+        except ValueError:
+            hostname = None
+        if hostname in {"127.0.0.1", "localhost", "::1"}:
+            value["use_proxy"] = False
         model_override = os.environ.get(model_env)
         if model_override:
             if str(value.get("model") or "").casefold() != model_override.casefold():

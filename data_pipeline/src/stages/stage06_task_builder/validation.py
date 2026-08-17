@@ -1616,10 +1616,14 @@ def _derived_copy_findings(autonomous: Path, reproduction: Path) -> list[str]:
             findings.append("autonomous_copy_edit_allowlist_invalid")
         return findings
 
-    # Compatibility for task pairs built by the pre-v4 autonomous-first pipeline.
+    # Current task bundles intentionally contain no source/derivation contract: those
+    # files disclose construction history and are not evaluation inputs.  Pair-level
+    # ``conversion_report.json`` is optional audit metadata, so absence of a mode-local
+    # provenance file is not a validation failure.  Keep the old compatibility branch
+    # only when a legacy file is actually present.
     reproduction_path = reproduction / "derived_from.json"
     if not reproduction_path.is_file():
-        return ["autonomous_copy_provenance_missing"]
+        return []
     value = read_json(reproduction_path)
     findings = []
     if value.get("derived_from_mode") != "autonomous_research":

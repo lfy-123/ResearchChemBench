@@ -1125,11 +1125,17 @@ def chat_to_response_events(
         output_items.append(item)
 
     upstream_usage = result.get("usage") or {}
+    cached_tokens = int(
+        upstream_usage.get("prompt_cache_hit_tokens")
+        or upstream_usage.get("cached_tokens")
+        or (upstream_usage.get("prompt_tokens_details") or {}).get("cached_tokens")
+        or 0
+    )
     usage = {
         "input_tokens": int(upstream_usage.get("prompt_tokens") or 0),
         "output_tokens": int(upstream_usage.get("completion_tokens") or 0),
         "total_tokens": int(upstream_usage.get("total_tokens") or 0),
-        "input_tokens_details": {"cached_tokens": 0},
+        "input_tokens_details": {"cached_tokens": cached_tokens},
         "output_tokens_details": {"reasoning_tokens": 0},
     }
     response = {
@@ -1207,6 +1213,7 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
         }
         self.final_artifact_written = False
         self.retries = max(0, int(retries))
+        self.usage_records: list[dict[str, Any]] = []
         self.seen_tool_call_ids: set[str] = set()
         self.tool_call_count = 0
         self.reasoning_by_tool_call_id: dict[str, str] = {}
@@ -1577,6 +1584,23 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
                         headers=headers,
                         json=payload,
                     )
+                    # Some OpenAI-compatible endpoints require strict JSON Schema
+                    # objects (`additionalProperties: false`) while the benchmark
+                    # contracts intentionally allow extension fields.  Fall back to
+                    # JSON-object mode for the terminal response only; tool-capable
+                    # exploration is unaffected and stricter gateways still receive
+                    # the original schema first.
+                    if (
+                        getattr(response, "status_code", None) == 400
+                        and payload.get("response_format", {}).get("type") == "json_schema"
+                        and "additionalProperties" in getattr(response, "text", "")
+                    ):
+                        payload["response_format"] = {"type": "json_object"}
+                        response = client.post(
+                            f"{self.upstream_base_url}/chat/completions",
+                            headers=headers,
+                            json=payload,
+                        )
                     if response.is_error:
                         detail = response.text[:4000]
                         raise httpx.HTTPStatusError(
@@ -1808,6 +1832,18 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
                             headers=headers,
                             json=recovery_payload,
                         )
+                        if (
+                            getattr(recovery, "status_code", None) == 400
+                            and recovery_payload.get("response_format", {}).get("type")
+                            == "json_schema"
+                            and "additionalProperties" in getattr(recovery, "text", "")
+                        ):
+                            recovery_payload["response_format"] = {"type": "json_object"}
+                            recovery = client.post(
+                                f"{self.upstream_base_url}/chat/completions",
+                                headers=headers,
+                                json=recovery_payload,
+                            )
                         if recovery.is_error:
                             detail = recovery.text[:4000]
                             raise httpx.HTTPStatusError(
@@ -1973,6 +2009,7 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
             ],
             "usage": result.get("usage") or {},
         }
+        self.usage_records.append(dict(record["usage"]))
         trace_path = self.structured_artifact_path.parent.parent / "_bridge_trace.jsonl"
         try:
             with self.trace_lock:
@@ -1980,6 +2017,30 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
                     handle.write(json.dumps(record, ensure_ascii=False) + "\n")
         except OSError:
             return
+
+    def usage_summary(self) -> dict[str, Any]:
+        """Return provider usage totals without relying on Codex's lossy aggregation."""
+
+        prompt = sum(int(row.get("prompt_tokens") or 0) for row in self.usage_records)
+        output = sum(int(row.get("completion_tokens") or 0) for row in self.usage_records)
+        total = sum(int(row.get("total_tokens") or 0) for row in self.usage_records)
+        cache_hit = sum(
+            int(
+                row.get("prompt_cache_hit_tokens")
+                or row.get("cached_tokens")
+                or (row.get("prompt_tokens_details") or {}).get("cached_tokens")
+                or 0
+            )
+            for row in self.usage_records
+        )
+        return {
+            "request_count": len(self.usage_records),
+            "prompt_tokens": prompt,
+            "prompt_cache_hit_tokens": cache_hit,
+            "prompt_cache_miss_tokens": max(0, prompt - cache_hit),
+            "completion_tokens": output,
+            "total_tokens": total,
+        }
 
     def _remember_reasoning_content(self, result: dict[str, Any]) -> None:
         message = (result.get("choices") or [{}])[0].get("message") or {}

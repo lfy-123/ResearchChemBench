@@ -5,7 +5,7 @@ STAGE06_AUTONOMOUS_VERSION = "v3-stage06-autonomous-20260814-r7"
 STAGE06_REPRODUCTION_VERSION = "v3-stage06-reproduction-20260814-r8"
 STAGE06_HIDDEN_VERSION = "v3-stage06-hidden-reference-20260814-r7"
 STAGE06_TASK_PAIR_BUILDER_VERSION = "v5-stage06-provisional-builder-20260817-r5-agent-authority"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v2-stage06-objective-centered-autonomous-converter-20260817"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v3-stage06-objective-centered-autonomous-converter-20260817-report-normalization"
 
 
 def task_pair_builder_instructions(
@@ -255,10 +255,11 @@ structure, parameter or answer. If conversion cannot preserve the scientific obj
 `objective_consistency_error`; if a filesystem/API problem prevents completion, return
 `needs_conversion_retry`.
 
-Write `outputs/autonomous_research/` with all required task files and write
-`outputs/conversion_report.json` containing `removed_files`, `renamed_files`, `rewritten_files`,
-`preserved_common_assets`, and `remaining_disclosures`. Write the final receipt as
-`outputs/conversion_receipt.json` and return one JSON object only:
+Write `outputs/autonomous_research/` with all required task files and, when possible, write one
+small internal `outputs/conversion_report.json` containing `removed_files`, `renamed_files`,
+`rewritten_files`, `preserved_common_assets`, and `remaining_disclosures`. The report is an
+orchestrator handoff artifact and must never be copied inside either published task directory.
+Return one JSON object only:
 
 {{
   "status": "converted",
@@ -268,8 +269,10 @@ Write `outputs/autonomous_research/` with all required task files and write
   "invalid_reasons": []
 }}
 
-Do not create scattered sentinel files. A complete artifact is more important than a verbose final
-message; keep the receipt small and make every claimed path relative to `outputs/`.
+Do not create conversion receipts, derived-from contracts, manifests, or scattered sentinel files.
+A complete artifact is more important than a verbose final message; keep the response small and
+make every claimed path relative to `outputs/`. The orchestrator can recover a report from the
+response when a compliant report file was not written.
 """
 
 

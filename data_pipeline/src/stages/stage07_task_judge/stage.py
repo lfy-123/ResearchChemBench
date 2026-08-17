@@ -597,14 +597,6 @@ def _apply_autonomous_public_surface_guard(
         if rel not in changed:
             changed.append(rel)
 
-    # Stage07's Agent owns disclosure and scientific repairs. The orchestrator
-    # updates only hashes/manifests that describe the already-delivered bytes.
-    _refresh_derived_copy_provenance(
-        autonomous=autonomous,
-        reproduction=reproduction,
-        note=note,
-    )
-
     # Refresh mode manifests after deterministic edits.  directory_manifest
     # excludes the manifest itself, matching Stage06's public-manifest contract.
     for mode_root in (reproduction, autonomous):
@@ -622,45 +614,6 @@ def _apply_autonomous_public_surface_guard(
         note(pair_manifest)
 
     return changed
-
-
-def _refresh_derived_copy_provenance(
-    *, autonomous: Path, reproduction: Path, note
-) -> None:
-    """Refresh an existing mode-copy hash after deterministic delivery edits."""
-
-    autonomous_provenance = autonomous / "derived_from.json"
-    if autonomous_provenance.is_file() and reproduction.is_dir():
-        rows = [
-            {"path": row["path"], "sha256": row["sha256"]}
-            for row in directory_manifest(reproduction).get("files") or []
-            if row.get("path") != "public_manifest.json"
-        ]
-        base_hash = canonical_hash(rows)
-        for path in (
-            autonomous_provenance,
-            autonomous / "conversion_contract.json",
-        ):
-            if not path.is_file():
-                continue
-            value = read_json(path)
-            if value.get("base_manifest_hash") == base_hash:
-                continue
-            value["base_manifest_hash"] = base_hash
-            write_json(path, value)
-            note(path)
-        return
-
-    # Compatibility with task pairs produced by the former autonomous-first
-    # pipeline, where the reproduction mode carries the copy provenance.
-    reproduction_provenance = reproduction / "derived_from.json"
-    if reproduction_provenance.is_file() and autonomous.is_dir():
-        value = read_json(reproduction_provenance)
-        base_hash = directory_manifest(autonomous)["content_hash"]
-        if value.get("base_manifest_hash") != base_hash:
-            value["base_manifest_hash"] = base_hash
-            write_json(reproduction_provenance, value)
-            note(reproduction_provenance)
 
 
 def _require_stage07_artifact_delivery(
@@ -824,7 +777,6 @@ def _publish_mode_bundles(
         "task_spec.json",
         "submission_contract.json",
         "process_rubric.json",
-        "public_manifest.json",
     )
     for mode in ("paper_reproduction", "autonomous_research"):
         source = pair_root / mode
@@ -841,7 +793,6 @@ def _publish_mode_bundles(
         source_data = source / "data"
         if source_data.is_dir():
             shutil.copytree(source_data, destination / "data")
-        write_manifest(destination, destination / "published_manifest.json")
         exported[mode] = str(destination)
     return exported
 
