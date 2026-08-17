@@ -79,7 +79,6 @@ from src.stages.stage06_task_builder.validation import (
     validate_task_pair,
     validate_task_pair_draft,
     validate_workflow_review,
-    task_pair_contract_report,
 )
 
 STAGE06_IMPLEMENTATION_VERSION = "v8-core-objective-contract-findings-20260817"
@@ -425,15 +424,6 @@ def _run_stage06_single_agent(
                 agent_audit=agent_audit,
                 handoff_warnings=handoff_warnings,
             )
-            contract_report = task_pair_contract_report(staging_root)
-            write_json(
-                staging_root / "stage06_contract_findings.json",
-                {
-                    **contract_report,
-                    "role": "non_authoritative_stage07_repair_input",
-                    "scientific_decision_authority": "stage07_agent",
-                },
-            )
             write_manifest(staging_root, staging_root / "task_pair_manifest.json")
             target = stage_root / "provisional_tasks" / safe_component(paper_id)
             atomic_commit_tree(staging_root, target)
@@ -473,8 +463,6 @@ def _run_stage06_single_agent(
                 ).casefold()
                 in {"replaced", "corrected", "ignored"},
                 "handoff_warnings": handoff_warnings,
-                "contract_status": contract_report["contract_status"],
-                "contract_finding_counts": contract_report["finding_counts"],
                 "agent_harness": harness.name,
                 "agent_model": harness.model,
                 "mode_generation_strategy": generation_strategy,

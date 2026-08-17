@@ -86,12 +86,12 @@ from src.stages.stage06_task_builder.validation import (
 )
 from src.stages.stage07_task_judge.prompts import STAGE07_AUDIT_VERSION, audit_instructions
 from src.stages.stage07_task_judge.stage import (
-    _apply_autonomous_public_surface_guard,
     _approved_receipt_contract_findings,
     _audit_pair_manifest,
     _cached_audit_inputs_match,
     _finalize_stage07_response,
     _prepare_stage07_fallback_source,
+    _publish_mode_bundles,
     _require_stage07_artifact_delivery,
     _run_audit_repair_agent,
     _stage07_audit_initializer_script,
@@ -4879,92 +4879,6 @@ def test_stage07_preserves_agent_objective_failure_without_code_side_reclassific
     assert all(request.metadata["inline_contract"] is True for request in calls)
 
 
-def test_stage07_public_guard_does_not_rewrite_scientific_task_content(
-    tmp_path: Path,
-) -> None:
-    baseline = tmp_path / "inputs" / "stage06_candidate"
-    delivered = tmp_path / "outputs" / "task_pair"
-    for mode in ("paper_reproduction", "autonomous_research"):
-        inputs = baseline / mode / "data" / "inputs" / "coordinates"
-        inputs.mkdir(parents=True)
-        (inputs / "Int-1.xyz").write_text(
-            "2\n# Int-1 from PBE0-D3BJ/def2-SVP optimization\nH 0 0 0\nH 0 0 1\n",
-            encoding="utf-8",
-        )
-        (inputs / "H2O.xyz").write_text(
-            "3\n# H2O from PBE0-D3BJ/def2-SVP optimization\nO 0 0 0\nH 0 1 0\nH 0 -1 0\n",
-            encoding="utf-8",
-        )
-        (baseline / mode / "task.md").write_text(
-            "Use data/inputs/coordinates/Int-1.xyz and coordinates/H2O.xyz.",
-            encoding="utf-8",
-        )
-    write_json(
-        baseline / "autonomous_research" / "task_info.json",
-        {
-            "workflow_scope": {
-                "included_workflow_ids": ["wf-nh3-mechanism"],
-                "included_claim_ids": ["claim-1"],
-            },
-            "input": "data/inputs/coordinates/Int-1.xyz",
-        },
-    )
-    copytree_exact(baseline, delivered)
-
-    # Simulate a recovery copy that retained old names beside an Agent-created
-    # neutral duplicate.
-    for mode in ("paper_reproduction", "autonomous_research"):
-        inputs = delivered / mode / "data" / "inputs" / "coordinates"
-        neutral = inputs / "structure-001.xyz"
-        neutral.write_bytes((inputs / "Int-1.xyz").read_bytes())
-        lines = neutral.read_text(encoding="utf-8").splitlines(keepends=True)
-        lines[1] = "# structure-001\n"
-        neutral.write_text("".join(lines), encoding="utf-8")
-
-    response = {
-        "audit_decision": "approved",
-        "artifact_path": "outputs/task_pair",
-        "repairs": [],
-        "workflow_redesign": {"changed_files": []},
-    }
-
-    changed = _apply_autonomous_public_surface_guard(
-        response=response,
-        workspace=tmp_path,
-    )
-
-    assert changed
-    mode_files = []
-    for mode in ("paper_reproduction", "autonomous_research"):
-        inputs = delivered / mode / "data" / "inputs"
-        files = sorted(path.relative_to(inputs).as_posix() for path in inputs.rglob("*.xyz"))
-        mode_files.append(files)
-        assert files == [
-            "coordinates/H2O.xyz",
-            "coordinates/Int-1.xyz",
-            "coordinates/structure-001.xyz",
-        ]
-        assert (inputs / "coordinates" / "Int-1.xyz").read_text(
-            encoding="utf-8"
-        ).splitlines()[1].startswith("# Int-1")
-    assert mode_files[0] == mode_files[1]
-    autonomous_text = "\n".join(
-        path.read_text(encoding="utf-8", errors="replace")
-        for path in (delivered / "autonomous_research").rglob("*")
-        if path.is_file()
-    )
-    assert "Int-1.xyz" in autonomous_text
-    assert "wf-nh3-mechanism" in autonomous_text
-    assert "claim-1" in autonomous_text
-    assert "PBE0-D3BJ" in autonomous_text
-
-    _require_stage07_artifact_delivery(
-        response,
-        tmp_path,
-        SimpleNamespace(audit_record=lambda: {}),
-    )
-
-
 def test_stage07_does_not_reject_agent_for_unchanged_reported_repairs(tmp_path: Path) -> None:
     baseline = tmp_path / "inputs" / "stage06_candidate" / "autonomous_research"
     delivered = tmp_path / "outputs" / "task_pair" / "autonomous_research"
@@ -5879,9 +5793,7 @@ def test_stage07_does_not_override_agent_for_high_nonsoftware_remaining_issue(
     )
     assert finalized["audit_decision"] == "approved"
     assert finalized["artifact_path"] == "outputs/task_pair"
-    observation = read_json(tmp_path / "orchestrator_inventory_observation.json")
-    assert observation["role"] == "non_authoritative_file_management_observation"
-    assert observation["scientific_decision_authority"] == "stage07_agent"
+    assert not (tmp_path / "orchestrator_inventory_observation.json").exists()
 
 
 def test_stage07_inventory_observation_does_not_rewrite_agent_toolbox_fields(
@@ -5915,9 +5827,32 @@ def test_stage07_inventory_observation_does_not_rewrite_agent_toolbox_fields(
 
     assert finalized == original_response
     assert read_json(tmp_path / "toolbox_requirements.json") == requirements
-    observation = read_json(tmp_path / "orchestrator_inventory_observation.json")
-    assert observation["agent_toolbox_status"] == "needs_software"
-    assert observation["unmatched_inventory_observations"] == []
+    assert not (tmp_path / "orchestrator_inventory_observation.json").exists()
+
+
+def test_stage07_publisher_copies_agent_mode_without_semantic_gate(tmp_path: Path) -> None:
+    pair = tmp_path / "pair"
+    reproduction = pair / "paper_reproduction"
+    autonomous = pair / "autonomous_research"
+    reproduction.mkdir(parents=True)
+    autonomous.mkdir(parents=True)
+    # Deliberately omit legacy validator-required fields. Publication is a file operation;
+    # the Stage07 Agent has already made the scientific decision.
+    (reproduction / "task.md").write_text("reproduction", encoding="utf-8")
+    (reproduction / "agent_selected_asset.dat").write_text("needed", encoding="utf-8")
+    (reproduction / "public_manifest.json").write_text("{}", encoding="utf-8")
+    (autonomous / "task.md").write_text("autonomous", encoding="utf-8")
+
+    exported = _publish_mode_bundles(
+        pair,
+        tmp_path / "published",
+        task_pair_id="pair-1",
+    )
+
+    reproduction_export = Path(exported["paper_reproduction"])
+    assert (reproduction_export / "agent_selected_asset.dat").read_text() == "needed"
+    assert not (reproduction_export / "public_manifest.json").exists()
+    assert (Path(exported["autonomous_research"]) / "task.md").is_file()
 
 
 def test_converter_report_is_recovered_from_response_or_nested_file(tmp_path: Path) -> None:

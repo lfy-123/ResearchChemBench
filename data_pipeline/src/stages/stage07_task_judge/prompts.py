@@ -32,10 +32,10 @@ Never report `approved_with_repairs` merely to hide an unresolved execution fail
 your scientific audit says the repaired task is acceptable.
 
 SCIENTIFIC WORKFLOW
-1. Read the Stage06 receipt, Objective Card, Key Points, conversion report, workflow review, task pair, and its exact open questions. Treat
-   Stage02-05 material only as navigation hints; decide from the paper, SI, and parsed evidence.
-   Read `inputs/stage06_candidate/stage06_contract_findings.json` when present as a diagnostic hint;
-   it is not a code verdict. Disclosure, scientific and resource questions are for your judgment.
+1. Read the Stage06 receipt, Objective Card, Key Points, workflow review, task pair, and its exact
+   open questions. Treat Stage02-05 material only as navigation hints; decide from the paper, SI,
+   and parsed evidence. Do not search the runtime, repository or system directories for hidden
+   validators. Scientific quality, disclosure and resource questions are for your judgment.
 2. First audit and attempt to repair the workflow selected by Stage06 (specifically, its
    objective-centered process). Check
    whether its scientific question, necessary inputs, author-performed calculations, parameters,
