@@ -26,6 +26,8 @@ from src.agents.responses_bridge import (
     _normalize_returned_tool_aliases,
     _retain_file_first_artifact_write_calls,
     _retain_structured_artifact_write_calls,
+    _configure_chat_tool_choice,
+    _fallback_workspace_tool,
     responses_to_chat,
 )
 from src.agents.schemas import (
@@ -1311,6 +1313,78 @@ def test_responses_bridge_does_not_mix_json_mode_with_tools() -> None:
     assert chat["tool_choice"] == "auto"
     assert chat["tools"][0]["function"]["name"] == "exec_command"
     assert "response_format" not in chat
+
+
+def test_tool_choice_policy_is_explicit_and_model_agnostic() -> None:
+    payload = {"tools": [_fallback_workspace_tool()]}
+    _configure_chat_tool_choice(
+        payload,
+        tool_choice_policy="required_until_artifact",
+        require_until_artifact=True,
+    )
+    assert payload["tool_choice"] == "required"
+    _configure_chat_tool_choice(
+        payload,
+        tool_choice_policy="required_until_artifact",
+        require_until_artifact=False,
+    )
+    assert payload["tool_choice"] == "auto"
+    _configure_chat_tool_choice(
+        payload,
+        tool_choice_policy="none",
+        require_until_artifact=True,
+    )
+    assert payload["tool_choice"] == "none"
+
+
+def test_bridge_injects_workspace_tool_only_for_required_policy(monkeypatch) -> None:
+    captured: dict = {}
+
+    class _Response:
+        is_error = False
+
+        @staticmethod
+        def json() -> dict:
+            return {
+                "model": "test-model",
+                "choices": [{"message": {"role": "assistant", "content": "{}"}}],
+            }
+
+    class _Client:
+        def __init__(self, **_kwargs) -> None:
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args) -> None:
+            return None
+
+        @staticmethod
+        def post(_url, *, headers, json):
+            captured.update(json)
+            return _Response()
+
+    monkeypatch.setattr("src.agents.responses_bridge.httpx.Client", _Client)
+    bridge = ResponsesBridge(
+        upstream_base_url="https://example.test/v1",
+        api_key="test",
+        model="test-model",
+        timeout_seconds=5,
+        max_tool_calls=4,
+        tool_choice_policy="required_until_artifact",
+        response_format_policy="json_object",
+    )
+    bridge._call_upstream(
+        {
+            "model": "test-model",
+            "input": [{"role": "user", "content": "Inspect."}],
+            "text": {"format": {"type": "json_object"}},
+        }
+    )
+    assert captured["tool_choice"] == "required"
+    assert captured["tools"][0]["function"]["name"] == "exec_command"
+    assert "response_format" not in captured
 
 
 @pytest.mark.parametrize("alias", ["Bash", "shell", "bash"])

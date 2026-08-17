@@ -412,6 +412,9 @@ def _run_audit_repair_agent(
                 "source_stage06_decision": source_stage06_decision,
                 "max_tool_calls": max_tool_calls,
                 "finalization_reserve": finalization_reserve,
+                "tool_choice_policy": config.get("audit_repair_tool_choice_policy", config.get("tool_choice_policy")),
+                "response_format_policy": config.get("audit_repair_response_format_policy", config.get("response_format_policy")),
+                "codex_wire_api": config.get("audit_repair_codex_wire_api"),
                 # Task repairs are file-first and objectively verified below,
                 # but the small audit receipt is an inline structured result.
                 # This prevents the bridge from spending the final workspace
@@ -1072,6 +1075,9 @@ def _run_audit_agent(
                 "task_pair_id": task_pair_id,
                 "max_tool_calls": max_tool_calls,
                 "finalization_reserve": finalization_reserve,
+                "tool_choice_policy": config.get("objective_audit_tool_choice_policy", config.get("tool_choice_policy")),
+                "response_format_policy": config.get("objective_audit_response_format_policy", config.get("response_format_policy")),
+                "codex_wire_api": config.get("objective_audit_codex_wire_api"),
                 "inline_contract": False,
                 "structured_artifact_path": "outputs/objective_audit.json",
                 "recovery_attempt": bool(recovery_context),

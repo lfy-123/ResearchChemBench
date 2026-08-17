@@ -19,6 +19,10 @@ MODEL_ROLES = (
     "judge",
 )
 
+CODEX_WIRE_APIS = frozenset({"chat_completions", "responses"})
+TOOL_CHOICE_POLICIES = frozenset({"auto", "required_until_artifact", "required", "none"})
+RESPONSE_FORMAT_POLICIES = frozenset({"auto", "json_schema", "json_object", "none"})
+
 
 def load_config(path: str | Path) -> dict[str, Any]:
     source = _logical_path(path)
@@ -216,6 +220,9 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
         value.setdefault("workers", 1)
         value.setdefault("cache", True)
         value.setdefault("api_key_env", f"RCB_{role.upper()}_API_KEY")
+        value.setdefault("codex_wire_api", "chat_completions")
+        value.setdefault("tool_choice_policy", "auto")
+        value.setdefault("response_format_policy", "auto")
         fallbacks = value.setdefault("fallback_models", [])
         if not isinstance(fallbacks, list) or any(not isinstance(item, dict) for item in fallbacks):
             raise ValueError(f"models.{role}.fallback_models must be a list of objects")
@@ -226,6 +233,10 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
         env_prefix = f"RCB_{role.upper()}"
         base_url_env = str(value.get("base_url_env") or f"{env_prefix}_BASE_URL")
         model_env = str(value.get("model_env") or f"{env_prefix}_MODEL")
+        for key in ("codex_wire_api", "tool_choice_policy", "response_format_policy"):
+            environment_value = os.environ.get(f"{env_prefix}_{key.upper()}")
+            if environment_value:
+                value[key] = environment_value.strip().casefold()
         value["base_url"] = os.environ.get(base_url_env) or value.get("base_url")
         # Explicit loopback endpoints are local services.  Do not route them through
         # the cluster's outbound proxy even when the shared remote-model defaults
@@ -262,6 +273,9 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
             fallback.setdefault("retries", value.get("retries"))
             fallback.setdefault("max_tokens", value.get("max_tokens"))
             fallback.setdefault("use_proxy", value.get("use_proxy"))
+            fallback.setdefault("codex_wire_api", value.get("codex_wire_api"))
+            fallback.setdefault("tool_choice_policy", value.get("tool_choice_policy"))
+            fallback.setdefault("response_format_policy", value.get("response_format_policy"))
 
 
 def _model_thinking_kwargs(model: str) -> dict[str, bool]:
@@ -298,6 +312,41 @@ def _validate(config: dict[str, Any]) -> None:
             raise ValueError(f"models.{role}.workers must be at least 1")
         if not isinstance(model.get("use_proxy"), bool):
             raise ValueError(f"models.{role}.use_proxy must be true or false")
+        if str(model.get("codex_wire_api") or "") not in CODEX_WIRE_APIS:
+            raise ValueError(
+                f"models.{role}.codex_wire_api must be one of {sorted(CODEX_WIRE_APIS)}"
+            )
+        if str(model.get("tool_choice_policy") or "") not in TOOL_CHOICE_POLICIES:
+            raise ValueError(
+                f"models.{role}.tool_choice_policy must be one of "
+                f"{sorted(TOOL_CHOICE_POLICIES)}"
+            )
+        if str(model.get("response_format_policy") or "") not in RESPONSE_FORMAT_POLICIES:
+            raise ValueError(
+                f"models.{role}.response_format_policy must be one of "
+                f"{sorted(RESPONSE_FORMAT_POLICIES)}"
+            )
+    for stage_name in ("stage06", "stage07"):
+        stage = config[stage_name]
+        for key, allowed in (
+            ("tool_choice_policy", TOOL_CHOICE_POLICIES),
+            ("response_format_policy", RESPONSE_FORMAT_POLICIES),
+        ):
+            if stage.get(key) is not None and str(stage[key]) not in allowed:
+                raise ValueError(f"{stage_name}.{key} must be one of {sorted(allowed)}")
+        suffixes = (
+            ("task_pair_builder", "autonomous_converter", "scientific_review")
+            if stage_name == "stage06"
+            else ("audit_repair", "objective_audit")
+        )
+        for suffix in suffixes:
+            for key, allowed in (
+                ("tool_choice_policy", TOOL_CHOICE_POLICIES),
+                ("response_format_policy", RESPONSE_FORMAT_POLICIES),
+            ):
+                field = f"{suffix}_{key}"
+                if stage.get(field) is not None and str(stage[field]) not in allowed:
+                    raise ValueError(f"{stage_name}.{field} must be one of {sorted(allowed)}")
     if not isinstance(models["screening"].get("preserve_worker_on_exit"), bool):
         raise ValueError("models.screening.preserve_worker_on_exit must be true or false")
     if not isinstance(models["screening"].get("allow_worker_creation"), bool):

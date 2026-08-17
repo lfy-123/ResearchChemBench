@@ -54,6 +54,7 @@ class AgentRunResult:
     tool_calls: int = 0
     error: dict[str, Any] | None = None
     receipt_recovered_from_artifact: bool = False
+    usage: dict[str, Any] = field(default_factory=dict)
 
     def audit_record(self) -> dict[str, Any]:
         return {key: value for key, value in self.__dict__.items() if key != "response"}
@@ -222,6 +223,52 @@ def _recover_trusted_workspace_response(
         return _trusted_artifact_receipt(request=request, workspace=workspace)
 
 
+def _codex_stdout_usage(path: Path) -> dict[str, Any]:
+    """Read cumulative token usage from Codex's terminal JSONL event stream."""
+
+    if not path.is_file():
+        return {}
+    try:
+        lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    except OSError:
+        return {}
+    completed: list[dict[str, Any]] = []
+    for line in lines:
+        try:
+            event = json.loads(line)
+        except (TypeError, ValueError, json.JSONDecodeError):
+            continue
+        if event.get("type") == "turn.completed" and isinstance(event.get("usage"), dict):
+            completed.append(event["usage"])
+    if not completed:
+        return {}
+    usage = completed[-1]
+    prompt = int(usage.get("input_tokens") or 0)
+    cache_hit = int(usage.get("cached_input_tokens") or 0)
+    output = int(usage.get("output_tokens") or 0)
+    reasoning = int(usage.get("reasoning_output_tokens") or 0)
+    return {
+        "source": "codex_turn_completed",
+        "request_count": len(completed),
+        "prompt_tokens": prompt,
+        "prompt_cache_hit_tokens": cache_hit,
+        "prompt_cache_miss_tokens": max(0, prompt - cache_hit),
+        "cache_write_input_tokens": int(usage.get("cache_write_input_tokens") or 0),
+        "completion_tokens": output,
+        "reasoning_output_tokens": reasoning,
+        "total_tokens": prompt + output,
+    }
+
+
+def _agent_usage_summary(
+    bridge: ResponsesBridge | None, stdout_path: Path
+) -> dict[str, Any]:
+    bridge_usage = bridge.usage_summary() if bridge is not None else {}
+    if int(bridge_usage.get("total_tokens") or 0) > 0:
+        return {"source": "responses_bridge", **bridge_usage}
+    return _codex_stdout_usage(stdout_path) or bridge_usage
+
+
 class AgentHarness(ABC):
     def __init__(
         self,
@@ -352,6 +399,7 @@ class CliAgentHarness(AgentHarness):
                 stderr_path=str(stderr_path),
                 final_message_path=str(final_path) if final_path.exists() else None,
                 tool_calls=bridge.tool_call_count if bridge is not None else 0,
+                usage=_agent_usage_summary(bridge, stdout_path),
                 receipt_recovered_from_artifact=receipt_recovered_from_artifact,
             )
             write_json(workspace / "agent_run.json", result.audit_record())
@@ -375,6 +423,7 @@ class CliAgentHarness(AgentHarness):
                 failure_class=exc.failure_class,
                 retryable=exc.retryable,
                 tool_calls=bridge.tool_call_count if bridge is not None else 0,
+                usage=_agent_usage_summary(bridge, stdout_path),
                 error={"error_type": type(exc).__name__, "message": str(exc)},
             )
             write_json(workspace / "agent_run.json", result.audit_record())
@@ -399,6 +448,7 @@ class CliAgentHarness(AgentHarness):
                 failure_class="invalid_agent_output",
                 retryable=True,
                 tool_calls=bridge.tool_call_count if bridge is not None else 0,
+                usage=_agent_usage_summary(bridge, stdout_path),
                 error={"error_type": type(exc).__name__, "message": str(exc)[:3000]},
             )
             write_json(workspace / "agent_run.json", result.audit_record())
@@ -503,7 +553,13 @@ class CodexHarness(CliAgentHarness):
     executable = "codex"
 
     def _bridge(self, request: AgentRunRequest) -> ResponsesBridge | None:
-        if str(self.config.get("codex_wire_api") or "chat_completions") == "responses":
+        wire_api = str(
+            request.metadata.get("codex_wire_api")
+            or self.model_config.get("codex_wire_api")
+            or self.config.get("codex_wire_api")
+            or "chat_completions"
+        ).casefold()
+        if wire_api == "responses":
             return None
         key_name = str(self.model_config.get("api_key_env") or "")
         api_key = os.environ.get(key_name, "")
@@ -583,7 +639,25 @@ class CodexHarness(CliAgentHarness):
             structured_finalization_max_tokens=int(
                 self.config.get("structured_finalization_max_tokens", 32768)
             ),
-            prefer_json_schema=bool(self.config.get("codex_chat_json_schema", False)),
+            prefer_json_schema=bool(
+                request.metadata.get(
+                    "codex_chat_json_schema",
+                    self.config.get("codex_chat_json_schema", False),
+                )
+            ),
+            tool_choice_policy=str(
+                request.metadata.get("tool_choice_policy")
+                or self.model_config.get(
+                    "tool_choice_policy", self.config.get("tool_choice_policy", "auto")
+                )
+            ),
+            response_format_policy=str(
+                request.metadata.get("response_format_policy")
+                or self.model_config.get(
+                    "response_format_policy",
+                    self.config.get("response_format_policy", "auto"),
+                )
+            ),
             structured_finalization_via_submit_tool=bool(
                 self.config.get("codex_structured_final_tool", False)
             ),
@@ -625,6 +699,14 @@ class CodexHarness(CliAgentHarness):
             "all_proxy",
         }:
             environment.pop(key, None)
+        # Direct Responses mode sends the request from Codex to the configured
+        # upstream. Keep the role credential inside the child only for that
+        # mode; bridge mode intentionally never exports it.
+        if bridge is None:
+            key_name = str(self.model_config.get("api_key_env") or "")
+            api_key = os.environ.get(key_name, "")
+            if api_key:
+                environment["OPENAI_API_KEY"] = api_key
         return environment
 
     def _build_command(
@@ -667,11 +749,21 @@ class CodexHarness(CliAgentHarness):
             "-c",
             f"model_providers.{provider}.base_url={json.dumps(base_url)}",
             "-c",
+            # Codex CLI speaks its Responses protocol to the local bridge.  The
+            # model-level codex_wire_api controls the bridge's upstream wire;
+            # it must not be passed through as a Codex CLI enum (which currently
+            # accepts only `responses`).
             f'model_providers.{provider}.wire_api="responses"',
             "-c",
-            f"model_providers.{provider}.requires_openai_auth=false",
+            f"model_providers.{provider}.requires_openai_auth={'true' if bridge is None else 'false'}",
             "-c",
             'approval_policy="never"',
+            "-c",
+            f"model_context_window={int(self.config.get('model_context_window', 1_000_000))}",
+            "-c",
+            f"model_auto_compact_token_limit={int(self.config.get('model_auto_compact_token_limit', 750_000))}",
+            "-c",
+            f"model_auto_compact_token_limit_scope={json.dumps(str(self.config.get('model_auto_compact_token_limit_scope', 'total')))}",
             "-c",
             "sandbox_workspace_write.network_access=false",
             request.instructions,

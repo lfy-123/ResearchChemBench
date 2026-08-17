@@ -9,6 +9,7 @@ import pytest
 import src.pipeline as pipeline_module
 import src.stages.stage01_document_preparation.normalization as normalization_module
 import src.stages.stage04_mineru_normalization.stage as stage04_module
+import src.stages.stage06_task_builder.stage as stage06_module
 from src.config import load_config
 from src.contracts import write_jsonl
 from src.integrations.llm_client import _parse_json_object
@@ -128,6 +129,27 @@ def test_config_migrates_legacy_single_stage05_model_role(tmp_path: Path) -> Non
 
     assert loaded["stage05"]["router_model_role"] == "stage05_router"
     assert loaded["models"]["stage05_router"]["base_url"] == "http://fixture/v1"
+
+
+def test_model_protocol_policy_is_configurable_and_not_overridden_by_stage_defaults(
+    tmp_path: Path, monkeypatch
+) -> None:
+    config = _base_config(tmp_path)
+    # A legacy stage-level wire setting remains present, but protocol policy is
+    # intentionally resolved from the model role unless a phase override exists.
+    config["stage07"]["codex_wire_api"] = "chat_completions"
+    config["models"]["judge"]["codex_wire_api"] = "responses"
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config), encoding="utf-8")
+    monkeypatch.setenv("RCB_JUDGE_TOOL_CHOICE_POLICY", "required_until_artifact")
+    monkeypatch.setenv("RCB_JUDGE_RESPONSE_FORMAT_POLICY", "json_object")
+
+    loaded = load_config(path)
+
+    assert loaded["models"]["judge"]["codex_wire_api"] == "responses"
+    assert loaded["models"]["judge"]["tool_choice_policy"] == "required_until_artifact"
+    assert loaded["models"]["judge"]["response_format_policy"] == "json_object"
+    assert "tool_choice_policy" not in loaded["stage07"]
 
 
 def test_managed_worker_preservation_requires_explicit_boolean(tmp_path: Path) -> None:
@@ -1343,6 +1365,151 @@ def test_stage04_mineru_failure_holds_paper(tmp_path: Path, monkeypatch) -> None
     assert records[0]["decision"] == "deep_parse_failed"
     assert records[0]["passed"] is False
     assert documents[0]["decision"] == "deep_parse_failed"
+
+
+def test_stage04_mineru_timeout_is_terminal(tmp_path: Path, monkeypatch) -> None:
+    source = tmp_path / "paper.pdf"
+    source.write_bytes(b"%PDF fixture")
+    monkeypatch.setattr(
+        stage04_module,
+        "run_mineru_queue",
+        lambda queue, output_dir, **kwargs: [
+            {
+                **queue[0],
+                "status": "timeout",
+                "error": "configured deadline exceeded",
+                "retry_suppressed_reason": "mineru_timeout",
+            }
+        ],
+    )
+    records, documents, attempts = stage04_module._deep_normalize_passed_papers(
+        records=[{"paper_id": "paper", "decision": "software_covered", "passed": True}],
+        documents=[
+            {
+                "paper_id": "paper",
+                "document_id": "main",
+                "document_role": "main_paper",
+                "source_path": str(source),
+                "page_count": 1,
+                "decision": "pass",
+                "selected_parser": "grobid",
+            }
+        ],
+        config={"mineru": {"enabled": True}},
+        stage_root=tmp_path / "stage04",
+        run_id="test-run",
+    )
+
+    assert records[0]["decision"] == "deep_parse_failed"
+    assert records[0]["failure_disposition"] == "terminal"
+    assert records[0]["failure_class"] == "mineru_timeout"
+    assert records[0]["deep_normalization"]["timed_out_document_ids"] == ["main"]
+    assert documents[0]["failure_disposition"] == "terminal"
+    assert attempts[0]["retry_suppressed_reason"] == "mineru_timeout"
+
+
+def test_stage04_promotes_parser_results_and_removes_successful_mineru_raw(
+    tmp_path: Path, monkeypatch
+) -> None:
+    source = tmp_path / "paper.pdf"
+    source.write_bytes(b"%PDF original fixture")
+
+    def fake_mineru(queue, output_dir, **_kwargs):
+        item = queue[0]
+        document_root = Path(output_dir) / item["document_id"]
+        auto = document_root / "paper" / "auto"
+        images = auto / "images"
+        images.mkdir(parents=True)
+        markdown = auto / "paper.md"
+        markdown.write_text("# Results\n\nDensity functional theory results. " * 20, encoding="utf-8")
+        content_v2 = auto / "paper_content_list_v2.json"
+        content_v2.write_text(
+            json.dumps([{"type": "text", "text": "Density functional theory results."}]),
+            encoding="utf-8",
+        )
+        structured = {}
+        for key, name in (
+            ("content_list_path", "paper_content_list.json"),
+            ("middle_json_path", "paper_middle.json"),
+            ("model_json_path", "paper_model.json"),
+        ):
+            path = auto / name
+            path.write_text("{}", encoding="utf-8")
+            structured[key] = str(path)
+        (images / "figure.jpg").write_bytes(b"image")
+        for suffix in ("origin", "layout", "span"):
+            (auto / f"paper_{suffix}.pdf").write_bytes(b"derived-pdf")
+        (document_root / "mineru.stdout.log").write_text("ok", encoding="utf-8")
+        return [
+            {
+                **item,
+                **structured,
+                "status": "success",
+                "output_dir": str(document_root),
+                "markdown_path": str(markdown),
+                "content_list_v2_path": str(content_v2),
+                "structured_pages": 1,
+                "duration_seconds": 1.0,
+            }
+        ]
+
+    monkeypatch.setattr(stage04_module, "run_mineru_queue", fake_mineru)
+    stage_root = tmp_path / "stage04"
+    records, documents, attempts = stage04_module._deep_normalize_passed_papers(
+        records=[{"paper_id": "paper", "decision": "software_covered", "passed": True}],
+        documents=[
+            {
+                "paper_id": "paper",
+                "document_id": "main",
+                "document_role": "main_paper",
+                "source_path": str(source),
+                "page_count": 1,
+                "decision": "pass",
+                "selected_parser": "grobid",
+            }
+        ],
+        config={
+            "mineru": {
+                "enabled": True,
+                "min_main_characters": 10,
+                "max_repeated_line_ratio": 1.0,
+                "cleanup_successful_intermediates": True,
+            }
+        },
+        stage_root=stage_root,
+        run_id="test-run",
+    )
+
+    raw_document = stage_root / "deep_normalization" / "raw" / "mineru" / "main"
+    normalized = stage_root / "deep_normalization" / "normalized" / "main"
+    assert records[0]["passed"] is True
+    assert source.is_file()
+    assert not raw_document.exists()
+    assert (normalized / "normalized_document.md").is_file()
+    assert (normalized / "content_blocks.jsonl").is_file()
+    assert (normalized / "images" / "figure.jpg").is_file()
+    assert len(list((normalized / "parser_structured").glob("*.json"))) == 4
+    metadata = json.loads((normalized / "metadata.json").read_text(encoding="utf-8"))
+    parser_output = metadata["parser_output"]
+    for key in stage04_module._MINERU_STRUCTURED_PATH_KEYS:
+        assert Path(parser_output[key]).is_file()
+        assert normalized in Path(parser_output[key]).parents
+    assert Path(parser_output["markdown_path"]) == normalized / "normalized_document.md"
+    cleanup = documents[0]["deep_normalization"]["intermediate_cleanup"]
+    assert cleanup["status"] == "removed"
+    assert cleanup["bytes_removed"] > 0
+    assert attempts[0]["output_path"] == documents[0]["normalized_markdown_path"]
+
+    snapshot = tmp_path / "stage06-snapshot"
+    snapshot_document = snapshot / "documents" / "main"
+    snapshot_document.mkdir(parents=True)
+    copied = stage06_module._copy_parser_materials(
+        parser_metadata=stage06_module._parser_metadata(documents[0]),
+        document_root=snapshot_document,
+        snapshot_root=snapshot,
+    )
+    assert any(item["kind"] == "content_list_v2_path" for item in copied)
+    assert (snapshot_document / "images" / "figure.jpg").is_file()
 
 
 def test_role_model_cache_replays_without_second_call(tmp_path: Path, monkeypatch) -> None:

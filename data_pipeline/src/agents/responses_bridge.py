@@ -887,6 +887,7 @@ def _configure_chat_response_format(
     *,
     responses_payload: dict[str, Any],
     prefer_json_schema: bool = False,
+    response_format_policy: str = "auto",
 ) -> None:
     """Enable JSON-only output only after the Agent has no tools available.
 
@@ -896,10 +897,19 @@ def _configure_chat_response_format(
     tool-capable and restore JSON-object mode only for tool-free finalization.
     """
 
+    policy = str(response_format_policy or "auto").casefold()
+    if policy == "none":
+        chat_payload.pop("response_format", None)
+        return
     output_format = (responses_payload.get("text") or {}).get("format") or {}
     wants_json = output_format.get("type") in {"json_schema", "json_object"}
     if wants_json and not chat_payload.get("tools"):
-        if prefer_json_schema and output_format.get("type") == "json_schema":
+        use_json_schema = policy == "json_schema" or (
+            policy == "auto"
+            and prefer_json_schema
+            and output_format.get("type") == "json_schema"
+        )
+        if use_json_schema:
             chat_payload["response_format"] = {
                 "type": "json_schema",
                 "json_schema": {
@@ -912,6 +922,59 @@ def _configure_chat_response_format(
             chat_payload["response_format"] = {"type": "json_object"}
     else:
         chat_payload.pop("response_format", None)
+
+
+def _configure_chat_tool_choice(
+    chat_payload: dict[str, Any],
+    *,
+    tool_choice_policy: str,
+    require_until_artifact: bool,
+    force_required: bool = False,
+) -> None:
+    """Apply a gateway-specific tool policy without coupling it to model names."""
+
+    if not chat_payload.get("tools"):
+        chat_payload.pop("tool_choice", None)
+        return
+    policy = str(tool_choice_policy or "auto").casefold()
+    if force_required or policy == "required" or (
+        policy == "required_until_artifact" and require_until_artifact
+    ):
+        chat_payload["tool_choice"] = "required"
+    elif policy == "none":
+        chat_payload["tool_choice"] = "none"
+    else:
+        chat_payload["tool_choice"] = "auto"
+
+
+def _fallback_workspace_tool() -> dict[str, Any]:
+    """Tool declaration used when Codex omits its built-in shell declaration.
+
+    A few custom model IDs cause Codex to send a Responses request with an empty
+    ``tools`` list even though the CLI has a workspace shell executor.  The
+    historical bridge traces show that executor's stable function name is
+    ``exec_command``; declaring the minimal compatible shape lets the upstream
+    model select it and lets Codex execute the returned call.
+    """
+
+    return {
+        "type": "function",
+        "function": {
+            "name": "exec_command",
+            "description": "Execute a shell command in the isolated Agent workspace.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "cmd": {"type": "string"},
+                    "workdir": {"type": "string"},
+                    "yield_time_ms": {"type": "integer"},
+                    "max_output_tokens": {"type": "integer"},
+                },
+                "required": ["cmd"],
+                "additionalProperties": False,
+            },
+        },
+    }
 
 
 def _flatten_structured_finalization_messages(
@@ -1162,6 +1225,8 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
         max_tokens: int | None = None,
         structured_finalization_max_tokens: int | None = None,
         prefer_json_schema: bool = False,
+        tool_choice_policy: str = "auto",
+        response_format_policy: str = "auto",
         structured_finalization_via_submit_tool: bool = False,
         max_tool_calls: int = 24,
         finalization_reserve: int = 4,
@@ -1182,6 +1247,24 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
         self.max_tokens = max_tokens
         self.structured_finalization_max_tokens = structured_finalization_max_tokens
         self.prefer_json_schema = bool(prefer_json_schema)
+        self.tool_choice_policy = str(tool_choice_policy or "auto").casefold()
+        self.response_format_policy = str(response_format_policy or "auto").casefold()
+        if self.tool_choice_policy not in {
+            "auto",
+            "required_until_artifact",
+            "required",
+            "none",
+        }:
+            raise ValueError(f"unsupported tool choice policy: {self.tool_choice_policy}")
+        if self.response_format_policy not in {
+            "auto",
+            "json_schema",
+            "json_object",
+            "none",
+        }:
+            raise ValueError(
+                f"unsupported response format policy: {self.response_format_policy}"
+            )
         self.structured_finalization_via_submit_tool = bool(
             structured_finalization_via_submit_tool
         )
@@ -1317,6 +1400,16 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
         self.thread = None
 
     def _call_upstream(self, responses_payload: dict[str, Any]) -> tuple[dict[str, Any], set[str]]:
+        incoming_tools = [
+            item
+            for item in (responses_payload.get("tools") or [])
+            if isinstance(item, dict)
+        ]
+        incoming_tool_summary = {
+            "count": len(incoming_tools),
+            "types": [str(item.get("type") or "") for item in incoming_tools],
+            "names": [str(item.get("name") or "") for item in incoming_tools],
+        }
         for item in responses_payload.get("input") or []:
             if isinstance(item, dict) and item.get("type") in {
                 "function_call",
@@ -1333,6 +1426,15 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
         )
         self._restore_reasoning_content(payload.get("messages") or [])
         payload["model"] = self.model
+        incoming_tools_present = bool(payload.get("tools"))
+        if (
+            not incoming_tools_present
+            and self.tool_choice_policy in {"required", "required_until_artifact"}
+        ):
+            # See _fallback_workspace_tool: this is intentionally limited to an
+            # explicit required policy and never changes DeepSeek's default auto
+            # behavior.
+            payload["tools"] = [_fallback_workspace_tool()]
         structured_artifact_mode = self.structured_artifact_path is not None
         file_first_artifact_complete = bool(
             self.file_first_artifact_path is not None
@@ -1558,10 +1660,29 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
             payload["messages"] = _flatten_structured_finalization_messages(
                 payload.get("messages") or []
             )
+        artifact_contract_configured = bool(
+            self.structured_artifact_path is not None
+            or self.file_first_artifact_path is not None
+        )
+        artifact_complete = bool(artifact_changed or file_first_artifact_complete)
+        require_until_artifact = (
+            not artifact_complete if artifact_contract_configured else seen_calls == 0
+        )
+        _configure_chat_tool_choice(
+            payload,
+            tool_choice_policy=self.tool_choice_policy,
+            require_until_artifact=require_until_artifact,
+            force_required=(
+                force_final_json
+                or structured_workspace_finalization
+                or file_first_workspace_finalization
+            ),
+        )
         _configure_chat_response_format(
             payload,
             responses_payload=responses_payload,
             prefer_json_schema=self.prefer_json_schema,
+            response_format_policy=self.response_format_policy,
         )
         if self.chat_template_kwargs:
             payload["chat_template_kwargs"] = self.chat_template_kwargs
@@ -1613,7 +1734,20 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
                         for tool in payload.get("tools") or []
                     }
                     raw_result = response.json()
-                    self._trace_upstream_result(raw_result, phase="primary")
+                    self._trace_upstream_result(
+                        raw_result,
+                        phase="primary",
+                        request_summary={
+                            "incoming_tools": incoming_tool_summary,
+                            "tool_count": len(payload.get("tools") or []),
+                            "tool_names": [
+                                str((tool.get("function") or {}).get("name") or "")
+                                for tool in payload.get("tools") or []
+                            ],
+                            "tool_choice": payload.get("tool_choice"),
+                            "response_format": payload.get("response_format"),
+                        },
+                    )
                     result = _promote_dsml_tool_calls(
                         raw_result,
                         allowed_names=allowed_tool_names,
@@ -1747,10 +1881,22 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
                         else:
                             recovery_payload.pop("tools", None)
                         recovery_payload.pop("tool_choice", None)
+                        _configure_chat_tool_choice(
+                            recovery_payload,
+                            tool_choice_policy=self.tool_choice_policy,
+                            require_until_artifact=True,
+                            force_required=(
+                                structured_submission_recovery
+                                or structured_workspace_finalization
+                                or file_first_workspace_finalization
+                                or file_first_blank_response
+                            ),
+                        )
                         _configure_chat_response_format(
                             recovery_payload,
                             responses_payload=responses_payload,
                             prefer_json_schema=self.prefer_json_schema,
+                            response_format_policy=self.response_format_policy,
                         )
                         recovery_reason = (
                             "Your previous response did not call the required final JSON tool. "
@@ -1859,6 +2005,15 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
                         self._trace_upstream_result(
                             raw_recovery,
                             phase=f"protocol_recovery_{protocol_recovery_attempt + 1}",
+                            request_summary={
+                                "tool_count": len(recovery_payload.get("tools") or []),
+                                "tool_names": [
+                                    str((tool.get("function") or {}).get("name") or "")
+                                    for tool in recovery_payload.get("tools") or []
+                                ],
+                                "tool_choice": recovery_payload.get("tool_choice"),
+                                "response_format": recovery_payload.get("response_format"),
+                            },
                         )
                         result = _promote_dsml_tool_calls(
                             raw_recovery,
@@ -1988,7 +2143,13 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
         assert last_error is not None
         raise last_error
 
-    def _trace_upstream_result(self, result: dict[str, Any], *, phase: str) -> None:
+    def _trace_upstream_result(
+        self,
+        result: dict[str, Any],
+        *,
+        phase: str,
+        request_summary: dict[str, Any] | None = None,
+    ) -> None:
         if self.structured_artifact_path is None:
             return
         choice = (result.get("choices") or [{}])[0]
@@ -2009,6 +2170,8 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
             ],
             "usage": result.get("usage") or {},
         }
+        if request_summary:
+            record["request"] = request_summary
         self.usage_records.append(dict(record["usage"]))
         trace_path = self.structured_artifact_path.parent.parent / "_bridge_trace.jsonl"
         try:

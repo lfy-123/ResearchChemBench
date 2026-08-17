@@ -1897,6 +1897,12 @@ def _run_phase(
                 "input_fingerprint": fingerprint,
                 "max_tool_calls": phase_tool_calls,
                 "finalization_reserve": phase_finalization_reserve,
+                # Protocol policies are optional phase overrides.  When absent,
+                # the harness resolves them from models.builder (or its model
+                # fallback), keeping gateway quirks out of business logic.
+                "tool_choice_policy": config.get(f"{phase}_tool_choice_policy"),
+                "response_format_policy": config.get(f"{phase}_response_format_policy"),
+                "codex_wire_api": config.get(f"{phase}_codex_wire_api"),
                 "inline_contract": False,
                 "structured_artifact_path": {
                     "scientific_review": "outputs/scientific_review.json",
