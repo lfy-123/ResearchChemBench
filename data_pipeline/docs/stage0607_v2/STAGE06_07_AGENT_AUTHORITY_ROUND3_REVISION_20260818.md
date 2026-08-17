@@ -31,5 +31,6 @@ Stage06A Builder 的 Agent workspace 输入仍有 212 个文件、约 27.4MB，�
 
 | 版本 | Git commit | 测试状态 | 结果 |
 |---|---|---|---|
-| Round 3 | 待提交 | 待运行 | 待运行 |
+| Round 3 | `d758b20` | Pro-0813 待运行 | 待运行 |
 
+本地验证：Stage06/07 定向测试 121 passed；全量测试 506 passed。
