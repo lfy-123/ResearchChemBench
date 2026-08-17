@@ -34,3 +34,14 @@ Stage06A Builder 的 Agent workspace 输入仍有 212 个文件、约 27.4MB，�
 | Round 3 | `d758b20` | Pro-0813 待运行 | 待运行 |
 
 本地验证：Stage06/07 定向测试 121 passed；全量测试 506 passed。
+
+### Round 3 最终测试结果
+
+- 输出：`runs/stage06-07-agent-authority-round3-20260818-paper6904-pro0813`
+- Stage06：`provisional_constructed`；Builder 输入从 Round 2 的 212 文件/27.4MB 降为 97 文件/1.81MB，保留 normalized/layout text、derived tables/coordinates 和必要脚本。
+- Stage06 Agent 调用：Builder 41 次、2.37M tokens；Converter 25 次、0.77M tokens。输入显著缩小，但模型本次自主检索更充分，调用数不按比例下降，这是模型轨迹差异而非代码失败。
+- Stage07：`approved_with_repairs`，`selected_workflow_preserved=true`，`toolbox_status=available`，`resource_status=feasible`，无 retry；82 次调用、约 5.04M tokens。
+- 发布任务：论文复现目录 11 个文件，自主科研目录 8 个文件；不含 hidden reference、source materials、public manifest 或内部 handoff。
+- Stage07 本次修复了自主输入命名/泄漏、submission binding、hidden policy、acceptance profile 和 manifest；最终 Agent 决策成功原样发布。
+
+本轮达到设计目标。按照“最多三轮”约束停止代码迭代；Stage07 调用量的波动属于 Agent 科学审计路径差异，不再添加死规则压低调用量。
