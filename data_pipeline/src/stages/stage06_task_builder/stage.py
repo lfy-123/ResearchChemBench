@@ -79,9 +79,10 @@ from src.stages.stage06_task_builder.validation import (
     validate_task_pair,
     validate_task_pair_draft,
     validate_workflow_review,
+    task_pair_contract_report,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v7-objective-centered-two-agent-20260817-public-contracts"
+STAGE06_IMPLEMENTATION_VERSION = "v8-core-objective-contract-findings-20260817"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
@@ -235,7 +236,7 @@ def _run_stage06_single_agent(
                     "harness": harness_name,
                     "model": harness.model,
                     "preferred_scope": config.get(
-                        "preferred_scope", "full_paper_computational_workflow"
+                        "preferred_scope", "objective_centered_core_workflow"
                     ),
                     "minimum_complexity": config.get("minimum_complexity", "medium"),
                     "reject_trivial_single_call": config.get(
@@ -424,6 +425,15 @@ def _run_stage06_single_agent(
                 agent_audit=agent_audit,
                 handoff_warnings=handoff_warnings,
             )
+            contract_report = task_pair_contract_report(staging_root)
+            write_json(
+                staging_root / "stage06_contract_findings.json",
+                {
+                    **contract_report,
+                    "role": "non_authoritative_stage07_repair_input",
+                    "scientific_decision_authority": "stage07_agent",
+                },
+            )
             write_manifest(staging_root, staging_root / "task_pair_manifest.json")
             target = stage_root / "provisional_tasks" / safe_component(paper_id)
             atomic_commit_tree(staging_root, target)
@@ -463,6 +473,8 @@ def _run_stage06_single_agent(
                 ).casefold()
                 in {"replaced", "corrected", "ignored"},
                 "handoff_warnings": handoff_warnings,
+                "contract_status": contract_report["contract_status"],
+                "contract_finding_counts": contract_report["finding_counts"],
                 "agent_harness": harness.name,
                 "agent_model": harness.model,
                 "mode_generation_strategy": generation_strategy,
@@ -2629,7 +2641,10 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
                     claims.append(f"claim:{row['workflow_id']}")
             scope["included_claim_ids"] = [str(item) for item in claims if str(item)]
         if (
-            scope.get("kind") != "full_paper_computational_workflow"
+            scope.get("kind") not in {
+                "full_paper_core_workflow",
+                "full_paper_computational_workflow",
+            }
             and not scope.get("larger_scope_failure_reasons")
         ):
             excluded = {
@@ -2997,6 +3012,11 @@ def _canonical_workflow_scope(scope: Any) -> dict[str, Any]:
         "selection_rationale",
         "larger_scope_failure_reasons",
         "scope_evidence_ids",
+        "central_scientific_question",
+        "supported_primary_claims",
+        "parent_workflow_position",
+        "why_not_full_workflow",
+        "excluded_workflows_summary",
     )
     output = {key: json.loads(json.dumps(scope[key])) for key in allowed if key in scope}
     for key in (
@@ -4035,10 +4055,27 @@ def _normalize_task_pair_artifact_contracts(
         json.dumps(review.get("complexity_profile") or {}, ensure_ascii=False)
     )
     public_basis = review.get("public_task_basis") or {}
+    # The public task_info/task_spec pair must carry the same answer-free
+    # scientific question.  Prefer the explicit public contract, but recover
+    # the question already emitted by the Agent's task_spec when an older or
+    # partial response omitted public_task_basis.  Do not fall back to private
+    # review metadata here: task_info is part of the evaluator-facing bundle.
+    pair_scientific_question = next(
+        (
+            str(value).strip()
+            for value in (
+                public_basis.get("scientific_question"),
+                review.get("public_scientific_question"),
+                autonomous_spec.get("scientific_question"),
+                reproduction_spec.get("scientific_question"),
+            )
+            if str(value or "").strip()
+        ),
+        "",
+    )
     common_spec = {
         "task_pair_id": pair_id,
-        "scientific_question": public_basis.get("scientific_question")
-        or review.get("public_scientific_question"),
+        "scientific_question": pair_scientific_question,
         "target_definition": public_basis.get("target_definition")
         or public_basis.get("scientific_question")
         or review.get("public_scientific_question"),
@@ -4074,6 +4111,7 @@ def _normalize_task_pair_artifact_contracts(
         source_id = pair_id.removesuffix("_pair")
     common_info = {
         "task_pair_id": pair_id,
+        "scientific_question": pair_scientific_question,
         "source_id": source_id,
         "category": str(
             review.get("category")
@@ -4753,14 +4791,42 @@ def _copy_phase_inputs(source: Path, destination: Path) -> None:
 
 
 def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
-    """Give Stage06B an immutable copy of Stage06A's pair.
+    """Give Stage06B only the public reproduction task and conversion brief.
 
-    The converter must never edit the builder's staging tree. Keeping the complete pair under
-    ``inputs/task_pair`` also makes the conversion operation auditable and resumable.
+    Hidden answers, source evidence, workflow reviews and internal handoff contracts are not
+    needed for a narrow public-surface conversion.  Excluding them reduces context duplication
+    and prevents accidental answer/provenance leakage.
     """
 
     destination = root / "inputs" / "task_pair"
-    copytree_exact(source_pair, destination)
+    destination.mkdir(parents=True, exist_ok=True)
+    reproduction = source_pair / "paper_reproduction"
+    if not reproduction.is_dir():
+        raise FileNotFoundError("Stage06B reproduction task is unavailable")
+    copytree_exact(reproduction, destination / "paper_reproduction")
+    for name in ("objective_card.json", "key_points.json"):
+        source = source_pair / name
+        if source.is_file():
+            shutil.copy2(source, destination / name)
+    review = {}
+    review_path = source_pair / "workflow_review.json"
+    if review_path.is_file():
+        try:
+            review = read_json(review_path)
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            review = {}
+    write_json(
+        destination / "conversion_brief.json",
+        {
+            "schema_version": "stage06-conversion-brief-v1",
+            "objective_id": review.get("objective_id"),
+            "scientific_question": review.get("scientific_question"),
+            "public_scientific_question": review.get("public_scientific_question"),
+            "task_pair_id": review.get("task_pair_id"),
+            "conversion_rule": "preserve objective, inputs, deliverables, key-point ids and submission contract; remove paper route and answer disclosure",
+            "source": "stage06A_public_reproduction_only",
+        },
+    )
     make_read_only(destination)
 
 
@@ -4861,9 +4927,9 @@ def _converter_phase_findings(response: dict[str, Any], workspace: Path) -> list
         if path.is_file()
     }
     findings = [f"autonomous_converter_missing:{name}" for name in sorted(required - present)]
-    report = _normalize_converter_report(response, workspace)
-    if report is None:
-        findings.append("autonomous_converter_conversion_report_missing")
+    # conversion_report.json is optional internal telemetry.  Its absence must not trigger a
+    # retry when the autonomous task tree itself was delivered successfully.
+    _normalize_converter_report(response, workspace)
     return findings
 
 
@@ -5793,6 +5859,13 @@ def _materialize_autonomous(
         task_pair_id=task_pair_id,
         mode="autonomous_research",
     )
+    # Older Agent responses may put the answer-free scientific question only in
+    # task_spec.  Keep task_info and task_spec as one public contract without
+    # copying private review fields into the evaluator-facing bundle.
+    if not str(task_info.get("scientific_question") or "").strip():
+        task_info["scientific_question"] = task_spec.get("scientific_question") or ""
+    if not str(task_info.get("target_definition") or "").strip():
+        task_info["target_definition"] = task_spec.get("target_definition") or ""
     write_json(root / "task_info.json", task_info)
     write_json(root / "task_spec.json", task_spec)
     write_json(root / "submission_contract.json", submission_contract)
@@ -6221,6 +6294,25 @@ def _materialize_pair_metadata(
     mode_generation_order: list[str] | None = None,
     mode_generation_strategy: str = "legacy_multi_phase",
 ) -> None:
+    # Stage06B may return a task_spec with the public question while omitting
+    # the duplicated field in task_info.  Normalize this at the pair boundary
+    # for both the legacy single-agent and converter paths.  The value comes
+    # only from evaluator-facing task specs; private review text is never
+    # copied into a public task directory.
+    for mode_root in (autonomous_root, reproduction_root):
+        info_path = mode_root / "task_info.json"
+        spec_path = mode_root / "task_spec.json"
+        if not (info_path.is_file() and spec_path.is_file()):
+            continue
+        info = _json_object(info_path)
+        spec = _json_object(spec_path)
+        changed = False
+        for field in ("scientific_question", "target_definition"):
+            if not str(info.get(field) or "").strip() and str(spec.get(field) or "").strip():
+                info[field] = spec[field]
+                changed = True
+        if changed:
+            write_json(info_path, info)
     write_json(
         root / "paper_info.json",
         {

@@ -4965,7 +4965,7 @@ def test_stage07_public_guard_does_not_rewrite_scientific_task_content(
     )
 
 
-def test_stage07_retries_when_reported_repairs_were_not_delivered(tmp_path: Path) -> None:
+def test_stage07_does_not_reject_agent_for_unchanged_reported_repairs(tmp_path: Path) -> None:
     baseline = tmp_path / "inputs" / "stage06_candidate" / "autonomous_research"
     delivered = tmp_path / "outputs" / "task_pair" / "autonomous_research"
     baseline.mkdir(parents=True)
@@ -4984,15 +4984,8 @@ def test_stage07_retries_when_reported_repairs_were_not_delivered(tmp_path: Path
     }
     result = SimpleNamespace(audit_record=lambda: {})
 
-    with pytest.raises(AgentExecutionError, match="did not deliver its task tree"):
-        _require_stage07_artifact_delivery(response, tmp_path, result)
-
-    assert result.failure_class == "missing_agent_artifact"
-    assert result.retryable is True
-
-    (delivered / "task.md").write_text("actually repaired", encoding="utf-8")
     _require_stage07_artifact_delivery(
-        response, tmp_path, SimpleNamespace(audit_record=lambda: {})
+        response, tmp_path, result
     )
 
 

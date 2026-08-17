@@ -42,13 +42,17 @@ from src.stages.stage07_task_judge.prompts import (
     STAGE07_AUDIT_VERSION,
     audit_instructions,
 )
+from src.stages.stage06_task_builder.validation import (
+    task_pair_contract_report,
+    validate_mode_task,
+)
 from src.stages.stage07_task_judge.validation import (
     deterministic_stage07_audit,
     reconcile_toolbox_requirements,
     validate_agent_audit,
 )
 
-STAGE07_IMPLEMENTATION_VERSION = "v6-objective-centered-audit-repair-20260817"
+STAGE07_IMPLEMENTATION_VERSION = "v8-agent-authority-minimal-recovery-20260818"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -143,6 +147,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
             final_task_pair_id = str(response.get("final_task_pair_id") or task_pair_id)
             final_path: str | None = None
             published_paths: dict[str, str] = {}
+            evaluator_paths: dict[str, str] = {}
             if decision in STAGE07_APPROVED_DECISIONS:
                 task_root = _stage07_approved_artifact(response, artifact_root)
                 target = stage_root / "audited_tasks" / safe_component(paper_id)
@@ -154,6 +159,18 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                     target,
                     stage_root / "published_tasks",
                     task_pair_id=final_task_pair_id or task_pair_id,
+                )
+                evaluator_paths = _publish_private_evaluator_registry(
+                    target,
+                    stage_root / "evaluator_registry",
+                    task_pair_id=final_task_pair_id or task_pair_id,
+                )
+                _write_verified_snapshot(
+                    stage_root=stage_root,
+                    paper_id=paper_id,
+                    task_root=target,
+                    response=response,
+                    handoff_hash=directory_manifest(handoff_root)["content_hash"],
                 )
                 final_path = str(target)
             else:
@@ -183,6 +200,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 "resource_status": response.get("resource_status"),
                 "task_pair_path": final_path,
                 "published_task_paths": published_paths,
+                "evaluator_registry_paths": evaluator_paths,
                 "audit_path": str(target),
                 "agent_harness": harness.name,
                 "agent_model": harness.model,
@@ -294,12 +312,23 @@ def _run_audit_repair_agent(
             response = cached.get("response") or {}
             jsonschema.validate(response, STAGE07_AUDIT_SCHEMA)
             if response.get("audit_decision") in STAGE07_APPROVED_DECISIONS:
-                _stage07_approved_artifact(response, artifact_root)
-            return (
-                response,
-                {**(cached.get("agent_run") or {}), "cache_hit": True},
-                artifact_root,
-            )
+                # The Agent's decision is authoritative.  A cached mechanical report may be
+                # useful for diagnostics, but it must never invalidate a scientific approval or
+                # force an expensive recovery loop.
+                cached_root = _stage07_approved_artifact(response, artifact_root)
+                cached_report = task_pair_contract_report(cached_root)
+                response = _attach_stage07_contract_status(response, cached_report)
+                return (
+                    response,
+                    {**(cached.get("agent_run") or {}), "cache_hit": True},
+                    artifact_root,
+                )
+            else:
+                return (
+                    response,
+                    {**(cached.get("agent_run") or {}), "cache_hit": True},
+                    artifact_root,
+                )
 
     attempts = max(1, int(config.get("max_attempts", 3)))
     last_error: AgentExecutionError | None = None
@@ -316,7 +345,7 @@ def _run_audit_repair_agent(
         inputs = root / "inputs"
         inputs.mkdir(parents=True, exist_ok=True)
         copytree_exact(handoff_root, inputs / "stage06_candidate")
-        copytree_exact(source_root, inputs / "source_materials")
+        _copy_stage07_source_packet(source_root, inputs / "source_materials")
         write_json(inputs / "stage06_record.json", stage06_record)
         write_json(inputs / "toolbox_snapshot.json", toolbox)
         write_json(inputs / "resource_policy.json", resource_policy)
@@ -335,6 +364,12 @@ def _run_audit_repair_agent(
         outputs = root / "outputs"
         outputs.mkdir(parents=True, exist_ok=True)
         copytree_exact(handoff_root, outputs / "task_pair")
+        _restore_verified_snapshot_if_compatible(
+            stage_root=stage_root,
+            paper_id=paper_id,
+            handoff_hash=handoff_manifest["content_hash"],
+            destination=outputs / "task_pair",
+        )
         make_writable(outputs)
         if recovery_context:
             (root / "RECOVERY_CONTEXT.md").write_text(
@@ -415,11 +450,10 @@ def _run_audit_repair_agent(
                 "tool_choice_policy": config.get("audit_repair_tool_choice_policy", config.get("tool_choice_policy")),
                 "response_format_policy": config.get("audit_repair_response_format_policy", config.get("response_format_policy")),
                 "codex_wire_api": config.get("audit_repair_codex_wire_api"),
-                # Task repairs are file-first and objectively verified below,
-                # but the small audit receipt is an inline structured result.
-                # This prevents the bridge from spending the final workspace
-                # call merely rewriting a receipt that the orchestrator owns.
+                # The Agent may finish by writing this small internal receipt.  The harness can
+                # recover it if the CLI final message is truncated or non-JSON.
                 "inline_contract": True,
+                "structured_artifact_path": "outputs/stage07_audit.json",
                 "recovery_attempt": bool(recovery_context),
             },
         )
@@ -454,6 +488,18 @@ def _run_audit_repair_agent(
                 task_root=outputs / "task_pair",
                 toolbox=toolbox,
             )
+            contract_report = task_pair_contract_report(outputs / "task_pair")
+            write_json(
+                outputs / "stage07_contract_findings.json",
+                {
+                    **contract_report,
+                    "role": "non_authoritative_prepublication_gate",
+                    "scientific_decision_authority": "stage07_agent",
+                },
+            )
+            response = _attach_stage07_contract_status(response, contract_report)
+            # Contract findings are diagnostic only.  They do not override the Agent's
+            # scientific decision and never trigger an automatic repair attempt.
             write_json(outputs / "stage07_audit.json", response)
             _require_stage07_artifact_delivery(response, root, result)
         except AgentExecutionError as exc:
@@ -560,6 +606,104 @@ def _finalize_stage07_response(
     return response
 
 
+def _attach_stage07_contract_status(
+    response: dict[str, Any], report: dict[str, Any]
+) -> dict[str, Any]:
+    """Attach orthogonal mechanical status without changing Agent science fields."""
+
+    result = dict(response)
+    result["scientific_decision"] = str(
+        response.get("scientific_decision") or response.get("audit_decision") or ""
+    )
+    result["contract_status"] = str(report.get("contract_status") or "findings")
+    result["disclosure_status"] = str(
+        report.get("disclosure_status") or "needs_review"
+    )
+    result["evaluator_dry_run_status"] = str(
+        report.get("evaluator_dry_run_status") or "not_run"
+    )
+    return result
+
+
+def _write_verified_snapshot(
+    *,
+    stage_root: Path,
+    paper_id: str,
+    task_root: Path,
+    response: dict[str, Any],
+    handoff_hash: str,
+) -> None:
+    """Persist the latest mechanically verified artifact for monotonic recovery."""
+
+    snapshot_root = prepare_clean_directory(
+        stage_root / "verified_snapshots" / safe_component(paper_id)
+    )
+    copytree_exact(task_root, snapshot_root / "task_pair")
+    write_json(
+        snapshot_root / "verified_invariants.json",
+        {
+            "schema_version": "researchchembench.verified-snapshot.v1",
+            "paper_id": paper_id,
+            "handoff_manifest_hash": handoff_hash,
+            "task_pair_manifest_hash": directory_manifest(task_root)["content_hash"],
+            "scientific_question": read_json(
+                task_root / "paper_reproduction" / "task_spec.json"
+            ).get("scientific_question"),
+            "task_pair_id": response.get("final_task_pair_id")
+            or response.get("original_task_pair_id"),
+            "verified_at": now_utc(),
+        },
+    )
+
+
+def _restore_verified_snapshot_if_compatible(
+    *, stage_root: Path, paper_id: str, handoff_hash: str, destination: Path
+) -> bool:
+    snapshot_root = stage_root / "verified_snapshots" / safe_component(paper_id)
+    metadata_path = snapshot_root / "verified_invariants.json"
+    source = snapshot_root / "task_pair"
+    if not metadata_path.is_file() or not source.is_dir():
+        return False
+    try:
+        metadata = read_json(metadata_path)
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return False
+    if metadata.get("handoff_manifest_hash") != handoff_hash:
+        return False
+    copytree_exact(source, destination)
+    return True
+
+
+def _publish_private_evaluator_registry(
+    pair_root: Path, registry_root: Path, *, task_pair_id: str
+) -> dict[str, str]:
+    """Install public metadata plus private truth for evaluator loading tests."""
+
+    exported: dict[str, str] = {}
+    hidden_root = pair_root / "hidden_reference"
+    for mode, hidden_name in (
+        ("paper_reproduction", "ground_truth_reproduction.json"),
+        ("autonomous_research", "ground_truth_autonomous.json"),
+    ):
+        source_mode = pair_root / mode
+        hidden_source = hidden_root / hidden_name
+        if not source_mode.is_dir() or not hidden_source.is_file():
+            continue
+        destination = prepare_clean_directory(
+            registry_root / f"{safe_component(task_pair_id)}_{mode}"
+        )
+        copy2_source = source_mode / "task_info.json"
+        if not copy2_source.is_file():
+            raise FileNotFoundError(f"evaluator task_info missing: {copy2_source}")
+        shutil.copy2(copy2_source, destination / "task_info.json")
+        target_study = destination / "target_study"
+        target_study.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(hidden_source, target_study / "ground_truth.json")
+        write_manifest(destination, destination / "published_manifest.json")
+        exported[mode] = str(destination)
+    return exported
+
+
 def _approved_receipt_contract_findings(response: dict[str, Any]) -> list[str]:
     """Check only fields needed to locate an approved file artifact."""
 
@@ -622,6 +766,11 @@ def _apply_autonomous_public_surface_guard(
 def _require_stage07_artifact_delivery(
     response: dict[str, Any], workspace: Path, result: Any
 ) -> None:
+    """Check only that an approved Agent points to a safe, non-empty artifact tree.
+
+    This is transport/file-safety validation.  It intentionally does not compare task contents,
+    require a particular repair list, or judge whether the scientific task is valid.
+    """
     decision = str(response.get("audit_decision") or "")
     if decision not in STAGE07_APPROVED_DECISIONS:
         return
@@ -633,15 +782,11 @@ def _require_stage07_artifact_delivery(
             raise ValueError("approved artifact_path must be outputs/task_pair")
         if not artifact.is_dir() or not any(path.is_file() for path in artifact.rglob("*")):
             raise FileNotFoundError("approved task-pair directory is empty or missing")
+        # A nested immutable handoff copy is a transport mistake and would leak internal
+        # provenance into the deliverable.  Removing/rejecting this file-layout error does not
+        # make a scientific judgment.
         if (artifact / "stage06_candidate").exists():
-            raise ValueError(
-                "approved task-pair contains a redundant stage06_candidate source copy"
-            )
-        _require_reported_stage07_changes(
-            response=response,
-            artifact=artifact,
-            baseline=workspace / "inputs" / "stage06_candidate",
-        )
+            raise ValueError("approved task-pair contains a redundant stage06_candidate source copy")
         return
     except (FileNotFoundError, OSError, ValueError) as exc:
         message = f"Stage07 approved a task but did not deliver its task tree: {exc}"
@@ -656,6 +801,65 @@ def _require_stage07_artifact_delivery(
             retryable=True,
             result=result,
         ) from exc
+
+
+def _copy_stage07_source_packet(source_root: Path, destination: Path) -> None:
+    """Copy a compact, text-first source packet for Stage07.
+
+    The full Stage04 snapshot remains available to the pipeline for provenance, but repeatedly
+    handing PDFs, raster images and parser internals to an audit Agent wastes context and makes
+    recovery attempts needlessly expensive.  Keep canonical text/layout/table/coordinate files
+    and metadata; retain PDFs only when explicitly requested by configuration at the caller level
+    in a future extension.
+    """
+
+    destination.mkdir(parents=True, exist_ok=True)
+    allowed_top = {
+        "source_manifest.json",
+        "toolbox_snapshot.json",
+        "resource_policy.json",
+    }
+    for name in allowed_top:
+        source = source_root / name
+        if source.is_file():
+            shutil.copy2(source, destination / name)
+
+    documents = source_root / "documents"
+    if not documents.is_dir():
+        return
+    for document_root in sorted(path for path in documents.iterdir() if path.is_dir()):
+        target = destination / "documents" / document_root.name
+        target.mkdir(parents=True, exist_ok=True)
+        for name in (
+            "normalized_document.md",
+            "content_blocks.jsonl",
+            "layout_text.txt",
+            "pypdf_layout.txt",
+            "tables.json",
+            "source_metadata.json",
+        ):
+            source = document_root / name
+            if source.is_file():
+                shutil.copy2(source, target / name)
+        for subdir in ("derived_coordinates", "derived_tables"):
+            source_dir = document_root / subdir
+            if source_dir.is_dir():
+                shutil.copytree(source_dir, target / subdir, dirs_exist_ok=True)
+
+    write_json(
+        destination / "source_packet_manifest.json",
+        {
+            "schema_version": "stage07-source-packet-v1",
+            "source_root_manifest_hash": directory_manifest(source_root)["content_hash"],
+            "included": [
+                "canonical normalized/layout text",
+                "derived tables and coordinates",
+                "document metadata",
+                "toolbox snapshot and resource policy",
+            ],
+            "excluded": ["pdf", "raster images", "parser internals", "duplicate evidence exports"],
+        },
+    )
 
 
 def _require_reported_stage07_changes(
@@ -774,28 +978,43 @@ def _publish_mode_bundles(
 
     published_root.mkdir(parents=True, exist_ok=True)
     exported: dict[str, str] = {}
-    required_files = (
+    common_files = (
         "task.md",
         "task_info.json",
         "task_spec.json",
         "submission_contract.json",
         "process_rubric.json",
     )
+    mode_files = {
+        "paper_reproduction": (
+            "paper_route.md",
+            "workflow_spec.json",
+            "route_evidence_map.json",
+        ),
+        "autonomous_research": (),
+    }
     for mode in ("paper_reproduction", "autonomous_research"):
         source = pair_root / mode
         if not source.is_dir():
             continue
         destination = published_root / f"{safe_component(task_pair_id)}_{mode}"
-        if destination.exists():
-            shutil.rmtree(destination)
-        destination.mkdir(parents=True, exist_ok=True)
-        for name in required_files:
+        staging = prepare_clean_directory(
+            published_root / f".{safe_component(task_pair_id)}_{mode}-{uuid.uuid4().hex[:8]}"
+        )
+        for name in (*common_files, *mode_files[mode]):
             source_file = source / name
             if source_file.is_file():
-                shutil.copy2(source_file, destination / name)
+                shutil.copy2(source_file, staging / name)
         source_data = source / "data"
         if source_data.is_dir():
-            shutil.copytree(source_data, destination / "data")
+            shutil.copytree(source_data, staging / "data")
+        findings = validate_mode_task(staging, expected_mode=mode)
+        if findings:
+            raise ValueError(
+                f"published {mode} bundle failed mode contract: {', '.join(findings[:40])}"
+            )
+        write_manifest(staging, staging / "published_manifest.json")
+        atomic_commit_tree(staging, destination)
         exported[mode] = str(destination)
     return exported
 

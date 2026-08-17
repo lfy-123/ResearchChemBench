@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v6-stage07-objective-centered-auditor-20260817"
+STAGE07_AUDIT_VERSION = "v8-stage07-agent-authority-minimal-recovery-20260818"
 
 
 def audit_instructions(
@@ -24,14 +24,18 @@ Stage06 handoff is `inputs/stage06_candidate/`; primary paper/SI evidence and na
 under `inputs/source_materials/`. `outputs/task_pair/` IS ALREADY POPULATED and writable. Edit it
 in place; do not copy the handoff into it, replace the task-pair root, or modify the toolbox.
 
-The filesystem is the source of truth. A claimed repair must be written and verified. Prefer a few
-grouped searches and a grouped `/usr/bin/python3` batch script over reading or editing files one by
-one. Never report `approved_with_repairs` unless at least one claimed task-pair-relative path is
-actually different from `inputs/stage06_candidate/`.
+The filesystem is the source of truth. A repair should be written to the task tree, but the
+orchestrator will not decide scientific validity by comparing files or running a second semantic
+contract. Prefer a few grouped searches and a grouped `/usr/bin/python3` batch script over reading
+or editing files one by one.
+Never report `approved_with_repairs` merely to hide an unresolved execution failure; use it when
+your scientific audit says the repaired task is acceptable.
 
 SCIENTIFIC WORKFLOW
 1. Read the Stage06 receipt, Objective Card, Key Points, conversion report, workflow review, task pair, and its exact open questions. Treat
    Stage02-05 material only as navigation hints; decide from the paper, SI, and parsed evidence.
+   Read `inputs/stage06_candidate/stage06_contract_findings.json` when present as a diagnostic hint;
+   it is not a code verdict. Disclosure, scientific and resource questions are for your judgment.
 2. First audit and attempt to repair the workflow selected by Stage06 (specifically, its
    objective-centered process). Check
    whether its scientific question, necessary inputs, author-performed calculations, parameters,
@@ -44,10 +48,14 @@ SCIENTIFIC WORKFLOW
    workflows. If another complete, non-trivial author-performed workflow exists, rebuild the pair
    and return `approved_after_workflow_redesign`; otherwise return
    `rejected_scientific_unrepairable`.
-5. Prefer the whole-paper workflow only when it forms one coherent objective. Otherwise retain the
-   largest complete objective-centered workflow. Preserve difficult calculations, dependencies,
-   branches, validation, and scientific reasoning; avoid a trivial one-call benchmark without
-   imposing a fixed step count.
+5. Prefer the whole-paper workflow only when it forms one coherent, evidence-complete and feasible
+   objective. Otherwise retain the most scientifically important complete core subworkflow, not the
+   largest or easiest fragment. A core subworkflow must directly support the paper's central question
+   or primary claim and preserve meaningful dependencies, Key Points, validation and computational
+   challenge. Audit its `central_scientific_question`, `supported_primary_claims`,
+   `parent_workflow_position`, `why_not_full_workflow`, and `selection_rationale`. If Stage06 chose a
+   reproducible but peripheral fragment, first redesign the scope within the same parent workflow and
+   record `approved_after_workflow_redesign`; do not apply molecule- or paper-specific rules.
 
 MODE CONTRACT
 - Paper reproduction discloses the authors' executable method and route.
@@ -148,12 +156,17 @@ Return one JSON object matching this contract; the harness persists it as the au
   "toolbox_status": "available | needs_software | unknown",
   "required_additions": [],
   "resource_status": "feasible | high_cost | infeasible | uncertain",
+  "scientific_decision": "same semantic decision as audit_decision",
+  "contract_status": "passed | findings | not_applicable",
+  "disclosure_status": "passed | needs_review | not_applicable",
+  "evaluator_dry_run_status": "passed | failed | not_run",
   "summary": "..."
 }}
 
-All `changed_files` paths are relative to `outputs/task_pair/`, for example
-`autonomous_research/task.md`, never `outputs/task_pair/autonomous_research/task.md`. Verify each
-claimed path before returning. A scientific rejection uses `artifact_path=outputs/stage07_audit.json`
+Write the same audit object to `outputs/stage07_audit.json` before your final response. The harness
+uses that file if the CLI final message is truncated or not valid JSON. All `changed_files` paths
+are relative to `outputs/task_pair/`, for example `autonomous_research/task.md`, never `outputs/task_pair/autonomous_research/task.md`. A scientific rejection uses
+`artifact_path=outputs/stage07_audit.json`
 and an empty `final_task_pair_id`.
 
 You have at most {max_tool_calls} workspace calls. Group related work and finish evidence reading

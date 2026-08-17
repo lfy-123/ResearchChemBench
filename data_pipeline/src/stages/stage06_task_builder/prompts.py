@@ -4,8 +4,8 @@ STAGE06_REVIEW_VERSION = "v3-stage06-review-20260814-r25"
 STAGE06_AUTONOMOUS_VERSION = "v3-stage06-autonomous-20260814-r7"
 STAGE06_REPRODUCTION_VERSION = "v3-stage06-reproduction-20260814-r8"
 STAGE06_HIDDEN_VERSION = "v3-stage06-hidden-reference-20260814-r7"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v5-stage06-provisional-builder-20260817-r5-agent-authority"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v3-stage06-objective-centered-autonomous-converter-20260817-report-normalization"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v6-stage06-core-objective-builder-20260817"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v4-stage06-core-objective-autonomous-converter-20260817"
 
 
 def task_pair_builder_instructions(
@@ -94,15 +94,27 @@ SOURCE AUTHORITY AND READING ORDER
 
 OBJECTIVE-FIRST SELECTION
 1. Inventory author-performed computational workflows and the claims each supports.
-2. Select the clearest scoreable scientific objective. Prefer the whole paper only when its
-   calculations form one coherent objective; otherwise select the largest complete objective-centered
-   workflow or subworkflow.
+2. Select the clearest scoreable scientific objective. Prefer `full_paper_core_workflow` only when
+   the paper's core calculations form one coherent, evidence-complete and resource-feasible objective.
+   When the whole workflow is too complex, too costly, or partly unsupported, select
+   `core_scientific_subworkflow`: the MOST IMPORTANT closed sub-process supporting the paper's main
+   scientific question or primary claim, as in an ARCHE-style case extracted from a larger paper.
+   Never choose an arbitrary peripheral sub-process merely because it is cheap or easy to package.
+   Among several complete sub-processes, prefer the one with greater scientific centrality, stronger
+   connection to the primary claim, a more complete dependency chain, more meaningful Key Points,
+   and appropriate computational challenge.
 3. The selected scope must close the chain from problem inputs to meaningful intermediate and final
    scientific conclusions. It may include competing hypotheses, negative results, descriptor tests,
    selectivity comparisons, or validation branches.
 4. Do not require a fixed step count or coverage of every paper calculation. Reject only a trivial
    one-call calculation with no meaningful scientific reasoning, or a source-backed fatal gap that
    cannot be repaired without guessing.
+
+Use only these new scope kinds: `full_paper_core_workflow` or
+`core_scientific_subworkflow`. For a core subworkflow, record
+`central_scientific_question`, `supported_primary_claims`, `parent_workflow_position`,
+`why_not_full_workflow`, and `selection_rationale` in `workflow_scope`. These fields are an Agent
+scientific justification, not a code-computed importance score.
 
 A successful `complexity_profile.level` must be `medium` or `high`. It must record core operation,
 tool-call, dependency, branch, system/state, and software-capability counts; iterative decisions,
@@ -212,7 +224,7 @@ The success receipt is:
     "hidden_reference_validated": true,
     "pair_draft_validated": true
   }},
-  "workflow_scope_kind": "full_paper_computational_workflow",
+  "workflow_scope_kind": "full_paper_core_workflow",
   "complexity_level": "high",
   "failure_code": "",
   "failure_reasons": [],
@@ -230,9 +242,11 @@ missing structure, route parameter, or Ground Truth by guessing.
 def autonomous_converter_instructions(*, paper_id: str, task_pair_id: str, max_tool_calls: int = 60) -> str:
     return f"""You are Stage06B, the narrow Autonomous Task Converter for ResearchChemBench.
 
-Work only in this isolated workspace. The read-only input tree `inputs/task_pair/` contains the
-Stage06A-generated pair, its objective card, conversion manifest, and hidden reference. You may
-write only `outputs/autonomous_research/` and `outputs/conversion_report.json`. Paper id is
+Work only in this isolated workspace. The read-only input tree `inputs/task_pair/` contains only
+the Stage06A paper-reproduction public task, a compact objective card/key-point copy and a
+conversion brief. It intentionally does not contain hidden reference, ground truth, source
+evidence or internal Stage06 contracts. You may write only `outputs/autonomous_research/` and the
+optional internal `outputs/conversion_report.json`. Paper id is
 `{paper_id}` and task pair id is `{task_pair_id}`. You have at most {max_tool_calls} tool calls.
 
 Your responsibility is public-surface conversion, not a new scientific review. Copy the
@@ -270,7 +284,8 @@ Return one JSON object only:
 }}
 
 Do not create conversion receipts, derived-from contracts, manifests, or scattered sentinel files.
-A complete artifact is more important than a verbose final message; keep the response small and
+The conversion report is optional and its absence is not a conversion failure. A complete artifact
+is more important than a verbose final message; keep the response small and
 make every claimed path relative to `outputs/`. The orchestrator can recover a report from the
 response when a compliant report file was not written.
 """
