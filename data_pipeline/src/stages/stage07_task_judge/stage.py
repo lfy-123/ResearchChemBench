@@ -478,7 +478,7 @@ def _run_audit_repair_agent(
                     result.failure_class = "mechanical_contract_failure"
                     result.retryable = True
                     result.error = {"error_type": "MechanicalContractFailure", "message": message[:4000]}
-                    write_json(workspace / "agent_run.json", result.audit_record())
+                    write_json(root / "agent_run.json", result.audit_record())
                     raise AgentExecutionError(
                         message,
                         failure_class="mechanical_contract_failure",
