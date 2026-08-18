@@ -98,17 +98,26 @@ def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
                 findings.append(f"mode_pair_identity_mismatch:{key}")
         if a["submission"] != r["submission"]:
             findings.append("mode_pair_submission_contract_mismatch")
-        def data_hash(root: Path) -> str:
-            files = []
-            for path in sorted((root / "data").rglob("*") if (root / "data").is_dir() else []):
-                if path.is_file():
-                    files.append((path.relative_to(root).as_posix(), path.read_bytes()))
+        def data_fingerprints(root: Path) -> list[str]:
+            """Compare underlying inputs while allowing public-safe names/comments."""
             import hashlib
-            digest = hashlib.sha256()
-            for name, content in files:
-                digest.update(name.encode()); digest.update(b"\\0"); digest.update(content)
-            return digest.hexdigest()
-        if data_hash(pair_root / "paper_reproduction") != data_hash(pair_root / "autonomous_research"):
+            fingerprints: list[str] = []
+            for path in sorted((root / "data").rglob("*") if (root / "data").is_dir() else []):
+                if not path.is_file():
+                    continue
+                content = path.read_bytes()
+                if path.suffix.casefold() == ".xyz":
+                    try:
+                        lines = content.decode("utf-8").splitlines()
+                        if len(lines) >= 2:
+                            # The second XYZ line is a presentation comment that Stage06B may
+                            # neutralize; atom rows remain the immutable scientific payload.
+                            content = (lines[0].strip() + "\n" + "\n".join(" ".join(line.split()) for line in lines[2:])).encode()
+                    except UnicodeDecodeError:
+                        pass
+                fingerprints.append(hashlib.sha256(content).hexdigest())
+            return sorted(fingerprints)
+        if data_fingerprints(pair_root / "paper_reproduction") != data_fingerprints(pair_root / "autonomous_research"):
             findings.append("mode_pair_input_assets_mismatch")
 
     hidden = pair_root / "hidden_reference"

@@ -370,6 +370,30 @@ def _run_stage06_single_agent(
                 report_path = converter_workspace / "outputs" / "conversion_report.json"
                 if report_path.is_file():
                     shutil.copy2(report_path, staging_root / "conversion_report.json")
+            # Freeze the shared mechanical public contracts before Stage07 sees the pair.  This
+            # does not choose a scientific workflow or alter Ground Truth; it only canonicalizes
+            # the route-fidelity criterion and the identical submission path contract.
+            reproduction_root = staging_root / "paper_reproduction"
+            autonomous_root = staging_root / "autonomous_research"
+            if reproduction_root.is_dir() and autonomous_root.is_dir():
+                submission_candidates = [
+                    _json_object(reproduction_root / "submission_contract.json"),
+                    _json_object(autonomous_root / "submission_contract.json"),
+                ]
+                shared_submission = next(
+                    (value for value in submission_candidates if value.get("required_files")),
+                    {},
+                )
+                if shared_submission:
+                    shared_submission["task_pair_id"] = task_pair_id
+                    write_json(reproduction_root / "submission_contract.json", shared_submission)
+                    write_json(autonomous_root / "submission_contract.json", shared_submission)
+                rubric_path = reproduction_root / "process_rubric.json"
+                if rubric_path.is_file():
+                    rubric = _ensure_reproduction_route_rubric(
+                        read_json(rubric_path), submission=shared_submission
+                    )
+                    write_json(rubric_path, rubric)
             requirements_path = outputs / "toolbox_requirements.json"
             requirements = (
                 read_json(requirements_path)
@@ -3889,15 +3913,7 @@ def _ensure_reproduction_route_rubric(
 ) -> list[dict[str, Any]]:
     if not rubric:
         return rubric
-    if any(
-        any(
-            token in json.dumps(row, ensure_ascii=False).casefold()
-            for token in ("route fidelity", "route_fidelity", "paper route")
-        )
-        for row in rubric
-        if isinstance(row, dict)
-    ):
-        return rubric
+    output = json.loads(json.dumps(rubric, ensure_ascii=False))
     evidence_paths = [
         str(path)
         for path in submission.get("required_files") or []
@@ -3907,16 +3923,28 @@ def _ensure_reproduction_route_rubric(
         )
     ]
     if not evidence_paths:
-        return rubric
-    output = json.loads(json.dumps(rubric, ensure_ascii=False))
-    first = output[0]
-    first["id"] = "paper_route_fidelity"
-    first["criterion_type"] = "route_fidelity"
-    first["description"] = (
+        evidence_paths = ["report/process_trace.jsonl"]
+    target = next(
+        (
+            row
+            for row in output
+            if isinstance(row, dict)
+            and (
+                str(row.get("id") or "").casefold() in {"paper_route_fidelity", "route_fidelity"}
+                or any(token in json.dumps(row, ensure_ascii=False).casefold() for token in ("route fidelity", "paper route"))
+            )
+        ),
+        None,
+    )
+    if target is None:
+        target = output[0]
+    target["id"] = "paper_route_fidelity"
+    target["criterion_type"] = "route_fidelity"
+    target["description"] = (
         "Follow the disclosed paper route, dependency order, method hierarchy, and validation "
         "sequence while reporting any unavoidable deviation."
     )
-    first["evidence_artifacts"] = evidence_paths
+    target["evidence_artifacts"] = evidence_paths
     return output
 
 

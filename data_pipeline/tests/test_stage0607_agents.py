@@ -61,6 +61,7 @@ from src.stages.stage06_task_builder.stage import (
     _normalize_submission_contract,
     _normalize_task_pair_artifact_contracts,
     _normalize_converter_report,
+    _ensure_reproduction_route_rubric,
     _normalize_workflow_review_aliases,
     _reconcile_task_phase_receipt,
     _recover_public_assets,
@@ -5930,3 +5931,17 @@ def test_stage07_mechanical_gate_loads_evaluator_contracts(tmp_path: Path) -> No
     report = stage07_mechanical_pre_publish_check(pair)
     assert report["mechanical_pre_publish_status"] == "passed"
     assert report["evaluator_dry_run_status"] == "passed"
+
+
+def test_route_rubric_normalizer_canonicalizes_equivalent_agent_id() -> None:
+    rubric = [
+        {"id": "route_fidelity", "max_score": 20, "description": "Follow the paper route."},
+        {"id": "analysis", "max_score": 80, "description": "Analyze outputs."},
+    ]
+    normalized = _ensure_reproduction_route_rubric(
+        rubric, submission={"required_files": ["report/process_trace.jsonl"]}
+    )
+    route = normalized[0]
+    assert route["id"] == "paper_route_fidelity"
+    assert route["criterion_type"] == "route_fidelity"
+    assert route["evidence_artifacts"] == ["report/process_trace.jsonl"]
