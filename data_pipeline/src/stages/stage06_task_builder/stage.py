@@ -385,6 +385,10 @@ def _run_stage06_single_agent(
                     {},
                 )
                 if shared_submission:
+                    # The submission contract is shared by both modes.  A mode-specific task_id
+                    # would make the two otherwise identical contracts disagree and is redundant
+                    # because task_info/task_spec carry the canonical mode-specific IDs.
+                    shared_submission.pop("task_id", None)
                     shared_submission["task_pair_id"] = task_pair_id
                     write_json(reproduction_root / "submission_contract.json", shared_submission)
                     write_json(autonomous_root / "submission_contract.json", shared_submission)
