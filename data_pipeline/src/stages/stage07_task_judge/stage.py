@@ -44,6 +44,7 @@ from src.stages.stage07_task_judge.prompts import (
 )
 from src.stages.stage07_task_judge.validation import (
     deterministic_stage07_audit,
+    stage07_mechanical_pre_publish_check,
     validate_agent_audit,
 )
 
@@ -149,6 +150,8 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 atomic_commit_tree(task_root, target)
                 write_json(target / "stage07_audit.json", response)
                 write_json(target / "stage06_handoff_record.json", record)
+                mechanical_report = stage07_mechanical_pre_publish_check(target)
+                write_json(target / "mechanical_pre_publish_report.json", mechanical_report)
                 write_manifest(target, target / "audit_manifest.json")
                 published_paths = _publish_mode_bundles(
                     target,
@@ -463,6 +466,25 @@ def _run_audit_repair_agent(
             )
             write_json(outputs / "stage07_audit.json", response)
             _require_stage07_artifact_delivery(response, root, result)
+            if response.get("audit_decision") in STAGE07_APPROVED_DECISIONS:
+                mechanical_report = stage07_mechanical_pre_publish_check(outputs / "task_pair")
+                write_json(root / "mechanical_pre_publish_report.json", mechanical_report)
+                if mechanical_report.get("mechanical_pre_publish_status") != "passed":
+                    message = (
+                        "Stage07 Agent approved a pair that failed the mechanical publication "
+                        "contract: " + "; ".join(mechanical_report.get("findings") or [])
+                    )
+                    result.status = "failed"
+                    result.failure_class = "mechanical_contract_failure"
+                    result.retryable = True
+                    result.error = {"error_type": "MechanicalContractFailure", "message": message[:4000]}
+                    write_json(workspace / "agent_run.json", result.audit_record())
+                    raise AgentExecutionError(
+                        message,
+                        failure_class="mechanical_contract_failure",
+                        retryable=True,
+                        result=result,
+                    )
         except AgentExecutionError as exc:
             last_error = exc
             recovery_context = agent_recovery_context(exc.result)
@@ -743,6 +765,8 @@ def _publish_mode_bundles(
         # This hash cache is useful only inside Stage06/07 and is not part of the benchmark task.
         (staging / "public_manifest.json").unlink(missing_ok=True)
         atomic_commit_tree(staging, destination)
+        make_writable(staging)
+        shutil.rmtree(staging, ignore_errors=True)
         exported[mode] = str(destination)
     return exported
 

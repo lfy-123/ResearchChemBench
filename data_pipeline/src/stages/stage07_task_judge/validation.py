@@ -23,6 +23,148 @@ OUTCOME_TYPES = {
 }
 
 
+def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
+    """Check only transport/evaluator contracts before an Agent-approved pair is published.
+
+    This gate deliberately does not call the Stage06 scientific validator and never emits a
+    scientific approve/reject decision.  Its result is a list of mechanical findings that can
+    block publication or trigger an Agent retry when the delivered files cannot be loaded.
+    """
+    findings: list[str] = []
+    required_modes = ("paper_reproduction", "autonomous_research")
+    mode_values: dict[str, dict[str, Any]] = {}
+    for mode in required_modes:
+        root = pair_root / mode
+        if not root.is_dir():
+            findings.append(f"missing_mode_directory:{mode}")
+            continue
+        for name in ("task.md", "task_info.json", "task_spec.json", "submission_contract.json", "process_rubric.json"):
+            path = root / name
+            if not path.is_file():
+                findings.append(f"missing_required_file:{mode}/{name}")
+        try:
+            info = read_json(root / "task_info.json")
+            spec = read_json(root / "task_spec.json")
+            submission = read_json(root / "submission_contract.json")
+            rubric = read_json(root / "process_rubric.json")
+        except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+            findings.append(f"unreadable_mode_json:{mode}:{type(exc).__name__}")
+            continue
+        mode_values[mode] = {"info": info, "spec": spec, "submission": submission, "rubric": rubric}
+        expected_task_mode = "guided_reproduction" if mode == "paper_reproduction" else "open_discovery"
+        expected_suffix = "_reproduction" if mode == "paper_reproduction" else "_autonomous"
+        if info.get("mode") != mode or info.get("scientific_mode") != mode:
+            findings.append(f"mode_contract_mismatch:{mode}")
+        if info.get("task_mode") != expected_task_mode:
+            findings.append(f"task_mode_contract_mismatch:{mode}")
+        if not str(info.get("task_id") or "").endswith(expected_suffix):
+            findings.append(f"task_id_suffix_mismatch:{mode}")
+        if spec.get("mode") != mode or spec.get("scientific_mode") != mode:
+            findings.append(f"task_spec_mode_mismatch:{mode}")
+        if not isinstance(submission.get("required_files"), list) or not submission.get("required_files"):
+            findings.append(f"submission_required_files_missing:{mode}")
+        else:
+            for rel in submission.get("required_files"):
+                if not isinstance(rel, str) or not rel or Path(rel).is_absolute() or ".." in Path(rel).parts or "\\" in rel:
+                    findings.append(f"unsafe_required_path:{mode}:{rel}")
+        if not isinstance(rubric, list):
+            findings.append(f"process_rubric_not_array:{mode}")
+        elif mode == "paper_reproduction":
+            route = [row for row in rubric if isinstance(row, dict) and str(row.get("id")) == "paper_route_fidelity"]
+            if len(route) != 1:
+                findings.append("reproduction_route_fidelity_criterion_missing")
+            else:
+                criterion = route[0]
+                if criterion.get("criterion_type") != "route_fidelity" or float(criterion.get("max_score") or 0) <= 0:
+                    findings.append("reproduction_route_fidelity_criterion_invalid")
+                evidence = criterion.get("evidence_artifacts") or []
+                if "report/process_trace.jsonl" not in evidence:
+                    findings.append("reproduction_route_fidelity_evidence_missing")
+            try:
+                if abs(sum(float(row.get("max_score") or 0) for row in rubric if isinstance(row, dict)) - 100.0) > 1e-9:
+                    findings.append("reproduction_process_rubric_total_invalid")
+            except (TypeError, ValueError):
+                findings.append("reproduction_process_rubric_total_invalid")
+        complexity = spec.get("complexity_profile") or info.get("complexity_profile") or {}
+        if isinstance(complexity, dict):
+            for alias in ("core_computation_count", "tool_call_count", "dependency_count", "branch_count", "system_state_count"):
+                if alias in complexity:
+                    findings.append(f"legacy_complexity_alias_present:{mode}:{alias}")
+
+    if set(mode_values) == set(required_modes):
+        a, r = mode_values["autonomous_research"], mode_values["paper_reproduction"]
+        for key in ("task_pair_id",):
+            if a["info"].get(key) != r["info"].get(key):
+                findings.append(f"mode_pair_identity_mismatch:{key}")
+        if a["submission"] != r["submission"]:
+            findings.append("mode_pair_submission_contract_mismatch")
+        def data_hash(root: Path) -> str:
+            files = []
+            for path in sorted((root / "data").rglob("*") if (root / "data").is_dir() else []):
+                if path.is_file():
+                    files.append((path.relative_to(root).as_posix(), path.read_bytes()))
+            import hashlib
+            digest = hashlib.sha256()
+            for name, content in files:
+                digest.update(name.encode()); digest.update(b"\\0"); digest.update(content)
+            return digest.hexdigest()
+        if data_hash(pair_root / "paper_reproduction") != data_hash(pair_root / "autonomous_research"):
+            findings.append("mode_pair_input_assets_mismatch")
+
+    hidden = pair_root / "hidden_reference"
+    if not hidden.is_dir():
+        findings.append("hidden_reference_directory_missing")
+    for forbidden in ("workspace", "source_materials", "handoff", "stage06_candidate", "conversion_packet", "staging"):
+        if any(path.name == forbidden for path in pair_root.rglob("*")) and forbidden not in {"workspace", "source_materials"}:
+            # Internal files may exist beside the pair, but never inside either public mode.
+            if any((pair_root / mode / forbidden).exists() for mode in required_modes):
+                findings.append(f"internal_artifact_in_public_mode:{forbidden}")
+    for mode in required_modes:
+        if (pair_root / mode / "hidden_reference").exists():
+            findings.append(f"hidden_reference_in_public_mode:{mode}")
+
+    evaluator = _evaluator_dry_run(pair_root, mode_values)
+    findings.extend(evaluator["findings"])
+    return {
+        "mechanical_pre_publish_status": "passed" if not findings else "failed",
+        "evaluator_dry_run_status": evaluator["status"],
+        "findings": sorted(set(findings)),
+        "evaluator": evaluator,
+    }
+
+
+def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Load Evaluator Pydantic contracts against an isolated temporary task tree."""
+    findings: list[str] = []
+    try:
+        import sys
+        repo_root = Path(__file__).resolve().parents[4]
+        if str(repo_root) not in sys.path:
+            sys.path.insert(0, str(repo_root))
+        from evaluation.schemas.task import GroundTruth, TaskInfo
+        import tempfile, shutil
+        with tempfile.TemporaryDirectory(prefix="stage07-evaluator-") as tmp:
+            root = Path(tmp)
+            for mode, values in mode_values.items():
+                info = values["info"]
+                TaskInfo.model_validate(info)
+                submission = values["submission"]
+                gt_name = "ground_truth_reproduction.json" if mode == "paper_reproduction" else "ground_truth_autonomous.json"
+                gt_path = pair_root / "hidden_reference" / gt_name
+                if not gt_path.is_file():
+                    findings.append(f"evaluator_ground_truth_missing:{mode}")
+                    continue
+                GroundTruth.model_validate_json(gt_path.read_text(encoding="utf-8"))
+                for rel in submission.get("required_files") or []:
+                    if not (pair_root / mode / "data" / rel).exists() and not (pair_root / mode / rel).exists():
+                        # Required deliverables are written at run time; only path binding is checked here.
+                        if Path(rel).is_absolute() or ".." in Path(rel).parts:
+                            findings.append(f"evaluator_artifact_path_invalid:{mode}:{rel}")
+    except Exception as exc:
+        findings.append(f"evaluator_load_failed:{type(exc).__name__}:{exc}")
+    return {"status": "passed" if not findings else "failed", "findings": sorted(set(findings))}
+
+
 def deterministic_stage07_audit(
     pair_root: Path, *, toolbox_snapshot: dict[str, Any] | None = None
 ) -> dict[str, Any]:

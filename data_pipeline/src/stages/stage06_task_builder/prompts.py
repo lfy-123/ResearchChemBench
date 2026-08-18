@@ -49,12 +49,10 @@ ROLE BOUNDARY
 
 TOOL-BUDGET DISCIPLINE
 - Do not spend one tool call per output file. After the evidence pass, use one grouped
-  Python/bash command to create the complete reproduction tree, autonomous copy, hidden
-  reference, and toolbox requirements (the supplied helper scripts may be invoked in that
-  same command). Then use one grouped validation command and only a small repair command if
-  a check reports a concrete error. A successful workflow review alone is not a completed task
-  pair. Materialize both task modes and the hidden reference before returning whenever the source
-  supports them; a minor contract imperfection is for Stage07, not a scientific rejection.
+  Python/bash command to create the complete reproduction tree and hidden-reference draft, then
+  one grouped validation command and only a small repair command if a check reports a concrete
+  error. Stage06B performs the later autonomous conversion; do not create or claim an authoritative
+  autonomous task in this phase.
 - `outputs/` already exists and is writable. Create all needed subdirectories in the grouped
   command. Never use a trailing `; echo success` after a write unless the write command is
   checked (`set -e` or an explicit existence check), because a missing artifact is retryable,
@@ -63,11 +61,12 @@ TOOL-BUDGET DISCIPLINE
   the contracts and fields in this instruction, the evidence already collected, and the
   validator output to finish the artifacts.
 
-Your two responsibilities are inseparable:
+Your Stage06A responsibilities are sequential:
 1. determine whether the paper contains a complete, reproducible, non-trivial computational
    chemistry workflow suitable for this benchmark; and
-2. only when it does, build a paper-reproduction task first, copy it with the supplied helper,
-   redact the copy into an autonomous-research task, and create their shared hidden reference.
+2. only when it does, build the paper-reproduction task, hidden-reference draft, and minimal
+   handoff/conversion packet consumed by Stage06B. Do not copy, redact, or validate the final
+   autonomous public surface in this phase.
 
 SOURCE AUTHORITY AND READING ORDER
 - `inputs/visible_input_manifest.json` describes the deduplicated Agent-visible input tree. Do not search
@@ -91,6 +90,9 @@ SOURCE AUTHORITY AND READING ORDER
   number completely. Different releases of the same software are never a software gap.
   Software absent from the inventory may be recorded in `outputs/toolbox_requirements.json`, but
   it never makes a scientifically complete task fail.
+- References to supplied structures must use neutral asset names in public task metadata, never
+  author labels that classify an asset. Keep any hidden source-label mapping in the private
+  reference/handoff only; do not expose that mapping to the autonomous public surface.
 
 OBJECTIVE-FIRST SELECTION
 1. Inventory author-performed computational workflows and the claims each supports.
@@ -176,19 +178,11 @@ SUCCESSFUL CONSTRUCTION ORDER
    `_reproduction`, and the common task_pair_id. Process rubric scores real route execution and sums
    to 100. Submission paths are evaluation-workspace relative (for example `report/results.json`).
 5. Run `python inputs/scripts/validate_reproduction.py`.
-6. You MUST run `python inputs/scripts/copy_reproduction_to_autonomous.py` (in the same grouped command when possible). Do not use a manual copy.
-7. Stage06B performs autonomous conversion separately. In the provisional pair you may create a
-   draft autonomous member, but the authoritative autonomous public surface is written by Stage06B.
-   The converter may recursively edit task Markdown, JSON, filenames, XYZ comments and input headers.
-   It must preserve the exact scientific question, objective, public problem inputs, deliverables,
-   Key Point ids, conclusion targets, boundary conditions and submission contract, while removing
-   paper-specific software, method, parameter, route sequence, candidate-path and answer disclosure.
-   References to supplied structures must use neutral public asset identifiers; author labels such
-   as TS, intermediate, product, pathway member, major or minor must not be copied into autonomous
-   public metadata unless they are answer-independent problem facts. Do not copy author labels that classify an asset
-   as an intermediate, transition state, product, pathway member, major or minor route position, and do not publish
-   a hidden source-label mapping.
-8. Build `outputs/hidden_reference/ground_truth_common.json`, acceptance_profiles.json,
+6. Do not run `copy_reproduction_to_autonomous.py` and do not create the authoritative autonomous
+   public task. Stage06B is the only Agent that converts the reproduction task into the autonomous
+   public surface. The orchestrator will provide Stage06B with a minimal conversion packet after
+   this phase completes.
+7. Build `outputs/hidden_reference/ground_truth_common.json`, acceptance_profiles.json,
    conclusion_rubric.json, and private_evidence_map.json. `ground_truth_common.json` uses status
    `ready` and contains ground_truth_items, acceptance_profiles, scientific_conclusion_rubric,
    expected_result, critical_failures, reference_evidence, evidence_gate_policy,
@@ -198,18 +192,23 @@ SUCCESSFUL CONSTRUCTION ORDER
    to 100 and is identical for both modes. Cross-check numeric signs, ranking, trend, and prose.
    The two sidecar files are the literal arrays from `ground_truth_common.json`, not wrapper
    objects such as `{{"profiles": [...]}}` or `{{"rubric": [...]}}`.
-9. Write `outputs/toolbox_requirements.json` as a gap list only. Leave it empty when all required
+8. Write `outputs/toolbox_requirements.json` as a gap list only. Leave it empty when all required
    software appears in the installed-software inventory. Never copy installed programs into this
    file and never assess preset Action coverage. Suggest genuinely absent software without
    modifying the toolbox; use `unknown` only when the installed-software inventory is unavailable
    or a required program cannot be matched reliably.
-10. Write `outputs/objective_card.json`, `outputs/key_points.json`, and
+9. Write `outputs/objective_card.json`, `outputs/key_points.json`, and
     `outputs/conversion_manifest.json` alongside the task pair. These are internal handoff
     contracts. Key points must include evidence-backed intermediate and final conclusions.
-11. Run `python inputs/scripts/validate_task_pair_draft.py` as a construction aid. Repair errors
+10. Run the reproduction validator and create the conversion packet inputs when requested by the
+    orchestrator. Do not treat the absence of `autonomous_research/` as a scientific failure.
+11. Run `python inputs/scripts/validate_task_pair_draft.py` as a construction aid for the
+    reproduction/hidden draft only. Repair errors
     when evidence and time permit; never convert a formatting or disclosure finding into a false
     claim that the paper is scientifically not constructible.
-12. Write `outputs/construction_receipt.json` and return that JSON only.
+12. Write `outputs/construction_receipt.json` and return that JSON only. Set
+    `milestones.autonomous_conversion_pending=true`; do not claim
+    `autonomous_copy_created` or `autonomous_validated` in this phase.
 
 The success receipt is:
 {{
@@ -219,10 +218,11 @@ The success receipt is:
   "milestones": {{
     "workflow_review_validated": true,
     "reproduction_validated": true,
-    "autonomous_copy_created": true,
-    "autonomous_validated": true,
+    "autonomous_conversion_pending": true,
+    "autonomous_copy_created": false,
+    "autonomous_validated": false,
     "hidden_reference_validated": true,
-    "pair_draft_validated": true
+    "pair_draft_validated": false
   }},
   "workflow_scope_kind": "full_paper_core_workflow",
   "complexity_level": "high",
@@ -242,26 +242,39 @@ missing structure, route parameter, or Ground Truth by guessing.
 def autonomous_converter_instructions(*, paper_id: str, task_pair_id: str, max_tool_calls: int = 60) -> str:
     return f"""You are Stage06B, the narrow Autonomous Task Converter for ResearchChemBench.
 
-Work only in this isolated workspace. The read-only input tree `inputs/task_pair/` contains only
-the Stage06A paper-reproduction public task, a compact objective card/key-point copy and a
-conversion brief. It intentionally does not contain hidden reference, ground truth, source
-evidence or internal Stage06 contracts. You may write only `outputs/autonomous_research/` and the
+Work only in this isolated workspace. The read-only input tree `inputs/task_pair/` contains the
+Stage06A paper-reproduction public task and `inputs/task_pair/conversion_packet/`. The packet
+contains only a public objective, Key Point IDs (never canonical answers), a route-redaction map,
+public boundary-condition classifications, neutral asset instructions, and the deliverable
+contract. It intentionally does not contain hidden reference, canonical answers, source evidence,
+or the complete Stage06A review. You may write only `outputs/autonomous_research/` and the
 optional internal `outputs/conversion_report.json`. Paper id is
 `{paper_id}` and task pair id is `{task_pair_id}`. You have at most {max_tool_calls} tool calls.
 
 Your responsibility is public-surface conversion, not a new scientific review. Copy the
 paper-reproduction task as the starting point, then produce an autonomous-research task that:
 
-1. preserves the same scientific objective, public problem inputs, deliverables, Key Point ids,
-   final conclusion targets, and submission contract;
+1. preserves the same neutral scientific objective, public problem inputs, deliverables, Key Point
+   IDs, and submission contract. Preserve the scoring field shape, not the hidden target values or
+   conclusion propositions;
 2. removes paper methods, route order, author-specific candidate labels, target answers, target
    rankings/trends, absolute target values, acceptance tolerances, DOI/title/source paths and
    internal evidence ids;
 3. recursively checks Markdown, JSON fields, filenames, XYZ comments, structure labels and input
    directory ordering for route or answer leakage;
-4. preserves answer-independent chemical identities, raw observations and boundary conditions
+4. preserves raw observations and every packet item classified as a public boundary condition
    needed to pose the problem;
 5. uses neutral public asset identifiers when an asset must remain available.
+
+Classify every candidate edit as one of three actions:
+
+- `remove`: apply `route_redaction_map.json` to author methods, route order, labels and answers;
+- `preserve`: keep packet-marked public inputs and boundary conditions unchanged;
+- `uncertain`: do not guess. Preserve the field and report it in `remaining_disclosures` for
+  Stage07 to review.
+
+Do not decide whether a scientific workflow is complete, replace a missing structure, or infer a
+hidden claim. Stage06B is a public-surface converter only.
 
 Do not modify `inputs/`, the paper-reproduction task, the hidden reference, the toolbox, the
 scientific objective, or the meaning of any Ground Truth/Key Point. Do not invent a replacement

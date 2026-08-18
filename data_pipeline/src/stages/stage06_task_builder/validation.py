@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from src.agents.workspace import directory_manifest, validate_relative_path
-from src.contracts import canonical_hash, read_json
+from src.contracts import canonical_hash, read_json, write_json
 
 ACCEPTANCE_TYPES = {
     "numeric_tolerance",
@@ -31,6 +31,24 @@ WORKFLOW_SCOPE_KINDS = {
     "partial_computational_subworkflow",
 }
 TASK_PAIR_CONTRACT_VERSION = "researchchembench.task-pair-contract.v2"
+CANONICAL_COMPLEXITY_FIELDS = (
+    "scientific_core_operation_count",
+    "estimated_min_tool_calls",
+    "estimated_typical_tool_calls",
+    "dependency_edge_count",
+    "parallel_branch_count",
+    "system_or_state_count",
+    "software_capability_count",
+    "iterative_decision_count",
+    "validation_operation_count",
+)
+COMPLEXITY_ALIASES = {
+    "core_computation_count": "scientific_core_operation_count",
+    "tool_call_count": "estimated_typical_tool_calls",
+    "dependency_count": "dependency_edge_count",
+    "branch_count": "parallel_branch_count",
+    "system_state_count": "system_or_state_count",
+}
 SCIENTIFIC_FAILURE_CODES = {
     "no_author_performed_computation",
     "missing_core_input",
@@ -41,6 +59,84 @@ SCIENTIFIC_FAILURE_CODES = {
     "no_complete_nontrivial_workflow",
     "benchmark_not_challenging",
 }
+
+
+def canonicalize_complexity_profile(profile: Any) -> dict[str, Any]:
+    """Normalize legacy complexity aliases once before publishing a task.
+
+    The Agent may use historical names while constructing a draft.  Public task files and
+    evaluator records should contain one canonical vocabulary so downstream consumers do not
+    silently diverge.  This helper does not judge whether the declared counts are scientifically
+    correct; that remains an Agent/audit responsibility.
+    """
+
+    value = dict(profile) if isinstance(profile, dict) else {}
+    for alias, canonical in COMPLEXITY_ALIASES.items():
+        if canonical not in value and alias in value:
+            value[canonical] = value[alias]
+        value.pop(alias, None)
+    for field in CANONICAL_COMPLEXITY_FIELDS:
+        if field not in value and field.endswith("_count"):
+            value[field] = 0
+    return value
+
+
+def canonicalize_mode_task_contract(
+    task_root: Path,
+    *,
+    expected_mode: str,
+    task_pair_id: str | None = None,
+) -> list[str]:
+    """Apply the non-scientific mode/ID contract to an Agent-delivered task tree.
+
+    This is deliberately a transport normalization, not a scientific validator.  It repairs
+    fields that the Evaluator treats as enums and keeps the public task ID stable across Agent
+    rewrites.  Any missing files or malformed JSON are returned as mechanical findings.
+    """
+
+    expected_mode = str(expected_mode)
+    if expected_mode not in {"autonomous_research", "paper_reproduction"}:
+        return [f"unsupported_mode:{expected_mode}"]
+    expected_task_mode = (
+        "open_discovery" if expected_mode == "autonomous_research" else "guided_reproduction"
+    )
+    suffix = "_autonomous" if expected_mode == "autonomous_research" else "_reproduction"
+    findings: list[str] = []
+    for name in ("task_info.json", "task_spec.json"):
+        path = task_root / name
+        if not path.is_file():
+            findings.append(f"missing_public_file:{name}")
+            continue
+        try:
+            value = read_json(path)
+        except (OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
+            findings.append(f"unreadable_public_file:{name}:{type(exc).__name__}")
+            continue
+        if not isinstance(value, dict):
+            findings.append(f"public_file_not_object:{name}")
+            continue
+        pair_id = str(task_pair_id or value.get("task_pair_id") or "").strip()
+        if not pair_id:
+            findings.append(f"task_pair_id_missing:{name}")
+            continue
+        canonical_id = f"{pair_id}{suffix}"
+        value["task_pair_id"] = pair_id
+        value["task_id"] = canonical_id
+        value["mode"] = expected_mode
+        value["scientific_mode"] = expected_mode
+        value["task_mode"] = expected_task_mode
+        if expected_mode == "autonomous_research":
+            value["method_disclosure"] = "no_paper_method"
+            value["pathway_disclosure"] = "public_problem_only"
+        elif expected_mode == "paper_reproduction":
+            value["method_disclosure"] = "paper_route_disclosed"
+            value["pathway_disclosure"] = "paper_route_disclosed"
+        if isinstance(value.get("complexity_profile"), dict):
+            value["complexity_profile"] = canonicalize_complexity_profile(
+                value["complexity_profile"]
+            )
+        write_json(path, value)
+    return sorted(set(findings))
 
 
 def validate_scientific_review(review: dict[str, Any], evidence_ids: set[str]) -> list[str]:

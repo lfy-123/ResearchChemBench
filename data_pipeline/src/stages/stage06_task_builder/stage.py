@@ -79,6 +79,8 @@ from src.stages.stage06_task_builder.validation import (
     validate_task_pair,
     validate_task_pair_draft,
     validate_workflow_review,
+    canonicalize_complexity_profile,
+    canonicalize_mode_task_contract,
 )
 
 STAGE06_IMPLEMENTATION_VERSION = "v8-core-objective-contract-findings-20260817"
@@ -332,7 +334,7 @@ def _run_stage06_single_agent(
                 converter_response = {"status": "converted", "artifact_path": "outputs/autonomous_research"}
                 converter_audit = {"status": "skipped", "reason": "legacy_single_agent_mode"}
                 converter_workspace = None
-            if converter_response.get("status") != "converted":
+            if converter_response.get("status") not in {"converted", "conversion_uncertain"}:
                 return _artifact_delivery_failure(
                     run_id,
                     paper_id,
@@ -355,6 +357,16 @@ def _run_stage06_single_agent(
                 if converted_root != old_autonomous_root:
                     copytree_exact(converted_root, old_autonomous_root)
                 make_writable(old_autonomous_root)
+                mode_findings = canonicalize_mode_task_contract(
+                    old_autonomous_root,
+                    expected_mode="autonomous_research",
+                    task_pair_id=task_pair_id,
+                )
+                if mode_findings:
+                    raise ValueError(
+                        "Stage06B autonomous mode contract is incomplete: "
+                        + "; ".join(mode_findings)
+                    )
                 report_path = converter_workspace / "outputs" / "conversion_report.json"
                 if report_path.is_file():
                     shutil.copy2(report_path, staging_root / "conversion_report.json")
@@ -367,12 +379,30 @@ def _run_stage06_single_agent(
             review["toolbox_requirements"] = _normalize_toolbox_requirements(
                 requirements if isinstance(requirements, list) else []
             )
+            if isinstance(review.get("complexity_profile"), dict):
+                review["complexity_profile"] = canonicalize_complexity_profile(
+                    review["complexity_profile"]
+                )
             autonomous_root = staging_root / "autonomous_research"
             reproduction_root = staging_root / "paper_reproduction"
             handoff_warnings: list[str] = []
             hidden_path = staging_root / "hidden_reference" / "ground_truth_common.json"
             if reproduction_root.is_dir() and autonomous_root.is_dir() and hidden_path.is_file():
                 try:
+                    for mode_root, expected_mode in (
+                        (reproduction_root, "paper_reproduction"),
+                        (autonomous_root, "autonomous_research"),
+                    ):
+                        mode_findings = canonicalize_mode_task_contract(
+                            mode_root,
+                            expected_mode=expected_mode,
+                            task_pair_id=task_pair_id,
+                        )
+                        if mode_findings:
+                            raise ValueError(
+                                f"{expected_mode} mode contract is incomplete: "
+                                + "; ".join(mode_findings)
+                            )
                     _write_mode_public_manifest(reproduction_root)
                     _write_mode_public_manifest(autonomous_root)
                     _materialize_pair_metadata(
@@ -3881,6 +3911,7 @@ def _ensure_reproduction_route_rubric(
     output = json.loads(json.dumps(rubric, ensure_ascii=False))
     first = output[0]
     first["id"] = "paper_route_fidelity"
+    first["criterion_type"] = "route_fidelity"
     first["description"] = (
         "Follow the disclosed paper route, dependency order, method hierarchy, and validation "
         "sequence while reporting any unavoidable deviation."
@@ -4816,11 +4847,11 @@ def _copy_phase_inputs(
 
 
 def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
-    """Give Stage06B only the public reproduction task and conversion brief.
+    """Give Stage06B the reproduction task plus a minimal conversion packet.
 
-    Hidden answers, source evidence, workflow reviews and internal handoff contracts are not
-    needed for a narrow public-surface conversion.  Excluding them reduces context duplication
-    and prevents accidental answer/provenance leakage.
+    Stage06B must know what to redact and which physical/public boundaries to preserve, but it
+    does not need canonical answers, private evidence, or the complete Stage06A review.  The
+    packet is an internal handoff and is never copied into either published task directory.
     """
 
     destination = root / "inputs" / "task_pair"
@@ -4829,10 +4860,6 @@ def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
     if not reproduction.is_dir():
         raise FileNotFoundError("Stage06B reproduction task is unavailable")
     copytree_exact(reproduction, destination / "paper_reproduction")
-    for name in ("objective_card.json", "key_points.json"):
-        source = source_pair / name
-        if source.is_file():
-            shutil.copy2(source, destination / name)
     review = {}
     review_path = source_pair / "workflow_review.json"
     if review_path.is_file():
@@ -4840,16 +4867,112 @@ def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
             review = read_json(review_path)
         except (OSError, ValueError, TypeError, json.JSONDecodeError):
             review = {}
+    packet = destination / "conversion_packet"
+    packet.mkdir(parents=True, exist_ok=True)
+    public_basis = review.get("public_task_basis") or {}
+    scope = dict(review.get("workflow_scope") or {})
+    # Public conversion needs the scope shape, not the answer-bearing claims.
+    scope.pop("supported_primary_claims", None)
+    scope["autonomy_scope"] = "fixed_input_workflow_comparison"
     write_json(
-        destination / "conversion_brief.json",
+        packet / "public_objective.json",
         {
-            "schema_version": "stage06-conversion-brief-v1",
+            "schema_version": "stage06-public-objective-v1",
             "objective_id": review.get("objective_id"),
-            "scientific_question": review.get("scientific_question"),
-            "public_scientific_question": review.get("public_scientific_question"),
+            "public_scientific_question": review.get("public_scientific_question")
+            or review.get("scientific_question"),
+            "workflow_scope": scope,
+            "autonomy_scope": "fixed_input_workflow_comparison",
+        },
+    )
+    input_assets = public_basis.get("input_assets") or []
+    write_json(
+        packet / "public_input_assets.json",
+        [
+            {
+                key: asset.get(key)
+                for key in ("asset_id", "path", "description", "role")
+                if asset.get(key) not in (None, "", [])
+            }
+            for asset in input_assets
+            if isinstance(asset, dict)
+        ],
+    )
+    truths = review.get("ground_truth_items") or []
+    write_json(
+        packet / "key_point_ids.json",
+        [
+            {
+                "key_point_id": row.get("ground_truth_id") or row.get("item_id"),
+                "claim_role": row.get("claim_role") or "intermediate",
+                "acceptance_type": row.get("acceptance_type") or "semantic_propositions",
+            }
+            for row in truths
+            if isinstance(row, dict)
+            and (row.get("ground_truth_id") or row.get("item_id"))
+        ],
+    )
+    boundary_conditions = public_basis.get("boundary_conditions") or []
+    write_json(
+        packet / "preserve_boundary_conditions.json",
+        [
+            {
+                **row,
+                "classification": row.get("classification") or "needs_stage07_review",
+            }
+            if isinstance(row, dict)
+            else {"value": row, "classification": "needs_stage07_review"}
+            for row in boundary_conditions
+        ],
+    )
+    write_json(
+        packet / "route_redaction_map.json",
+        {
+            "files_to_remove": ["paper_route.md", "workflow_spec.json", "route_evidence_map.json"],
+            "fields_to_rewrite": [
+                "scientific_mode_description",
+                "scientific_requirements",
+                "input_assets[].description",
+                "data[].description",
+            ],
+            "source_route_fields": [
+                "software",
+                "method",
+                "method_parameters",
+                "sequence",
+                "route_steps",
+                "validation_procedure",
+            ],
+            "answer_fields_to_remove": [
+                "canonical_answer",
+                "required_propositions",
+                "forbidden_contradictions",
+                "target",
+                "target_order",
+                "required_trends",
+            ],
+        },
+    )
+    write_json(
+        packet / "asset_neutralization_map.json",
+        [
+            {
+                "source_path": asset.get("path"),
+                "public_identifier": f"candidate_{index}",
+                "remove_source_label": True,
+                "preserve_coordinate_rows": True,
+            }
+            for index, asset in enumerate(input_assets, start=1)
+            if isinstance(asset, dict) and asset.get("path")
+        ],
+    )
+    write_json(
+        packet / "deliverable_contract.json",
+        {
             "task_pair_id": review.get("task_pair_id"),
-            "conversion_rule": "preserve objective, inputs, deliverables, key-point ids and submission contract; remove paper route and answer disclosure",
-            "source": "stage06A_public_reproduction_only",
+            "required_files": ["task.md", "task_info.json", "task_spec.json", "submission_contract.json", "process_rubric.json"],
+            "preserve_submission_contract": True,
+            "preserve_key_point_ids": True,
         },
     )
     make_read_only(destination)
@@ -4933,7 +5056,7 @@ def _ensure_objective_handoff_artifacts(pair_root: Path, review: dict[str, Any])
 def _converter_phase_findings(response: dict[str, Any], workspace: Path) -> list[str]:
     """Check only the converter's file contract; scientific decisions remain with the Agents."""
 
-    if response.get("status") != "converted":
+    if response.get("status") not in {"converted", "conversion_uncertain"}:
         return []
     outputs = workspace / "outputs"
     autonomous = outputs / "autonomous_research"
@@ -5303,6 +5426,7 @@ if not isinstance(rubric, list) or not rubric:
     raise ValueError("process_rubric.json must contain a non-empty criterion list")
 criterion = rubric[0]
 criterion["id"] = "paper_route_fidelity"
+criterion["criterion_type"] = "route_fidelity"
 criterion["name"] = "Paper-route fidelity"
 criterion["description"] = (
     "Follow the disclosed paper route, software, method hierarchy, dependencies, and validation "

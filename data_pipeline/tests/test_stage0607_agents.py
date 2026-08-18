@@ -105,6 +105,7 @@ from src.stages.stage07_task_judge.validation import (
     merge_audit_outcomes,
     reconcile_toolbox_requirements,
     software_matches_installed,
+    stage07_mechanical_pre_publish_check,
     validate_agent_audit,
 )
 
@@ -5892,3 +5893,40 @@ def test_converter_report_is_recovered_from_response_or_nested_file(tmp_path: Pa
     recovered_nested = _normalize_converter_report({"status": "converted"}, workspace)
     assert recovered_nested == report
     assert not nested.exists()
+
+
+def test_stage07_mechanical_gate_loads_evaluator_contracts(tmp_path: Path) -> None:
+    pair = tmp_path / "pair"
+    pair.mkdir()
+    (pair / "hidden_reference").mkdir()
+    for mode, task_mode, suffix in (
+        ("paper_reproduction", "guided_reproduction", "_reproduction"),
+        ("autonomous_research", "open_discovery", "_autonomous"),
+    ):
+        root = pair / mode
+        (root / "data" / "inputs").mkdir(parents=True)
+        (root / "data" / "inputs" / "molecule.xyz").write_text("1\nH\nH 0 0 0\n", encoding="utf-8")
+        info = {
+            "task_id": "pair_test" + suffix,
+            "task_pair_id": "pair_test",
+            "source_id": "paper-test",
+            "category": "computational_chemistry",
+            "task": "Solve the scientific objective.",
+            "mode": mode,
+            "scientific_mode": mode,
+            "task_mode": task_mode,
+        }
+        spec = {"task_id": info["task_id"], "task_pair_id": "pair_test", "mode": mode, "scientific_mode": mode}
+        submission = {"required_files": ["report/results.json", "report/process_trace.jsonl"]}
+        rubric = [{"id": "paper_route_fidelity", "criterion_type": "route_fidelity", "max_score": 100, "evidence_artifacts": ["report/process_trace.jsonl"]}]
+        (root / "task.md").write_text("task\n", encoding="utf-8")
+        write_json(root / "task_info.json", info)
+        write_json(root / "task_spec.json", spec)
+        write_json(root / "submission_contract.json", submission)
+        write_json(root / "process_rubric.json", rubric)
+    truth = {"evaluation_mode": "binary", "score_max": 1, "expected_result": {}}
+    write_json(pair / "hidden_reference" / "ground_truth_reproduction.json", truth)
+    write_json(pair / "hidden_reference" / "ground_truth_autonomous.json", truth)
+    report = stage07_mechanical_pre_publish_check(pair)
+    assert report["mechanical_pre_publish_status"] == "passed"
+    assert report["evaluator_dry_run_status"] == "passed"
