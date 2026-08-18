@@ -83,7 +83,7 @@ from src.stages.stage06_task_builder.validation import (
     canonicalize_mode_task_contract,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v8-core-objective-contract-findings-20260817"
+STAGE06_IMPLEMENTATION_VERSION = "v9-fifth-round-closure-and-contract-20260818"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
@@ -3927,21 +3927,25 @@ def _ensure_reproduction_route_rubric(
         )
     ]
     if not evidence_paths:
-        evidence_paths = ["report/process_trace.jsonl"]
+        # The evaluator/harness owns the canonical tool trace.  The task only
+        # requires a scientific report as human-readable route evidence.
+        evidence_paths = ["report/report.md"]
     target = next(
         (
             row
             for row in output
             if isinstance(row, dict)
             and (
-                str(row.get("id") or "").casefold() in {"paper_route_fidelity", "route_fidelity"}
-                or any(token in json.dumps(row, ensure_ascii=False).casefold() for token in ("route fidelity", "paper route"))
+                str(row.get("criterion_type") or "").casefold() == "route_fidelity"
+                or str(row.get("id") or "").casefold()
+                in {"paper_route_fidelity", "route_fidelity"}
             )
         ),
         None,
     )
     if target is None:
-        target = output[0]
+        # Do not repurpose an unrelated scientific criterion as route fidelity.
+        return output
     target["id"] = "paper_route_fidelity"
     target["criterion_type"] = "route_fidelity"
     target["description"] = (
@@ -5456,7 +5460,21 @@ dump(root / "task_spec.json", spec)
 
 if not isinstance(rubric, list) or not rubric:
     raise ValueError("process_rubric.json must contain a non-empty criterion list")
-criterion = rubric[0]
+criterion = next(
+    (
+        row
+        for row in rubric
+        if isinstance(row, dict)
+        and (
+            str(row.get("criterion_type") or "").casefold() == "route_fidelity"
+            or str(row.get("id") or "").casefold()
+            in {"paper_route_fidelity", "route_fidelity"}
+        )
+    ),
+    None,
+)
+if criterion is None:
+    raise ValueError("process_rubric.json lacks an explicit route_fidelity criterion")
 criterion["id"] = "paper_route_fidelity"
 criterion["criterion_type"] = "route_fidelity"
 criterion["name"] = "Paper-route fidelity"
@@ -5796,8 +5814,11 @@ def _reproduction_phase_findings(
         findings.append("reproduction_task_instruction_unchanged")
     if rubric == read_json(autonomous_root / "process_rubric.json"):
         findings.append("reproduction_process_rubric_unchanged")
-    rubric_text = json.dumps(rubric, ensure_ascii=False).casefold()
-    if not any(token in rubric_text for token in ("route fidelity", "route_fidelity", "paper route")):
+    if not any(
+        isinstance(row, dict)
+        and str(row.get("criterion_type") or "").casefold() == "route_fidelity"
+        for row in rubric
+    ):
         findings.append("reproduction_route_fidelity_rubric_missing")
     if (
         directory_manifest(task_root / "data")["content_hash"]
@@ -6571,6 +6592,12 @@ def _materialize_pair_metadata(
         hidden_root / "process_rubric_reproduction.json",
         read_json(reproduction_root / "process_rubric.json"),
     )
+    shared_managed_policy = dict(hidden.get("managed_computation_policy") or {})
+    # Keep shared evidence requirements separate from mode-specific route
+    # policy.  A common policy must not accidentally say that autonomous work
+    # follows the disclosed paper route.
+    shared_managed_policy["mode_scope"] = "shared_conclusion_evidence"
+    shared_managed_policy["route_policy_scope"] = "mode_specific"
     common = {
         "expected_tool_calls": [],
         "expected_result": hidden.get("expected_result") or {},
@@ -6592,7 +6619,7 @@ def _materialize_pair_metadata(
         "critical_failures": evaluation_critical_failures(hidden),
         "reference_evidence": evaluation_reference_evidence(hidden),
         "evidence_gate_policy": hidden.get("evidence_gate_policy") or {},
-        "managed_computation_policy": hidden.get("managed_computation_policy") or {},
+        "managed_computation_policy": shared_managed_policy,
     }
     write_json(
         hidden_root / "ground_truth_autonomous.json",
@@ -6600,6 +6627,12 @@ def _materialize_pair_metadata(
             **common,
             "evaluation_profile": "autonomous_discovery",
             "scoring_rubric": read_json(autonomous_root / "process_rubric.json"),
+            "managed_computation_policy": {
+                **shared_managed_policy,
+                "mode": "autonomous_research",
+                "route_disclosure": "not_required",
+                "route_choice": "agent_selected",
+            },
             "judge_instructions": (
                 "Score autonomous scientific process and the shared hidden conclusions independently."
             ),
@@ -6611,6 +6644,12 @@ def _materialize_pair_metadata(
             **common,
             "evaluation_profile": "paper_reproduction",
             "scoring_rubric": read_json(reproduction_root / "process_rubric.json"),
+            "managed_computation_policy": {
+                **shared_managed_policy,
+                "mode": "paper_reproduction",
+                "route_disclosure": "paper_route_required",
+                "route_choice": "follow_disclosed_route",
+            },
             "judge_instructions": (
                 "Score fidelity to the disclosed paper route and the same shared hidden conclusions."
             ),

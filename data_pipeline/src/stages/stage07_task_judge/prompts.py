@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v8-stage07-agent-authority-minimal-recovery-20260818"
+STAGE07_AUDIT_VERSION = "v9-stage07-fifth-round-closure-audit-20260818"
 
 
 def audit_instructions(
@@ -61,6 +61,19 @@ SCIENTIFIC WORKFLOW
    repair mismatches such as an input state that cannot produce the claimed output, a validation
    test incompatible with the calculation, or a claim whose required submission field is absent.
    Use paper evidence and scientific judgment; do not add software- or molecule-specific code rules.
+
+Before returning the audit receipt, write a compact six-row audit table in the audit artifact. Answer each
+row with `closed`, `repairable`, or `unrepairable`, cite the relevant files/evidence, and record the actual
+change when repaired:
+1. Is the selected objective important and honestly scoped, including covered and excluded claims?
+2. Are every supplied input, state, charge/multiplicity, and physical boundary condition closed?
+3. For every scored quantity, are reference states, stoichiometry, sign, units, and target definition closed?
+4. Can each computational action produce its declared artifact and satisfy its validation criterion?
+5. Does each Ground Truth item have one executable submission binding and evidence of a new calculation?
+6. Does autonomous mode preserve problem-defining facts while hiding only author route choices?
+This table is an Agent self-audit; the orchestrator must not fill in values or convert a scientific finding
+into a code-side verdict. The canonical harness trace is the authoritative process evidence; do not require
+the evaluated Agent to write a duplicate full process trace just for this audit.
 
 MODE CONTRACT
 - Paper reproduction discloses the authors' executable method and route.

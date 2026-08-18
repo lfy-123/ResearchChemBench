@@ -4,8 +4,8 @@ STAGE06_REVIEW_VERSION = "v3-stage06-review-20260814-r25"
 STAGE06_AUTONOMOUS_VERSION = "v3-stage06-autonomous-20260814-r7"
 STAGE06_REPRODUCTION_VERSION = "v3-stage06-reproduction-20260814-r8"
 STAGE06_HIDDEN_VERSION = "v3-stage06-hidden-reference-20260814-r7"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v6-stage06-core-objective-builder-20260817"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v4-stage06-core-objective-autonomous-converter-20260817"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v7-stage06-fifth-round-closure-builder-20260818"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v5-stage06-fifth-round-lossless-converter-20260818"
 
 
 def task_pair_builder_instructions(
@@ -154,6 +154,16 @@ input copies, submission paths, and typed Ground Truth bindings from the review.
 missing structures, methods, route facts, or answers. Replace every scaffold sentence and verify all
 scientific fields against the source before finalizing. If the review lacks public input assets or
 closed route fields, do not bootstrap a success pair; revise the review or write scientific failure.
+
+Before writing the success receipt, complete this short `workflow_review` closure checklist. It is an
+Agent self-check, not a request for the orchestrator to infer chemistry:
+`asset_state_closure` (identity, composition, charge, multiplicity/electronic state and evidence for each
+input); `physical_boundary_closure` (environment, temperature/pressure/ensemble and evidence);
+`reference_stoichiometry_closure` (reference species and balanced definitions for every difference quantity);
+`action_artifact_validation_closure` (target state, computational action, produced artifact and compatible
+validation for every step); `ground_truth_binding_closure` (one typed binding per intermediate/final key point);
+and `scope_limitations` (claims covered and explicitly not covered by this objective). If a field cannot be
+closed from source evidence, keep the candidate provisional and report the unresolved fact rather than guessing.
 
 For scientific failure use `decision=scientific_not_constructible`. Set all three coverage booleans
 true, use an allowed scientific failure code, and provide structured failure reasons with
@@ -568,7 +578,8 @@ in the task.
 
 Use `task_mode=open_discovery`, `evaluation_mode=dual_axis_100` in the private contract metadata, and a unique task
 id ending in `_autonomous`. Required deliverables must include an artifact-linked scientific report, a research
-plan, an execution/provenance trace, and task-specific numerical or structural results. Process criteria must reward
+plan, and task-specific numerical or structural results. The evaluator harness records the canonical managed
+tool/provenance trace; do not spend tokens writing a duplicate full `report/process_trace.jsonl`. Process criteria must reward
 scientific route design, managed computation, validation/falsification, failure recovery, efficiency, and
 reproducibility. Mere file conversion, plotting, number reading, or simple arithmetic cannot be a high-value step.
 For categorical results, prefer explicit string labels already named in the public question or basis. Do not replace

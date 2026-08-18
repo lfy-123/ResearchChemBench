@@ -43,6 +43,7 @@ CANONICAL_COMPLEXITY_FIELDS = (
     "validation_operation_count",
 )
 COMPLEXITY_ALIASES = {
+    "core_operation_count": "scientific_core_operation_count",
     "core_computation_count": "scientific_core_operation_count",
     "tool_call_count": "estimated_typical_tool_calls",
     "dependency_count": "dependency_edge_count",
@@ -75,6 +76,8 @@ def canonicalize_complexity_profile(profile: Any) -> dict[str, Any]:
         if canonical not in value and alias in value:
             value[canonical] = value[alias]
         value.pop(alias, None)
+    # Defaults are transport-only.  Legacy aliases are normalized above so a
+    # supplied operation count is never shadowed by a synthetic zero.
     for field in CANONICAL_COMPLEXITY_FIELDS:
         if field not in value and field.endswith("_count"):
             value[field] = 0
@@ -435,7 +438,8 @@ def task_pair_contract_report(pair_root: Path) -> dict[str, Any]:
         "pair_root_name": pair_root.name,
         "contract_status": "passed" if not categories["hard_mechanical"] else "findings",
         "disclosure_status": "passed" if not categories["disclosure_semantic"] else "needs_review",
-        "evaluator_dry_run_status": "failed" if evaluator_findings else "passed",
+        "schema_load_status": "failed" if evaluator_findings else "passed",
+        "evaluator_dry_run_status": "not_run",
         "finding_counts": {key: len(value) for key, value in categories.items()},
         "findings": categories,
         "validator": audit,
@@ -986,10 +990,7 @@ def validate_mode_task(task_root: Path, *, expected_mode: str) -> list[str]:
             row
             for row in rubric
             if isinstance(row, dict)
-            and any(
-                token in json.dumps(row, ensure_ascii=False).casefold()
-                for token in ("route fidelity", "route_fidelity", "paper route")
-            )
+            and str(row.get("criterion_type") or "").casefold() == "route_fidelity"
         ]
         if not route_criteria:
             findings.append("reproduction_route_fidelity_rubric_missing")

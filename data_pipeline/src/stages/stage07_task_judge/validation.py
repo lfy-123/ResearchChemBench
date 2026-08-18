@@ -8,6 +8,7 @@ from typing import Any
 from src.contracts import read_json
 from src.core.toolbox_inventory import installed_software_inventory
 from src.stages.stage06_task_builder.validation import validate_task_pair
+from src.stages.stage06_task_builder.validation import canonicalize_mode_task_contract
 
 OUTCOME_TYPES = {
     "needs_software",
@@ -38,6 +39,16 @@ def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
         if not root.is_dir():
             findings.append(f"missing_mode_directory:{mode}")
             continue
+        # Normalize enum/ID/legacy-complexity transport fields before checking
+        # the gate.  This is a bounded mechanical rewrite, not a scientific
+        # decision and avoids spending a full Agent audit on recoverable drift.
+        findings.extend(
+            canonicalize_mode_task_contract(
+                root,
+                expected_mode=mode,
+                task_pair_id=None,
+            )
+        )
         for name in ("task.md", "task_info.json", "task_spec.json", "submission_contract.json", "process_rubric.json"):
             path = root / name
             if not path.is_file():
@@ -70,7 +81,13 @@ def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
         if not isinstance(rubric, list):
             findings.append(f"process_rubric_not_array:{mode}")
         elif mode == "paper_reproduction":
-            route = [row for row in rubric if isinstance(row, dict) and str(row.get("id")) == "paper_route_fidelity"]
+            route = [
+                row
+                for row in rubric
+                if isinstance(row, dict)
+                and str(row.get("criterion_type") or "").casefold()
+                == "route_fidelity"
+            ]
             if len(route) != 1:
                 findings.append("reproduction_route_fidelity_criterion_missing")
             else:
@@ -78,7 +95,7 @@ def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
                 if criterion.get("criterion_type") != "route_fidelity" or float(criterion.get("max_score") or 0) <= 0:
                     findings.append("reproduction_route_fidelity_criterion_invalid")
                 evidence = criterion.get("evidence_artifacts") or []
-                if "report/process_trace.jsonl" not in evidence:
+                if not any(str(path) in {"report/report.md", "report/process_trace.jsonl"} for path in evidence):
                     findings.append("reproduction_route_fidelity_evidence_missing")
             try:
                 if abs(sum(float(row.get("max_score") or 0) for row in rubric if isinstance(row, dict)) - 100.0) > 1e-9:
@@ -87,7 +104,14 @@ def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
                 findings.append("reproduction_process_rubric_total_invalid")
         complexity = spec.get("complexity_profile") or info.get("complexity_profile") or {}
         if isinstance(complexity, dict):
-            for alias in ("core_computation_count", "tool_call_count", "dependency_count", "branch_count", "system_state_count"):
+            for alias in (
+                "core_operation_count",
+                "core_computation_count",
+                "tool_call_count",
+                "dependency_count",
+                "branch_count",
+                "system_state_count",
+            ):
                 if alias in complexity:
                     findings.append(f"legacy_complexity_alias_present:{mode}:{alias}")
 
@@ -96,7 +120,9 @@ def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
         for key in ("task_pair_id",):
             if a["info"].get(key) != r["info"].get(key):
                 findings.append(f"mode_pair_identity_mismatch:{key}")
-        if a["submission"] != r["submission"]:
+        if _submission_contract_shape(a["submission"]) != _submission_contract_shape(
+            r["submission"]
+        ):
             findings.append("mode_pair_submission_contract_mismatch")
         def data_fingerprints(root: Path) -> list[str]:
             """Compare underlying inputs while allowing public-safe names/comments."""
@@ -123,11 +149,23 @@ def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
     hidden = pair_root / "hidden_reference"
     if not hidden.is_dir():
         findings.append("hidden_reference_directory_missing")
-    for forbidden in ("workspace", "source_materials", "handoff", "stage06_candidate", "conversion_packet", "staging"):
-        if any(path.name == forbidden for path in pair_root.rglob("*")) and forbidden not in {"workspace", "source_materials"}:
-            # Internal files may exist beside the pair, but never inside either public mode.
-            if any((pair_root / mode / forbidden).exists() for mode in required_modes):
-                findings.append(f"internal_artifact_in_public_mode:{forbidden}")
+    for forbidden in (
+        "workspace",
+        "source_materials",
+        "handoff",
+        "stage06_candidate",
+        "conversion_packet",
+        "staging",
+    ):
+        # Only public mode trees are scanned.  Pair-level handoff/workspace
+        # directories are expected implementation artifacts and are not leaked
+        # merely because they exist beside the modes.
+        if any(
+            any(path.name == forbidden for path in (pair_root / mode).rglob("*"))
+            for mode in required_modes
+            if (pair_root / mode).is_dir()
+        ):
+            findings.append(f"internal_artifact_in_public_mode:{forbidden}")
     for mode in required_modes:
         if (pair_root / mode / "hidden_reference").exists():
             findings.append(f"hidden_reference_in_public_mode:{mode}")
@@ -136,14 +174,80 @@ def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
     findings.extend(evaluator["findings"])
     return {
         "mechanical_pre_publish_status": "passed" if not findings else "failed",
-        "evaluator_dry_run_status": evaluator["status"],
+        # This check currently validates schemas and safe artifact bindings; it
+        # is intentionally not called a full scoring dry-run.
+        "schema_load_status": evaluator["status"],
+        "evaluator_dry_run_status": "not_run",
         "findings": sorted(set(findings)),
         "evaluator": evaluator,
     }
 
 
+def _submission_contract_shape(value: Any) -> Any:
+    """Return the mode-neutral structural shape of a submission contract.
+
+    Autonomous conversion may rename result keys and neutralize labels.  The
+    mechanical gate therefore compares required paths and schema structure,
+    not mode-specific answer-bearing strings.
+    """
+
+    if isinstance(value, dict):
+        shaped: dict[str, Any] = {}
+        for key, item in value.items():
+            if key in {"task_id", "task_pair_id", "mode", "scientific_mode"}:
+                continue
+            if key == "required_files":
+                shaped[key] = list(item) if isinstance(item, list) else item
+            elif key == "submission_path":
+                shaped[key] = item
+            elif key == "result_schema":
+                shaped[key] = _json_shape(item)
+            else:
+                shaped[key] = _submission_contract_shape(item)
+        return shaped
+    if isinstance(value, list):
+        return [_submission_contract_shape(item) for item in value]
+    return value
+
+
+def _json_shape(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {str(key): _json_shape(item) for key, item in sorted(value.items())}
+    if isinstance(value, list):
+        return {"list": [_json_shape(value[0])]} if value else {"list": []}
+    return type(value).__name__
+
+
+def published_bundle_mechanical_check(bundle_root: Path) -> dict[str, Any]:
+    """Check the final public bundle without judging its science."""
+
+    findings: list[str] = []
+    if not bundle_root.is_dir():
+        return {"status": "failed", "findings": ["published_bundle_missing"]}
+    if (bundle_root / "hidden_reference").exists():
+        findings.append("published_hidden_reference_present")
+    forbidden = {"workspace", "source_materials", "handoff", "staging", "conversion_packet"}
+    for path in bundle_root.rglob("*"):
+        if path.is_dir() and path.name in forbidden:
+            findings.append(f"published_internal_directory:{path.name}")
+        if path.is_file() and path.suffix.casefold() == ".json":
+            try:
+                read_json(path)
+            except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+                findings.append(f"published_json_unreadable:{path.relative_to(bundle_root)}:{type(exc).__name__}")
+    for name in ("task.md", "task_info.json", "task_spec.json", "submission_contract.json"):
+        if not (bundle_root / name).is_file():
+            findings.append(f"published_required_file_missing:{name}")
+    return {"status": "passed" if not findings else "failed", "findings": sorted(set(findings))}
+
+
 def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) -> dict[str, Any]:
-    """Load Evaluator Pydantic contracts against an isolated temporary task tree."""
+    """Perform schema loading plus a minimal, answer-free binding diagnostic.
+
+    This deliberately stops short of running the scoring service: no submission
+    exists at publication time.  The caller reports the result as
+    ``schema_load_status`` and keeps ``evaluator_dry_run_status=not_run``.
+    """
     findings: list[str] = []
     try:
         import sys
@@ -151,7 +255,7 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
         if str(repo_root) not in sys.path:
             sys.path.insert(0, str(repo_root))
         from evaluation.schemas.task import GroundTruth, TaskInfo
-        import tempfile, shutil
+        import tempfile
         with tempfile.TemporaryDirectory(prefix="stage07-evaluator-") as tmp:
             root = Path(tmp)
             for mode, values in mode_values.items():
@@ -164,6 +268,34 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                     findings.append(f"evaluator_ground_truth_missing:{mode}")
                     continue
                 GroundTruth.model_validate_json(gt_path.read_text(encoding="utf-8"))
+                hidden = json.loads(gt_path.read_text(encoding="utf-8"))
+                profiles = hidden.get("acceptance_profiles") or []
+                if not isinstance(profiles, list):
+                    findings.append(f"evaluator_acceptance_profiles_not_array:{mode}")
+                    profiles = []
+                required_paths = set(submission.get("required_files") or [])
+                for profile in profiles:
+                    if not isinstance(profile, dict):
+                        findings.append(f"evaluator_acceptance_profile_invalid:{mode}")
+                        continue
+                    binding = profile.get("submission_binding") or {}
+                    if not isinstance(binding, dict):
+                        findings.append(
+                            f"evaluator_submission_binding_invalid:{mode}:{profile.get('acceptance_profile_id','unknown')}"
+                        )
+                        continue
+                    fields = binding.get("observed_fields") or []
+                    if isinstance(fields, str):
+                        fields = [fields]
+                    if not fields:
+                        findings.append(
+                            f"evaluator_binding_fields_missing:{mode}:{profile.get('acceptance_profile_id','unknown')}"
+                        )
+                    for artifact in binding.get("artifact_paths") or []:
+                        if artifact not in required_paths:
+                            findings.append(
+                                f"evaluator_binding_artifact_not_required:{mode}:{artifact}"
+                            )
                 for rel in submission.get("required_files") or []:
                     if not (pair_root / mode / "data" / rel).exists() and not (pair_root / mode / rel).exists():
                         # Required deliverables are written at run time; only path binding is checked here.

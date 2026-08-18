@@ -144,7 +144,6 @@ def _mode_info(
         "required_deliverables": [
             {"path": "report/results.json", "description": "Structured scientific results.", "allow_empty": False},
             {"path": "report/report.md", "description": "Evidence-backed scientific report.", "allow_empty": False},
-            {"path": "report/process_trace.jsonl", "description": "Tool and intermediate-artifact trace.", "allow_empty": False},
         ],
         "data": [
             {
@@ -268,7 +267,7 @@ def main() -> None:
     task_text = "Follow the author-disclosed route to determine the stated computational quantities. Replace this scaffold with the complete evidence-backed reproduction instruction."
     dump(reproduction / "task_info.json", _mode_info(review, scope, complexity, pair_id, mode="paper_reproduction", task_mode="guided_reproduction", disclosure="paper_route_disclosed", task_text=task_text))
     dump(reproduction / "task_spec.json", _mode_spec(review, scope, complexity, pair_id, mode="paper_reproduction", task_mode="guided_reproduction", disclosure="paper_route_disclosed"))
-    dump(reproduction / "submission_contract.json", {"schema_version": "1.0", "task_pair_id": pair_id, "required_files": ["report/results.json", "report/report.md", "report/process_trace.jsonl"], "submission_path": "report/results.json", "allowed_extra_fields": True})
+    dump(reproduction / "submission_contract.json", {"schema_version": "1.0", "task_pair_id": pair_id, "required_files": ["report/results.json", "report/report.md"], "submission_path": "report/results.json", "allowed_extra_fields": True})
     dump(reproduction / "process_rubric.json", [{"id": "workflow_execution", "max_score": 60, "description": "Execute the complete scientific workflow and preserve intermediate evidence."}, {"id": "validation_and_analysis", "max_score": 40, "description": "Validate outputs and connect them to the scientific question."}])
     (reproduction / "task.md").write_text(task_text + "\n", encoding="utf-8")
     (reproduction / "paper_route.md").write_text(json.dumps(review.get("paper_route") or {}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

@@ -43,12 +43,15 @@ from src.stages.stage07_task_judge.prompts import (
     audit_instructions,
 )
 from src.stages.stage07_task_judge.validation import (
+    # Kept as a compatibility import for callers that explicitly assert the
+    # scientific validator is not invoked by this file-management stage.
     deterministic_stage07_audit,
+    published_bundle_mechanical_check,
     stage07_mechanical_pre_publish_check,
     validate_agent_audit,
 )
 
-STAGE07_IMPLEMENTATION_VERSION = "v8-agent-authority-minimal-recovery-20260818"
+STAGE07_IMPLEMENTATION_VERSION = "v9-fifth-round-mechanical-boundary-20260818"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -144,6 +147,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
             final_path: str | None = None
             published_paths: dict[str, str] = {}
             evaluator_paths: dict[str, str] = {}
+            published_bundle_statuses: dict[str, dict[str, Any]] = {}
             if decision in STAGE07_APPROVED_DECISIONS:
                 task_root = _stage07_approved_artifact(response, artifact_root)
                 target = stage_root / "audited_tasks" / safe_component(paper_id)
@@ -153,16 +157,42 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 mechanical_report = stage07_mechanical_pre_publish_check(target)
                 write_json(target / "mechanical_pre_publish_report.json", mechanical_report)
                 write_manifest(target, target / "audit_manifest.json")
-                published_paths = _publish_mode_bundles(
-                    target,
-                    stage_root / "published_tasks",
-                    task_pair_id=final_task_pair_id or task_pair_id,
+                response["orchestrator_mechanical_status"] = (
+                    "passed"
+                    if mechanical_report.get("mechanical_pre_publish_status") == "passed"
+                    else "blocked"
                 )
-                evaluator_paths = _publish_private_evaluator_registry(
-                    target,
-                    stage_root / "evaluator_registry",
-                    task_pair_id=final_task_pair_id or task_pair_id,
+                response["orchestrator_mechanical_findings"] = mechanical_report.get(
+                    "findings", []
                 )
+                response["orchestrator_schema_load_status"] = mechanical_report.get(
+                    "schema_load_status", "not_run"
+                )
+                write_json(target / "stage07_audit.json", response)
+                if mechanical_report.get("mechanical_pre_publish_status") == "passed":
+                    published_paths = _publish_mode_bundles(
+                        target,
+                        stage_root / "published_tasks",
+                        task_pair_id=final_task_pair_id or task_pair_id,
+                    )
+                    evaluator_paths = _publish_private_evaluator_registry(
+                        target,
+                        stage_root / "evaluator_registry",
+                        task_pair_id=final_task_pair_id or task_pair_id,
+                    )
+                    published_bundle_statuses = {
+                        mode: published_bundle_mechanical_check(Path(path))
+                        for mode, path in published_paths.items()
+                    }
+                else:
+                    # A transport failure blocks publication, but does not
+                    # reopen the scientific audit or silently turn it into a
+                    # scientific rejection.  The finding is recorded for a
+                    # bounded technical recovery path.
+                    response["orchestrator_mechanical_status"] = "blocked"
+                    response["orchestrator_mechanical_findings"] = mechanical_report.get(
+                        "findings", []
+                    )
                 final_path = str(target)
             else:
                 target = _publish_stage07_rejection(
@@ -189,6 +219,21 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 "toolbox_status": response.get("toolbox_status"),
                 "required_additions": response.get("required_additions") or [],
                 "resource_status": response.get("resource_status"),
+                "agent_observed_contract_status": response.get("contract_status"),
+                "agent_observed_disclosure_status": response.get("disclosure_status"),
+                "agent_observed_evaluator_dry_run_status": response.get(
+                    "evaluator_dry_run_status"
+                ),
+                "orchestrator_mechanical_status": response.get(
+                    "orchestrator_mechanical_status", "not_run"
+                ),
+                "orchestrator_mechanical_findings": response.get(
+                    "orchestrator_mechanical_findings", []
+                ),
+                "orchestrator_schema_load_status": response.get(
+                    "orchestrator_schema_load_status", "not_run"
+                ),
+                "published_bundle_statuses": published_bundle_statuses,
                 "task_pair_path": final_path,
                 "published_task_paths": published_paths,
                 "evaluator_registry_paths": evaluator_paths,
@@ -247,6 +292,12 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
         ),
         "objective_failure_retryable": sum(
             row.get("audit_decision") == "objective_failure_retryable" for row in records
+        ),
+        "mechanical_publish_blocked": sum(
+            row.get("orchestrator_mechanical_status") == "blocked" for row in records
+        ),
+        "schema_load_failed": sum(
+            row.get("orchestrator_schema_load_status") == "failed" for row in records
         ),
         "needs_software": sum(row.get("toolbox_status") == "needs_software" for row in records),
         "decisions": decision_counts(records, "audit_decision"),
@@ -470,21 +521,19 @@ def _run_audit_repair_agent(
                 mechanical_report = stage07_mechanical_pre_publish_check(outputs / "task_pair")
                 write_json(root / "mechanical_pre_publish_report.json", mechanical_report)
                 if mechanical_report.get("mechanical_pre_publish_status") != "passed":
-                    message = (
-                        "Stage07 Agent approved a pair that failed the mechanical publication "
-                        "contract: " + "; ".join(mechanical_report.get("findings") or [])
+                    # Mechanical findings are surfaced to the orchestrator and
+                    # handled as a bounded publication block.  They must not
+                    # trigger another full-paper Stage07 scientific review.
+                    response["orchestrator_mechanical_status"] = "blocked"
+                    response["orchestrator_mechanical_findings"] = mechanical_report.get(
+                        "findings", []
                     )
-                    result.status = "failed"
-                    result.failure_class = "mechanical_contract_failure"
-                    result.retryable = True
-                    result.error = {"error_type": "MechanicalContractFailure", "message": message[:4000]}
-                    write_json(root / "agent_run.json", result.audit_record())
-                    raise AgentExecutionError(
-                        message,
-                        failure_class="mechanical_contract_failure",
-                        retryable=True,
-                        result=result,
-                    )
+                else:
+                    response["orchestrator_mechanical_status"] = "passed"
+                response["orchestrator_schema_load_status"] = mechanical_report.get(
+                    "schema_load_status", "not_run"
+                )
+                write_json(outputs / "stage07_audit.json", response)
         except AgentExecutionError as exc:
             last_error = exc
             recovery_context = agent_recovery_context(exc.result)

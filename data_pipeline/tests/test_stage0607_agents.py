@@ -675,7 +675,16 @@ def test_reproduction_setup_renders_route_scaffold_and_preserves_data(
             },
         ),
         ("submission_contract.json", {"required_files": ["report/report.md"]}),
-        ("process_rubric.json", [{"id": "design", "max_score": 100}]),
+        (
+            "process_rubric.json",
+            [
+                {
+                    "id": "paper_route_fidelity",
+                    "criterion_type": "route_fidelity",
+                    "max_score": 100,
+                }
+            ],
+        ),
     ):
         (autonomous / name).write_text(json.dumps(value), encoding="utf-8")
     review = {
@@ -5930,7 +5939,8 @@ def test_stage07_mechanical_gate_loads_evaluator_contracts(tmp_path: Path) -> No
     write_json(pair / "hidden_reference" / "ground_truth_autonomous.json", truth)
     report = stage07_mechanical_pre_publish_check(pair)
     assert report["mechanical_pre_publish_status"] == "passed"
-    assert report["evaluator_dry_run_status"] == "passed"
+    assert report["schema_load_status"] == "passed"
+    assert report["evaluator_dry_run_status"] == "not_run"
 
 
 def test_route_rubric_normalizer_canonicalizes_equivalent_agent_id() -> None:
