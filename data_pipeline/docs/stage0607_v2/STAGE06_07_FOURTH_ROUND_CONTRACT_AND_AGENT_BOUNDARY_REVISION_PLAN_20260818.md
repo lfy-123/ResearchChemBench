@@ -570,3 +570,62 @@ Agent 返回的 `evaluator_dry_run_status` 只能作为建议字段，不能作�
 - 编排器能真实证明任务可被 Evaluator 加载，但不代替 Agent 判断科学价值；
 - 两种模式的文件合同、ID、评分绑定和发布目录形成闭合协议；
 - 任务仍然围绕重要科学目标和完整计算子过程构建，不因机械规则退化为简单单步任务。
+
+## 19. Round 4 实际实现记录
+
+### Git commits
+
+- `166897c fix(stage06-07): close round4 contracts and evaluator gate`
+- `0b7415f fix(stage07): write gate failure record in active workspace`
+- `60bbb70 fix(stage06-07): accept neutralized shared inputs and route rubric`
+- `b547ccb fix(stage06): keep submission contract mode-neutral`
+
+这些提交只包含本轮 Stage06/07、机械 gate 和专项测试文件；没有清理或覆盖工作区内其他用户改动。
+
+### 已实现内容
+
+1. 清理 Stage06A Prompt 的职责冲突：Builder 只生成 reproduction、hidden reference draft 和转换包，不再声称生成 authoritative autonomous task。
+2. Stage06B 继续只接收最小 conversion packet，不接收 canonical answers、private evidence 或完整 Stage06A review。
+3. Stage06 active path 在进入 Stage07 前统一 mode/task_mode/task ID、共享 submission contract，并将等价的 `route_fidelity` rubric 归一化为 `paper_route_fidelity`、`criterion_type=route_fidelity` 和 `evidence_artifacts`。
+4. 新增 `stage07_mechanical_pre_publish_check()`：只检查文件合同、mode/ID、输入资产、route fidelity、隐藏目录隔离和 Evaluator 可加载性，不判断科学 approved/rejected。
+5. Evaluator dry-run 通过项目真实 `TaskInfo`/`GroundTruth` Pydantic schema 加载两个 mode，并将结果写入 `mechanical_pre_publish_report.json`。
+6. 输入一致性 gate 比较内容指纹；对 XYZ 仅忽略可脱敏的第二行 comment 和路径名，允许 autonomous 公共表面做中性重命名。
+7. 修复 public bundle staging 源目录清理；Stage07 Prompt 加入通用“输入状态→计算动作→输出产物→验证→Ground Truth”一致性检查。
+8. submission contract 保持 mode-neutral，仅保留共享 `task_pair_id` 和 required paths，不再把 reproduction 的 mode-specific `task_id`复制给 autonomous。
+
+### 测试结果
+
+```text
+PYTHONPATH=. pytest -q tests/test_stage0607_agents.py tests/test_pipeline.py tests/test_batch_workflow.py
+369 passed
+```
+
+新增/覆盖的专项测试包括 evaluator load gate、neutralized XYZ input matching、route rubric canonicalization 和 Stage06/07 mode 合同。
+
+### 6904 Pro-0813 回归
+
+运行目录：`runs/stage06-07-round4-20260818-paper6904-pro0813`。
+
+- 论文：`paper_6904a9c8c09855cc`，DOI `10.1002/anie.202525581`。
+- 模型：`deepseek-v4-pro-0813`；harness：Codex；API 参数来自 `config.local.env`。
+- Stage06：`provisional_constructed`，选中第一 N–H tautomerization 的核心科学子流程；Builder 46 calls、约 2.40M tokens，Converter 25 calls、约 0.57M tokens。
+- Stage07：最终 `approved_with_repairs`，`selected_workflow_preserved=true`，`toolbox_status=available`，`resource_status=feasible`，最终 mechanical gate 和 evaluator dry-run 均为 `passed`；最终成功尝试 37 calls、约 2.08M tokens（此前失败恢复尝试另有额外消耗）。
+- 最终发布目录：
+  - `stage_07_task_audit/published_tasks/paper_6904a9c8c09855cc_g70_first_nh3_tautomerization_paper_reproduction`
+  - `stage_07_task_audit/published_tasks/paper_6904a9c8c09855cc_g70_first_nh3_tautomerization_autonomous_research`
+- 发布目录没有 hidden reference、source materials、workspace、handoff、conversion report 或 staging 临时目录；私有 ground truth 只位于 `evaluator_registry/`。
+
+### 运行轨迹中发现并修复的问题
+
+1. 首次回归因 Stage07 gate 异常分支引用未定义变量 `workspace` 失败。修复为当前 Agent 工作区 `root`，提交 `0b7415f`。
+2. 首次 gate 将 autonomous 中性 XYZ 文件名/comment 的差异误判为输入科学资产差异；改为内容指纹比较，提交 `60bbb70`。
+3. Agent 输出了语义等价但字段名不同的 `route_fidelity` criterion。Stage06 active path 增加通用 rubric canonicalization，并由 gate 检查结构化字段。
+4. Stage07 恢复尝试中曾把 mode-specific `task_id`带入共享 submission contract；改为删除该字段，提交 `b547ccb`。
+
+上述失败均为文件合同/编排代码问题，不是模型科学判断；最终 Agent 仍保留了同一个重要科学子流程，并完成自主表面脱敏、rubric 调整和 hidden contract 同步。
+
+### 后续建议
+
+- 继续保留 mechanical gate，但只扩展通用文件和 Evaluator 合同，不加入论文/软件关键词规则。
+- 将最终运行的 `mechanical_pre_publish_report.json`、两个 Agent 的 `agent_run.json`、`_bridge_trace.jsonl` 和发布 manifest 作为回归审计样本。
+- 对不同任务方向增加 holdout 回归，重点观察 Agent 是否能主动选择重要核心子流程，以及 Stage07 是否能修复小问题而不是频繁触发机械恢复。
