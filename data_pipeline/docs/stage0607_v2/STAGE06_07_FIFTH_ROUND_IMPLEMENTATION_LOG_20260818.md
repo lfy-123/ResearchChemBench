@@ -60,3 +60,17 @@ charge/multiplicity、TS action 与虚频验证、物理溶剂边界、GT bindin
 - `gpt-5.6-sol`
 
 两个任务使用 Codex harness，独立输出目录，完成后比较 Stage06A、Stage06B、Stage07 轨迹及最终双模式任务质量。
+
+## 模型测试提交结果
+
+两个任务均已真实提交，但当前 `config.local.env` 所指向的中转站令牌没有相应模型权限：
+
+- DeepSeek：run id `stage06-07-history-paper_6904a9c8c09855cc-20260818T085007Z`，上游对 `deepseek-v4-pro-0814` 返回 HTTP 403；三次 harness attempt 均为 0 tool calls、0 tokens，Stage06 记录为 `objective_failure_retryable`，Stage07 未运行。
+- GPT：run id `stage06-07-history-paper_6904a9c8c09855cc-20260818T085029Z`，上游对 `gpt-5.6-sol` 返回 HTTP 403；三次 harness attempt 均为 0 tool calls、0 tokens，Stage06 记录为 `objective_failure_retryable`，Stage07 未运行。
+
+这两项是中转站访问权限失败，不是 Stage06/07 代码、Prompt 或科学判断失败。对应运行目录分别为：
+
+- `runs/stage06-07-fifth-round-20260818-paper6904-pro0814`
+- `runs/stage06-07-fifth-round-20260818-paper6904-gpt56sol`
+
+获得允许访问上述模型的 URL/API key 后可以直接重新提交；不要把本次失败产物用于模型质量对比。
