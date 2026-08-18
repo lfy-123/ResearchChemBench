@@ -107,7 +107,7 @@ STAGE06_WORKFLOW_REVIEW_SCHEMA = object_schema(
 STAGE06_AUTONOMOUS_CONVERTER_SCHEMA = object_schema(
     ["status", "artifact_path", "summary"],
     {
-        "status": {"enum": ["converted", "needs_conversion_retry", "objective_consistency_error"]},
+        "status": {"enum": ["converted", "conversion_uncertain", "needs_conversion_retry", "objective_consistency_error"]},
         "artifact_path": STRING,
         "summary": STRING,
         "conversion_report": OBJECT,

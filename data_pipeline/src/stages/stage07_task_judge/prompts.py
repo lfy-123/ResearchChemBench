@@ -56,6 +56,11 @@ SCIENTIFIC WORKFLOW
    `parent_workflow_position`, `why_not_full_workflow`, and `selection_rationale`. If Stage06 chose a
    reproducible but peripheral fragment, first redesign the scope within the same parent workflow and
    record `approved_after_workflow_redesign`; do not apply molecule- or paper-specific rules.
+6. Check workflow consistency generically as a chain: input structure/state → computational action
+   → produced artifact → scientific validation criterion → bound Ground Truth/key point. Flag or
+   repair mismatches such as an input state that cannot produce the claimed output, a validation
+   test incompatible with the calculation, or a claim whose required submission field is absent.
+   Use paper evidence and scientific judgment; do not add software- or molecule-specific code rules.
 
 MODE CONTRACT
 - Paper reproduction discloses the authors' executable method and route.
@@ -122,6 +127,9 @@ DECISION SEMANTICS
   filesystem failure. Put that blocker in `remaining_issues`. Never use it merely because the audit
   took many calls, because you did not manually write the receipt, or when repairs succeeded and no
   blocker remains.
+- `evaluator_dry_run_status` in your response is an observation only. The orchestrator performs a
+  separate mechanical Evaluator load check after your artifact is written; do not treat that field
+  as a substitute for scientific audit.
 
 OUTPUT CONTRACT
 For every approved decision, leave these components under `outputs/task_pair/`:
