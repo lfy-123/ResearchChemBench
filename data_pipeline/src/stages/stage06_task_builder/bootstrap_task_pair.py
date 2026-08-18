@@ -37,6 +37,38 @@ def evidence_ids(value) -> list[str]:
     return [str(item) for item in (value or []) if str(item)]
 
 
+def normalize_assets(value) -> list[dict]:
+    """Accept list or keyed-map syntax without inventing missing asset data."""
+
+    if isinstance(value, list):
+        candidates = [(str(index), row) for index, row in enumerate(value, start=1)]
+    elif isinstance(value, dict):
+        if any(
+            key in value
+            for key in ("path", "content", "description", "role", "source_evidence_ids")
+        ):
+            candidates = [("asset-1", value)]
+        else:
+            candidates = [(str(key), row) for key, row in value.items()]
+    else:
+        return []
+
+    assets: list[dict] = []
+    for label, raw in candidates:
+        if isinstance(raw, dict):
+            asset = dict(raw)
+        elif isinstance(raw, str) and raw.strip():
+            asset = {"description": raw.strip()}
+        else:
+            continue
+        asset.setdefault("asset_id", label)
+        if not asset.get("path") and ("/" in label or Path(label).suffix):
+            asset["path"] = label
+        if asset.get("path"):
+            assets.append(asset)
+    return assets
+
+
 def normalize_truths(review: dict) -> list[dict]:
     result: list[dict] = []
     for index, raw in enumerate(review.get("ground_truth_items") or [], start=1):
@@ -141,9 +173,7 @@ def _mode_spec(
     public = review.get("public_task_basis") or {}
     suffix = "autonomous" if mode == "autonomous_research" else "reproduction"
     assets = []
-    for asset in public.get("input_assets") or []:
-        if not isinstance(asset, dict):
-            continue
+    for asset in normalize_assets(public.get("input_assets")):
         assets.append(
             {
                 "path": "data/inputs/" + safe_path(asset.get("path")),
@@ -229,8 +259,8 @@ def main() -> None:
     question = str(review.get("public_scientific_question") or review.get("scientific_question") or "Determine the paper-defined computational quantities.")
     reproduction = root / "paper_reproduction"
     (reproduction / "data" / "inputs").mkdir(parents=True, exist_ok=True)
-    for asset in public.get("input_assets") or []:
-        if not isinstance(asset, dict) or asset.get("content") is None:
+    for asset in normalize_assets(public.get("input_assets")):
+        if asset.get("content") is None:
             continue
         target = reproduction / "data" / "inputs" / safe_path(asset.get("path"))
         target.parent.mkdir(parents=True, exist_ok=True)

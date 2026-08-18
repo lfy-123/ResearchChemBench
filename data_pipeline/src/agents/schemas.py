@@ -34,6 +34,8 @@ STAGE06_TASK_PAIR_BUILDER_SCHEMA = object_schema(
         "milestones": OBJECT,
         "workflow_scope_kind": {
             "enum": [
+                "full_paper_core_workflow",
+                "core_scientific_subworkflow",
                 "full_paper_computational_workflow",
                 "major_paper_workflow",
                 "partial_computational_subworkflow",
@@ -239,6 +241,10 @@ STAGE07_AUDIT_SCHEMA = object_schema(
         "resource_status": {
             "enum": ["feasible", "high_cost", "infeasible", "uncertain"]
         },
+        "scientific_decision": STRING,
+        "contract_status": {"enum": ["passed", "findings", "not_applicable"]},
+        "disclosure_status": {"enum": ["passed", "needs_review", "not_applicable"]},
+        "evaluator_dry_run_status": {"enum": ["passed", "failed", "not_run"]},
         "summary": STRING,
     },
 )

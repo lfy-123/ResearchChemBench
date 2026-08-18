@@ -15,6 +15,7 @@ IGNORED_MANIFEST_NAMES = {
     "public_manifest.json",
     "task_pair_manifest.json",
     "audit_manifest.json",
+    "published_manifest.json",
     "phase_state.json",
     "_agent_stdout.jsonl",
     "_agent_stderr.log",
@@ -220,10 +221,10 @@ Read `RECOVERY_CONTEXT.md` first with `sed -n '1,240p' RECOVERY_CONTEXT.md` (it 
 do not infer that it is absent from a partial directory listing). The unchanged canonical inputs remain authoritative.
 If the context file is unavailable, continue from any existing `outputs/` artifacts and the validation failure; do
 not convert that execution/transport problem into a scientific rejection. Do not repeat broad searches
-already recorded there. If `RECOVERY_EVIDENCE.md` exists, it contains the completed commands and exact outputs from
-the previous isolated workspace. Search that private handoff with one grouped command before any source document;
-do not page through it sequentially and do not rerun its commands. Extract only the method, input-asset, result,
-claim, software, and cost facts needed by the output contract, then start writing the artifact.
+already recorded there. If `RECOVERY_EVIDENCE.md` exists, do not page through the full file: use at most one
+targeted grouped search for the exact missing paths, then start writing. The recovery budget is for delivering
+the artifact, not for rereading the entire prior trace. Use one `/usr/bin/python3` batch edit for repeated files,
+then one grouped diff/hash verification before submitting the receipt.
 When `RECOVERY_CONTEXT.md` contains a `Validation failure to repair` section, its exact findings are the primary
 work order. Inspect the existing artifact once and patch those findings before any new evidence search; do not spend
 the recovery budget revalidating fields that were not named by the validator.

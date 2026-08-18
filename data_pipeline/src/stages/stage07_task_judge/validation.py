@@ -135,6 +135,17 @@ def software_matches_installed(name: Any, toolbox: dict[str, Any]) -> dict[str, 
         available = set().union(*(_software_token_variants(value) for value in values))
         if requested & available:
             return row
+        # Some citations attach a release directly to the family name (for
+        # example VASP6 or CP2K2025). Versions are deliberately irrelevant to
+        # Stage06/07 inventory matching.
+        if any(
+            len(base) >= 4
+            and candidate.startswith(base)
+            and re.fullmatch(r"v?\d+[a-z0-9]*", candidate[len(base) :])
+            for candidate in requested
+            for base in available
+        ):
+            return row
     if requested & {"g09", "g16", "gaussian09", "gaussian16", "gaussian"}:
         for row in inventory:
             if _normalize_software_token(row.get("software_id")) == "gaussian":

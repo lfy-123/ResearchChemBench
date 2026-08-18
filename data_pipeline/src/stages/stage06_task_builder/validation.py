@@ -22,10 +22,15 @@ ACCEPTANCE_TYPES = {
     "artifact_validation",
 }
 WORKFLOW_SCOPE_KINDS = {
+    "full_paper_core_workflow",
+    "core_scientific_subworkflow",
+    # Legacy spellings remain readable during migration. New prompts emit only
+    # the two objective-centered kinds above.
     "full_paper_computational_workflow",
     "major_paper_workflow",
     "partial_computational_subworkflow",
 }
+TASK_PAIR_CONTRACT_VERSION = "researchchembench.task-pair-contract.v2"
 SCIENTIFIC_FAILURE_CODES = {
     "no_author_performed_computation",
     "missing_core_input",
@@ -259,14 +264,86 @@ def validate_workflow_scope(scope: Any, evidence_ids: set[str]) -> list[str]:
         findings.append("workflow_scope_included_claims_missing")
     if not str(scope.get("selection_rationale") or "").strip():
         findings.append("workflow_scope_selection_rationale_missing")
-    if kind != "full_paper_computational_workflow" and not scope.get(
+    if kind not in {"full_paper_core_workflow", "full_paper_computational_workflow"} and not scope.get(
         "larger_scope_failure_reasons"
     ):
         findings.append("workflow_scope_larger_scope_reason_missing")
+    if kind == "core_scientific_subworkflow":
+        for field in (
+            "central_scientific_question",
+            "supported_primary_claims",
+            "parent_workflow_position",
+            "why_not_full_workflow",
+        ):
+            if scope.get(field) in (None, "", [], {}):
+                findings.append(f"core_subworkflow_{field}_missing")
     findings.extend(
         _unknown_evidence(scope.get("scope_evidence_ids"), evidence_ids, "workflow_scope")
     )
     return sorted(set(findings))
+
+
+def classify_task_pair_findings(findings: Any) -> dict[str, list[str]]:
+    """Classify findings without turning the orchestrator into a scientific judge."""
+
+    categories: dict[str, list[str]] = {
+        "hard_mechanical": [],
+        "disclosure_semantic": [],
+        "agent_scientific": [],
+        "resource_advisory": [],
+    }
+    disclosure_prefixes = (
+        "hidden_answer_leakage",
+        "hidden_conclusion_leakage",
+        "autonomous_route_disclosure",
+        "review_public_route_disclosure",
+        "review_public_answer_leakage",
+        "review_public_conclusion_leakage",
+        "review_paper_route_answer_leakage",
+        "review_paper_route_conclusion_leakage",
+        "review_reproduction_route_uses_hidden_result",
+    )
+    scientific_prefixes = (
+        "task_not_challenging",
+        "scope_underselected",
+        "resource_infeasible",
+        "benchmark_not_challenging",
+    )
+    resource_prefixes = ("toolbox_", "software_", "resource_", "cost_")
+    for raw in findings if isinstance(findings, list) else []:
+        finding = str(raw)
+        code = finding.split(":", 1)[0]
+        if code.startswith(disclosure_prefixes):
+            categories["disclosure_semantic"].append(finding)
+        elif code.startswith(scientific_prefixes):
+            categories["agent_scientific"].append(finding)
+        elif code.startswith(resource_prefixes):
+            categories["resource_advisory"].append(finding)
+        else:
+            categories["hard_mechanical"].append(finding)
+    return {key: sorted(set(value)) for key, value in categories.items()}
+
+
+def task_pair_contract_report(pair_root: Path) -> dict[str, Any]:
+    """Return the versioned prepublish report shared by Stage06 and Stage07."""
+
+    audit = validate_task_pair(pair_root)
+    categories = classify_task_pair_findings(audit.get("findings") or [])
+    evaluator_findings = [
+        finding
+        for finding in categories["hard_mechanical"]
+        if finding.startswith(("evaluation_task_info_invalid", "evaluation_ground_truth_invalid"))
+    ]
+    return {
+        "schema_version": TASK_PAIR_CONTRACT_VERSION,
+        "pair_root_name": pair_root.name,
+        "contract_status": "passed" if not categories["hard_mechanical"] else "findings",
+        "disclosure_status": "passed" if not categories["disclosure_semantic"] else "needs_review",
+        "evaluator_dry_run_status": "failed" if evaluator_findings else "passed",
+        "finding_counts": {key: len(value) for key, value in categories.items()},
+        "findings": categories,
+        "validator": audit,
+    }
 
 
 def validate_complexity_profile(
@@ -754,6 +831,14 @@ def validate_mode_task(task_root: Path, *, expected_mode: str) -> list[str]:
         findings.append("task_info_task_pair_id_missing")
     if task_spec.get("task_pair_id") != task_info.get("task_pair_id"):
         findings.append("task_spec_task_pair_id_mismatch")
+    scientific_question = str(task_spec.get("scientific_question") or "").strip()
+    task_info_question = str(task_info.get("scientific_question") or "").strip()
+    if not scientific_question:
+        findings.append("task_spec_scientific_question_missing")
+    if not task_info_question:
+        findings.append("task_info_scientific_question_missing")
+    elif scientific_question and task_info_question != scientific_question:
+        findings.append("task_info_spec_scientific_question_mismatch")
     if not str(task_info.get("task") or "").strip():
         findings.append("task_instruction_missing")
     if not task_info.get("required_deliverables"):
