@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "description": "Default Codex bridge protocol parameters selected by exact, case-insensitive model ID. Explicit role configuration and role environment variables override these defaults.",
+  "defaults": {
+    "codex_wire_api": "chat_completions",
+    "tool_choice_policy": "auto",
+    "response_format_policy": "auto"
+  },
+  "models": {
+    "gpt-5.6-sol": {
+      "codex_wire_api": "chat_completions",
+      "tool_choice_policy": "required_until_artifact",
+      "response_format_policy": "none"
+    },
+    "deepseek-v4-flash": {
+      "codex_wire_api": "chat_completions",
+      "tool_choice_policy": "auto",
+      "response_format_policy": "auto"
+    },
+    "deepseek-v4-pro": {
+      "codex_wire_api": "chat_completions",
+      "tool_choice_policy": "auto",
+      "response_format_policy": "auto"
+    },
+    "deepseek-v4-pro-0813": {
+      "codex_wire_api": "chat_completions",
+      "tool_choice_policy": "auto",
+      "response_format_policy": "auto"
+    },
+    "deepseek-v4-pro-0814": {
+      "codex_wire_api": "chat_completions",
+      "tool_choice_policy": "auto",
+      "response_format_policy": "auto"
+    }
+  }
+}
