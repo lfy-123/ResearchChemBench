@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
@@ -51,9 +52,18 @@ def run_stage06_07_from_history(
     config["stage06"]["converter_harness"] = harness
     config["stage07"]["harness"] = harness
     output_root.mkdir(parents=True, exist_ok=True)
+    # Include a monotonic nanosecond nonce and output identity so parallel
+    # model runs cannot share the same history/run registry key.
+    run_nonce = canonical_hash(
+        {
+            "paper_id": inputs["paper_id"],
+            "output": str(output_root),
+            "time_ns": time.time_ns(),
+        }
+    )[:10]
     run_id = (
         f"stage06-07-history-{safe_component(inputs['paper_id'])}-"
-        f"{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
+        f"{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')}-{run_nonce}"
     )
     write_json(
         output_root / "historical_input_manifest.json",

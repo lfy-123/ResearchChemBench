@@ -77,6 +77,9 @@ from src.stages.stage06_task_builder.stage import (
 )
 from src.stages.stage06_task_builder.validation import (
     _input_asset_integrity_findings,
+    anonymous_source_id,
+    canonicalize_mode_task_contract,
+    normalize_submission_contract,
     validate_autonomous_route_isolation,
     validate_ground_truth_consistency,
     validate_hidden_reference,
@@ -5955,3 +5958,34 @@ def test_route_rubric_normalizer_canonicalizes_equivalent_agent_id() -> None:
     assert route["id"] == "paper_route_fidelity"
     assert route["criterion_type"] == "route_fidelity"
     assert route["evidence_artifacts"] == ["report/process_trace.jsonl"]
+
+
+def test_route_rubric_normalizer_adds_missing_route_without_overwriting_science() -> None:
+    normalized = _ensure_reproduction_route_rubric(
+        [
+            {"id": "analysis", "max_score": 60, "description": "Analyze outputs."},
+            {"id": "validation", "max_score": 40, "description": "Validate outputs."},
+        ],
+        submission={"required_files": ["report/report.md"]},
+    )
+    assert normalized[0]["id"] == "analysis"
+    assert normalized[1]["id"] == "validation"
+    assert normalized[-1]["criterion_type"] == "route_fidelity"
+    assert sum(float(row["max_score"]) for row in normalized) == pytest.approx(100.0)
+
+
+def test_mode_contract_fills_anonymous_source_and_result_schema(tmp_path: Path) -> None:
+    for name in ("task_info.json", "task_spec.json"):
+        write_json(
+            tmp_path / name,
+            {"task_pair_id": "pair-contract", "task_id": "old", "mode": "old"},
+        )
+    findings = canonicalize_mode_task_contract(
+        tmp_path, expected_mode="autonomous_research"
+    )
+    assert findings == []
+    assert read_json(tmp_path / "task_info.json")["source_id"] == anonymous_source_id(
+        "pair-contract"
+    )
+    contract = normalize_submission_contract({"required_files": ["report/results.json"]})
+    assert contract["results_schema"]["type"] == "object"

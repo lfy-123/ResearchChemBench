@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import math
 import re
 import sys
@@ -31,6 +32,11 @@ WORKFLOW_SCOPE_KINDS = {
     "partial_computational_subworkflow",
 }
 TASK_PAIR_CONTRACT_VERSION = "researchchembench.task-pair-contract.v2"
+DEFAULT_RESULT_SCHEMA = {
+    "type": "object",
+    "description": "Structured report/results.json submitted by the evaluated agent.",
+    "additionalProperties": True,
+}
 CANONICAL_COMPLEXITY_FIELDS = (
     "scientific_core_operation_count",
     "estimated_min_tool_calls",
@@ -123,6 +129,10 @@ def canonicalize_mode_task_contract(
             findings.append(f"task_pair_id_missing:{name}")
             continue
         canonical_id = f"{pair_id}{suffix}"
+        # Evaluator metadata needs a stable provenance key, but the public task
+        # must not expose a DOI/title.  Derive the same anonymous key for both
+        # modes from the pair identity and keep full provenance in paper_info.
+        value["source_id"] = anonymous_source_id(pair_id)
         value["task_pair_id"] = pair_id
         value["task_id"] = canonical_id
         value["mode"] = expected_mode
@@ -140,6 +150,28 @@ def canonicalize_mode_task_contract(
             )
         write_json(path, value)
     return sorted(set(findings))
+
+
+def anonymous_source_id(task_pair_id: str) -> str:
+    """Return a stable public provenance key without publishing paper identity."""
+
+    digest = hashlib.sha256(str(task_pair_id).encode("utf-8")).hexdigest()[:20]
+    return f"rcb-source-{digest}"
+
+
+def normalize_submission_contract(value: Any) -> dict[str, Any]:
+    """Normalize transport fields shared by both modes.
+
+    The result schema is intentionally permissive: it declares that the
+    evaluator expects a JSON object while leaving scientific result keys to the
+    task's acceptance profiles.  This closes the evaluator contract without
+    inventing a paper-specific output schema.
+    """
+
+    output = dict(value) if isinstance(value, dict) else {}
+    output.setdefault("schema_version", "researchchembench.submission.v1")
+    output.setdefault("results_schema", json.loads(json.dumps(DEFAULT_RESULT_SCHEMA)))
+    return output
 
 
 def validate_scientific_review(review: dict[str, Any], evidence_ids: set[str]) -> list[str]:

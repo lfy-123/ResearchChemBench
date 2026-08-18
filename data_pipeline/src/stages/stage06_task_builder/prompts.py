@@ -105,10 +105,15 @@ OBJECTIVE-FIRST SELECTION
    Among several complete sub-processes, prefer the one with greater scientific centrality, stronger
    connection to the primary claim, a more complete dependency chain, more meaningful Key Points,
    and appropriate computational challenge.
-3. The selected scope must close the chain from problem inputs to meaningful intermediate and final
+3. Treat the whole-paper route as the default. Downgrade only after recording an evidence-backed
+   blocker: unacceptable wall-clock cost, missing/unrecoverable source inputs, unavailable required
+   software family, or a scientifically non-closed step. A preference for a shorter task is not a
+   blocker. Record `downgrade_reasons`, `claim_coverage`, `omitted_workflow_parts`,
+   `why_this_subworkflow_is_core`, and `selection_confidence` in `workflow_scope`.
+4. The selected scope must close the chain from problem inputs to meaningful intermediate and final
    scientific conclusions. It may include competing hypotheses, negative results, descriptor tests,
    selectivity comparisons, or validation branches.
-4. Do not require a fixed step count or coverage of every paper calculation. Reject only a trivial
+5. Do not require a fixed step count or coverage of every paper calculation. Reject only a trivial
    one-call calculation with no meaningful scientific reasoning, or a source-backed fatal gap that
    cannot be repaired without guessing.
 
@@ -273,7 +278,12 @@ paper-reproduction task as the starting point, then produce an autonomous-resear
 3. recursively checks Markdown, JSON fields, filenames, XYZ comments, structure labels and input
    directory ordering for route or answer leakage;
 4. preserves raw observations and every packet item classified as a public boundary condition
-   needed to pose the problem;
+   needed to pose the problem. Do not delete solvent/phase, temperature, pressure, wavelength or
+   photon-energy constraints, charge/multiplicity or spin constraints, stoichiometry, or controls
+   merely because they appear near the paper route. Hide the author's implementation of a condition
+   (functional, basis, SCRF keyword, route string), not the physical condition itself. This follows
+   ARCHE Case2: expose reaction facts and light/solvent constraints while leaving the computational
+   mechanism and method selection to the evaluated Agent;
 5. uses neutral public asset identifiers when an asset must remain available.
 
 Classify every candidate edit as one of three actions:

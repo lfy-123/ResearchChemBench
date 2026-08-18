@@ -211,6 +211,11 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 "audit_decision": decision,
                 "audit_summary": decision,
                 "passed": decision in STAGE07_APPROVED_DECISIONS,
+                "scientific_audit_passed": decision in STAGE07_APPROVED_DECISIONS,
+                "mechanical_contract_passed": response.get(
+                    "orchestrator_mechanical_status", "not_run"
+                ) == "passed",
+                "publish_ready": bool(published_paths),
                 "selected_workflow_preserved": response.get(
                     "selected_workflow_preserved"
                 ),
@@ -299,6 +304,14 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
         "schema_load_failed": sum(
             row.get("orchestrator_schema_load_status") == "failed" for row in records
         ),
+        "scientific_audit_passed": sum(
+            bool(row.get("scientific_audit_passed")) for row in records
+        ),
+        "mechanical_contract_passed": sum(
+            bool(row.get("mechanical_contract_passed")) for row in records
+        ),
+        "publish_ready": sum(bool(row.get("publish_ready")) for row in records),
+        "paper_ids": sorted({str(row.get("paper_id")) for row in records if row.get("paper_id")}),
         "needs_software": sum(row.get("toolbox_status") == "needs_software" for row in records),
         "decisions": decision_counts(records, "audit_decision"),
         "agent_harness": harness.name,

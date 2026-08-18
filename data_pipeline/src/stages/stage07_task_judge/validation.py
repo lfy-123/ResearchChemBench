@@ -5,10 +5,13 @@ import re
 from pathlib import Path
 from typing import Any
 
-from src.contracts import read_json
+from src.contracts import read_json, write_json
 from src.core.toolbox_inventory import installed_software_inventory
 from src.stages.stage06_task_builder.validation import validate_task_pair
-from src.stages.stage06_task_builder.validation import canonicalize_mode_task_contract
+from src.stages.stage06_task_builder.validation import (
+    canonicalize_mode_task_contract,
+    normalize_submission_contract,
+)
 
 OUTCOME_TYPES = {
     "needs_software",
@@ -56,7 +59,10 @@ def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
         try:
             info = read_json(root / "task_info.json")
             spec = read_json(root / "task_spec.json")
-            submission = read_json(root / "submission_contract.json")
+            submission = normalize_submission_contract(
+                read_json(root / "submission_contract.json")
+            )
+            write_json(root / "submission_contract.json", submission)
             rubric = read_json(root / "process_rubric.json")
         except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
             findings.append(f"unreadable_mode_json:{mode}:{type(exc).__name__}")
@@ -78,6 +84,8 @@ def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
             for rel in submission.get("required_files"):
                 if not isinstance(rel, str) or not rel or Path(rel).is_absolute() or ".." in Path(rel).parts or "\\" in rel:
                     findings.append(f"unsafe_required_path:{mode}:{rel}")
+        if not isinstance(submission.get("results_schema"), dict):
+            findings.append(f"submission_results_schema_missing:{mode}")
         if not isinstance(rubric, list):
             findings.append(f"process_rubric_not_array:{mode}")
         elif mode == "paper_reproduction":
@@ -200,8 +208,11 @@ def _submission_contract_shape(value: Any) -> Any:
                 shaped[key] = list(item) if isinstance(item, list) else item
             elif key == "submission_path":
                 shaped[key] = item
-            elif key == "result_schema":
-                shaped[key] = _json_shape(item)
+            elif key in {"result_schema", "results_schema"}:
+                # The autonomous converter may neutralize answer-bearing field
+                # names. Compare the JSON contract's type/cardinality shape,
+                # not literal property names.
+                shaped["results_schema"] = _result_schema_shape(item)
             else:
                 shaped[key] = _submission_contract_shape(item)
         return shaped
@@ -210,12 +221,25 @@ def _submission_contract_shape(value: Any) -> Any:
     return value
 
 
-def _json_shape(value: Any) -> Any:
-    if isinstance(value, dict):
-        return {str(key): _json_shape(item) for key, item in sorted(value.items())}
-    if isinstance(value, list):
-        return {"list": [_json_shape(value[0])]} if value else {"list": []}
-    return type(value).__name__
+def _result_schema_shape(value: Any) -> Any:
+    """Return a mode-neutral result-schema shape for the mechanical gate."""
+
+    if not isinstance(value, dict):
+        return {"type": type(value).__name__}
+    result: dict[str, Any] = {"type": value.get("type", "object")}
+    required = value.get("required")
+    if isinstance(required, list):
+        result["required_count"] = len(required)
+    properties = value.get("properties")
+    if isinstance(properties, dict):
+        result["property_shapes"] = sorted(
+            (_result_schema_shape(item) for item in properties.values()),
+            key=lambda item: json.dumps(item, sort_keys=True),
+        )
+    items = value.get("items")
+    if items is not None:
+        result["items"] = _result_schema_shape(items)
+    return result
 
 
 def published_bundle_mechanical_check(bundle_root: Path) -> dict[str, Any]:

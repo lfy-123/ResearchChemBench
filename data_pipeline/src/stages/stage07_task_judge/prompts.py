@@ -48,9 +48,9 @@ SCIENTIFIC WORKFLOW
    workflows. If another complete, non-trivial author-performed workflow exists, rebuild the pair
    and return `approved_after_workflow_redesign`; otherwise return
    `rejected_scientific_unrepairable`.
-5. Prefer the whole-paper workflow only when it forms one coherent, evidence-complete and feasible
-   objective. Otherwise retain the most scientifically important complete core subworkflow, not the
-   largest or easiest fragment. A core subworkflow must directly support the paper's central question
+5. Treat the whole-paper objective-centered workflow as the default. Retain a core subworkflow only
+   when Stage06 records an evidence-backed blocker such as unacceptable cost, unrecoverable input,
+   absent software family, or a scientifically non-closed step. A core subworkflow must directly support the paper's central question
    or primary claim and preserve meaningful dependencies, Key Points, validation and computational
    challenge. Audit its `central_scientific_question`, `supported_primary_claims`,
    `parent_workflow_position`, `why_not_full_workflow`, and `selection_rationale`. If Stage06 chose a
@@ -61,6 +61,10 @@ SCIENTIFIC WORKFLOW
    repair mismatches such as an input state that cannot produce the claimed output, a validation
    test incompatible with the calculation, or a claim whose required submission field is absent.
    Use paper evidence and scientific judgment; do not add software- or molecule-specific code rules.
+   Confirm that difference quantities have balanced reference states and that physical boundaries
+   (phase/solvent, temperature/pressure, wavelength or photon energy, charge/multiplicity and spin)
+   remain public when needed to define the scientific target. A missing author route keyword is not
+   permission to delete the underlying physical condition.
 
 Before returning the audit receipt, write a compact six-row audit table in the audit artifact. Answer each
 row with `closed`, `repairable`, or `unrepairable`, cite the relevant files/evidence, and record the actual

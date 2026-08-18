@@ -81,6 +81,7 @@ from src.stages.stage06_task_builder.validation import (
     validate_workflow_review,
     canonicalize_complexity_profile,
     canonicalize_mode_task_contract,
+    anonymous_source_id,
 )
 
 STAGE06_IMPLEMENTATION_VERSION = "v9-fifth-round-closure-and-contract-20260818"
@@ -592,6 +593,7 @@ def _run_stage06_single_agent(
             for row in records
         ),
         "toolbox_gaps": sum(bool(row.get("toolbox_gap_present")) for row in records),
+        "paper_ids": sorted({str(row.get("paper_id")) for row in records if row.get("paper_id")}),
         "decisions": decision_counts(records),
         "agent_harness": harness.name,
         "agent_model": harness.model,
@@ -3945,6 +3947,45 @@ def _ensure_reproduction_route_rubric(
     )
     if target is None:
         # Do not repurpose an unrelated scientific criterion as route fidelity.
+        # Add one small generic transport criterion instead and rebalance the
+        # existing numeric rubric, preserving every original criterion's
+        # meaning. This is contract closure, not a scientific pass/fail rule.
+        numeric_scores: list[float] = []
+        for row in output:
+            try:
+                score = float(row.get("max_score", 0))
+            except (TypeError, ValueError):
+                numeric_scores = []
+                break
+            numeric_scores.append(score)
+        total = sum(numeric_scores)
+        if numeric_scores and total > 0:
+            route_score = min(20.0, max(5.0, round(total * 0.10, 2)))
+            scale = max(0.0, (total - route_score) / total)
+            for row, score in zip(output, numeric_scores):
+                row["max_score"] = round(score * scale, 2)
+            correction = round(
+                (100.0 - route_score)
+                - sum(float(row["max_score"]) for row in output),
+                2,
+            )
+            output[-1]["max_score"] = round(float(output[-1]["max_score"]) + correction, 2)
+            output.append(
+                {
+                    "id": "paper_route_fidelity",
+                    "criterion_type": "route_fidelity",
+                    "max_score": route_score,
+                    "name": "Paper-route fidelity",
+                    "description": "Follow the disclosed paper route, dependency order, method hierarchy, and validation sequence.",
+                    "evidence_artifacts": evidence_paths,
+                }
+            )
+            # Correct a final centering round-off without touching semantics.
+            output[-1]["max_score"] = round(
+                float(output[-1]["max_score"])
+                + (100.0 - sum(float(row.get("max_score") or 0) for row in output)),
+                2,
+            )
         return output
     target["id"] = "paper_route_fidelity"
     target["criterion_type"] = "route_fidelity"
@@ -4164,14 +4205,9 @@ def _normalize_task_pair_artifact_contracts(
         write_json(reproduction / "submission_contract.json", submission)
         write_json(autonomous / "submission_contract.json", submission)
 
-    source_id = str(
-        review.get("source_id")
-        or reproduction_info.get("source_id")
-        or autonomous_info.get("source_id")
-        or pair_id.removesuffix("_pair")
-    )
-    if source_id == "paper_source" and pair_id:
-        source_id = pair_id.removesuffix("_pair")
+    # Public evaluator metadata uses an anonymous stable key. Full DOI/title
+    # provenance remains in the pair-level paper_info/source_manifest files.
+    source_id = anonymous_source_id(pair_id)
     common_info = {
         "task_pair_id": pair_id,
         "scientific_question": pair_scientific_question,
@@ -6254,7 +6290,7 @@ def _normalized_task_info(
         {
             "task_id": f"{safe_component(task_pair_id)}_autonomous",
             "task_pair_id": task_pair_id,
-            "source_id": paper_id,
+            "source_id": anonymous_source_id(task_pair_id),
             "category": str(public_basis.get("category") or "computational_chemistry"),
             "mode": mode,
             "task_mode": "open_discovery",
@@ -6316,6 +6352,18 @@ def _normalize_submission_contract(value: Any) -> dict[str, Any]:
             continue
         required_files.append(path)
     output["required_files"] = required_files
+    # Keep the submission contract evaluator-loadable when an Agent only
+    # supplied paths. The permissive schema is transport metadata; semantic
+    # fields remain defined by the hidden acceptance profiles.
+    output.setdefault("schema_version", "researchchembench.submission.v1")
+    output.setdefault(
+        "results_schema",
+        {
+            "type": "object",
+            "description": "Structured report/results.json submitted by the evaluated agent.",
+            "additionalProperties": True,
+        },
+    )
     return output
 
 
