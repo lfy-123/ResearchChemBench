@@ -79,6 +79,7 @@ from src.stages.stage06_task_builder.validation import (
     _input_asset_integrity_findings,
     anonymous_source_id,
     canonicalize_mode_task_contract,
+    normalize_scientific_requirements,
     normalize_submission_contract,
     validate_autonomous_route_isolation,
     validate_ground_truth_consistency,
@@ -5972,6 +5973,33 @@ def test_mode_contract_fills_anonymous_source_and_result_schema(tmp_path: Path) 
     )
     contract = normalize_submission_contract({"required_files": ["report/results.json"]})
     assert contract["results_schema"]["type"] == "object"
+
+
+def test_mode_contract_projects_requirement_records_to_evaluator_strings(tmp_path: Path) -> None:
+    for name in ("task_info.json", "task_spec.json"):
+        write_json(
+            tmp_path / name,
+            {
+                "task_pair_id": "pair-requirements",
+                "task_id": "old",
+                "mode": "old",
+                "scientific_requirements": [
+                    {"id": "prepare", "requirement": "Prepare the supplied inputs."},
+                    {"id": "report", "description": "Report the calculated quantities."},
+                ],
+            },
+        )
+    assert normalize_scientific_requirements(
+        [{"id": "x", "requirement": "Keep this text."}, "Already plain."]
+    ) == ["Keep this text.", "Already plain."]
+    findings = canonicalize_mode_task_contract(
+        tmp_path, expected_mode="autonomous_research"
+    )
+    assert findings == []
+    assert read_json(tmp_path / "task_info.json")["scientific_requirements"] == [
+        "Prepare the supplied inputs.",
+        "Report the calculated quantities.",
+    ]
 
 
 def test_mechanical_gate_reports_hidden_pair_identity_mismatch(tmp_path: Path) -> None:

@@ -70,6 +70,35 @@ def canonicalize_complexity_profile(profile: Any) -> dict[str, Any]:
     return output
 
 
+def normalize_scientific_requirements(value: Any) -> list[str]:
+    """Project agent-friendly requirement records onto the evaluator's string contract.
+
+    Agents may use a useful ``{"id": ..., "requirement": ...}`` record while drafting a
+    task.  ``TaskInfo`` intentionally exposes only a compact list of requirement strings;
+    this projection carries the scientific wording forward without making the transport
+    schema a second scientific rubric.  It is mechanical normalization, not validation.
+    """
+
+    if not isinstance(value, list):
+        return []
+    normalized: list[str] = []
+    for item in value:
+        if isinstance(item, str):
+            text = item.strip()
+        elif isinstance(item, dict):
+            text = str(
+                item.get("requirement")
+                or item.get("description")
+                or item.get("text")
+                or ""
+            ).strip()
+        else:
+            text = str(item).strip()
+        if text:
+            normalized.append(text)
+    return normalized
+
+
 def canonicalize_mode_task_contract(
     task_root: Path,
     *,
@@ -127,6 +156,10 @@ def canonicalize_mode_task_contract(
         if isinstance(value.get("complexity_profile"), dict):
             value["complexity_profile"] = canonicalize_complexity_profile(
                 value["complexity_profile"]
+            )
+        if name == "task_info.json" and "scientific_requirements" in value:
+            value["scientific_requirements"] = normalize_scientific_requirements(
+                value.get("scientific_requirements")
             )
         write_json(path, value)
     return sorted(set(findings))

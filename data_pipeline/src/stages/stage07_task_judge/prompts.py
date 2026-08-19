@@ -109,6 +109,11 @@ only the scientific/public content and let transport normalization set these fie
 `task.md` is the only evaluation instruction. JSON `scientific_question` and
 `target_definition` are short index metadata and must not introduce a second instruction source.
 
+When editing `task_info.json`, keep `scientific_requirements` as a compact list of plain strings.
+If richer records are used during reasoning, project each record to its requirement text before
+finishing the public file; IDs and rubric structure belong in the scientific rubric, not in this
+evaluator metadata field.
+
 Reproduction disclosure has a strict answer boundary: route, software, parameters, dependencies, and
 validation operations may be public, but `task_info.json`, `task_spec.json`, `workflow_scope`, Markdown,
 filenames, and rubrics must not contain target numbers, tolerances, rankings, preferred routes, or final /
