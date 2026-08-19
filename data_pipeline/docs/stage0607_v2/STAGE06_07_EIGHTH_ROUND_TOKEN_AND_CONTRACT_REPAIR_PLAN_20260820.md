@@ -61,3 +61,15 @@ Stage06B Prompt 仍要求“research plan”和 task-specific numerical/structur
 ## 5. 迭代记录
 
 本节在代码修改、回归运行和轨迹分析完成后追加。最多五轮；若后续只剩模型能力问题，则停止扩展代码。
+
+## 6. 第八轮实施与回归结果
+
+- Git版本：`34dd08c`（索引与合同边界修复）；随后补充了 Stage06B 的 task.md/合同职责说明。
+- 单元测试：`127 passed`；Stage07 索引生成与三处 Prompt 静态编译通过。
+- 测试路径：`runs/stage06-07-eighth-round-paper6904-deepseek-v4-pro-0813-codex-20260820`。
+- 模型/运行方式：`deepseek-v4-pro-0813` + Codex harness。
+- Stage06A：`provisional_constructed`，选择第一步氨辅助 N–H 质子转移核心子流程，补充自由 NH3 参考态；Stage06B 完成 6 个候选几何的自主转换。
+- Stage07：`approved_with_repairs`，修复自主方法泄漏、TS 优化动作与频率验证不一致、hidden autonomous 绑定和 toolbox 元数据；原流程保留。
+- 发布：paper reproduction 与 autonomous 两个 bundle 均通过 mechanical gate 和 evaluator schema load，`publish_ready=1`。
+- Token/调用观察：Stage07 约 47 个命令、约 3.2M 输入 token；第七轮约 57 个命令、约 4.2M 输入 token，重复读取有所下降。
+- 剩余问题：autonomous 发布包仍出现 `activated-complex candidate`、`minimum/product/reference` 等角色化描述。它是 Stage07 Prompt 执行不彻底导致的公开表面泄漏，不是代码侧科学裁决问题，转入第九轮处理。

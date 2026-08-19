@@ -295,6 +295,12 @@ paper-reproduction task as the starting point, then produce an autonomous-resear
    mechanism and method selection to the evaluated Agent;
 5. uses neutral public asset identifiers when an asset must remain available.
 
+`task.md` is the only instruction source for the evaluated Agent. Keep JSON question fields as
+short metadata and preserve only the deliverables declared by `submission_contract.json`; do not
+create an undeclared fixed research-plan or process-trace file. The semantic mode is
+`autonomous_research`; compatibility aliases such as `task_mode`, `scientific_mode`, and disclosure
+fields are transport metadata and must not be invented with new enum values.
+
 Classify every candidate edit as one of three actions:
 
 - `remove`: apply `route_redaction_map.json` to author methods, route order, labels and answers;
