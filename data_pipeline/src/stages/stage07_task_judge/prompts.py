@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v10-stage07-sixth-round-agent-audit-20260819"
+STAGE07_AUDIT_VERSION = "v11-stage07-audit-index-and-contract-boundary-20260820"
 
 
 def audit_instructions(
@@ -29,7 +29,11 @@ in place; do not copy the handoff into it, replace the task-pair root, or modify
 The filesystem is the source of truth. A repair should be written to the task tree, but the
 orchestrator will not decide scientific validity by comparing files or running a second semantic
 contract. Prefer a few grouped searches and a grouped `/usr/bin/python3` batch script over reading
-or editing files one by one.
+or editing files one by one. On the first workspace call, read `inputs/audit_index.json` and use it
+to plan one bounded Python batch inspection. `jq` is not guaranteed to be installed; use
+`/usr/bin/python3`. Do not repeatedly `cat` or dump the same large JSON/Markdown file after its
+first inspection. Keep a short list of files already inspected and only open a file again when
+checking a concrete edit. Do not create a duplicate full process trace for this audit.
 Never report `approved_with_repairs` merely to hide an unresolved execution failure; use it when
 your scientific audit says the repaired task is acceptable.
 
@@ -96,6 +100,14 @@ MODE CONTRACT
   Agent to discover its own method and route. Process rubrics may differ.
 - Hidden answers belong only under `hidden_reference/`. Paper/SI/source-reading bundles do not
   belong in either public task folder.
+
+The scientific mode is the semantic source of truth: `mode` is either `paper_reproduction` or
+`autonomous_research`. `task_mode`, `scientific_mode`, `method_disclosure`, and
+`pathway_disclosure` are evaluator-compatibility fields written deterministically by the
+orchestrator. Do not invent aliases or make a scientific decision from an alias mismatch; repair
+only the scientific/public content and let transport normalization set these fields.
+`task.md` is the only evaluation instruction. JSON `scientific_question` and
+`target_definition` are short index metadata and must not introduce a second instruction source.
 
 Reproduction disclosure has a strict answer boundary: route, software, parameters, dependencies, and
 validation operations may be public, but `task_info.json`, `task_spec.json`, `workflow_scope`, Markdown,

@@ -49,7 +49,7 @@ from src.stages.stage07_task_judge.validation import (
 )
 from src.stages.stage06_task_builder.validation import canonical_task_pair_id
 
-STAGE07_IMPLEMENTATION_VERSION = "v10-sixth-round-minimal-boundary-and-mode-alignment-20260819"
+STAGE07_IMPLEMENTATION_VERSION = "v11-audit-index-and-contract-boundary-20260820"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -62,6 +62,46 @@ STAGE07_ELIGIBLE_STAGE06_DECISIONS = {
     "provisional_not_constructible",
     "constructed",
 }
+
+
+def _write_stage07_audit_index(root: Path) -> None:
+    """Write non-scientific navigation metadata for the audit Agent.
+
+    The index deliberately contains paths, sizes, JSON top-level keys, and small counts only.
+    It is a transport aid: it does not summarize chemistry, expose hidden values, or decide
+    whether a workflow is scientifically complete.  The Agent still reads the source files when
+    making the scientific audit decision.
+    """
+
+    inputs = root / "inputs"
+    entries: list[dict[str, Any]] = []
+    for path in sorted(inputs.rglob("*")):
+        if not path.is_file() or path.name == "audit_index.json":
+            continue
+        rel = path.relative_to(inputs).as_posix()
+        item: dict[str, Any] = {"path": rel, "size_bytes": path.stat().st_size}
+        if path.suffix.lower() == ".json":
+            try:
+                value = read_json(path)
+            except (OSError, TypeError, ValueError, json.JSONDecodeError):
+                item["json_status"] = "unreadable"
+            else:
+                item["json_status"] = "object" if isinstance(value, dict) else type(value).__name__
+                if isinstance(value, dict):
+                    item["top_level_keys"] = sorted(str(key) for key in value.keys())
+                    for key in ("input_assets", "workflow_steps", "ground_truth_items", "acceptance_profiles"):
+                        if isinstance(value.get(key), list):
+                            item[f"{key}_count"] = len(value[key])
+        entries.append(item)
+    write_json(
+        inputs / "audit_index.json",
+        {
+            "schema_version": "stage07-audit-index/v1",
+            "purpose": "transport_navigation_only",
+            "scientific_decision": "agent_only",
+            "files": entries,
+        },
+    )
 
 
 def run_stage07(*, build_records, documents, config, model, workspace: Path, run_id: str):
@@ -431,6 +471,7 @@ def _run_audit_repair_agent(
                 "input_fingerprint": fingerprint,
             },
         )
+        _write_stage07_audit_index(root)
         make_read_only(inputs)
         outputs = root / "outputs"
         outputs.mkdir(parents=True, exist_ok=True)

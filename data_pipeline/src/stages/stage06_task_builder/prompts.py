@@ -548,9 +548,10 @@ the input files. Do not write a task yet.
 Do not use a later tool call to reread the review JSON. After the atomic write succeeds, return either the same
 review contract or a small JSON receipt naming `outputs/scientific_review.json`; deterministic recovery reads only
 the validated file. Reference large input assets by `content_path` rather than embedding them. Keep the serialized
-contract below 40,000 characters: use no more than three compact workflow steps, no more
-than three Ground Truth items, short evidence-backed strings, shared evidence lists, and no quotations or repeated
-explanations. Never truncate an asset or omit a required top-level field to meet this limit. For a scientific reject,
+contract below 40,000 characters: use a few compact workflow steps and a compact set of Ground Truth items;
+aggregate related values instead of creating one item per atom, coordinate, or energy line. There is no fixed
+numeric cap when several intermediate and final key points are needed to evaluate the selected core workflow.
+Use short evidence-backed strings, shared evidence lists, and no quotations or repeated explanations. Never truncate an asset or omit a required top-level field to meet this limit. For a scientific reject,
 include the same required top-level fields using empty objects, arrays, or short strings where they do not apply.
 Its `decision` must be exactly
 `candidate_ready` or `scientific_reject`; do not use `accepted`, `ready`, `pass`, or another synonym.
@@ -578,6 +579,11 @@ Create the first member of the benchmark pair under `task/`:
 - `process_rubric.json`: autonomous-research process criteria summing to 100 points;
 - `data/inputs/`: preserve every pre-populated exact public input asset.
 
+`task.md` is the only instruction source for the evaluated Agent. Keep JSON question fields as short
+metadata only and do not add a second task narrative there. The orchestrator owns the compatibility
+aliases (`mode`, `task_mode`, `scientific_mode`, and disclosure fields); preserve the intended
+autonomous semantics and do not invent alternate enum values.
+
 Write all five required core files before optional inspection: start with `task/task.md`, then create the four JSON
 contracts. A single bounded script may write these five small files; do not spend tool calls re-copying inputs or
 dumping the full toolbox view. Immediately before the final response, validate the JSON, inspect the actual `task/`
@@ -598,9 +604,11 @@ expected target value or target conclusion, return `invalid` and identify the le
 in the task.
 
 Use `task_mode=open_discovery`, `evaluation_mode=dual_axis_100` in the private contract metadata, and a unique task
-id ending in `_autonomous`. Required deliverables must include an artifact-linked scientific report, a research
-plan, and task-specific numerical or structural results. The evaluator harness records the canonical managed
-tool/provenance trace; do not spend tokens writing a duplicate full `report/process_trace.jsonl`. Process criteria must reward
+id ending in `_autonomous`. Treat `submission_contract.json` as the only source of required deliverables: create
+exactly the declared files and fields. Put a research plan or additional evidence in `report/report.md` only when
+the contract asks for it; do not create an undeclared fixed `research_plan` file. The evaluator harness records the
+canonical managed tool/provenance trace; do not spend tokens writing a duplicate full `report/process_trace.jsonl`.
+Process criteria must reward
 scientific route design, managed computation, validation/falsification, failure recovery, efficiency, and
 reproducibility. Mere file conversion, plotting, number reading, or simple arithmetic cannot be a high-value step.
 For categorical results, prefer explicit string labels already named in the public question or basis. Do not replace
@@ -656,6 +664,9 @@ Forbidden changes:
 The reproduction task should disclose the authors' software, method hierarchy, parameters, workflow dependencies,
 candidate pathways, and validation procedure needed to execute the route, while keeping the results hidden. Use
 `task_mode=guided_reproduction` and a task id ending in `_reproduction`.
+Treat `task.md` as the sole evaluation instruction. The orchestrator writes compatibility aliases
+(`mode`, `scientific_mode`, `task_mode`, and disclosure fields) from the selected mode; do not create
+new aliases or let an alias mismatch change the scientific content.
 
 After editing and rereading the copied folder, return only a small JSON receipt with `status`,
 `artifact_path="task"`, `route_disclosure_summary`, `modified_files`, and `invalid_reasons`. Do not inline any task
