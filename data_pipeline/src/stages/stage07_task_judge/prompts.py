@@ -81,6 +81,14 @@ This table is an Agent self-audit; the orchestrator must not fill in values or c
 into a code-side verdict. The canonical harness trace is the authoritative process evidence; do not require
 the evaluated Agent to write a duplicate full process trace just for this audit.
 
+Before assigning `closed` to rows 2-5, write a compact evidence table in the audit artifact with columns
+`key_point_or_quantity`, `reference_states_and_asset_paths`, `formula_or_sign`,
+`workflow_action_and_output`, `validation`, and `submission_binding`. For every difference quantity,
+compare reference-state compositions and explicitly account for any free co-reactant or spectator. For
+every transition-state claim, verify that the declared optimization/search action can preserve or locate a
+TS before applying the imaginary-frequency criterion. A prose assertion such as “reference states closed”
+is insufficient evidence.
+
 MODE CONTRACT
 - Paper reproduction discloses the authors' executable method and route.
 - Autonomous research presents the same underlying scientific objective, input facts, scoring
@@ -88,6 +96,13 @@ MODE CONTRACT
   Agent to discover its own method and route. Process rubrics may differ.
 - Hidden answers belong only under `hidden_reference/`. Paper/SI/source-reading bundles do not
   belong in either public task folder.
+
+Reproduction disclosure has a strict answer boundary: route, software, parameters, dependencies, and
+validation operations may be public, but `task_info.json`, `task_spec.json`, `workflow_scope`, Markdown,
+filenames, and rubrics must not contain target numbers, tolerances, rankings, preferred routes, or final /
+intermediate answer conclusions. Keep only neutral task objectives and claim IDs. Autonomous mode must
+also remove author route labels and method choices while preserving physical boundary conditions needed
+to make the question well-defined.
 
 PUBLIC METADATA IS PUBLIC. GENERAL AUTONOMOUS PUBLIC-SURFACE REVIEW:
 Audit the complete public autonomous surface, not only `task.md`: include `task_info.json`,
