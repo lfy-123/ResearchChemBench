@@ -56,10 +56,42 @@ Stage07 Agent 在两个 `task_info.json` 中输出了对象数组（例如 `{id,
 
 若第十轮仅剩模型偶发的科学判断问题，则停止代码扩张，转为 Prompt/模型能力记录；若仍有新的通用代码合同问题，在五轮上限内继续下一轮。
 
-## 6. 结果记录（待第十轮任务完成后补充）
+## 6. 第十轮测试结果
 
-- 测试路径：待补充
-- Stage06/07 决策：待补充
-- 机械发布状态：待补充
-- 轨迹与 token：待补充
-- 新问题与后续方案：待补充
+测试路径：
+
+`runs/stage06-07-tenth-round-paper6904-deepseek-v4-pro-0813-codex-20260820`
+
+模型与执行方式：`deepseek-v4-pro-0813` + Codex harness。
+
+结果：
+
+- Stage06A：`provisional_constructed`，保留了第一步 N–H activation 的核心子流程。
+- Stage06B：`converted`，删除路线/证据文件并将五个输入重命名为 `candidate_1…candidate_5`。
+- Stage07：`approved_with_repairs`，保留原 workflow，并修复 autonomous 方法披露、Ground Truth JSONPath 绑定和证据 ID。
+- `scientific_audit_passed=1`。
+- `mechanical_contract_passed=1`，`schema_load_diagnostic=passed`。
+- `publish_ready=1`，复现与 autonomous 两个 bundle 均发布成功；evaluator registry 两个投影均可由 `TaskInfo`/`GroundTruth` 加载。
+- 两个已发布 `task_info.json` 的 `scientific_requirements` 均为字符串数组，验证了本轮代码修复。
+
+主要轨迹统计（来自各 Agent 的 Codex usage）：
+
+- Stage06A：约 3.85M 输入 token，约 50.9k 输出 token。
+- Stage06B：约 0.68M 输入 token，约 23.3k 输出 token。
+- Stage07：约 4.51M 输入 token，约 40.5k 输出 token。
+- 合计约 9.04M 输入 token；Stage07 使用 54 个主要 Agent 项目，未发生重试。
+
+Stage07 本轮实际发挥的作用：
+
+1. 保留了 Stage06 选定的科学子流程，没有被编排器替换。
+2. 发现并修复了 autonomous 中的作者方法关键词、隐藏评估元数据和不应公开的路线实现信息，同时保留 THF、温度/压力、闭壳层状态和 0.70 熵缩放等问题定义所需边界。
+3. 修复了三个数值 acceptance profile 的提交字段绑定和不完整证据 ID。
+4. 机械门禁只负责归一化 `scientific_requirements` 类型、schema 加载和发布树检查；科学审计结论仍来自 Stage07 Agent。
+
+## 7. 第十轮结论与剩余观察
+
+第九轮的阻断性代码问题已解决，且没有引入新的代码合同错误。发布目录只包含任务文件和输入资产，不含 `conversion_report.json`、路线文件或 hidden reference。
+
+autonomous `task.md` 仍显式写出 G70% 公式和“intramolecular / ammonia-assisted”两个待比较假设。这是本任务目标和公开物理边界的一部分，Stage07 将其判定为不等同于作者路线泄漏；它没有公开泛函、基组、软件、SCRF 关键词、路线顺序、目标数值或 hidden key IDs。若后续希望进一步扩大自主性，应作为独立 Prompt 设计实验决定是否将熵缩放从公开边界改为 Agent 自主选择，不能由编排器关键词过滤。
+
+本轮未发现需要继续修改的通用代码问题；按“最多五轮”约束，本轮可作为当前迭代的通过轮。后续若在不同论文上出现同类类型错配，应复用本轮通用投影，而不是增加论文特例规则。
