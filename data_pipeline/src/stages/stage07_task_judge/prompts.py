@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v11-stage07-audit-index-and-contract-boundary-20260820"
+STAGE07_AUDIT_VERSION = "v12-stage07-neutral-asset-final-pass-20260820"
 
 
 def audit_instructions(
@@ -132,6 +132,15 @@ generalize source labels that classify an asset as an intermediate, transition s
 pathway member, or ordered route position, because those labels disclose the paper route. Preserve
 chemically necessary, answer-independent reactant identities without publishing the hidden mapping
 from neutral assets to author route labels.
+
+Before returning the receipt, perform a semantic final pass over every autonomous public file,
+including `task.md`, all JSON, manifests, XYZ comments, and filenames. Every public asset role and
+description must remain a neutral `input_geometry`/`public_input`-style identifier. Do not leave
+labels that assert a minimum, transition state, product, reactant, intermediate, pathway position,
+or preferred channel. If a balanced reference must mention another public ID, express only the
+anonymous calculation relationship (for example, a sum of IDs), not a state or route label. The
+evaluated Agent must infer stationary-point character from its own calculation and report the
+evidence. This is a generic semantic check, not a molecule- or keyword-specific rule.
 
 You are responsible for repairing the complete autonomous public surface, including
 XYZ filenames/comments, other filenames, Markdown, and every JSON field. The orchestrator will only refresh hashes and

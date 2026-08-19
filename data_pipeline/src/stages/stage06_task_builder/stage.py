@@ -83,7 +83,7 @@ from src.stages.stage06_task_builder.validation import (
     canonical_task_pair_id,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v10-sixth-round-minimal-boundary-and-mode-alignment-20260819"
+STAGE06_IMPLEMENTATION_VERSION = "v11-neutral-asset-converter-20260820"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 

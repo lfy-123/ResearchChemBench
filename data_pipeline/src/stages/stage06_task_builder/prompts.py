@@ -5,7 +5,7 @@ STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
 STAGE06_TASK_PAIR_BUILDER_VERSION = "v8-stage06-sixth-round-minimal-boundary-builder-20260819"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v6-stage06-sixth-round-answer-blind-converter-20260819"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v7-stage06-neutral-asset-converter-20260820"
 
 
 def task_pair_builder_instructions(
@@ -300,6 +300,11 @@ short metadata and preserve only the deliverables declared by `submission_contra
 create an undeclared fixed research-plan or process-trace file. The semantic mode is
 `autonomous_research`; compatibility aliases such as `task_mode`, `scientific_mode`, and disclosure
 fields are transport metadata and must not be invented with new enum values.
+In the autonomous public surface, every asset role, description, filename, and XYZ comment must
+remain neutral (`input_geometry`/`public_input`). Do not classify an asset as a minimum, transition
+state, product, reactant, intermediate, pathway position, or preferred channel. Preserve only
+physical facts and anonymous ID relationships needed to define balanced calculations; the evaluated
+Agent must determine stationary-point character itself.
 
 Classify every candidate edit as one of three actions:
 
