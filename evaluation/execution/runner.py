@@ -14,7 +14,7 @@ from chemistry_toolbox.src.catalog import (
 )
 from chemistry_toolbox.src.distributed_pool import pool_snapshot
 
-from ..repository import load_task_info
+from ..repository import load_task_info, load_task_text
 from ..settings import (
     AGENT_PRESETS,
     DEFAULT_AGENT_TIMEOUT_SECONDS,
@@ -79,6 +79,7 @@ class TaskRunner(
         self.task_id = task_id
         self.task_dir = TASKS_DIR / task_id
         self.task_info = load_task_info(task_id)
+        self.task_text = load_task_text(task_id)
         self.agent_key = agent_key
         self.agent = AGENT_PRESETS[agent_key]
         self.agent_name = self.agent["label"]

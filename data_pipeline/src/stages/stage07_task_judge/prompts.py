@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v9-stage07-fifth-round-closure-audit-20260818"
+STAGE07_AUDIT_VERSION = "v10-stage07-sixth-round-agent-audit-20260819"
 
 
 def audit_instructions(
@@ -21,7 +21,9 @@ ROLE AND WORKSPACE
 Stage07 independently audits the scientific usability of the task pair and repairs fixable
 problems. Work only in this isolated workspace. Everything under `inputs/` is read-only. The
 Stage06 handoff is `inputs/stage06_candidate/`; primary paper/SI evidence and navigation files are
-under `inputs/source_materials/`. `outputs/task_pair/` IS ALREADY POPULATED and writable. Edit it
+under `inputs/source_materials/`. The handoff may include private
+`public_to_private_asset_map.json` and `workflow_completeness_check.json`; use them only for audit
+and repair, never copy them into either public task. `outputs/task_pair/` IS ALREADY POPULATED and writable. Edit it
 in place; do not copy the handoff into it, replace the task-pair root, or modify the toolbox.
 
 The filesystem is the source of truth. A repair should be written to the task tree, but the
@@ -32,8 +34,8 @@ Never report `approved_with_repairs` merely to hide an unresolved execution fail
 your scientific audit says the repaired task is acceptable.
 
 SCIENTIFIC WORKFLOW
-1. Read the Stage06 receipt, Objective Card, Key Points, workflow review, task pair, and its exact
-   open questions. Treat Stage02-05 material only as navigation hints; decide from the paper, SI,
+1. Read the Stage06 receipt, Objective Card, Key Points, workflow review, completeness check, private
+   asset map, task pair, and its exact open questions. Treat Stage02-05 material only as navigation hints; decide from the paper, SI,
    and parsed evidence. Do not search the runtime, repository or system directories for hidden
    validators. Scientific quality, disclosure and resource questions are for your judgment.
 2. First audit and attempt to repair the workflow selected by Stage06 (specifically, its
@@ -144,9 +146,9 @@ DECISION SEMANTICS
   filesystem failure. Put that blocker in `remaining_issues`. Never use it merely because the audit
   took many calls, because you did not manually write the receipt, or when repairs succeeded and no
   blocker remains.
-- `evaluator_dry_run_status` in your response is an observation only. The orchestrator performs a
-  separate mechanical Evaluator load check after your artifact is written; do not treat that field
-  as a substitute for scientific audit.
+- `schema_load_diagnostic` in your response is an observation only. The orchestrator performs a
+  separate mechanical schema/binding load check after your artifact is written; real scoring is not
+  run before an evaluated submission exists, and this field is never a substitute for scientific audit.
 
 OUTPUT CONTRACT
 For every approved decision, leave these components under `outputs/task_pair/`:
@@ -178,13 +180,21 @@ Return one JSON object matching this contract; the harness persists it as the au
     "changed_files": []
   }},
   "remaining_issues": [],
+  "scientific_audit_table": [
+    {{"check": "objective_scope", "status": "closed | repairable | unrepairable", "evidence_ids": [], "changes": []}},
+    {{"check": "inputs_and_boundaries", "status": "closed | repairable | unrepairable", "evidence_ids": [], "changes": []}},
+    {{"check": "reference_states_and_stoichiometry", "status": "closed | repairable | unrepairable", "evidence_ids": [], "changes": []}},
+    {{"check": "actions_artifacts_validation", "status": "closed | repairable | unrepairable", "evidence_ids": [], "changes": []}},
+    {{"check": "ground_truth_bindings", "status": "closed | repairable | unrepairable", "evidence_ids": [], "changes": []}},
+    {{"check": "autonomous_disclosure", "status": "closed | repairable | unrepairable", "evidence_ids": [], "changes": []}}
+  ],
   "toolbox_status": "available | needs_software | unknown",
   "required_additions": [],
   "resource_status": "feasible | high_cost | infeasible | uncertain",
   "scientific_decision": "same semantic decision as audit_decision",
   "contract_status": "passed | findings | not_applicable",
   "disclosure_status": "passed | needs_review | not_applicable",
-  "evaluator_dry_run_status": "passed | failed | not_run",
+  "schema_load_diagnostic": "passed | failed | not_run",
   "summary": "..."
 }}
 

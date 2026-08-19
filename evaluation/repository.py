@@ -16,13 +16,22 @@ def list_tasks() -> list[str]:
     return sorted(
         path.name
         for path in TASKS_DIR.iterdir()
-        if path.is_dir() and (path / "task_info.json").is_file()
+        if path.is_dir()
+        and (path / "task_info.json").is_file()
+        and (path / "task.md").is_file()
     )
 
 
 def load_task_info(task_id: str) -> dict:
     path = TASKS_DIR / task_id / "task_info.json"
     return TaskInfo.model_validate_json(path.read_text(encoding="utf-8")).model_dump()
+
+
+def load_task_text(task_id: str) -> str:
+    """Load the sole human-facing task instruction from task.md."""
+
+    path = TASKS_DIR / task_id / "task.md"
+    return path.read_text(encoding="utf-8")
 
 
 def load_ground_truth(task_id: str) -> dict:

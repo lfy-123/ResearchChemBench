@@ -46,7 +46,7 @@ class RunLifecycleMixin:
             ),
             "configured_judge_model": JUDGE_MODEL_NAME,
             "tool_discovery_mode": self.tool_discovery_mode,
-            "query": self.task_info.get("task", ""),
+            "query": self.task_text,
             "category": self.task_info.get("category", ""),
             "scientific_mode": self.task_info.get("scientific_mode", ""),
             "scientific_mode_description": self.task_info.get(

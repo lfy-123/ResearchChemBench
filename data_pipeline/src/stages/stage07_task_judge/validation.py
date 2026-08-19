@@ -6,8 +6,6 @@ from pathlib import Path
 from typing import Any
 
 from src.contracts import read_json, write_json
-from src.core.toolbox_inventory import installed_software_inventory
-from src.stages.stage06_task_builder.validation import validate_task_pair
 from src.stages.stage06_task_builder.validation import (
     canonicalize_mode_task_contract,
     normalize_submission_contract,
@@ -27,7 +25,9 @@ OUTCOME_TYPES = {
 }
 
 
-def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
+def stage07_mechanical_pre_publish_check(
+    pair_root: Path, *, task_pair_id: str | None = None
+) -> dict[str, Any]:
     """Check only transport/evaluator contracts before an Agent-approved pair is published.
 
     This gate deliberately does not call the Stage06 scientific validator and never emits a
@@ -49,7 +49,7 @@ def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
             canonicalize_mode_task_contract(
                 root,
                 expected_mode=mode,
-                task_pair_id=None,
+                task_pair_id=task_pair_id,
             )
         )
         for name in ("task.md", "task_info.json", "task_spec.json", "submission_contract.json", "process_rubric.json"):
@@ -184,9 +184,9 @@ def stage07_mechanical_pre_publish_check(pair_root: Path) -> dict[str, Any]:
         "mechanical_pre_publish_status": "passed" if not findings else "failed",
         # This check currently validates schemas and safe artifact bindings; it
         # is intentionally not called a full scoring dry-run.
-        "schema_load_status": evaluator["status"],
-        "evaluator_dry_run_status": "not_run",
+        "schema_load_diagnostic": evaluator["status"],
         "findings": sorted(set(findings)),
+        "diagnostics": evaluator.get("diagnostics", []),
         "evaluator": evaluator,
     }
 
@@ -270,9 +270,10 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
 
     This deliberately stops short of running the scoring service: no submission
     exists at publication time.  The caller reports the result as
-    ``schema_load_status`` and keeps ``evaluator_dry_run_status=not_run``.
+    ``schema_load_diagnostic`` and never runs real scoring before a submission exists.
     """
     findings: list[str] = []
+    diagnostics: list[str] = []
     try:
         import sys
         repo_root = Path(__file__).resolve().parents[4]
@@ -286,25 +287,34 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                 info = values["info"]
                 TaskInfo.model_validate(info)
                 submission = values["submission"]
-                gt_name = "ground_truth_reproduction.json" if mode == "paper_reproduction" else "ground_truth_autonomous.json"
-                gt_path = pair_root / "hidden_reference" / gt_name
+                gt_path = pair_root / "hidden_reference" / "ground_truth_common.json"
                 if not gt_path.is_file():
                     findings.append(f"evaluator_ground_truth_missing:{mode}")
                     continue
-                GroundTruth.model_validate_json(gt_path.read_text(encoding="utf-8"))
                 hidden = json.loads(gt_path.read_text(encoding="utf-8"))
+                projected = {
+                    **hidden,
+                    "evaluation_profile": (
+                        "paper_reproduction"
+                        if mode == "paper_reproduction"
+                        else "autonomous_discovery"
+                    ),
+                    "scoring_rubric": read_json(
+                        pair_root / mode / "process_rubric.json"
+                    ),
+                }
+                GroundTruth.model_validate(projected)
                 profiles = hidden.get("acceptance_profiles") or []
                 if not isinstance(profiles, list):
                     findings.append(f"evaluator_acceptance_profiles_not_array:{mode}")
                     profiles = []
-                required_paths = set(submission.get("required_files") or [])
                 for profile in profiles:
                     if not isinstance(profile, dict):
-                        findings.append(f"evaluator_acceptance_profile_invalid:{mode}")
+                        diagnostics.append(f"evaluator_acceptance_profile_invalid:{mode}")
                         continue
                     binding = profile.get("submission_binding") or {}
                     if not isinstance(binding, dict):
-                        findings.append(
+                        diagnostics.append(
                             f"evaluator_submission_binding_invalid:{mode}:{profile.get('acceptance_profile_id','unknown')}"
                         )
                         continue
@@ -312,14 +322,18 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                     if isinstance(fields, str):
                         fields = [fields]
                     if not fields:
-                        findings.append(
+                        diagnostics.append(
                             f"evaluator_binding_fields_missing:{mode}:{profile.get('acceptance_profile_id','unknown')}"
                         )
                     for artifact in binding.get("artifact_paths") or []:
-                        if artifact not in required_paths:
-                            findings.append(
-                                f"evaluator_binding_artifact_not_required:{mode}:{artifact}"
-                            )
+                        if (
+                            not isinstance(artifact, str)
+                            or not artifact
+                            or Path(artifact).is_absolute()
+                            or ".." in Path(artifact).parts
+                            or "\\" in artifact
+                        ):
+                            findings.append(f"evaluator_artifact_path_invalid:{mode}:{artifact}")
                 for rel in submission.get("required_files") or []:
                     if not (pair_root / mode / "data" / rel).exists() and not (pair_root / mode / rel).exists():
                         # Required deliverables are written at run time; only path binding is checked here.
@@ -327,77 +341,10 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                             findings.append(f"evaluator_artifact_path_invalid:{mode}:{rel}")
     except Exception as exc:
         findings.append(f"evaluator_load_failed:{type(exc).__name__}:{exc}")
-    return {"status": "passed" if not findings else "failed", "findings": sorted(set(findings))}
-
-
-def deterministic_stage07_audit(
-    pair_root: Path, *, toolbox_snapshot: dict[str, Any] | None = None
-) -> dict[str, Any]:
-    pair_audit = validate_task_pair(pair_root)
-    pair_audit["findings"] = sorted(
-        set(pair_audit.get("findings") or [])
-        | set(final_task_pair_integrity_findings(pair_root))
-    )
-    pair_audit["passed"] = not pair_audit["findings"]
-    outcomes: list[dict[str, Any]] = []
-    for finding in pair_audit["findings"]:
-        outcome_type = _finding_outcome_type(finding)
-        outcomes.append(
-            {
-                "type": outcome_type,
-                "severity": "blocking",
-                "scope": _finding_scope(finding),
-                "details": finding,
-                "evidence_refs": [],
-                "source": "deterministic",
-            }
-        )
-    toolbox = installed_software_inventory(toolbox_snapshot or {})
-    toolbox_path = pair_root / "toolbox_requirements.json"
-    requirements = read_json(toolbox_path) if toolbox_path.is_file() else []
-    reconciled_requirements, software_gaps = reconcile_toolbox_requirements(
-        requirements, toolbox
-    )
-    if toolbox_path.is_file() and reconciled_requirements != requirements:
-        toolbox_path.write_text(
-            json.dumps(reconciled_requirements, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
-    if toolbox_path.is_file():
-        for requirement in reconciled_requirements:
-            if not isinstance(requirement, dict):
-                continue
-            status = _toolbox_status(requirement)
-            if status not in {"missing", "unknown", "incompatible"}:
-                continue
-            outcome_type = "toolbox_capability_unknown" if status == "unknown" else "needs_software"
-            outcomes.append(
-                {
-                    "type": outcome_type,
-                    "severity": "minor",
-                    "scope": "both_modes",
-                    "details": str(
-                        requirement.get("suggested_action")
-                        or requirement.get("requirement")
-                        or requirement.get("capability")
-                        or requirement.get("software")
-                        or status
-                    ),
-                    "evidence_refs": requirement.get("evidence_ids") or [],
-                    "source": "stage06_toolbox_requirement",
-                }
-            )
     return {
-        "passed": bool(pair_audit.get("passed")),
-        "findings": pair_audit["findings"],
-        "outcomes": _deduplicate_outcomes(outcomes),
-        "pair_audit": pair_audit,
-        "toolbox_status": (
-            "unknown"
-            if not (toolbox.get("installed_software") or [])
-            else ("needs_software" if software_gaps else "available")
-        ),
-        "required_additions": software_gaps,
+        "status": "passed" if not findings else "failed",
+        "findings": sorted(set(findings)),
+        "diagnostics": sorted(set(diagnostics)),
     }
 
 

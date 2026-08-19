@@ -75,7 +75,6 @@ class TaskInfo(BaseModel):
     task_id: str
     source_id: str
     category: str
-    task: str
     scientific_mode: str = "standard_autonomous_investigation"
     scientific_mode_description: str = ""
     scientific_requirements: list[str] = Field(default_factory=list)

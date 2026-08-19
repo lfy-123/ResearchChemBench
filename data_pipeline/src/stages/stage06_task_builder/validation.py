@@ -37,25 +37,6 @@ DEFAULT_RESULT_SCHEMA = {
     "description": "Structured report/results.json submitted by the evaluated agent.",
     "additionalProperties": True,
 }
-CANONICAL_COMPLEXITY_FIELDS = (
-    "scientific_core_operation_count",
-    "estimated_min_tool_calls",
-    "estimated_typical_tool_calls",
-    "dependency_edge_count",
-    "parallel_branch_count",
-    "system_or_state_count",
-    "software_capability_count",
-    "iterative_decision_count",
-    "validation_operation_count",
-)
-COMPLEXITY_ALIASES = {
-    "core_operation_count": "scientific_core_operation_count",
-    "core_computation_count": "scientific_core_operation_count",
-    "tool_call_count": "estimated_typical_tool_calls",
-    "dependency_count": "dependency_edge_count",
-    "branch_count": "parallel_branch_count",
-    "system_state_count": "system_or_state_count",
-}
 SCIENTIFIC_FAILURE_CODES = {
     "no_author_performed_computation",
     "missing_core_input",
@@ -69,25 +50,24 @@ SCIENTIFIC_FAILURE_CODES = {
 
 
 def canonicalize_complexity_profile(profile: Any) -> dict[str, Any]:
-    """Normalize legacy complexity aliases once before publishing a task.
+    """Keep only the small, task-level complexity contract.
 
-    The Agent may use historical names while constructing a draft.  Public task files and
-    evaluator records should contain one canonical vocabulary so downstream consumers do not
-    silently diverge.  This helper does not judge whether the declared counts are scientifically
-    correct; that remains an Agent/audit responsibility.
+    Workflow topology belongs to ``workflow_steps`` and process metadata belongs to the
+    process rubric.  This helper deliberately does not synthesize counts or aliases.
     """
 
     value = dict(profile) if isinstance(profile, dict) else {}
-    for alias, canonical in COMPLEXITY_ALIASES.items():
-        if canonical not in value and alias in value:
-            value[canonical] = value[alias]
-        value.pop(alias, None)
-    # Defaults are transport-only.  Legacy aliases are normalized above so a
-    # supplied operation count is never shadowed by a synthetic zero.
-    for field in CANONICAL_COMPLEXITY_FIELDS:
-        if field not in value and field.endswith("_count"):
-            value[field] = 0
-    return value
+    output = {
+        key: value[key]
+        for key in ("level", "rationale", "estimated_tool_calls")
+        if key in value
+    }
+    if isinstance(output.get("estimated_tool_calls"), dict):
+        calls = output["estimated_tool_calls"]
+        output["estimated_tool_calls"] = {
+            key: calls[key] for key in ("min", "typical") if key in calls
+        }
+    return output
 
 
 def canonicalize_mode_task_contract(
@@ -157,6 +137,15 @@ def anonymous_source_id(task_pair_id: str) -> str:
 
     digest = hashlib.sha256(str(task_pair_id).encode("utf-8")).hexdigest()[:20]
     return f"rcb-source-{digest}"
+
+
+def canonical_task_pair_id(paper_id: str) -> str:
+    """Return the deterministic pair identity used by newly built task pairs."""
+
+    value = re.sub(r"[^A-Za-z0-9._-]+", "_", str(paper_id).strip()).strip("._-")
+    if not value:
+        value = "paper"
+    return f"{value}_task_pair"
 
 
 def normalize_submission_contract(value: Any) -> dict[str, Any]:
@@ -470,8 +459,7 @@ def task_pair_contract_report(pair_root: Path) -> dict[str, Any]:
         "pair_root_name": pair_root.name,
         "contract_status": "passed" if not categories["hard_mechanical"] else "findings",
         "disclosure_status": "passed" if not categories["disclosure_semantic"] else "needs_review",
-        "schema_load_status": "failed" if evaluator_findings else "passed",
-        "evaluator_dry_run_status": "not_run",
+        "schema_load_diagnostic": "failed" if evaluator_findings else "passed",
         "finding_counts": {key: len(value) for key, value in categories.items()},
         "findings": categories,
         "validator": audit,
@@ -481,6 +469,7 @@ def task_pair_contract_report(pair_root: Path) -> dict[str, Any]:
 def validate_complexity_profile(
     profile: Any, *, workflow_steps: Any
 ) -> list[str]:
+    del workflow_steps
     if not isinstance(profile, dict):
         return ["complexity_profile_invalid"]
     findings: list[str] = []
@@ -491,68 +480,19 @@ def validate_complexity_profile(
             if level == "low_complexity_trivial"
             else f"complexity_level_invalid:{level or 'missing'}"
         )
-    count_fields = (
-        "scientific_core_operation_count",
-        "estimated_min_tool_calls",
-        "estimated_typical_tool_calls",
-        "dependency_edge_count",
-        "parallel_branch_count",
-        "system_or_state_count",
-        "software_capability_count",
-    )
-    counts: dict[str, int] = {}
-    for field in count_fields:
-        value = profile.get(field)
-        if not isinstance(value, int) or isinstance(value, bool) or value < 0:
-            findings.append(f"complexity_count_invalid:{field}")
-            counts[field] = 0
+    if not str(profile.get("rationale") or "").strip():
+        findings.append("complexity_rationale_missing")
+    calls = profile.get("estimated_tool_calls")
+    if calls is not None:
+        if not isinstance(calls, dict):
+            findings.append("complexity_tool_call_estimate_invalid")
         else:
-            counts[field] = value
-    if counts.get("estimated_typical_tool_calls", 0) < counts.get(
-        "estimated_min_tool_calls", 0
-    ):
-        findings.append("complexity_tool_call_estimates_inverted")
-    steps = [row for row in workflow_steps or [] if isinstance(row, dict)]
-    actual_edges = sum(len(row.get("depends_on") or []) for row in steps)
-    if counts.get("dependency_edge_count", 0) != actual_edges:
-        findings.append("complexity_dependency_count_mismatch")
-    typed_core_steps = [
-        row
-        for row in steps
-        if row.get("step_type") in {"core_computation", "scientific_analysis", "validation"}
-    ]
-    maximum_explainable_operations = len(typed_core_steps) * max(
-        1, counts.get("system_or_state_count", 0)
-    )
-    if typed_core_steps and counts.get(
-        "scientific_core_operation_count", 0
-    ) > maximum_explainable_operations:
-        findings.append("complexity_core_operations_inflated")
-    nontrivial_dimensions = sum(
-        condition
-        for condition in (
-            counts.get("scientific_core_operation_count", 0) >= 2,
-            counts.get("system_or_state_count", 0) >= 2,
-            counts.get("parallel_branch_count", 0) >= 2,
-            counts.get("dependency_edge_count", 0) >= 1,
-            counts.get("software_capability_count", 0) >= 2,
-            bool(profile.get("iterative_decisions")),
-            bool(profile.get("validation_operations")),
-        )
-    )
-    has_analysis = bool(
-        profile.get("reasoning_requirements")
-        or profile.get("validation_operations")
-        or any(
-            row.get("step_type") in {"scientific_analysis", "validation"} for row in steps
-        )
-    )
-    if nontrivial_dimensions < 1 or not has_analysis:
-        findings.append("task_not_challenging")
-    if counts.get("scientific_core_operation_count", 0) < 1:
-        findings.append("scientific_core_operation_missing")
-    if counts.get("estimated_min_tool_calls", 0) < 1:
-        findings.append("estimated_tool_calls_missing")
+            minimum = calls.get("min")
+            typical = calls.get("typical")
+            if not all(isinstance(value, int) and not isinstance(value, bool) and value >= 0 for value in (minimum, typical)):
+                findings.append("complexity_tool_call_estimate_invalid")
+            elif typical < minimum:
+                findings.append("complexity_tool_call_estimates_inverted")
     return sorted(set(findings))
 
 
@@ -971,7 +911,8 @@ def validate_mode_task(task_root: Path, *, expected_mode: str) -> list[str]:
         findings.append("task_info_scientific_question_missing")
     elif scientific_question and task_info_question != scientific_question:
         findings.append("task_info_spec_scientific_question_mismatch")
-    if not str(task_info.get("task") or "").strip():
+    task_markdown = task_root / "task.md"
+    if not task_markdown.read_text(encoding="utf-8", errors="strict").strip():
         findings.append("task_instruction_missing")
     if not task_info.get("required_deliverables"):
         findings.append("required_deliverables_missing")

@@ -123,7 +123,6 @@ def _mode_info(
     mode: str,
     task_mode: str,
     disclosure: str,
-    task_text: str,
 ) -> dict:
     suffix = "autonomous" if mode == "autonomous_research" else "reproduction"
     public = review.get("public_task_basis") or {}
@@ -138,7 +137,6 @@ def _mode_info(
         "scientific_mode": mode,
         "method_disclosure": disclosure,
         "pathway_disclosure": disclosure,
-        "task": task_text,
         "scientific_mode_description": "Replace this scaffold with an evidence-backed task description.",
         "scientific_requirements": [],
         "required_deliverables": [
@@ -265,7 +263,7 @@ def main() -> None:
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(str(asset["content"]), encoding="utf-8")
     task_text = "Follow the author-disclosed route to determine the stated computational quantities. Replace this scaffold with the complete evidence-backed reproduction instruction."
-    dump(reproduction / "task_info.json", _mode_info(review, scope, complexity, pair_id, mode="paper_reproduction", task_mode="guided_reproduction", disclosure="paper_route_disclosed", task_text=task_text))
+    dump(reproduction / "task_info.json", _mode_info(review, scope, complexity, pair_id, mode="paper_reproduction", task_mode="guided_reproduction", disclosure="paper_route_disclosed"))
     dump(reproduction / "task_spec.json", _mode_spec(review, scope, complexity, pair_id, mode="paper_reproduction", task_mode="guided_reproduction", disclosure="paper_route_disclosed"))
     dump(
         reproduction / "submission_contract.json",
@@ -298,8 +296,6 @@ def main() -> None:
     hidden_root = root / "hidden_reference"
     hidden = {"status": "ready", "task_pair_id": pair_id, "expected_result": {}, "ground_truth_items": truths, "acceptance_profiles": profiles, "scientific_conclusion_rubric": rubric, "critical_failures": ["No real chemistry calculation was executed."], "reference_evidence": {"evidence_ids": evidence_ids(review.get("evidence_map"))}, "evidence_gate_policy": {}, "managed_computation_policy": {"required": True}, "summary": "Replace this scaffold summary with an evidence-backed summary."}
     dump(hidden_root / "ground_truth_common.json", hidden)
-    dump(hidden_root / "acceptance_profiles.json", profiles)
-    dump(hidden_root / "conclusion_rubric.json", rubric)
     dump(hidden_root / "private_evidence_map.json", review.get("evidence_map") or {})
     dump(root / "toolbox_requirements.json", review.get("toolbox_requirements") or [])
     print("task-pair scaffold created; replace scaffold prose and validate before receipt")

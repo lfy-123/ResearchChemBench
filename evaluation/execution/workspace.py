@@ -117,7 +117,7 @@ class WorkspaceLifecycleMixin:
         )
         return INSTRUCTIONS_TEMPLATE.format(
             workspace=str(self.workspace.resolve()),
-            task_desc=self.task_info["task"],
+            task_desc=self.task_text,
             category=self.task_info.get("category", "uncategorized"),
             data_text=data_text,
             scientific_mode=self.task_info.get(

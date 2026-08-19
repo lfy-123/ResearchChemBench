@@ -43,15 +43,13 @@ from src.stages.stage07_task_judge.prompts import (
     audit_instructions,
 )
 from src.stages.stage07_task_judge.validation import (
-    # Kept as a compatibility import for callers that explicitly assert the
-    # scientific validator is not invoked by this file-management stage.
-    deterministic_stage07_audit,
     published_bundle_mechanical_check,
     stage07_mechanical_pre_publish_check,
     validate_agent_audit,
 )
+from src.stages.stage06_task_builder.validation import canonical_task_pair_id
 
-STAGE07_IMPLEMENTATION_VERSION = "v9-fifth-round-mechanical-boundary-20260818"
+STAGE07_IMPLEMENTATION_VERSION = "v10-sixth-round-minimal-boundary-and-mode-alignment-20260819"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -90,7 +88,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
 
     def audit(record: dict[str, Any]) -> dict[str, Any]:
         paper_id = str(record["paper_id"])
-        task_pair_id = str(record.get("task_pair_id") or f"{paper_id}-provisional")
+        task_pair_id = canonical_task_pair_id(paper_id)
         handoff_value = record.get("handoff_path") or record.get("task_pair_path")
         try:
             if not handoff_value:
@@ -143,7 +141,10 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                     str(response.get("summary") or "Stage07 could not complete the audit."),
                     agent_run=agent_run,
                 )
-            final_task_pair_id = str(response.get("final_task_pair_id") or task_pair_id)
+            agent_proposed_task_pair_id = str(response.get("final_task_pair_id") or "")
+            final_task_pair_id = canonical_task_pair_id(paper_id)
+            response["agent_proposed_task_pair_id"] = agent_proposed_task_pair_id
+            response["final_task_pair_id"] = final_task_pair_id
             final_path: str | None = None
             published_paths: dict[str, str] = {}
             evaluator_paths: dict[str, str] = {}
@@ -154,7 +155,9 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 atomic_commit_tree(task_root, target)
                 write_json(target / "stage07_audit.json", response)
                 write_json(target / "stage06_handoff_record.json", record)
-                mechanical_report = stage07_mechanical_pre_publish_check(target)
+                mechanical_report = stage07_mechanical_pre_publish_check(
+                    target, task_pair_id=canonical_task_pair_id(paper_id)
+                )
                 write_json(target / "mechanical_pre_publish_report.json", mechanical_report)
                 write_manifest(target, target / "audit_manifest.json")
                 response["orchestrator_mechanical_status"] = (
@@ -165,8 +168,8 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 response["orchestrator_mechanical_findings"] = mechanical_report.get(
                     "findings", []
                 )
-                response["orchestrator_schema_load_status"] = mechanical_report.get(
-                    "schema_load_status", "not_run"
+                response["orchestrator_schema_load_diagnostic"] = mechanical_report.get(
+                    "schema_load_diagnostic", "not_run"
                 )
                 write_json(target / "stage07_audit.json", response)
                 if mechanical_report.get("mechanical_pre_publish_status") == "passed":
@@ -216,6 +219,10 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                     "orchestrator_mechanical_status", "not_run"
                 ) == "passed",
                 "publish_ready": bool(published_paths),
+                "mechanical_approved_but_unpublished": bool(
+                    decision in STAGE07_APPROVED_DECISIONS
+                    and response.get("orchestrator_mechanical_status") == "blocked"
+                ),
                 "selected_workflow_preserved": response.get(
                     "selected_workflow_preserved"
                 ),
@@ -226,8 +233,8 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 "resource_status": response.get("resource_status"),
                 "agent_observed_contract_status": response.get("contract_status"),
                 "agent_observed_disclosure_status": response.get("disclosure_status"),
-                "agent_observed_evaluator_dry_run_status": response.get(
-                    "evaluator_dry_run_status"
+                "agent_observed_schema_load_diagnostic": response.get(
+                    "schema_load_diagnostic", response.get("evaluator_dry_run_status")
                 ),
                 "orchestrator_mechanical_status": response.get(
                     "orchestrator_mechanical_status", "not_run"
@@ -235,8 +242,8 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 "orchestrator_mechanical_findings": response.get(
                     "orchestrator_mechanical_findings", []
                 ),
-                "orchestrator_schema_load_status": response.get(
-                    "orchestrator_schema_load_status", "not_run"
+                "orchestrator_schema_load_diagnostic": response.get(
+                    "orchestrator_schema_load_diagnostic", "not_run"
                 ),
                 "published_bundle_statuses": published_bundle_statuses,
                 "task_pair_path": final_path,
@@ -301,8 +308,19 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
         "mechanical_publish_blocked": sum(
             row.get("orchestrator_mechanical_status") == "blocked" for row in records
         ),
+        "mechanical_approved_but_unpublished": sum(
+            bool(row.get("mechanical_approved_but_unpublished")) for row in records
+        ),
+        "blocking_reasons": sorted(
+            {
+                str(reason)
+                for row in records
+                if row.get("orchestrator_mechanical_status") == "blocked"
+                for reason in row.get("orchestrator_mechanical_findings") or []
+            }
+        ),
         "schema_load_failed": sum(
-            row.get("orchestrator_schema_load_status") == "failed" for row in records
+            row.get("orchestrator_schema_load_diagnostic") == "failed" for row in records
         ),
         "scientific_audit_passed": sum(
             bool(row.get("scientific_audit_passed")) for row in records
@@ -531,7 +549,9 @@ def _run_audit_repair_agent(
             write_json(outputs / "stage07_audit.json", response)
             _require_stage07_artifact_delivery(response, root, result)
             if response.get("audit_decision") in STAGE07_APPROVED_DECISIONS:
-                mechanical_report = stage07_mechanical_pre_publish_check(outputs / "task_pair")
+                mechanical_report = stage07_mechanical_pre_publish_check(
+                    outputs / "task_pair", task_pair_id=canonical_task_pair_id(paper_id)
+                )
                 write_json(root / "mechanical_pre_publish_report.json", mechanical_report)
                 if mechanical_report.get("mechanical_pre_publish_status") != "passed":
                     # Mechanical findings are surfaced to the orchestrator and
@@ -543,8 +563,8 @@ def _run_audit_repair_agent(
                     )
                 else:
                     response["orchestrator_mechanical_status"] = "passed"
-                response["orchestrator_schema_load_status"] = mechanical_report.get(
-                    "schema_load_status", "not_run"
+                response["orchestrator_schema_load_diagnostic"] = mechanical_report.get(
+                    "schema_load_diagnostic", "not_run"
                 )
                 write_json(outputs / "stage07_audit.json", response)
         except AgentExecutionError as exc:
@@ -623,13 +643,13 @@ def _publish_private_evaluator_registry(
 
     exported: dict[str, str] = {}
     hidden_root = pair_root / "hidden_reference"
-    for mode, hidden_name in (
-        ("paper_reproduction", "ground_truth_reproduction.json"),
-        ("autonomous_research", "ground_truth_autonomous.json"),
-    ):
+    common_path = hidden_root / "ground_truth_common.json"
+    if not common_path.is_file():
+        return exported
+    common = read_json(common_path)
+    for mode in ("paper_reproduction", "autonomous_research"):
         source_mode = pair_root / mode
-        hidden_source = hidden_root / hidden_name
-        if not source_mode.is_dir() or not hidden_source.is_file():
+        if not source_mode.is_dir():
             continue
         destination = prepare_clean_directory(
             registry_root / f"{safe_component(task_pair_id)}_{mode}"
@@ -644,7 +664,16 @@ def _publish_private_evaluator_registry(
         shutil.copy2(copy2_source, destination / "task_info.json")
         target_study = destination / "target_study"
         target_study.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(hidden_source, target_study / "ground_truth.json")
+        projected = {
+            **common,
+            "evaluation_profile": (
+                "paper_reproduction"
+                if mode == "paper_reproduction"
+                else "autonomous_discovery"
+            ),
+            "scoring_rubric": read_json(source_mode / "process_rubric.json"),
+        }
+        write_json(target_study / "ground_truth.json", projected)
         write_manifest(destination, destination / "published_manifest.json")
         exported[mode] = str(destination)
     return exported
@@ -1454,7 +1483,7 @@ def _stage07_audit_packet(
             "inputs/task_pair/paper_reproduction/workflow_spec.json",
             "inputs/task_pair/workflow_review.json",
             "inputs/task_pair/toolbox_requirements.json",
-            "inputs/task_pair/hidden_reference/acceptance_profiles.json",
+            "inputs/task_pair/hidden_reference/ground_truth_common.json",
             "inputs/task_pair/paper_info.json",
         ],
     }

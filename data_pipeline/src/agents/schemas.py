@@ -42,9 +42,7 @@ STAGE06_TASK_PAIR_BUILDER_SCHEMA = object_schema(
                 "none",
             ]
         },
-        "complexity_level": {
-            "enum": ["high", "medium", "low_complexity_trivial", "not_assessed"]
-        },
+        "complexity_profile": OBJECT,
         "failure_code": STRING,
         "failure_reasons": OBJECT_ARRAY,
         "summary": STRING,
@@ -97,6 +95,8 @@ STAGE06_WORKFLOW_REVIEW_SCHEMA = object_schema(
         "failure_code": STRING,
         "failure_reasons": OBJECT_ARRAY,
         "warnings": EMPTY_STRING_ARRAY,
+        "workflow_completeness_check": OBJECT,
+        "public_to_private_asset_map": {"oneOf": [OBJECT, OBJECT_ARRAY]},
         "objective_card": OBJECT,
         "key_points": OBJECT_ARRAY,
         "conversion_manifest": OBJECT,
@@ -157,6 +157,8 @@ STAGE06_REVIEW_SCHEMA = object_schema(
         "resource_assessment": OBJECT,
         "reject_reasons": EMPTY_STRING_ARRAY,
         "warnings": EMPTY_STRING_ARRAY,
+        "workflow_completeness_check": OBJECT,
+        "public_to_private_asset_map": {"oneOf": [OBJECT, OBJECT_ARRAY]},
     },
 )
 
@@ -244,8 +246,10 @@ STAGE07_AUDIT_SCHEMA = object_schema(
         "scientific_decision": STRING,
         "contract_status": {"enum": ["passed", "findings", "not_applicable"]},
         "disclosure_status": {"enum": ["passed", "needs_review", "not_applicable"]},
-        "evaluator_dry_run_status": {"enum": ["passed", "failed", "not_run"]},
+        "schema_load_diagnostic": {"enum": ["passed", "failed", "not_run"]},
         "summary": STRING,
+        "scientific_audit_table": OBJECT_ARRAY,
+        "agent_proposed_task_pair_id": STRING,
     },
 )
 

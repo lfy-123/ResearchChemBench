@@ -755,7 +755,7 @@ def test_reproduction_setup_renders_route_scaffold_and_preserves_data(
         )
         == []
     )
-    task_text_after_first_run = read_json(workspace / "task" / "task_info.json")["task"]
+    task_text_after_first_run = (workspace / "task" / "task.md").read_text(encoding="utf-8")
     repeated = subprocess.run(
         [sys.executable, "private_input/apply_reproduction_patch.py"],
         cwd=workspace,
@@ -764,7 +764,7 @@ def test_reproduction_setup_renders_route_scaffold_and_preserves_data(
         check=False,
     )
     assert repeated.returncode == 0, repeated.stderr
-    assert read_json(workspace / "task" / "task_info.json")["task"] == (task_text_after_first_run)
+    assert (workspace / "task" / "task.md").read_text(encoding="utf-8") == (task_text_after_first_run)
 
 
 def test_compact_toolbox_exposes_installed_software_without_actions() -> None:
@@ -3782,10 +3782,6 @@ def _mock_responses() -> dict[str, dict]:
     autonomous = {
         "status": "ready",
         "task_info": {
-            "task": (
-                "Using the two supplied neutral closed-shell singlets at 298.15 K, "
-                "determine their relative thermodynamic stability."
-            ),
             "scientific_mode_description": "Choose and validate an independent computational route.",
             "scientific_requirements": ["Generate new computed evidence for both structures."],
             "required_deliverables": [
@@ -3826,10 +3822,6 @@ def _mock_responses() -> dict[str, dict]:
         ],
         "route_disclosure_summary": "Discloses the ORCA optimization and frequency route.",
         "task_info": {
-            "task": (
-                "Reproduce the neutral closed-shell singlets' relative-stability calculation "
-                "at 298.15 K using the disclosed paper route."
-            ),
             "scientific_mode_description": "Follow the supplied method and validate its outputs.",
             "scientific_requirements": ["Use the disclosed optimization and frequency workflow."],
             "required_deliverables": [
@@ -4022,17 +4014,8 @@ def _single_agent_mock_responder(request: AgentRunRequest) -> dict:
     }
     complexity = {
         "level": "medium",
-        "scientific_core_operation_count": 2,
-        "estimated_min_tool_calls": 4,
-        "estimated_typical_tool_calls": 6,
-        "dependency_edge_count": 1,
-        "parallel_branch_count": 2,
-        "system_or_state_count": 2,
-        "software_capability_count": 2,
-        "iterative_decisions": [],
-        "validation_operations": ["frequency validation of optimized structures"],
-        "reasoning_requirements": ["compare thermochemistry across both structures"],
-        "non_core_operations_excluded": ["file conversion", "report writing"],
+        "rationale": "Optimization, frequency analysis, and comparison require multiple tool stages.",
+        "estimated_tool_calls": {"min": 4, "typical": 6},
     }
     review.update(
         {
@@ -4079,7 +4062,6 @@ def _single_agent_mock_responder(request: AgentRunRequest) -> dict:
         "scientific_mode": "paper_reproduction",
         "method_disclosure": "paper_route_disclosed",
         "pathway_disclosure": "paper_route_disclosed",
-        "task": task_text,
         "scientific_mode_description": "Follow and validate the disclosed paper route.",
         "scientific_requirements": ["Execute both optimization and frequency stages."],
         "required_deliverables": [
@@ -4164,7 +4146,6 @@ def _single_agent_mock_responder(request: AgentRunRequest) -> dict:
             "scientific_mode": "autonomous_research",
             "method_disclosure": "none",
             "pathway_disclosure": "none",
-            "task": autonomous_text,
             "scientific_mode_description": "Design and validate an independent route.",
             "scientific_requirements": ["Generate new evidence for both structures."],
         }
@@ -4188,8 +4169,6 @@ def _single_agent_mock_responder(request: AgentRunRequest) -> dict:
     hidden = old["stage06_hidden_reference"]
     hidden_root = outputs / "hidden_reference"
     dump(hidden_root / "ground_truth_common.json", hidden)
-    dump(hidden_root / "acceptance_profiles.json", hidden["acceptance_profiles"])
-    dump(hidden_root / "conclusion_rubric.json", hidden["scientific_conclusion_rubric"])
     dump(hidden_root / "private_evidence_map.json", review["evidence_map"])
     dump(outputs / "toolbox_requirements.json", review["toolbox_requirements"])
     subprocess.run(
@@ -4212,7 +4191,7 @@ def _single_agent_mock_responder(request: AgentRunRequest) -> dict:
             "pair_draft_validated": True,
         },
         "workflow_scope_kind": scope["kind"],
-        "complexity_level": complexity["level"],
+        "complexity_profile": complexity,
         "failure_code": "",
         "failure_reasons": [],
         "summary": "Built a full-paper, non-trivial two-mode task pair.",
@@ -4493,7 +4472,11 @@ def test_workflow_review_alias_normalization_is_syntax_only() -> None:
         ],
         "workflow_inventory": [{"workflow_id": "wf-1", "claim_ids": ["claim-1"], "evidence_ids": ["ev-1"]}],
         "workflow_scope": {"scope_kind": "partial_computational_subworkflow", "included_workflows": ["wf-1"]},
-        "complexity_profile": {"core_computation_count": 2, "tool_call_count": 4, "dependency_count": 1},
+        "complexity_profile": {
+            "level": "high",
+            "rationale": "multi-step workflow",
+            "estimated_tool_calls": {"min": 2, "typical": 4},
+        },
         "ground_truth_items": [{"item_id": "item-1", "type": "conclusion", "value": "A follows B."}],
     }
 
@@ -4503,8 +4486,11 @@ def test_workflow_review_alias_normalization_is_syntax_only() -> None:
     assert normalized["workflow_scope"]["included_workflow_ids"] == ["wf-1"]
     assert normalized["workflow_scope"]["included_claim_ids"] == ["claim-1"]
     assert normalized["workflow_steps"][0]["output_artifacts"] == ["optimized"]
-    assert normalized["complexity_profile"]["scientific_core_operation_count"] == 2
-    assert normalized["complexity_profile"]["estimated_typical_tool_calls"] == 4
+    assert normalized["complexity_profile"] == {
+        "level": "high",
+        "rationale": "multi-step workflow",
+        "estimated_tool_calls": {"min": 2, "typical": 4},
+    }
     assert normalized["ground_truth_items"][0]["ground_truth_id"] == "item-1"
     # Missing scientific inputs are not manufactured by normalization.
     assert "public_task_basis" not in normalized
@@ -5142,7 +5128,7 @@ def test_stage06_single_agent_builds_reproduction_first_task_pair(tmp_path: Path
     assert record["decision"] == "provisional_constructed"
     assert record["handoff_ready"] is True
     assert record["workflow_scope_kind"] == "full_paper_computational_workflow"
-    assert record["complexity_level"] == "medium"
+    assert record["complexity_profile"]["level"] == "medium"
     pair = Path(record["task_pair_path"])
     assert validate_task_pair(pair)["passed"] is True
     construction = read_json(pair / "construction_record.json")
@@ -5404,12 +5390,6 @@ def test_pair_contract_normalizer_repairs_harness_field_drift(tmp_path: Path) ->
         {"id": "incomplete", "max_score": 100, "description": "model shorthand"}
     ]
     hidden_path.write_text(json.dumps(hidden), encoding="utf-8")
-    (pair / "hidden_reference" / "acceptance_profiles.json").write_text(
-        json.dumps({"profiles": hidden["acceptance_profiles"]}), encoding="utf-8"
-    )
-    (pair / "hidden_reference" / "conclusion_rubric.json").write_text(
-        json.dumps({"rubric": hidden["scientific_conclusion_rubric"]}), encoding="utf-8"
-    )
     review["toolbox_requirements"] = [{"software": "ORCA", "available": True}]
 
     assert _normalize_task_pair_artifact_contracts(pair, review) == []
@@ -5421,9 +5401,8 @@ def test_pair_contract_normalizer_repairs_harness_field_drift(tmp_path: Path) ->
     assert len(repaired_hidden["acceptance_profiles"]) == len(
         repaired_hidden["ground_truth_items"]
     )
-    assert read_json(pair / "hidden_reference" / "acceptance_profiles.json") == repaired_hidden[
-        "acceptance_profiles"
-    ]
+    assert not (pair / "hidden_reference" / "acceptance_profiles.json").exists()
+    assert not (pair / "hidden_reference" / "conclusion_rubric.json").exists()
 
 
 def test_stage06_disables_legacy_multi_phase_strategy(tmp_path: Path) -> None:
@@ -5782,12 +5761,6 @@ def test_stage07_does_not_override_agent_for_high_nonsoftware_remaining_issue(
 ) -> None:
     (tmp_path / "paper_reproduction").mkdir()
     (tmp_path / "autonomous_research").mkdir()
-    monkeypatch.setattr(
-        "src.stages.stage07_task_judge.stage.deterministic_stage07_audit",
-        lambda *_args, **_kwargs: pytest.fail(
-            "the file-management finalizer must not call the scientific validator"
-        ),
-    )
     response = {
         "audit_decision": "approved",
         "artifact_path": "outputs/task_pair",
@@ -5924,7 +5897,6 @@ def test_stage07_mechanical_gate_loads_evaluator_contracts(tmp_path: Path) -> No
             "task_pair_id": "pair_test",
             "source_id": "paper-test",
             "category": "computational_chemistry",
-            "task": "Solve the scientific objective.",
             "mode": mode,
             "scientific_mode": mode,
             "task_mode": task_mode,
@@ -5938,12 +5910,10 @@ def test_stage07_mechanical_gate_loads_evaluator_contracts(tmp_path: Path) -> No
         write_json(root / "submission_contract.json", submission)
         write_json(root / "process_rubric.json", rubric)
     truth = {"evaluation_mode": "binary", "score_max": 1, "expected_result": {}}
-    write_json(pair / "hidden_reference" / "ground_truth_reproduction.json", truth)
-    write_json(pair / "hidden_reference" / "ground_truth_autonomous.json", truth)
+    write_json(pair / "hidden_reference" / "ground_truth_common.json", truth)
     report = stage07_mechanical_pre_publish_check(pair)
     assert report["mechanical_pre_publish_status"] == "passed"
-    assert report["schema_load_status"] == "passed"
-    assert report["evaluator_dry_run_status"] == "not_run"
+    assert report["schema_load_diagnostic"] == "passed"
 
 
 def test_route_rubric_normalizer_canonicalizes_equivalent_agent_id() -> None:
@@ -5954,9 +5924,8 @@ def test_route_rubric_normalizer_canonicalizes_equivalent_agent_id() -> None:
     normalized = _ensure_reproduction_route_rubric(
         rubric, submission={"required_files": ["report/process_trace.jsonl"]}
     )
-    route = normalized[0]
+    route = next(row for row in normalized if row.get("criterion_type") == "route_fidelity")
     assert route["id"] == "paper_route_fidelity"
-    assert route["criterion_type"] == "route_fidelity"
     assert route["evidence_artifacts"] == ["report/process_trace.jsonl"]
 
 

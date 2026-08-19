@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-STAGE06_REVIEW_VERSION = "v3-stage06-review-20260814-r25"
-STAGE06_AUTONOMOUS_VERSION = "v3-stage06-autonomous-20260814-r7"
-STAGE06_REPRODUCTION_VERSION = "v3-stage06-reproduction-20260814-r8"
-STAGE06_HIDDEN_VERSION = "v3-stage06-hidden-reference-20260814-r7"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v7-stage06-fifth-round-closure-builder-20260818"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v5-stage06-fifth-round-lossless-converter-20260818"
+STAGE06_REVIEW_VERSION = "v4-stage06-review-sixth-round-20260819"
+STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
+STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
+STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v8-stage06-sixth-round-minimal-boundary-builder-20260819"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v6-stage06-sixth-round-answer-blind-converter-20260819"
 
 
 def task_pair_builder_instructions(
@@ -123,11 +123,10 @@ Use only these new scope kinds: `full_paper_core_workflow` or
 `why_not_full_workflow`, and `selection_rationale` in `workflow_scope`. These fields are an Agent
 scientific justification, not a code-computed importance score.
 
-A successful `complexity_profile.level` must be `medium` or `high`. It must record core operation,
-tool-call, dependency, branch, system/state, and software-capability counts; iterative decisions,
-validation operations, reasoning requirements, and excluded non-core work. Counts must agree with
-the workflow steps. A single software invocation may encapsulate several real jobs, so process-call
-count alone is not decisive.
+A successful `complexity_profile.level` must be `medium` or `high` and include a short `rationale`.
+Optionally include `estimated_tool_calls={{"min": ..., "typical": ...}}`. Workflow topology belongs
+in `workflow_steps`, and process metadata belongs in `process_rubric`; do not duplicate those counts
+inside complexity.
 
 SCIENTIFIC COMPLETENESS
 Never guess controlling structures, composition, conformers, adsorption sites, protonation,
@@ -141,7 +140,9 @@ policy without changing it.
 WRITE `outputs/workflow_review.json` FIRST. It must conform to
 `inputs/task_contract.json#/workflow_review_schema`. For success use `decision=candidate_ready` and
 include the old scientific contract fields plus `workflow_inventory`, `workflow_scope`, and
-`complexity_profile`. Workflow steps use `step_type` from `core_computation`,
+`complexity_profile`. Also include `workflow_completeness_check` and a private
+`public_to_private_asset_map`; these are handoff evidence for Stage07 and must never be copied into
+a public task. Workflow steps use `step_type` from `core_computation`,
 `scientific_analysis`, `validation`, or `non_core`; name inputs, outputs, dependencies, software,
 parameters, and evidence IDs. Ground Truth can contain as many compact items as needed to cover
 meaningful intermediate and final conclusions. Each item is typed and evidence-backed.
@@ -176,8 +177,8 @@ true, use an allowed scientific failure code, and provide structured failure rea
 larger and alternative scopes were examined. Then write `outputs/construction_receipt.json` with
 the same decision and stop. Its `artifact_path` is `outputs/construction_receipt.json`; set
 `milestones.workflow_review_validated=true`, all later milestones false, `workflow_scope_kind` to
-the last attempted scope or `none`, `complexity_level` to `low_complexity_trivial` or
-`not_assessed`, copy the exact `failure_code` and `failure_reasons`, and provide a concise summary.
+the last attempted scope or `none`, and `complexity_profile` to an empty object or the last
+source-backed profile, copy the exact `failure_code` and `failure_reasons`, and provide a concise summary.
 Do not create either task directory for a scientific failure.
 
 SUCCESSFUL CONSTRUCTION ORDER
@@ -188,7 +189,8 @@ SUCCESSFUL CONSTRUCTION ORDER
 3. Reproduction mode discloses the paper's software, methods, parameters, route sequence,
    dependencies and validation, but never target values, target ordering/trend/mechanism,
    intermediate/final answer conclusions, acceptance tolerances, or private evidence content.
-4. Both task_info and task_spec carry the exact frozen `workflow_scope` and `complexity_profile`.
+4. `task.md` is the sole task instruction. `task_info.json` and `task_spec.json` carry metadata only,
+   including the exact frozen `workflow_scope` and `complexity_profile`.
    Use mode/scientific_mode `paper_reproduction`, task_mode `guided_reproduction`, a task_id ending
    `_reproduction`, and the common task_pair_id. Process rubric scores real route execution and sums
    to 100. Submission paths are evaluation-workspace relative (for example `report/results.json`).
@@ -197,16 +199,16 @@ SUCCESSFUL CONSTRUCTION ORDER
    public task. Stage06B is the only Agent that converts the reproduction task into the autonomous
    public surface. The orchestrator will provide Stage06B with a minimal conversion packet after
    this phase completes.
-7. Build `outputs/hidden_reference/ground_truth_common.json`, acceptance_profiles.json,
-   conclusion_rubric.json, and private_evidence_map.json. `ground_truth_common.json` uses status
+7. Build `outputs/hidden_reference/ground_truth_common.json` and private_evidence_map.json.
+   `ground_truth_common.json` uses status
    `ready` and contains ground_truth_items, acceptance_profiles, scientific_conclusion_rubric,
    expected_result, critical_failures, reference_evidence, evidence_gate_policy,
    managed_computation_policy, and summary. Every Ground Truth item applies to both modes and binds
    through an item-specific typed Acceptance Profile to required submission artifacts/fields.
    Include numeric results and textual intermediate/final conclusions. The conclusion rubric sums
    to 100 and is identical for both modes. Cross-check numeric signs, ranking, trend, and prose.
-   The two sidecar files are the literal arrays from `ground_truth_common.json`, not wrapper
-   objects such as `{{"profiles": [...]}}` or `{{"rubric": [...]}}`.
+   Any evaluator-specific mode projection is generated from this common file; do not create
+   independently editable Ground Truth copies.
 8. Write `outputs/toolbox_requirements.json` as a gap list only. Leave it empty when all required
    software appears in the installed-software inventory. Never copy installed programs into this
    file and never assess preset Action coverage. Suggest genuinely absent software without
@@ -240,7 +242,7 @@ The success receipt is:
     "pair_draft_validated": false
   }},
   "workflow_scope_kind": "full_paper_core_workflow",
-  "complexity_level": "high",
+  "complexity_profile": {{"level": "high", "rationale": "...", "estimated_tool_calls": {{"min": 10, "typical": 25}}}},
   "failure_code": "",
   "failure_reasons": [],
   "summary": "..."
@@ -332,13 +334,15 @@ def review_instructions(
     finalization_reserve: int = 8,
 ) -> str:
     search_deadline = max(1, max_tool_calls - max(0, finalization_reserve))
+    canonical_pair_id = f"{paper_id}_task_pair"
     return f"""You are the Stage06 scientific workflow reviewer for ResearchChemBench.
 
 Work only in this isolated workspace. Do not modify `inputs/`. Start with
 `inputs/priority_review_packet.json`, then verify only its unresolved claims against the cited evidence and nearby
 text in the main paper or SI. Read `upstream_hints.json` and the toolbox snapshot for frozen facts. Full normalized
-papers, parser structures, tables, and images remain available as bounded fallbacks; do not
-traverse them from the beginning. The input snapshot hash is `{snapshot_hash}` and the paper id is `{paper_id}`.
+ papers, parser structures, tables, and images remain available as bounded fallbacks; do not
+ traverse them from the beginning. The input snapshot hash is `{snapshot_hash}` and the paper id is `{paper_id}`.
+The orchestrator-reserved canonical task pair id is `{canonical_pair_id}`; copy it exactly and never invent another pair identity.
 
 For coordinates, first inspect `inputs/documents/*/derived_coordinates/index.json` and its referenced XYZ files.
 These are strict deterministic extractions from the source PDF layout text, with PDF hash, source pages, atom count,

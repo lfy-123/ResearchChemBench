@@ -69,8 +69,6 @@ from src.stages.stage06_task_builder.prompts import (
     task_pair_builder_instructions,
 )
 from src.stages.stage06_task_builder.validation import (
-    evaluation_critical_failures,
-    evaluation_reference_evidence,
     validate_autonomous_route_isolation,
     validate_hidden_reference,
     validate_mode_task,
@@ -82,9 +80,10 @@ from src.stages.stage06_task_builder.validation import (
     canonicalize_complexity_profile,
     canonicalize_mode_task_contract,
     anonymous_source_id,
+    canonical_task_pair_id,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v9-fifth-round-closure-and-contract-20260818"
+STAGE06_IMPLEMENTATION_VERSION = "v10-sixth-round-minimal-boundary-and-mode-alignment-20260819"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
@@ -277,11 +276,15 @@ def _run_stage06_single_agent(
 
             review = read_json(outputs / "workflow_review.json")
 
-            task_pair_id = str(
-                review.get("task_pair_id")
-                or receipt.get("task_pair_id")
-                or f"{paper_id}-provisional"
+            # Transport identity is deterministic and owned by the orchestrator;
+            # preserve any Agent proposal only as non-authoritative review metadata.
+            task_pair_id = canonical_task_pair_id(paper_id)
+            proposed_task_pair_id = str(
+                review.get("task_pair_id") or receipt.get("task_pair_id") or ""
             )
+            if proposed_task_pair_id and proposed_task_pair_id != task_pair_id:
+                review["agent_proposed_task_pair_id"] = proposed_task_pair_id
+            review["task_pair_id"] = task_pair_id
             staging_root = prepare_clean_directory(
                 stage_root
                 / "staging"
@@ -513,7 +516,7 @@ def _run_stage06_single_agent(
                 "handoff_path": str(target),
                 "source_snapshot_path": str(snapshot["root"]),
                 "workflow_scope_kind": scope.get("kind"),
-                "complexity_level": complexity.get("level"),
+                "complexity_profile": complexity,
                 "toolbox_gap_present": toolbox_gap,
                 "resource_risk_present": _resource_risk_present(
                     review.get("resource_assessment") or {}
@@ -737,7 +740,7 @@ def _run_stage06_legacy(
                     run_id=run_id,
                     paper_id=paper_id,
                     candidate_id=candidate_id,
-                    task_pair_id=str(review_response.get("task_pair_id") or ""),
+                    task_pair_id=canonical_task_pair_id(paper_id),
                     reasons=sorted(set(reasons or ["scientific_workflow_not_constructible"])),
                     review_audit=review_audit,
                     stage05_disposition=review_response.get("stage05_candidate_disposition"),
@@ -752,7 +755,10 @@ def _run_stage06_legacy(
                     {"review": review_audit},
                 )
 
-            task_pair_id = str(review_response["task_pair_id"])
+            # Agent-selected identifiers are scientific metadata, not transport identity.
+            # Use the deterministic pair id supplied by the orchestrator for all new tasks.
+            task_pair_id = canonical_task_pair_id(paper_id)
+            review_response["task_pair_id"] = task_pair_id
             staging_root = prepare_clean_directory(
                 stage_root
                 / "staging"
@@ -2163,8 +2169,8 @@ def _recover_builder_receipt_from_review(
         "workflow_scope_kind": str(
             (review.get("workflow_scope") or {}).get("kind") or "none"
         ),
-        "complexity_level": str(
-            (review.get("complexity_profile") or {}).get("level") or "not_assessed"
+        "complexity_profile": json.loads(
+            json.dumps(review.get("complexity_profile") or {}, ensure_ascii=False)
         ),
         "failure_code": str(review.get("failure_code") or ""),
         "failure_reasons": review.get("failure_reasons") or [],
@@ -2299,14 +2305,15 @@ def _task_pair_builder_phase_findings(
     complexity = review.get("complexity_profile") or {}
     if receipt.get("workflow_scope_kind") != scope.get("kind"):
         findings.append("receipt_workflow_scope_mismatch")
-    if receipt.get("complexity_level") != complexity.get("level"):
-        findings.append("receipt_complexity_level_mismatch")
+    receipt_complexity = receipt.get("complexity_profile") or {}
+    if canonicalize_complexity_profile(receipt_complexity) != canonicalize_complexity_profile(complexity):
+        findings.append("receipt_complexity_profile_mismatch")
     required_paths = (
         "paper_reproduction",
         "autonomous_research",
+        "workflow_completeness_check.json",
+        "public_to_private_asset_map.json",
         "hidden_reference/ground_truth_common.json",
-        "hidden_reference/acceptance_profiles.json",
-        "hidden_reference/conclusion_rubric.json",
         "hidden_reference/private_evidence_map.json",
         "toolbox_requirements.json",
     )
@@ -2314,18 +2321,8 @@ def _task_pair_builder_phase_findings(
         if not (outputs / relative).exists():
             findings.append(f"builder_output_missing:{relative}")
     hidden_common_path = outputs / "hidden_reference" / "ground_truth_common.json"
-    acceptance_path = outputs / "hidden_reference" / "acceptance_profiles.json"
-    rubric_path = outputs / "hidden_reference" / "conclusion_rubric.json"
     if hidden_common_path.is_file():
-        hidden = read_json(hidden_common_path)
-        if acceptance_path.is_file() and read_json(acceptance_path) != hidden.get(
-            "acceptance_profiles"
-        ):
-            findings.append("hidden_acceptance_profiles_file_mismatch")
-        if rubric_path.is_file() and read_json(rubric_path) != hidden.get(
-            "scientific_conclusion_rubric"
-        ):
-            findings.append("hidden_conclusion_rubric_file_mismatch")
+        read_json(hidden_common_path)
     toolbox_path = outputs / "toolbox_requirements.json"
     if toolbox_path.is_file():
         toolbox_value = read_json(toolbox_path)
@@ -2545,8 +2542,8 @@ def _synchronize_builder_receipt(
     scope = review.get("workflow_scope") or {}
     complexity = review.get("complexity_profile") or {}
     receipt["workflow_scope_kind"] = str(scope.get("kind") or "none")
-    receipt["complexity_level"] = str(
-        complexity.get("level") or "not_assessed"
+    receipt["complexity_profile"] = json.loads(
+        json.dumps(complexity, ensure_ascii=False)
     )
     receipt["failure_code"] = str(review.get("failure_code") or "") if negative else ""
     receipt["failure_reasons"] = (
@@ -2607,8 +2604,6 @@ def _synchronize_builder_receipt(
         (hidden / name).is_file()
         for name in (
             "ground_truth_common.json",
-            "acceptance_profiles.json",
-            "conclusion_rubric.json",
             "private_evidence_map.json",
         )
     )
@@ -2827,90 +2822,7 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
 
     complexity = value.get("complexity_profile")
     if isinstance(complexity, dict):
-        aliases = {
-            "core_computation_count": "scientific_core_operation_count",
-            "core_operations": "scientific_core_operation_count",
-            "tool_call_count": "estimated_typical_tool_calls",
-            "tool_calls": "estimated_typical_tool_calls",
-            "dependency_count": "dependency_edge_count",
-            "dependencies": "dependency_edge_count",
-            "branch_count": "parallel_branch_count",
-            "branches": "parallel_branch_count",
-            "system_state_count": "system_or_state_count",
-            "systems": "system_or_state_count",
-            "states": "system_or_state_count",
-        }
-        for source, target in aliases.items():
-            if target in complexity or source not in complexity:
-                continue
-            raw_alias = complexity[source]
-            if isinstance(raw_alias, list):
-                complexity[target] = len(raw_alias)
-            elif isinstance(raw_alias, int) and not isinstance(raw_alias, bool):
-                complexity[target] = raw_alias
-        if "system_or_state_count" not in complexity:
-            counts = [
-                complexity.get(name)
-                for name in ("system_count", "state_count")
-                if isinstance(complexity.get(name), int)
-                and not isinstance(complexity.get(name), bool)
-            ]
-            if counts:
-                complexity["system_or_state_count"] = max(counts)
-        if "software_capability_count" not in complexity:
-            capabilities = complexity.get("software_capabilities")
-            if isinstance(capabilities, list):
-                complexity["software_capability_count"] = len(capabilities)
-        steps = value.get("workflow_steps") or []
-        if "estimated_min_tool_calls" not in complexity:
-            complexity["estimated_min_tool_calls"] = max(
-                1, int(complexity.get("estimated_typical_tool_calls") or len(steps) or 1)
-            )
-        if "estimated_typical_tool_calls" not in complexity:
-            complexity["estimated_typical_tool_calls"] = max(
-                1, int(complexity.get("estimated_min_tool_calls") or len(steps) or 1)
-            )
-        if "scientific_core_operation_count" not in complexity:
-            complexity["scientific_core_operation_count"] = sum(
-                row.get("step_type")
-                in {"core_computation", "scientific_analysis", "validation"}
-                for row in steps
-                if isinstance(row, dict)
-            )
-        for field in (
-            "parallel_branch_count",
-            "system_or_state_count",
-            "software_capability_count",
-        ):
-            if field not in complexity:
-                complexity[field] = 0
-        # Dependency count is a derived graph property, never a model estimate.
-        complexity["dependency_edge_count"] = sum(
-            len(row.get("depends_on") or [])
-            for row in steps
-            if isinstance(row, dict)
-        )
-        for singular, plural in (
-            ("iterative_decision", "iterative_decisions"),
-            ("validation_operation", "validation_operations"),
-            ("reasoning_requirement", "reasoning_requirements"),
-            ("excluded_work", "non_core_operations_excluded"),
-        ):
-            if not complexity.get(plural) and complexity.get(singular):
-                raw = complexity[singular]
-                if isinstance(raw, list):
-                    complexity[plural] = list(raw)
-                elif isinstance(raw, int) and not isinstance(raw, bool):
-                    complexity[plural] = [f"declared_{singular}_{index + 1}" for index in range(raw)]
-                else:
-                    complexity[plural] = [raw]
-            complexity.setdefault(plural, [])
-        if not complexity.get("validation_operations"):
-            complexity["validation_operations"] = [
-                str(row.get("action") or row.get("step_id"))
-                for row in steps
-                if isinstance(row, dict) and row.get("step_type") == "validation"
-            ]
+        value["complexity_profile"] = canonicalize_complexity_profile(complexity)
     normalized_truths: list[dict[str, Any]] = []
     for index, raw in enumerate(value.get("ground_truth_items") or [], start=1):
         if not isinstance(raw, dict):
@@ -3937,11 +3849,7 @@ def _ensure_reproduction_route_rubric(
             row
             for row in output
             if isinstance(row, dict)
-            and (
-                str(row.get("criterion_type") or "").casefold() == "route_fidelity"
-                or str(row.get("id") or "").casefold()
-                in {"paper_route_fidelity", "route_fidelity"}
-            )
+            and str(row.get("criterion_type") or "").casefold() == "route_fidelity"
         ),
         None,
     )
@@ -3970,9 +3878,15 @@ def _ensure_reproduction_route_rubric(
                 2,
             )
             output[-1]["max_score"] = round(float(output[-1]["max_score"]) + correction, 2)
+            route_id = "paper_route_fidelity"
+            used_ids = {
+                str(row.get("id") or "") for row in output if isinstance(row, dict)
+            }
+            if route_id in used_ids:
+                route_id = "paper_route_fidelity_transport"
             output.append(
                 {
-                    "id": "paper_route_fidelity",
+                    "id": route_id,
                     "criterion_type": "route_fidelity",
                     "max_score": route_score,
                     "name": "Paper-route fidelity",
@@ -3987,7 +3901,15 @@ def _ensure_reproduction_route_rubric(
                 2,
             )
         return output
-    target["id"] = "paper_route_fidelity"
+    route_id = "paper_route_fidelity"
+    if any(
+        row is not target
+        and isinstance(row, dict)
+        and str(row.get("id") or "") == route_id
+        for row in output
+    ):
+        route_id = "paper_route_fidelity_transport"
+    target["id"] = route_id
     target["criterion_type"] = "route_fidelity"
     target["description"] = (
         "Follow the disclosed paper route, dependency order, method hierarchy, and validation "
@@ -4338,11 +4260,6 @@ def _normalize_task_pair_artifact_contracts(
             submission=submission,
         )
         write_json(hidden_path, hidden)
-        write_json(hidden_root / "acceptance_profiles.json", hidden.get("acceptance_profiles") or [])
-        write_json(
-            hidden_root / "conclusion_rubric.json",
-            hidden.get("scientific_conclusion_rubric") or [],
-        )
         if not (hidden_root / "private_evidence_map.json").is_file():
             write_json(hidden_root / "private_evidence_map.json", review.get("evidence_map") or {})
 
@@ -4351,6 +4268,14 @@ def _normalize_task_pair_artifact_contracts(
     )
     review["toolbox_requirements"] = requirements
     write_json(outputs / "workflow_review.json", review)
+    write_json(
+        outputs / "workflow_completeness_check.json",
+        review.get("workflow_completeness_check") or {},
+    )
+    write_json(
+        outputs / "public_to_private_asset_map.json",
+        review.get("public_to_private_asset_map") or {},
+    )
     write_json(outputs / "toolbox_requirements.json", requirements)
     return []
 
@@ -4945,7 +4870,7 @@ def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
     scope = dict(review.get("workflow_scope") or {})
     # Public conversion needs the scope shape, not the answer-bearing claims.
     scope.pop("supported_primary_claims", None)
-    scope["autonomy_scope"] = "fixed_input_workflow_comparison"
+    scope["autonomy_scope"] = "fixed_input_method_constrained_workflow"
     write_json(
         packet / "public_objective.json",
         {
@@ -4954,7 +4879,7 @@ def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
             "public_scientific_question": review.get("public_scientific_question")
             or review.get("scientific_question"),
             "workflow_scope": scope,
-            "autonomy_scope": "fixed_input_workflow_comparison",
+            "autonomy_scope": "fixed_input_method_constrained_workflow",
         },
     )
     input_assets = public_basis.get("input_assets") or []
@@ -5445,12 +5370,6 @@ if "## Mandatory Paper Route" not in task_text:
         task_text = task_text + "\n\n" + guide
 task_path.write_text(task_text.rstrip() + "\n", encoding="utf-8")
 
-existing_task = str(info.get("task") or info.get("description") or "").strip()
-task_prefix = (
-    "Perform a guided paper-route reproduction using paper_route.md and workflow_spec.json."
-)
-if not existing_task.startswith(task_prefix):
-    existing_task = task_prefix + (" " + existing_task if existing_task else "")
 info.update(
     {
         "task_id": task_id,
@@ -5464,7 +5383,6 @@ info.update(
         ),
         "method_disclosure": "paper_route_disclosed",
         "pathway_disclosure": "paper_route_disclosed",
-        "task": existing_task.strip(),
     }
 )
 if info.get("title"):
@@ -5501,17 +5419,21 @@ criterion = next(
         row
         for row in rubric
         if isinstance(row, dict)
-        and (
-            str(row.get("criterion_type") or "").casefold() == "route_fidelity"
-            or str(row.get("id") or "").casefold()
-            in {"paper_route_fidelity", "route_fidelity"}
-        )
+        and str(row.get("criterion_type") or "").casefold() == "route_fidelity"
     ),
     None,
 )
 if criterion is None:
     raise ValueError("process_rubric.json lacks an explicit route_fidelity criterion")
-criterion["id"] = "paper_route_fidelity"
+route_id = "paper_route_fidelity"
+if any(
+    row is not criterion
+    and isinstance(row, dict)
+    and str(row.get("id") or "") == route_id
+    for row in rubric
+):
+    route_id = "paper_route_fidelity_transport"
+criterion["id"] = route_id
 criterion["criterion_type"] = "route_fidelity"
 criterion["name"] = "Paper-route fidelity"
 criterion["description"] = (
@@ -6143,7 +6065,7 @@ def _materialize_reproduction(
         dict(response.get("task_spec") or {})
     )
     info = dict(autonomous_info)
-    for field in ("task", "scientific_mode_description", "scientific_requirements"):
+    for field in ("scientific_mode_description", "scientific_requirements"):
         if field in proposed_info:
             info[field] = proposed_info[field]
     info.update(
@@ -6297,7 +6219,6 @@ def _normalized_task_info(
             "scientific_mode": "autonomous_research",
             "method_disclosure": "none",
             "pathway_disclosure": "none",
-            "task": str(output.get("task") or task_markdown).strip(),
             "required_deliverables": [
                 {
                     "path": path,
@@ -6611,12 +6532,6 @@ def _materialize_pair_metadata(
     hidden_root = root / "hidden_reference"
     hidden_root.mkdir(parents=True, exist_ok=True)
     write_json(hidden_root / "ground_truth_common.json", hidden)
-    write_json(hidden_root / "ground_truth_items.json", hidden.get("ground_truth_items") or [])
-    write_json(hidden_root / "acceptance_profiles.json", hidden.get("acceptance_profiles") or [])
-    write_json(
-        hidden_root / "conclusion_rubric.json",
-        hidden.get("scientific_conclusion_rubric") or [],
-    )
     write_json(
         hidden_root / "disclosure_contract.json",
         {
@@ -6639,69 +6554,6 @@ def _materialize_pair_metadata(
     write_json(
         hidden_root / "process_rubric_reproduction.json",
         read_json(reproduction_root / "process_rubric.json"),
-    )
-    shared_managed_policy = dict(hidden.get("managed_computation_policy") or {})
-    # Keep shared evidence requirements separate from mode-specific route
-    # policy.  A common policy must not accidentally say that autonomous work
-    # follows the disclosed paper route.
-    shared_managed_policy["mode_scope"] = "shared_conclusion_evidence"
-    shared_managed_policy["route_policy_scope"] = "mode_specific"
-    common = {
-        "expected_tool_calls": [],
-        "expected_result": hidden.get("expected_result") or {},
-        "evaluation_mode": "dual_axis_100",
-        "score_max": 100,
-        "scientific_conclusion_rubric": hidden.get("scientific_conclusion_rubric") or [],
-        "dual_axis_scoring_policy": {
-            "formula": "scientific_conclusion_score * research_process_score / 100",
-            "scientific_conclusion_score_max": 100,
-            "research_process_score_max": 100,
-            "final_score_max": 100,
-            "unsupported_claim_policy": (
-                "A conclusion without newly generated valid evidence receives no conclusion credit."
-            ),
-            "invalid_submission_policy": (
-                "Fabricated evidence or hidden-answer leakage makes the submission invalid."
-            ),
-        },
-        "critical_failures": evaluation_critical_failures(hidden),
-        "reference_evidence": evaluation_reference_evidence(hidden),
-        "evidence_gate_policy": hidden.get("evidence_gate_policy") or {},
-        "managed_computation_policy": shared_managed_policy,
-    }
-    write_json(
-        hidden_root / "ground_truth_autonomous.json",
-        {
-            **common,
-            "evaluation_profile": "autonomous_discovery",
-            "scoring_rubric": read_json(autonomous_root / "process_rubric.json"),
-            "managed_computation_policy": {
-                **shared_managed_policy,
-                "mode": "autonomous_research",
-                "route_disclosure": "not_required",
-                "route_choice": "agent_selected",
-            },
-            "judge_instructions": (
-                "Score autonomous scientific process and the shared hidden conclusions independently."
-            ),
-        },
-    )
-    write_json(
-        hidden_root / "ground_truth_reproduction.json",
-        {
-            **common,
-            "evaluation_profile": "paper_reproduction",
-            "scoring_rubric": read_json(reproduction_root / "process_rubric.json"),
-            "managed_computation_policy": {
-                **shared_managed_policy,
-                "mode": "paper_reproduction",
-                "route_disclosure": "paper_route_required",
-                "route_choice": "follow_disclosed_route",
-            },
-            "judge_instructions": (
-                "Score fidelity to the disclosed paper route and the same shared hidden conclusions."
-            ),
-        },
     )
     write_json(
         root / "construction_record.json",
@@ -7867,11 +7719,7 @@ def _publish_provisional_not_constructible(
     snapshot: dict[str, Any],
     documents: list[dict[str, Any]],
 ) -> dict[str, Any]:
-    task_pair_id = str(
-        review.get("task_pair_id")
-        or receipt.get("task_pair_id")
-        or f"{paper_id}-provisional"
-    )
+    task_pair_id = canonical_task_pair_id(paper_id)
     staging = prepare_clean_directory(
         stage_root
         / "staging"
@@ -7912,7 +7760,9 @@ def _publish_provisional_not_constructible(
         "failure_code": review.get("failure_code"),
         "failure_reasons": review.get("failure_reasons") or [],
         "workflow_scope_kind": scope.get("kind") or "none",
-        "complexity_level": complexity.get("level") or "not_assessed",
+        "complexity_profile": json.loads(
+            json.dumps(complexity, ensure_ascii=False)
+        ),
         "toolbox_gap_present": any(
             _toolbox_requirement_status(row) in {"missing", "unknown", "incompatible"}
             for row in review.get("toolbox_requirements") or []
@@ -7952,7 +7802,9 @@ def _scientific_not_constructible(
             "alternative_scope_search_complete"
         ),
         "workflow_scope_kind": scope.get("kind") or "none",
-        "complexity_level": complexity.get("level") or "not_assessed",
+        "complexity_profile": json.loads(
+            json.dumps(complexity, ensure_ascii=False)
+        ),
         "toolbox_gap_present": any(
             _toolbox_requirement_status(row) in {"missing", "unknown", "incompatible"}
             for row in review.get("toolbox_requirements") or []
