@@ -153,6 +153,9 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 task_root = _stage07_approved_artifact(response, artifact_root)
                 target = stage_root / "audited_tasks" / safe_component(paper_id)
                 atomic_commit_tree(task_root, target)
+                _synchronize_hidden_pair_identity(
+                    target, task_pair_id=canonical_task_pair_id(paper_id)
+                )
                 write_json(target / "stage07_audit.json", response)
                 write_json(target / "stage06_handoff_record.json", record)
                 mechanical_report = stage07_mechanical_pre_publish_check(
@@ -677,6 +680,26 @@ def _publish_private_evaluator_registry(
         write_manifest(destination, destination / "published_manifest.json")
         exported[mode] = str(destination)
     return exported
+
+
+def _synchronize_hidden_pair_identity(pair_root: Path, *, task_pair_id: str) -> None:
+    """Synchronize the transport identity of the single hidden Ground Truth source.
+
+    The scientific contents are untouched.  Agent-proposed IDs are not authoritative;
+    the canonical pair ID is assigned by the orchestrator and must also be reflected in
+    the private evaluator projection.
+    """
+
+    path = pair_root / "hidden_reference" / "ground_truth_common.json"
+    if not path.is_file():
+        return
+    value = read_json(path)
+    if not isinstance(value, dict):
+        return
+    if value.get("task_pair_id") == task_pair_id:
+        return
+    value["task_pair_id"] = task_pair_id
+    write_json(path, value)
 
 
 def _approved_receipt_contract_findings(response: dict[str, Any]) -> list[str]:

@@ -171,6 +171,13 @@ validation for every step); `ground_truth_binding_closure` (one typed binding pe
 and `scope_limitations` (claims covered and explicitly not covered by this objective). If a field cannot be
 closed from source evidence, keep the candidate provisional and report the unresolved fact rather than guessing.
 
+For every scored difference, write the closure explicitly rather than only asserting `closed`: list each
+left/right reference species, its input asset path, the balanced reference formula, and the unit/sign
+convention. If supplied structures differ in composition, identify the independent source-backed
+reference species required to balance the quantity. For every transition-state claim, pair the starting
+geometry and calculation action with the produced artifact and a compatible validation operation.
+Do not mark a row `closed` when this evidence table is absent.
+
 For scientific failure use `decision=scientific_not_constructible`. Set all three coverage booleans
 true, use an allowed scientific failure code, and provide structured failure reasons with
 `scope_attempted`, `code`, `details`, `evidence_ids`, and non-empty `checked_sources`. Confirm that

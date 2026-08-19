@@ -5943,6 +5943,20 @@ def test_route_rubric_normalizer_adds_missing_route_without_overwriting_science(
     assert sum(float(row["max_score"]) for row in normalized) == pytest.approx(100.0)
 
 
+def test_route_rubric_normalizer_accepts_items_wrapper() -> None:
+    normalized = _ensure_reproduction_route_rubric(
+        {
+            "schema_version": "rubric-v1",
+            "items": [
+                {"id": "analysis", "max_score": 100, "description": "Analyze outputs."}
+            ],
+        },
+        submission={"required_files": ["report/report.md"]},
+    )
+    assert isinstance(normalized, list)
+    assert any(row.get("criterion_type") == "route_fidelity" for row in normalized)
+
+
 def test_mode_contract_fills_anonymous_source_and_result_schema(tmp_path: Path) -> None:
     for name in ("task_info.json", "task_spec.json"):
         write_json(
@@ -5958,3 +5972,35 @@ def test_mode_contract_fills_anonymous_source_and_result_schema(tmp_path: Path) 
     )
     contract = normalize_submission_contract({"required_files": ["report/results.json"]})
     assert contract["results_schema"]["type"] == "object"
+
+
+def test_mechanical_gate_reports_hidden_pair_identity_mismatch(tmp_path: Path) -> None:
+    pair = tmp_path / "pair"
+    for mode, task_mode, suffix in (
+        ("paper_reproduction", "guided_reproduction", "_reproduction"),
+        ("autonomous_research", "open_discovery", "_autonomous"),
+    ):
+        root = pair / mode
+        (root / "data" / "inputs").mkdir(parents=True)
+        (root / "data" / "inputs" / "molecule.xyz").write_text("1\nH\nH 0 0 0\n", encoding="utf-8")
+        info = {
+            "task_id": "pair_test" + suffix,
+            "task_pair_id": "pair_test",
+            "source_id": "paper-test",
+            "category": "computational_chemistry",
+            "mode": mode,
+            "scientific_mode": mode,
+            "task_mode": task_mode,
+        }
+        spec = {"task_id": info["task_id"], "task_pair_id": "pair_test", "mode": mode, "scientific_mode": mode}
+        submission = {"required_files": ["report/results.json"]}
+        rubric = [{"id": "paper_route_fidelity", "criterion_type": "route_fidelity", "max_score": 100, "evidence_artifacts": ["report/results.json"]}]
+        (root / "task.md").write_text("task\n", encoding="utf-8")
+        write_json(root / "task_info.json", info)
+        write_json(root / "task_spec.json", spec)
+        write_json(root / "submission_contract.json", submission)
+        write_json(root / "process_rubric.json", rubric)
+    (pair / "hidden_reference").mkdir(parents=True)
+    write_json(pair / "hidden_reference" / "ground_truth_common.json", {"task_pair_id": "stale"})
+    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+    assert "hidden_ground_truth_task_pair_id_mismatch" in report["findings"]

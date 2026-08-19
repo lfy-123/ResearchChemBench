@@ -3827,8 +3827,15 @@ def _normalize_required_deliverables(
 
 
 def _ensure_reproduction_route_rubric(
-    rubric: list[dict[str, Any]], *, submission: dict[str, Any]
+    rubric: Any, *, submission: dict[str, Any]
 ) -> list[dict[str, Any]]:
+    # Agents may serialize the same rubric as a bare list or as an object with an
+    # ``items``/``criteria`` wrapper.  This is a transport normalization only;
+    # the scientific meaning and scores are preserved.
+    if isinstance(rubric, dict):
+        rubric = rubric.get("items") or rubric.get("criteria") or []
+    if not isinstance(rubric, list):
+        return []
     if not rubric:
         return rubric
     output = json.loads(json.dumps(rubric, ensure_ascii=False))

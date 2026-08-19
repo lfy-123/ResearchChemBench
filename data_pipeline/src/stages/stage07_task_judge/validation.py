@@ -157,6 +157,19 @@ def stage07_mechanical_pre_publish_check(
     hidden = pair_root / "hidden_reference"
     if not hidden.is_dir():
         findings.append("hidden_reference_directory_missing")
+    elif task_pair_id:
+        common_path = hidden / "ground_truth_common.json"
+        if not common_path.is_file():
+            findings.append("hidden_ground_truth_common_missing")
+        else:
+            try:
+                common = read_json(common_path)
+            except (OSError, ValueError, TypeError, json.JSONDecodeError):
+                common = None
+            if not isinstance(common, dict):
+                findings.append("hidden_ground_truth_common_not_object")
+            elif common.get("task_pair_id") != task_pair_id:
+                findings.append("hidden_ground_truth_task_pair_id_mismatch")
     for forbidden in (
         "workspace",
         "source_materials",
