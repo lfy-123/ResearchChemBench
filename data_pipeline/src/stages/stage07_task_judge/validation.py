@@ -489,6 +489,16 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                                 for artifact in artifacts
                             ):
                                 continue
+                        # JSONPath filter expressions are valid evaluator-side
+                        # selectors but intentionally outside this small
+                        # answer-free parser.  Preserve them as an unchecked
+                        # diagnostic instead of turning a syntactic limitation
+                        # into a publication block.
+                        if isinstance(field, str) and "[?" in field:
+                            diagnostics.append(
+                                f"evaluator_binding_filter_unchecked:{mode}:{profile_id}:{field}"
+                            )
+                            continue
                         tokens = _jsonpath_tokens(field)
                         if tokens is None:
                             findings.append(
