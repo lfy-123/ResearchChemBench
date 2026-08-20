@@ -295,6 +295,14 @@ def _jsonpath_tokens(value: Any) -> list[str | int] | None:
     """Parse the small JSONPath subset used by task submission bindings."""
 
     path = str(value or "").strip()
+    # The Stage06 contract also permits a compact dotted field mapping (for
+    # example ``frontier_orbitals.gap_ev``) in addition to JSONPath.  Treat it
+    # as the equivalent ``$.frontier_orbitals.gap_ev`` selector for the
+    # transport diagnostic; the evaluator still owns semantic scoring.
+    if path and not path.startswith("$") and re.fullmatch(
+        r"[A-Za-z_][A-Za-z0-9_-]*(?:\.[A-Za-z_][A-Za-z0-9_-]*)*", path
+    ):
+        return path.split(".")
     if path == "\u0024":
         return []
     if not path.startswith("\u0024"):

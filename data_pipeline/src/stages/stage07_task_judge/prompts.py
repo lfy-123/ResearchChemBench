@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v14-stage07-binding-and-redesign-contract-recheck-20260821"
+STAGE07_AUDIT_VERSION = "v15-stage07-binding-and-redesign-contract-recheck-20260821"
 
 
 def audit_instructions(
@@ -206,6 +206,12 @@ list), that each `process_rubric.json` is a top-level list, and that every Groun
 binding points to a real submission artifact and result field. If a result schema is
 open-ended, state that explicitly; if a field cannot be bound deterministically, keep
 the finding in `remaining_issues` instead of reporting `contract_status=passed`.
+
+For `paper_reproduction`, the process rubric must include one positive-weight criterion with
+`criterion_type: "route_fidelity"`, supported by a declared report/process-trace artifact, and
+the rubric weights must sum to 100. This is a generic reproduction-contract requirement, not a
+paper-specific scoring rule. If a workflow redesign replaces the route, score fidelity to the
+replacement's disclosed computational procedure and still include the criterion.
 
 WORKFLOW-REDESIGN CONTRACT CLOSURE
 If Stage06 returned `scientific_not_constructible` and you perform a workflow redesign, the
