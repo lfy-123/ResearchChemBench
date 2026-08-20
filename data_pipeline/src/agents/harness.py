@@ -724,7 +724,7 @@ class CodexHarness(CliAgentHarness):
             else str(self.model_config.get("base_url") or "").rstrip("/")
         )
         provider = "rcb_pipeline"
-        return [
+        command = [
             str(self.config.get("executable") or self.executable),
             "exec",
             "--ignore-user-config",
@@ -766,8 +766,21 @@ class CodexHarness(CliAgentHarness):
             f"model_auto_compact_token_limit_scope={json.dumps(str(self.config.get('model_auto_compact_token_limit_scope', 'total')))}",
             "-c",
             "sandbox_workspace_write.network_access=false",
-            request.instructions,
         ]
+        reasoning_effort = (
+            request.metadata.get("reasoning_effort")
+            or self.model_config.get("reasoning_effort")
+            or self.config.get("reasoning_effort")
+        )
+        if reasoning_effort:
+            command.extend(
+                [
+                    "-c",
+                    f"model_reasoning_effort={json.dumps(str(reasoning_effort).casefold())}",
+                ]
+            )
+        command.append(request.instructions)
+        return command
 
     def _parse_response(self, stdout_path: Path, final_path: Path) -> dict[str, Any]:
         if not final_path.is_file():

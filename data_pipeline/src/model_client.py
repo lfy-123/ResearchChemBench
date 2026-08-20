@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import http.client
+import hashlib
 import os
 import socket
 import threading
@@ -74,14 +75,43 @@ class RoleModelClient:
     def model(self) -> str:
         return str(self.config["model"])
 
-    def _candidate_configs(self) -> list[dict[str, Any]]:
+    def _candidate_configs(
+        self, *, selection_key: str = ""
+    ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+        """Return the primary plus the configured fallback candidates.
+
+        ``random_one`` deliberately means one fallback attempt, rather than a
+        shuffled list of all fallbacks.  A stable hash distributes papers over
+        the fallback pool while keeping a resumed run deterministic.
+        """
+
         candidates = [dict(self.config)]
-        for fallback in self.config.get("fallback_models") or []:
+        fallbacks = list(self.config.get("fallback_models") or [])
+        strategy = str(self.config.get("fallback_strategy", "sequential")).strip().lower()
+        if strategy in {"random_one", "random_single"} and fallbacks:
+            digest = hashlib.sha256(
+                f"{self.role}\0{selection_key}".encode("utf-8")
+            ).digest()
+            selected_index = int.from_bytes(digest[:8], "big") % len(fallbacks)
+            selected = dict(self.config)
+            selected.update(fallbacks[selected_index])
+            selected.pop("fallback_models", None)
+            candidates.append(selected)
+            return candidates, {
+                "strategy": "random_one",
+                "pool_size": len(fallbacks),
+                "selected_pool_index": selected_index,
+                "selected_model": str(selected.get("model") or ""),
+            }
+        for fallback in fallbacks:
             candidate = dict(self.config)
             candidate.update(dict(fallback))
             candidate.pop("fallback_models", None)
             candidates.append(candidate)
-        return candidates
+        return candidates, {
+            "strategy": "sequential",
+            "pool_size": len(fallbacks),
+        }
 
     def call_json(
         self,
@@ -123,6 +153,7 @@ class RoleModelClient:
                 for candidate in self.config.get("fallback_models") or []
             ],
             "proxy_enabled": self._proxy_enabled(),
+            "fallback_strategy": str(self.config.get("fallback_strategy", "sequential")),
         }
         request_hash = canonical_hash(request_record)
         directory = self.cache_root / safe_component(namespace)
@@ -141,6 +172,7 @@ class RoleModelClient:
                 max_tokens=max_tokens,
                 thinking=effective_thinking,
                 guard=guard,
+                selection_key=request_hash,
             )
         audit_record = {
             **audit,
@@ -189,9 +221,10 @@ class RoleModelClient:
         max_tokens: int | None,
         thinking: str | None,
         guard: Any,
+        selection_key: str,
     ) -> tuple[dict[str, Any], dict[str, Any]]:
         failures: list[dict[str, Any]] = []
-        candidates = self._candidate_configs()
+        candidates, selection = self._candidate_configs(selection_key=selection_key)
         for index, candidate in enumerate(candidates):
             key_name = str(candidate.get("api_key_env") or "")
             api_key = os.environ.get(key_name, "")
@@ -235,6 +268,7 @@ class RoleModelClient:
                             **audit,
                             "fallback_used": bool(index),
                             "fallback_index": index,
+                            "fallback_selection": selection,
                             "model_failures": failures,
                         }
                 failures.append(self._fallback_failure(candidate, exc))
@@ -250,6 +284,7 @@ class RoleModelClient:
                 **audit,
                 "fallback_used": bool(index),
                 "fallback_index": index,
+                "fallback_selection": selection,
                 "model_failures": failures,
             }
         raise RuntimeError(f"no model candidates configured for role {self.role}")

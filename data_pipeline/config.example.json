@@ -327,6 +327,7 @@
       "max_tokens": 3072,
       "timeout_seconds": 1200,
       "retries": 2,
+      "fallback_strategy": "random_one",
       "thinking": null,
       "chat_template_kwargs": {"thinking": false},
       "fallback_models": []
@@ -343,6 +344,7 @@
       "max_tokens": 8192,
       "timeout_seconds": 1200,
       "retries": 2,
+      "fallback_strategy": "random_one",
       "thinking": null,
       "chat_template_kwargs": {"thinking": false},
       "fallback_models": []

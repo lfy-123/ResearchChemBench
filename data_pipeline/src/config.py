@@ -22,6 +22,16 @@ MODEL_ROLES = (
 CODEX_WIRE_APIS = frozenset({"chat_completions", "responses"})
 TOOL_CHOICE_POLICIES = frozenset({"auto", "required_until_artifact", "required", "none"})
 RESPONSE_FORMAT_POLICIES = frozenset({"auto", "json_schema", "json_object", "none"})
+MODEL_PROTOCOL_KEYS = (
+    "codex_wire_api",
+    "tool_choice_policy",
+    "response_format_policy",
+)
+DEFAULT_MODEL_PROTOCOL = {
+    "codex_wire_api": "chat_completions",
+    "tool_choice_policy": "auto",
+    "response_format_policy": "auto",
+}
 
 
 def load_config(path: str | Path) -> dict[str, Any]:
@@ -34,6 +44,7 @@ def load_config(path: str | Path) -> dict[str, Any]:
         )
     config = deepcopy(raw)
     config["config_path"] = str(source)
+    protocol_profiles = _load_model_protocol_profiles(config, source=source)
     config["workspace"] = str(_resolve(source.parent, config.get("workspace", "runs/current")))
     registry = config.setdefault("registry", {})
     registry.setdefault("enabled", True)
@@ -132,7 +143,7 @@ def load_config(path: str | Path) -> dict[str, Any]:
     stage06["converter_harness"] = os.environ.get("RCB_STAGE06_CONVERTER_HARNESS") or stage06.get(
         "converter_harness", stage06["harness"]
     )
-    stage06.setdefault("preferred_scope", "full_paper_computational_workflow")
+    stage06.setdefault("preferred_scope", "objective_centered_core_workflow")
     stage06.setdefault("minimum_complexity", "medium")
     stage06.setdefault("reject_trivial_single_call", True)
     stage06.setdefault("task_pair_builder_max_tool_calls", 120)
@@ -178,7 +189,7 @@ def load_config(path: str | Path) -> dict[str, Any]:
         for key in ("working_directory", "service_log"):
             if service.get(key):
                 service[key] = str(_resolve(source.parent, service[key]))
-    _normalize_model_roles(config)
+    _normalize_model_roles(config, protocol_profiles=protocol_profiles)
     screening = config["models"]["screening"]
     screening.setdefault("preserve_worker_on_exit", False)
     screening.setdefault("allow_worker_creation", True)
@@ -189,7 +200,88 @@ def load_config(path: str | Path) -> dict[str, Any]:
     return config
 
 
-def _normalize_model_roles(config: dict[str, Any]) -> None:
+def _load_model_protocol_profiles(
+    config: dict[str, Any], *, source: Path
+) -> dict[str, Any]:
+    configured_path = config.get("model_protocol_profiles_path")
+    if not configured_path:
+        return {"defaults": {}, "models": {}}
+    profile_path = _resolve(source.parent, str(configured_path))
+    if not profile_path.is_file():
+        raise FileNotFoundError(f"model protocol profiles file does not exist: {profile_path}")
+    payload = json.loads(profile_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("model protocol profiles must be a JSON object")
+    defaults = payload.get("defaults") or {}
+    models = payload.get("models") or {}
+    if not isinstance(defaults, dict) or not isinstance(models, dict):
+        raise ValueError("model protocol profiles defaults and models must be JSON objects")
+    for profile_name, profile in [("defaults", defaults), *models.items()]:
+        if not isinstance(profile, dict):
+            raise ValueError(f"model protocol profile {profile_name!r} must be a JSON object")
+        unknown = set(profile) - set(MODEL_PROTOCOL_KEYS)
+        if unknown:
+            raise ValueError(
+                f"model protocol profile {profile_name!r} has unsupported fields: "
+                f"{sorted(unknown)}"
+            )
+        _validate_protocol_values(profile, label=f"model protocol profile {profile_name!r}")
+    config["model_protocol_profiles_path"] = str(profile_path)
+    return {"defaults": defaults, "models": models}
+
+
+def _validate_protocol_values(values: dict[str, Any], *, label: str) -> None:
+    allowed_by_key = {
+        "codex_wire_api": CODEX_WIRE_APIS,
+        "tool_choice_policy": TOOL_CHOICE_POLICIES,
+        "response_format_policy": RESPONSE_FORMAT_POLICIES,
+    }
+    for key, value in values.items():
+        normalized = str(value or "").casefold()
+        if normalized not in allowed_by_key[key]:
+            raise ValueError(f"{label}.{key} must be one of {sorted(allowed_by_key[key])}")
+        values[key] = normalized
+
+
+def _model_protocol_profile(
+    protocol_profiles: dict[str, Any], model: str
+) -> tuple[str | None, dict[str, Any]]:
+    normalized_model = str(model or "").casefold()
+    for profile_name, profile in (protocol_profiles.get("models") or {}).items():
+        if str(profile_name).casefold() == normalized_model:
+            return str(profile_name), dict(profile)
+    return None, {}
+
+
+def _apply_model_protocol_profile(
+    value: dict[str, Any],
+    *,
+    protocol_profiles: dict[str, Any],
+    inherited: dict[str, Any] | None = None,
+) -> None:
+    profile_name, profile = _model_protocol_profile(
+        protocol_profiles, str(value.get("model") or "")
+    )
+    defaults = protocol_profiles.get("defaults") or {}
+    for key in MODEL_PROTOCOL_KEYS:
+        if key in value:
+            continue
+        if key in profile:
+            value[key] = profile[key]
+        elif inherited and key in inherited:
+            value[key] = inherited[key]
+        elif key in defaults:
+            value[key] = defaults[key]
+        else:
+            value[key] = DEFAULT_MODEL_PROTOCOL[key]
+    if profile_name:
+        value["model_protocol_profile"] = profile_name
+
+
+def _normalize_model_roles(
+    config: dict[str, Any], *, protocol_profiles: dict[str, Any] | None = None
+) -> None:
+    protocol_profiles = protocol_profiles or {"defaults": {}, "models": {}}
     models = config.setdefault("models", {})
     screening = dict(models.get("screening") or {})
     for role in ("stage02_screening", "stage03_screening"):
@@ -220,9 +312,6 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
         value.setdefault("workers", 1)
         value.setdefault("cache", True)
         value.setdefault("api_key_env", f"RCB_{role.upper()}_API_KEY")
-        value.setdefault("codex_wire_api", "chat_completions")
-        value.setdefault("tool_choice_policy", "auto")
-        value.setdefault("response_format_policy", "auto")
         fallbacks = value.setdefault("fallback_models", [])
         if not isinstance(fallbacks, list) or any(not isinstance(item, dict) for item in fallbacks):
             raise ValueError(f"models.{role}.fallback_models must be a list of objects")
@@ -233,10 +322,6 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
         env_prefix = f"RCB_{role.upper()}"
         base_url_env = str(value.get("base_url_env") or f"{env_prefix}_BASE_URL")
         model_env = str(value.get("model_env") or f"{env_prefix}_MODEL")
-        for key in ("codex_wire_api", "tool_choice_policy", "response_format_policy"):
-            environment_value = os.environ.get(f"{env_prefix}_{key.upper()}")
-            if environment_value:
-                value[key] = environment_value.strip().casefold()
         value["base_url"] = os.environ.get(base_url_env) or value.get("base_url")
         # Explicit loopback endpoints are local services.  Do not route them through
         # the cluster's outbound proxy even when the shared remote-model defaults
@@ -254,6 +339,14 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
                 value["chat_template_kwargs"] = inferred or {}
                 value["thinking"] = None
             value["model"] = model_override
+        reasoning_effort = os.environ.get(f"{env_prefix}_REASONING_EFFORT")
+        if reasoning_effort:
+            value["reasoning_effort"] = reasoning_effort.strip().casefold()
+        _apply_model_protocol_profile(value, protocol_profiles=protocol_profiles)
+        for key in MODEL_PROTOCOL_KEYS:
+            environment_value = os.environ.get(f"{env_prefix}_{key.upper()}")
+            if environment_value:
+                value[key] = environment_value.strip().casefold()
         if value.get("chat_template_kwargs") is None:
             inferred_kwargs = _model_thinking_kwargs(str(value.get("model") or ""))
             if inferred_kwargs:
@@ -266,6 +359,15 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
                 for name in fallback_env.split(",")
                 if name.strip()
             ]
+        fallback_strategy_env = os.environ.get(f"{env_prefix}_FALLBACK_STRATEGY", "").strip()
+        if fallback_strategy_env:
+            value["fallback_strategy"] = fallback_strategy_env.casefold()
+        strategy = str(value.get("fallback_strategy", "sequential")).strip().casefold()
+        if strategy not in {"sequential", "random_one", "random_single"}:
+            raise ValueError(
+                f"models.{role}.fallback_strategy must be sequential or random_one"
+            )
+        value["fallback_strategy"] = "random_one" if strategy == "random_single" else strategy
         for fallback in fallbacks:
             fallback.setdefault("base_url", value.get("base_url"))
             fallback.setdefault("api_key_env", value.get("api_key_env"))
@@ -273,9 +375,11 @@ def _normalize_model_roles(config: dict[str, Any]) -> None:
             fallback.setdefault("retries", value.get("retries"))
             fallback.setdefault("max_tokens", value.get("max_tokens"))
             fallback.setdefault("use_proxy", value.get("use_proxy"))
-            fallback.setdefault("codex_wire_api", value.get("codex_wire_api"))
-            fallback.setdefault("tool_choice_policy", value.get("tool_choice_policy"))
-            fallback.setdefault("response_format_policy", value.get("response_format_policy"))
+            _apply_model_protocol_profile(
+                fallback,
+                protocol_profiles=protocol_profiles,
+                inherited=value,
+            )
 
 
 def _model_thinking_kwargs(model: str) -> dict[str, bool]:
@@ -389,9 +493,11 @@ def _validate(config: dict[str, Any]) -> None:
     if config["stage06"].get("preferred_scope") not in {
         "full_paper_computational_workflow",
         "objective_centered_workflow",
+        "objective_centered_core_workflow",
     }:
         raise ValueError(
-            "stage06.preferred_scope must be full_paper_computational_workflow or objective_centered_workflow"
+            "stage06.preferred_scope must be full_paper_computational_workflow, "
+            "objective_centered_workflow, or objective_centered_core_workflow"
         )
     if config["stage06"].get("minimum_complexity") not in {"medium", "high"}:
         raise ValueError("stage06.minimum_complexity must be medium or high")

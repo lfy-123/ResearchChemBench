@@ -126,6 +126,11 @@ def main(argv: list[str] | None = None) -> int:
     )
     prepare_parser.add_argument("--seed", type=int, default=0)
     prepare_parser.add_argument(
+        "--publication-date-from",
+        help="Only select papers published on or after YYYY-MM-DD",
+    )
+    prepare_parser.add_argument("--publication-index-path", type=Path)
+    prepare_parser.add_argument(
         "--exclude-selection-manifest", type=Path, action="append", default=[]
     )
     prepare_parser.add_argument("--no-resume", action="store_true")
@@ -221,6 +226,8 @@ def main(argv: list[str] | None = None) -> int:
             copy_supplementary=not args.without_supplementary,
             selection=args.selection,
             seed=args.seed,
+            publication_date_from=args.publication_date_from,
+            publication_index_path=args.publication_index_path,
             exclude_selected_manifests=args.exclude_selection_manifest,
         )
         result = {"summary": result["summary"], "corpus_root": result["corpus_root"]}
