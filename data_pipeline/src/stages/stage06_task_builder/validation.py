@@ -191,9 +191,59 @@ def normalize_submission_contract(value: Any) -> dict[str, Any]:
     """
 
     output = dict(value) if isinstance(value, dict) else {}
+    # Agents and older drafts used several names for the same transport-level
+    # deliverable list.  Normalize those aliases without interpreting the
+    # scientific meaning of any result field.
+    raw_paths = output.get("required_files")
+    if not isinstance(raw_paths, list) or not raw_paths:
+        raw_paths = []
+        for key in ("required_file", "submission_file", "primary_file"):
+            candidate = output.get(key)
+            if isinstance(candidate, str):
+                raw_paths.append(candidate)
+            elif isinstance(candidate, list):
+                raw_paths.extend(candidate)
+        for key in ("required_artifacts", "artifact_paths"):
+            candidate = output.get(key)
+            if isinstance(candidate, dict):
+                candidate = list(candidate.values())
+            if isinstance(candidate, (list, tuple)):
+                for item in candidate:
+                    if isinstance(item, dict):
+                        raw_paths.append(item.get("path") or item.get("file"))
+                    else:
+                        raw_paths.append(item)
+    normalized_paths: list[str] = []
+    for raw_path in raw_paths:
+        if isinstance(raw_path, dict):
+            raw_path = raw_path.get("path") or raw_path.get("file")
+        if not isinstance(raw_path, str):
+            continue
+        path = raw_path.strip().replace("\\", "/")
+        if path and path not in normalized_paths:
+            normalized_paths.append(path)
+    if normalized_paths:
+        output["required_files"] = normalized_paths
     output.setdefault("schema_version", "researchchembench.submission.v1")
     output.setdefault("results_schema", json.loads(json.dumps(DEFAULT_RESULT_SCHEMA)))
     return output
+
+
+def normalize_process_rubric_contract(value: Any) -> Any:
+    """Project harmless rubric container wrappers to the evaluator list shape.
+
+    This helper does not invent criteria or change scores. It only removes a
+    serialization wrapper used by older Agent drafts around the same criteria.
+    """
+
+    if isinstance(value, list):
+        return value
+    if isinstance(value, dict):
+        for key in ("criteria", "items", "rubric"):
+            rows = value.get(key)
+            if isinstance(rows, list):
+                return rows
+    return value
 
 
 def validate_scientific_review(review: dict[str, Any], evidence_ids: set[str]) -> list[str]:

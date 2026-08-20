@@ -9,6 +9,7 @@ from src.contracts import read_json, write_json
 from src.stages.stage06_task_builder.validation import (
     canonicalize_mode_task_contract,
     normalize_submission_contract,
+    normalize_process_rubric_contract,
 )
 
 OUTCOME_TYPES = {
@@ -37,6 +38,7 @@ def stage07_mechanical_pre_publish_check(
     findings: list[str] = []
     required_modes = ("paper_reproduction", "autonomous_research")
     mode_values: dict[str, dict[str, Any]] = {}
+    pair_diagnostics: list[str] = []
     for mode in required_modes:
         root = pair_root / mode
         if not root.is_dir():
@@ -63,7 +65,10 @@ def stage07_mechanical_pre_publish_check(
                 read_json(root / "submission_contract.json")
             )
             write_json(root / "submission_contract.json", submission)
-            rubric = read_json(root / "process_rubric.json")
+            raw_rubric = read_json(root / "process_rubric.json")
+            rubric = normalize_process_rubric_contract(raw_rubric)
+            if rubric != raw_rubric:
+                write_json(root / "process_rubric.json", rubric)
         except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
             findings.append(f"unreadable_mode_json:{mode}:{type(exc).__name__}")
             continue
@@ -131,9 +136,10 @@ def stage07_mechanical_pre_publish_check(
         if _submission_contract_shape(a["submission"]) != _submission_contract_shape(
             r["submission"]
         ):
-            findings.append("mode_pair_submission_contract_mismatch")
+            pair_diagnostics.append("mode_pair_submission_contract_shape_diff")
+
         def data_fingerprints(root: Path) -> list[str]:
-            """Compare underlying inputs while allowing public-safe names/comments."""
+            """Summarize input payloads for observation, not scientific verdicts."""
             import hashlib
             fingerprints: list[str] = []
             for path in sorted((root / "data").rglob("*") if (root / "data").is_dir() else []):
@@ -152,7 +158,7 @@ def stage07_mechanical_pre_publish_check(
                 fingerprints.append(hashlib.sha256(content).hexdigest())
             return sorted(fingerprints)
         if data_fingerprints(pair_root / "paper_reproduction") != data_fingerprints(pair_root / "autonomous_research"):
-            findings.append("mode_pair_input_assets_mismatch")
+            pair_diagnostics.append("mode_pair_input_assets_observation_diff")
 
     hidden = pair_root / "hidden_reference"
     if not hidden.is_dir():
@@ -199,7 +205,9 @@ def stage07_mechanical_pre_publish_check(
         # is intentionally not called a full scoring dry-run.
         "schema_load_diagnostic": evaluator["status"],
         "findings": sorted(set(findings)),
-        "diagnostics": evaluator.get("diagnostics", []),
+        "diagnostics": sorted(
+            set(pair_diagnostics + (evaluator.get("diagnostics", []) or []))
+        ),
         "evaluator": evaluator,
     }
 
@@ -217,10 +225,12 @@ def _submission_contract_shape(value: Any) -> Any:
         for key, item in value.items():
             if key in {"task_id", "task_pair_id", "mode", "scientific_mode"}:
                 continue
-            if key == "required_files":
-                shaped[key] = list(item) if isinstance(item, list) else item
-            elif key == "submission_path":
-                shaped[key] = item
+            if key in {"required_files", "submission_path"}:
+                # Each mode may use a neutral filename or a mode-specific
+                # submission directory.  Those paths are validated within the
+                # mode; literal cross-mode comparison is an unsafe disclosure
+                # heuristic and creates false mechanical failures.
+                continue
             elif key in {"result_schema", "results_schema"}:
                 # The autonomous converter may neutralize answer-bearing field
                 # names. Compare the JSON contract's type/cardinality shape,
@@ -253,6 +263,73 @@ def _result_schema_shape(value: Any) -> Any:
     if items is not None:
         result["items"] = _result_schema_shape(items)
     return result
+
+
+def _binding_for_mode(profile: dict[str, Any], mode: str) -> dict[str, Any]:
+    """Select a mode-specific binding without interpreting scientific claims."""
+
+    by_mode = profile.get("submission_bindings_by_mode")
+    if isinstance(by_mode, dict):
+        candidate = by_mode.get(mode)
+        if candidate is None:
+            candidate = by_mode.get(
+                "autonomous" if mode == "autonomous_research" else "reproduction"
+            )
+        if isinstance(candidate, dict):
+            return candidate
+    binding = profile.get("submission_binding")
+    return binding if isinstance(binding, dict) else {}
+
+
+def _jsonpath_tokens(value: Any) -> list[str | int] | None:
+    """Parse the small JSONPath subset used by task submission bindings."""
+
+    path = str(value or "").strip()
+    if path == "\u0024":
+        return []
+    if not path.startswith("\u0024"):
+        return None
+    tail = path[1:]
+    tokens: list[str | int] = []
+    position = 0
+    token_pattern = re.compile(
+        r"(?:\.([A-Za-z_][A-Za-z0-9_-]*)|\[(\d+|['\"][^'\"]+['\"])\])"
+    )
+    while position < len(tail):
+        match = token_pattern.match(tail, position)
+        if match is None:
+            return None
+        dotted, bracket = match.groups()
+        if dotted is not None:
+            tokens.append(dotted)
+        elif bracket.isdigit():
+            tokens.append(int(bracket))
+        else:
+            tokens.append(bracket[1:-1])
+        position = match.end()
+    return tokens
+
+
+def _schema_path_status(schema: Any, tokens: list[str | int]) -> str:
+    """Return present, open, or missing for a binding path in JSON Schema."""
+
+    current = schema
+    for token in tokens:
+        if not isinstance(current, dict):
+            return "missing"
+        if isinstance(token, int):
+            if not isinstance(current.get("items"), dict):
+                return "missing"
+            current = current["items"]
+            continue
+        properties = current.get("properties")
+        if isinstance(properties, dict) and token in properties:
+            current = properties[token]
+            continue
+        if current.get("additionalProperties") is True:
+            return "open"
+        return "missing"
+    return "present"
 
 
 def published_bundle_mechanical_check(bundle_root: Path) -> dict[str, Any]:
@@ -325,10 +402,15 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                     if not isinstance(profile, dict):
                         diagnostics.append(f"evaluator_acceptance_profile_invalid:{mode}")
                         continue
-                    binding = profile.get("submission_binding") or {}
-                    if not isinstance(binding, dict):
+                    profile_id = str(
+                        profile.get("acceptance_profile_id")
+                        or profile.get("profile_id")
+                        or "unknown"
+                    )
+                    binding = _binding_for_mode(profile, mode)
+                    if not binding:
                         diagnostics.append(
-                            f"evaluator_submission_binding_invalid:{mode}:{profile.get('acceptance_profile_id','unknown')}"
+                            f"evaluator_submission_binding_missing:{mode}:{profile_id}"
                         )
                         continue
                     fields = binding.get("observed_fields") or []
@@ -336,8 +418,33 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                         fields = [fields]
                     if not fields:
                         diagnostics.append(
-                            f"evaluator_binding_fields_missing:{mode}:{profile.get('acceptance_profile_id','unknown')}"
+                            f"evaluator_binding_fields_missing:{mode}:{profile_id}"
                         )
+                    schema = submission.get("results_schema")
+                    for field in fields:
+                        tokens = _jsonpath_tokens(field)
+                        if tokens is None:
+                            findings.append(
+                                f"evaluator_binding_path_invalid:{mode}:{profile_id}:{field}"
+                            )
+                            continue
+                        status = _schema_path_status(schema, tokens)
+                        if status == "missing":
+                            findings.append(
+                                f"evaluator_binding_field_missing:{mode}:{profile_id}:{field}"
+                            )
+                        elif status == "open":
+                            diagnostics.append(
+                                f"evaluator_binding_schema_open:{mode}:{profile_id}:{field}"
+                            )
+                    if fields and isinstance(schema, dict):
+                        properties = schema.get("properties")
+                        if not isinstance(properties, dict) and schema.get(
+                            "additionalProperties"
+                        ) is not True:
+                            findings.append(
+                                f"evaluator_result_schema_unbound:{mode}:{profile_id}"
+                            )
                     for artifact in binding.get("artifact_paths") or []:
                         if (
                             not isinstance(artifact, str)

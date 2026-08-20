@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v12-stage07-neutral-asset-final-pass-20260820"
+STAGE07_AUDIT_VERSION = "v13-stage07-contract-recheck-20260821"
 
 
 def audit_instructions(
@@ -198,6 +198,14 @@ For every approved decision, leave these components under `outputs/task_pair/`:
 - `autonomous_research/`
 - `hidden_reference/`
 - `toolbox_requirements.json`
+
+Before returning the receipt, reread the final task tree rather than relying on the
+receipt text. Confirm that both `task_info.json` files contain the evaluator-required
+transport fields (including `category` and a plain-string `scientific_requirements`
+list), that each `process_rubric.json` is a top-level list, and that every Ground Truth
+binding points to a real submission artifact and result field. If a result schema is
+open-ended, state that explicitly; if a field cannot be bound deterministically, keep
+the finding in `remaining_issues` instead of reporting `contract_status=passed`.
 
 Return one JSON object matching this contract; the harness persists it as the audit receipt:
 {{

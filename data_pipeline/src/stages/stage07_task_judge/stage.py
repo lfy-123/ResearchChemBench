@@ -49,7 +49,7 @@ from src.stages.stage07_task_judge.validation import (
 )
 from src.stages.stage06_task_builder.validation import canonical_task_pair_id
 
-STAGE07_IMPLEMENTATION_VERSION = "v11-audit-index-and-contract-boundary-20260820"
+STAGE07_IMPLEMENTATION_VERSION = "v12-contract-observation-and-publication-state-20260821"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -230,6 +230,15 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                         mode: published_bundle_mechanical_check(Path(path))
                         for mode, path in published_paths.items()
                     }
+                    if published_paths and all(
+                        status.get("status") == "passed"
+                        for status in published_bundle_statuses.values()
+                    ):
+                        response["publication_state"] = "published"
+                        response["blocking_phase"] = ""
+                    else:
+                        response["publication_state"] = "publish_ready"
+                        response["blocking_phase"] = "published_bundle"
                 else:
                     # A transport failure blocks publication, but does not
                     # reopen the scientific audit or silently turn it into a
@@ -239,6 +248,9 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                     response["orchestrator_mechanical_findings"] = mechanical_report.get(
                         "findings", []
                     )
+                    response["publication_state"] = "mechanical_blocked"
+                    response["blocking_phase"] = "prepublish_mechanical"
+                write_json(target / "stage07_audit.json", response)
                 final_path = str(target)
             else:
                 target = _publish_stage07_rejection(
@@ -261,6 +273,13 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 "mechanical_contract_passed": response.get(
                     "orchestrator_mechanical_status", "not_run"
                 ) == "passed",
+                "publication_state": response.get(
+                    "publication_state",
+                    "not_applicable"
+                    if decision not in STAGE07_APPROVED_DECISIONS
+                    else "mechanical_blocked",
+                ),
+                "blocking_phase": response.get("blocking_phase", ""),
                 "publish_ready": bool(published_paths),
                 "mechanical_approved_but_unpublished": bool(
                     decision in STAGE07_APPROVED_DECISIONS
@@ -372,6 +391,14 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
             bool(row.get("mechanical_contract_passed")) for row in records
         ),
         "publish_ready": sum(bool(row.get("publish_ready")) for row in records),
+        "publication_states": {
+            state: sum(row.get("publication_state") == state for row in records)
+            for state in ("not_applicable", "publish_ready", "mechanical_blocked", "published")
+        },
+        "blocking_phases": {
+            phase: sum(row.get("blocking_phase") == phase for row in records)
+            for phase in ("prepublish_mechanical", "published_bundle")
+        },
         "paper_ids": sorted({str(row.get("paper_id")) for row in records if row.get("paper_id")}),
         "needs_software": sum(row.get("toolbox_status") == "needs_software" for row in records),
         "decisions": decision_counts(records, "audit_decision"),
@@ -1733,6 +1760,8 @@ def _audit_failure(
         "audit_decision": "objective_failure_retryable",
         "audit_summary": "objective_failure_retryable",
         "passed": False,
+        "publication_state": "not_applicable",
+        "blocking_phase": "",
         "retryable": retryable,
         "failure_class": failure_class,
         "outcomes": [],

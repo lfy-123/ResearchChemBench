@@ -6032,3 +6032,143 @@ def test_mechanical_gate_reports_hidden_pair_identity_mismatch(tmp_path: Path) -
     write_json(pair / "hidden_reference" / "ground_truth_common.json", {"task_pair_id": "stale"})
     report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
     assert "hidden_ground_truth_task_pair_id_mismatch" in report["findings"]
+
+
+def test_submission_aliases_and_rubric_wrappers_are_transport_normalized() -> None:
+    contract = normalize_submission_contract(
+        {
+            "required_artifacts": [
+                {"path": "report/results.json"},
+                {"path": "report/process_trace.jsonl"},
+            ],
+            "results_schema": {"type": "object"},
+        }
+    )
+    assert contract["required_files"] == [
+        "report/results.json",
+        "report/process_trace.jsonl",
+    ]
+
+
+def test_mode_pair_neutral_paths_are_diagnostic_not_mechanical_failure(
+    tmp_path: Path,
+) -> None:
+    pair = tmp_path / "pair"
+    (pair / "hidden_reference").mkdir(parents=True)
+    for mode, task_mode, suffix, filename in (
+        ("paper_reproduction", "guided_reproduction", "_reproduction", "route_results.json"),
+        ("autonomous_research", "open_discovery", "_autonomous", "public_results.json"),
+    ):
+        root = pair / mode
+        (root / "data" / "inputs").mkdir(parents=True)
+        (root / "data" / "inputs" / filename).write_text(
+            '{"payload": 1, "label": "author-route"}'
+            if mode == "paper_reproduction"
+            else '{"payload": 1, "label": "public-input"}',
+            encoding="utf-8",
+        )
+        info = {
+            "task_id": "pair_test" + suffix,
+            "task_pair_id": "pair_test",
+            "source_id": "paper-test",
+            "category": "computational_chemistry",
+            "mode": mode,
+            "scientific_mode": mode,
+            "task_mode": task_mode,
+        }
+        spec = {
+            "task_id": info["task_id"],
+            "task_pair_id": "pair_test",
+            "mode": mode,
+            "scientific_mode": mode,
+        }
+        submission = {
+            "required_files": [f"report/{filename}"],
+            "results_schema": {"type": "object", "additionalProperties": True},
+        }
+        rubric = [
+            {
+                "id": "route_fidelity",
+                "criterion_type": "route_fidelity",
+                "max_score": 100,
+                "evidence_artifacts": ["report/process_trace.jsonl"],
+            }
+        ]
+        (root / "task.md").write_text("task\n", encoding="utf-8")
+        write_json(root / "task_info.json", info)
+        write_json(root / "task_spec.json", spec)
+        write_json(root / "submission_contract.json", submission)
+        write_json(root / "process_rubric.json", rubric)
+    write_json(
+        pair / "hidden_reference" / "ground_truth_common.json",
+        {"task_pair_id": "pair_test", "evaluation_mode": "binary", "score_max": 1, "expected_result": {}},
+    )
+
+    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+
+    assert report["mechanical_pre_publish_status"] == "passed"
+    assert "mode_pair_submission_contract_mismatch" not in report["findings"]
+    assert "mode_pair_input_assets_mismatch" not in report["findings"]
+    assert "mode_pair_input_assets_observation_diff" in report["diagnostics"]
+
+
+def test_binding_missing_from_explicit_result_schema_is_reported(tmp_path: Path) -> None:
+    pair = tmp_path / "pair"
+    (pair / "hidden_reference").mkdir(parents=True)
+    for mode, task_mode, suffix in (
+        ("paper_reproduction", "guided_reproduction", "_reproduction"),
+        ("autonomous_research", "open_discovery", "_autonomous"),
+    ):
+        root = pair / mode
+        (root / "data" / "inputs").mkdir(parents=True)
+        (root / "data" / "inputs" / "input.xyz").write_text(
+            "1\nH\nH 0 0 0\n", encoding="utf-8"
+        )
+        info = {
+            "task_id": "pair_test" + suffix,
+            "task_pair_id": "pair_test",
+            "source_id": "paper-test",
+            "category": "computational_chemistry",
+            "mode": mode,
+            "scientific_mode": mode,
+            "task_mode": task_mode,
+        }
+        write_json(root / "task_info.json", info)
+        write_json(root / "task_spec.json", {"task_id": info["task_id"], "task_pair_id": "pair_test", "mode": mode, "scientific_mode": mode})
+        write_json(
+            root / "submission_contract.json",
+            {
+                "required_files": ["report/results.json"],
+                "results_schema": {
+                    "type": "object",
+                    "properties": {"known": {"type": "number"}},
+                    "required": ["known"],
+                },
+            },
+        )
+        write_json(
+            root / "process_rubric.json",
+            [{"id": "route_fidelity", "criterion_type": "route_fidelity", "max_score": 100, "evidence_artifacts": ["report/results.json"]}],
+        )
+        (root / "task.md").write_text("task\n", encoding="utf-8")
+    write_json(
+        pair / "hidden_reference" / "ground_truth_common.json",
+        {
+            "task_pair_id": "pair_test",
+            "evaluation_mode": "binary",
+            "score_max": 1,
+            "expected_result": {},
+            "acceptance_profiles": [
+                {
+                    "acceptance_profile_id": "ap-1",
+                    "type": "numeric_tolerance",
+                    "submission_binding": {"observed_fields": ["$.missing"]},
+                }
+            ],
+        },
+    )
+
+    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+
+    assert "evaluator_binding_field_missing:paper_reproduction:ap-1:$.missing" in report["findings"]
+    assert "evaluator_binding_field_missing:autonomous_research:ap-1:$.missing" in report["findings"]
