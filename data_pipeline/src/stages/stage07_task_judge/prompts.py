@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v13-stage07-contract-recheck-20260821"
+STAGE07_AUDIT_VERSION = "v14-stage07-binding-and-redesign-contract-recheck-20260821"
 
 
 def audit_instructions(
@@ -206,6 +206,18 @@ list), that each `process_rubric.json` is a top-level list, and that every Groun
 binding points to a real submission artifact and result field. If a result schema is
 open-ended, state that explicitly; if a field cannot be bound deterministically, keep
 the finding in `remaining_issues` instead of reporting `contract_status=passed`.
+
+WORKFLOW-REDESIGN CONTRACT CLOSURE
+If Stage06 returned `scientific_not_constructible` and you perform a workflow redesign, the
+replacement is not complete until it has the same full delivery contract as an ordinary approved
+pair. In one final grouped check, confirm that `paper_reproduction/`, `autonomous_research/`, and
+`hidden_reference/ground_truth_common.json` all exist; both public modes contain `task.md`,
+`task_info.json`, `task_spec.json`, `submission_contract.json`, and `process_rubric.json`; every
+required submission path is safe; and the common Ground Truth loads with the evaluator schema.
+Use the canonical filename `hidden_reference/ground_truth_common.json` even if an earlier scaffold
+or source artifact used another name. Do not claim `approved_after_workflow_redesign` while any of
+these files are absent. If a source-backed replacement cannot satisfy this contract, return a
+scientific or retryable finding with the exact missing paths rather than a successful receipt.
 
 Return one JSON object matching this contract; the harness persists it as the audit receipt:
 {{

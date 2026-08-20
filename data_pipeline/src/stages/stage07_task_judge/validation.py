@@ -268,15 +268,25 @@ def _result_schema_shape(value: Any) -> Any:
 def _binding_for_mode(profile: dict[str, Any], mode: str) -> dict[str, Any]:
     """Select a mode-specific binding without interpreting scientific claims."""
 
-    by_mode = profile.get("submission_bindings_by_mode")
-    if isinstance(by_mode, dict):
+    # Both spellings have existed in task packages.  Prefer the current
+    # ``mode_submission_bindings`` projection, while accepting the older
+    # ``submission_bindings_by_mode`` transport alias.  This is a contract
+    # compatibility rule only; it does not interpret any scientific claim.
+    candidates: list[dict[str, Any]] = []
+    for key in ("mode_submission_bindings", "submission_bindings_by_mode"):
+        by_mode = profile.get(key)
+        if not isinstance(by_mode, dict):
+            continue
         candidate = by_mode.get(mode)
         if candidate is None:
             candidate = by_mode.get(
                 "autonomous" if mode == "autonomous_research" else "reproduction"
             )
         if isinstance(candidate, dict):
-            return candidate
+            candidates.append(candidate)
+    if candidates:
+        # The first (current spelling) is authoritative when both are present.
+        return candidates[0]
     binding = profile.get("submission_binding")
     return binding if isinstance(binding, dict) else {}
 
@@ -323,9 +333,24 @@ def _schema_path_status(schema: Any, tokens: list[str | int]) -> str:
             current = current["items"]
             continue
         properties = current.get("properties")
-        if isinstance(properties, dict) and token in properties:
-            current = properties[token]
-            continue
+        if isinstance(properties, dict):
+            if token in properties:
+                current = properties[token]
+                continue
+            # An explicit properties map is closed for undeclared keys unless
+            # the schema explicitly opens additional properties.
+            if current.get("additionalProperties") is not True:
+                return "missing"
+        # A schema may intentionally describe an open object with only a
+        # ``required`` list (or an omitted ``additionalProperties`` keyword).
+        # Its nested keys are evaluator/semantic contract details, not proven
+        # missing fields.  Treat that state as open rather than blocking it.
+        if (
+            isinstance(current, dict)
+            and ("required" in current or "additionalProperties" not in current)
+            and current.get("additionalProperties") is not False
+        ):
+            return "open"
         if current.get("additionalProperties") is True:
             return "open"
         return "missing"
@@ -422,6 +447,25 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                         )
                     schema = submission.get("results_schema")
                     for field in fields:
+                        # Semantic conclusion bindings are evaluated against a
+                        # document artifact (usually report.md), not a JSON
+                        # property.  ``document`` is therefore a valid
+                        # transport binding whenever at least one declared
+                        # artifact is a safe report/document path.
+                        if str(field).strip().casefold() in {"document", "text", "report"}:
+                            artifacts = binding.get("artifact_paths") or []
+                            if isinstance(artifacts, str):
+                                artifacts = [artifacts]
+                            if any(
+                                isinstance(artifact, str)
+                                and artifact
+                                and not Path(artifact).is_absolute()
+                                and ".." not in Path(artifact).parts
+                                and "\\" not in artifact
+                                and Path(artifact).suffix.casefold() in {".md", ".txt", ".json", ".jsonl"}
+                                for artifact in artifacts
+                            ):
+                                continue
                         tokens = _jsonpath_tokens(field)
                         if tokens is None:
                             findings.append(
