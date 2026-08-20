@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v15-stage07-binding-and-redesign-contract-recheck-20260821"
+STAGE07_AUDIT_VERSION = "v16-stage07-scope-task-source-and-leakage-recheck-20260821"
 
 
 def audit_instructions(
@@ -108,6 +108,31 @@ orchestrator. Do not invent aliases or make a scientific decision from an alias 
 only the scientific/public content and let transport normalization set these fields.
 `task.md` is the only evaluation instruction. JSON `scientific_question` and
 `target_definition` are short index metadata and must not introduce a second instruction source.
+Reread both final `task.md` files and reject or repair any wording that tells the evaluated Agent to
+read `task_spec.json`, `workflow_spec.json`, or another contract/route file to discover additional
+obligations. Supporting route files may contain disclosed reproduction data, but every actionable
+requirement must already be present in `task.md`.
+
+AUTONOMY SCOPE AND SCORING CONSISTENCY:
+- `workflow_scope.autonomy_scope=fixed_input_method_constrained_workflow` is valid only when a
+  method or method set is part of the public scientific variable/definition or when the score is
+  intentionally anchored to that disclosed method. The autonomous task must preserve those
+  problem-defining method constraints while hiding author-specific route strings and answers; its
+  metadata must not say `no_paper_method`.
+- `workflow_scope.autonomy_scope=fixed_input_method_discovery` means the evaluated Agent may choose
+  the method. Do not accept a task whose only meaningful score is a tight absolute value generated
+  by an undisclosed paper method. Repair the acceptance framing toward ordering, sign, trend,
+  process evidence, or a source-supported method-robust tolerance, or return an evidence-backed
+  scientific finding. Do not change a frozen value merely to make the modes agree.
+- If a method name is itself the scientific comparison variable, preserving it is not route leakage;
+  classify it as a public method constraint and verify that the scope/disclosure fields say so.
+
+PUBLIC ANSWER LEAKAGE MUST BE DYNAMIC. Build a compact list from this task's hidden reference of
+target values, tolerances, rankings, trends, canonical propositions, and preferred labels. Scan every
+autonomous and reproduction public file, not just `task.md`, and use local context to distinguish a
+scoring answer from a route constant, physical boundary, calibration parameter, or raw observation.
+Remove or neutralize answer disclosures while preserving execution-defining facts. Never implement
+this check with fixed paper names, molecule names, numbers, or keyword lists.
 
 When editing `task_info.json`, keep `scientific_requirements` as a compact list of plain strings.
 If richer records are used during reasoning, project each record to its requirement text before
@@ -118,8 +143,9 @@ Reproduction disclosure has a strict answer boundary: route, software, parameter
 validation operations may be public, but `task_info.json`, `task_spec.json`, `workflow_scope`, Markdown,
 filenames, and rubrics must not contain target numbers, tolerances, rankings, preferred routes, or final /
 intermediate answer conclusions. Keep only neutral task objectives and claim IDs. Autonomous mode must
-also remove author route labels and method choices while preserving physical boundary conditions needed
-to make the question well-defined.
+remove author route labels and implementation choices, while preserving any method constraint explicitly
+classified as part of the scientific variable and all physical boundary conditions needed to define the
+question.
 
 PUBLIC METADATA IS PUBLIC. GENERAL AUTONOMOUS PUBLIC-SURFACE REVIEW:
 Audit the complete public autonomous surface, not only `task.md`: include `task_info.json`,

@@ -4,8 +4,8 @@ STAGE06_REVIEW_VERSION = "v4-stage06-review-sixth-round-20260819"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v8-stage06-sixth-round-minimal-boundary-builder-20260819"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v7-stage06-neutral-asset-converter-20260820"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v9-stage06-scope-alignment-builder-20260821"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v8-stage06-neutral-asset-converter-scope-aware-20260821"
 
 
 def task_pair_builder_instructions(
@@ -110,10 +110,18 @@ OBJECTIVE-FIRST SELECTION
    software family, or a scientifically non-closed step. A preference for a shorter task is not a
    blocker. Record `downgrade_reasons`, `claim_coverage`, `omitted_workflow_parts`,
    `why_this_subworkflow_is_core`, and `selection_confidence` in `workflow_scope`.
-4. The selected scope must close the chain from problem inputs to meaningful intermediate and final
+4. Choose one autonomous scope and record it in `workflow_scope.autonomy_scope`: use
+   `fixed_input_method_constrained_workflow` only when a method or method set is part of the public
+   scientific variable/definition or the score is intentionally anchored to that disclosed method;
+   otherwise use `fixed_input_method_discovery`. For constrained scope, put only problem-defining
+   method constraints (not route strings or author answers) in `public_task_basis.method_constraints`.
+   For discovery scope, do not use a paper-method absolute target with a tight tolerance as the sole
+   score; use method-robust ordering, sign, trend, process evidence, or a source-supported broad
+   tolerance. State the choice in `autonomous_method_policy`.
+5. The selected scope must close the chain from problem inputs to meaningful intermediate and final
    scientific conclusions. It may include competing hypotheses, negative results, descriptor tests,
    selectivity comparisons, or validation branches.
-5. Do not require a fixed step count or coverage of every paper calculation. Reject only a trivial
+6. Do not require a fixed step count or coverage of every paper calculation. Reject only a trivial
    one-call calculation with no meaningful scientific reasoning, or a source-backed fatal gap that
    cannot be repaired without guessing.
 
@@ -230,7 +238,10 @@ SUCCESSFUL CONSTRUCTION ORDER
     reproduction/hidden draft only. Repair errors
     when evidence and time permit; never convert a formatting or disclosure finding into a false
     claim that the paper is scientifically not constructible.
-12. Write `outputs/construction_receipt.json` and return that JSON only. Set
+12. Before writing the receipt, reread `task.md` and ensure it itself states the complete scientific
+    question, public boundaries, and deliverables. Do not direct the evaluated Agent to read
+    `task_spec.json`, `workflow_spec.json`, or another contract file for additional obligations.
+13. Write `outputs/construction_receipt.json` and return that JSON only. Set
     `milestones.autonomous_conversion_pending=true`; do not claim
     `autonomous_copy_created` or `autonomous_validated` in this phase.
 
@@ -269,8 +280,9 @@ def autonomous_converter_instructions(*, paper_id: str, task_pair_id: str, max_t
 Work only in this isolated workspace. The read-only input tree `inputs/task_pair/` contains the
 Stage06A paper-reproduction public task and `inputs/task_pair/conversion_packet/`. The packet
 contains only a public objective, Key Point IDs (never canonical answers), a route-redaction map,
-public boundary-condition classifications, neutral asset instructions, and the deliverable
-contract. It intentionally does not contain hidden reference, canonical answers, source evidence,
+public boundary-condition classifications, explicitly declared problem-defining method constraints,
+neutral asset instructions, and the deliverable contract. It intentionally does not contain hidden
+reference, canonical answers, source evidence,
 or the complete Stage06A review. You may write only `outputs/autonomous_research/` and the
 optional internal `outputs/conversion_report.json`. Paper id is
 `{paper_id}` and task pair id is `{task_pair_id}`. You have at most {max_tool_calls} tool calls.
@@ -292,8 +304,14 @@ paper-reproduction task as the starting point, then produce an autonomous-resear
    merely because they appear near the paper route. Hide the author's implementation of a condition
    (functional, basis, SCRF keyword, route string), not the physical condition itself. This follows
    ARCHE Case2: expose reaction facts and light/solvent constraints while leaving the computational
-   mechanism and method selection to the evaluated Agent;
+   mechanism and method selection to the evaluated Agent. If the packet marks a method or method set
+   as part of the scientific question, preserve that constraint while removing only author-specific
+   implementation details; do not turn a method-comparison objective into unrestricted discovery;
 5. uses neutral public asset identifiers when an asset must remain available.
+
+If `preserve_method_constraints.json` is non-empty, its method names or method-family constraints
+are part of the scientific comparison and must remain public; remove only author implementation
+details around them. If it is empty, keep method selection open.
 
 `task.md` is the only instruction source for the evaluated Agent. Keep JSON question fields as
 short metadata and preserve only the deliverables declared by `submission_contract.json`; do not
@@ -314,7 +332,10 @@ Classify every candidate edit as one of three actions:
   Stage07 to review.
 
 Do not decide whether a scientific workflow is complete, replace a missing structure, or infer a
-hidden claim. Stage06B is a public-surface converter only.
+hidden claim. Stage06B is a public-surface converter only. Before finishing, verify that `task.md`
+itself contains the complete scientific question, public boundaries, and deliverables. Do not tell
+the evaluated Agent to read `task_spec.json`, `workflow_spec.json`, or another JSON file to discover
+additional obligations; those files are metadata/data only.
 
 Do not modify `inputs/`, the paper-reproduction task, the hidden reference, the toolbox, the
 scientific objective, or the meaning of any Ground Truth/Key Point. Do not invent a replacement
@@ -626,7 +647,9 @@ For categorical results, prefer explicit string labels already named in the publ
 named categories with an unexplained boolean. When a boolean is the clearest public representation, state its
 answer-free meaning in the submission schema so the private grader never has to infer the mapping.
 
-After writing and rereading the files, return only a small JSON receipt with `status`, `artifact_path="task"`, a
+After writing and rereading the files, verify that `task/task.md` itself contains all actionable requirements;
+do not direct the evaluated Agent to read `task_spec.json` or another JSON file for missing instructions.
+Return only a small JSON receipt with `status`, `artifact_path="task"`, a
 one-sentence `summary`, and `invalid_reasons`. Do not inline any task file in the final response; deterministic code
 will read and validate the files. If the public packet is insufficient, return status `invalid` with precise reasons;
 do not invent missing chemistry.

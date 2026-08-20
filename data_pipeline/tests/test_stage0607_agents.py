@@ -6291,6 +6291,72 @@ def test_dotted_submission_field_mapping_is_accepted(tmp_path: Path) -> None:
     assert report["mechanical_pre_publish_status"] == "passed"
 
 
+def test_document_binding_accepts_matching_report_path(tmp_path: Path) -> None:
+    pair = tmp_path / "pair"
+    (pair / "hidden_reference").mkdir(parents=True)
+    for mode, task_mode, suffix in (
+        ("paper_reproduction", "guided_reproduction", "_reproduction"),
+        ("autonomous_research", "open_discovery", "_autonomous"),
+    ):
+        root = pair / mode
+        (root / "data" / "inputs").mkdir(parents=True)
+        (root / "data" / "inputs" / "input.xyz").write_text(
+            "1\nH\nH 0 0 0\n", encoding="utf-8"
+        )
+        info = {
+            "task_id": "pair_test" + suffix,
+            "task_pair_id": "pair_test",
+            "source_id": "paper-test",
+            "category": "computational_chemistry",
+            "mode": mode,
+            "scientific_mode": mode,
+            "task_mode": task_mode,
+        }
+        write_json(root / "task_info.json", info)
+        write_json(root / "task_spec.json", info)
+        write_json(
+            root / "submission_contract.json",
+            {
+                "required_files": ["report/report.md"],
+                "results_schema": {"type": "object", "additionalProperties": True},
+            },
+        )
+        write_json(
+            root / "process_rubric.json",
+            [{
+                "id": "route_fidelity",
+                "criterion_type": "route_fidelity",
+                "max_score": 100,
+                "evidence_artifacts": ["report/report.md"],
+            }],
+        )
+        (root / "task.md").write_text("task\n", encoding="utf-8")
+    write_json(
+        pair / "hidden_reference" / "ground_truth_common.json",
+        {
+            "task_pair_id": "pair_test",
+            "evaluation_mode": "binary",
+            "score_max": 1,
+            "expected_result": {},
+            "acceptance_profiles": [
+                {
+                    "acceptance_profile_id": "ap-1",
+                    "submission_binding": {
+                        "artifact_paths": ["report/report.md"],
+                        "observed_fields": ["report/report.md"],
+                    },
+                }
+            ],
+        },
+    )
+
+    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+
+    assert report["mechanical_pre_publish_status"] == "passed"
+    assert not any("binding_path_invalid" in finding for finding in report["findings"])
+    assert any("document_binding_path_compat" in diagnostic for diagnostic in report["diagnostics"])
+
+
 def test_jsonpath_wildcard_binding_is_parsed() -> None:
     assert _jsonpath_tokens("$.stationary_points[*].imaginary_frequencies") == [
         "stationary_points",

@@ -1507,6 +1507,8 @@ def _prepare_input_snapshot(
                 "submission_contract.json",
                 "workflow_scope",
                 "complexity_profile",
+                "autonomy_scope",
+                "method_constraints",
                 "scientific_question",
                 "target_definition",
                 "input_assets",
@@ -2985,8 +2987,12 @@ def _canonical_workflow_scope(scope: Any) -> dict[str, Any]:
         "parent_workflow_position",
         "why_not_full_workflow",
         "excluded_workflows_summary",
+        "autonomy_scope",
+        "autonomous_method_policy",
     )
     output = {key: json.loads(json.dumps(scope[key])) for key in allowed if key in scope}
+    if "autonomy_scope" in output:
+        output["autonomy_scope"] = _autonomy_scope(output)
     for key in (
         "included_workflow_ids",
         "excluded_workflow_ids",
@@ -2997,6 +3003,32 @@ def _canonical_workflow_scope(scope: Any) -> dict[str, Any]:
     ):
         output.setdefault(key, [])
     return output
+
+
+_AUTONOMY_SCOPES = {
+    "fixed_input_method_constrained_workflow",
+    "fixed_input_method_discovery",
+}
+
+
+def _autonomy_scope(scope: Any) -> str:
+    """Read the Agent's autonomy contract, with a safe legacy default.
+
+    Older task reviews did not carry this field and their autonomous prompt asked the
+    evaluated Agent to choose a method.  Preserve that behavior instead of silently
+    relabeling those tasks as method-constrained.
+    """
+
+    value = str((scope or {}).get("autonomy_scope") or "").strip()
+    return value if value in _AUTONOMY_SCOPES else "fixed_input_method_discovery"
+
+
+def _autonomous_method_disclosure(scope: Any) -> str:
+    return (
+        "public_scientific_method_constraints"
+        if _autonomy_scope(scope) == "fixed_input_method_constrained_workflow"
+        else "no_paper_method"
+    )
 
 
 def _normalize_boundary_contract(
@@ -4116,6 +4148,9 @@ def _normalize_task_pair_artifact_contracts(
         "input_assets": _mode_asset_projection(public_basis),
         "workflow_scope": scope,
         "complexity_profile": complexity,
+        "method_constraints": public_basis.get("method_constraints")
+        or public_basis.get("public_method_constraints")
+        or [],
     }
 
     reproduction_submission = _normalize_submission_contract(
@@ -4168,6 +4203,9 @@ def _normalize_task_pair_artifact_contracts(
         or [],
         "workflow_scope": scope,
         "complexity_profile": complexity,
+        "method_constraints": public_basis.get("method_constraints")
+        or public_basis.get("public_method_constraints")
+        or [],
     }
     common_deliverables = (
         _normalize_required_deliverables(reproduction_info, submission)
@@ -4182,7 +4220,11 @@ def _normalize_task_pair_artifact_contracts(
         is_reproduction = mode == "paper_reproduction"
         task_id = f"{safe_component(pair_id)}_{'reproduction' if is_reproduction else 'autonomous'}"
         task_mode = "guided_reproduction" if is_reproduction else "open_discovery"
-        disclosure = "paper_route_disclosed" if is_reproduction else "none"
+        disclosure = (
+            "paper_route_disclosed"
+            if is_reproduction
+            else _autonomous_method_disclosure(scope)
+        )
         info.update(common_info)
         info.update(
             {
@@ -4877,7 +4919,11 @@ def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
     scope = dict(review.get("workflow_scope") or {})
     # Public conversion needs the scope shape, not the answer-bearing claims.
     scope.pop("supported_primary_claims", None)
-    scope["autonomy_scope"] = "fixed_input_method_constrained_workflow"
+    selected_autonomy_scope = _autonomy_scope(scope)
+    scope["autonomy_scope"] = selected_autonomy_scope
+    method_policy = public_basis.get("method_constraints") or public_basis.get(
+        "public_method_constraints"
+    ) or []
     write_json(
         packet / "public_objective.json",
         {
@@ -4886,7 +4932,8 @@ def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
             "public_scientific_question": review.get("public_scientific_question")
             or review.get("scientific_question"),
             "workflow_scope": scope,
-            "autonomy_scope": "fixed_input_method_constrained_workflow",
+            "autonomy_scope": selected_autonomy_scope,
+            "method_constraints": method_policy,
         },
     )
     input_assets = public_basis.get("input_assets") or []
@@ -4929,6 +4976,7 @@ def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
             for row in boundary_conditions
         ],
     )
+    write_json(packet / "preserve_method_constraints.json", method_policy)
     write_json(
         packet / "route_redaction_map.json",
         {
@@ -4946,6 +4994,10 @@ def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
                 "sequence",
                 "route_steps",
                 "validation_procedure",
+            ],
+            "method_constraint_fields_to_preserve": [
+                "public_task_basis.method_constraints",
+                "task_spec.method_constraints",
             ],
             "answer_fields_to_remove": [
                 "canonical_answer",
@@ -5984,6 +6036,10 @@ def _public_basis(
             "scientific_question": review.get("public_scientific_question"),
             "task_direction": review.get("task_direction"),
             "category": review.get("category") or review.get("task_direction"),
+            "workflow_scope": _canonical_workflow_scope(
+                review.get("workflow_scope") or {}
+            ),
+            "autonomy_scope": _autonomy_scope(review.get("workflow_scope") or {}),
             "resource_policy": config.get("resource_policy")
             or review.get("resource_assessment")
             or {},
@@ -6224,8 +6280,13 @@ def _normalized_task_info(
             "mode": mode,
             "task_mode": "open_discovery",
             "scientific_mode": "autonomous_research",
-            "method_disclosure": "none",
-            "pathway_disclosure": "none",
+            "method_disclosure": _autonomous_method_disclosure(
+                public_basis.get("workflow_scope")
+                or public_basis.get("scope")
+                or {}
+            ),
+            "pathway_disclosure": "public_problem_only",
+            "method_constraints": public_basis.get("method_constraints") or [],
             "required_deliverables": [
                 {
                     "path": path,
@@ -6332,12 +6393,15 @@ def _normalized_task_spec(
             "mode": mode,
             "task_mode": "open_discovery",
             "scientific_mode": "autonomous_research",
-            "method_disclosure": "none",
-            "pathway_disclosure": "none",
+            "method_disclosure": _autonomous_method_disclosure(
+                public_basis.get("workflow_scope") or {}
+            ),
+            "pathway_disclosure": "public_problem_only",
             "scientific_question": public_basis.get("scientific_question"),
             "target_definition": public_basis.get("target_definition")
             or public_basis.get("scientific_question"),
             "boundary_conditions": public_basis.get("boundary_conditions") or [],
+            "method_constraints": public_basis.get("method_constraints") or [],
             "input_assets": [
                 {
                     key: (

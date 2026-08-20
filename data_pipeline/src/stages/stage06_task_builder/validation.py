@@ -148,7 +148,17 @@ def canonicalize_mode_task_contract(
         value["scientific_mode"] = expected_mode
         value["task_mode"] = expected_task_mode
         if expected_mode == "autonomous_research":
-            value["method_disclosure"] = "no_paper_method"
+            scope = value.get("workflow_scope")
+            scope_value = (
+                scope.get("autonomy_scope")
+                if isinstance(scope, dict)
+                else None
+            )
+            value["method_disclosure"] = (
+                "public_scientific_method_constraints"
+                if scope_value == "fixed_input_method_constrained_workflow"
+                else "no_paper_method"
+            )
             value["pathway_disclosure"] = "public_problem_only"
         elif expected_mode == "paper_reproduction":
             value["method_disclosure"] = "paper_route_disclosed"

@@ -291,6 +291,16 @@ def _binding_for_mode(profile: dict[str, Any], mode: str) -> dict[str, Any]:
     return binding if isinstance(binding, dict) else {}
 
 
+def _string_list(value: Any) -> list[str]:
+    """Normalize a scalar-or-array contract field without interpreting science."""
+
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, list):
+        return [item for item in value if isinstance(item, str)]
+    return []
+
+
 def _jsonpath_tokens(value: Any) -> list[str | int] | None:
     """Parse the small JSONPath subset used by task submission bindings."""
 
@@ -461,9 +471,8 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                             f"evaluator_submission_binding_missing:{mode}:{profile_id}"
                         )
                         continue
-                    fields = binding.get("observed_fields") or []
-                    if isinstance(fields, str):
-                        fields = [fields]
+                    fields = _string_list(binding.get("observed_fields"))
+                    artifacts = _string_list(binding.get("artifact_paths"))
                     if not fields:
                         diagnostics.append(
                             f"evaluator_binding_fields_missing:{mode}:{profile_id}"
@@ -476,9 +485,6 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                         # transport binding whenever at least one declared
                         # artifact is a safe report/document path.
                         if str(field).strip().casefold() in {"document", "text", "report"}:
-                            artifacts = binding.get("artifact_paths") or []
-                            if isinstance(artifacts, str):
-                                artifacts = [artifacts]
                             if any(
                                 isinstance(artifact, str)
                                 and artifact
@@ -489,6 +495,24 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                                 for artifact in artifacts
                             ):
                                 continue
+                        # Some agents use the safe report path itself as the
+                        # observed selector for a document binding.  That is
+                        # a transport spelling of the document artifact, not
+                        # a JSONPath.  Accept only an exact match to a safe
+                        # declared artifact path; never infer a scientific
+                        # field from a path suffix or filename.
+                        if (
+                            isinstance(field, str)
+                            and field in artifacts
+                            and field.casefold().endswith((".md", ".txt", ".json", ".jsonl"))
+                            and not Path(field).is_absolute()
+                            and ".." not in Path(field).parts
+                            and "\\" not in field
+                        ):
+                            diagnostics.append(
+                                f"evaluator_document_binding_path_compat:{mode}:{profile_id}:{field}"
+                            )
+                            continue
                         # JSONPath filter expressions are valid evaluator-side
                         # selectors but intentionally outside this small
                         # answer-free parser.  Preserve them as an unchecked
@@ -522,7 +546,7 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                             findings.append(
                                 f"evaluator_result_schema_unbound:{mode}:{profile_id}"
                             )
-                    for artifact in binding.get("artifact_paths") or []:
+                    for artifact in artifacts:
                         if (
                             not isinstance(artifact, str)
                             or not artifact
