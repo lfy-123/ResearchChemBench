@@ -106,6 +106,7 @@ from src.stages.stage07_task_judge.stage import (
     run_stage07,
 )
 from src.stages.stage07_task_judge.validation import (
+    _jsonpath_tokens,
     final_task_pair_integrity_findings,
     merge_audit_outcomes,
     reconcile_toolbox_requirements,
@@ -6288,3 +6289,11 @@ def test_dotted_submission_field_mapping_is_accepted(tmp_path: Path) -> None:
     report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
 
     assert report["mechanical_pre_publish_status"] == "passed"
+
+
+def test_jsonpath_wildcard_binding_is_parsed() -> None:
+    assert _jsonpath_tokens("$.stationary_points[*].imaginary_frequencies") == [
+        "stationary_points",
+        "*",
+        "imaginary_frequencies",
+    ]

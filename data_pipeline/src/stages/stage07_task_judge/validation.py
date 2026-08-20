@@ -311,7 +311,7 @@ def _jsonpath_tokens(value: Any) -> list[str | int] | None:
     tokens: list[str | int] = []
     position = 0
     token_pattern = re.compile(
-        r"(?:\.([A-Za-z_][A-Za-z0-9_-]*)|\[(\d+|['\"][^'\"]+['\"])\])"
+        r"(?:\.([A-Za-z_][A-Za-z0-9_-]*)|\[(\*|\d+|['\"][^'\"]+['\"])\])"
     )
     while position < len(tail):
         match = token_pattern.match(tail, position)
@@ -320,6 +320,8 @@ def _jsonpath_tokens(value: Any) -> list[str | int] | None:
         dotted, bracket = match.groups()
         if dotted is not None:
             tokens.append(dotted)
+        elif bracket == "*":
+            tokens.append("*")
         elif bracket.isdigit():
             tokens.append(int(bracket))
         else:
@@ -334,6 +336,16 @@ def _schema_path_status(schema: Any, tokens: list[str | int]) -> str:
     current = schema
     for token in tokens:
         if not isinstance(current, dict):
+            return "missing"
+        if token == "*":
+            if isinstance(current.get("items"), dict):
+                current = current["items"]
+                continue
+            if isinstance(current.get("additionalProperties"), dict):
+                current = current["additionalProperties"]
+                continue
+            if current.get("additionalProperties") is True:
+                return "open"
             return "missing"
         if isinstance(token, int):
             if not isinstance(current.get("items"), dict):
@@ -359,6 +371,9 @@ def _schema_path_status(schema: Any, tokens: list[str | int]) -> str:
             and current.get("additionalProperties") is not False
         ):
             return "open"
+        if isinstance(current.get("additionalProperties"), dict):
+            current = current["additionalProperties"]
+            continue
         if current.get("additionalProperties") is True:
             return "open"
         return "missing"
