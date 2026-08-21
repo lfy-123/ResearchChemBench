@@ -130,6 +130,44 @@ def normalize_scientific_requirements(value: Any) -> list[str]:
     return normalized
 
 
+def normalize_required_deliverables(value: Any) -> list[dict[str, Any]]:
+    """Project common deliverable spellings onto the evaluator object contract.
+
+    Agents sometimes emit the compact ``["report/results.json", ...]`` form,
+    while ``TaskInfo`` requires ``RequiredDeliverable`` objects.  This helper
+    only normalizes that transport representation; it does not add or remove
+    scientific outputs and leaves malformed entries out for the validator to
+    report rather than inventing a path.
+    """
+
+    raw = value if isinstance(value, list) else []
+    normalized: list[dict[str, Any]] = []
+    for item in raw:
+        if isinstance(item, str):
+            path = item.strip()
+            if not path:
+                continue
+            normalized.append(
+                {
+                    "path": path,
+                    "description": "Required task artifact.",
+                    "allow_empty": False,
+                }
+            )
+            continue
+        if not isinstance(item, dict):
+            continue
+        path = item.get("path") or item.get("file")
+        if not isinstance(path, str) or not path.strip():
+            continue
+        row = dict(item)
+        row["path"] = path.strip()
+        row.setdefault("description", "Required task artifact.")
+        row.setdefault("allow_empty", False)
+        normalized.append(row)
+    return normalized
+
+
 def canonicalize_mode_task_contract(
     task_root: Path,
     *,
@@ -239,6 +277,15 @@ def canonicalize_mode_task_contract(
             value["scientific_requirements"] = normalize_scientific_requirements(
                 value.get("scientific_requirements")
             )
+        if name == "task_info.json":
+            raw_deliverables = value.get("required_deliverables")
+            if not isinstance(raw_deliverables, list) or not raw_deliverables:
+                raw_deliverables = value.get("deliverables")
+            if isinstance(raw_deliverables, list):
+                value["required_deliverables"] = normalize_required_deliverables(
+                    raw_deliverables
+                )
+                value.pop("deliverables", None)
         write_json(path, value)
     return sorted(set(findings))
 

@@ -85,6 +85,7 @@ from src.stages.stage06_task_builder.validation import (
     anonymous_source_id,
     canonicalize_mode_task_contract,
     normalize_mode_scope,
+    normalize_required_deliverables,
     normalize_scientific_requirements,
     normalize_submission_contract,
     validate_autonomous_route_isolation,
@@ -6233,6 +6234,41 @@ def test_mode_contract_projects_requirement_records_to_evaluator_strings(tmp_pat
     assert read_json(tmp_path / "task_info.json")["scientific_requirements"] == [
         "Prepare the supplied inputs.",
         "Report the calculated quantities.",
+    ]
+
+
+def test_mode_contract_projects_string_required_deliverables_to_evaluator_objects(
+    tmp_path: Path,
+) -> None:
+    for name in ("task_info.json", "task_spec.json"):
+        write_json(
+            tmp_path / name,
+            {
+                "task_pair_id": "pair-deliverables",
+                "task_id": "old",
+                "mode": "paper_reproduction",
+                "required_deliverables": [
+                    "report/results.json",
+                    {"path": "report/report.md", "description": "Evidence report."},
+                ],
+            },
+        )
+    assert normalize_required_deliverables(["report/results.json"])[0]["allow_empty"] is False
+    assert canonicalize_mode_task_contract(
+        tmp_path, expected_mode="paper_reproduction"
+    ) == []
+    deliverables = read_json(tmp_path / "task_info.json")["required_deliverables"]
+    assert deliverables == [
+        {
+            "path": "report/results.json",
+            "description": "Required task artifact.",
+            "allow_empty": False,
+        },
+        {
+            "path": "report/report.md",
+            "description": "Evidence report.",
+            "allow_empty": False,
+        },
     ]
 
 
