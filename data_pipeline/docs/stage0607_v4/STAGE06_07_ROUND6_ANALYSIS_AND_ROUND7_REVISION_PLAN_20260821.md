@@ -119,3 +119,37 @@
 - `task.md` 自包含，不把其他 JSON/route 文件变成第二指令源；
 - Stage07 有动态公开答案复核证据；
 - 不新增任何论文、分子、软件或固定答案特例规则。
+
+## 8. 第七轮实施与回归结果
+
+### Git版本
+
+- 第七轮代码版本：`d6a8f1d`（文档和代码修改已提交）
+- 本轮后续修正（scope 默认显式化、模式 binding matrix prompt）待下一提交。
+
+### 代码验证
+
+- Stage06/07 专项：136 passed
+- 全量测试：523 passed
+- 第6轮 `paper_7574d99707125e60` 机械回归：`mechanical_pre_publish_status=passed`、`schema_load_diagnostic=passed`；4 条 document-path compatibility diagnostic，无 finding。
+
+### 第七轮十篇回归
+
+目录：`runs/stage06-07-v4-round7-deepseek10-concurrency10-20260821`
+
+- 模型：`deepseek-v4-pro-0813`，Codex，concurrency=10
+- CLI：10/10 completed，`failed_count=0`
+- Stage06 constructed：9；source-backed not-constructible：1（`paper_63c76161e5b55a6a`）
+- Stage07 approved/approved_with_repairs：9；科学拒绝：1
+- 机械通过：8；机械阻断：1（`paper_03455526ab937195`）
+- 该机械阻断不是本轮代码误报：Stage07 将 reproduction-only `initial_addition_barrier` 和 `aromatization_barrier` 留在共享 top-level binding，而 autonomous `results_schema` 正确不包含它们。应由 Stage07 用 mode-specific binding matrix 修复，不能由 gate 猜测或放行。
+- `paper_7574d99707125e60` 的同路径 document binding 已通过，说明第7轮代码修复有效。
+- `paper_23ab5e60dd8e8983` 的方法自由/绝对值矛盾已由 Stage07 改为 method-robust acceptance；`paper_585288a5a5265d55` 保持方法选择型任务且未出现机械冲突；`paper_9e76a3b15026ccd8` 的 autonomous public method constraints 与 `method_disclosure=public_scientific_method_constraints` 一致。
+- 若干 `task.md` 中出现“不要读取 task_spec.json”这类否定性句子，是为了明确唯一指令源，不属于把 JSON 设为第二指令；本轮不把它们误报为缺陷。
+
+### 第八轮小修方向
+
+1. 保留已验证的 document-path compatibility 代码。
+2. 强化 Stage07 的 mode-specific binding matrix 终检，并要求在 shared binding 留存前证明两个 mode schema 都有该字段。
+3. 保留 scope 显式默认和 method disclosure 派生修正；补跑 034/575/585/7574/9e76 代表性回归。
+4. 若 mode-specific binding 问题不再出现，再重新跑 20 篇并发10扩大回归；若仍只剩模型偶发措辞/科学判断差异，不增加代码规则，也不实现 Stage07B。

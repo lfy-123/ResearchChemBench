@@ -2991,8 +2991,11 @@ def _canonical_workflow_scope(scope: Any) -> dict[str, Any]:
         "autonomous_method_policy",
     )
     output = {key: json.loads(json.dumps(scope[key])) for key in allowed if key in scope}
-    if "autonomy_scope" in output:
-        output["autonomy_scope"] = _autonomy_scope(output)
+    # Make the Agent's autonomy contract explicit even for legacy reviews that
+    # omitted it.  The default matches the existing public behavior (method
+    # selection is open); this is metadata normalization, not a scientific
+    # judgment.
+    output["autonomy_scope"] = _autonomy_scope(output)
     for key in (
         "included_workflow_ids",
         "excluded_workflow_ids",

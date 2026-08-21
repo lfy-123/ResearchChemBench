@@ -134,6 +134,15 @@ scoring answer from a route constant, physical boundary, calibration parameter, 
 Remove or neutralize answer disclosures while preserving execution-defining facts. Never implement
 this check with fixed paper names, molecule names, numbers, or keyword lists.
 
+MODE-SPECIFIC BINDING MATRIX: before approving, inspect every Ground Truth acceptance profile as
+one row for each public mode. If a field or artifact is required only in reproduction, or the
+autonomous representation is intentionally different, write explicit
+`mode_submission_bindings.paper_reproduction` and `mode_submission_bindings.autonomous_research`
+entries (or the existing equivalent transport field). Do not leave a shared top-level binding that
+points to a field absent from either mode's `results_schema`. Every mode row must bind to one real
+declared artifact/field or an explicit document binding; the mechanical gate will only check this
+shape and will not infer a scientific projection.
+
 When editing `task_info.json`, keep `scientific_requirements` as a compact list of plain strings.
 If richer records are used during reasoning, project each record to its requirement text before
 finishing the public file; IDs and rubric structure belong in the scientific rubric, not in this

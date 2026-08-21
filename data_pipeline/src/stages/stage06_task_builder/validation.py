@@ -1541,7 +1541,11 @@ def validate_task_pair_draft(
             allowed_boundary_conditions=boundary_conditions,
         )
     )
-    expected_scope = review.get("workflow_scope") or {}
+    expected_scope = dict(review.get("workflow_scope") or {})
+    # Legacy reviews omitted the autonomous scope.  Pair normalization writes
+    # the explicit method-discovery default, so compare against that canonical
+    # transport projection rather than treating the added metadata as drift.
+    expected_scope.setdefault("autonomy_scope", "fixed_input_method_discovery")
     expected_complexity = review.get("complexity_profile") or {}
     for mode_root in (autonomous, reproduction):
         for file_name in ("task_info.json", "task_spec.json"):
