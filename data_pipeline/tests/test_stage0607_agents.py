@@ -6251,11 +6251,15 @@ def test_mode_contract_projects_string_required_deliverables_to_evaluator_object
                 "task_id": "old",
                 "mode": "paper_reproduction",
                 "required_deliverables": [
-                    "report/results.json",
-                    {"path": "report/report.md", "description": "Evidence report."},
+                    "HOMO_energy",
+                    "scientific_conclusions",
                 ],
             },
         )
+    write_json(
+        tmp_path / "submission_contract.json",
+        {"required_files": ["report/results.json", "report/report.md"]},
+    )
     assert normalize_required_deliverables(["report/results.json"])[0]["allow_empty"] is False
     assert canonicalize_mode_task_contract(
         tmp_path, expected_mode="paper_reproduction"
@@ -6269,7 +6273,7 @@ def test_mode_contract_projects_string_required_deliverables_to_evaluator_object
         },
         {
             "path": "report/report.md",
-            "description": "Evidence report.",
+            "description": "Required task artifact.",
             "allow_empty": False,
         },
     ]

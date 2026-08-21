@@ -279,7 +279,10 @@ For every approved decision, leave these components under `outputs/task_pair/`:
 Before returning the receipt, reread the final task tree rather than relying on the
 receipt text. Confirm that both `task_info.json` files contain the evaluator-required
 transport fields (including `category` and a plain-string `scientific_requirements`
-list), that each `process_rubric.json` is a top-level list, and that every Ground Truth
+list), and that `required_deliverables` contains typed workspace artifact records whose
+`path` values correspond to `submission_contract.json.required_files`. Scientific result
+labels such as `HOMO_energy` or `conformer_geometries` belong in `task.md` or the results
+schema, not in a file-path field. Confirm that each `process_rubric.json` is a top-level list, and that every Ground Truth
 binding points to a real submission artifact and result field. If a result schema is
 open-ended, state that explicitly; if a field cannot be bound deterministically, keep
 the finding in `remaining_issues` instead of reporting `contract_status=passed`.

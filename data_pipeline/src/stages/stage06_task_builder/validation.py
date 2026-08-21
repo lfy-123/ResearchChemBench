@@ -130,7 +130,9 @@ def normalize_scientific_requirements(value: Any) -> list[str]:
     return normalized
 
 
-def normalize_required_deliverables(value: Any) -> list[dict[str, Any]]:
+def normalize_required_deliverables(
+    value: Any, *, fallback_paths: list[str] | None = None
+) -> list[dict[str, Any]]:
     """Project common deliverable spellings onto the evaluator object contract.
 
     Agents sometimes emit the compact ``["report/results.json", ...]`` form,
@@ -141,6 +143,25 @@ def normalize_required_deliverables(value: Any) -> list[dict[str, Any]]:
     """
 
     raw = value if isinstance(value, list) else []
+    fallback = [
+        str(path).strip()
+        for path in (fallback_paths or [])
+        if isinstance(path, str) and str(path).strip()
+    ]
+    # A common Agent/schema drift is to put scientific result labels (for
+    # example ``HOMO_energy``) in this file-path field.  When every item is a
+    # bare label and the submission contract declares real artifact paths, the
+    # contract paths are authoritative.  Keep the scientific labels in the
+    # task's result schema/report rather than pretending them to be files.
+    raw_strings = [item.strip() for item in raw if isinstance(item, str) and item.strip()]
+    if (
+        fallback
+        and raw_strings
+        and len(raw_strings) == len(raw)
+        and not any("/" in item or "." in item for item in raw_strings)
+        and any(path not in raw_strings for path in fallback)
+    ):
+        raw = fallback
     normalized: list[dict[str, Any]] = []
     for item in raw:
         if isinstance(item, str):
@@ -282,8 +303,21 @@ def canonicalize_mode_task_contract(
             if not isinstance(raw_deliverables, list) or not raw_deliverables:
                 raw_deliverables = value.get("deliverables")
             if isinstance(raw_deliverables, list):
+                submission_paths: list[str] = []
+                submission_path = task_root / "submission_contract.json"
+                if submission_path.is_file():
+                    try:
+                        submission_value = read_json(submission_path)
+                    except (OSError, TypeError, ValueError, json.JSONDecodeError):
+                        submission_value = {}
+                    if isinstance(submission_value, dict):
+                        submission_paths = [
+                            str(path)
+                            for path in submission_value.get("required_files") or []
+                            if isinstance(path, str)
+                        ]
                 value["required_deliverables"] = normalize_required_deliverables(
-                    raw_deliverables
+                    raw_deliverables, fallback_paths=submission_paths
                 )
                 value.pop("deliverables", None)
         write_json(path, value)
