@@ -58,3 +58,22 @@
 1. 实际 evaluator schema 包不在当前工作树中，真实 schema load 需在模型批量运行时确认。
 2. 旧任务可能仍有历史分数字段；本轮只停止新任务强制生成，不破坏旧包读取兼容。
 3. Stage07B 是否必要必须由批量统计决定，不能因单个科学失败或模型能力不足提前加入。
+
+## 第一批运行中的问题归因（截至 8/10 进入 Stage07 终态）
+
+批次目录：`runs/stage06-07-v5-round1-deepseek10-concurrency10-20260821-retry/`
+
+- 模型与执行方式：DeepSeek-v4-pro-0813、Codex harness、reasoning `high`、并发 10。
+- 已进入 Stage07 终态的 8 篇中，5 篇发布，1 篇科学拒绝，2 篇为“科学批准但机械阻断”。
+- 已确认的科学拒绝来自源材料缺失/输入无法闭合，属于 Stage07 应报告的科学结果，不是代码 bug。
+- `paper_aaa1ccd72d1c2b28` 的 4 条 `evaluator_binding_field_missing` 是通用代码 bug：binding 明确声明 `document_binding: true`，但 gate 仍把 JSONPath 形状的语义 selector 当作 `results_schema` 字段检查。
+- `paper_7cfd59d5c7061c6b` 的 `evaluator_binding_path_invalid` 使用了以数字开头的对象键点式路径；该字符串不是当前支持的 JSONPath 子集。它暂归 Stage07 合同输出/Prompt 质量问题，不能用论文特例规则掩盖，待下一批观察是否重复。
+
+## 第一轮收尾修补（提交 `9243218`）
+
+- `_evaluator_dry_run()` 遇到显式 `document_binding: true` 时，只校验安全文档 artifact 路径，将 observed selector 记为 unchecked diagnostic，不再将其解释为结构化 JSONPath。
+- 增加闭合结果 schema + `$.textual_*` 文档 selector 的回归用例；Stage06/07 测试文件当前 `147 passed`。
+- 对 `paper_aaa1ccd72d1c2b28` 的最终 audited task tree 回放后，机械状态从 `failed` 变为 `passed`，除预期诊断外无 finding。
+- 该修补不改变科学 truth、rubric 数量/评分模式或任何论文特例规则。
+
+第一批剩余 2 篇仍在运行，最终统计在终态后补充；之后重新抽取 10 篇进行第 2 轮回归。Stage07B 目前不启用：已知的两类阻断并非同类，且其中一类已由通用 gate 修复。
