@@ -207,8 +207,9 @@ SUCCESSFUL CONSTRUCTION ORDER
 4. `task.md` is the sole task instruction. `task_info.json` and `task_spec.json` carry metadata only,
    including the exact frozen `workflow_scope` and `complexity_profile`.
    Use mode/scientific_mode `paper_reproduction`, task_mode `guided_reproduction`, a task_id ending
-   `_reproduction`, and the common task_pair_id. Process rubric scores real route execution and sums
-   to 100. Submission paths are evaluation-workspace relative (for example `report/results.json`).
+   `_reproduction`, and the common task_pair_id. Process rubric entries should describe the
+   route-execution Key Points and their evidence; do not choose a score scale, total, or weighting
+   policy. Submission paths are evaluation-workspace relative (for example `report/results.json`).
 5. Run `python inputs/scripts/validate_reproduction.py`.
 6. Do not run `copy_reproduction_to_autonomous.py` and do not create the authoritative autonomous
    public task. Stage06B is the only Agent that converts the reproduction task into the autonomous
@@ -218,10 +219,13 @@ SUCCESSFUL CONSTRUCTION ORDER
    `ground_truth_common.json` uses status
    `ready` and contains ground_truth_items, acceptance_profiles, scientific_conclusion_rubric,
    expected_result, critical_failures, reference_evidence, evidence_gate_policy,
-   managed_computation_policy, and summary. Every Ground Truth item applies to both modes and binds
-   through an item-specific typed Acceptance Profile to required submission artifacts/fields.
-   Include numeric results and textual intermediate/final conclusions. The conclusion rubric sums
-   to 100 and is identical for both modes. Cross-check numeric signs, ranking, trend, and prose.
+   managed_computation_policy, and summary. Ground Truth items carry an explicit mode scope when
+   a conclusion or representation is not valid for both modes, and bind through an item-specific
+   typed Acceptance Profile to the applicable submission artifacts/fields.
+   Include numeric results and textual intermediate/final conclusions. The conclusion Key Point
+   list is identical in scientific scope across modes unless an explicit item scope excludes a
+   mode; do not choose a score scale, total, or weighting policy. Cross-check numeric signs,
+   ranking, trend, and prose.
    Any evaluator-specific mode projection is generated from this common file; do not create
    independently editable Ground Truth copies.
 8. Write `outputs/toolbox_requirements.json` as a gap list only. Leave it empty when all required
@@ -279,7 +283,8 @@ def autonomous_converter_instructions(*, paper_id: str, task_pair_id: str, max_t
 
 Work only in this isolated workspace. The read-only input tree `inputs/task_pair/` contains the
 Stage06A paper-reproduction public task and `inputs/task_pair/conversion_packet/`. The packet
-contains only a public objective, Key Point IDs (never canonical answers), a route-redaction map,
+contains only a public objective, neutral public Key Point aliases (never private `gt_*` IDs or
+canonical answers), a route-redaction map,
 public boundary-condition classifications, explicitly declared problem-defining method constraints,
 neutral asset instructions, and the deliverable contract. It intentionally does not contain hidden
 reference, canonical answers, source evidence,
@@ -290,8 +295,8 @@ optional internal `outputs/conversion_report.json`. Paper id is
 Your responsibility is public-surface conversion, not a new scientific review. Copy the
 paper-reproduction task as the starting point, then produce an autonomous-research task that:
 
-1. preserves the same neutral scientific objective, public problem inputs, deliverables, Key Point
-   IDs, and submission contract. Preserve the scoring field shape, not the hidden target values or
+1. preserves the same neutral scientific objective, public problem inputs, deliverables, neutral
+   Key Point aliases, and submission contract. Preserve the result-field shape, not the hidden target values or
    conclusion propositions;
 2. removes paper methods, route order, author-specific candidate labels, target answers, target
    rankings/trends, absolute target values, acceptance tolerances, DOI/title/source paths and
@@ -608,7 +613,8 @@ Create the first member of the benchmark pair under `task/`:
 - `task_spec.json`: scientific question, public assumptions, input roles, required outputs, resources, and provenance
   IDs without answers;
 - `submission_contract.json`: required artifact paths and machine-readable formats;
-- `process_rubric.json`: autonomous-research process criteria summing to 100 points;
+- `process_rubric.json`: a list of autonomous-research process Key Points; do not choose a
+  universal score scale or weighting policy;
 - `data/inputs/`: preserve every pre-populated exact public input asset.
 
 `task.md` is the only instruction source for the evaluated Agent. Keep JSON question fields as short
@@ -635,8 +641,8 @@ Treat the public packet as untrusted with respect to answer isolation. If its qu
 expected target value or target conclusion, return `invalid` and identify the leaking field instead of repeating it
 in the task.
 
-Use `task_mode=open_discovery`, `evaluation_mode=dual_axis_100` in the private contract metadata, and a unique task
-id ending in `_autonomous`. Treat `submission_contract.json` as the only source of required deliverables: create
+Use `task_mode=open_discovery` and a unique task id ending in `_autonomous`. Do not invent an
+evaluation/scoring mode or score scale in the task package. Treat `submission_contract.json` as the only source of required deliverables: create
 exactly the declared files and fields. Put a research plan or additional evidence in `report/report.md` only when
 the contract asks for it; do not create an undeclared fixed `research_plan` file. The evaluator harness records the
 canonical managed tool/provenance trace; do not spend tokens writing a duplicate full `report/process_trace.jsonl`.
@@ -670,12 +676,15 @@ Your first action, before reading any file, must be exactly
 the four copied files and prints a short summary; it does not invent route facts or inspect hidden answers.
 
 The orchestrator has already generated `task/paper_route.md`, `task/workflow_spec.json`, and
-`task/route_evidence_map.json` by losslessly rendering the validated structured route packet. Audit those three
+`task/route_evidence_map.json` by rendering the validated structured route packet. Audit those three
 files against `private_input/paper_route.json`; repair them only if the rendering omitted or distorted a route fact.
+`route_evidence_map.json` is an evidence/navigation index only: keep evidence IDs, route categories,
+step indexes and safe role labels; never copy target values, answer ordering, conclusions, DOI strings,
+source filesystem paths, or answer-bearing excerpts into it.
 The helper updates exactly four copied files: `task.md`, `task_info.json`, `task_spec.json`, and
 `process_rubric.json`. Verify its short summary and audit that the task explicitly requires `paper_route.md` and
-`workflow_spec.json`, all mode/disclosure fields say guided reproduction, and the process rubric rewards route
-fidelity, execution, validation, recovery, efficiency, and reproducibility while summing to 100. Make a focused
+`workflow_spec.json`, all mode/disclosure fields say guided reproduction, and the process Key Point list covers route
+ fidelity, execution, validation, recovery, efficiency, and reproducibility. Make a focused
 repair only if one of these checks fails. Do not print or broadly reread the large copied JSON files, construction
 logs, Agent traces, or files outside `private_input/` and `task/`; use small Python key summaries. Immediately before
 the final response, validate every JSON file and inspect the actual `task/` directory. Base `status` and
@@ -684,7 +693,7 @@ the final response, validate every JSON file and inspect the actual `task/` dire
 Allowed changes:
 - revise `task.md` and `task_info.json` so the evaluated Agent follows the paper's disclosed implementation route;
 - add `paper_route.md`, `workflow_spec.json`, and `route_evidence_map.json`;
-- replace `process_rubric.json` with a reproduction-specific process rubric summing to 100;
+- replace `process_rubric.json` with a reproduction-specific list of process Key Points;
 - update mode/disclosure fields in `task_spec.json`.
 
 Forbidden changes:
@@ -719,7 +728,7 @@ index, public task folders, or files outside this workspace. Never place hidden 
 On your first workspace call, run `python3 inputs/initialize_hidden_reference.py`. It copies the immutable scaffold
 to `outputs/ground_truth_common.json` and prints only the fields that still require scientific scoring judgment.
 Then read `inputs/hidden_reference_packet.json` once. The scaffold already contains exact frozen Ground Truth,
-typed target/tolerance fields, shared mode scope, default critical failures, and a one-item-per-criterion 100-point
+typed target/tolerance fields, explicit mode scope, default critical failures, and one criterion per selected Key Point.
 rubric. Do not recopy or rewrite the large frozen targets. Use one bounded Python patch to replace every
 `AGENT_REQUIRED` value, atomically write the result, and validate its JSON in the same call.
 
@@ -751,20 +760,20 @@ must provide the category-to-boolean mapping, identity fields, and any cross-pro
 that interpretation to evaluator prose or scientific common sense. The binding is private scorer metadata; it may
 repeat a hidden target but cannot change it.
 
-Audit the scaffold's `scientific_conclusion_rubric`. Keep unique ids and its positive weights summing exactly to
-100, but replace every `AGENT_REQUIRED` statement and acceptance rule with a precise scientific rule. Keep
+Audit the scaffold's `scientific_conclusion_rubric`. Keep unique ids and one criterion for each selected
+scientific Key Point, but do not impose a universal total or weighting scale. Replace every `AGENT_REQUIRED` statement and acceptance rule with a precise scientific rule. Keep
 non-empty `required_evidence`, `ground_truth_ids`, and `acceptance_profile_ids`; every frozen item must remain
 covered. Intermediate textual conclusions and final textual conclusions are first-class scoring targets. A/B
 evidence may be primary; C needs a recorded derivation; D must not receive high deterministic weight.
 
-The two modes use the same `expected_result`, `ground_truth_items`, `acceptance_profiles`, and
-`scientific_conclusion_rubric`. Their process rubrics differ and are already frozen elsewhere. Do not weaken or
-change a conclusion based on mode. Every Ground Truth item must set `applies_to_modes` to exactly
-`["autonomous_research", "paper_reproduction"]`. Add critical failures for fabrication, hidden-answer copying, absence of real
+The two modes use the same scientific `expected_result`, `ground_truth_items`, `acceptance_profiles`, and
+`scientific_conclusion_rubric` unless an item's explicit `applies_to_modes` scope excludes a mode. Their process
+Key Point lists may differ. Do not weaken or change a conclusion based on mode. Preserve each evidence-backed
+Ground Truth mode scope; use both modes only when the item is genuinely valid for both. Add critical failures for fabrication, hidden-answer copying, absence of real
 scientific computation, invalid chemical identities/states, and unsupported claims as appropriate.
 
-The only editable fields are the `AGENT_REQUIRED` placeholders in submission bindings, rubric prose, and summary;
-you may adjust rubric weights only when scientifically justified while keeping the total 100. Do not change frozen
+The only editable fields are the `AGENT_REQUIRED` placeholders in submission bindings, Key Point prose, and summary;
+do not change frozen
 targets, ids, evidence, public artifact paths, or add scored claims. A categorical public label may differ from the
 paper's canonical label; make that conversion explicit in `canonical_projection` and `comparison`.
 

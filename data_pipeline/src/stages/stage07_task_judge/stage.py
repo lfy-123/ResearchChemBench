@@ -43,6 +43,7 @@ from src.stages.stage07_task_judge.prompts import (
     audit_instructions,
 )
 from src.stages.stage07_task_judge.validation import (
+    _project_hidden_for_mode,
     published_bundle_mechanical_check,
     stage07_mechanical_pre_publish_check,
     validate_agent_audit,
@@ -214,6 +215,9 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 response["orchestrator_schema_load_diagnostic"] = mechanical_report.get(
                     "schema_load_diagnostic", "not_run"
                 )
+                response["orchestrator_normalization_records"] = mechanical_report.get(
+                    "normalization_records", []
+                )
                 write_json(target / "stage07_audit.json", response)
                 if mechanical_report.get("mechanical_pre_publish_status") == "passed":
                     published_paths = _publish_mode_bundles(
@@ -306,6 +310,9 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 ),
                 "orchestrator_schema_load_diagnostic": response.get(
                     "orchestrator_schema_load_diagnostic", "not_run"
+                ),
+                "orchestrator_normalization_records": response.get(
+                    "orchestrator_normalization_records", []
                 ),
                 "published_bundle_statuses": published_bundle_statuses,
                 "task_pair_path": final_path,
@@ -736,7 +743,7 @@ def _publish_private_evaluator_registry(
         target_study = destination / "target_study"
         target_study.mkdir(parents=True, exist_ok=True)
         projected = {
-            **common,
+            **_project_hidden_for_mode(common, mode),
             "evaluation_profile": (
                 "paper_reproduction"
                 if mode == "paper_reproduction"

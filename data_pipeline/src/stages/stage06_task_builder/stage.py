@@ -79,6 +79,7 @@ from src.stages.stage06_task_builder.validation import (
     validate_workflow_review,
     canonicalize_complexity_profile,
     canonicalize_mode_task_contract,
+    normalize_mode_scope,
     anonymous_source_id,
     canonical_task_pair_id,
 )
@@ -374,32 +375,30 @@ def _run_stage06_single_agent(
                 report_path = converter_workspace / "outputs" / "conversion_report.json"
                 if report_path.is_file():
                     shutil.copy2(report_path, staging_root / "conversion_report.json")
-            # Freeze the shared mechanical public contracts before Stage07 sees the pair.  This
-            # does not choose a scientific workflow or alter Ground Truth; it only canonicalizes
-            # the route-fidelity criterion and the identical submission path contract.
+            # Canonicalize each public mode's transport contract before Stage07 sees
+            # the pair.  The modes may intentionally use neutral filenames, field
+            # names, or result representations; do not overwrite one with the
+            # other or turn a representation difference into a science decision.
             reproduction_root = staging_root / "paper_reproduction"
             autonomous_root = staging_root / "autonomous_research"
             if reproduction_root.is_dir() and autonomous_root.is_dir():
-                submission_candidates = [
-                    _json_object(reproduction_root / "submission_contract.json"),
-                    _json_object(autonomous_root / "submission_contract.json"),
-                ]
-                shared_submission = next(
-                    (value for value in submission_candidates if value.get("required_files")),
-                    {},
-                )
-                if shared_submission:
-                    # The submission contract is shared by both modes.  A mode-specific task_id
-                    # would make the two otherwise identical contracts disagree and is redundant
-                    # because task_info/task_spec carry the canonical mode-specific IDs.
-                    shared_submission.pop("task_id", None)
-                    shared_submission["task_pair_id"] = task_pair_id
-                    write_json(reproduction_root / "submission_contract.json", shared_submission)
-                    write_json(autonomous_root / "submission_contract.json", shared_submission)
+                for mode_root in (reproduction_root, autonomous_root):
+                    submission_path = mode_root / "submission_contract.json"
+                    if not submission_path.is_file():
+                        continue
+                    mode_submission = _normalize_submission_contract(
+                        _json_object(submission_path)
+                    )
+                    mode_submission.pop("task_id", None)
+                    mode_submission["task_pair_id"] = task_pair_id
+                    write_json(submission_path, mode_submission)
                 rubric_path = reproduction_root / "process_rubric.json"
                 if rubric_path.is_file():
+                    reproduction_submission = _normalize_submission_contract(
+                        _json_object(reproduction_root / "submission_contract.json")
+                    )
                     rubric = _ensure_reproduction_route_rubric(
-                        read_json(rubric_path), submission=shared_submission
+                        read_json(rubric_path), submission=reproduction_submission
                     )
                     write_json(rubric_path, rubric)
             requirements_path = outputs / "toolbox_requirements.json"
@@ -813,6 +812,9 @@ def _run_stage06_legacy(
                 public_basis=public_basis,
                 paper_id=paper_id,
                 task_pair_id=task_pair_id,
+                key_point_aliases=_public_key_point_aliases(
+                    review_response.get("ground_truth_items") or []
+                ),
                 agent_workspace=autonomous_workspace,
             )
             autonomous_findings = validate_mode_task(
@@ -3913,51 +3915,24 @@ def _ensure_reproduction_route_rubric(
     )
     if target is None:
         # Do not repurpose an unrelated scientific criterion as route fidelity.
-        # Add one small generic transport criterion instead and rebalance the
-        # existing numeric rubric, preserving every original criterion's
-        # meaning. This is contract closure, not a scientific pass/fail rule.
-        numeric_scores: list[float] = []
-        for row in output:
-            try:
-                score = float(row.get("max_score", 0))
-            except (TypeError, ValueError):
-                numeric_scores = []
-                break
-            numeric_scores.append(score)
-        total = sum(numeric_scores)
-        if numeric_scores and total > 0:
-            route_score = min(20.0, max(5.0, round(total * 0.10, 2)))
-            scale = max(0.0, (total - route_score) / total)
-            for row, score in zip(output, numeric_scores):
-                row["max_score"] = round(score * scale, 2)
-            correction = round(
-                (100.0 - route_score)
-                - sum(float(row["max_score"]) for row in output),
-                2,
-            )
-            output[-1]["max_score"] = round(float(output[-1]["max_score"]) + correction, 2)
-            route_id = "paper_route_fidelity"
-            used_ids = {
-                str(row.get("id") or "") for row in output if isinstance(row, dict)
+        # Add a transport Key Point and preserve any score fields the Agent
+        # supplied.  The data pipeline does not choose a scale, total, or
+        # weighting policy.
+        route_id = "paper_route_fidelity"
+        used_ids = {
+            str(row.get("id") or "") for row in output if isinstance(row, dict)
+        }
+        if route_id in used_ids:
+            route_id = "paper_route_fidelity_transport"
+        output.append(
+            {
+                "id": route_id,
+                "criterion_type": "route_fidelity",
+                "name": "Paper-route fidelity",
+                "description": "Follow the disclosed paper route, dependency order, method hierarchy, and validation sequence.",
+                "evidence_artifacts": evidence_paths,
             }
-            if route_id in used_ids:
-                route_id = "paper_route_fidelity_transport"
-            output.append(
-                {
-                    "id": route_id,
-                    "criterion_type": "route_fidelity",
-                    "max_score": route_score,
-                    "name": "Paper-route fidelity",
-                    "description": "Follow the disclosed paper route, dependency order, method hierarchy, and validation sequence.",
-                    "evidence_artifacts": evidence_paths,
-                }
-            )
-            # Correct a final centering round-off without touching semantics.
-            output[-1]["max_score"] = round(
-                float(output[-1]["max_score"])
-                + (100.0 - sum(float(row.get("max_score") or 0) for row in output)),
-                2,
-            )
+        )
         return output
     route_id = "paper_route_fidelity"
     if any(
@@ -4054,10 +4029,9 @@ def _hidden_reference_from_review(
         }
 
     truths = hidden.get("ground_truth_items") or []
-    count = len(truths)
     rubric: list[dict[str, Any]] = []
+    count = len(truths)
     if count:
-        base, remainder = divmod(100, count)
         for index, truth in enumerate(truths):
             ground_truth_id = str(truth.get("ground_truth_id") or f"gt-{index + 1}")
             profile_id = str(truth.get("acceptance_profile_id") or "")
@@ -4069,7 +4043,6 @@ def _hidden_reference_from_review(
             rubric.append(
                 {
                     "id": f"conclusion-{safe_component(ground_truth_id)}",
-                    "max_score": base + (1 if index < remainder else 0),
                     "statement": description,
                     "acceptance_rule": (
                         f"Apply the item-specific {profile_type} acceptance profile {profile_id} "
@@ -4178,15 +4151,21 @@ def _normalize_task_pair_artifact_contracts(
     autonomous_submission = _normalize_submission_contract(
         _json_object(autonomous / "submission_contract.json")
     )
+    for mode_root, mode_submission in (
+        (reproduction, reproduction_submission),
+        (autonomous, autonomous_submission),
+    ):
+        if mode_submission.get("required_files"):
+            mode_submission["task_pair_id"] = pair_id
+            write_json(mode_root / "submission_contract.json", mode_submission)
+    # Use one contract only as the initial private scaffold vocabulary.  It is
+    # not copied into either public mode and may be refined to explicit
+    # mode-specific bindings by Stage07.
     submission = (
-        reproduction_submission
-        if reproduction_submission.get("required_files")
-        else autonomous_submission
+        autonomous_submission
+        if autonomous_submission.get("required_files")
+        else reproduction_submission
     )
-    if submission.get("required_files"):
-        submission["task_pair_id"] = pair_id
-        write_json(reproduction / "submission_contract.json", submission)
-        write_json(autonomous / "submission_contract.json", submission)
 
     # Public evaluator metadata uses an anonymous stable key. Full DOI/title
     # provenance remains in the pair-level paper_info/source_manifest files.
@@ -4226,12 +4205,6 @@ def _normalize_task_pair_artifact_contracts(
         or public_basis.get("public_method_constraints")
         or [],
     }
-    common_deliverables = (
-        _normalize_required_deliverables(reproduction_info, submission)
-        if submission.get("required_files")
-        else []
-    )
-
     for mode, info, spec in (
         ("paper_reproduction", reproduction_info, reproduction_spec),
         ("autonomous_research", autonomous_info, autonomous_spec),
@@ -4259,9 +4232,13 @@ def _normalize_task_pair_artifact_contracts(
                 "pathway_disclosure": disclosure,
             }
         )
-        if submission.get("required_files"):
+        mode_submission = reproduction_submission if is_reproduction else autonomous_submission
+        if mode_submission.get("required_files"):
             info["required_deliverables"] = json.loads(
-                json.dumps(common_deliverables, ensure_ascii=False)
+                json.dumps(
+                    _normalize_required_deliverables(info, mode_submission),
+                    ensure_ascii=False,
+                )
             )
         spec.update(common_spec)
         spec.update(
@@ -4294,7 +4271,7 @@ def _normalize_task_pair_artifact_contracts(
     if reproduction_rubric_path.is_file():
         reproduction_rubric = _normalize_process_rubric(read_json(reproduction_rubric_path))
         reproduction_rubric = _ensure_reproduction_route_rubric(
-            reproduction_rubric, submission=submission
+            reproduction_rubric, submission=reproduction_submission
         )
         write_json(reproduction_rubric_path, reproduction_rubric)
     autonomous_rubric_path = autonomous / "process_rubric.json"
@@ -4695,7 +4672,39 @@ def _normalize_hidden_reference_contract(response: dict[str, Any]) -> dict[str, 
 
         truth.pop("acceptance_profile", None)
         truth["acceptance_profile_id"] = profile_id
-        truth["applies_to_modes"] = ["autonomous_research", "paper_reproduction"]
+        # Preserve a scientifically deliberate mode scope.  Legacy drafts that
+        # omit the field remain shared; an explicitly invalid scope is left for
+        # the validator to report instead of being silently widened.
+        if "applies_to_modes" not in truth:
+            truth["applies_to_modes"] = ["autonomous_research", "paper_reproduction"]
+        else:
+            normalized_scope = normalize_mode_scope(truth.get("applies_to_modes"))
+            if normalized_scope is not None:
+                truth["applies_to_modes"] = normalized_scope
+        # Emit one canonical mode-binding spelling while accepting legacy input
+        # aliases.  This is a transport projection and never changes a target.
+        legacy_bindings = profile.get("submission_bindings_by_mode")
+        if "mode_submission_bindings" not in profile and isinstance(legacy_bindings, dict):
+            profile["mode_submission_bindings"] = legacy_bindings
+        profile.pop("submission_bindings_by_mode", None)
+        nested_binding = profile.get("submission_binding")
+        if isinstance(nested_binding, dict) and any(
+            key in nested_binding
+            for key in (
+                "autonomous_research",
+                "paper_reproduction",
+                "autonomous",
+                "reproduction",
+                "open_discovery",
+                "guided_reproduction",
+            )
+        ):
+            profile["mode_submission_bindings"] = nested_binding
+            profile.pop("submission_binding", None)
+        if "applies_to_modes" in profile:
+            normalized_profile_scope = normalize_mode_scope(profile.get("applies_to_modes"))
+            if normalized_profile_scope is not None:
+                profile["applies_to_modes"] = normalized_profile_scope
         normalized_profiles.append(profile)
 
     profile_to_truth = {
@@ -4709,7 +4718,16 @@ def _normalize_hidden_reference_contract(response: dict[str, Any]) -> dict[str, 
             continue
         criterion = json.loads(json.dumps(row, ensure_ascii=False))
         criterion["id"] = criterion.get("id") or criterion.get("claim_id")
-        criterion["max_score"] = criterion.get("max_score") or criterion.get("weight")
+        if any(
+            key in criterion and criterion.get(key) not in (None, "")
+            for key in ("max_score", "max_points", "points", "weight")
+        ):
+            criterion["max_score"] = criterion.get(
+                "max_score",
+                criterion.get(
+                    "max_points", criterion.get("points", criterion.get("weight"))
+                ),
+            )
         raw_profile_ids = criterion.get("acceptance_profile_ids") or []
         if not raw_profile_ids:
             singular = criterion.get("acceptance_profile_id") or criterion.get(
@@ -4973,15 +4991,19 @@ def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
         ],
     )
     truths = review.get("ground_truth_items") or []
+    public_aliases = _public_key_point_aliases(truths)
     write_json(
         packet / "key_point_ids.json",
         [
             {
-                "key_point_id": row.get("ground_truth_id") or row.get("item_id"),
+                "key_point_id": public_aliases.get(
+                    str(row.get("ground_truth_id") or row.get("item_id") or ""),
+                    f"kp_{index:03d}",
+                ),
                 "claim_role": row.get("claim_role") or "intermediate",
                 "acceptance_type": row.get("acceptance_type") or "semantic_propositions",
             }
-            for row in truths
+            for index, row in enumerate(truths, start=1)
             if isinstance(row, dict)
             and (row.get("ground_truth_id") or row.get("item_id"))
         ],
@@ -5548,7 +5570,7 @@ print(
             "task_mode": info["task_mode"],
             "spec_mode": spec["mode"],
             "route_label": route_label,
-            "rubric_total": sum(float(row.get("max_score") or 0) for row in rubric),
+            "key_point_count": len(rubric),
             "changed_files": [
                 "task/task.md",
                 "task/task_info.json",
@@ -5716,7 +5738,7 @@ def _write_reproduction_route_scaffold(
         ],
     }
     write_json(task_root / "workflow_spec.json", workflow_spec)
-    write_json(task_root / "route_evidence_map.json", route_evidence)
+    write_json(task_root / "route_evidence_map.json", _safe_route_evidence_map(route_evidence))
     (task_root / "paper_route.md").write_text(
         _paper_route_markdown(task_pair_id, route), encoding="utf-8"
     )
@@ -5795,13 +5817,60 @@ def _route_evidence_ids(value: Any) -> list[str]:
     output: list[str] = []
     if isinstance(value, dict):
         for key, nested in value.items():
+            if key == "evidence_id" and str(nested).strip():
+                output.append(str(nested))
+                continue
             if key == "evidence_ids" and isinstance(nested, list):
-                output.extend(str(item) for item in nested if str(item).startswith("ev_"))
+                output.extend(str(item) for item in nested if str(item).strip())
             else:
                 output.extend(_route_evidence_ids(nested))
     elif isinstance(value, list):
         for nested in value:
             output.extend(_route_evidence_ids(nested))
+    return output
+
+
+def _safe_route_evidence_map(value: Any) -> dict[str, Any]:
+    """Project route evidence to a public navigation index.
+
+    This deliberately drops free-form excerpts and provenance fields that can
+    carry answers, DOIs, or source filesystem paths.  Evidence IDs and route
+    step/category indexes remain useful for reproducing the disclosed route.
+    """
+
+    source = value if isinstance(value, dict) else {}
+    evidence_ids = sorted(set(_route_evidence_ids(source)))
+    output: dict[str, Any] = {
+        "schema_version": str(source.get("schema_version") or "1.0"),
+        "route_evidence_ids": evidence_ids,
+    }
+    if source.get("task_pair_id") not in (None, ""):
+        output["task_pair_id"] = source.get("task_pair_id")
+    categories: list[str] = []
+    for key in ("route_category", "route_categories", "category", "categories"):
+        raw = source.get(key)
+        values = raw if isinstance(raw, list) else [raw]
+        for item in values:
+            if isinstance(item, str) and item.strip() and item not in categories:
+                categories.append(item.strip())
+    if categories:
+        output["route_categories"] = categories
+    steps: list[dict[str, Any]] = []
+    raw_steps = source.get("workflow_steps") or source.get("route_steps") or source.get("steps")
+    if isinstance(raw_steps, list):
+        for index, row in enumerate(raw_steps, start=1):
+            if not isinstance(row, dict):
+                continue
+            row_ids = _route_evidence_ids(row)
+            step: dict[str, Any] = {"step_index": index, "evidence_ids": sorted(set(row_ids))}
+            if row.get("step_id") not in (None, ""):
+                step["step_id"] = row.get("step_id")
+            for key in ("route_category", "category", "role", "kind"):
+                if isinstance(row.get(key), str) and row.get(key).strip():
+                    step[key] = row[key].strip()
+            steps.append(step)
+    if steps:
+        output["workflow_steps"] = steps
     return output
 
 
@@ -5918,8 +5987,6 @@ def _hidden_reference_scaffold(
         json.dumps(review.get("ground_truth_items") or [], ensure_ascii=False)
     )
     truth_ids = [str(item.get("ground_truth_id") or "") for item in truths]
-    count = max(1, len(truths))
-    base_weight, remainder = divmod(100, count)
     rubric = []
     for index, truth in enumerate(truths):
         ground_truth_id = str(truth.get("ground_truth_id") or f"gt-{index + 1}")
@@ -5927,7 +5994,6 @@ def _hidden_reference_scaffold(
         rubric.append(
             {
                 "id": f"conclusion-{safe_component(ground_truth_id)}",
-                "max_score": base_weight + (1 if index < remainder else 0),
                 "statement": f"AGENT_REQUIRED: describe the scored claim {ground_truth_id}",
                 "acceptance_rule": (
                     f"AGENT_REQUIRED: apply {profile_id} to the bound submitted fields"
@@ -6073,6 +6139,108 @@ def _public_basis(
     return basis
 
 
+def _public_key_point_aliases(truths: Any) -> dict[str, str]:
+    """Assign stable neutral aliases without exposing private Ground Truth IDs."""
+
+    aliases: dict[str, str] = {}
+    for index, item in enumerate(truths if isinstance(truths, list) else [], start=1):
+        if not isinstance(item, dict):
+            continue
+        identifier = str(item.get("ground_truth_id") or item.get("item_id") or "").strip()
+        if identifier:
+            aliases[identifier] = f"kp_{index:03d}"
+    return aliases
+
+
+def _neutralize_public_key_point_fields(value: Any, aliases: dict[str, str]) -> Any:
+    """Replace private key-point/profile references in public metadata only.
+
+    Result field names and scientific values are left untouched.  The helper is
+    intentionally identifier-based rather than paper/keyword-based.
+    """
+
+    if not aliases:
+        return value
+    key_point_keys = {
+        "ground_truth_id",
+        "ground_truth_ids",
+        "item_id",
+        "item_ids",
+        "key_point_id",
+        "key_point_ids",
+        "claim_id",
+        "claim_ids",
+    }
+    private_profile_keys = {"acceptance_profile_id", "acceptance_profile_ids"}
+
+    def replace_identifier(item: Any) -> Any:
+        if isinstance(item, str):
+            output = item
+            for source, target in aliases.items():
+                output = re.sub(
+                    rf"(?<![A-Za-z0-9_-]){re.escape(source)}(?![A-Za-z0-9_-])",
+                    target,
+                    output,
+                )
+            return output
+        if isinstance(item, list):
+            return [replace_identifier(nested) for nested in item]
+        return item
+
+    if isinstance(value, dict):
+        output: dict[str, Any] = {}
+        for key, nested in value.items():
+            key_text = str(key)
+            if key_text in private_profile_keys:
+                # Profile IDs are private evaluator handles, never public task
+                # instructions or process Key Point identifiers.
+                continue
+            if key_text in key_point_keys:
+                output[key] = replace_identifier(nested)
+            else:
+                output[key] = _neutralize_public_key_point_fields(nested, aliases)
+        return output
+    if isinstance(value, list):
+        return [_neutralize_public_key_point_fields(nested, aliases) for nested in value]
+    return replace_identifier(value)
+
+
+def _neutralize_submission_contract(value: Any, aliases: dict[str, str]) -> Any:
+    """Neutralize private Key Point identifiers used as result-schema keys.
+
+    A submission schema is public metadata.  Renaming an exact private Ground
+    Truth key under ``properties``/``required`` is a transport projection; it
+    does not alter the scientific value or decide which fields are scored.
+    Other scientific field names are left untouched.
+    """
+
+    projected = _neutralize_public_key_point_fields(value, aliases)
+    if not aliases:
+        return projected
+
+    def walk(node: Any) -> Any:
+        if isinstance(node, dict):
+            output: dict[str, Any] = {}
+            for key, nested in node.items():
+                if key == "properties" and isinstance(nested, dict):
+                    output[key] = {
+                        aliases.get(str(field), str(field)): walk(schema)
+                        for field, schema in nested.items()
+                    }
+                elif key == "required" and isinstance(nested, list):
+                    output[key] = [
+                        aliases.get(str(field), str(field)) for field in nested
+                    ]
+                else:
+                    output[key] = walk(nested)
+            return output
+        if isinstance(node, list):
+            return [walk(item) for item in node]
+        return node
+
+    return walk(projected)
+
+
 def _materialize_autonomous(
     root: Path,
     response: dict[str, Any],
@@ -6080,18 +6248,25 @@ def _materialize_autonomous(
     public_basis: dict[str, Any],
     paper_id: str,
     task_pair_id: str,
+    key_point_aliases: dict[str, str] | None = None,
     agent_workspace: Path | None = None,
 ) -> None:
     response = _load_task_artifacts(response, agent_workspace, reproduction=False)
     prepare_clean_directory(root)
+    aliases = key_point_aliases or {}
     task_markdown = str(
-        _normalize_evaluation_references(str(response.get("task_markdown") or ""))
+        _neutralize_public_key_point_fields(
+            _normalize_evaluation_references(str(response.get("task_markdown") or "")),
+            aliases,
+        )
     )
     submission_contract = _normalize_submission_contract(
-        response.get("submission_contract") or {}
+        _neutralize_submission_contract(
+            response.get("submission_contract") or {}, aliases
+        )
     )
     task_info = _normalized_task_info(
-        response.get("task_info") or {},
+        _neutralize_public_key_point_fields(response.get("task_info") or {}, aliases),
         public_basis=public_basis,
         paper_id=paper_id,
         task_pair_id=task_pair_id,
@@ -6100,7 +6275,7 @@ def _materialize_autonomous(
         submission_contract=submission_contract,
     )
     task_spec = _normalized_task_spec(
-        response.get("task_spec") or {},
+        _neutralize_public_key_point_fields(response.get("task_spec") or {}, aliases),
         public_basis=public_basis,
         task_pair_id=task_pair_id,
         mode="autonomous_research",
@@ -6118,7 +6293,10 @@ def _materialize_autonomous(
     write_json(
         root / "process_rubric.json",
         _normalize_process_rubric(
-            _normalize_evaluation_references(response.get("process_rubric") or [])
+            _neutralize_public_key_point_fields(
+                _normalize_evaluation_references(response.get("process_rubric") or []),
+                aliases,
+            )
         ),
     )
     (root / "task.md").write_text(task_markdown, encoding="utf-8")
@@ -6127,6 +6305,17 @@ def _materialize_autonomous(
     for asset in public_basis.get("input_assets") or []:
         relative = _normalize_public_input_path(str(asset.get("path") or ""))
         write_text_asset(inputs, relative, _asset_content(asset.get("content")))
+    if aliases:
+        # Pair-level provenance is private and is never copied into a mode
+        # publication.  It lets Stage07 reconcile neutral aliases without
+        # exposing the original hidden identifiers to Stage06B/evaluated Agents.
+        write_json(
+            root.parent / "key_point_alias_map.json",
+            {
+                "schema_version": "stage06-key-point-alias-map/v1",
+                "public_aliases": aliases,
+            },
+        )
     manifest = directory_manifest(root)
     write_json(root / "public_manifest.json", manifest)
 
@@ -6193,7 +6382,15 @@ def _materialize_reproduction(
     )
     write_json(root / "task_info.json", info)
     write_json(root / "task_spec.json", spec)
-    shutil.copy2(autonomous_root / "submission_contract.json", root / "submission_contract.json")
+    proposed_submission = _normalize_submission_contract(
+        dict(response.get("submission_contract") or {})
+    )
+    if not proposed_submission.get("required_files"):
+        proposed_submission = _normalize_submission_contract(
+            read_json(autonomous_root / "submission_contract.json")
+        )
+    proposed_submission["task_pair_id"] = task_pair_id
+    write_json(root / "submission_contract.json", proposed_submission)
     write_json(
         root / "process_rubric.json",
         _normalize_process_rubric(
@@ -6214,7 +6411,9 @@ def _materialize_reproduction(
     )
     write_json(
         root / "route_evidence_map.json",
-        _normalize_evaluation_references(response.get("route_evidence_map") or {}),
+        _safe_route_evidence_map(
+            _normalize_evaluation_references(response.get("route_evidence_map") or {})
+        ),
     )
     # The mode directory is a public evaluation surface. Source/derivation
     # provenance belongs to the pair-level audit record, never in the task.
@@ -6393,9 +6592,10 @@ def _normalize_process_rubric(value: Any) -> list[dict[str, Any]]:
         normalized["id"] = str(
             row.get("id") or row.get("criterion_id") or f"criterion_{index}"
         )
-        normalized["max_score"] = row.get(
-            "max_score", row.get("max_points", row.get("points", 0))
-        )
+        if any(key in row for key in ("max_score", "max_points", "points")):
+            normalized["max_score"] = row.get(
+                "max_score", row.get("max_points", row.get("points"))
+            )
         normalized["description"] = str(
             row.get("description") or row.get("criterion") or row.get("statement") or ""
         )
@@ -6493,6 +6693,7 @@ _REPRODUCTION_ALLOWED_DIFFERENCES = {
     "task.md",
     "task_info.json",
     "task_spec.json",
+    "submission_contract.json",
     "process_rubric.json",
     "paper_route.md",
     "workflow_spec.json",
@@ -6536,10 +6737,10 @@ def _reproduction_copy_findings(
     undeclared = differences - normalized_declared - orchestrator_generated
     if undeclared:
         findings.extend(f"reproduction_undeclared_change:{path}" for path in sorted(undeclared))
-    if read_json(autonomous_root / "submission_contract.json") != read_json(
-        reproduction_root / "submission_contract.json"
-    ):
-        findings.append("mode_submission_contract_differs")
+    # Autonomous conversion may use neutral filenames/field names or a
+    # different result representation.  Mode-aware bindings and Stage07's
+    # transport gate validate each contract separately; literal equality is not
+    # a valid pair invariant.
     return findings
 
 

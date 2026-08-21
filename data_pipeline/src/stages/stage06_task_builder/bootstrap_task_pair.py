@@ -108,7 +108,9 @@ def normalize_truths(review: dict) -> list[dict]:
                 "evidence_ids": raw.get("evidence_ids") or [],
                 "claim_role": raw.get("claim_role")
                 or ("final" if "final" in kind else "intermediate"),
-                "applies_to_modes": ["autonomous_research", "paper_reproduction"],
+                "applies_to_modes": raw.get(
+                    "applies_to_modes", ["autonomous_research", "paper_reproduction"]
+                ),
             }
         )
     return result
@@ -218,6 +220,9 @@ def _profiles(truths: list[dict]) -> list[dict]:
             "acceptance_profile_id": profile_id,
             "type": profile_type,
             "submission_binding": binding,
+            "applies_to_modes": truth.get(
+                "applies_to_modes", ["autonomous_research", "paper_reproduction"]
+            ),
         }
         if profile_type == "numeric_tolerance":
             profile.update(
@@ -280,7 +285,7 @@ def main() -> None:
             "allowed_extra_fields": True,
         },
     )
-    dump(reproduction / "process_rubric.json", [{"id": "workflow_execution", "max_score": 60, "description": "Execute the complete scientific workflow and preserve intermediate evidence."}, {"id": "validation_and_analysis", "max_score": 40, "description": "Validate outputs and connect them to the scientific question."}])
+    dump(reproduction / "process_rubric.json", [{"id": "workflow_execution", "description": "Execute the complete scientific workflow and preserve intermediate evidence."}, {"id": "validation_and_analysis", "description": "Validate outputs and connect them to the scientific question."}])
     (reproduction / "task.md").write_text(task_text + "\n", encoding="utf-8")
     (reproduction / "paper_route.md").write_text(json.dumps(review.get("paper_route") or {}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     dump(reproduction / "workflow_spec.json", {"steps": review.get("workflow_steps") or []})
@@ -289,10 +294,8 @@ def main() -> None:
     profiles = _profiles(truths)
     rubric = []
     if truths:
-        base = 100 // len(truths)
-        remainder = 100 - base * len(truths)
-        for index, truth in enumerate(truths):
-            rubric.append({"id": "claim_" + truth["ground_truth_id"], "max_score": base + (remainder if index == len(truths) - 1 else 0), "statement": str(truth.get("canonical_answer") or truth["ground_truth_id"]), "acceptance_rule": "Evaluate against the linked typed acceptance profile.", "required_evidence": ["report/results.json", "report/report.md"], "ground_truth_ids": [truth["ground_truth_id"]], "acceptance_profile_ids": [truth["acceptance_profile_id"]]})
+        for truth in truths:
+            rubric.append({"id": "claim_" + truth["ground_truth_id"], "statement": str(truth.get("canonical_answer") or truth["ground_truth_id"]), "acceptance_rule": "Evaluate against the linked typed acceptance profile.", "required_evidence": ["report/results.json", "report/report.md"], "ground_truth_ids": [truth["ground_truth_id"]], "acceptance_profile_ids": [truth["acceptance_profile_id"]]})
     hidden_root = root / "hidden_reference"
     hidden = {"status": "ready", "task_pair_id": pair_id, "expected_result": {}, "ground_truth_items": truths, "acceptance_profiles": profiles, "scientific_conclusion_rubric": rubric, "critical_failures": ["No real chemistry calculation was executed."], "reference_evidence": {"evidence_ids": evidence_ids(review.get("evidence_map"))}, "evidence_gate_policy": {}, "managed_computation_policy": {"required": True}, "summary": "Replace this scaffold summary with an evidence-backed summary."}
     dump(hidden_root / "ground_truth_common.json", hidden)

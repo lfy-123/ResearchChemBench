@@ -48,6 +48,37 @@ SCIENTIFIC_FAILURE_CODES = {
     "benchmark_not_challenging",
 }
 
+TASK_MODES = ("autonomous_research", "paper_reproduction")
+MODE_ALIASES = {
+    "autonomous": "autonomous_research",
+    "autonomous_research": "autonomous_research",
+    "open_discovery": "autonomous_research",
+    "reproduction": "paper_reproduction",
+    "paper_reproduction": "paper_reproduction",
+    "guided_reproduction": "paper_reproduction",
+}
+
+
+def normalize_mode_scope(value: Any) -> list[str] | None:
+    """Normalize an optional Ground Truth/profile applicability list."""
+
+    if value is None:
+        return list(TASK_MODES)
+    raw = [value] if isinstance(value, str) else value
+    if not isinstance(raw, (list, tuple, set)):
+        return None
+    normalized: list[str] = []
+    for item in raw:
+        key = str(item or "").strip().casefold()
+        mapped = MODE_ALIASES.get(key)
+        if mapped and mapped not in normalized:
+            normalized.append(mapped)
+        elif key:
+            return None
+    if not normalized:
+        return None
+    return [mode for mode in TASK_MODES if mode in normalized]
+
 
 def canonicalize_complexity_profile(profile: Any) -> dict[str, Any]:
     """Keep only the small, task-level complexity contract.
@@ -1059,7 +1090,9 @@ def validate_mode_task(task_root: Path, *, expected_mode: str) -> list[str]:
         if sorted(deliverable_paths) != sorted(str(path) for path in contract_paths):
             findings.append("submission_contract_deliverables_mismatch")
     rubric = read_json(task_root / "process_rubric.json")
-    findings.extend(validate_rubric(rubric, expected_total=100, label="process"))
+    # The pipeline defines process Key Points, but does not prescribe a scoring
+    # scale or weighting policy.  A downstream evaluator may attach weights.
+    findings.extend(validate_rubric(rubric, expected_total=None, label="process"))
     input_root = task_root / "data" / "inputs"
     if not input_root.is_dir():
         findings.append("inputs_directory_missing")
@@ -1167,13 +1200,22 @@ def validate_hidden_reference(
             }
         ):
             findings.append(f"ground_truth_answer_placeholder:{ground_truth_id}")
-        if truth.get("applies_to_modes") not in (
-            ["autonomous_research", "paper_reproduction"],
-            ["paper_reproduction", "autonomous_research"],
-        ):
+        raw_truth_scope = truth.get("applies_to_modes")
+        truth_scope = normalize_mode_scope(raw_truth_scope)
+        if truth_scope is None:
             findings.append(f"ground_truth_mode_scope_invalid:{truth.get('ground_truth_id')}")
         profile = profiles_by_id.get(str(profile_id))
         if profile is not None:
+            raw_profile_scope = profile.get("applies_to_modes")
+            profile_scope = normalize_mode_scope(raw_profile_scope)
+            if profile_scope is None:
+                findings.append(
+                    f"acceptance_profile_mode_scope_invalid:{profile.get('acceptance_profile_id')}"
+                )
+            elif truth_scope is not None and not set(truth_scope).issubset(profile_scope):
+                findings.append(
+                    f"ground_truth_profile_mode_scope_mismatch:{ground_truth_id}"
+                )
             findings.extend(_ground_truth_profile_consistency_findings(truth, profile))
     findings.extend(validate_ground_truth_consistency(truths))
     for profile_id in profile_ids:
@@ -1226,7 +1268,7 @@ def validate_hidden_reference(
     findings.extend(
         validate_rubric(
             rubric,
-            expected_total=100,
+            expected_total=None,
             label="conclusion",
             require_conclusion_fields=True,
         )
@@ -1475,12 +1517,10 @@ def validate_task_pair(pair_root: Path) -> dict[str, Any]:
     reproduction_inputs = directory_manifest(reproduction / "data")
     if autonomous_inputs["content_hash"] != reproduction_inputs["content_hash"]:
         findings.append("mode_input_assets_differ")
-    autonomous_submission = autonomous / "submission_contract.json"
-    reproduction_submission = reproduction / "submission_contract.json"
-    if autonomous_submission.is_file() and reproduction_submission.is_file() and read_json(
-        autonomous_submission
-    ) != read_json(reproduction_submission):
-        findings.append("mode_submission_contract_differs")
+    # Mode-specific result paths/field names are allowed.  Each mode's
+    # contract is checked independently and hidden bindings are checked against
+    # the mode they apply to; literal cross-mode equality would reject valid
+    # autonomous neutralization.
     findings.extend(_pair_identity_findings(autonomous, reproduction))
     findings.extend(_derived_copy_findings(autonomous, reproduction))
     findings.extend(_autonomous_copy_integrity_findings(autonomous, reproduction))
@@ -1549,13 +1589,8 @@ def validate_task_pair_draft(
             reproduction / "data"
         )["content_hash"]:
             findings.append("mode_input_assets_differ")
-    if (autonomous / "submission_contract.json").is_file() and (
-        reproduction / "submission_contract.json"
-    ).is_file():
-        if read_json(autonomous / "submission_contract.json") != read_json(
-            reproduction / "submission_contract.json"
-        ):
-            findings.append("mode_submission_contract_differs")
+    # Do not require literal submission-contract equality between modes.
+    # Autonomous conversion may legitimately rename artifacts and fields.
     findings.extend(_pair_identity_findings(autonomous, reproduction))
     findings.extend(_derived_copy_findings(autonomous, reproduction))
     findings.extend(_autonomous_copy_integrity_findings(autonomous, reproduction))
@@ -1605,7 +1640,7 @@ def validate_task_pair_draft(
 def validate_rubric(
     rubric: Any,
     *,
-    expected_total: float,
+    expected_total: float | None,
     label: str,
     require_conclusion_fields: bool = False,
 ) -> list[str]:
@@ -1619,11 +1654,18 @@ def validate_rubric(
             findings.append(f"{label}_rubric_criterion_invalid")
             continue
         criterion_id = str(row.get("id") or "").strip()
+        score_declared = any(
+            key in row and row.get(key) not in (None, "")
+            for key in ("max_score", "max_points", "points", "weight")
+        )
         try:
-            maximum = float(row.get("max_score") or 0)
+            maximum = float(
+                row.get("max_score", row.get("max_points", row.get("points", row.get("weight", 0))))
+                or 0
+            )
         except (TypeError, ValueError):
             maximum = 0.0
-        if not criterion_id or maximum <= 0:
+        if not criterion_id or (score_declared and maximum <= 0):
             findings.append(f"{label}_rubric_criterion_invalid")
         ids.append(criterion_id)
         total += maximum
@@ -1635,7 +1677,7 @@ def validate_rubric(
             findings.append(f"{label}_rubric_contract_incomplete:{criterion_id}")
     if len(ids) != len(set(ids)):
         findings.append(f"{label}_rubric_ids_not_unique")
-    if not math.isclose(total, expected_total, abs_tol=1e-8):
+    if expected_total is not None and not math.isclose(total, expected_total, abs_tol=1e-8):
         findings.append(f"{label}_rubric_total_is_{total:g}")
     return findings
 
@@ -1826,7 +1868,6 @@ def _pair_identity_findings(autonomous: Path, reproduction: Path) -> list[str]:
         "source_id",
         "category",
         "benchmark_family",
-        "required_deliverables",
         "data",
         "archive_extractions",
         "workflow_scope",
@@ -1980,20 +2021,93 @@ def _submission_binding_findings(
     submission_contract: dict[str, Any],
     identifier: str,
 ) -> list[str]:
-    binding = profile.get("submission_binding")
-    if not isinstance(binding, dict) or not binding:
+    findings: list[str] = []
+    required_paths = {
+        str(value)
+        for value in submission_contract.get("required_files") or []
+        if str(value)
+    }
+    mode_bindings: dict[str, dict[str, Any]] = {}
+    for key in ("mode_submission_bindings", "submission_bindings_by_mode"):
+        candidate = profile.get(key)
+        if isinstance(candidate, dict):
+            mode_bindings.update(
+                {
+                    mode: value
+                    for raw_mode, value in candidate.items()
+                    if (mode := MODE_ALIASES.get(str(raw_mode).casefold()))
+                    and isinstance(value, dict)
+                }
+            )
+            break
+    shared = profile.get("submission_binding")
+    if isinstance(shared, dict) and any(
+        key in shared
+        for key in (
+            "autonomous_research",
+            "paper_reproduction",
+            "autonomous",
+            "reproduction",
+            "open_discovery",
+            "guided_reproduction",
+        )
+    ):
+        mode_bindings.update(
+            {
+                mode: value
+                for raw_mode, value in shared.items()
+                if (mode := MODE_ALIASES.get(str(raw_mode).casefold()))
+                and isinstance(value, dict)
+            }
+        )
+        shared = None
+
+    if mode_bindings:
+        scope = normalize_mode_scope(profile.get("applies_to_modes"))
+        if scope is None:
+            findings.append(f"acceptance_profile_mode_scope_invalid:{identifier}")
+            scope = list(TASK_MODES)
+        for mode in scope:
+            binding = mode_bindings.get(mode)
+            if not isinstance(binding, dict) or not binding:
+                findings.append(f"acceptance_submission_binding_missing:{identifier}:{mode}")
+                continue
+            # A mode matrix may legitimately point at a different required
+            # artifact in the other public mode.  Validate path safety here;
+            # Stage07's mode-aware gate checks the actual mode contract.
+            findings.extend(
+                _binding_shape_findings(
+                    binding,
+                    identifier=f"{identifier}:{mode}",
+                    required_paths=None,
+                )
+            )
+        return findings
+
+    if not isinstance(shared, dict) or not shared:
         return [f"acceptance_submission_binding_missing:{identifier}"]
+    findings.extend(
+        _binding_shape_findings(
+            shared,
+            identifier=identifier,
+            required_paths=required_paths,
+        )
+    )
+    return findings
+
+
+def _binding_shape_findings(
+    binding: dict[str, Any],
+    *,
+    identifier: str,
+    required_paths: set[str] | None,
+) -> list[str]:
     findings: list[str] = []
     if _contains_scoring_placeholder(binding):
         findings.append(f"acceptance_submission_binding_placeholder:{identifier}")
     artifact_paths = binding.get("artifact_paths") or []
     if isinstance(artifact_paths, str):
         artifact_paths = [artifact_paths]
-    required_paths = {
-        str(value)
-        for value in submission_contract.get("required_files") or []
-        if str(value)
-    }
     if not artifact_paths:
         findings.append(f"acceptance_submission_artifacts_missing:{identifier}")
     for artifact_path in artifact_paths:
@@ -2002,7 +2116,7 @@ def _submission_binding_findings(
         except ValueError:
             findings.append(f"acceptance_submission_artifact_invalid:{identifier}")
             continue
-        if normalized not in required_paths:
+        if required_paths is not None and normalized not in required_paths:
             findings.append(
                 f"acceptance_submission_artifact_not_required:{identifier}:{normalized}"
             )
@@ -2121,17 +2235,18 @@ def _evaluation_ground_truth_findings(
         common = {
             "expected_tool_calls": [],
             "expected_result": hidden.get("expected_result") or {},
-            "evaluation_mode": "dual_axis_100",
-            "score_max": 100,
             "scientific_conclusion_rubric": hidden.get("scientific_conclusion_rubric") or [],
-            "dual_axis_scoring_policy": {
-                "formula": "scientific_conclusion_score * research_process_score / 100"
-            },
             "critical_failures": evaluation_critical_failures(hidden),
             "reference_evidence": evaluation_reference_evidence(hidden),
             "evidence_gate_policy": hidden.get("evidence_gate_policy") or {},
             "managed_computation_policy": hidden.get("managed_computation_policy") or {},
         }
+        # Scoring policy belongs to the downstream evaluator.  Preserve an
+        # explicitly supplied policy for backward-compatible packages, but do
+        # not invent ``dual_axis_100`` (or any other scale) during synthesis.
+        for key in ("evaluation_mode", "score_max", "dual_axis_scoring_policy"):
+            if key in hidden:
+                common[key] = hidden[key]
         for mode, profile in (
             ("autonomous_research", "autonomous_discovery"),
             ("paper_reproduction", "paper_reproduction"),

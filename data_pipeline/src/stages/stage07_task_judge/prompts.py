@@ -142,6 +142,11 @@ scoring answer from a route constant, physical boundary, calibration parameter, 
 Remove or neutralize answer disclosures while preserving execution-defining facts. Never implement
 this check with fixed paper names, molecule names, numbers, or keyword lists.
 
+Treat `route_evidence_map.json` as a public navigation index, not a source excerpt. It may contain
+evidence IDs, route categories, step indexes, and safe role labels only. Remove target values,
+answer ordering, conclusions, DOI strings, source filesystem paths, and answer-bearing prose from
+that map; keep such material in the private evidence layer.
+
 MODE-SPECIFIC BINDING MATRIX: before approving, inspect every Ground Truth acceptance profile as
 one row for each public mode. If a field or artifact is required only in reproduction, or the
 autonomous representation is intentionally different, write explicit
@@ -250,11 +255,11 @@ binding points to a real submission artifact and result field. If a result schem
 open-ended, state that explicitly; if a field cannot be bound deterministically, keep
 the finding in `remaining_issues` instead of reporting `contract_status=passed`.
 
-For `paper_reproduction`, the process rubric must include one positive-weight criterion with
-`criterion_type: "route_fidelity"`, supported by a declared report/process-trace artifact, and
-the rubric weights must sum to 100. This is a generic reproduction-contract requirement, not a
-paper-specific scoring rule. If a workflow redesign replaces the route, score fidelity to the
-replacement's disclosed computational procedure and still include the criterion.
+For `paper_reproduction`, the process Key Point list must include a criterion with
+`criterion_type: "route_fidelity"`, supported by a declared report/process-trace artifact. Do not
+choose a universal score scale or require a particular total; the downstream evaluator owns
+weighting. If a workflow redesign replaces the route, describe fidelity to the replacement's
+disclosed computational procedure and still include the criterion.
 
 WORKFLOW-REDESIGN CONTRACT CLOSURE
 If Stage06 returned `scientific_not_constructible` and you perform a workflow redesign, the

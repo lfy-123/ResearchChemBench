@@ -60,6 +60,10 @@ from src.stages.stage06_task_builder.stage import (
     _normalize_scientific_failure_contract,
     _normalize_submission_contract,
     _normalize_task_pair_artifact_contracts,
+    _public_key_point_aliases,
+    _safe_route_evidence_map,
+    _neutralize_public_key_point_fields,
+    _neutralize_submission_contract,
     _normalize_converter_report,
     _ensure_reproduction_route_rubric,
     _normalize_workflow_review_aliases,
@@ -79,6 +83,7 @@ from src.stages.stage06_task_builder.validation import (
     _input_asset_integrity_findings,
     anonymous_source_id,
     canonicalize_mode_task_contract,
+    normalize_mode_scope,
     normalize_scientific_requirements,
     normalize_submission_contract,
     validate_autonomous_route_isolation,
@@ -106,6 +111,8 @@ from src.stages.stage07_task_judge.stage import (
     run_stage07,
 )
 from src.stages.stage07_task_judge.validation import (
+    _binding_for_mode,
+    _project_hidden_for_mode,
     _jsonpath_tokens,
     final_task_pair_integrity_findings,
     merge_audit_outcomes,
@@ -5392,10 +5399,20 @@ def test_pair_contract_normalizer_repairs_harness_field_drift(tmp_path: Path) ->
         {"id": "incomplete", "max_score": 100, "description": "model shorthand"}
     ]
     hidden_path.write_text(json.dumps(hidden), encoding="utf-8")
+    autonomous_submission = read_json(pair / "autonomous_research" / "submission_contract.json")
+    autonomous_submission["required_files"] = ["report/public_results.json"]
+    autonomous_submission["submission_path"] = "report/public_results.json"
+    write_json(pair / "autonomous_research" / "submission_contract.json", autonomous_submission)
     review["toolbox_requirements"] = [{"software": "ORCA", "available": True}]
 
     assert _normalize_task_pair_artifact_contracts(pair, review) == []
     assert validate_task_pair_draft(pair, review=review) == []
+    assert read_json(pair / "autonomous_research" / "submission_contract.json")[
+        "required_files"
+    ] == ["report/public_results.json"]
+    assert read_json(pair / "paper_reproduction" / "submission_contract.json")[
+        "required_files"
+    ] != ["report/public_results.json"]
     assert read_json(pair / "autonomous_research" / "task_info.json")[
         "task_mode"
     ] == "open_discovery"
@@ -5758,6 +5775,172 @@ def test_stage07_final_integrity_scans_unknown_evidence_ids(tmp_path: Path) -> N
     ]
 
 
+def test_mode_scope_normalization_accepts_single_mode_and_aliases() -> None:
+    assert normalize_mode_scope("reproduction") == ["paper_reproduction"]
+    assert normalize_mode_scope(["autonomous_research"]) == ["autonomous_research"]
+    assert normalize_mode_scope(["unknown_mode"]) is None
+
+
+def test_mode_specific_binding_does_not_fallback_to_other_mode() -> None:
+    profile = {
+        "mode_submission_bindings": {
+            "autonomous_research": {"observed_fields": ["$.a"]}
+        }
+    }
+    assert _binding_for_mode(profile, "paper_reproduction") == {}
+    assert _binding_for_mode(profile, "autonomous_research") == {
+        "observed_fields": ["$.a"]
+    }
+
+
+def test_hidden_projection_filters_non_applicable_truth_and_profile() -> None:
+    hidden = {
+        "ground_truth_items": [
+            {
+                "ground_truth_id": "gt-repro",
+                "acceptance_profile_id": "ap-repro",
+                "applies_to_modes": ["paper_reproduction"],
+            },
+            {
+                "ground_truth_id": "gt-shared",
+                "acceptance_profile_id": "ap-shared",
+            },
+        ],
+        "acceptance_profiles": [
+            {
+                "acceptance_profile_id": "ap-repro",
+                "applies_to_modes": ["paper_reproduction"],
+            },
+            {"acceptance_profile_id": "ap-shared"},
+        ],
+        "scientific_conclusion_rubric": [
+            {"id": "repro", "ground_truth_ids": ["gt-repro"]},
+            {"id": "shared", "ground_truth_ids": ["gt-shared"]},
+        ],
+    }
+    projected = _project_hidden_for_mode(hidden, "autonomous_research")
+    assert [row["ground_truth_id"] for row in projected["ground_truth_items"]] == [
+        "gt-shared"
+    ]
+    assert [row["acceptance_profile_id"] for row in projected["acceptance_profiles"]] == [
+        "ap-shared"
+    ]
+    assert [row["id"] for row in projected["scientific_conclusion_rubric"]] == [
+        "shared"
+    ]
+
+
+def test_hidden_projection_filters_expected_ids_and_selects_mode_binding() -> None:
+    hidden = {
+        "expected_result": {
+            "ground_truth_by_id": {"gt-a": 1, "gt-b": 2},
+            "unkeyed_note": "preserve",
+        },
+        "ground_truth_items": [
+            {
+                "ground_truth_id": "gt-a",
+                "acceptance_profile_id": "ap-a",
+                "applies_to_modes": ["paper_reproduction"],
+            },
+            {
+                "ground_truth_id": "gt-b",
+                "acceptance_profile_id": "ap-b",
+                "applies_to_modes": ["autonomous_research"],
+            },
+        ],
+        "acceptance_profiles": [
+            {
+                "acceptance_profile_id": "ap-a",
+                "mode_submission_bindings": {
+                    "paper_reproduction": {
+                        "artifact_paths": ["report/results.json"],
+                        "observed_fields": ["$.a"],
+                    }
+                },
+            },
+            {
+                "acceptance_profile_id": "ap-b",
+                "mode_submission_bindings": {
+                    "autonomous_research": {
+                        "artifact_paths": ["report/results.json"],
+                        "observed_fields": ["$.b"],
+                    }
+                },
+            },
+        ],
+        "reference_evidence": {"ground_truth_items": [], "acceptance_profiles": []},
+    }
+    projected = _project_hidden_for_mode(hidden, "autonomous_research")
+    assert projected["expected_result"]["ground_truth_by_id"] == {"gt-b": 2}
+    assert projected["expected_result"]["unkeyed_note"] == "preserve"
+    assert projected["acceptance_profiles"][0]["submission_binding"]["observed_fields"] == ["$.b"]
+    assert "mode_submission_bindings" not in projected["acceptance_profiles"][0]
+    assert len(projected["reference_evidence"]["ground_truth_items"]) == 1
+
+
+def test_public_key_point_aliases_hide_private_ids() -> None:
+    aliases = _public_key_point_aliases(
+        [{"ground_truth_id": "gt_homo"}, {"ground_truth_id": "gt_lumo"}]
+    )
+    assert aliases == {"gt_homo": "kp_001", "gt_lumo": "kp_002"}
+    public = _neutralize_public_key_point_fields(
+        {
+            "key_point_ids": ["gt_homo", "gt_lumo"],
+            "acceptance_profile_ids": ["ap-1"],
+            "results_schema": {"properties": {"gt_homo": {"type": "number"}}},
+        },
+        aliases,
+    )
+    assert public["key_point_ids"] == ["kp_001", "kp_002"]
+    assert "acceptance_profile_ids" not in public
+    # Result field names are evaluator transport, not public Key Point IDs.
+    assert "gt_homo" in public["results_schema"]["properties"]
+
+
+def test_submission_schema_key_point_aliases_are_neutralized() -> None:
+    aliases = {"gt_homo": "kp_001"}
+    public = _neutralize_submission_contract(
+        {
+            "results_schema": {
+                "type": "object",
+                "properties": {"gt_homo": {"type": "number"}},
+                "required": ["gt_homo"],
+            }
+        },
+        aliases,
+    )
+    properties = public["results_schema"]["properties"]
+    assert "kp_001" in properties
+    assert "gt_homo" not in properties
+    assert public["results_schema"]["required"] == ["kp_001"]
+
+
+def test_route_evidence_map_is_index_only() -> None:
+    safe = _safe_route_evidence_map(
+        {
+            "task_pair_id": "pair",
+            "route_evidence_ids": ["ev_1"],
+            "target_value": 19.2,
+            "doi": "10.1234/example",
+            "source_path": "/private/source/paper.pdf",
+            "workflow_steps": [
+                {
+                    "step_id": "s1",
+                    "action": "answer-bearing prose",
+                    "evidence_ids": ["ev_1"],
+                    "conclusion": "candidate A is preferred",
+                }
+            ],
+        }
+    )
+    assert "target_value" not in safe
+    assert "doi" not in safe
+    assert "source_path" not in safe
+    assert safe["workflow_steps"] == [
+        {"step_index": 1, "step_id": "s1", "evidence_ids": ["ev_1"]}
+    ]
+
+
 def test_stage07_does_not_override_agent_for_high_nonsoftware_remaining_issue(
     tmp_path: Path, monkeypatch
 ) -> None:
@@ -5934,15 +6117,24 @@ def test_route_rubric_normalizer_canonicalizes_equivalent_agent_id() -> None:
 def test_route_rubric_normalizer_adds_missing_route_without_overwriting_science() -> None:
     normalized = _ensure_reproduction_route_rubric(
         [
-            {"id": "analysis", "max_score": 60, "description": "Analyze outputs."},
-            {"id": "validation", "max_score": 40, "description": "Validate outputs."},
+            {"id": "analysis", "max_score": 7, "description": "Analyze outputs."},
+            {"id": "validation", "max_score": 3, "description": "Validate outputs."},
         ],
         submission={"required_files": ["report/report.md"]},
     )
     assert normalized[0]["id"] == "analysis"
     assert normalized[1]["id"] == "validation"
     assert normalized[-1]["criterion_type"] == "route_fidelity"
-    assert sum(float(row["max_score"]) for row in normalized) == pytest.approx(100.0)
+    assert [row.get("max_score") for row in normalized] == [7, 3, None]
+
+
+def test_process_rubric_normalizer_does_not_invent_score_fields() -> None:
+    normalized = _normalize_process_rubric(
+        [{"id": "design", "description": "Choose a defensible workflow."}]
+    )
+    assert normalized == [
+        {"id": "design", "description": "Choose a defensible workflow."}
+    ]
 
 
 def test_route_rubric_normalizer_accepts_items_wrapper() -> None:
