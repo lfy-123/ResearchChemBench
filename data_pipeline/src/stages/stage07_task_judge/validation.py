@@ -711,6 +711,39 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                             f"evaluator_binding_fields_missing:{mode}:{profile_id}"
                         )
                     schema = submission.get("results_schema")
+                    # An explicit document binding means that the evaluator
+                    # will inspect the declared artifact as text/document
+                    # content.  Its observed selector is semantic metadata
+                    # (agents often use a JSONPath-shaped label such as
+                    # ``$.textual_final_conclusion``), not a property that
+                    # must exist in the structured results schema.  Validate
+                    # the artifact path below, but do not reinterpret the
+                    # selector as a JSON schema path.  Without this branch a
+                    # valid document binding is mechanically blocked whenever
+                    # the report also has a closed results schema.
+                    if binding.get("document_binding") is True:
+                        safe_document_artifacts = [
+                            artifact
+                            for artifact in artifacts
+                            if isinstance(artifact, str)
+                            and artifact
+                            and not Path(artifact).is_absolute()
+                            and ".." not in Path(artifact).parts
+                            and "\\" not in artifact
+                            and Path(artifact).suffix.casefold()
+                            in {".md", ".txt", ".json", ".jsonl"}
+                        ]
+                        if not safe_document_artifacts:
+                            findings.append(
+                                f"evaluator_document_binding_artifact_missing:{mode}:{profile_id}"
+                            )
+                        for field in fields:
+                            diagnostics.append(
+                                f"evaluator_document_binding_selector_unchecked:{mode}:{profile_id}:{field}"
+                            )
+                        # Artifact path safety is checked by the common loop
+                        # below; no schema-path checks apply to this binding.
+                        continue
                     for field in fields:
                         # Semantic conclusion bindings are evaluated against a
                         # document artifact (usually report.md), not a JSON
