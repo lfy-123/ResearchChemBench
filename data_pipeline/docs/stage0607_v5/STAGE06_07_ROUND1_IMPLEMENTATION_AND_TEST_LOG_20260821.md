@@ -77,3 +77,22 @@
 - 该修补不改变科学 truth、rubric 数量/评分模式或任何论文特例规则。
 
 第一批剩余 2 篇仍在运行，最终统计在终态后补充；之后重新抽取 10 篇进行第 2 轮回归。Stage07B 目前不启用：已知的两类阻断并非同类，且其中一类已由通用 gate 修复。
+
+## 第一批最终统计与归因
+
+10 篇均已进入终态：
+
+- Stage06A：10/10 `provisional_constructed`；Stage06B 均完成自主表面转换。
+- Stage07：8 篇 `approved_with_repairs`，2 篇 `rejected_scientific_unrepairable`。
+- 发布：6 篇；科学拒绝 2 篇；机械阻断 2 篇。
+- 两篇科学拒绝分别因为源材料没有闭合的反应物/坐标/电子态，或无法区分所需的磁性参考态；Agent 给出了证据和不可修复结论，符合角色职责，不是代码失败。
+
+机械问题分为三类，不能合并统计为一个 Stage07B 触发信号：
+
+1. `paper_aaa1ccd72d1c2b28`：显式 `document_binding=true` 却被 gate 当成 JSONPath。已由提交 `9243218` 修复；对最终 audited tree 回放后状态为 `passed`，因此不再是当前阻断。
+2. `paper_7cfd59d5c7061c6b`：Stage07 生成了 `$.relative_electronic_energies_kcal_mol.61TS2b` 形式的非法点式路径。对象键以数字开头时应使用 bracket-quoted JSONPath；已在 Stage06A/Stage07 Prompt 中补充通用规则（提交 `e3223bf`），本批旧运行不会反映该 Prompt 修复，待下一批验证。
+3. 3 篇首次尝试出现 `hidden_ground_truth_task_pair_id_mismatch`，随后由确定性 canonicalization/Agent retry 修复并发布；这是模型初稿合同漂移，不是最终 gate 误报。
+
+公共表面抽查：6 个已发布 pair 的结构检查全部通过；未发现 `gt_*`/`canonical_answer` 等 private 标记进入公共树。`route_evidence_map` 均为 evidence ID 索引；其中一篇使用了 `target_quantities` 作为类别键，内容仍只有 evidence IDs，但该键名会暗示答案语义，已通过 Prompt 增加中性类别白名单/禁用 `target|answer|preferred|conclusion` 键名（提交 `f58159f`），下一批继续观察。
+
+第一批没有出现同一类、仍需 Stage07B 批量处理的简单合同阻断。按 v5 启用条件，Stage07B 暂不实现；第 2 轮重点验证 bracket selector 和 route-map 中性类别是否消除共性问题。
