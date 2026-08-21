@@ -752,6 +752,9 @@ Every profile must also contain one `submission_binding` that makes the typed ru
 public submission contract. It must contain:
 - `artifact_paths`: one or more exact paths from `submission_contract.json`;
 - `observed_fields`: non-empty JSONPath-like selectors, TSV key/column mappings, or `document` for a scored report;
+- Use standard JSONPath spelling for selectors: identifier-like object keys may use dot notation, while keys that
+  begin with a digit or contain punctuation must use bracket-quoted notation such as `$['results']['61TS2b']`.
+  Do not emit an invalid dot segment for such keys.
 - `canonical_projection`: the frozen canonical target projected into those submitted fields;
 - `comparison`: the deterministic operation that combines the binding with the profile type.
 When the public representation differs from the canonical representation, the projection must make the conversion

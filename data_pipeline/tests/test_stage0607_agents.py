@@ -6689,3 +6689,10 @@ def test_jsonpath_wildcard_binding_is_parsed() -> None:
         "*",
         "imaginary_frequencies",
     ]
+
+
+def test_jsonpath_bracket_quoted_non_identifier_key_is_parsed() -> None:
+    assert _jsonpath_tokens("$['relative_electronic_energies_kcal_mol']['61TS2b']") == [
+        "relative_electronic_energies_kcal_mol",
+        "61TS2b",
+    ]

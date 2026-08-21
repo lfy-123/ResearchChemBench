@@ -154,7 +154,9 @@ autonomous representation is intentionally different, write explicit
 entries (or the existing equivalent transport field). Do not leave a shared top-level binding that
 points to a field absent from either mode's `results_schema`. Every mode row must bind to one real
 declared artifact/field or an explicit document binding; the mechanical gate will only check this
-shape and will not infer a scientific projection.
+shape and will not infer a scientific projection. Use standard JSONPath spelling: identifier-like
+keys may use `$.group.field`, but keys beginning with a digit or containing punctuation must use
+bracket-quoted selectors such as `$['group']['61TS2b']`; never emit an invalid dot segment.
 
 When editing `task_info.json`, keep `scientific_requirements` as a compact list of plain strings.
 If richer records are used during reasoning, project each record to its requirement text before
