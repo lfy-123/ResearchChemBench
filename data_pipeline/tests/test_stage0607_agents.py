@@ -6252,7 +6252,7 @@ def test_mode_contract_projects_scope_from_task_spec_to_compact_task_info(
     )
 
 
-def test_mechanical_gate_reports_hidden_pair_identity_mismatch(tmp_path: Path) -> None:
+def test_mechanical_gate_normalizes_hidden_pair_identity(tmp_path: Path) -> None:
     pair = tmp_path / "pair"
     for mode, task_mode, suffix in (
         ("paper_reproduction", "guided_reproduction", "_reproduction"),
@@ -6281,7 +6281,11 @@ def test_mechanical_gate_reports_hidden_pair_identity_mismatch(tmp_path: Path) -
     (pair / "hidden_reference").mkdir(parents=True)
     write_json(pair / "hidden_reference" / "ground_truth_common.json", {"task_pair_id": "stale"})
     report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
-    assert "hidden_ground_truth_task_pair_id_mismatch" in report["findings"]
+    assert "hidden_ground_truth_task_pair_id_mismatch" not in report["findings"]
+    assert any(
+        row.get("kind") == "hidden_reference_identity_normalization"
+        for row in report["normalization_records"]
+    )
 
 
 def test_submission_aliases_and_rubric_wrappers_are_transport_normalized() -> None:

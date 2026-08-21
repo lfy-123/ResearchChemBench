@@ -88,6 +88,32 @@ def stage07_mechanical_pre_publish_check(
     mode_values: dict[str, dict[str, Any]] = {}
     pair_diagnostics: list[str] = []
     normalization_records: list[dict[str, Any]] = []
+    # The orchestrator owns the deterministic pair identity.  Normalize the private
+    # truth identity before checking it, just as mode metadata is normalized below.
+    # This changes no scientific field and prevents an Agent-proposed ID from causing
+    # a false mechanical publication block.
+    if task_pair_id:
+        common_path = pair_root / "hidden_reference" / "ground_truth_common.json"
+        if common_path.is_file():
+            try:
+                common_before = read_json(common_path)
+                if isinstance(common_before, dict) and common_before.get("task_pair_id") != task_pair_id:
+                    before_hash = _file_digest(common_path)
+                    common_after = dict(common_before)
+                    common_after["task_pair_id"] = task_pair_id
+                    write_json(common_path, common_after)
+                    normalization_records.append(
+                        {
+                            "kind": "hidden_reference_identity_normalization",
+                            "file": "hidden_reference/ground_truth_common.json",
+                            "before_sha256": before_hash,
+                            "after_sha256": _file_digest(common_path),
+                        }
+                    )
+            except (OSError, ValueError, TypeError, json.JSONDecodeError):
+                # The ordinary hidden-reference checks below report unreadable/invalid
+                # content; do not turn this best-effort normalization into a new verdict.
+                pass
     for mode in required_modes:
         root = pair_root / mode
         if not root.is_dir():
