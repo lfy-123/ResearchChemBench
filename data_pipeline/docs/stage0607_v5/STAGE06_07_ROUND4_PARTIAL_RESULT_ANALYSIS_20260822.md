@@ -29,6 +29,8 @@ Stage06：`provisional_not_constructible`。Stage07：`rejected_scientific_unrep
 - `4b157b5`：结构化 `critical_failures` evaluator projection、`$..` 受限路径归一化、prompt 反例和回归测试；
 - `7bdd5d6`：路径归一化进一步要求显式候选路径在至少一个适用 mode 的结果 schema 中为 `present/open`，降低误改合法递归语义的风险。
 
+批量运行轨迹还暴露出批处理脚本的状态语义问题：CLI 进程即使返回 0，Stage06 仍可能记录 `artifact_delivery_failure_retryable` 并跳过 Stage07。已在未重启当前批次的代码中增加 `late_stage_run_summary.json` 读取，将此类内部失败标为批次 `FAILED`；科学拒绝仍保持 `COMPLETED`。
+
 回归测试：Stage06/07 154 passed；管线相关 259 passed。
 
 ## 4. 尚不能下结论的项目

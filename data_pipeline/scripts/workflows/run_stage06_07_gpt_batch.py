@@ -161,7 +161,11 @@ def _run_one(
         _write_json(status_path, result)
         return result
     finished = _now()
-    state = "COMPLETED" if completed.returncode == 0 else "FAILED"
+    pipeline_failure = None
+    summary_path = paper_root / "late_stage_run_summary.json"
+    if completed.returncode == 0:
+        pipeline_failure = _late_stage_pipeline_failure(summary_path)
+    state = "COMPLETED" if completed.returncode == 0 and pipeline_failure is None else "FAILED"
     result = {
         "paper_id": paper,
         "state": state,
@@ -170,8 +174,64 @@ def _run_one(
         "exit_code": completed.returncode,
         "skipped": False,
     }
+    if pipeline_failure:
+        result["failure_class"] = pipeline_failure
+        result["late_stage_summary"] = str(summary_path)
     _write_json(status_path, result)
     return result
+
+
+def _late_stage_pipeline_failure(summary_path: Path) -> str | None:
+    """Map a successful CLI process to the actual late-stage outcome.
+
+    ``src.cli run-stage06-07`` returns a JSON summary and intentionally keeps a
+    zero process exit code for scientific rejection.  Batch orchestration must
+    distinguish that valid result from retryable artifact/agent failures and
+    from a stage that never reached Stage07.  This helper reads only the generic
+    summary contract; it does not judge the paper's science.
+    """
+
+    if not summary_path.is_file():
+        return "late_stage_summary_missing"
+    try:
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return "late_stage_summary_invalid"
+    if not isinstance(summary, dict):
+        return "late_stage_summary_invalid"
+    stage06 = summary.get("stage06") or {}
+    if not isinstance(stage06, dict):
+        return "stage06_summary_invalid"
+    for key, failure_class in (
+        ("artifact_delivery_failures", "stage06_artifact_delivery_failure_retryable"),
+        ("retryable_failures", "stage06_retryable_failure"),
+    ):
+        try:
+            if int(stage06.get(key) or 0) > 0:
+                return failure_class
+        except (TypeError, ValueError):
+            return "stage06_summary_invalid"
+    decisions = stage06.get("decisions") or {}
+    if isinstance(decisions, dict):
+        for key, value in decisions.items():
+            if not str(key).endswith("_retryable"):
+                continue
+            try:
+                if int(value or 0) > 0:
+                    return "stage06_retryable_failure"
+            except (TypeError, ValueError):
+                return "stage06_summary_invalid"
+    stage07 = summary.get("stage07") or {}
+    if not isinstance(stage07, dict):
+        return "stage07_summary_invalid"
+    if str(stage07.get("status") or "").casefold() == "not_run":
+        return "stage07_not_run"
+    try:
+        if int(stage07.get("objective_failure_retryable") or 0) > 0:
+            return "stage07_objective_failure_retryable"
+    except (TypeError, ValueError):
+        return "stage07_summary_invalid"
+    return None
 
 
 def build_parser() -> argparse.ArgumentParser:
