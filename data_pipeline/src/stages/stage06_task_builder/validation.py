@@ -119,6 +119,24 @@ def canonicalize_mode_task_contract(
         "open_discovery" if expected_mode == "autonomous_research" else "guided_reproduction"
     )
     suffix = "_autonomous" if expected_mode == "autonomous_research" else "_reproduction"
+    # task_info is a deliberately compact projection and may omit both
+    # workflow_scope and method_constraints.  Read the sibling task_spec once
+    # so both files receive the same derived disclosure metadata.
+    peer_scope: dict[str, Any] = {}
+    peer_method_constraints: Any = None
+    peer_spec_path = task_root / "task_spec.json"
+    if expected_mode == "autonomous_research" and peer_spec_path.is_file():
+        try:
+            peer_spec = read_json(peer_spec_path)
+        except (OSError, TypeError, ValueError, json.JSONDecodeError):
+            peer_spec = {}
+        if isinstance(peer_spec, dict):
+            candidate_scope = peer_spec.get("workflow_scope")
+            if isinstance(candidate_scope, dict):
+                peer_scope = candidate_scope
+            peer_method_constraints = peer_spec.get("method_constraints") or peer_spec.get(
+                "public_method_constraints"
+            )
     findings: list[str] = []
     for name in ("task_info.json", "task_spec.json"):
         path = task_root / name
@@ -149,6 +167,8 @@ def canonicalize_mode_task_contract(
         value["task_mode"] = expected_task_mode
         if expected_mode == "autonomous_research":
             scope = value.get("workflow_scope")
+            if not isinstance(scope, dict):
+                scope = peer_scope
             scope_value = (
                 scope.get("autonomy_scope")
                 if isinstance(scope, dict)
@@ -160,8 +180,10 @@ def canonicalize_mode_task_contract(
             # signal that the autonomous task is method-constrained.  Do not
             # silently relabel such a task as method discovery merely because
             # the scope projection is absent.
-            public_method_constraints = value.get("method_constraints") or value.get(
-                "public_method_constraints"
+            public_method_constraints = (
+                value.get("method_constraints")
+                or value.get("public_method_constraints")
+                or peer_method_constraints
             )
             has_public_method_constraints = isinstance(
                 public_method_constraints, list

@@ -6027,6 +6027,39 @@ def test_mode_contract_preserves_public_method_constraint_without_scope(
         )
 
 
+def test_mode_contract_projects_scope_from_task_spec_to_compact_task_info(
+    tmp_path: Path,
+) -> None:
+    """The compact task_info must inherit the autonomous scope from task_spec."""
+
+    write_json(
+        tmp_path / "task_info.json",
+        {
+            "task_pair_id": "pair-peer-scope",
+            "task_id": "old",
+            "mode": "autonomous_research",
+        },
+    )
+    write_json(
+        tmp_path / "task_spec.json",
+        {
+            "task_pair_id": "pair-peer-scope",
+            "task_id": "old",
+            "mode": "autonomous_research",
+            "workflow_scope": {
+                "autonomy_scope": "fixed_input_method_constrained_workflow"
+            },
+            "method_constraints": ["Use the public method family."],
+        },
+    )
+    assert canonicalize_mode_task_contract(
+        tmp_path, expected_mode="autonomous_research"
+    ) == []
+    assert read_json(tmp_path / "task_info.json")["method_disclosure"] == (
+        "public_scientific_method_constraints"
+    )
+
+
 def test_mechanical_gate_reports_hidden_pair_identity_mismatch(tmp_path: Path) -> None:
     pair = tmp_path / "pair"
     for mode, task_mode, suffix in (
