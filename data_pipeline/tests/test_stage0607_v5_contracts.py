@@ -25,6 +25,8 @@ def test_representativeness_review_is_evidence_shape_only() -> None:
                 "scope_kind": "full_paper_core_workflow",
                 "claim_coverage": {"claim-main": "direct"},
                 "closure": "closed",
+                "resource_assessment": "feasible under the declared policy",
+                "software_gap_status": "available",
             }
         ],
         "selected_workflow_id": "wf-full",
@@ -35,6 +37,28 @@ def test_representativeness_review_is_evidence_shape_only() -> None:
     assert "representativeness_claims_missing" in validate_representativeness_review(
         {**review, "paper_computational_claims": []}, {"ev-1"}
     )
+
+
+def test_representativeness_candidate_requires_auditable_observation_fields() -> None:
+    review = {
+        "paper_computational_claims": [
+            {"claim_id": "claim-main", "coverage": "direct", "evidence_ids": ["ev-1"]}
+        ],
+        "candidate_workflows": [
+            {
+                "workflow_id": "wf-full",
+                "scope_kind": "full_paper_core_workflow",
+                "claim_coverage": {"claim-main": "direct"},
+                "closure": "closed",
+            }
+        ],
+        "selected_workflow_id": "wf-full",
+        "selection_rationale": "Compared candidate routes.",
+        "omitted_claims": [],
+    }
+    findings = validate_representativeness_review(review, {"ev-1"})
+    assert "representativeness_candidate_resource_observation_missing:0" in findings
+    assert "representativeness_candidate_software_status_missing:0" in findings
 
 
 def test_stage_prompts_require_scope_comparison_and_do_not_treat_software_gap_as_rejection() -> None:
@@ -50,6 +74,8 @@ def test_stage_prompts_require_scope_comparison_and_do_not_treat_software_gap_as
         assert "representativeness" in prompt
         assert "missing software" in prompt.casefold() or "missing program" in prompt.casefold()
         assert "never causes scientific rejection" in prompt.casefold() or "not a blocker" in prompt.casefold()
+    assert "claim_id" in builder and "evidence_ids" in builder
+    assert "scope_kind" in builder and "software_gap_status" in builder
 
 
 def test_stage07_approved_receipt_requires_representativeness_audit() -> None:

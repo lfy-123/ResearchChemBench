@@ -173,12 +173,18 @@ closed route fields, do not bootstrap a success pair; revise the review or write
 Before writing the success receipt, complete this short `workflow_review` closure checklist. It is an
 Agent self-check, not a request for the orchestrator to infer chemistry:
 `representativeness_review` must be a compact evidence-backed comparison, not a self-awarded score. It
-must contain `paper_computational_claims` (claims from title/abstract/main figures or tables/conclusions),
-`candidate_workflows` (the whole route and any considered sub-processes, each with closure, cost,
-software-gap status, and claim coverage), `selected_workflow_id`, `selection_rationale`, and
+must contain `paper_computational_claims` as objects with `claim_id`, `claim`, `coverage`, and
+`evidence_ids` (claims from title/abstract/main figures or tables/conclusions), and
+`candidate_workflows` (the whole route and any considered sub-processes, each with `workflow_id`,
+`scope_kind`, closure, cost, software-gap status, and claim coverage), `selected_workflow_id`, `selection_rationale`, and
 `omitted_claims`. For every candidate, state whether it is full-paper or a core subworkflow and why
 it is or is not central. Stage07 will independently review this record; do not use keywords, a fixed
-paper list, or a code-side importance score.
+paper list, or a code-side importance score. Each candidate record must explicitly include
+`workflow_id`, `scope_kind`, `closure`, `claim_coverage`, one resource observation under
+`cost`/`resource_assessment`/`estimated_cost`, and one software observation under
+`software_gap_status`/`toolbox_status`/`software_status`; an empty or uncertain value is still an
+auditable observation, but silently omitting the field is not. These fields describe the evidence
+available to Stage07 and do not authorize code to rank scientific centrality.
 
 For each input, record one provenance state: `exact_source_coordinates`,
 `source_constrained_construction`, or `underspecified`. Explain why that state is sufficient for the

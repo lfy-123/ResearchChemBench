@@ -657,6 +657,22 @@ def validate_representativeness_review(
             findings.append(f"representativeness_candidate_scope_missing:{index}")
         if "claim_coverage" not in candidate:
             findings.append(f"representativeness_candidate_coverage_missing:{index}")
+        # These are evidence-record fields, not a code-side centrality score.  Requiring
+        # their presence keeps the Stage07 audit from receiving a bare list of easy-to-
+        # package workflows with no closure, resource, or toolbox context.  Values remain
+        # free-form because the scientific interpretation belongs to the Agents.
+        if "closure" not in candidate:
+            findings.append(f"representativeness_candidate_closure_missing:{index}")
+        if not any(
+            key in candidate
+            for key in ("cost", "resource_assessment", "estimated_cost")
+        ):
+            findings.append(f"representativeness_candidate_resource_observation_missing:{index}")
+        if not any(
+            key in candidate
+            for key in ("software_gap_status", "toolbox_status", "software_status")
+        ):
+            findings.append(f"representativeness_candidate_software_status_missing:{index}")
     for index, claim in enumerate(claims if isinstance(claims, list) else []):
         if not isinstance(claim, dict):
             findings.append(f"representativeness_claim_invalid:{index}")

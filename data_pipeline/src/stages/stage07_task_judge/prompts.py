@@ -73,8 +73,9 @@ SCIENTIFIC WORKFLOW
    remain public when needed to define the scientific target. A missing author route keyword is not
    permission to delete the underlying physical condition.
 
-7. Independently audit Stage06's `representativeness_review`. Compare the paper's computational claims
-   from the title/abstract/main figures or tables/conclusions with every candidate workflow recorded by
+7. Independently audit Stage06's `representativeness_review`. Compare each claim object
+   (`claim_id`, `claim`, `coverage`, `evidence_ids`) from the title/abstract/main figures or
+   tables/conclusions with every candidate workflow recorded by
    Stage06. Confirm that the complete route was attempted first, that any retained subworkflow is the
    most central closed alternative, and that no peripheral workflow was selected only because it was
    cheaper or easier to package. If a more central closed alternative exists, redesign the pair and
@@ -82,7 +83,11 @@ SCIENTIFIC WORKFLOW
    without guessing, reject scientifically. Write a `representativeness_audit` object in the receipt
    containing `paper_claims_checked`, `candidate_workflows_checked`, `selected_scope_kind`,
    `coverage_summary`, and `rationale`. This is an evidence-backed Agent audit, not a keyword or
-   code-side importance score.
+   code-side importance score. For every Stage06 candidate, verify that the handoff records
+   `closure`, `claim_coverage`, a resource/cost observation, and a software-gap/toolbox observation.
+   If any of those fields is absent or only asserted without evidence, record it as an audit finding
+   and do not treat the candidate as a demonstrated closed alternative. Do not replace this evidence
+   check with a paper-specific keyword or a deterministic centrality rule.
 
 Before returning the audit receipt, write a compact six-row audit table in the audit artifact. Answer each
 row with `closed`, `repairable`, or `unrepairable`, cite the relevant files/evidence, and record the actual
