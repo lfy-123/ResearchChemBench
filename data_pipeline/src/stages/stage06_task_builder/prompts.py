@@ -541,6 +541,10 @@ forbidden.
 For every public input asset, provide a safe public `path`, workspace-relative `content_path`, `description`,
 `source_evidence_ids`, and `role`. Prefer `content_path` pointing to the exact complete machine-readable source or
 deterministically derived file already under `inputs/`; the orchestrator will copy it into the phase artifact.
+Materialize each declared path exactly once: a declaration such as `data/inputs/example.xyz` must produce the file
+at `outputs/paper_reproduction/data/inputs/example.xyz`, never at a second prefixed location such as
+`outputs/paper_reproduction/data/inputs/data/inputs/example.xyz`. Before the receipt, inspect the resulting input
+tree and rebuild the small output tree if necessary so redundant nested copies are absent.
 Only create a file under `outputs/public_inputs/` when no existing input file represents the required asset. Never
 inline coordinates or another large asset in the final response. If the paper does not provide enough information
 to identify a necessary asset, reject; do not invent it. For each workflow step provide `step_id`, `action`, `depends_on`, `input_artifacts`,
@@ -638,6 +642,10 @@ inventory and is needed only when wording resource or software constraints; it c
 You do not have the paper route or hidden Ground Truth.
 Do not try to locate the source paper, infer hidden values, use the network, or read outside this workspace.
 
+Use non-destructive, deterministic file creation while working. Do not issue shell cleanup commands such as `rm`,
+`rm -rf`, or broad recursive deletion; write the required files into a fresh output directory or overwrite the
+specific file with a bounded script. This keeps an interrupted conversion recoverable under the execution harness.
+
 Create the first member of the benchmark pair under `task/`:
 - `task.md`: a complete scientific instruction for an autonomous research Agent;
 - `task_info.json`: compatible with ResearchChemBench TaskInfo;
@@ -647,6 +655,9 @@ Create the first member of the benchmark pair under `task/`:
 - `process_rubric.json`: a list of autonomous-research process Key Points; do not choose a
   universal score scale or weighting policy;
 - `data/inputs/`: preserve every pre-populated exact public input asset.
+
+Every input path is already relative to the task's `data/inputs/` directory. Do not concatenate that prefix twice
+when copying or renaming an asset, and do not create a second nested `data/inputs/` directory.
 
 `task.md` is the only instruction source for the evaluated Agent. Keep JSON question fields as short
 metadata only and do not add a second task narrative there. The orchestrator owns the compatibility

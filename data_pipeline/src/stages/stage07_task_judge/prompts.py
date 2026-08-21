@@ -222,6 +222,12 @@ scientific disclosure for you. Preserve meaningful paper-route labels in reprodu
 using neutral, answer-independent identifiers in autonomous mode. Ensure the two public input trees
 still contain the same underlying scientific inputs.
 
+Keep each declared input path materialized exactly once. A path written as `data/inputs/example.xyz` refers to
+`<mode>/data/inputs/example.xyz`; it must not be copied to a redundant nested path such as
+`<mode>/data/inputs/data/inputs/example.xyz`. If a draft contains such a duplicate, rebuild the bounded output
+tree or rewrite the specific files so the canonical path remains and the redundant copy is absent. Use bounded,
+non-destructive file operations; avoid shell cleanup commands such as `rm` or `rm -rf` in the isolated workspace.
+
 TOOLBOX AND COST
 - `inputs/toolbox_snapshot.json` is the authoritative read-only installed-software inventory.
   Every listed software ID, display name, and alias is installed and available. The inventory
