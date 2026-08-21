@@ -295,6 +295,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 "repair_count": len(response.get("repairs") or []),
                 "workflow_redesign": response.get("workflow_redesign") or {},
                 "toolbox_status": response.get("toolbox_status"),
+                "execution_readiness": response.get("execution_readiness", "unknown"),
                 "required_additions": response.get("required_additions") or [],
                 "resource_status": response.get("resource_status"),
                 "agent_observed_contract_status": response.get("contract_status"),
@@ -408,6 +409,10 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
         },
         "paper_ids": sorted({str(row.get("paper_id")) for row in records if row.get("paper_id")}),
         "needs_software": sum(row.get("toolbox_status") == "needs_software" for row in records),
+        "execution_readiness": {
+            state: sum(row.get("execution_readiness") == state for row in records)
+            for state in ("ready", "conditional", "unknown")
+        },
         "decisions": decision_counts(records, "audit_decision"),
         "agent_harness": harness.name,
         "agent_model": harness.model,
@@ -786,6 +791,21 @@ def _approved_receipt_contract_findings(response: dict[str, Any]) -> list[str]:
     findings: list[str] = []
     if response.get("artifact_path") != "outputs/task_pair":
         findings.append("approved_artifact_path_invalid")
+    audit = response.get("representativeness_audit")
+    # The prompt requests this Agent evidence.  Keep the transport contract backward
+    # compatible with older approved receipts, but validate the shape whenever it is present.
+    if isinstance(audit, dict):
+        for key in (
+            "paper_claims_checked",
+            "candidate_workflows_checked",
+            "coverage_summary",
+        ):
+            if not isinstance(audit.get(key), list):
+                findings.append(f"approved_representativeness_{key}_invalid")
+        if not str(audit.get("selected_scope_kind") or "").strip():
+            findings.append("approved_representativeness_scope_missing")
+        if not str(audit.get("rationale") or "").strip():
+            findings.append("approved_representativeness_rationale_missing")
     return sorted(set(findings))
 
 

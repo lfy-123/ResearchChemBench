@@ -133,16 +133,32 @@ def _run_one(
         "--harness",
         args.harness,
     ]
-    with log_path.open("a", encoding="utf-8") as log:
-        log.write(f"[{started}] command started for {paper}\n")
-        completed = subprocess.run(
-            command,
-            cwd=str(args.pipeline_root),
-            env=environment,
-            stdout=log,
-            stderr=subprocess.STDOUT,
-            check=False,
-        )
+    try:
+        with log_path.open("a", encoding="utf-8") as log:
+            log.write(f"[{started}] command started for {paper}\n")
+            completed = subprocess.run(
+                command,
+                cwd=str(args.pipeline_root),
+                env=environment,
+                stdout=log,
+                stderr=subprocess.STDOUT,
+                check=False,
+            )
+    except Exception as exc:
+        # A worker must never leave its paper in RUNNING when process creation,
+        # logging, or the child command fails before it returns a CompletedProcess.
+        finished = _now()
+        result = {
+            "paper_id": paper,
+            "state": "FAILED",
+            "started_at": started,
+            "finished_at": finished,
+            "exit_code": None,
+            "skipped": False,
+            "error": {"type": type(exc).__name__, "message": str(exc)[:4000]},
+        }
+        _write_json(status_path, result)
+        return result
     finished = _now()
     state = "COMPLETED" if completed.returncode == 0 else "FAILED"
     result = {
@@ -245,18 +261,39 @@ def main(argv: list[str] | None = None) -> int:
     _write_json(args.output_root / "batch_status.json", batch)
     results: list[dict[str, Any]] = []
     with ThreadPoolExecutor(max_workers=args.max_parallel) as executor:
-        futures = [
+        futures = {
             executor.submit(
                 _run_one,
                 paper=paper,
                 args=args,
                 output_root=args.output_root,
                 environment=environment,
-            )
+            ): paper
             for paper in selected
-        ]
+        }
         for future in as_completed(futures):
-            results.append(future.result())
+            paper = futures[future]
+            try:
+                results.append(future.result())
+            except Exception as exc:
+                # Defensive parent-side convergence for an unexpected worker exception.
+                # `_run_one` normally records this itself, but the batch must still reach a
+                # visible terminal state if a future fails outside that handler.
+                result = {
+                    "paper_id": paper,
+                    "state": "FAILED",
+                    "finished_at": _now(),
+                    "exit_code": None,
+                    "skipped": False,
+                    "error": {"type": type(exc).__name__, "message": str(exc)[:4000]},
+                }
+                _write_json(args.output_root / "papers" / paper / "run_status.json", result)
+                results.append(result)
+            batch["completed_count"] = len(results)
+            batch["results"] = sorted(
+                results, key=lambda row: selected.index(row["paper_id"])
+            )
+            _write_json(args.output_root / "batch_status.json", batch)
     results.sort(key=lambda row: selected.index(row["paper_id"]))
     failed = [row for row in results if row["state"] != "COMPLETED"]
     batch.update(

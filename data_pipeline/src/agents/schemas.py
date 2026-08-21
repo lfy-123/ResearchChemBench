@@ -78,6 +78,10 @@ STAGE06_WORKFLOW_REVIEW_SCHEMA = object_schema(
         "workflow_inventory": OBJECT_ARRAY,
         "workflow_scope": OBJECT,
         "complexity_profile": OBJECT,
+        "representativeness_review": OBJECT,
+        "execution_readiness": {
+            "enum": ["ready", "conditional", "unknown"]
+        },
         "selected_candidate_id": {"type": "string", "default": ""},
         "stage05_candidate_disposition": {"type": "string", "default": ""},
         "scientific_question": {"type": "string", "default": ""},
@@ -242,6 +246,10 @@ STAGE07_AUDIT_SCHEMA = object_schema(
         "required_additions": OBJECT_ARRAY,
         "resource_status": {
             "enum": ["feasible", "high_cost", "infeasible", "uncertain"]
+        },
+        "representativeness_audit": OBJECT,
+        "execution_readiness": {
+            "enum": ["ready", "conditional", "unknown"]
         },
         "scientific_decision": STRING,
         "contract_status": {"enum": ["passed", "findings", "not_applicable"]},

@@ -4,7 +4,7 @@ STAGE06_REVIEW_VERSION = "v4-stage06-review-sixth-round-20260819"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v9-stage06-scope-alignment-builder-20260821"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v10-stage06-representativeness-and-toolbox-policy-20260821"
 STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v8-stage06-neutral-asset-converter-scope-aware-20260821"
 
 
@@ -106,9 +106,10 @@ OBJECTIVE-FIRST SELECTION
    connection to the primary claim, a more complete dependency chain, more meaningful Key Points,
    and appropriate computational challenge.
 3. Treat the whole-paper route as the default. Downgrade only after recording an evidence-backed
-   blocker: unacceptable wall-clock cost, missing/unrecoverable source inputs, unavailable required
-   software family, or a scientifically non-closed step. A preference for a shorter task is not a
-   blocker. Record `downgrade_reasons`, `claim_coverage`, `omitted_workflow_parts`,
+   blocker: unacceptable wall-clock cost, missing/unrecoverable source inputs, or a scientifically
+   non-closed step. A missing program in the current toolbox is not a blocker and must not be used
+   to shrink the scientific scope; record that program as a software gap instead. A preference for
+   a shorter task is not a blocker. Record `downgrade_reasons`, `claim_coverage`, `omitted_workflow_parts`,
    `why_this_subworkflow_is_core`, and `selection_confidence` in `workflow_scope`.
 4. Choose one autonomous scope and record it in `workflow_scope.autonomy_scope`: use
    `fixed_input_method_constrained_workflow` only when a method or method set is part of the public
@@ -148,7 +149,7 @@ policy without changing it.
 WRITE `outputs/workflow_review.json` FIRST. It must conform to
 `inputs/task_contract.json#/workflow_review_schema`. For success use `decision=candidate_ready` and
 include the old scientific contract fields plus `workflow_inventory`, `workflow_scope`, and
-`complexity_profile`. Also include `workflow_completeness_check` and a private
+`complexity_profile`. Also include `representativeness_review`, `workflow_completeness_check`, and a private
 `public_to_private_asset_map`; these are handoff evidence for Stage07 and must never be copied into
 a public task. Workflow steps use `step_type` from `core_computation`,
 `scientific_analysis`, `validation`, or `non_core`; name inputs, outputs, dependencies, software,
@@ -171,6 +172,19 @@ closed route fields, do not bootstrap a success pair; revise the review or write
 
 Before writing the success receipt, complete this short `workflow_review` closure checklist. It is an
 Agent self-check, not a request for the orchestrator to infer chemistry:
+`representativeness_review` must be a compact evidence-backed comparison, not a self-awarded score. It
+must contain `paper_computational_claims` (claims from title/abstract/main figures or tables/conclusions),
+`candidate_workflows` (the whole route and any considered sub-processes, each with closure, cost,
+software-gap status, and claim coverage), `selected_workflow_id`, `selection_rationale`, and
+`omitted_claims`. For every candidate, state whether it is full-paper or a core subworkflow and why
+it is or is not central. Stage07 will independently review this record; do not use keywords, a fixed
+paper list, or a code-side importance score.
+
+For each input, record one provenance state: `exact_source_coordinates`,
+`source_constrained_construction`, or `underspecified`. Explain why that state is sufficient for the
+selected scope. An underspecified input cannot support a tight absolute autonomous target that
+depends on a unique geometry.
+
 `asset_state_closure` (identity, composition, charge, multiplicity/electronic state and evidence for each
 input); `physical_boundary_closure` (environment, temperature/pressure/ensemble and evidence);
 `reference_stoichiometry_closure` (reference species and balanced definitions for every difference quantity);
@@ -233,6 +247,8 @@ SUCCESSFUL CONSTRUCTION ORDER
    file and never assess preset Action coverage. Suggest genuinely absent software without
    modifying the toolbox; use `unknown` only when the installed-software inventory is unavailable
    or a required program cannot be matched reliably.
+   Add `execution_readiness` to the review as `ready`, `conditional`, or `unknown`. This is a
+   non-blocking resource observation derived from the software gap list, never a scientific decision.
 9. Write `outputs/objective_card.json`, `outputs/key_points.json`, and
     `outputs/conversion_manifest.json` alongside the task pair. These are internal handoff
     contracts. Key points must include evidence-backed intermediate and final conclusions.
@@ -413,6 +429,14 @@ computational-chemistry workflow. Stage05 candidates are search hints only. You 
 them when another workflow in the paper is better supported. Review the complete paper and all known SI before
 rejecting.
 
+Selection order is mandatory: first compare the complete computational route that supports the paper's main
+question; only an evidence-backed cost, missing-input, or scientific-closure blocker permits a core subworkflow.
+When downgrading, compare the candidate sub-processes and select the one most central to the title/abstract/main
+figure or table/conclusion, not the one that is merely easiest to package. If neither the full route nor a central
+closed sub-process can be constructed without guessing, return scientific rejection rather than an unrelated
+peripheral calculation. A missing program in the current toolbox is not a blocker; record it in the software-gap
+list and keep the scientifically appropriate scope.
+
 If a Stage05 workflow depends on an unrecoverable adsorbate, transition state, pathway endpoint, or reference
 species, do not immediately reject the paper. First check for a distinct structure-only or otherwise closed
 author-performed workflow supported by supplied coordinates, such as geometry/conformer comparison, electronic
@@ -564,6 +588,13 @@ Supported `acceptance_type` values are exactly: `numeric_tolerance`, `categorica
 `structure_identity`, `geometry_metric`, `mechanism_claim`, `semantic_propositions`, and `artifact_validation`.
 For a numeric table plus an ordering claim, use `numeric_tolerance` for the table and place the ordering in
 `required_propositions`; do not create a combined custom type.
+
+`representativeness_review` should be included for every new review (and is required for a ready review when
+the evidence pass completed). A scientific-reject recovery may omit it only when the source packet is
+unreadable. When present, it must contain
+`paper_computational_claims`, `candidate_workflows`, `selected_workflow_id`, `selection_rationale`, and
+`omitted_claims`; each claim and candidate must cite only evidence IDs from the input snapshot. It is an
+evidence record for Stage07, not a code-computed centrality score.
 
 `toolbox_requirements` is a software-gap list, not an inventory of required programs. Leave it empty when every
 required program is present in `inputs/toolbox_snapshot.json`. Each item must use `status` with `missing`,

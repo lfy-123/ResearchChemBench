@@ -487,6 +487,15 @@ def validate_workflow_review(
             "workflow_review",
         )
     )
+    # New reviews should carry the comparison, but legacy scientific-reject receipts may
+    # predate this advisory field.  Validate it when present without turning a missing
+    # explanatory record into a code-side scientific verdict.
+    if review.get("representativeness_review") is not None:
+        findings.extend(
+            validate_representativeness_review(
+                review.get("representativeness_review"), evidence_ids
+            )
+        )
     if decision == "scientific_not_constructible":
         failure_code = str(review.get("failure_code") or "")
         if failure_code not in SCIENTIFIC_FAILURE_CODES:
@@ -529,6 +538,59 @@ def validate_workflow_review(
     )
     if review.get("failure_code") or review.get("failure_reasons"):
         findings.append("ready_workflow_contains_failure_contract")
+    return sorted(set(findings))
+
+
+def validate_representativeness_review(
+    value: Any, evidence_ids: set[str]
+) -> list[str]:
+    """Validate the shape/provenance of the Agent's scope comparison only.
+
+    This deliberately does not score scientific centrality or inspect paper-specific
+    terminology.  The comparison is evidence supplied to Stage07, while the scientific
+    judgment remains with the Agents.
+    """
+
+    if not isinstance(value, dict):
+        return ["representativeness_review_missing"]
+    findings: list[str] = []
+    claims = value.get("paper_computational_claims")
+    candidates = value.get("candidate_workflows")
+    if not isinstance(claims, list) or not claims:
+        findings.append("representativeness_claims_missing")
+    if not isinstance(candidates, list) or not candidates:
+        findings.append("representativeness_candidates_missing")
+    if not str(value.get("selected_workflow_id") or "").strip():
+        findings.append("representativeness_selected_workflow_missing")
+    if not str(value.get("selection_rationale") or "").strip():
+        findings.append("representativeness_selection_rationale_missing")
+    if "omitted_claims" not in value:
+        findings.append("representativeness_omitted_claims_missing")
+    for index, candidate in enumerate(candidates if isinstance(candidates, list) else []):
+        if not isinstance(candidate, dict):
+            findings.append(f"representativeness_candidate_invalid:{index}")
+            continue
+        if not str(candidate.get("workflow_id") or "").strip():
+            findings.append(f"representativeness_candidate_id_missing:{index}")
+        if not str(candidate.get("scope_kind") or "").strip():
+            findings.append(f"representativeness_candidate_scope_missing:{index}")
+        if "claim_coverage" not in candidate:
+            findings.append(f"representativeness_candidate_coverage_missing:{index}")
+    for index, claim in enumerate(claims if isinstance(claims, list) else []):
+        if not isinstance(claim, dict):
+            findings.append(f"representativeness_claim_invalid:{index}")
+            continue
+        if not str(claim.get("claim_id") or "").strip():
+            findings.append(f"representativeness_claim_id_missing:{index}")
+        if "coverage" not in claim:
+            findings.append(f"representativeness_claim_coverage_missing:{index}")
+    findings.extend(
+        _unknown_evidence(
+            _evidence_map_ids(value, known_evidence_ids=evidence_ids),
+            evidence_ids,
+            "representativeness_review",
+        )
+    )
     return sorted(set(findings))
 
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v16-stage07-scope-task-source-and-leakage-recheck-20260821"
+STAGE07_AUDIT_VERSION = "v17-stage07-representativeness-and-toolbox-policy-20260821"
 
 
 def audit_instructions(
@@ -56,7 +56,8 @@ SCIENTIFIC WORKFLOW
    `rejected_scientific_unrepairable`.
 5. Treat the whole-paper objective-centered workflow as the default. Retain a core subworkflow only
    when Stage06 records an evidence-backed blocker such as unacceptable cost, unrecoverable input,
-   absent software family, or a scientifically non-closed step. A core subworkflow must directly support the paper's central question
+   or a scientifically non-closed step. A missing software family is not a scope blocker: preserve
+   the scientifically appropriate route and record the gap for later toolbox work. A core subworkflow must directly support the paper's central question
    or primary claim and preserve meaningful dependencies, Key Points, validation and computational
    challenge. Audit its `central_scientific_question`, `supported_primary_claims`,
    `parent_workflow_position`, `why_not_full_workflow`, and `selection_rationale`. If Stage06 chose a
@@ -71,6 +72,17 @@ SCIENTIFIC WORKFLOW
    (phase/solvent, temperature/pressure, wavelength or photon energy, charge/multiplicity and spin)
    remain public when needed to define the scientific target. A missing author route keyword is not
    permission to delete the underlying physical condition.
+
+7. Independently audit Stage06's `representativeness_review`. Compare the paper's computational claims
+   from the title/abstract/main figures or tables/conclusions with every candidate workflow recorded by
+   Stage06. Confirm that the complete route was attempted first, that any retained subworkflow is the
+   most central closed alternative, and that no peripheral workflow was selected only because it was
+   cheaper or easier to package. If a more central closed alternative exists, redesign the pair and
+   record the evidence; if neither a complete route nor a central closed sub-process is constructible
+   without guessing, reject scientifically. Write a `representativeness_audit` object in the receipt
+   containing `paper_claims_checked`, `candidate_workflows_checked`, `selected_scope_kind`,
+   `coverage_summary`, and `rationale`. This is an evidence-backed Agent audit, not a keyword or
+   code-side importance score.
 
 Before returning the audit receipt, write a compact six-row audit table in the audit artifact. Answer each
 row with `closed`, `repairable`, or `unrepairable`, cite the relevant files/evidence, and record the actual
@@ -222,6 +234,9 @@ TOOLBOX AND COST
   use `unknown` if the inventory itself is unavailable or name matching is genuinely unresolved.
   Missing software never causes scientific rejection: complete the task and list precise
   additions for later human installation.
+- Set `execution_readiness` to `ready`, `conditional`, or `unknown` as a non-blocking operational
+  observation. `conditional` means the scientific task is valid but one or more listed programs
+  need later installation or capability clarification; it is not a scientific rejection.
 - Reject for cost only when no complete meaningful scope is feasible under the supplied policy.
 
 Your toolbox assessment remains authoritative. After you finish, the orchestrator may write a
@@ -308,7 +323,15 @@ Return one JSON object matching this contract; the harness persists it as the au
     {{"check": "autonomous_disclosure", "status": "closed | repairable | unrepairable", "evidence_ids": [], "changes": []}}
   ],
   "toolbox_status": "available | needs_software | unknown",
+  "execution_readiness": "ready | conditional | unknown",
   "required_additions": [],
+  "representativeness_audit": {{
+    "paper_claims_checked": [],
+    "candidate_workflows_checked": [],
+    "selected_scope_kind": "",
+    "coverage_summary": [],
+    "rationale": ""
+  }},
   "resource_status": "feasible | high_cost | infeasible | uncertain",
   "scientific_decision": "same semantic decision as audit_decision",
   "contract_status": "passed | findings | not_applicable",
