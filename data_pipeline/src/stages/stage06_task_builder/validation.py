@@ -154,9 +154,24 @@ def canonicalize_mode_task_contract(
                 if isinstance(scope, dict)
                 else None
             )
+            # ``task_info.json`` is intentionally a compact projection and
+            # therefore often does not carry the full workflow_scope object.
+            # A non-empty method_constraints list is the authoritative public
+            # signal that the autonomous task is method-constrained.  Do not
+            # silently relabel such a task as method discovery merely because
+            # the scope projection is absent.
+            public_method_constraints = value.get("method_constraints") or value.get(
+                "public_method_constraints"
+            )
+            has_public_method_constraints = isinstance(
+                public_method_constraints, list
+            ) and any(str(item).strip() for item in public_method_constraints)
             value["method_disclosure"] = (
                 "public_scientific_method_constraints"
-                if scope_value == "fixed_input_method_constrained_workflow"
+                if (
+                    scope_value == "fixed_input_method_constrained_workflow"
+                    or has_public_method_constraints
+                )
                 else "no_paper_method"
             )
             value["pathway_disclosure"] = "public_problem_only"

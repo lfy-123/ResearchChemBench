@@ -3026,10 +3026,26 @@ def _autonomy_scope(scope: Any) -> str:
     return value if value in _AUTONOMY_SCOPES else "fixed_input_method_discovery"
 
 
-def _autonomous_method_disclosure(scope: Any) -> str:
+def _autonomous_method_disclosure(
+    scope: Any, method_constraints: Any = None
+) -> str:
+    """Project the public autonomy contract into evaluator metadata.
+
+    A task-info projection may omit ``workflow_scope`` while retaining the
+    public scientific method constraints.  Those constraints must keep the
+    constrained disclosure label; otherwise the generated task contradicts
+    its own task.md/task_spec instructions.
+    """
+
+    has_public_method_constraints = isinstance(method_constraints, list) and any(
+        str(item).strip() for item in method_constraints
+    )
     return (
         "public_scientific_method_constraints"
-        if _autonomy_scope(scope) == "fixed_input_method_constrained_workflow"
+        if (
+            _autonomy_scope(scope) == "fixed_input_method_constrained_workflow"
+            or has_public_method_constraints
+        )
         else "no_paper_method"
     )
 
@@ -4226,7 +4242,11 @@ def _normalize_task_pair_artifact_contracts(
         disclosure = (
             "paper_route_disclosed"
             if is_reproduction
-            else _autonomous_method_disclosure(scope)
+            else _autonomous_method_disclosure(
+                scope,
+                public_basis.get("method_constraints")
+                or public_basis.get("public_method_constraints"),
+            )
         )
         info.update(common_info)
         info.update(
@@ -6286,7 +6306,9 @@ def _normalized_task_info(
             "method_disclosure": _autonomous_method_disclosure(
                 public_basis.get("workflow_scope")
                 or public_basis.get("scope")
-                or {}
+                or {},
+                public_basis.get("method_constraints")
+                or public_basis.get("public_method_constraints"),
             ),
             "pathway_disclosure": "public_problem_only",
             "method_constraints": public_basis.get("method_constraints") or [],
@@ -6397,7 +6419,9 @@ def _normalized_task_spec(
             "task_mode": "open_discovery",
             "scientific_mode": "autonomous_research",
             "method_disclosure": _autonomous_method_disclosure(
-                public_basis.get("workflow_scope") or {}
+                public_basis.get("workflow_scope") or {},
+                public_basis.get("method_constraints")
+                or public_basis.get("public_method_constraints"),
             ),
             "pathway_disclosure": "public_problem_only",
             "scientific_question": public_basis.get("scientific_question"),

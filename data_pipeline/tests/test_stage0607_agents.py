@@ -6003,6 +6003,30 @@ def test_mode_contract_projects_requirement_records_to_evaluator_strings(tmp_pat
     ]
 
 
+def test_mode_contract_preserves_public_method_constraint_without_scope(
+    tmp_path: Path,
+) -> None:
+    """A compact task-info projection must not erase a disclosed method constraint."""
+
+    for name in ("task_info.json", "task_spec.json"):
+        write_json(
+            tmp_path / name,
+            {
+                "task_pair_id": "pair-constrained",
+                "task_id": "old",
+                "mode": "autonomous_research",
+                "method_constraints": ["Use a source-defined method family."],
+            },
+        )
+    assert canonicalize_mode_task_contract(
+        tmp_path, expected_mode="autonomous_research"
+    ) == []
+    for name in ("task_info.json", "task_spec.json"):
+        assert read_json(tmp_path / name)["method_disclosure"] == (
+            "public_scientific_method_constraints"
+        )
+
+
 def test_mechanical_gate_reports_hidden_pair_identity_mismatch(tmp_path: Path) -> None:
     pair = tmp_path / "pair"
     for mode, task_mode, suffix in (
