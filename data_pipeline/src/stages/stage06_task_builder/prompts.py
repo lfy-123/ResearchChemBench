@@ -550,8 +550,10 @@ inline coordinates or another large asset in the final response. If the paper do
 to identify a necessary asset, reject; do not invent it. For each workflow step provide `step_id`, `action`, `depends_on`, `input_artifacts`,
 `output_artifacts`, `software`, `method_parameters`, and `evidence_ids`. At least one step must depend on another.
 
-Select at most three high-value Ground Truth items. Aggregate related values into compact keyed tables; do not
-repeat one item per atom, coordinate, energy line, or species. For each Ground Truth item provide
+Select a compact set of high-value Ground Truth items appropriate to the selected workflow. There is no fixed
+item-count cap: include every intermediate or final conclusion needed to represent the scientific objective, while
+aggregating related values into keyed tables rather than creating one item per atom, coordinate, energy line, or
+species. For each Ground Truth item provide
 `ground_truth_id`, `kind`, `canonical_answer`, `required_propositions`,
 `forbidden_contradictions`, `acceptance_type`, `acceptance_parameters`, `evidence_grade` (A/B/C/D), `evidence_ids`,
 and `claim_role` (`intermediate` or `final`). Evidence grade applies to both numerical and textual conclusions.
