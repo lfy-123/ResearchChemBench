@@ -171,6 +171,10 @@ declared artifact/field or an explicit document binding; the mechanical gate wil
 shape and will not infer a scientific projection. Use standard JSONPath spelling: identifier-like
 keys may use `$.group.field`, but keys beginning with a digit or containing punctuation must use
 bracket-quoted selectors such as `$['group']['61TS2b']`; never emit an invalid dot segment.
+The supported transport subset does not implement recursive descent: never emit `$..field` (two
+dots after `$`). If you see that form in a draft, rewrite it to the explicit child path such as
+`$.field` or `$.group.field` only when that exact path is the intended declared result field. Before
+approval, reread every `observed_fields` entry and ensure no selector starts with `$..`.
 
 When editing `task_info.json`, keep `scientific_requirements` as a compact list of plain strings.
 If richer records are used during reasoning, project each record to its requirement text before

@@ -6288,6 +6288,78 @@ def test_mechanical_gate_normalizes_hidden_pair_identity(tmp_path: Path) -> None
     )
 
 
+def test_mechanical_gate_projects_structured_critical_failures(tmp_path: Path) -> None:
+    pair = tmp_path / "pair"
+    (pair / "hidden_reference").mkdir(parents=True)
+    for mode, task_mode, suffix in (
+        ("paper_reproduction", "guided_reproduction", "_reproduction"),
+        ("autonomous_research", "open_discovery", "_autonomous"),
+    ):
+        root = pair / mode
+        (root / "data" / "inputs").mkdir(parents=True)
+        (root / "data" / "inputs" / "input.xyz").write_text(
+            "1\nH\nH 0 0 0\n", encoding="utf-8"
+        )
+        info = {
+            "task_id": "pair_test" + suffix,
+            "task_pair_id": "pair_test",
+            "source_id": "paper-test",
+            "category": "computational_chemistry",
+            "mode": mode,
+            "scientific_mode": mode,
+            "task_mode": task_mode,
+        }
+        write_json(root / "task_info.json", info)
+        write_json(
+            root / "task_spec.json",
+            {"task_id": info["task_id"], "task_pair_id": "pair_test", "mode": mode, "scientific_mode": mode},
+        )
+        write_json(
+            root / "submission_contract.json",
+            {
+                "required_files": ["report/results.json", "report/process_trace.jsonl"],
+                "results_schema": {"type": "object", "properties": {"foo": {"type": "number"}}},
+            },
+        )
+        write_json(
+            root / "process_rubric.json",
+            [{"id": "route_fidelity", "criterion_type": "route_fidelity", "evidence_artifacts": ["report/process_trace.jsonl"]}],
+        )
+        (root / "task.md").write_text("task\n", encoding="utf-8")
+    write_json(
+        pair / "hidden_reference" / "ground_truth_common.json",
+        {
+            "task_pair_id": "pair_test",
+            "expected_result": {},
+            "critical_failures": [
+                {"id": "no_run", "message": "No real calculation was executed."}
+            ],
+            "acceptance_profiles": [
+                {
+                    "acceptance_profile_id": "ap-1",
+                    "type": "numeric_tolerance",
+                    "submission_binding": {
+                        "artifact_paths": ["report/results.json"],
+                        "observed_fields": ["$..foo"],
+                    },
+                    "applies_to_modes": ["autonomous_research", "paper_reproduction"],
+                }
+            ],
+        },
+    )
+
+    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+
+    assert report["mechanical_pre_publish_status"] == "passed"
+    assert report["schema_load_diagnostic"] == "passed"
+    hidden = read_json(pair / "hidden_reference" / "ground_truth_common.json")
+    assert hidden["acceptance_profiles"][0]["submission_binding"]["observed_fields"] == ["$.foo"]
+    assert any(
+        row.get("kind") == "evaluator_binding_path_normalization"
+        for row in report["normalization_records"]
+    )
+
+
 def test_submission_aliases_and_rubric_wrappers_are_transport_normalized() -> None:
     contract = normalize_submission_contract(
         {

@@ -114,6 +114,29 @@ def stage07_mechanical_pre_publish_check(
                 # The ordinary hidden-reference checks below report unreadable/invalid
                 # content; do not turn this best-effort normalization into a new verdict.
                 pass
+    common_path = pair_root / "hidden_reference" / "ground_truth_common.json"
+    if common_path.is_file():
+        try:
+            common_before = read_json(common_path)
+            if isinstance(common_before, dict):
+                before_hash = _file_digest(common_path)
+                changed_profiles = _normalize_hidden_binding_paths(common_before)
+                if changed_profiles:
+                    write_json(common_path, common_before)
+                    normalization_records.append(
+                        {
+                            "kind": "evaluator_binding_path_normalization",
+                            "file": "hidden_reference/ground_truth_common.json",
+                            "profiles": changed_profiles,
+                            "before_sha256": before_hash,
+                            "after_sha256": _file_digest(common_path),
+                        }
+                    )
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            # The normal evaluator checks below report malformed hidden
+            # content.  A best-effort transport repair must not hide that
+            # diagnostic or create a new verdict.
+            pass
     for mode in required_modes:
         root = pair_root / mode
         if not root.is_dir():
@@ -437,6 +460,85 @@ def _binding_for_mode(profile: dict[str, Any], mode: str) -> dict[str, Any]:
     return binding
 
 
+def _critical_failure_strings(value: Any) -> list[str]:
+    """Project rich private failure records into the evaluator's string contract.
+
+    Stage06 may keep an id plus a human-readable message so that the scientific
+    audit remains traceable.  The downstream evaluator schema intentionally has
+    a smaller transport type (``list[str]``).  This projection is lossless for
+    the evaluator-facing text and does not alter any scientific decision.
+    """
+
+    output: list[str] = []
+    raw_items = value if isinstance(value, list) else []
+    for item in raw_items:
+        if isinstance(item, str):
+            text = item.strip()
+        elif isinstance(item, dict):
+            identifier = str(item.get("id") or item.get("failure_id") or "").strip()
+            message = str(
+                item.get("message")
+                or item.get("description")
+                or item.get("statement")
+                or item.get("rule")
+                or ""
+            ).strip()
+            text = f"{identifier}: {message}" if identifier and message else (message or identifier)
+        else:
+            text = str(item).strip()
+        if text:
+            output.append(text)
+    return output
+
+
+def _normalize_hidden_binding_paths(hidden: dict[str, Any]) -> list[str]:
+    """Repair the bounded legacy ``$..field`` spelling in private bindings.
+
+    The evaluator transport parser supports the explicit child-selector form
+    ``$.group.field`` (and bracket-quoted keys), not JSONPath recursive descent.
+    Some otherwise valid Agent outputs add one extra dot after ``$``.  When the
+    remainder is valid in the supported subset, normalize only that leading
+    typo.  We do not rewrite arbitrary JSONPath or infer semantic fields.
+    """
+
+    changed: list[str] = []
+
+    def visit(value: Any, profile_id: str) -> None:
+        if isinstance(value, dict):
+            fields = value.get("observed_fields")
+            if isinstance(fields, str):
+                fields = [fields]
+                scalar = True
+            else:
+                scalar = False
+            if isinstance(fields, list):
+                updated: list[Any] = []
+                did_change = False
+                for field in fields:
+                    replacement = field
+                    if isinstance(field, str) and field.startswith("$.."):
+                        candidate = "$" + field[2:]
+                        if _jsonpath_tokens(candidate) is not None:
+                            replacement = candidate
+                            did_change = True
+                            changed.append(profile_id)
+                    updated.append(replacement)
+                if did_change:
+                    value["observed_fields"] = updated[0] if scalar and len(updated) == 1 else updated
+            for key, nested in list(value.items()):
+                if key != "observed_fields":
+                    visit(nested, profile_id)
+        elif isinstance(value, list):
+            for nested in value:
+                visit(nested, profile_id)
+
+    for profile in hidden.get("acceptance_profiles") or []:
+        if isinstance(profile, dict):
+            profile_id = str(profile.get("acceptance_profile_id") or "unknown")
+            visit(profile, profile_id)
+    return sorted(set(changed))
+
+
 def _string_list(value: Any) -> list[str]:
     """Normalize a scalar-or-array contract field without interpreting science."""
 
@@ -630,6 +732,9 @@ def _project_hidden_for_mode(hidden: dict[str, Any], mode: str) -> dict[str, Any
     projected["ground_truth_items"] = truths
     projected["acceptance_profiles"] = profiles
     projected["scientific_conclusion_rubric"] = rubric
+    projected["critical_failures"] = _critical_failure_strings(
+        projected.get("critical_failures")
+    )
 
     # Keep the mode projection self-contained when expected results or
     # reference evidence are keyed by Ground Truth ID.  Unknown/non-ID fields
