@@ -679,8 +679,10 @@ The orchestrator has already generated `task/paper_route.md`, `task/workflow_spe
 `task/route_evidence_map.json` by rendering the validated structured route packet. Audit those three
 files against `private_input/paper_route.json`; repair them only if the rendering omitted or distorted a route fact.
 `route_evidence_map.json` is an evidence/navigation index only: keep evidence IDs, route categories,
-step indexes and safe role labels; never copy target values, answer ordering, conclusions, DOI strings,
-source filesystem paths, or answer-bearing excerpts into it.
+step indexes and safe role labels (for example `workflow_step`, `method_definition`,
+`metric_definition`, or `validation_operation`); never use category/key names such as `target`,
+`answer`, `preferred`, or `conclusion`, and never copy target values, answer ordering, conclusions,
+DOI strings, source filesystem paths, or answer-bearing excerpts into it.
 The helper updates exactly four copied files: `task.md`, `task_info.json`, `task_spec.json`, and
 `process_rubric.json`. Verify its short summary and audit that the task explicitly requires `paper_route.md` and
 `workflow_spec.json`, all mode/disclosure fields say guided reproduction, and the process Key Point list covers route

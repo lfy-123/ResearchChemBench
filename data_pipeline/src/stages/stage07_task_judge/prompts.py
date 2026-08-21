@@ -143,9 +143,11 @@ Remove or neutralize answer disclosures while preserving execution-defining fact
 this check with fixed paper names, molecule names, numbers, or keyword lists.
 
 Treat `route_evidence_map.json` as a public navigation index, not a source excerpt. It may contain
-evidence IDs, route categories, step indexes, and safe role labels only. Remove target values,
-answer ordering, conclusions, DOI strings, source filesystem paths, and answer-bearing prose from
-that map; keep such material in the private evidence layer.
+evidence IDs, route categories, step indexes, and safe role labels only. Use neutral category names
+such as `workflow_step`, `method_definition`, `metric_definition`, or `validation_operation`; do
+not use category/key names such as `target`, `answer`, `preferred`, or `conclusion`. Remove target
+values, answer ordering, conclusions, DOI strings, source filesystem paths, and answer-bearing prose
+from that map; keep such material in the private evidence layer.
 
 MODE-SPECIFIC BINDING MATRIX: before approving, inspect every Ground Truth acceptance profile as
 one row for each public mode. If a field or artifact is required only in reproduction, or the
