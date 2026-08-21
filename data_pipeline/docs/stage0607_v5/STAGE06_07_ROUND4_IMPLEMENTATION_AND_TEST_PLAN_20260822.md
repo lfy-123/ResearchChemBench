@@ -23,7 +23,7 @@
 ### 2.2 绑定路径运输归一化
 
 - 在 mechanical gate 的 evaluator dry-run 之前扫描所有 acceptance profile 的 `observed_fields`，包括 mode-specific binding。
-- 只把满足“以 `$..` 开头、去掉一个点后仍是当前受支持 JSONPath 子集”的选择器改为 `$.` 形式。
+- 只把满足“以 `$..` 开头、去掉一个点后仍是当前受支持 JSONPath 子集，且对应显式路径在至少一个适用 mode 的结果 schema 中为 `present/open`”的选择器改为 `$.` 形式。
 - 不解析、不改写其他 JSONPath，不寻找候选字段，也不改变 target、tolerance、proposition 或 mode scope。
 - 将修改文件的前后 SHA-256 和 profile ID 写入 `orchestrator_normalizations.json`/机械报告的 `normalization_records`，保证 Agent 原始产物与最终发布树可追溯。
 - Stage07 prompt 增加 `$..` 反例和最终逐条复核要求。

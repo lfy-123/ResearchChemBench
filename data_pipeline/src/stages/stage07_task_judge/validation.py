@@ -114,29 +114,6 @@ def stage07_mechanical_pre_publish_check(
                 # The ordinary hidden-reference checks below report unreadable/invalid
                 # content; do not turn this best-effort normalization into a new verdict.
                 pass
-    common_path = pair_root / "hidden_reference" / "ground_truth_common.json"
-    if common_path.is_file():
-        try:
-            common_before = read_json(common_path)
-            if isinstance(common_before, dict):
-                before_hash = _file_digest(common_path)
-                changed_profiles = _normalize_hidden_binding_paths(common_before)
-                if changed_profiles:
-                    write_json(common_path, common_before)
-                    normalization_records.append(
-                        {
-                            "kind": "evaluator_binding_path_normalization",
-                            "file": "hidden_reference/ground_truth_common.json",
-                            "profiles": changed_profiles,
-                            "before_sha256": before_hash,
-                            "after_sha256": _file_digest(common_path),
-                        }
-                    )
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            # The normal evaluator checks below report malformed hidden
-            # content.  A best-effort transport repair must not hide that
-            # diagnostic or create a new verdict.
-            pass
     for mode in required_modes:
         root = pair_root / mode
         if not root.is_dir():
@@ -323,6 +300,39 @@ def stage07_mechanical_pre_publish_check(
         if (pair_root / mode / "hidden_reference").exists():
             findings.append(f"hidden_reference_in_public_mode:{mode}")
 
+    # Apply the tiny legacy selector repair only after the public schemas have
+    # been loaded.  This prevents a recursive-descent-looking string from being
+    # rewritten when the corresponding explicit child path is not declared by
+    # any applicable mode.
+    common_path = pair_root / "hidden_reference" / "ground_truth_common.json"
+    if common_path.is_file():
+        try:
+            common_before = read_json(common_path)
+            if isinstance(common_before, dict):
+                before_hash = _file_digest(common_path)
+                mode_schemas = {
+                    mode: values["submission"].get("results_schema")
+                    for mode, values in mode_values.items()
+                }
+                changed_profiles = _normalize_hidden_binding_paths(
+                    common_before, mode_schemas=mode_schemas
+                )
+                if changed_profiles:
+                    write_json(common_path, common_before)
+                    normalization_records.append(
+                        {
+                            "kind": "evaluator_binding_path_normalization",
+                            "file": "hidden_reference/ground_truth_common.json",
+                            "profiles": changed_profiles,
+                            "before_sha256": before_hash,
+                            "after_sha256": _file_digest(common_path),
+                        }
+                    )
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            # The normal evaluator checks below report malformed hidden
+            # content.  A best-effort transport repair must not hide that
+            # diagnostic or create a new verdict.
+            pass
     evaluator = _evaluator_dry_run(pair_root, mode_values)
     findings.extend(evaluator["findings"])
     if normalization_records:
@@ -491,7 +501,9 @@ def _critical_failure_strings(value: Any) -> list[str]:
     return output
 
 
-def _normalize_hidden_binding_paths(hidden: dict[str, Any]) -> list[str]:
+def _normalize_hidden_binding_paths(
+    hidden: dict[str, Any], *, mode_schemas: dict[str, Any] | None = None
+) -> list[str]:
     """Repair the bounded legacy ``$..field`` spelling in private bindings.
 
     The evaluator transport parser supports the explicit child-selector form
@@ -503,7 +515,7 @@ def _normalize_hidden_binding_paths(hidden: dict[str, Any]) -> list[str]:
 
     changed: list[str] = []
 
-    def visit(value: Any, profile_id: str) -> None:
+    def visit(value: Any, profile_id: str, allowed_modes: list[str]) -> None:
         if isinstance(value, dict):
             fields = value.get("observed_fields")
             if isinstance(fields, str):
@@ -518,7 +530,18 @@ def _normalize_hidden_binding_paths(hidden: dict[str, Any]) -> list[str]:
                     replacement = field
                     if isinstance(field, str) and field.startswith("$.."):
                         candidate = "$" + field[2:]
-                        if _jsonpath_tokens(candidate) is not None:
+                        candidate_tokens = _jsonpath_tokens(candidate)
+                        schema_declared = True
+                        if mode_schemas is not None:
+                            schema_declared = False
+                            if candidate_tokens is not None:
+                                for mode in allowed_modes:
+                                    schema = mode_schemas.get(mode)
+                                    status = _schema_path_status(schema, candidate_tokens)
+                                    if status in {"present", "open"}:
+                                        schema_declared = True
+                                        break
+                        if candidate_tokens is not None and schema_declared:
                             replacement = candidate
                             did_change = True
                             changed.append(profile_id)
@@ -527,15 +550,16 @@ def _normalize_hidden_binding_paths(hidden: dict[str, Any]) -> list[str]:
                     value["observed_fields"] = updated[0] if scalar and len(updated) == 1 else updated
             for key, nested in list(value.items()):
                 if key != "observed_fields":
-                    visit(nested, profile_id)
+                    visit(nested, profile_id, allowed_modes)
         elif isinstance(value, list):
             for nested in value:
-                visit(nested, profile_id)
+                visit(nested, profile_id, allowed_modes)
 
     for profile in hidden.get("acceptance_profiles") or []:
         if isinstance(profile, dict):
             profile_id = str(profile.get("acceptance_profile_id") or "unknown")
-            visit(profile, profile_id)
+            scope = _mode_scope(profile.get("applies_to_modes")) or list(_TASK_MODES)
+            visit(profile, profile_id, scope)
     return sorted(set(changed))
 
 
