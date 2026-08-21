@@ -14,6 +14,8 @@
 
 批量运行中又确认一个通用编排问题：`src.cli run-stage06-07` 的进程码 0 不代表 Stage06/07 内部一定完成。批处理脚本现读取 `late_stage_run_summary.json`，将 Stage06 retryable/artifact-delivery failure、Stage07 未运行、Stage07 retryable failure、summary 缺失/损坏标为批次失败；科学拒绝和机械阻断仍作为已完成的科学结果记录。
 
+同一批次还出现 Stage06B 明确返回 `needs_conversion_retry`、但 `_converter_phase_findings()` 原先把该状态当作“无需检查”，随后直接结束 Stage06 的情况。现已把这个显式可恢复状态接入 `_run_phase` 已有的有限重试/恢复循环，不改变 Stage06B 的科学权限。
+
 ## 2. 实施内容
 
 ### 2.1 Stage07 evaluator projection
@@ -40,7 +42,7 @@ v5.1 总目标已经明确：完整论文核心计算路线优先；只有成本
 
 ```text
 PYTHONPATH=. pytest -q tests/test_stage0607_agents.py tests/test_stage0607_v5_contracts.py
-155 passed（加入批次内部失败状态回归测试后）
+156 passed（加入批次内部失败和 Stage06B retry 状态回归测试后）
 
 PYTHONPATH=. pytest -q tests/test_batch_workflow.py tests/test_stage_layout.py tests/test_pipeline.py
 259 passed

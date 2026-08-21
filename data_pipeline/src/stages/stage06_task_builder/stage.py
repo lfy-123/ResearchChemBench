@@ -5157,6 +5157,11 @@ def _ensure_objective_handoff_artifacts(pair_root: Path, review: dict[str, Any])
 def _converter_phase_findings(response: dict[str, Any], workspace: Path) -> list[str]:
     """Check only the converter's file contract; scientific decisions remain with the Agents."""
 
+    if response.get("status") == "needs_conversion_retry":
+        # The converter schema explicitly distinguishes a recoverable malformed
+        # artifact from a completed conversion.  Surface that state to _run_phase
+        # so its existing bounded recovery/retry loop can regenerate the files.
+        return ["autonomous_converter_requested_retry"]
     if response.get("status") not in {"converted", "conversion_uncertain"}:
         return []
     outputs = workspace / "outputs"

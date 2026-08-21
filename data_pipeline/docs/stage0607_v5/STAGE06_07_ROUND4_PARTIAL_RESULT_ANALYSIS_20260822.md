@@ -31,6 +31,8 @@ Stage06：`provisional_not_constructible`。Stage07：`rejected_scientific_unrep
 
 批量运行轨迹还暴露出批处理脚本的状态语义问题：CLI 进程即使返回 0，Stage06 仍可能记录 `artifact_delivery_failure_retryable` 并跳过 Stage07。已在未重启当前批次的代码中增加 `late_stage_run_summary.json` 读取，将此类内部失败标为批次 `FAILED`；科学拒绝仍保持 `COMPLETED`。
 
+完整批次中 `paper_35349e84bdec7e59` 具体触发了该问题：Stage06A 构建成功，Stage06B 返回 `needs_conversion_retry`，但由于 converter 状态未接入 `_run_phase` 的恢复循环，最终以 `autonomous_conversion_failed` 结束，Stage07 未运行。这个结果不是科学拒绝，也不是“论文不可用”；代码已修复为在该显式状态下进入有限重试。当前批次使用的是修复前进程，故其 `batch_status.json` 仍记录 `exit_code=0/completed`，应按 `late_stage_run_summary` 后验解释。
+
 回归测试：Stage06/07 154 passed；管线相关 259 passed。
 
 ## 4. 尚不能下结论的项目

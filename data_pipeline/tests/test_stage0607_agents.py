@@ -65,6 +65,7 @@ from src.stages.stage06_task_builder.stage import (
     _neutralize_public_key_point_fields,
     _neutralize_submission_contract,
     _normalize_converter_report,
+    _converter_phase_findings,
     _ensure_reproduction_route_rubric,
     _normalize_workflow_review_aliases,
     _reconcile_task_phase_receipt,
@@ -6064,6 +6065,17 @@ def test_converter_report_is_recovered_from_response_or_nested_file(tmp_path: Pa
     recovered_nested = _normalize_converter_report({"status": "converted"}, workspace)
     assert recovered_nested == report
     assert not nested.exists()
+
+
+def test_converter_retry_status_enters_phase_recovery_loop(tmp_path: Path) -> None:
+    assert _converter_phase_findings(
+        {
+            "status": "needs_conversion_retry",
+            "artifact_path": "outputs/autonomous_research",
+            "summary": "metadata needs regeneration",
+        },
+        tmp_path,
+    ) == ["autonomous_converter_requested_retry"]
 
 
 def test_stage07_mechanical_gate_loads_evaluator_contracts(tmp_path: Path) -> None:
