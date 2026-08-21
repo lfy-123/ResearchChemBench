@@ -35,6 +35,8 @@
 1. 每个 `data/inputs/...` 声明只物化一次，明确禁止 `data/inputs/data/inputs/...`；
 2. 在 Codex 隔离工具中避免 `rm`/`rm -rf` 等 shell 清理命令，采用新目录/定向文件写入，减少因工具安全拒绝造成的模型循环和超长等待。
 
+另外，在 Stage07 中间审计输出上运行 pair validator 时确认了一个真实的合同 bug：`validate_autonomous_route_isolation()` 原来只把物理边界列为允许公开内容，即使 `autonomy_scope=fixed_input_method_constrained_workflow` 且 `method_constraints` 明确声明 B3LYP/基组为公开科学变量，也会把这些方法 token 报成 `autonomous_route_disclosure`。这会把合法的 method-constrained 自主任务误判为脱敏失败。已扩展 validator 调用链，把显式公开的方法约束作为第二类允许 token；未声明约束的软件名仍会被发现。新增回归测试覆盖“受约束方法允许、实现软件仍禁止”。
+
 这两条只约束文件运输和操作方式，不判断化学闭合、代表性或答案语义，也不包含论文/分子特例规则。
 
 同时发现 Stage06A 提示中的“最多三个 Ground Truth items”与总目标“Key Point/结论数量按任务内容决定”不一致。该上限不是代码校验，但会诱导 Agent 过度合并复杂任务的中间结论，已改为按选定科学目标使用紧凑但无固定数量上限的 Ground Truth 集合，并继续要求聚合相关数值而不是逐原子拆项。

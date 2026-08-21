@@ -1010,6 +1010,30 @@ def _allowed_public_boundary_aliases(boundary_conditions: Any) -> set[str]:
     return aliases
 
 
+def _public_method_constraint_text(method_constraints: Any) -> str:
+    """Return normalized text for method constraints explicitly exposed as science inputs.
+
+    A constrained autonomous task may intentionally disclose a functional, basis, or other
+    method variable.  Those tokens are public by contract and must not be treated as leaked
+    author-route implementation merely because the same token occurs in the reproduction route.
+    """
+
+    values: list[str] = []
+
+    def visit(value: Any) -> None:
+        if isinstance(value, dict):
+            for nested in value.values():
+                visit(nested)
+        elif isinstance(value, list):
+            for nested in value:
+                visit(nested)
+        elif isinstance(value, str) and value.strip():
+            values.append(value)
+
+    visit(method_constraints)
+    return _normalize_text("\n".join(values))
+
+
 def validate_task_boundary_conditions(
     task_root: Path, *, expected_conditions: Any
 ) -> list[str]:
@@ -1056,6 +1080,7 @@ def validate_autonomous_route_isolation(
     *,
     paper_route: dict[str, Any],
     allowed_boundary_conditions: Any,
+    allowed_method_constraints: Any = None,
 ) -> list[str]:
     public_text = _normalize_text(
         "\n".join(
@@ -1068,6 +1093,7 @@ def validate_autonomous_route_isolation(
     allowed_boundary_aliases = _allowed_public_boundary_aliases(
         allowed_boundary_conditions
     )
+    allowed_method_text = _public_method_constraint_text(allowed_method_constraints)
     declared_tokens = paper_route.get("autonomous_forbidden_disclosures") or []
     route_tokens = {
         _normalize_text(str(token))
@@ -1076,7 +1102,9 @@ def validate_autonomous_route_isolation(
     }
     findings = []
     for token in sorted(route_tokens):
-        if token in allowed_boundary_aliases:
+        if token in allowed_boundary_aliases or (
+            allowed_method_text and _route_token_present(token, allowed_method_text)
+        ):
             continue
         if _route_token_present(token, public_text):
             findings.append(f"autonomous_route_disclosure:{token}")
@@ -1610,6 +1638,8 @@ def validate_task_pair(pair_root: Path) -> dict[str, Any]:
                 autonomous,
                 paper_route=reproduction_allowed.get("paper_route") or {},
                 allowed_boundary_conditions=expected_boundaries,
+                allowed_method_constraints=public_basis.get("method_constraints")
+                or public_basis.get("public_method_constraints"),
             )
         )
     if common_path.is_file():
@@ -1673,6 +1703,10 @@ def validate_task_pair_draft(
             autonomous,
             paper_route=review.get("paper_route") or {},
             allowed_boundary_conditions=boundary_conditions,
+            allowed_method_constraints=(review.get("public_task_basis") or {}).get(
+                "method_constraints"
+            )
+            or (review.get("public_task_basis") or {}).get("public_method_constraints"),
         )
     )
     expected_scope = dict(review.get("workflow_scope") or {})

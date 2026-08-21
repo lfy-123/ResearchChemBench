@@ -4368,6 +4368,7 @@ def test_task_boundary_and_route_isolation_are_enforced(tmp_path: Path) -> None:
     }
 
     assert validate_task_boundary_conditions(task, expected_conditions=boundaries) == []
+
     assert (
         validate_autonomous_route_isolation(
             task,
@@ -4394,6 +4395,34 @@ def test_task_boundary_and_route_isolation_are_enforced(tmp_path: Path) -> None:
         encoding="utf-8",
     )
     assert validate_task_boundary_conditions(task, expected_conditions=boundaries) == []
+
+
+def test_constrained_autonomous_method_tokens_are_public(tmp_path: Path) -> None:
+    task = tmp_path / "task"
+    task.mkdir()
+    (task / "task_spec.json").write_text(
+        json.dumps({"boundary_conditions": [{"name": "target_medium", "value": "vacuum"}]}),
+        encoding="utf-8",
+    )
+    (task / "task.md").write_text(
+        "Determine the observable in vacuum using the constrained B3LYP/6-311+G(2d,p) method and Gaussian.",
+        encoding="utf-8",
+    )
+    paper_route = {
+        "software": ["Gaussian"],
+        "autonomous_forbidden_disclosures": ["B3LYP", "6-311+G(2d,p)", "Gaussian"],
+    }
+    findings = validate_autonomous_route_isolation(
+        task,
+        paper_route=paper_route,
+        allowed_boundary_conditions=[{"name": "target_medium", "value": "vacuum"}],
+        allowed_method_constraints=[
+            {"constraint": "The public scientific variable is B3LYP/6-311+G(2d,p)."}
+        ],
+    )
+    assert "autonomous_route_disclosure:b3lyp" not in findings
+    assert "autonomous_route_disclosure:6-311+g 2d p" not in findings
+    assert "autonomous_route_disclosure:gaussian" in findings
 
 
 def test_scientific_review_rejects_public_and_route_answer_leakage() -> None:

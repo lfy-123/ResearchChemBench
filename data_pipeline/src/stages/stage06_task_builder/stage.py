@@ -831,6 +831,8 @@ def _run_stage06_legacy(
                     autonomous_root,
                     paper_route=review_response.get("paper_route") or {},
                     allowed_boundary_conditions=public_basis.get("boundary_conditions"),
+                    allowed_method_constraints=public_basis.get("method_constraints")
+                    or public_basis.get("public_method_constraints"),
                 )
             )
             if autonomous_findings:
@@ -5315,6 +5317,8 @@ def _autonomous_phase_findings(
             task_root,
             paper_route=review.get("paper_route") or {},
             allowed_boundary_conditions=public_basis.get("boundary_conditions"),
+            allowed_method_constraints=public_basis.get("method_constraints")
+            or public_basis.get("public_method_constraints"),
         )
     )
     return sorted(set(findings))
