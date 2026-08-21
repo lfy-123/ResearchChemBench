@@ -6124,6 +6124,9 @@ def test_stage07_mechanical_gate_loads_evaluator_contracts(tmp_path: Path) -> No
             "task_pair_id": "pair_test",
             "source_id": "paper-test",
             "category": "computational_chemistry",
+            # Exercise the compact Agent spelling that previously caused the
+            # evaluator dry-run to fail before normalization.
+            "required_deliverables": ["report/results.json"],
             "mode": mode,
             "scientific_mode": mode,
             "task_mode": task_mode,
@@ -6348,8 +6351,15 @@ def test_mechanical_gate_normalizes_hidden_pair_identity(tmp_path: Path) -> None
             "task_mode": task_mode,
         }
         spec = {"task_id": info["task_id"], "task_pair_id": "pair_test", "mode": mode, "scientific_mode": mode}
-        submission = {"required_files": ["report/results.json"]}
-        rubric = [{"id": "paper_route_fidelity", "criterion_type": "route_fidelity", "max_score": 100, "evidence_artifacts": ["report/results.json"]}]
+        submission = {
+            "required_files": ["report/results.json", "report/process_trace.jsonl"]
+        }
+        rubric = [{
+            "id": "paper_route_fidelity",
+            "criterion_type": "route_fidelity",
+            "max_score": 100,
+            "evidence_artifacts": ["report/process_trace.jsonl"],
+        }]
         (root / "task.md").write_text("task\n", encoding="utf-8")
         write_json(root / "task_info.json", info)
         write_json(root / "task_spec.json", spec)
@@ -6358,6 +6368,7 @@ def test_mechanical_gate_normalizes_hidden_pair_identity(tmp_path: Path) -> None
     (pair / "hidden_reference").mkdir(parents=True)
     write_json(pair / "hidden_reference" / "ground_truth_common.json", {"task_pair_id": "stale"})
     report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+    assert report["mechanical_pre_publish_status"] == "passed"
     assert "hidden_ground_truth_task_pair_id_mismatch" not in report["findings"]
     assert any(
         row.get("kind") == "hidden_reference_identity_normalization"
