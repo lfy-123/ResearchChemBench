@@ -17,13 +17,19 @@ The relevant regression and Stage06/07 test selections passed:
 
 ## Batch submitted
 
-The post-fix DeepSeek batch is:
+The post-`7ff1c14` DeepSeek batch is:
 
 `runs/stage06-07-v5-round6-deepseek10-concurrency10-20260822`
 
 It uses DeepSeek-v4-pro-0813, Codex harness, high reasoning, and ten concurrent
 papers selected with seed `20260824`. The batch manifest contains ten papers and
 the correct endpoint/model settings.
+
+The batch was launched before the later semantic refinement `e1cfe92`; therefore
+its eventual artifacts can validate the earlier typed-deliverable fix and the
+existing Stage06B prompt, but cannot by themselves validate the new bare-label
+alignment rule. A fresh ten-paper batch will be needed after this batch reaches a
+terminal state if the alignment rule still requires model-level confirmation.
 
 After the requested 30-minute waiting window, the batch was still `RUNNING` and
 had produced **0 terminal paper results**. All ten paper `run_status.json` files
