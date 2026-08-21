@@ -126,6 +126,14 @@ AUTONOMY SCOPE AND SCORING CONSISTENCY:
   scientific finding. Do not change a frozen value merely to make the modes agree.
 - If a method name is itself the scientific comparison variable, preserving it is not route leakage;
   classify it as a public method constraint and verify that the scope/disclosure fields say so.
+- In the final autonomous `task_spec.json`, always retain a compact
+  `workflow_scope.autonomy_scope` value.  Use
+  `fixed_input_method_constrained_workflow` when `method_constraints` is non-empty and those
+  constraints define the scientific variable; in that case the public metadata must use
+  `public_scientific_method_constraints`.  Use `fixed_input_method_discovery` only when the
+  public method-constraint list is empty and the evaluated Agent is genuinely free to choose the
+  method.  Do not leave the scope absent or let `no_paper_method` coexist with a non-empty
+  public method-constraint list.
 
 PUBLIC ANSWER LEAKAGE MUST BE DYNAMIC. Build a compact list from this task's hidden reference of
 target values, tolerances, rankings, trends, canonical propositions, and preferred labels. Scan every
