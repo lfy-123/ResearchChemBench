@@ -37,6 +37,8 @@
 
 另外，在 Stage07 中间审计输出上运行 pair validator 时确认了一个真实的合同 bug：`validate_autonomous_route_isolation()` 原来只把物理边界列为允许公开内容，即使 `autonomy_scope=fixed_input_method_constrained_workflow` 且 `method_constraints` 明确声明 B3LYP/基组为公开科学变量，也会把这些方法 token 报成 `autonomous_route_disclosure`。这会把合法的 method-constrained 自主任务误判为脱敏失败。已扩展 validator 调用链，把显式公开的方法约束作为第二类允许 token；未声明约束的软件名仍会被发现。新增回归测试覆盖“受约束方法允许、实现软件仍禁止”。
 
+本批次 `paper_72c3e34e4e3814e2` 的 Stage06A 科学构建已成功，但 Stage06B 三次恢复都报告要删除 `process_rubric.json`，最后以 `needs_conversion_retry` 结束。检查 `conversion_packet/deliverable_contract.json` 后确认该文件本来就是自主任务的五个必需文件之一；这是 Stage06B prompt 对“不要创建未声明的 process-trace 文件”的表述被模型误读成“不应保留 process_rubric”的提示歧义，不是论文科学问题，也不是 converter retry 编排 bug。已在 Prompt 中明确：`process_rubric.json` 是必需公共合同，禁止的只是未声明的 `report/process_trace.jsonl` 或固定 research-plan。
+
 这两条只约束文件运输和操作方式，不判断化学闭合、代表性或答案语义，也不包含论文/分子特例规则。
 
 同时发现 Stage06A 提示中的“最多三个 Ground Truth items”与总目标“Key Point/结论数量按任务内容决定”不一致。该上限不是代码校验，但会诱导 Agent 过度合并复杂任务的中间结论，已改为按选定科学目标使用紧凑但无固定数量上限的 Ground Truth 集合，并继续要求聚合相关数值而不是逐原子拆项。

@@ -339,6 +339,10 @@ short metadata and preserve only the deliverables declared by `submission_contra
 create an undeclared fixed research-plan or process-trace file. The semantic mode is
 `autonomous_research`; compatibility aliases such as `task_mode`, `scientific_mode`, and disclosure
 fields are transport metadata and must not be invented with new enum values.
+The public `process_rubric.json` is explicitly declared in `conversion_packet/deliverable_contract.json`
+and is required output; preserve or rewrite that file as a process-Key-Point contract. The prohibition above
+applies only to undeclared artifacts such as `report/process_trace.jsonl` or a fixed research-plan file, never to
+the required `process_rubric.json`.
 In the autonomous public surface, every asset role, description, filename, and XYZ comment must
 remain neutral (`input_geometry`/`public_input`). Do not classify an asset as a minimum, transition
 state, product, reactant, intermediate, pathway position, or preferred channel. Preserve only
