@@ -18,7 +18,7 @@
    - 要求在新批准收据中写 `representativeness_audit`；
    - 明确缺失软件只进入 `required_additions`/`execution_readiness`，不能导致科学拒绝。
 3. Schema/验证增加代表性审计字段的结构支持。验证器只检查容器、ID、覆盖字段和 evidence ID 形状，不计算科学中心性；旧科学拒绝/批准收据仍可读取。
-4. `run_stage06_07_gpt_batch.py`：worker 在进程创建、日志或子命令异常时写 `FAILED`；父级捕获异常 future，持续写入完成计数和结果，避免单篇失败导致永久 `RUNNING`。
+4. `run_stage06_07_gpt_batch.py`：worker 在进程创建、日志或子命令异常时写 `FAILED`；父级捕获异常 future，持续写入完成计数和结果，避免单篇失败导致永久 `RUNNING`；新增 `--random-seed`，在同一进程内对 Stage05 通过集合做可复现抽样，避免手工复制论文 ID。
 5. Stage07 summary 增加 `execution_readiness` 分布，便于区分科学决定与后续软件准备度。
 
 ## 回归检查

@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import random
 import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -183,6 +184,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--paper", action="append", help="Paper ID; repeat to select specific papers")
     parser.add_argument("--limit", type=int, help="Maximum discovered papers to run")
     parser.add_argument(
+        "--random-seed",
+        type=int,
+        help="Sample --limit papers reproducibly from the discovered Stage05 set",
+    )
+    parser.add_argument(
         "--max-parallel",
         type=int,
         default=8,
@@ -219,7 +225,12 @@ def main(argv: list[str] | None = None) -> int:
     if args.limit is not None:
         if args.limit < 1:
             raise SystemExit("--limit must be at least 1")
-        selected = selected[: args.limit]
+        if args.random_seed is None:
+            selected = selected[: args.limit]
+        else:
+            if args.limit > len(selected):
+                raise SystemExit("--limit cannot exceed the discovered paper count")
+            selected = random.Random(args.random_seed).sample(selected, args.limit)
     if not selected:
         raise SystemExit("no papers selected")
 
