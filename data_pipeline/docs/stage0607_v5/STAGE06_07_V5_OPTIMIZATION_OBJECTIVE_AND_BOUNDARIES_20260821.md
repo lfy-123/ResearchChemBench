@@ -67,7 +67,8 @@ Stage07B 不得新增/删除科学 Key Point，不得改变 workflow、Ground Tr
 
 ## 7. v5 迭代计划与验收
 
-最多五轮。第一轮先修复已确认的通用问题：
+最多十轮。第一轮先修复已确认的通用问题；后续轮次只有在新测试暴露出
+可重复、通用且属于 Stage06/07 的问题时才继续修改：
 
 1. evaluator profile 按 `applies_to_modes` 正确过滤；
 2. mode-specific binding 解析只在适用 mode 中检查，并保留旧输入读取兼容、规范输出单一；
