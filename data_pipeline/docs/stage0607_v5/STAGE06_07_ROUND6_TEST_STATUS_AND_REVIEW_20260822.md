@@ -52,6 +52,10 @@ incoming entries are bare labels, and adds a Stage07 prompt check that scientifi
 result labels belong in the task/result schema rather than a file-path field.
 This is a transport-contract repair, not a paper-specific rule. The full
 Stage06/07 test selection remains **158 passed, 387 deselected**.
+Replaying the previously blocked `paper_12c3b0b392f4dc14` audited tree through
+the current mechanical gate now gives `mechanical_pre_publish_status=passed`,
+`schema_load_diagnostic=passed`, with both mode deliverable lists projected to
+`report/results.json` and `report/report.md`.
 
 ## Interim conclusion
 
