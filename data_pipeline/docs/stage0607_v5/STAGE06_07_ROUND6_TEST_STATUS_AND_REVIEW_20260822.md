@@ -40,9 +40,22 @@ converter retry. The former is the defect fixed in this round; the latter is the
 prompt ambiguity addressed by the preceding `d536bc0` change and must be checked
 against the new batch once a converter result is available.
 
+## Additional narrow correction after reviewing the old artifact
+
+Inspection of the blocked paper showed that its deliverable strings were result
+labels (`HOMO_energy`, `conformer_geometries`, etc.), not artifact paths. Merely
+wrapping those labels as typed paths would have made Pydantic validation pass
+while leaving `TaskInfo.required_deliverables` inconsistent with
+`submission_contract.required_files`. Commit `e1cfe92` therefore makes the
+existing generic normalizer use the declared submission artifact paths when all
+incoming entries are bare labels, and adds a Stage07 prompt check that scientific
+result labels belong in the task/result schema rather than a file-path field.
+This is a transport-contract repair, not a paper-specific rule. The full
+Stage06/07 test selection remains **158 passed, 387 deselected**.
+
 ## Interim conclusion
 
-No new code or prompt defect can be responsibly inferred from the incomplete
+No further code or prompt defect can be responsibly inferred from the incomplete
 Round 6 batch. In particular, the absence of completed tasks is not evidence of
 scientific rejection, Stage07 failure, or a need for Stage07B. The batch is left
 running for its own normal completion; after terminal artifacts appear, each
