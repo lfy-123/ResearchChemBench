@@ -27,7 +27,7 @@
 - 两组使用完全相同的 Stage06/07 Prompt、Codex harness、推理强度和可比并发配置；
 - 每轮记录随机种子、论文 ID、模型实际 ID、commit、配置、运行目录和失败分类；不静默替换样本。
 
-当前配置检查显示本地 GPT API 的 `/v1/models` 暂未提供 `gpt-5.6-pro`，仅列出 `gpt-5.6-sol` 等模型。因此在该模型可用前，不把 `gpt-5.6-sol` 冒充成 `gpt-5.6-pro`；测试应暂停在提交前并记录配置阻断，或由用户明确指定替代模型。
+当前测试模型明确为 `gpt-5.6-sol`，不是 `gpt-5.6-pro`。本地 GPT API 的 `/v1/models` 已确认包含 `gpt-5.6-sol`；DeepSeek 使用 `deepseek-v4-pro-0813`。两者均按实际模型名记录，不做替代或冒充。
 
 ## 4. 每轮分析
 

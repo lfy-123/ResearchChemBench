@@ -27,13 +27,25 @@ GPT 组：
 `paper_4b4e0bec6df820fc`、`paper_6ff878fdedc4533d`、`paper_761a1e321d9bc798`、
 `paper_b5c446c7067dd511`、`paper_d1135c5a2aaf5d4b`
 
-## 当前提交状态
+## 提交配置
 
-尚未提交。当前 GPT API `/v1/models` 没有 `gpt-5.6-pro`，因此没有使用 `gpt-5.6-sol` 冒充该模型。获得可用的 `gpt-5.6-pro` endpoint 或明确替代模型后，使用相同 Prompt、Codex harness、high reasoning、并发 5，同时提交两组。
+本轮实际模型为 `deepseek-v4-pro-0813` 与 `gpt-5.6-sol`。两组均使用 Codex harness、high reasoning effort、并发 5，且使用相同 Prompt 和同一 Stage05 来源集合；两组样本互不重叠。GPT `/v1/models` 已确认包含 `gpt-5.6-sol`；DeepSeek `/v1/models` 探测在提交前超时，但端点已有同模型任务运行，故按运行结果继续观察，不把超时误判为代码或 Prompt 失败。
 
-2026-08-23 的直接 API 探测也返回 HTTP 404：`model_not_available`，并明确说明该模型不在当前 API key 的可用范围内。该证据将本轮状态分类为外部配置阻断，不归因于代码或 Prompt。
+结果目录：
 
-截至后续连续复核，`/v1/models` 和直接调用仍给出同一结果。由于 v7 的每轮比较明确要求目标 GPT 模型，不能用 `gpt-5.6-sol` 无标记替代；Round 1 在提交前保持 blocked，待外部模型配置变化后恢复。
+- `runs/stage06-07-v7-round1-same5-deepseek-20260823`
+- `runs/stage06-07-v7-round1-same5-gpt-20260823`
+
+旧的 `v6-round4` 运行目录仍单独保留，不能混入本轮统计。
+
+## 实际提交记录
+
+2026-08-23 00:46（Asia/Hong_Kong）已同时提交：
+
+- DeepSeek 进程批次：`runs/stage06-07-v7-round1-same5-deepseek-20260823`，Stage06A/06B/07 均为 `deepseek-v4-pro-0813`；
+- GPT 进程批次：`runs/stage06-07-v7-round1-same5-gpt-20260823`，Stage06A/06B/07 均为 `gpt-5.6-sol`。
+
+两批均设置 `--harness codex`、`--max-parallel 5`、Stage06/07 `reasoning_effort=high`。提交后两个批处理进程均保持运行并已创建 `batch_status.json`；本节不把尚未完成的中间状态解释为模型或 Prompt 结论。
 
 ## 预定结果分析
 
