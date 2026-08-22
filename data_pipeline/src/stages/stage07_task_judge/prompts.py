@@ -321,6 +321,11 @@ repairs. The row is `closed` only when both public roots contain no target value
 preferred label, or conclusion proposition beyond the neutral task question. If a leak cannot be neutralized
 without changing the scientific objective, keep it in `remaining_issues` and do not approve.
 
+After making a disclosure repair, run the same scan again and update that row to `closed` when the repaired
+surface is clean. Do not leave the row as `repairable` while reporting `disclosure_status="passed"`; a
+`repairable` row means an unresolved public leak and requires `disclosure_status="needs_review"` plus a
+non-approved decision until the leak is removed.
+
 PUBLIC METADATA IS PUBLIC. GENERAL AUTONOMOUS PUBLIC-SURFACE REVIEW:
 Audit the complete public autonomous surface, not only `task.md`: include `task_info.json`,
 `task_spec.json`, `process_rubric.json`, `public_manifest.json`, `submission_contract.json`, nested

@@ -72,7 +72,15 @@ DeepSeek→DeepSeek 的 hidden reference 中有 5 个 Ground Truth/profile，其
 
 这不是论文特例，也不把科学中心性下沉到代码；它是 Ground Truth 与 evaluator 公共 mode 的通用合同审计。
 
-### 5.3 代码回归覆盖
+### 5.3 公共答案扫描状态的一致性
+
+GPT→GPT 的 `paper_525...` 审计把 `public_answer_leakage` 行保留为 `repairable`，同时又报告
+`disclosure_status=passed` 并发布。最终文件已经没有 Round 2 中的直接答案残留，因此这不是发布内容的
+新泄漏，但它是 Stage07 receipt Prompt 的状态语义执行不一致。已在 Prompt 中补充：修复后必须重新扫描并
+将该行改为 `closed`；`repairable` 与 `disclosure_status=passed` 不能同时出现。暂不把这项下沉为
+机械 gate 的论文内容规则。
+
+### 5.4 代码回归覆盖
 
 增加轻量测试覆盖：
 
