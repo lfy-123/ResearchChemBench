@@ -1,7 +1,8 @@
 # Stage06/07 v5 Round 9：代表性复核与 Prompt 修正计划
 
 日期：2026-08-22  
-回归目录：`runs/stage06-07-v5-round8-deepseek10-concurrency10-20260822`  
+计划审计目录：`runs/stage06-07-v5-round8-deepseek10-concurrency10-20260822`  
+Round 9 实际回归目录：`runs/stage06-07-v5-round9-deepseek10-concurrency10-20260822`
 模型/Harness：DeepSeek-v4-pro-0813 / Codex / high / 并发 10
 
 ## 1. 终态与代码侧结论
@@ -63,3 +64,25 @@
 5. 不修改 mechanical gate，不引入科学中心性代码评分，不启用 Stage07B。
 
 Round 9 修改后先跑 Stage06/07 单测，再重新随机抽取 10 篇 Stage05 论文做 DeepSeek 回归；逐篇检查上述三类 C 风险是否被重选/拒绝/有证据接受，以及错误标题是否消失。
+
+## 6. Round 9 实际回归结果
+
+Round 9 实际批次的 10 篇论文为：`00d0a106d58b00b9`、`0e7597b10e60df1b`、
+`3ea276cf7c3dc256`、`6492e1e5d38d23ae`、`9c9d9fb6de632d25`、`a5564360a31f760b`、
+`a55b812fd43d286d`、`d91572979a89303a`、`e2ca56c114006c92`、`ffa556cc3acdf0bc`。
+
+10/10 完成、10/10 `approved_with_repairs`、10/10 mechanical gate 通过、10/10
+published；没有 schema-load failure、mechanical block、429 或 retryable failure。新批次中
+每一份 `paper_info.title` 均与主论文标题一致，说明 provenance 提示在这些样本上生效。
+逐篇复核结果为 9 篇 A/B，`ffa556cc3acdf0bc` 为可接受的核心结构/构型子流程；其
+docking/长程 MD 因输入闭合不足被明确排除，没有用外围流程替代。新批次没有重复出现 C
+级中心性选择，但也没有包含 `33b0755b4819d475`、`557c6f813c2ec1ad`、
+`e6a39f88c25d4cfa` 三个历史风险样本，因此不能把它们视为已回归修复。
+
+### 6.1 代码审查结论
+
+`PYTHONPATH=. pytest -q` 为 `546 passed`；本轮没有发现新的确定性 Stage06/07
+transport、schema、evaluator 或发布隔离缺陷。Prompt 中未出现论文、分子、软件或固定答案
+特例。三篇历史风险样本应作为下一批定向回归 fixture；若仍选择低中心性流程，再增加通用的
+“比较型科学主张必须覆盖比较两端”和“中心性优先于数值/坐标易得性”的 Prompt 约束，仍不增加
+代码侧关键词或中心性硬规则。
