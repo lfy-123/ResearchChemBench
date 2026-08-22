@@ -92,6 +92,7 @@ from src.stages.stage06_task_builder.validation import (
     normalize_mode_scope,
     normalize_required_deliverables,
     normalize_scientific_requirements,
+    normalize_task_data_files,
     normalize_submission_contract,
     validate_autonomous_route_isolation,
     validate_ground_truth_consistency,
@@ -4889,6 +4890,34 @@ def test_stage06_prompt_requires_neutral_autonomous_structure_metadata() -> None
     assert "Leave it empty when all required" in prompt
 
 
+def test_stage06_prompt_requires_full_asset_parse_index_base_and_robust_rankings() -> None:
+    prompt = task_pair_builder_instructions(
+        paper_id="paper-test",
+        snapshot_hash="abc123",
+    )
+
+    assert "complete format parser or schema" in prompt
+    assert "zero-based or one-based" in prompt
+    assert "Near-degenerate or\nmethod-sensitive members" in prompt
+    assert "tie groups, a partial order, endpoint/group trends" in prompt
+
+
+def test_stage07_prompt_requires_full_asset_parse_index_base_and_robust_rankings() -> None:
+    prompt = audit_instructions(
+        paper_id="paper-test",
+        task_pair_id="pair-test",
+        manifest_hash="abc123",
+        max_tool_calls=24,
+        finalization_reserve=6,
+        source_stage06_decision="provisional_constructed",
+    )
+
+    assert "full-format parser or schema" in prompt
+    assert "zero-based or\n  one-based indexing" in prompt
+    assert "Near-degenerate or method-sensitive members" in prompt
+    assert "tie group,\n  partial order, endpoint/group trend" in prompt
+
+
 def test_stage07_prompt_audits_the_entire_autonomous_public_surface() -> None:
     prompt = audit_instructions(
         paper_id="paper-test",
@@ -6455,6 +6484,46 @@ def test_mode_contract_projects_requirement_records_to_evaluator_strings(tmp_pat
         "Prepare the supplied inputs.",
         "Report the calculated quantities.",
     ]
+
+
+def test_mode_contract_derives_missing_task_data_display_name(tmp_path: Path) -> None:
+    write_json(
+        tmp_path / "task_info.json",
+        {
+            "task_pair_id": "pair-data-name",
+            "task_id": "old",
+            "mode": "paper_reproduction",
+            "data": [
+                {
+                    "path": "data/inputs",
+                    "type": "directory",
+                    "description": "Supplied computational inputs.",
+                },
+                {
+                    "name": "Existing label",
+                    "path": "data/reference.json",
+                },
+            ],
+        },
+    )
+    write_json(
+        tmp_path / "task_spec.json",
+        {
+            "task_pair_id": "pair-data-name",
+            "task_id": "old",
+            "mode": "paper_reproduction",
+        },
+    )
+
+    assert normalize_task_data_files([{"path": "data/inputs"}]) == [
+        {"path": "data/inputs", "name": "inputs"}
+    ]
+    assert canonicalize_mode_task_contract(
+        tmp_path, expected_mode="paper_reproduction"
+    ) == []
+    data = read_json(tmp_path / "task_info.json")["data"]
+    assert data[0]["name"] == "inputs"
+    assert data[1]["name"] == "Existing label"
 
 
 def test_mode_contract_projects_string_required_deliverables_to_evaluator_objects(

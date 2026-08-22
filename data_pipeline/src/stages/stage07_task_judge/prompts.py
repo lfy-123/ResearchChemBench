@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v22-stage07-frame-sign-and-release-closure-20260822"
+STAGE07_AUDIT_VERSION = "v23-stage07-asset-and-ranking-closure-20260822"
 
 
 def audit_instructions(
@@ -224,6 +224,11 @@ AUTONOMY SCOPE AND SCORING CONSISTENCY:
   scientific finding. Do not change a frozen value merely to make the modes agree.
 - If a method name is itself the scientific comparison variable, preserving it is not route leakage;
   classify it as a public method constraint and verify that the scope/disclosure fields say so.
+- Audit strict rankings against source precision, unresolved conformers/constructions, and the allowed
+  method freedom. Near-degenerate or method-sensitive members require an evidence-backed tie group,
+  partial order, endpoint/group trend, or a mode-specific acceptance profile; do not approve a strict
+  total order solely because source values can be sorted. A reproduction-only strict ranking may coexist
+  with a more robust autonomous projection when the scientific Key Point is unchanged.
 - In the final autonomous `task_spec.json`, always retain a compact
   `workflow_scope.autonomy_scope` value.  Use
   `fixed_input_method_constrained_workflow` when `method_constraints` is non-empty and those
@@ -342,6 +347,11 @@ comparison. It never rewrites your toolbox fields and never changes your scienti
 FINAL APPROVAL CHECKLIST
 - Reopen every repaired coordinate asset and verify its complete multi-frame parse and all declared
   reaction/IRC compositions; do not rely on the Stage06 or repair summary.
+- Parse every structured scientific input with an applicable full-format parser or schema and record the
+  parser/tool plus result in the audit evidence. A plausible filename, expected line count, or selected
+  coordinate-row check is not proof that the complete asset grammar is valid. If any public quantity uses
+  atom, site, bead, residue, or similar integer indices, verify that task.md declares zero-based or
+  one-based indexing and that all public fields and private bindings use the same convention.
 - Recompute each difference sign from the published formula and verify the hidden value, prose and
   per-mode observed field express that same quantity.
 - Keep `evidence_gate_policy` and `managed_computation_policy` as JSON objects, never prose strings.

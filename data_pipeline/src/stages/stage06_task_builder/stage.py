@@ -84,7 +84,7 @@ from src.stages.stage06_task_builder.validation import (
     canonical_task_pair_id,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v13-unicode-safe-source-layout-20260822"
+STAGE06_IMPLEMENTATION_VERSION = "v14-task-data-transport-normalization-20260822"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 

@@ -4,7 +4,7 @@ STAGE06_REVIEW_VERSION = "v4-stage06-review-sixth-round-20260819"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v14-stage06-frame-and-path-closure-20260822"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v15-stage06-asset-and-ranking-closure-20260822"
 STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v10-stage06-prestaged-converter-20260822"
 
 
@@ -179,6 +179,20 @@ and an executable TS search. For a periodic target, composition and cell dimensi
 for the required lattice plus atomic positions/termination/placement. If this distinction makes the
 complete route and highest-centrality subworkflow unconstructible, report scientific failure instead of
 publishing an arbitrary model.
+
+Validate every emitted structured scientific asset with an applicable complete format parser or schema,
+not with a line-count, suffix, or spot check. Record the parser/tool and parse result in the private
+workflow completeness evidence. This rule is format-neutral: use the parser appropriate to the declared
+asset and reject or repair an asset whose full grammar cannot be read. Whenever a public quantity uses
+atom, site, bead, residue, or similar integer indices, state explicitly whether the convention is
+zero-based or one-based and keep that convention identical in task.md, result fields, and private bindings.
+
+Before choosing a strict ranking acceptance, compare the reported separations with source precision and
+with uncertainty from unresolved conformers, construction choices, and method freedom. Near-degenerate or
+method-sensitive members must not be forced into a strict total order merely because the source table has
+sortable numbers. Use evidence-backed tie groups, a partial order, endpoint/group trends, or mode-specific
+acceptance instead. Reserve strict total ordering for distinctions shown to be robust for the applicable
+mode.
 
 WRITE `outputs/workflow_review.json` FIRST. It must conform to
 `inputs/task_contract.json#/workflow_review_schema`. For success use `decision=candidate_ready` and

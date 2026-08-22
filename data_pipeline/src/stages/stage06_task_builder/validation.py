@@ -189,6 +189,33 @@ def normalize_required_deliverables(
     return normalized
 
 
+def normalize_task_data_files(value: Any) -> list[dict[str, Any]]:
+    """Fill evaluator-required display names without changing data semantics.
+
+    ``TaskInfo.data`` is transport metadata for public assets.  Agents sometimes
+    provide only ``path`` and ``description`` even though the evaluator's
+    ``DataFile`` schema requires ``name``.  The basename of the declared path is
+    a deterministic presentation label; deriving it here neither adds an input
+    nor interprets scientific content.
+    """
+
+    if not isinstance(value, list):
+        return []
+    normalized: list[dict[str, Any]] = []
+    for item in value:
+        if not isinstance(item, dict):
+            continue
+        row = dict(item)
+        path = str(row.get("path") or "").strip()
+        name = str(row.get("name") or "").strip()
+        if not name and path:
+            name = Path(path).name or path
+        if name:
+            row["name"] = name
+        normalized.append(row)
+    return normalized
+
+
 def canonicalize_mode_task_contract(
     task_root: Path,
     *,
@@ -299,6 +326,8 @@ def canonicalize_mode_task_contract(
                 value.get("scientific_requirements")
             )
         if name == "task_info.json":
+            if "data" in value:
+                value["data"] = normalize_task_data_files(value.get("data"))
             raw_deliverables = value.get("required_deliverables")
             if not isinstance(raw_deliverables, list) or not raw_deliverables:
                 raw_deliverables = value.get("deliverables")
