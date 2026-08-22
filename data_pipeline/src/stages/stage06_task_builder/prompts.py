@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-STAGE06_REVIEW_VERSION = "v6-stage06-review-round2-closure-semantics-20260822"
+STAGE06_REVIEW_VERSION = "v7-stage06-review-round1-decision-protocol-20260823"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v6-stage06-builder-round2-closure-semantics-20260822"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v6-stage06-converter-round2-closure-semantics-20260822"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v7-stage06-builder-round1-decision-protocol-20260823"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v7-stage06-converter-round1-decision-protocol-20260823"
 
 
 def task_pair_builder_instructions(
@@ -48,13 +48,14 @@ ROLE BOUNDARY
   scoreable result/conclusion, or complete non-trivial workflow after checking the paper and all
   known SI. Never invent the missing science.
 
-EXECUTION ORDER
-1. First inventory the source evidence and compare the complete route with candidate core
-   subworkflows; do not write a success pair before choosing and explaining the scope.
-2. Then write the provisional workflow review and reproduction/hidden-reference artifacts using
-   only the selected, source-grounded scope.
-3. Finally reread the key outputs and record unresolved fields, coverage limits, and the provisional
-   handoff status. Stage07 performs the final scientific audit.
+DECISION PROTOCOL
+1. Decide the scientific scope before writing a success artifact: compare the complete route with
+   central closed subworkflows, and record the evidence-backed blocker whenever the scope is narrowed.
+2. Build only the provisional reproduction and hidden-reference handoff for that selected scope.
+   Stage06B owns autonomous conversion and Stage07 owns final scientific approval.
+3. Before returning, reread the handoff, list unresolved fields and coverage limits, and make the
+   provisional status match those findings. Do not use a transport repair to turn an unresolved
+   scientific field into a ready candidate.
 
 TOOL-BUDGET DISCIPLINE
 - Do not spend one tool call per output file. After the evidence pass, use one grouped
@@ -70,12 +71,9 @@ TOOL-BUDGET DISCIPLINE
   the contracts and fields in this instruction, the evidence already collected, and the
   validator output to finish the artifacts.
 
-Your Stage06A responsibilities are sequential:
-1. determine whether the paper contains a complete, reproducible, non-trivial computational
-   chemistry workflow suitable for this benchmark; and
-2. only when it does, build the paper-reproduction task, hidden-reference draft, and minimal
-   handoff/conversion packet consumed by Stage06B. Do not copy, redact, or validate the final
-   autonomous public surface in this phase.
+Stage06A therefore determines whether a complete, reproducible, non-trivial workflow exists and,
+only when it does, builds the paper-reproduction task, hidden-reference draft, and minimal handoff
+for Stage06B. It does not copy, redact, or validate the final autonomous public surface.
 
 SOURCE AUTHORITY AND READING ORDER
 - `inputs/visible_input_manifest.json` describes the deduplicated Agent-visible input tree. Do not search
@@ -407,12 +405,13 @@ or the complete Stage06A review. You may write only `outputs/autonomous_research
 optional internal `outputs/conversion_report.json`. Paper id is
 `{paper_id}` and task pair id is `{task_pair_id}`. You have at most {max_tool_calls} tool calls.
 
-CONVERSION ORDER
-1. Inspect the pre-staged public tree and conversion instructions before editing it.
-2. Apply only answer-blind public-surface changes; do not change the selected workflow, scientific
-   values, conclusions, or hidden reference.
-3. Reread the complete autonomous public tree, record semantic uncertainty for Stage07, and report
-   the final conversion status after the required files are present.
+CONVERSION PROTOCOL
+1. Inspect the pre-staged tree and packet, then classify each proposed edit as remove, preserve, or
+   uncertain before changing files.
+2. Apply only answer-blind public-surface edits; preserve the selected workflow, scientific values,
+   boundaries and deliverables, and send any semantic uncertainty to Stage07.
+3. Reread the complete autonomous tree and make the receipt status reflect the delivered files and
+   remaining disclosures. Do not perform a new scientific review or infer a hidden answer.
 
 The orchestrator has already copied the **contents** of the reproduction public tree into the
 writable `outputs/autonomous_research/` root. Edit that pre-staged tree in place. Do not copy

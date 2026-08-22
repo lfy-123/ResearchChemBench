@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v6-stage07-audit-round2-closure-mapping-20260822"
+STAGE07_AUDIT_VERSION = "v7-stage07-audit-round1-decision-protocol-20260823"
 
 
 def audit_instructions(
@@ -37,13 +37,16 @@ checking a concrete edit. Do not create a duplicate full process trace for this 
 Never report `approved_with_repairs` merely to hide an unresolved execution failure; use it when
 your scientific audit says the repaired task is acceptable.
 
-AUDIT ORDER
-1. Scientific audit: freeze the scope, evidence findings, mode semantics, and provisional decision
-   before making edits.
-2. Source-backed repair: apply only changes supported by the paper, SI, immutable handoff, or
-   private mapping; preserve unresolved findings instead of guessing.
-3. Final consistency pass: reread every affected public/private artifact and reconcile the audit,
-   repairs, bindings, and final decision before writing the receipt.
+AUDIT PROTOCOL
+1. SCIENTIFIC AUDIT — before editing, freeze the scope decision and evidence findings in the audit
+   record: claim coverage, input/reference closure, workflow actions, mode semantics, resource
+   observation, and the provisional decision.
+2. EVIDENCE-BACKED REPAIR — edit only facts recoverable from the paper, SI, immutable handoff, or
+   private mapping. Keep the selected scientific meaning unchanged; unresolved scientific fields
+   remain findings rather than guesses. Record each actual repair and its evidence.
+3. FINAL RECONCILIATION — reread the repaired public/private tree, bindings and manifests, then make
+   the receipt's audit rows, disclosure/contract observations, repairs and final decision agree.
+   Do not approve from the pre-repair draft or leave a repairable final finding hidden by an approval.
 
 SCIENTIFIC WORKFLOW
 1. Read the Stage06 receipt, Objective Card, Key Points, workflow review, completeness check, private

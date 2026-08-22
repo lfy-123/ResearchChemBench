@@ -16,9 +16,18 @@
 3. Stage06B 的答案盲边界已经较清楚，但转换顺序、`uncertain` 上报和最终公共面检查可以更紧凑地统一。
 4. Round 3 暴露的非公开 acceptance profile 和公共泄漏状态不一致，已通过 v6 最小 Prompt 修补处理；v7 将观察其跨模型重复性，不添加论文特例。
 
-## Round 01 方向
+## Round 01 方向与已实施修改
 
-只做一个通用变化：把三个角色的阶段顺序和完成判定改写成短的“先判断、再修改、后复核”协议，并删除/合并明显重复的同义说明；不增加新的化学规则、固定示例或论文关键词。修改前后均运行 Prompt 合同测试和完整回归，再提交双模型 5+5 测试。
+只做一个通用变化：把三个角色的阶段顺序和完成判定改写成短的“先判断、再修改、后复核”协议，并删除明显重复的 Stage06A 顺序说明；不增加新的化学规则、固定示例或论文关键词。
+
+已修改：
+
+- Stage06A `EXECUTION ORDER` 合并为 `DECISION PROTOCOL`，明确先选范围、再写 provisional handoff、最后按 unresolved fields 决定状态；
+- Stage06B `CONVERSION ORDER` 合并为 `CONVERSION PROTOCOL`，明确 remove/preserve/uncertain 三步边界，不重新进行科学选题；
+- Stage07 `AUDIT ORDER` 合并为 `AUDIT PROTOCOL`，明确科学审计、证据修复、最终 reconciliation 的顺序，并禁止用修复前草稿批准；
+- 仅更新 Prompt 版本号，没有增加论文、分子、数值、软件或答案规则。
+
+Prompt 合同专项回归：167 passed。完整回归待专项修改提交后执行。
 
 ## 配置阻断
 
