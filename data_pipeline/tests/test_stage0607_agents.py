@@ -55,6 +55,7 @@ from src.stages.stage06_task_builder.stage import (
     _load_phase_json_artifact,
     _normalize_evaluation_references,
     _normalize_hidden_reference_contract,
+    _normalize_unicode_scalar_text,
     _normalize_process_rubric,
     _normalize_public_input_path,
     _normalize_scientific_failure_contract,
@@ -6073,6 +6074,16 @@ def test_stage07_publisher_copies_agent_mode_without_semantic_gate(tmp_path: Pat
     assert (reproduction_export / "agent_selected_asset.dat").read_text() == "needed"
     assert not (reproduction_export / "public_manifest.json").exists()
     assert (Path(exported["autonomous_research"]) / "task.md").is_file()
+
+
+def test_stage06_normalizes_pdf_surrogate_code_units_for_utf8() -> None:
+    text = "formula: \ud835\udc34; malformed: \ud835"
+
+    normalized = _normalize_unicode_scalar_text(text)
+
+    assert normalized == "formula: 𝐴; malformed: �"
+    assert normalized.encode("utf-8").decode("utf-8") == normalized
+    assert _normalize_unicode_scalar_text("plain text") == "plain text"
 
 
 def test_stage06_input_packet_excludes_visual_duplicates_by_default(tmp_path: Path) -> None:

@@ -84,9 +84,24 @@ from src.stages.stage06_task_builder.validation import (
     canonical_task_pair_id,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v12-prestaged-autonomous-converter-20260822"
+STAGE06_IMPLEMENTATION_VERSION = "v13-unicode-safe-source-layout-20260822"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
+
+
+def _normalize_unicode_scalar_text(value: str) -> str:
+    """Combine UTF-16 surrogate pairs and replace isolated surrogates.
+
+    Some PDF text extractors return mathematical supplementary-plane characters as literal
+    surrogate code units.  Python strings can hold those units, but UTF-8 files and Agent requests
+    require Unicode scalar values.
+    """
+
+    if not any(0xD800 <= ord(character) <= 0xDFFF for character in value):
+        return value
+    return value.encode("utf-16", errors="surrogatepass").decode(
+        "utf-16", errors="replace"
+    )
 
 
 def run_stage06(
@@ -7139,7 +7154,12 @@ def _extract_pdf_layout_materials(
         return [], []
     try:
         reader = PdfReader(source)
-        pages = [page.extract_text(extraction_mode="layout") or "" for page in reader.pages]
+        pages = [
+            _normalize_unicode_scalar_text(
+                page.extract_text(extraction_mode="layout") or ""
+            )
+            for page in reader.pages
+        ]
     except Exception:
         return [], []
     if not any(page.strip() for page in pages):
