@@ -321,3 +321,34 @@ def test_batch_parser_exposes_optional_reasoning_mode() -> None:
         ["--output-root", "/tmp/out", "--reasoning-mode", "pro"]
     )
     assert args.reasoning_mode == "pro"
+
+
+def test_batch_parser_exposes_independent_stage_model_profiles() -> None:
+    script_path = Path(__file__).parents[1] / "scripts/workflows/run_stage06_07_gpt_batch.py"
+    spec = importlib.util.spec_from_file_location("stage0607_batch_stage_profiles", script_path)
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    args = module.build_parser().parse_args(
+        [
+            "--output-root",
+            "/tmp/out",
+            "--model",
+            "fallback-model",
+            "--stage06-model",
+            "deepseek-v4-pro-0813",
+            "--stage07-model",
+            "gpt-5.6-sol",
+            "--stage07-reasoning-mode",
+            "pro",
+            "--stage06-api-key-env",
+            "DS_KEY",
+            "--stage07-api-key-env",
+            "GPT_KEY",
+        ]
+    )
+    assert args.stage06_model == "deepseek-v4-pro-0813"
+    assert args.stage07_model == "gpt-5.6-sol"
+    assert args.stage07_reasoning_mode == "pro"
+    assert args.stage06_api_key_env == "DS_KEY"
+    assert args.stage07_api_key_env == "GPT_KEY"

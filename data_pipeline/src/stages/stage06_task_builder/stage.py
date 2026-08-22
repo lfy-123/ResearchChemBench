@@ -529,7 +529,7 @@ def _run_stage06_single_agent(
                 "task_pair_path": str(target),
                 "handoff_path": str(target),
                 "source_snapshot_path": str(snapshot["root"]),
-                "workflow_scope_kind": scope.get("kind"),
+                "workflow_scope_kind": _workflow_scope_kind(scope),
                 "complexity_profile": complexity,
                 "toolbox_gap_present": toolbox_gap,
                 "resource_risk_present": _resource_risk_present(
@@ -2342,7 +2342,7 @@ def _task_pair_builder_phase_findings(
             findings.append(f"builder_milestone_incomplete:{name}")
     scope = review.get("workflow_scope") or {}
     complexity = review.get("complexity_profile") or {}
-    if receipt.get("workflow_scope_kind") != scope.get("kind"):
+    if receipt.get("workflow_scope_kind") != _workflow_scope_kind(scope):
         findings.append("receipt_workflow_scope_mismatch")
     receipt_complexity = receipt.get("complexity_profile") or {}
     if canonicalize_complexity_profile(receipt_complexity) != canonicalize_complexity_profile(complexity):
@@ -2580,7 +2580,7 @@ def _synchronize_builder_receipt(
     )
     scope = review.get("workflow_scope") or {}
     complexity = review.get("complexity_profile") or {}
-    receipt["workflow_scope_kind"] = str(scope.get("kind") or "none")
+    receipt["workflow_scope_kind"] = str(_workflow_scope_kind(scope) or "none")
     receipt["complexity_profile"] = json.loads(
         json.dumps(complexity, ensure_ascii=False)
     )
@@ -8074,6 +8074,24 @@ def _resource_risk_present(value: dict[str, Any]) -> bool:
     } or bool(value.get("risk_present"))
 
 
+def _workflow_scope_kind(scope: Any) -> str | None:
+    """Project the canonical scope kind for handoff metadata.
+
+    The scientific review contract historically accepted both ``kind`` and
+    ``scope_kind``.  This is a transport projection only: it does not infer or
+    rank scientific scope, and it keeps the handoff record observable when an
+    Agent emits the canonical contract spelling.
+    """
+
+    if not isinstance(scope, dict):
+        return None
+    value = scope.get("kind") or scope.get("scope_kind")
+    if value is None:
+        return None
+    text = str(value).strip()
+    return text or None
+
+
 def _write_provisional_handoff_metadata(
     root: Path,
     *,
@@ -8206,7 +8224,7 @@ def _publish_provisional_not_constructible(
         "retryable": False,
         "failure_code": review.get("failure_code"),
         "failure_reasons": review.get("failure_reasons") or [],
-        "workflow_scope_kind": scope.get("kind") or "none",
+        "workflow_scope_kind": _workflow_scope_kind(scope) or "none",
         "complexity_profile": json.loads(
             json.dumps(complexity, ensure_ascii=False)
         ),
@@ -8248,7 +8266,7 @@ def _scientific_not_constructible(
         "alternative_scope_search_complete": review.get(
             "alternative_scope_search_complete"
         ),
-        "workflow_scope_kind": scope.get("kind") or "none",
+        "workflow_scope_kind": _workflow_scope_kind(scope) or "none",
         "complexity_profile": json.loads(
             json.dumps(complexity, ensure_ascii=False)
         ),

@@ -264,6 +264,36 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--api-key", help="API key (prefer --api-key-env to avoid shell history)")
     parser.add_argument("--api-key-env", default="RCB_GPT_API_KEY")
+    parser.add_argument(
+        "--stage06-model",
+        help="Model used by Stage06A/06B; defaults to --model",
+    )
+    parser.add_argument(
+        "--stage07-model",
+        help="Model used by Stage07; defaults to --model",
+    )
+    parser.add_argument(
+        "--stage06-base-url",
+        help="Stage06 endpoint; defaults to --base-url",
+    )
+    parser.add_argument(
+        "--stage07-base-url",
+        help="Stage07 endpoint; defaults to --base-url",
+    )
+    parser.add_argument(
+        "--stage06-api-key",
+        help="Stage06 API key (prefer --stage06-api-key-env)",
+    )
+    parser.add_argument(
+        "--stage07-api-key",
+        help="Stage07 API key (prefer --stage07-api-key-env)",
+    )
+    parser.add_argument("--stage06-api-key-env")
+    parser.add_argument("--stage07-api-key-env")
+    parser.add_argument("--stage06-reasoning-effort")
+    parser.add_argument("--stage07-reasoning-effort")
+    parser.add_argument("--stage06-reasoning-mode")
+    parser.add_argument("--stage07-reasoning-mode")
     parser.add_argument("--force", action="store_true", help="Rerun papers with an existing summary")
     return parser
 
@@ -298,32 +328,52 @@ def main(argv: list[str] | None = None) -> int:
     if not selected:
         raise SystemExit("no papers selected")
 
-    api_key = args.api_key or os.environ.get(args.api_key_env)
-    if not api_key:
+    shared_api_key = args.api_key or os.environ.get(args.api_key_env)
+
+    def _role_credential(explicit: str | None, env_name: str | None) -> str | None:
+        return explicit or (os.environ.get(env_name) if env_name else None) or shared_api_key
+
+    stage06_api_key = _role_credential(args.stage06_api_key, args.stage06_api_key_env)
+    stage07_api_key = _role_credential(args.stage07_api_key, args.stage07_api_key_env)
+    if not stage06_api_key or not stage07_api_key:
         raise SystemExit(
-            f"missing API key; set {args.api_key_env} or pass --api-key (it is not persisted)"
+            f"missing Stage06/07 API key; set {args.api_key_env} or the role-specific key env "
+            "or pass an explicit key (keys are not persisted)"
         )
+    stage06_model = args.stage06_model or args.model
+    stage07_model = args.stage07_model or args.model
+    stage06_base_url = args.stage06_base_url or args.base_url
+    stage07_base_url = args.stage07_base_url or args.base_url
+    stage06_reasoning_effort = args.stage06_reasoning_effort or args.reasoning_effort
+    stage07_reasoning_effort = args.stage07_reasoning_effort or args.reasoning_effort
+    stage06_reasoning_mode = args.stage06_reasoning_mode or args.reasoning_mode
+    stage07_reasoning_mode = args.stage07_reasoning_mode or args.reasoning_mode
     environment = os.environ.copy()
     environment.update(
         {
             "RCB_STAGE06_HARNESS": args.harness,
             "RCB_STAGE07_HARNESS": args.harness,
             "RCB_STAGE06_CONVERTER_HARNESS": args.harness,
-            "RCB_BUILDER_BASE_URL": args.base_url,
-            "RCB_JUDGE_BASE_URL": args.base_url,
-            "RCB_BUILDER_MODEL": args.model,
-            "RCB_JUDGE_MODEL": args.model,
-            "RCB_BUILDER_REASONING_EFFORT": args.reasoning_effort,
-            "RCB_JUDGE_REASONING_EFFORT": args.reasoning_effort,
-            "RCB_BUILDER_API_KEY": api_key,
-            "RCB_JUDGE_API_KEY": api_key,
+            "RCB_BUILDER_BASE_URL": stage06_base_url,
+            "RCB_JUDGE_BASE_URL": stage07_base_url,
+            "RCB_BUILDER_MODEL": stage06_model,
+            "RCB_JUDGE_MODEL": stage07_model,
+            "RCB_BUILDER_REASONING_EFFORT": stage06_reasoning_effort,
+            "RCB_JUDGE_REASONING_EFFORT": stage07_reasoning_effort,
+            "RCB_BUILDER_API_KEY": stage06_api_key,
+            "RCB_JUDGE_API_KEY": stage07_api_key,
             "PYTHONPATH": str(args.pipeline_root)
             + (os.pathsep + environment["PYTHONPATH"] if environment.get("PYTHONPATH") else ""),
         }
     )
-    if args.reasoning_mode:
-        environment["RCB_BUILDER_REASONING_MODE"] = args.reasoning_mode
-        environment["RCB_JUDGE_REASONING_MODE"] = args.reasoning_mode
+    for key, value in (
+        ("RCB_BUILDER_REASONING_MODE", stage06_reasoning_mode),
+        ("RCB_JUDGE_REASONING_MODE", stage07_reasoning_mode),
+    ):
+        if value:
+            environment[key] = value
+        else:
+            environment.pop(key, None)
     args.output_root.mkdir(parents=True, exist_ok=True)
     batch = {
         "state": "RUNNING",
@@ -331,10 +381,15 @@ def main(argv: list[str] | None = None) -> int:
         "source_run": str(args.source_run),
         "config": str(args.config),
         "harness": args.harness,
-        "model": args.model,
-        "base_url": args.base_url,
-        "reasoning_effort": args.reasoning_effort,
-        "reasoning_mode": args.reasoning_mode,
+        "model": stage06_model if stage06_model == stage07_model else "mixed",
+        "stage06_model": stage06_model,
+        "stage07_model": stage07_model,
+        "stage06_base_url": stage06_base_url,
+        "stage07_base_url": stage07_base_url,
+        "stage06_reasoning_effort": stage06_reasoning_effort,
+        "stage07_reasoning_effort": stage07_reasoning_effort,
+        "stage06_reasoning_mode": stage06_reasoning_mode,
+        "stage07_reasoning_mode": stage07_reasoning_mode,
         "papers": selected,
     }
     _write_json(args.output_root / "batch_status.json", batch)

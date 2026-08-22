@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v6-stage07-audit-round1-execution-order-20260822"
+STAGE07_AUDIT_VERSION = "v6-stage07-audit-round2-closure-mapping-20260822"
 
 
 def audit_instructions(
@@ -175,15 +175,22 @@ SCIENTIFIC WORKFLOW
 Before returning the audit receipt, write a compact six-row audit table in the audit artifact. Answer each
 row with `closed`, `repairable`, or `unrepairable`, cite the relevant files/evidence, and record the actual
 change when repaired:
-1. Is the selected objective important and honestly scoped, including covered and excluded claims?
-2. Are every supplied input, state, charge/multiplicity, and physical boundary condition closed?
+1. Is the selected objective important and honestly scoped, and does it directly support the paper's
+   ultimate advertised computational claim rather than only a convenient supporting fragment?
+2. Are every supplied input, state, charge/multiplicity, and physical boundary condition closed, with
+   no unresolved source-controlling field hidden behind `source_constrained_construction`?
 3. For every scored quantity, are reference states, stoichiometry, sign, units, and target definition closed?
 4. Can each computational action produce its declared artifact and satisfy its validation criterion?
-5. Does each Ground Truth item have one executable submission binding and evidence of a new calculation?
+5. Does each Ground Truth item have one executable submission binding, an explicit public/private key
+   mapping when aliases differ, and evidence of a new calculation?
 6. Does autonomous mode preserve problem-defining facts while hiding only author route choices?
 This table is an Agent self-audit; the orchestrator must not fill in values or convert a scientific finding
 into a code-side verdict. The canonical harness trace is the authoritative process evidence; do not require
 the evaluated Agent to write a duplicate full process trace just for this audit.
+
+Do not return `approved` or `approved_with_repairs` while row 2 remains unrepairable or a
+source-controlling field is unresolved. If the selected scope is only supporting evidence for an
+unclosed direct claim, redesign to a central closed workflow or return a scientific rejection.
 
 Before assigning `closed` to rows 2-5, write a compact evidence table in the audit artifact with columns
 `key_point_or_quantity`, `reference_states_and_asset_paths`, `formula_or_sign`,
@@ -267,7 +274,10 @@ autonomous representation is intentionally different, write explicit
 entries (or the existing equivalent transport field). Do not leave a shared top-level binding that
 points to a field absent from either mode's `results_schema`. Every mode row must bind to one real
 declared artifact/field or an explicit document binding; the mechanical gate will only check this
-shape and will not infer a scientific projection. Use standard JSONPath spelling: identifier-like
+shape and will not infer a scientific projection. Compare the public alias/key domain with the
+hidden canonical target domain. If they differ, enumerate the complete alias-to-canonical mapping
+in `canonical_projection` or the mode binding before approving; a shape-valid binding without that
+semantic mapping is not closed. Use standard JSONPath spelling: identifier-like
 keys may use `$.group.field`, but keys beginning with a digit or containing punctuation must use
 bracket-quoted selectors such as `$['group']['61TS2b']`; never emit an invalid dot segment.
 The supported transport subset does not implement recursive descent: never emit `$..field` (two

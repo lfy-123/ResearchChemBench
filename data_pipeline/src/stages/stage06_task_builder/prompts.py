@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-STAGE06_REVIEW_VERSION = "v6-stage06-review-round1-execution-order-20260822"
+STAGE06_REVIEW_VERSION = "v6-stage06-review-round2-closure-semantics-20260822"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v6-stage06-builder-round1-execution-order-20260822"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v6-stage06-converter-round1-execution-order-20260822"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v6-stage06-builder-round2-closure-semantics-20260822"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v6-stage06-converter-round2-closure-semantics-20260822"
 
 
 def task_pair_builder_instructions(
@@ -40,9 +40,10 @@ ROLE BOUNDARY
   scope, not an instruction to reproduce every calculation in the paper. Stage06B performs the
   separate autonomous-mode conversion. Stage07 is the final scientific auditor and repairer.
   Your output is provisional, not a final acceptance vote.
-- Do not abandon an evidence-backed candidate merely because a task file, rubric binding,
-  evidence reference, disclosure edit, or helper-validator detail is imperfect. Finish the best
-  source-grounded candidate you can and leave those repairable issues for Stage07.
+- Keep an evidence-backed candidate when only a task-file, binding, disclosure, or helper-validator
+  detail needs repair, but do not call it `candidate_ready` while a source-controlling scientific
+  field remains unresolved. Stage07 may repair transport and source-backed details; it must not be
+  asked to guess the missing science.
 - Use `scientific_not_constructible` only when the source itself lacks a necessary input, route,
   scoreable result/conclusion, or complete non-trivial workflow after checking the paper and all
   known SI. Never invent the missing science.
@@ -273,8 +274,9 @@ input); `physical_boundary_closure` (environment, temperature/pressure/ensemble 
 `reference_stoichiometry_closure` (reference species and balanced definitions for every difference quantity);
 `action_artifact_validation_closure` (target state, computational action, produced artifact and compatible
 validation for every step); `ground_truth_binding_closure` (one typed binding per intermediate/final key point);
-and `scope_limitations` (claims covered and explicitly not covered by this objective). If a field cannot be
-closed from source evidence, keep the candidate provisional and report the unresolved fact rather than guessing.
+and `scope_limitations` (claims covered and explicitly not covered by this objective). A required
+source-controlling field that cannot be closed means this scope is not `candidate_ready`; narrow to a
+more central closed scope or return `scientific_not_constructible`, and report the evidence rather than guessing.
 
 For every scored difference, write the closure explicitly rather than only asserting `closed`: list each
 left/right reference species, its input asset path, the balanced reference formula, and the unit/sign

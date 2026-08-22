@@ -71,6 +71,7 @@ from src.stages.stage06_task_builder.stage import (
     _ensure_converter_output_scaffold,
     _ensure_reproduction_route_rubric,
     _normalize_workflow_review_aliases,
+    _workflow_scope_kind,
     _reconcile_converter_phase_receipt,
     _reconcile_task_phase_receipt,
     _recover_public_assets,
@@ -4662,6 +4663,20 @@ def test_workflow_review_alias_normalization_is_syntax_only() -> None:
     assert normalized["ground_truth_items"][0]["ground_truth_id"] == "item-1"
     # Missing scientific inputs are not manufactured by normalization.
     assert "public_task_basis" not in normalized
+
+
+@pytest.mark.parametrize(
+    ("scope", "expected"),
+    [
+        ({"kind": "full_paper_core_workflow"}, "full_paper_core_workflow"),
+        ({"scope_kind": "core_scientific_subworkflow"}, "core_scientific_subworkflow"),
+        ({}, None),
+    ],
+)
+def test_workflow_scope_kind_projection_accepts_contract_aliases(
+    scope: dict[str, str], expected: str | None
+) -> None:
+    assert _workflow_scope_kind(scope) == expected
 
 
 def test_task_pair_bootstrap_creates_contract_scaffold_from_review(tmp_path: Path) -> None:
