@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v21-stage07-direct-evidence-centrality-20260822"
+STAGE07_AUDIT_VERSION = "v22-stage07-frame-sign-and-release-closure-20260822"
 
 
 def audit_instructions(
@@ -106,12 +106,27 @@ SCIENTIFIC WORKFLOW
    executable TS search; a periodic recipe requires the lattice and atomic placement/termination needed
    by the target. If no exact/sufficient input or robust acceptance framing exists for the complete route
    or highest-centrality subworkflow, reject scientifically rather than accepting a convenient model.
+   When source coordinate text contains several structures, reparse the repaired public asset frame by
+   frame: each frame must have its own atom count, comment, and exactly that many atom rows. Do not trust
+   a syntactically valid first header or a repair description. For every IRC or mapped reaction path,
+   compare the element multiset, atom count, charge, and mapping of the TS and both endpoints; unequal
+   atom sets cannot be connected by IRC. Different-composition thermochemical comparisons require
+   explicit source-backed balancing species instead.
+   For every scored difference, write the symbolic formula, substitute the canonical values/order,
+   and verify that the numerical sign, natural-language ordering, public definition, and applicable
+   mode binding all agree. If anonymous frame order changes the definition, use a mode-specific binding
+   or a mode-neutral definition rather than binding contradictory signs to one value.
+   Do not score a source comparison branch as a computed final conclusion when the selected public
+   workflow does not calculate that branch; keep excluded comparisons as unscored context.
    Independently expand the actual resource cost of every mandatory branch: electronic/spin states,
    conformers or sites, displaced geometries or numerical frequencies, trajectory replicas, response
    roots and spectral windows, and validation reruns. A task with only one or two public inputs may
    still imply hundreds of expensive calculations. Do not call a route feasible from system count
    alone; compare the expanded work to the supplied resource policy and narrow to a still-central
-   closed author workflow or reject when the selected objective itself cannot fit.
+   closed author workflow or reject when the selected objective itself cannot fit. Record the expanded
+   branch count, system-size observation, and evidence-backed per-branch walltime/memory estimate or
+   comparable source/tool evidence. `High but bounded` is not a feasibility argument by itself; when
+   no credible estimate is available, use `uncertain` and do not claim the route fits the budget.
 
 7. Independently audit Stage06's `representativeness_review`. Compare each claim object
    (`claim_id`, `claim`, `centrality`, `coverage`, `evidence_ids`) from the title/abstract/main figures or
@@ -319,6 +334,19 @@ TOOLBOX AND COST
 Your toolbox assessment remains authoritative. After you finish, the orchestrator may write a
 separate `orchestrator_inventory_observation.json` containing a mechanical name-to-inventory
 comparison. It never rewrites your toolbox fields and never changes your scientific decision.
+
+FINAL APPROVAL CHECKLIST
+- Reopen every repaired coordinate asset and verify its complete multi-frame parse and all declared
+  reaction/IRC compositions; do not rely on the Stage06 or repair summary.
+- Recompute each difference sign from the published formula and verify the hidden value, prose and
+  per-mode observed field express that same quantity.
+- Keep `evidence_gate_policy` and `managed_computation_policy` as JSON objects, never prose strings.
+- Every reproduction route-fidelity criterion must cite the source route evidence required by the
+  contract. Every required program already matched in the installed inventory implies
+  `toolbox_status=available` unless a different required program is genuinely absent.
+- Run the supplied validators after these checks. An approved receipt with `remaining_issues=[]`
+  asserts that all five checks passed; otherwise repair, reject scientifically, or leave an explicit
+  mechanical finding rather than self-reporting success.
 
 DECISION SEMANTICS
 - `approved`: no repair was necessary.

@@ -4,7 +4,7 @@ STAGE06_REVIEW_VERSION = "v4-stage06-review-sixth-round-20260819"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v13-stage06-nontrivial-workflow-and-canonical-dependency-20260822"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v14-stage06-frame-and-path-closure-20260822"
 STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v10-stage06-prestaged-converter-20260822"
 
 
@@ -253,6 +253,15 @@ reference species required to balance the quantity. For every transition-state c
 geometry and calculation action with the produced artifact and a compatible validation operation.
 Do not mark a row `closed` when this evidence table is absent.
 
+When extracting coordinate appendices or tables, preserve every source frame boundary. Each emitted
+XYZ is either one record (`N`, one comment, exactly `N` atom rows) or a standard concatenated XYZ that
+repeats that three-part record for every frame. Never put the aggregate number of atom rows above
+several unrelated structures and call the result one molecule. Reparse every emitted record before
+construction. For an IRC or atom-mapped reaction path, explicitly compare the element multiset, atom
+count, charge, and mapping of the transition state and both endpoints: an IRC cannot connect unequal
+atom sets. A thermochemical comparison with different compositions instead requires explicit,
+source-backed balancing species and must not be described as IRC connectivity.
+
 For scientific failure use `decision=scientific_not_constructible`. Set all three coverage booleans
 true, use an allowed scientific failure code, and provide structured failure reasons with
 `scope_attempted`, `code`, `details`, `evidence_ids`, and non-empty `checked_sources`. Confirm that
@@ -293,6 +302,9 @@ SUCCESSFUL CONSTRUCTION ORDER
    list is identical in scientific scope across modes unless an explicit item scope excludes a
    mode; do not choose a score scale, total, or weighting policy. Cross-check numeric signs,
    ranking, trend, and prose.
+   A comparison side excluded from the selected workflow may be described as unscored source context,
+   but must not become a computed final Key Point or required proposition. Every scored comparison
+   conclusion must be derivable from calculations actually required by the selected task.
    Any evaluator-specific mode projection is generated from this common file; do not create
    independently editable Ground Truth copies.
 8. Write `outputs/toolbox_requirements.json` as a gap list only. Leave it empty when all required

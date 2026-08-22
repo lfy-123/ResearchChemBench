@@ -117,6 +117,11 @@ def test_stage_prompts_reject_trivial_redesign_and_use_one_dependency_contract()
         builder.split()
     )
     assert "most central of the closed candidates" in " ".join(judge.split())
+    assert "aggregate number of atom rows" in " ".join(builder.split())
+    assert "an IRC cannot connect unequal atom sets" in " ".join(builder.split())
+    assert "substitute the canonical values/order" in " ".join(judge.split())
+    assert "`High but bounded` is not a feasibility argument" in judge
+    assert "managed_computation_policy` as JSON objects" in judge
 
 
 def test_converter_keeps_private_handoff_out_of_public_task_and_has_uncertain_status() -> None:
