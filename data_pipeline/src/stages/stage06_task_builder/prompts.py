@@ -4,7 +4,7 @@ STAGE06_REVIEW_VERSION = "v4-stage06-review-sixth-round-20260819"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v10-stage06-representativeness-and-toolbox-policy-20260821"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v11-stage06-centrality-and-toolbox-policy-20260822"
 STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v8-stage06-neutral-asset-converter-scope-aware-20260821"
 
 
@@ -173,13 +173,16 @@ closed route fields, do not bootstrap a success pair; revise the review or write
 Before writing the success receipt, complete this short `workflow_review` closure checklist. It is an
 Agent self-check, not a request for the orchestrator to infer chemistry:
 `representativeness_review` must be a compact evidence-backed comparison, not a self-awarded score. It
-must contain `paper_computational_claims` as objects with `claim_id`, `claim`, `coverage`, and
-`evidence_ids` (claims from title/abstract/main figures or tables/conclusions), and
+must contain `paper_computational_claims` as objects with `claim_id`, `claim`, `centrality`, `coverage`, and
+`evidence_ids` (claims from the title/abstract/main figures or tables/conclusions). Use
+`centrality` values such as `headline`, `primary`, or `supporting` to make the scientific judgment
+auditable; this is an Agent evidence label, not a code-computed importance score. Also include
 `candidate_workflows` (the whole route and any considered sub-processes, each with `workflow_id`,
 `scope_kind`, closure, cost, software-gap status, and claim coverage), `selected_workflow_id`, `selection_rationale`, and
 `omitted_claims`. For every candidate, state whether it is full-paper or a core subworkflow and why
-it is or is not central. Stage07 will independently review this record; do not use keywords, a fixed
-paper list, or a code-side importance score. Each candidate record must explicitly include
+it is or is not central, and explicitly mark whether it is a baseline/control, secondary application,
+or the direct mechanism for the highest-centrality computational claim. Stage07 will independently
+review this record; do not use keywords, a fixed paper list, or a code-side importance score. Each candidate record must explicitly include
 `workflow_id`, `scope_kind`, `closure`, `claim_coverage`, one resource observation under
 `cost`/`resource_assessment`/`estimated_cost`, and one software observation under
 `software_gap_status`/`toolbox_status`/`software_status`; an empty or uncertain value is still an
@@ -446,6 +449,15 @@ figure or table/conclusion, not the one that is merely easiest to package. If ne
 closed sub-process can be constructed without guessing, return scientific rejection rather than an unrelated
 peripheral calculation. A missing program in the current toolbox is not a blocker; record it in the software-gap
 list and keep the scientifically appropriate scope.
+
+For the selection record, identify the highest-centrality computational claim(s) from the title, abstract, main
+figures/tables, and conclusion, then compare every candidate against those claims. A candidate that is only a
+baseline, negative control, secondary application, or convenient property calculation must not replace a more central
+claim merely because its coordinates are easier to recover or its workflow is cheaper. If the highest-centrality
+route is not closed, state the exact evidence-backed blocker and test whether a genuinely central alternative is
+closed; if neither the full route nor a central alternative is constructible without guessing, return scientific
+rejection instead of packaging a lower-centrality fragment. This is a scientific judgment recorded for Stage07,
+not a code-side keyword or importance rule.
 
 If a Stage05 workflow depends on an unrecoverable adsorbate, transition state, pathway endpoint, or reference
 species, do not immediately reject the paper. First check for a distinct structure-only or otherwise closed

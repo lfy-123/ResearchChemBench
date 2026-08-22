@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v17-stage07-representativeness-and-toolbox-policy-20260821"
+STAGE07_AUDIT_VERSION = "v18-stage07-centrality-metadata-and-toolbox-policy-20260822"
 
 
 def audit_instructions(
@@ -63,6 +63,11 @@ SCIENTIFIC WORKFLOW
    `parent_workflow_position`, `why_not_full_workflow`, and `selection_rationale`. If Stage06 chose a
    reproducible but peripheral fragment, first redesign the scope within the same parent workflow and
    record `approved_after_workflow_redesign`; do not apply molecule- or paper-specific rules.
+   A closed baseline, negative control, secondary application, or easy-to-package property calculation is
+   not an acceptable substitute for the paper's highest-centrality computational claim. If that claim's
+   route is unavailable, record the exact source-backed blocker and determine whether a genuinely central
+   alternative is closed; if not, reject scientifically rather than silently publishing a lower-centrality
+   fragment. This is a scientific comparison, not a keyword or code-side centrality score.
 6. Check workflow consistency generically as a chain: input structure/state → computational action
    → produced artifact → scientific validation criterion → bound Ground Truth/key point. Flag or
    repair mismatches such as an input state that cannot produce the claimed output, a validation
@@ -74,13 +79,16 @@ SCIENTIFIC WORKFLOW
    permission to delete the underlying physical condition.
 
 7. Independently audit Stage06's `representativeness_review`. Compare each claim object
-   (`claim_id`, `claim`, `coverage`, `evidence_ids`) from the title/abstract/main figures or
-   tables/conclusions with every candidate workflow recorded by
-   Stage06. Confirm that the complete route was attempted first, that any retained subworkflow is the
-   most central closed alternative, and that no peripheral workflow was selected only because it was
-   cheaper or easier to package. If a more central closed alternative exists, redesign the pair and
-   record the evidence; if neither a complete route nor a central closed sub-process is constructible
-   without guessing, reject scientifically. Write a `representativeness_audit` object in the receipt
+   (`claim_id`, `claim`, `centrality`, `coverage`, `evidence_ids`) from the title/abstract/main figures or
+   tables/conclusions with every candidate workflow recorded by Stage06. If older input lacks
+   `centrality`, infer it from the cited source evidence and record that inference in the audit. Confirm
+   that the complete route was attempted first, identify the highest-centrality computational claim, and
+   verify that the selected scope directly tests it. Explicitly label baseline/control, secondary
+   application, and direct-mechanism candidates. A candidate that is merely closed but lower-centrality
+   must not be accepted because it is easier to package. If a more central closed alternative exists,
+   redesign the pair and record the evidence; if the highest-centrality route is not recoverable and no
+   central alternative can be closed without guessing, reject scientifically. Write a
+   `representativeness_audit` object in the receipt
    containing `paper_claims_checked`, `candidate_workflows_checked`, `selected_scope_kind`,
    `coverage_summary`, and `rationale`. This is an evidence-backed Agent audit, not a keyword or
    code-side importance score. For every Stage06 candidate, verify that the handoff records
@@ -88,6 +96,12 @@ SCIENTIFIC WORKFLOW
    If any of those fields is absent or only asserted without evidence, record it as an audit finding
    and do not treat the candidate as a demonstrated closed alternative. Do not replace this evidence
    check with a paper-specific keyword or a deterministic centrality rule.
+
+8. Verify provenance metadata independently from the Stage06 receipt. Use the main-paper evidence to
+   check `paper_info.json` title, DOI, and journal. Repair malformed values such as a supplementary
+   heading, viewer boilerplate, an image-markup token, or a value copied from the wrong document; retain
+   the source-backed title and DOI in private metadata. This is a generic provenance check and must not
+   rely on any paper-specific title or keyword list.
 
 Before returning the audit receipt, write a compact six-row audit table in the audit artifact. Answer each
 row with `closed`, `repairable`, or `unrepairable`, cite the relevant files/evidence, and record the actual
