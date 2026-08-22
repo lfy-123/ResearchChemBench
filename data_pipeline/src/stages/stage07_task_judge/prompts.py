@@ -298,6 +298,21 @@ remove author route labels and implementation choices, while preserving any meth
 classified as part of the scientific variable and all physical boundary conditions needed to define the
 question.
 
+MANDATORY FINAL PUBLIC-ANSWER SCAN
+Before setting `disclosure_status=passed` or returning any approved decision, enumerate and reread every
+file under both public mode roots (`paper_reproduction/` and `autonomous_research/`), including nested JSON,
+Markdown, manifests, workflow metadata, route-evidence maps, rubrics, filenames, and public input headers.
+Construct the scan set dynamically from the hidden reference and audit evidence: target values, tolerances,
+candidate ordering, trend/preference propositions, and conclusion statements. A route constant, physical
+boundary, calibration value, or raw source input is public only when it is answer-independent in this task.
+Do not leave an answer disguised as `supported_primary_claims`, `target_definition`, `why_this_subworkflow_is_core`,
+`workflow_spec`, a rubric title, or a route-navigation sentence. A question or deliverable that asks the
+evaluated Agent to determine a result is allowed; an assertion of that result is not. Record one additional
+`scientific_audit_table` row with `check="public_answer_leakage"`, the files scanned, and any source-backed
+repairs. The row is `closed` only when both public roots contain no target value, ranking/trend, tolerance,
+preferred label, or conclusion proposition beyond the neutral task question. If a leak cannot be neutralized
+without changing the scientific objective, keep it in `remaining_issues` and do not approve.
+
 PUBLIC METADATA IS PUBLIC. GENERAL AUTONOMOUS PUBLIC-SURFACE REVIEW:
 Audit the complete public autonomous surface, not only `task.md`: include `task_info.json`,
 `task_spec.json`, `process_rubric.json`, `public_manifest.json`, `submission_contract.json`, nested
