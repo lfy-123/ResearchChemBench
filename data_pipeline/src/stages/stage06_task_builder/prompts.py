@@ -936,6 +936,13 @@ evidence grade, evidence ID, acceptance type, or claim role. You may add only
 `acceptance_profile_id` and `applies_to_modes` to each copied item. Public inputs, route facts, cross-checks, and
 interesting paper claims that were not selected there must not become scored Ground Truth in this phase.
 
+The only valid `applies_to_modes` values are the two public modes `paper_reproduction` and
+`autonomous_research`, alone or together. Do not create a Ground Truth item or acceptance profile whose scope is
+`hidden_reference_only`, `private_only`, or another non-public label. Private source aliases, author labels, and
+answer-bearing mappings belong in `private_evidence_map.json`; they are not evaluator-scored items and must not be
+represented as an extra Ground Truth/profile. Every emitted acceptance profile must correspond to exactly one frozen
+item and must apply to at least one public mode.
+
 There is exactly one item-specific Acceptance Profile per frozen Ground Truth item. Keep its id, type, target,
 tolerance, propositions, and other generated typed fields unchanged. Your main job is to replace each profile's
 `submission_binding` placeholders with an executable binding to the frozen public submission contract.

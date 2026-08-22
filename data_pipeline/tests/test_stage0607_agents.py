@@ -121,6 +121,7 @@ from src.stages.stage07_task_judge.stage import (
 )
 from src.stages.stage07_task_judge.validation import (
     _binding_for_mode,
+    _profile_applies_to_mode,
     _project_hidden_for_mode,
     _jsonpath_tokens,
     final_task_pair_integrity_findings,
@@ -5995,6 +5996,26 @@ def test_mode_scope_normalization_accepts_single_mode_and_aliases() -> None:
     assert normalize_mode_scope("reproduction") == ["paper_reproduction"]
     assert normalize_mode_scope(["autonomous_research"]) == ["autonomous_research"]
     assert normalize_mode_scope(["unknown_mode"]) is None
+
+
+def test_mode_scope_filter_is_mode_aware_and_rejects_non_public_scope() -> None:
+    applies, valid = _profile_applies_to_mode(
+        {"applies_to_modes": ["paper_reproduction"]}, "autonomous_research"
+    )
+    assert (applies, valid) == (False, True)
+    applies, valid = _profile_applies_to_mode(
+        {"applies_to_modes": ["autonomous_research"]}, "paper_reproduction"
+    )
+    assert (applies, valid) == (False, True)
+    applies, valid = _profile_applies_to_mode(
+        {"applies_to_modes": ["paper_reproduction", "autonomous_research"]},
+        "paper_reproduction",
+    )
+    assert (applies, valid) == (True, True)
+    applies, valid = _profile_applies_to_mode(
+        {"applies_to_modes": ["hidden_reference_only"]}, "paper_reproduction"
+    )
+    assert (applies, valid) == (False, False)
 
 
 def test_mode_specific_binding_does_not_fallback_to_other_mode() -> None:

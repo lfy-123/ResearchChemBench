@@ -285,6 +285,14 @@ dots after `$`). If you see that form in a draft, rewrite it to the explicit chi
 `$.field` or `$.group.field` only when that exact path is the intended declared result field. Before
 approval, reread every `observed_fields` entry and ensure no selector starts with `$..`.
 
+The hidden reference may retain private evidence, but its evaluator-scored
+`ground_truth_items` and `acceptance_profiles` are public-mode contracts. Every such item/profile must apply to
+`paper_reproduction`, `autonomous_research`, or both. Never emit or preserve `hidden_reference_only`, `private_only`,
+or another non-public mode scope as a Ground Truth/profile. If an orphan private alias or source mapping was added as
+a scored item, remove that orphan from the evaluator contract and keep the mapping only in
+`hidden_reference/private_evidence_map.json`; do not invent a replacement target. Re-run the binding and evaluator
+checks after this repair, and never report a passed contract while an orphan/non-public profile remains.
+
 When editing `task_info.json`, keep `scientific_requirements` as a compact list of plain strings.
 If richer records are used during reasoning, project each record to its requirement text before
 finishing the public file; IDs and rubric structure belong in the scientific rubric, not in this
