@@ -32,6 +32,7 @@ from src.agents.responses_bridge import (
 )
 from src.agents.schemas import (
     AGENT_SUMMARY_SCHEMA,
+    STAGE06_AUTONOMOUS_CONVERTER_SCHEMA,
     STAGE06_AUTONOMOUS_SCHEMA,
     STAGE06_REVIEW_SCHEMA,
 )
@@ -937,6 +938,82 @@ def test_positive_task_receipt_missing_artifact_is_retried(tmp_path: Path) -> No
     assert (workspace / "outputs").is_dir()
     assert receipt["status"] == "ready"
     assert budgets == [8, 16]
+
+
+def test_converter_recovery_keeps_normal_budget_when_global_recovery_is_small(
+    tmp_path: Path,
+) -> None:
+    calls = 0
+    budgets: list[tuple[int, int]] = []
+
+    def responder(request: AgentRunRequest) -> dict:
+        nonlocal calls
+        calls += 1
+        budgets.append(
+            (
+                int(request.metadata["max_tool_calls"]),
+                int(request.metadata["finalization_reserve"]),
+            )
+        )
+        if calls == 1:
+            return {
+                "status": "needs_conversion_retry",
+                "artifact_path": "outputs/autonomous_research",
+                "summary": "retry",
+                "conversion_report": {},
+                "invalid_reasons": ["interrupted conversion"],
+            }
+        return {
+            "status": "converted",
+            "artifact_path": "autonomous_research",
+            "summary": "complete recovered tree",
+            "conversion_report": {},
+            "invalid_reasons": [],
+        }
+
+    def setup(root: Path) -> None:
+        reproduction = root / "inputs" / "task_pair" / "paper_reproduction"
+        reproduction.mkdir(parents=True)
+        for name in (
+            "task.md",
+            "task_info.json",
+            "task_spec.json",
+            "submission_contract.json",
+            "process_rubric.json",
+        ):
+            (reproduction / name).write_text("{}\n", encoding="utf-8")
+
+    harness = create_agent_harness(
+        "mock",
+        config={"mock_responder": responder},
+        model_config={"model": "mock"},
+    )
+    receipt, _, workspace = _run_phase(
+        harness=harness,
+        stage_root=tmp_path,
+        paper_id="paper-test",
+        phase="autonomous_converter",
+        prompt_version="test",
+        instructions="Convert the staged task.",
+        output_schema=STAGE06_AUTONOMOUS_CONVERTER_SCHEMA,
+        fingerprint_value={"paper": "paper-test"},
+        config={
+            "max_attempts": 2,
+            "retry_backoff_seconds": 0,
+            "max_tool_calls": 120,
+            "autonomous_converter_max_tool_calls": 60,
+            "autonomous_converter_finalization_reserve": 8,
+            "recovery_max_tool_calls": 8,
+            "resume": False,
+        },
+        setup=setup,
+        semantic_validator=_converter_phase_findings,
+    )
+
+    assert calls == 2
+    assert receipt["artifact_path"] == "outputs/autonomous_research"
+    assert workspace is not None
+    assert budgets == [(60, 8), (60, 8)]
 
 
 def test_scientific_review_recovery_seeds_prior_contract_as_revision_draft(

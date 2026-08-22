@@ -1884,12 +1884,24 @@ def _run_phase(
             )
         )
         if recovery_context:
-            phase_tool_calls = int(
-                config.get(
-                    f"{phase}_recovery_max_tool_calls",
-                    config.get("recovery_max_tool_calls", 160),
-                )
-            )
+            recovery_budget = config.get(f"{phase}_recovery_max_tool_calls")
+            if recovery_budget is None:
+                recovery_budget = config.get("recovery_max_tool_calls", 160)
+                if phase == "autonomous_converter":
+                    # Stage06B recovery may need to finish the same recursive
+                    # semantic redaction as a normal conversion.  A small global
+                    # recovery default combined with the converter's finalization
+                    # reserve can otherwise leave only one usable workspace call.
+                    recovery_budget = max(
+                        int(recovery_budget),
+                        int(
+                            config.get(
+                                "autonomous_converter_max_tool_calls",
+                                config.get("max_tool_calls", 24),
+                            )
+                        ),
+                    )
+            phase_tool_calls = int(recovery_budget)
             phase_instructions += recovery_instructions(
                 phase, max_tool_calls=phase_tool_calls
             )
