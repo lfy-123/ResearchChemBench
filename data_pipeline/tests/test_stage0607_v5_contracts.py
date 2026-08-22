@@ -105,11 +105,11 @@ def test_stage_prompts_use_model_neutral_execution_order() -> None:
         finalization_reserve=4,
     )
 
-    assert "EXECUTION ORDER" in builder
-    assert builder.index("EXECUTION ORDER") < builder.index("TOOL-BUDGET DISCIPLINE")
-    assert "CONVERSION ORDER" in converter
-    assert "AUDIT ORDER" in judge
-    assert judge.index("AUDIT ORDER") < judge.index("SCIENTIFIC WORKFLOW")
+    assert "DECISION PROTOCOL" in builder
+    assert builder.index("DECISION PROTOCOL") < builder.index("TOOL-BUDGET DISCIPLINE")
+    assert "CONVERSION PROTOCOL" in converter
+    assert "AUDIT PROTOCOL" in judge
+    assert judge.index("AUDIT PROTOCOL") < judge.index("SCIENTIFIC WORKFLOW")
     for prompt in (builder, converter, judge):
         assert "source" in prompt.casefold() or "evidence" in prompt.casefold()
         assert "final" in prompt.casefold() and "status" in prompt.casefold()
