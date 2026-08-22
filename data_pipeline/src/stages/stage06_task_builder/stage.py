@@ -2027,6 +2027,10 @@ def _run_phase(
                     phase=phase,
                     result=result,
                 )
+            elif phase == "autonomous_converter":
+                result.response = _reconcile_converter_phase_receipt(
+                    result.response or {}, workspace=attempt_root
+                )
             if semantic_validator is not None:
                 semantic_findings = semantic_validator(result.response or {}, attempt_root)
                 if semantic_findings:
@@ -4846,6 +4850,42 @@ def _reconcile_task_phase_receipt(
             result=result,
         )
     return receipt
+
+
+def _reconcile_converter_phase_receipt(
+    receipt: dict[str, Any], *, workspace: Path
+) -> dict[str, Any]:
+    """Prefer a complete canonical Stage06B tree over a stale receipt path.
+
+    The converter writes a file-first artifact below ``outputs/autonomous_research``.
+    A model may correctly finish that tree while returning the shortened path
+    ``autonomous_research``.  The later semantic validator already audits the tree;
+    normalizing this transport-only path prevents a complete conversion from being
+    retried as a missing artifact without accepting a partial tree.
+    """
+
+    if receipt.get("status") not in {"converted", "conversion_uncertain"}:
+        return receipt
+    autonomous = workspace / "outputs" / "autonomous_research"
+    required = {
+        "task.md",
+        "task_info.json",
+        "task_spec.json",
+        "submission_contract.json",
+        "process_rubric.json",
+    }
+    present = {
+        path.relative_to(autonomous).as_posix()
+        for path in autonomous.rglob("*")
+        if autonomous.is_dir() and path.is_file()
+    }
+    if not required.issubset(present):
+        return receipt
+    output = dict(receipt)
+    if output.get("artifact_path") != "outputs/autonomous_research":
+        output["artifact_path"] = "outputs/autonomous_research"
+        output["receipt_reconciled_from_artifact"] = True
+    return output
 
 
 def _require_claimed_phase_artifact(

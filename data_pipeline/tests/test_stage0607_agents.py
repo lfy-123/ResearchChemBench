@@ -70,6 +70,7 @@ from src.stages.stage06_task_builder.stage import (
     _ensure_converter_output_scaffold,
     _ensure_reproduction_route_rubric,
     _normalize_workflow_review_aliases,
+    _reconcile_converter_phase_receipt,
     _reconcile_task_phase_receipt,
     _recover_public_assets,
     _reproduction_patch_script,
@@ -6133,6 +6134,44 @@ def test_converter_retry_status_enters_phase_recovery_loop(tmp_path: Path) -> No
         },
         tmp_path,
     ) == ["autonomous_converter_requested_retry"]
+
+
+def test_converter_receipt_uses_complete_file_first_artifact(tmp_path: Path) -> None:
+    autonomous = tmp_path / "outputs" / "autonomous_research"
+    autonomous.mkdir(parents=True)
+    for name in (
+        "task.md",
+        "task_info.json",
+        "task_spec.json",
+        "submission_contract.json",
+        "process_rubric.json",
+    ):
+        (autonomous / name).write_text("{}\n", encoding="utf-8")
+
+    reconciled = _reconcile_converter_phase_receipt(
+        {
+            "status": "converted",
+            "artifact_path": "autonomous_research",
+            "summary": "complete tree, shortened receipt path",
+        },
+        workspace=tmp_path,
+    )
+
+    assert reconciled["artifact_path"] == "outputs/autonomous_research"
+    assert reconciled["receipt_reconciled_from_artifact"] is True
+
+
+def test_converter_receipt_does_not_hide_partial_artifact(tmp_path: Path) -> None:
+    autonomous = tmp_path / "outputs" / "autonomous_research"
+    autonomous.mkdir(parents=True)
+    (autonomous / "task.md").write_text("task\n", encoding="utf-8")
+    receipt = {
+        "status": "converted",
+        "artifact_path": "autonomous_research",
+        "summary": "partial tree",
+    }
+
+    assert _reconcile_converter_phase_receipt(receipt, workspace=tmp_path) == receipt
 
 
 def test_converter_setup_prestages_correct_writable_root(tmp_path: Path) -> None:
