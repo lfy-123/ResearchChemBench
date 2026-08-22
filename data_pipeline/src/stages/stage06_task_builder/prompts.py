@@ -4,8 +4,8 @@ STAGE06_REVIEW_VERSION = "v4-stage06-review-sixth-round-20260819"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v12-stage06-claim-dependency-and-input-sufficiency-20260822"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v8-stage06-neutral-asset-converter-scope-aware-20260821"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v13-stage06-nontrivial-workflow-and-canonical-dependency-20260822"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v9-stage06-handoff-safe-converter-recovery-20260822"
 
 
 def task_pair_builder_instructions(
@@ -126,9 +126,15 @@ OBJECTIVE-FIRST SELECTION
 5. The selected scope must close the chain from problem inputs to meaningful intermediate and final
    scientific conclusions. It may include competing hypotheses, negative results, descriptor tests,
    selectivity comparisons, or validation branches.
-6. Do not require a fixed step count or coverage of every paper calculation. Reject only a trivial
-   one-call calculation with no meaningful scientific reasoning, or a source-backed fatal gap that
-   cannot be repaired without guessing.
+6. Do not require a fixed step count or coverage of every paper calculation. The selected objective
+   must nevertheless contain a non-trivial author-performed computational-chemistry, molecular-
+   simulation, or scientific-modeling workflow that produces new computational evidence. Simple
+   arithmetic, unit conversion, re-tabulation, plotting, or descriptive statistics over already
+   reported experimental measurements are not a standalone computational workflow and cannot rescue
+   a scientifically unconstructible chemistry calculation. Such observations may be public inputs
+   or validation evidence inside a broader computation. Reject a trivial one-call calculation with
+   no meaningful scientific reasoning, or a source-backed fatal gap that cannot be repaired without
+   guessing.
 
 Use only these new scope kinds: `full_paper_core_workflow` or
 `core_scientific_subworkflow`. For a core subworkflow, record
@@ -209,15 +215,19 @@ review this record; do not use keywords, a fixed paper list, or a code-side impo
 auditable observation, but silently omitting the field is not. These fields describe the evidence
 available to Stage07 and do not authorize code to rank scientific centrality.
 
-Also include `ultimate_claim_dependency`: identify the paper's final advertised scientific conclusion
-from the title, abstract, main result figures/tables, and conclusion; list the computational claims that
-directly establish it; list merely supporting descriptors/controls; and map each candidate workflow to
-that dependency chain. Centrality is the relation to the paper's advertised conclusion, not a preferred
-calculation family. An application-oriented workflow is not "secondary" when the
-title/abstract/conclusion relies on it, while a complete supporting descriptor or
-baseline calculation is not "primary" merely because it is easy to reproduce. For a comparison claim,
-the selected workflow must include both compared sides unless source evidence proves one side cannot be
-constructed; an isolated side does not represent the comparison.
+Also include `ultimate_claim_dependency` using exactly these canonical fields:
+`advertised_conclusion`, `direct_computational_evidence`, `supporting_only_evidence`, and
+`selected_workflow_position`. Identify the paper's final advertised scientific conclusion from the
+title, abstract, main result figures/tables, and conclusion; list the computations that directly
+establish it; list merely supporting descriptors/controls; and state the selected workflow's position
+in that chain. Do not invent aliases such as `final_advertised_conclusion`,
+`direct_computational_claims`, or `direct_computational_evidence_chain`. Centrality is the relation to
+the paper's advertised conclusion, not a preferred calculation family. An application-oriented
+workflow is not "secondary" when the title/abstract/conclusion relies on it, while a complete
+supporting descriptor or baseline calculation is not "primary" merely because it is easy to
+reproduce. For a comparison claim, the selected workflow must include both compared sides unless
+source evidence proves one side cannot be constructed; an isolated side does not represent the
+comparison.
 
 For each input, record one provenance state: `exact_source_coordinates`,
 `source_constrained_construction`, or `underspecified`. Explain why that state is sufficient for the
@@ -349,6 +359,20 @@ or the complete Stage06A review. You may write only `outputs/autonomous_research
 optional internal `outputs/conversion_report.json`. Paper id is
 `{paper_id}` and task pair id is `{task_pair_id}`. You have at most {max_tool_calls} tool calls.
 
+The conversion packet is a private handoff, not public task content. Never copy, quote, serialize,
+or append packet objects or their JSON wrappers into `task.md` or another public file. Translate a
+preserved physical or method constraint into normal task prose. Describe the evaluated Agent's
+actual report/calculation deliverables from the public submission contract; never present task-package
+files such as `task.md`, `task_info.json`, `task_spec.json`, `submission_contract.json`, or
+`process_rubric.json` as submission deliverables. Do not append headings such as "conversion packet",
+"deliverable contract", or a fenced handoff JSON block.
+
+Use the ordinary workspace shell for inspection and edits. A warning that an optional Codex code-mode
+host is unavailable does not mean the shell or filesystem is unavailable. A command that exits zero
+and prints workspace content proves access. Do not burn the call budget repeating `pwd` or `ls` after
+that point. On a recovery attempt, read `RECOVERY_CONTEXT.md` first, preserve the staged output, then
+use one grouped inspection, one grouped repair, and one grouped validation whenever possible.
+
 Your responsibility is public-surface conversion, not a new scientific review. Copy the
 paper-reproduction task as the starting point, then produce an autonomous-research task that:
 
@@ -406,8 +430,12 @@ additional obligations; those files are metadata/data only.
 Do not modify `inputs/`, the paper-reproduction task, the hidden reference, the toolbox, the
 scientific objective, or the meaning of any Ground Truth/Key Point. Do not invent a replacement
 structure, parameter or answer. If conversion cannot preserve the scientific objective, return
-`objective_consistency_error`; if a filesystem/API problem prevents completion, return
-`needs_conversion_retry`.
+`objective_consistency_error`. Return `conversion_uncertain` when the complete required autonomous
+task tree exists but a semantic disclosure or classification question remains for Stage07; put the
+specific uncertainty in `remaining_disclosures`/`invalid_reasons`. Return `needs_conversion_retry`
+only when a concrete filesystem, API, or harness failure prevents delivery of the required files.
+An optional code-mode warning, an incomplete final scan after files were delivered, or uncertainty
+that Stage07 can audit is not by itself a filesystem failure.
 
 Write `outputs/autonomous_research/` with all required task files and, when possible, write one
 small internal `outputs/conversion_report.json` containing `removed_files`, `renamed_files`,

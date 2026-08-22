@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v19-stage07-claim-dependency-and-input-sufficiency-20260822"
+STAGE07_AUDIT_VERSION = "v20-stage07-redesign-value-and-public-surface-20260822"
 
 
 def audit_instructions(
@@ -51,9 +51,16 @@ SCIENTIFIC WORKFLOW
    incomplete intermediate/final Ground Truth, acceptance profiles, rubrics, provenance, or
    autonomous-mode disclosure. Never invent a missing scientific value or structure.
 4. Only after recording an evidence-backed, scientifically unrepairable blocker may you switch
-   workflows. If another complete, non-trivial author-performed workflow exists, rebuild the pair
-   and return `approved_after_workflow_redesign`; otherwise return
+   workflows. If another complete, non-trivial author-performed computational-chemistry, molecular-
+   simulation, or scientific-modeling workflow exists, rebuild the pair and return
+   `approved_after_workflow_redesign`; otherwise return
    `rejected_scientific_unrepairable`.
+   A replacement must produce new computational evidence and meaningful process Key Points. Simple
+   arithmetic, unit conversion, re-tabulation, plotting, or descriptive statistics over already
+   reported experimental measurements cannot serve as a standalone replacement, even when the
+   resulting table is related to a headline claim. Those data may be inputs or validation evidence
+   inside a broader author-performed computational workflow. If no non-trivial central replacement
+   is closed, reject scientifically instead of redesigning around experimental bookkeeping.
 5. Treat the whole-paper objective-centered workflow as the default. Retain a core subworkflow only
    when Stage06 records an evidence-backed blocker such as unacceptable cost, unrecoverable input,
    or a scientifically non-closed step. A missing software family is not a scope blocker: preserve
@@ -97,6 +104,12 @@ SCIENTIFIC WORKFLOW
    executable TS search; a periodic recipe requires the lattice and atomic placement/termination needed
    by the target. If no exact/sufficient input or robust acceptance framing exists for the complete route
    or highest-centrality subworkflow, reject scientifically rather than accepting a convenient model.
+   Independently expand the actual resource cost of every mandatory branch: electronic/spin states,
+   conformers or sites, displaced geometries or numerical frequencies, trajectory replicas, response
+   roots and spectral windows, and validation reruns. A task with only one or two public inputs may
+   still imply hundreds of expensive calculations. Do not call a route feasible from system count
+   alone; compare the expanded work to the supplied resource policy and narrow to a still-central
+   closed author workflow or reject when the selected objective itself cannot fit.
 
 7. Independently audit Stage06's `representativeness_review`. Compare each claim object
    (`claim_id`, `claim`, `centrality`, `coverage`, `evidence_ids`) from the title/abstract/main figures or
@@ -116,9 +129,13 @@ SCIENTIFIC WORKFLOW
    If any of those fields is absent or only asserted without evidence, record it as an audit finding
    and do not treat the candidate as a demonstrated closed alternative. Do not replace this evidence
    check with a paper-specific keyword or a deterministic centrality rule.
-   Include an `ultimate_claim_dependency` entry in the receipt's representativeness audit that records
-   the final advertised conclusion, its direct computational evidence chain, supporting-only evidence,
-   and the selected workflow's exact position in that chain.
+   Include an `ultimate_claim_dependency` entry in the receipt's representativeness audit using
+   exactly `advertised_conclusion`, `direct_computational_evidence`, `supporting_only_evidence`, and
+   `selected_workflow_position`. Do not copy or emit aliases such as
+   `final_advertised_conclusion`, `direct_computational_claims`, or
+   `direct_computational_evidence_chain`. Record the final advertised conclusion, its direct
+   computational evidence, supporting-only evidence, and the selected workflow's exact position in
+   that chain.
 
 8. Verify provenance metadata independently from the Stage06 receipt. Use the main-paper evidence to
    check `paper_info.json` title, DOI, and journal. Repair malformed values such as a supplementary
@@ -166,6 +183,12 @@ Reread both final `task.md` files and reject or repair any wording that tells th
 read `task_spec.json`, `workflow_spec.json`, or another contract/route file to discover additional
 obligations. Supporting route files may contain disclosed reproduction data, but every actionable
 requirement must already be present in `task.md`.
+The Stage06 conversion packet and handoff contracts are private implementation artifacts. Remove any
+public block that quotes or serializes `conversion_packet`, `deliverable_contract`, preservation flags,
+neutral-alias maps, or task-package manifests. Never tell the evaluated Agent to submit task-package
+files such as `task.md`, `task_info.json`, `task_spec.json`, `submission_contract.json`, or
+`process_rubric.json`. Public `task.md` must describe only the scientific task and the evaluated
+submission artifacts such as reports, results, structures, plots, or calculation outputs.
 
 AUTONOMY SCOPE AND SCORING CONSISTENCY:
 - `workflow_scope.autonomy_scope=fixed_input_method_constrained_workflow` is valid only when a

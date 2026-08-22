@@ -219,6 +219,9 @@ RECOVERY ATTEMPT FOR `{phase}`:
 {budget}
 Read `RECOVERY_CONTEXT.md` first with `sed -n '1,240p' RECOVERY_CONTEXT.md` (it is a file in the workspace root;
 do not infer that it is absent from a partial directory listing). The unchanged canonical inputs remain authoritative.
+Use the ordinary shell even if an optional Codex code-mode host reports that it is unavailable; that warning does
+not imply a filesystem failure. Once a shell command exits zero and shows workspace content, do not repeat `pwd`,
+`ls`, or equivalent access probes. Continue directly with the named repair and grouped verification.
 If the context file is unavailable, continue from any existing `outputs/` artifacts and the validation failure; do
 not convert that execution/transport problem into a scientific rejection. Do not repeat broad searches
 already recorded there. If `RECOVERY_EVIDENCE.md` exists, do not page through the full file: use at most one

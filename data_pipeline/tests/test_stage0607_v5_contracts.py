@@ -8,7 +8,11 @@ from types import SimpleNamespace
 sys.path.insert(0, str(Path(__file__).parents[1]))
 
 from src.agents.schemas import STAGE06_WORKFLOW_REVIEW_SCHEMA, STAGE07_AUDIT_SCHEMA
-from src.stages.stage06_task_builder.prompts import task_pair_builder_instructions
+from src.agents.workspace import recovery_instructions
+from src.stages.stage06_task_builder.prompts import (
+    autonomous_converter_instructions,
+    task_pair_builder_instructions,
+)
 from src.stages.stage06_task_builder.validation import validate_representativeness_review
 from src.stages.stage07_task_judge.prompts import audit_instructions
 from src.stages.stage07_task_judge.stage import _approved_receipt_contract_findings
@@ -86,6 +90,50 @@ def test_stage_prompts_require_scope_comparison_and_do_not_treat_software_gap_as
     assert "missing software must never appear in a scope downgrade rationale" in " ".join(
         judge.split()
     ).casefold()
+
+
+def test_stage_prompts_reject_trivial_redesign_and_use_one_dependency_contract() -> None:
+    builder = task_pair_builder_instructions(paper_id="paper-x", snapshot_hash="hash")
+    judge = audit_instructions(
+        paper_id="paper-x",
+        task_pair_id="paper-x_task_pair",
+        manifest_hash="hash",
+        max_tool_calls=20,
+        finalization_reserve=4,
+    )
+    for prompt in (builder, judge):
+        normalized = " ".join(prompt.split()).casefold()
+        assert "simple arithmetic" in normalized
+        assert "reported experimental measurements" in normalized
+        for key in (
+            "advertised_conclusion",
+            "direct_computational_evidence",
+            "supporting_only_evidence",
+            "selected_workflow_position",
+        ):
+            assert key in prompt
+    assert "hundreds of expensive calculations" in " ".join(judge.split())
+
+
+def test_converter_keeps_private_handoff_out_of_public_task_and_has_uncertain_status() -> None:
+    prompt = autonomous_converter_instructions(
+        paper_id="paper-x", task_pair_id="paper-x_task_pair"
+    )
+    normalized = " ".join(prompt.split()).casefold()
+    assert "private handoff" in normalized
+    assert "never copy, quote, serialize" in normalized
+    assert "task-package files" in normalized
+    assert "conversion_uncertain" in prompt
+    assert "needs_conversion_retry" in prompt
+    assert "code-mode" in normalized
+
+
+def test_recovery_prompt_does_not_confuse_optional_code_mode_with_shell_failure() -> None:
+    prompt = recovery_instructions("autonomous_converter", max_tool_calls=10)
+    normalized = " ".join(prompt.split()).casefold()
+    assert "code-mode host" in normalized
+    assert "does not imply a filesystem failure" in normalized
+    assert "do not repeat `pwd`" in normalized
 
 
 def test_stage07_approved_receipt_requires_representativeness_audit() -> None:
