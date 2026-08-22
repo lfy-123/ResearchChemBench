@@ -303,7 +303,9 @@ SUCCESSFUL CONSTRUCTION ORDER
    `ground_truth_common.json` uses status
    `ready` and contains ground_truth_items, acceptance_profiles, scientific_conclusion_rubric,
    expected_result, critical_failures, reference_evidence, evidence_gate_policy,
-   managed_computation_policy, and summary. Ground Truth items carry an explicit mode scope when
+   managed_computation_policy, and summary. The two policy fields must always be JSON objects
+   (for example, an object with a `description` plus applicable boolean requirements), never prose
+   strings; downstream schema validation rejects string policy values. Ground Truth items carry an explicit mode scope when
    a conclusion or representation is not valid for both modes, and bind through an item-specific
    typed Acceptance Profile to the applicable submission artifacts/fields.
    Include numeric results and textual intermediate/final conclusions. The conclusion Key Point

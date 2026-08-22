@@ -345,6 +345,12 @@ FINAL APPROVAL CHECKLIST
 - Recompute each difference sign from the published formula and verify the hidden value, prose and
   per-mode observed field express that same quantity.
 - Keep `evidence_gate_policy` and `managed_computation_policy` as JSON objects, never prose strings.
+  Before approving, reopen `hidden_reference/ground_truth_common.json` and inspect the parsed
+  types, not just the text you intended to write. If the source handoff supplied a sentence,
+  preserve its meaning under an object such as
+  `{{"description": "...", "required": true}}` (using only applicable neutral flags), rather
+  than copying the sentence as the field value. A string value in either field is a contract
+  error and must be repaired before an `approved` decision.
 - Every reproduction route-fidelity criterion must cite the source route evidence required by the
   contract. Every required program already matched in the installed inventory implies
   `toolbox_status=available` unless a different required program is genuinely absent.
