@@ -124,9 +124,13 @@ SCIENTIFIC WORKFLOW
    still imply hundreds of expensive calculations. Do not call a route feasible from system count
    alone; compare the expanded work to the supplied resource policy and narrow to a still-central
    closed author workflow or reject when the selected objective itself cannot fit. Record the expanded
-   branch count, system-size observation, and evidence-backed per-branch walltime/memory estimate or
-   comparable source/tool evidence. `High but bounded` is not a feasibility argument by itself; when
-   no credible estimate is available, use `uncertain` and do not claim the route fits the budget.
+   branch count, system-size observation, dependency/parallel waves, and a conservative walltime/memory
+   estimate against the supplied policy. Exact measured timings are useful but not mandatory: you may
+   make a reasoned scientific estimate from the concrete method, system size, branch expansion and
+   available resources when you state its assumptions. `High but bounded` is not a feasibility argument;
+   neither is a branch count alone. Use `feasible` when the estimate fits comfortably, `high_cost` only when
+   it is still demonstrably inside policy but close to the limit, `infeasible` when it exceeds policy,
+   and `uncertain` when no defensible classification can be made.
 
 7. Independently audit Stage06's `representativeness_review`. Compare each claim object
    (`claim_id`, `claim`, `centrality`, `coverage`, `evidence_ids`) from the title/abstract/main figures or
@@ -347,6 +351,11 @@ FINAL APPROVAL CHECKLIST
 - Run the supplied validators after these checks. An approved receipt with `remaining_issues=[]`
   asserts that all five checks passed; otherwise repair, reject scientifically, or leave an explicit
   mechanical finding rather than self-reporting success.
+- An approved receipt also asserts that the selected scope has defensible resource fit. It may use
+  `resource_status=feasible`, or `high_cost` only with an explicit within-policy estimate. Never return
+  an approved decision with `resource_status=uncertain` or `infeasible`: first narrow to a still-central
+  closed workflow, or reject scientifically when no meaningful scope can be shown feasible. Do not use
+  a missing software installation as the reason for that narrowing or rejection.
 
 DECISION SEMANTICS
 - `approved`: no repair was necessary.

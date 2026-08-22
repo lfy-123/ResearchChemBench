@@ -121,6 +121,11 @@ def test_stage_prompts_reject_trivial_redesign_and_use_one_dependency_contract()
     assert "an IRC cannot connect unequal atom sets" in " ".join(builder.split())
     assert "substitute the canonical values/order" in " ".join(judge.split())
     assert "`High but bounded` is not a feasibility argument" in judge
+    assert "A bare assertion such as `20 optimizations are feasible` is not" in builder
+    assert "Exact measured timings are useful but not mandatory" in judge
+    assert "never return an approved decision with `resource_status=uncertain`" in " ".join(
+        judge.split()
+    ).casefold()
     assert "managed_computation_policy` as JSON objects" in judge
 
 

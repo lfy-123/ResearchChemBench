@@ -115,6 +115,14 @@ OBJECTIVE-FIRST SELECTION
    an equivalent scope decision. Record it only in the non-blocking toolbox/readiness fields. If a
    separate source-input, scientific-definition, or resource-cost blocker exists, state that
    independent blocker without using the missing installation to strengthen the scope decision.
+   Before calling any candidate resource-feasible, expand its mandatory branches, system sizes,
+   expensive method levels, dependency/parallel waves, validation reruns, and likely memory/walltime
+   against `inputs/resource_policy.json`. Published per-job timings are helpful but not mandatory:
+   a conservative scientific estimate from those concrete facts is acceptable when its assumptions
+   are stated. A bare assertion such as `20 optimizations are feasible` is not. If the full route is
+   still `uncertain` or likely outside policy after this estimate, do not select it as candidate-ready;
+   narrow to the most important closed scope with defensible resource fit, or report scientific
+   non-constructibility when no such central scope exists.
 4. Choose one autonomous scope and record it in `workflow_scope.autonomy_scope`: use
    `fixed_input_method_constrained_workflow` only when a method or method set is part of the public
    scientific variable/definition or the score is intentionally anchored to that disclosed method;
