@@ -7,6 +7,9 @@
 验证 Round 3 的最小 Prompt 修补是否解决了 DeepSeek→DeepSeek 生成非公开
 `hidden_reference_only` acceptance profile，以及是否让 Stage07 在公共答案扫描修复后正确闭合审计状态。
 
+首次启动命令因未将 `config.local.env` 的 role-specific key export 到子进程而立即退出；该次不计入
+测试样本。随后使用 `set -a; source config.local.env; set +a` 重新同时提交三组，以下目录只记录有效运行。
+
 ## 配置
 
 三组使用同一批 5 篇论文并同时提交，Codex harness、high reasoning、并发 5：
