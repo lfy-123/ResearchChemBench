@@ -31,6 +31,8 @@ GPT 组：
 
 尚未提交。当前 GPT API `/v1/models` 没有 `gpt-5.6-pro`，因此没有使用 `gpt-5.6-sol` 冒充该模型。获得可用的 `gpt-5.6-pro` endpoint 或明确替代模型后，使用相同 Prompt、Codex harness、high reasoning、并发 5，同时提交两组。
 
+2026-08-23 的直接 API 探测也返回 HTTP 404：`model_not_available`，并明确说明该模型不在当前 API key 的可用范围内。该证据将本轮状态分类为外部配置阻断，不归因于代码或 Prompt。
+
 ## 预定结果分析
 
 逐篇记录 Stage06A scope、Stage06B disclosure、Stage07 audit/repair/decision、机械状态和源材料依据；将差异归因为代码、Prompt、模型能力或源材料，不能以发布率直接评价 Prompt。
