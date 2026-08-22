@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-STAGE06_REVIEW_VERSION = "v4-stage06-review-sixth-round-20260819"
+STAGE06_REVIEW_VERSION = "v6-stage06-review-round1-execution-order-20260822"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v15-stage06-asset-and-ranking-closure-20260822"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v10-stage06-prestaged-converter-20260822"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v6-stage06-builder-round1-execution-order-20260822"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v6-stage06-converter-round1-execution-order-20260822"
 
 
 def task_pair_builder_instructions(
@@ -46,6 +46,14 @@ ROLE BOUNDARY
 - Use `scientific_not_constructible` only when the source itself lacks a necessary input, route,
   scoreable result/conclusion, or complete non-trivial workflow after checking the paper and all
   known SI. Never invent the missing science.
+
+EXECUTION ORDER
+1. First inventory the source evidence and compare the complete route with candidate core
+   subworkflows; do not write a success pair before choosing and explaining the scope.
+2. Then write the provisional workflow review and reproduction/hidden-reference artifacts using
+   only the selected, source-grounded scope.
+3. Finally reread the key outputs and record unresolved fields, coverage limits, and the provisional
+   handoff status. Stage07 performs the final scientific audit.
 
 TOOL-BUDGET DISCIPLINE
 - Do not spend one tool call per output file. After the evidence pass, use one grouped
@@ -396,6 +404,13 @@ reference, canonical answers, source evidence,
 or the complete Stage06A review. You may write only `outputs/autonomous_research/` and the
 optional internal `outputs/conversion_report.json`. Paper id is
 `{paper_id}` and task pair id is `{task_pair_id}`. You have at most {max_tool_calls} tool calls.
+
+CONVERSION ORDER
+1. Inspect the pre-staged public tree and conversion instructions before editing it.
+2. Apply only answer-blind public-surface changes; do not change the selected workflow, scientific
+   values, conclusions, or hidden reference.
+3. Reread the complete autonomous public tree, record semantic uncertainty for Stage07, and report
+   the final conversion status after the required files are present.
 
 The orchestrator has already copied the **contents** of the reproduction public tree into the
 writable `outputs/autonomous_research/` root. Edit that pre-staged tree in place. Do not copy

@@ -92,6 +92,29 @@ def test_stage_prompts_require_scope_comparison_and_do_not_treat_software_gap_as
     ).casefold()
 
 
+def test_stage_prompts_use_model_neutral_execution_order() -> None:
+    builder = task_pair_builder_instructions(paper_id="paper-x", snapshot_hash="hash")
+    converter = autonomous_converter_instructions(
+        paper_id="paper-x", task_pair_id="paper-x_task_pair"
+    )
+    judge = audit_instructions(
+        paper_id="paper-x",
+        task_pair_id="paper-x_task_pair",
+        manifest_hash="hash",
+        max_tool_calls=20,
+        finalization_reserve=4,
+    )
+
+    assert "EXECUTION ORDER" in builder
+    assert builder.index("EXECUTION ORDER") < builder.index("TOOL-BUDGET DISCIPLINE")
+    assert "CONVERSION ORDER" in converter
+    assert "AUDIT ORDER" in judge
+    assert judge.index("AUDIT ORDER") < judge.index("SCIENTIFIC WORKFLOW")
+    for prompt in (builder, converter, judge):
+        assert "source" in prompt.casefold() or "evidence" in prompt.casefold()
+        assert "final" in prompt.casefold() and "status" in prompt.casefold()
+
+
 def test_stage_prompts_reject_trivial_redesign_and_use_one_dependency_contract() -> None:
     builder = task_pair_builder_instructions(paper_id="paper-x", snapshot_hash="hash")
     judge = audit_instructions(

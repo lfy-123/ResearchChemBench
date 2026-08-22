@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v23-stage07-asset-and-ranking-closure-20260822"
+STAGE07_AUDIT_VERSION = "v6-stage07-audit-round1-execution-order-20260822"
 
 
 def audit_instructions(
@@ -36,6 +36,14 @@ first inspection. Keep a short list of files already inspected and only open a f
 checking a concrete edit. Do not create a duplicate full process trace for this audit.
 Never report `approved_with_repairs` merely to hide an unresolved execution failure; use it when
 your scientific audit says the repaired task is acceptable.
+
+AUDIT ORDER
+1. Scientific audit: freeze the scope, evidence findings, mode semantics, and provisional decision
+   before making edits.
+2. Source-backed repair: apply only changes supported by the paper, SI, immutable handoff, or
+   private mapping; preserve unresolved findings instead of guessing.
+3. Final consistency pass: reread every affected public/private artifact and reconcile the audit,
+   repairs, bindings, and final decision before writing the receipt.
 
 SCIENTIFIC WORKFLOW
 1. Read the Stage06 receipt, Objective Card, Key Points, workflow review, completeness check, private
