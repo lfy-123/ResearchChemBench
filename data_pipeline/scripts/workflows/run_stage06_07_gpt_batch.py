@@ -258,6 +258,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--base-url", default=DEFAULT_BASE_URL)
     parser.add_argument("--model", default=DEFAULT_MODEL)
     parser.add_argument("--reasoning-effort", default="high")
+    parser.add_argument(
+        "--reasoning-mode",
+        help="Optional upstream reasoning mode (for example, pro); recorded as a model configuration, not a model slug",
+    )
     parser.add_argument("--api-key", help="API key (prefer --api-key-env to avoid shell history)")
     parser.add_argument("--api-key-env", default="RCB_GPT_API_KEY")
     parser.add_argument("--force", action="store_true", help="Rerun papers with an existing summary")
@@ -317,6 +321,9 @@ def main(argv: list[str] | None = None) -> int:
             + (os.pathsep + environment["PYTHONPATH"] if environment.get("PYTHONPATH") else ""),
         }
     )
+    if args.reasoning_mode:
+        environment["RCB_BUILDER_REASONING_MODE"] = args.reasoning_mode
+        environment["RCB_JUDGE_REASONING_MODE"] = args.reasoning_mode
     args.output_root.mkdir(parents=True, exist_ok=True)
     batch = {
         "state": "RUNNING",
@@ -327,6 +334,7 @@ def main(argv: list[str] | None = None) -> int:
         "model": args.model,
         "base_url": args.base_url,
         "reasoning_effort": args.reasoning_effort,
+        "reasoning_mode": args.reasoning_mode,
         "papers": selected,
     }
     _write_json(args.output_root / "batch_status.json", batch)

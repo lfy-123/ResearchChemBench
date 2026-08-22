@@ -1222,6 +1222,7 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
         proxy_url: str | None = None,
         chat_template_kwargs: dict[str, Any] | None = None,
         thinking: str | None = None,
+        reasoning_mode: str | None = None,
         max_tokens: int | None = None,
         structured_finalization_max_tokens: int | None = None,
         prefer_json_schema: bool = False,
@@ -1244,6 +1245,7 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
         self.proxy_url = proxy_url
         self.chat_template_kwargs = dict(chat_template_kwargs or {})
         self.thinking = thinking
+        self.reasoning_mode = str(reasoning_mode or "").strip().casefold() or None
         self.max_tokens = max_tokens
         self.structured_finalization_max_tokens = structured_finalization_max_tokens
         self.prefer_json_schema = bool(prefer_json_schema)
@@ -1426,6 +1428,19 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
         )
         self._restore_reasoning_content(payload.get("messages") or [])
         payload["model"] = self.model
+        # Preserve the optional Responses reasoning mode when the upstream only
+        # exposes Chat Completions.  The mode is deliberately model-agnostic;
+        # callers opt in through role configuration, so ordinary DeepSeek and
+        # standard GPT runs keep their existing payload unchanged.
+        incoming_reasoning = responses_payload.get("reasoning")
+        if isinstance(incoming_reasoning, dict):
+            payload["reasoning"] = dict(incoming_reasoning)
+        if self.reasoning_mode:
+            reasoning = payload.get("reasoning")
+            if not isinstance(reasoning, dict):
+                reasoning = {}
+            reasoning["mode"] = self.reasoning_mode
+            payload["reasoning"] = reasoning
         incoming_tools_present = bool(payload.get("tools"))
         if (
             not incoming_tools_present

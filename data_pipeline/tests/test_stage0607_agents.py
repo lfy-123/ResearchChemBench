@@ -1423,6 +1423,52 @@ def test_responses_bridge_does_not_mix_json_mode_with_tools() -> None:
     assert "response_format" not in chat
 
 
+def test_responses_bridge_forwards_optional_reasoning_mode(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    class _Response:
+        is_error = False
+
+        @staticmethod
+        def json() -> dict:
+            return {
+                "model": "gpt-5.6-sol",
+                "choices": [{"message": {"role": "assistant", "content": "OK"}}],
+            }
+
+    class _Client:
+        def __init__(self, **_kwargs) -> None:
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args) -> None:
+            return None
+
+        @staticmethod
+        def post(_url, *, headers, json):
+            captured.update(json)
+            return _Response()
+
+    monkeypatch.setattr("src.agents.responses_bridge.httpx.Client", _Client)
+    bridge = ResponsesBridge(
+        upstream_base_url="https://example.test/v1",
+        api_key="test",
+        model="gpt-5.6-sol",
+        timeout_seconds=5,
+        reasoning_mode="pro",
+    )
+    bridge._call_upstream(
+        {
+            "model": "gpt-5.6-sol",
+            "input": [{"role": "user", "content": "Inspect."}],
+            "reasoning": {"effort": "high"},
+        }
+    )
+    assert captured["reasoning"] == {"effort": "high", "mode": "pro"}
+
+
 def test_tool_choice_policy_is_explicit_and_model_agnostic() -> None:
     payload = {"tools": [_fallback_workspace_tool()]}
     _configure_chat_tool_choice(

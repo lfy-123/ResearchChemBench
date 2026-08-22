@@ -309,3 +309,15 @@ def test_batch_parser_exposes_reproducible_random_sampling() -> None:
     args = module.build_parser().parse_args(["--output-root", "/tmp/out", "--limit", "10", "--random-seed", "7"])
     assert args.limit == 10
     assert args.random_seed == 7
+
+
+def test_batch_parser_exposes_optional_reasoning_mode() -> None:
+    script_path = Path(__file__).parents[1] / "scripts/workflows/run_stage06_07_gpt_batch.py"
+    spec = importlib.util.spec_from_file_location("stage0607_batch_reasoning_mode", script_path)
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    args = module.build_parser().parse_args(
+        ["--output-root", "/tmp/out", "--reasoning-mode", "pro"]
+    )
+    assert args.reasoning_mode == "pro"

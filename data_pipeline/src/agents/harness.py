@@ -635,6 +635,7 @@ class CodexHarness(CliAgentHarness):
             proxy_url=_model_proxy_url(self.model_config),
             chat_template_kwargs=self.model_config.get("chat_template_kwargs"),
             thinking=self.model_config.get("thinking"),
+            reasoning_mode=self.model_config.get("reasoning_mode"),
             max_tokens=int(self.model_config.get("max_tokens", 16384)),
             structured_finalization_max_tokens=int(
                 self.config.get("structured_finalization_max_tokens", 32768)

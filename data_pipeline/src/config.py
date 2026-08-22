@@ -347,6 +347,9 @@ def _normalize_model_roles(
         reasoning_effort = os.environ.get(f"{env_prefix}_REASONING_EFFORT")
         if reasoning_effort:
             value["reasoning_effort"] = reasoning_effort.strip().casefold()
+        reasoning_mode = os.environ.get(f"{env_prefix}_REASONING_MODE")
+        if reasoning_mode:
+            value["reasoning_mode"] = reasoning_mode.strip().casefold()
         _apply_model_protocol_profile(value, protocol_profiles=protocol_profiles)
         for key in MODEL_PROTOCOL_KEYS:
             environment_value = os.environ.get(f"{env_prefix}_{key.upper()}")
