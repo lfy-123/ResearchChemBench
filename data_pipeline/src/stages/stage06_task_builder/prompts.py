@@ -4,7 +4,7 @@ STAGE06_REVIEW_VERSION = "v4-stage06-review-sixth-round-20260819"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v11-stage06-centrality-and-toolbox-policy-20260822"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v12-stage06-claim-dependency-and-input-sufficiency-20260822"
 STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v8-stage06-neutral-asset-converter-scope-aware-20260821"
 
 
@@ -111,6 +111,10 @@ OBJECTIVE-FIRST SELECTION
    to shrink the scientific scope; record that program as a software gap instead. A preference for
    a shorter task is not a blocker. Record `downgrade_reasons`, `claim_coverage`, `omitted_workflow_parts`,
    `why_this_subworkflow_is_core`, and `selection_confidence` in `workflow_scope`.
+   A software gap must not appear as a reason in `why_not_full_workflow`, `downgrade_reasons`, or
+   an equivalent scope decision. Record it only in the non-blocking toolbox/readiness fields. If a
+   separate source-input, scientific-definition, or resource-cost blocker exists, state that
+   independent blocker without using the missing installation to strengthen the scope decision.
 4. Choose one autonomous scope and record it in `workflow_scope.autonomy_scope`: use
    `fixed_input_method_constrained_workflow` only when a method or method set is part of the public
    scientific variable/definition or the score is intentionally anchored to that disclosed method;
@@ -145,6 +149,22 @@ reported values are preferred. Target-independent execution controls may be expl
 defaults or software defaults when their provenance and stopping rule are recorded. Resource
 infeasibility is scientific only when the selected scientific target cannot be scoped to the stated
 policy without changing it.
+
+Do not confuse molecular identity with a reproducible computational state. For every geometry-sensitive
+target, distinguish: chemical identity/composition; connectivity; an arbitrary buildable seed; the
+source stationary point or periodic model; a deterministic conformer/site/TS search protocol; and the
+sensitivity of the scored result to the unresolved degrees of freedom. A SMILES, formula, connectivity
+list, drawing, model recipe, or a few distances can close identity but usually cannot by itself close a
+specific conformer, metal coordination geometry, adsorption site, periodic interface, or transition
+state. `source_constrained_construction` is sufficient only when the remaining choices are enumerated
+and resolved by a source-backed deterministic search/selection procedure, or when the Ground Truth is
+explicitly robust to those choices. It must not support tight paper-specific absolute energies,
+barriers, charges, orbital values, or geometries when many scientifically plausible constructions remain.
+For a TS target, a hand-built TS guess is not closure without source-backed endpoints/reaction mapping
+and an executable TS search. For a periodic target, composition and cell dimensions are not a substitute
+for the required lattice plus atomic positions/termination/placement. If this distinction makes the
+complete route and highest-centrality subworkflow unconstructible, report scientific failure instead of
+publishing an arbitrary model.
 
 WRITE `outputs/workflow_review.json` FIRST. It must conform to
 `inputs/task_contract.json#/workflow_review_schema`. For success use `decision=candidate_ready` and
@@ -189,10 +209,22 @@ review this record; do not use keywords, a fixed paper list, or a code-side impo
 auditable observation, but silently omitting the field is not. These fields describe the evidence
 available to Stage07 and do not authorize code to rank scientific centrality.
 
+Also include `ultimate_claim_dependency`: identify the paper's final advertised scientific conclusion
+from the title, abstract, main result figures/tables, and conclusion; list the computational claims that
+directly establish it; list merely supporting descriptors/controls; and map each candidate workflow to
+that dependency chain. Centrality is the relation to the paper's advertised conclusion, not a preferred
+calculation family. An application-oriented workflow is not "secondary" when the
+title/abstract/conclusion relies on it, while a complete supporting descriptor or
+baseline calculation is not "primary" merely because it is easy to reproduce. For a comparison claim,
+the selected workflow must include both compared sides unless source evidence proves one side cannot be
+constructed; an isolated side does not represent the comparison.
+
 For each input, record one provenance state: `exact_source_coordinates`,
 `source_constrained_construction`, or `underspecified`. Explain why that state is sufficient for the
-selected scope. An underspecified input cannot support a tight absolute autonomous target that
-depends on a unique geometry.
+selected scope and record identity/connectivity/state/search-protocol/target-sensitivity separately.
+An underspecified input, or a source-constrained construction with unresolved scientifically meaningful
+degrees of freedom, cannot support a tight absolute target in either public mode when that target depends
+on a unique geometry.
 
 `asset_state_closure` (identity, composition, charge, multiplicity/electronic state and evidence for each
 input); `physical_boundary_closure` (environment, temperature/pressure/ensemble and evidence);

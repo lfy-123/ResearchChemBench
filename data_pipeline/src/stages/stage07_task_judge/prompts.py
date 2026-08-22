@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v18-stage07-centrality-metadata-and-toolbox-policy-20260822"
+STAGE07_AUDIT_VERSION = "v19-stage07-claim-dependency-and-input-sufficiency-20260822"
 
 
 def audit_instructions(
@@ -68,6 +68,15 @@ SCIENTIFIC WORKFLOW
    route is unavailable, record the exact source-backed blocker and determine whether a genuinely central
    alternative is closed; if not, reject scientifically rather than silently publishing a lower-centrality
    fragment. This is a scientific comparison, not a keyword or code-side centrality score.
+   Reconstruct the paper's ultimate advertised conclusion from the title, abstract, main result
+   figures/tables, and conclusion, then trace which computations directly establish it and which are
+   only descriptors, controls, or context. Do not label a workflow "secondary application" merely
+   because of its calculation family when the advertised conclusion depends on it. Conversely, a
+   complete and easy-to-run descriptor calculation is not primary when it does not directly test that
+   conclusion. For any X-versus-Y, before-versus-after, open-versus-closed, or pathway comparison claim,
+   require both scientific sides unless an evidence-backed source/input blocker makes one side
+   unconstructible. Missing software must never appear in a scope downgrade rationale; retain the
+   scientific scope and record the installation gap separately.
 6. Check workflow consistency generically as a chain: input structure/state → computational action
    → produced artifact → scientific validation criterion → bound Ground Truth/key point. Flag or
    repair mismatches such as an input state that cannot produce the claimed output, a validation
@@ -77,6 +86,17 @@ SCIENTIFIC WORKFLOW
    (phase/solvent, temperature/pressure, wavelength or photon energy, charge/multiplicity and spin)
    remain public when needed to define the scientific target. A missing author route keyword is not
    permission to delete the underlying physical condition.
+   Independently distinguish identity/connectivity from a reproducible computational state. A formula,
+   SMILES, drawing, connectivity list, model recipe, or a few distances may define what to build but
+   does not necessarily define the source conformer, metal coordination, adsorption site, periodic
+   interface, or transition state. Before accepting `source_constrained_construction`, enumerate the
+   unresolved degrees of freedom and verify that a source-backed deterministic conformer/site/TS search
+   resolves them, or that every scored conclusion is demonstrably robust to them. Do not approve tight
+   paper-specific absolute energy, barrier, charge, orbital, or geometry targets obtained from an
+   arbitrary plausible build. A TS guess requires source-backed endpoints/reaction mapping plus an
+   executable TS search; a periodic recipe requires the lattice and atomic placement/termination needed
+   by the target. If no exact/sufficient input or robust acceptance framing exists for the complete route
+   or highest-centrality subworkflow, reject scientifically rather than accepting a convenient model.
 
 7. Independently audit Stage06's `representativeness_review`. Compare each claim object
    (`claim_id`, `claim`, `centrality`, `coverage`, `evidence_ids`) from the title/abstract/main figures or
@@ -96,6 +116,9 @@ SCIENTIFIC WORKFLOW
    If any of those fields is absent or only asserted without evidence, record it as an audit finding
    and do not treat the candidate as a demonstrated closed alternative. Do not replace this evidence
    check with a paper-specific keyword or a deterministic centrality rule.
+   Include an `ultimate_claim_dependency` entry in the receipt's representativeness audit that records
+   the final advertised conclusion, its direct computational evidence chain, supporting-only evidence,
+   and the selected workflow's exact position in that chain.
 
 8. Verify provenance metadata independently from the Stage06 receipt. Use the main-paper evidence to
    check `paper_info.json` title, DOI, and journal. Repair malformed values such as a supplementary
@@ -362,7 +385,13 @@ Return one JSON object matching this contract; the harness persists it as the au
     "candidate_workflows_checked": [],
     "selected_scope_kind": "",
     "coverage_summary": [],
-    "rationale": ""
+    "rationale": "",
+    "ultimate_claim_dependency": {{
+      "advertised_conclusion": "",
+      "direct_computational_evidence": [],
+      "supporting_only_evidence": [],
+      "selected_workflow_position": ""
+    }}
   }},
   "resource_status": "feasible | high_cost | infeasible | uncertain",
   "scientific_decision": "same semantic decision as audit_decision",

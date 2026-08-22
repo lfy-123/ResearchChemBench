@@ -76,26 +76,76 @@ def test_stage_prompts_require_scope_comparison_and_do_not_treat_software_gap_as
         assert "never causes scientific rejection" in prompt.casefold() or "not a blocker" in prompt.casefold()
     assert "claim_id" in builder and "evidence_ids" in builder
     assert "scope_kind" in builder and "software_gap_status" in builder
+    for prompt in (builder, judge):
+        normalized_prompt = " ".join(prompt.split())
+        assert "ultimate_claim_dependency" in prompt
+        assert "advertised" in prompt.casefold() and "conclusion" in prompt.casefold()
+        assert "source_constrained_construction" in prompt
+        assert "tight paper-specific absolute" in normalized_prompt
+    assert "must not appear as a reason" in builder
+    assert "missing software must never appear in a scope downgrade rationale" in " ".join(
+        judge.split()
+    ).casefold()
 
 
 def test_stage07_approved_receipt_requires_representativeness_audit() -> None:
     response = {
         "audit_decision": "approved",
+        "scientific_decision": "approved",
+        "source_stage06_decision": "provisional_constructed",
+        "original_task_pair_id": "paper-x_task_pair",
+        "final_task_pair_id": "paper-x_task_pair",
         "artifact_path": "outputs/task_pair",
+        "selected_workflow_preserved": True,
+        "repairs": [],
+        "workflow_redesign": {"performed": False},
+        "remaining_issues": [],
+        "toolbox_status": "available",
+        "execution_readiness": "ready",
+        "required_additions": [],
+        "resource_status": "feasible",
+        "contract_status": "passed",
+        "disclosure_status": "passed",
+        "schema_load_diagnostic": "passed",
+        "scientific_audit_table": [
+            {"check": f"check-{index}", "status": "closed"}
+            for index in range(6)
+        ],
         "representativeness_audit": {
             "paper_claims_checked": [],
             "candidate_workflows_checked": [],
             "selected_scope_kind": "full_paper_core_workflow",
             "coverage_summary": [],
             "rationale": "Compared the full route and alternatives against the paper claims.",
+            "ultimate_claim_dependency": {
+                "advertised_conclusion": "The paper's principal conclusion.",
+                "direct_computational_evidence": [],
+                "supporting_only_evidence": [],
+                "selected_workflow_position": "Directly tests the principal conclusion.",
+            },
         },
     }
     assert _approved_receipt_contract_findings(response) == []
     missing = dict(response)
     missing.pop("representativeness_audit")
-    # Older receipts remain transport-compatible; new prompts request the field and
-    # the checker validates it whenever an Agent supplies it.
-    assert _approved_receipt_contract_findings(missing) == []
+    assert "approved_representativeness_audit_missing" in _approved_receipt_contract_findings(
+        missing
+    )
+
+    missing_table = dict(response)
+    missing_table["scientific_audit_table"] = []
+    assert "approved_scientific_audit_table_incomplete" in _approved_receipt_contract_findings(
+        missing_table
+    )
+
+    missing_dependency = dict(response)
+    missing_dependency["representativeness_audit"] = {
+        **response["representativeness_audit"],
+        "ultimate_claim_dependency": {},
+    }
+    dependency_findings = _approved_receipt_contract_findings(missing_dependency)
+    assert "approved_advertised_conclusion_missing" in dependency_findings
+    assert "approved_selected_workflow_dependency_position_missing" in dependency_findings
 
 
 def test_batch_worker_exception_records_terminal_state(tmp_path, monkeypatch) -> None:

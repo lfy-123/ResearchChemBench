@@ -5490,21 +5490,25 @@ def test_stage06_disables_legacy_multi_phase_strategy(tmp_path: Path) -> None:
         )
 
 
-def test_stage07_approved_receipt_only_requires_artifact_locator() -> None:
-    assert _approved_receipt_contract_findings(
+def test_stage07_approved_receipt_rejects_locator_only_approval() -> None:
+    findings = _approved_receipt_contract_findings(
         {
             "audit_decision": "approved",
             "artifact_path": "outputs/task_pair",
             "summary": "Agent approved the delivered task pair.",
         }
-    ) == []
-    assert _approved_receipt_contract_findings(
+    )
+    assert "approved_representativeness_audit_missing" in findings
+    assert "approved_scientific_audit_table_incomplete" in findings
+    assert "approved_selected_workflow_preserved_missing" in findings
+    invalid_path_findings = _approved_receipt_contract_findings(
         {
             "audit_decision": "approved",
             "artifact_path": "outputs/elsewhere",
             "summary": "Agent approved the delivered task pair.",
         }
-    ) == ["approved_artifact_path_invalid"]
+    )
+    assert "approved_artifact_path_invalid" in invalid_path_findings
 
 
 def test_stage06_canonicalizes_stale_and_wildcard_evidence_ids() -> None:

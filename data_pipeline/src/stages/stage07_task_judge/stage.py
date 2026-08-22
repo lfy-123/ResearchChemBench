@@ -783,7 +783,12 @@ def _synchronize_hidden_pair_identity(pair_root: Path, *, task_pair_id: str) -> 
 
 
 def _approved_receipt_contract_findings(response: dict[str, Any]) -> list[str]:
-    """Check only fields needed to locate an approved file artifact."""
+    """Require the Agent evidence that makes an approval auditable.
+
+    This is a phase-output contract, not a second scientific judge: values remain
+    Agent-authored and the checks below only establish that Stage07 actually left
+    the scope, closure, repair, and resource evidence required by its role.
+    """
 
     decision = str(response.get("audit_decision") or "")
     if decision not in STAGE07_APPROVED_DECISIONS:
@@ -791,10 +796,47 @@ def _approved_receipt_contract_findings(response: dict[str, Any]) -> list[str]:
     findings: list[str] = []
     if response.get("artifact_path") != "outputs/task_pair":
         findings.append("approved_artifact_path_invalid")
+    for key in ("original_task_pair_id", "final_task_pair_id"):
+        if not str(response.get(key) or "").strip():
+            findings.append(f"approved_{key}_missing")
+    if not isinstance(response.get("selected_workflow_preserved"), bool):
+        findings.append("approved_selected_workflow_preserved_missing")
+    for key in ("repairs", "remaining_issues", "required_additions"):
+        if not isinstance(response.get(key), list):
+            findings.append(f"approved_{key}_invalid")
+    if not isinstance(response.get("workflow_redesign"), dict):
+        findings.append("approved_workflow_redesign_invalid")
+    expected_values = {
+        "toolbox_status": {"available", "needs_software", "unknown"},
+        "execution_readiness": {"ready", "conditional", "unknown"},
+        "resource_status": {"feasible", "high_cost", "infeasible", "uncertain"},
+        "contract_status": {"passed", "findings", "not_applicable"},
+        "disclosure_status": {"passed", "needs_review", "not_applicable"},
+        "schema_load_diagnostic": {"passed", "failed", "not_run"},
+    }
+    for key, allowed in expected_values.items():
+        if response.get(key) not in allowed:
+            findings.append(f"approved_{key}_missing_or_invalid")
+    if response.get("scientific_decision") != decision:
+        findings.append("approved_scientific_decision_mismatch")
+
+    audit_table = response.get("scientific_audit_table")
+    if not isinstance(audit_table, list) or len(audit_table) < 6:
+        findings.append("approved_scientific_audit_table_incomplete")
+    else:
+        for index, row in enumerate(audit_table):
+            if not isinstance(row, dict):
+                findings.append(f"approved_scientific_audit_row_invalid:{index}")
+                continue
+            if not str(row.get("check") or "").strip():
+                findings.append(f"approved_scientific_audit_check_missing:{index}")
+            if row.get("status") not in {"closed", "repairable", "unrepairable"}:
+                findings.append(f"approved_scientific_audit_status_invalid:{index}")
+
     audit = response.get("representativeness_audit")
-    # The prompt requests this Agent evidence.  Keep the transport contract backward
-    # compatible with older approved receipts, but validate the shape whenever it is present.
-    if isinstance(audit, dict):
+    if not isinstance(audit, dict):
+        findings.append("approved_representativeness_audit_missing")
+    else:
         for key in (
             "paper_claims_checked",
             "candidate_workflows_checked",
@@ -806,6 +848,20 @@ def _approved_receipt_contract_findings(response: dict[str, Any]) -> list[str]:
             findings.append("approved_representativeness_scope_missing")
         if not str(audit.get("rationale") or "").strip():
             findings.append("approved_representativeness_rationale_missing")
+        dependency = audit.get("ultimate_claim_dependency")
+        if not isinstance(dependency, dict):
+            findings.append("approved_ultimate_claim_dependency_missing")
+        else:
+            if not str(dependency.get("advertised_conclusion") or "").strip():
+                findings.append("approved_advertised_conclusion_missing")
+            for key in (
+                "direct_computational_evidence",
+                "supporting_only_evidence",
+            ):
+                if not isinstance(dependency.get(key), list):
+                    findings.append(f"approved_ultimate_claim_{key}_invalid")
+            if not str(dependency.get("selected_workflow_position") or "").strip():
+                findings.append("approved_selected_workflow_dependency_position_missing")
     return sorted(set(findings))
 
 
