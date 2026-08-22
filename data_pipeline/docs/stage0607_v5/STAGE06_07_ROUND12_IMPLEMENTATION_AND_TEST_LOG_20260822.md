@@ -67,6 +67,26 @@ Round 11 的科学决策方向达到 8/10，但严格端到端处理为 7/10。�
 
 ## 5. Round 12 批次
 
-待提交：新的随机 10 篇，Codex harness，`gpt-5.6-sol`，reasoning effort `high`，并发 10。
+结果目录：
+
+`runs/stage06-07-v5-round12-gpt56sol10-concurrency10-20260822-active`
+
+配置：Codex harness、`gpt-5.6-sol`、reasoning effort `high`、并发 10、seed `20260830`。
+该 seed 与 Round 11 的 10 篇没有重叠。随机样本：
+
+- `paper_1257710b003be407`
+- `paper_5d94285cfbd51973`
+- `paper_c56ec62e92dbdfbc`
+- `paper_2a758cc748cc0828`
+- `paper_0bea8aa6bfd57e65`
+- `paper_ec61d902ec1e111d`
+- `paper_7565fae875ec11ed`
+- `paper_eda20ed4eb2044e2`
+- `paper_83cdd9460eb100d6`
+- `paper_0b2ae2c005c15e30`
+
+第一次 `nohup` 提交未进入 Python 主流程，没有 `batch_status.json` 或 worker，不计为测试。随后通过
+持久执行会话提交成功：`batch_status.json` 记录正确模型/推理强度，10/10 worker 为 RUNNING，启动阶段
+没有 401、429、连接失败或 invalid-agent-configuration。
 
 批次完成后补充逐篇正文/SI 对照、严格正确率、运行轨迹问题和 Round 13 是否必要。
