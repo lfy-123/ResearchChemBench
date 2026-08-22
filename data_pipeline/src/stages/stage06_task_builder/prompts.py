@@ -5,7 +5,7 @@ STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
 STAGE06_TASK_PAIR_BUILDER_VERSION = "v13-stage06-nontrivial-workflow-and-canonical-dependency-20260822"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v9-stage06-handoff-safe-converter-recovery-20260822"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v10-stage06-prestaged-converter-20260822"
 
 
 def task_pair_builder_instructions(
@@ -225,7 +225,9 @@ in that chain. Do not invent aliases such as `final_advertised_conclusion`,
 the paper's advertised conclusion, not a preferred calculation family. An application-oriented
 workflow is not "secondary" when the title/abstract/conclusion relies on it, while a complete
 supporting descriptor or baseline calculation is not "primary" merely because it is easy to
-reproduce. For a comparison claim, the selected workflow must include both compared sides unless
+reproduce. Being the most central item among the closed candidates is insufficient when it still
+supplies only supporting evidence for an unclosed direct workflow; reject instead of packaging
+that fragment. For a comparison claim, the selected workflow must include both compared sides unless
 source evidence proves one side cannot be constructed; an isolated side does not represent the
 comparison.
 
@@ -359,6 +361,13 @@ or the complete Stage06A review. You may write only `outputs/autonomous_research
 optional internal `outputs/conversion_report.json`. Paper id is
 `{paper_id}` and task pair id is `{task_pair_id}`. You have at most {max_tool_calls} tool calls.
 
+The orchestrator has already copied the **contents** of the reproduction public tree into the
+writable `outputs/autonomous_research/` root. Edit that pre-staged tree in place. Do not copy
+`inputs/task_pair/` or `inputs/task_pair/paper_reproduction/` again, and never create
+`outputs/autonomous_research/paper_reproduction/`. The read-only tree is evidence for checking your
+edits, not a directory-layout task. On recovery, the same correct top-level scaffold is restored;
+preserve semantic edits already present and repair only the named findings.
+
 The conversion packet is a private handoff, not public task content. Never copy, quote, serialize,
 or append packet objects or their JSON wrappers into `task.md` or another public file. Translate a
 preserved physical or method constraint into normal task prose. Describe the evaluated Agent's
@@ -373,8 +382,8 @@ and prints workspace content proves access. Do not burn the call budget repeatin
 that point. On a recovery attempt, read `RECOVERY_CONTEXT.md` first, preserve the staged output, then
 use one grouped inspection, one grouped repair, and one grouped validation whenever possible.
 
-Your responsibility is public-surface conversion, not a new scientific review. Copy the
-paper-reproduction task as the starting point, then produce an autonomous-research task that:
+Your responsibility is public-surface conversion, not a new scientific review. Rewrite the
+pre-staged public tree into an autonomous-research task that:
 
 1. preserves the same neutral scientific objective, public problem inputs, deliverables, neutral
    Key Point aliases, and submission contract. Preserve the result-field shape, not the hidden target values or
@@ -521,9 +530,11 @@ not a code-side keyword or importance rule.
 
 If a Stage05 workflow depends on an unrecoverable adsorbate, transition state, pathway endpoint, or reference
 species, do not immediately reject the paper. First check for a distinct structure-only or otherwise closed
-author-performed workflow supported by supplied coordinates, such as geometry/conformer comparison, electronic
-structure, spectroscopy, or another scoreable property calculation. Replace the Stage05 hint only when that
-alternative is scientifically meaningful and independently evidence-complete.
+author-performed workflow supported by supplied coordinates. Replace the Stage05 hint only when that alternative
+is independently evidence-complete **and itself supplies direct evidence for a highest-centrality advertised
+computational conclusion**. Being the most central item among the closed candidates is insufficient when every
+closed candidate is still only a supporting descriptor, baseline, or context for an unclosed direct workflow;
+in that case reject instead of packaging the supporting fragment.
 
 An enumeration strategy, a common chemical value, a software convention, or a tolerance does not repair a missing
 paper input or a scientifically controlling route parameter. In particular, do not invent a reference-species geometry or box, adsorption

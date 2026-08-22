@@ -158,6 +158,10 @@ def load_config(path: str | Path) -> dict[str, Any]:
     stage06.setdefault("model_context_window", 1_000_000)
     stage06.setdefault("model_auto_compact_token_limit", 750_000)
     stage06.setdefault("model_auto_compact_token_limit_scope", "total")
+    # Late-stage Agents only need the ordinary shell in their isolated workspace.
+    # Keep the unavailable optional code-mode host out of the model tool surface;
+    # otherwise some Codex models mistake its startup diagnostic for a shell failure.
+    stage06.setdefault("codex_disable_code_mode", True)
     stage07["harness"] = os.environ.get("RCB_STAGE07_HARNESS") or stage07.get(
         "harness", "codex"
     )
@@ -167,6 +171,7 @@ def load_config(path: str | Path) -> dict[str, Any]:
     stage07.setdefault("model_context_window", 1_000_000)
     stage07.setdefault("model_auto_compact_token_limit", 750_000)
     stage07.setdefault("model_auto_compact_token_limit_scope", "total")
+    stage07.setdefault("codex_disable_code_mode", True)
     for stage in (stage06, stage07):
         stage.setdefault("toolbox_capabilities", stage03["toolbox_capabilities"])
         if stage.get("toolbox_capabilities"):

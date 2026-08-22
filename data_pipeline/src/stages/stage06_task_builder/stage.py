@@ -84,7 +84,7 @@ from src.stages.stage06_task_builder.validation import (
     canonical_task_pair_id,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v11-neutral-asset-converter-20260820"
+STAGE06_IMPLEMENTATION_VERSION = "v12-prestaged-autonomous-converter-20260822"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
@@ -1840,6 +1840,8 @@ def _run_phase(
             )
             if phase == "task_pair_builder":
                 _prepare_task_pair_builder_recovery(attempt_root)
+        if phase == "autonomous_converter":
+            _ensure_converter_output_scaffold(attempt_root)
         prior_review_findings: list[str] | None = None
         if phase == "scientific_review" and recovery_context:
             prior_review_findings = _seed_prior_scientific_review_draft(
@@ -5079,6 +5081,68 @@ def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
         },
     )
     make_read_only(destination)
+    # Directory transport is deterministic.  Stage06B receives a correctly rooted,
+    # writable copy and spends its budget only on semantic redaction/neutralization.
+    autonomous = root / "outputs" / "autonomous_research"
+    copytree_exact(reproduction, autonomous)
+    make_writable(autonomous)
+
+
+def _ensure_converter_output_scaffold(root: Path) -> None:
+    """Restore only the converter's deterministic writable tree layout.
+
+    Recovery artifacts may contain the reproduction wrapper one level too deep.  Promote that
+    unambiguous transport wrapper, preserve any already edited top-level files, and fill only the
+    files needed to keep the converter operable.  Scientific redaction remains entirely Stage06B's
+    responsibility.
+    """
+
+    reproduction = root / "inputs" / "task_pair" / "paper_reproduction"
+    if not reproduction.is_dir():
+        raise FileNotFoundError("Stage06B reproduction task is unavailable")
+    autonomous = root / "outputs" / "autonomous_research"
+    autonomous.mkdir(parents=True, exist_ok=True)
+
+    def copy_missing(source: Path, destination: Path) -> None:
+        destination.mkdir(parents=True, exist_ok=True)
+        for source_path in sorted(source.rglob("*")):
+            relative = source_path.relative_to(source)
+            target = destination / relative
+            if source_path.is_dir():
+                target.mkdir(parents=True, exist_ok=True)
+            elif source_path.is_file() and not target.exists():
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source_path, target)
+
+    nested = autonomous / "paper_reproduction"
+    if nested.is_dir():
+        copy_missing(nested, autonomous)
+        shutil.rmtree(nested)
+
+    public_files = [path for path in autonomous.rglob("*") if path.is_file()]
+    if not public_files:
+        copy_missing(reproduction, autonomous)
+    else:
+        required = (
+            "task.md",
+            "task_info.json",
+            "task_spec.json",
+            "submission_contract.json",
+            "process_rubric.json",
+        )
+        for name in required:
+            target = autonomous / name
+            source = reproduction / name
+            if not target.exists() and source.is_file():
+                shutil.copy2(source, target)
+        autonomous_inputs = autonomous / "data" / "inputs"
+        if not autonomous_inputs.is_dir() or not any(
+            path.is_file() for path in autonomous_inputs.rglob("*")
+        ):
+            source_inputs = reproduction / "data" / "inputs"
+            if source_inputs.is_dir():
+                copy_missing(source_inputs, autonomous_inputs)
+    make_writable(autonomous)
 
 
 def _ensure_objective_handoff_artifacts(pair_root: Path, review: dict[str, Any]) -> None:
@@ -5183,6 +5247,9 @@ def _converter_phase_findings(response: dict[str, Any], workspace: Path) -> list
         if path.is_file()
     }
     findings = [f"autonomous_converter_missing:{name}" for name in sorted(required - present)]
+    for forbidden in ("paper_reproduction", "conversion_packet"):
+        if (autonomous / forbidden).exists():
+            findings.append(f"autonomous_converter_forbidden_wrapper:{forbidden}")
     # conversion_report.json is optional internal telemetry.  Its absence must not trigger a
     # retry when the autonomous task tree itself was delivered successfully.
     _normalize_converter_report(response, workspace)

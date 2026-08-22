@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v20-stage07-redesign-value-and-public-surface-20260822"
+STAGE07_AUDIT_VERSION = "v21-stage07-direct-evidence-centrality-20260822"
 
 
 def audit_instructions(
@@ -80,7 +80,9 @@ SCIENTIFIC WORKFLOW
    only descriptors, controls, or context. Do not label a workflow "secondary application" merely
    because of its calculation family when the advertised conclusion depends on it. Conversely, a
    complete and easy-to-run descriptor calculation is not primary when it does not directly test that
-   conclusion. For any X-versus-Y, before-versus-after, open-versus-closed, or pathway comparison claim,
+   conclusion. A workflow does not become a core replacement merely because it is the most central of the
+   closed candidates: if it remains supporting-only evidence for an unclosed direct workflow, reject rather
+   than publish that fragment. For any X-versus-Y, before-versus-after, open-versus-closed, or pathway comparison claim,
    require both scientific sides unless an evidence-backed source/input blocker makes one side
    unconstructible. Missing software must never appear in a scope downgrade rationale; retain the
    scientific scope and record the installation gap separately.

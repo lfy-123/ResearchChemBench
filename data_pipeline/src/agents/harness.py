@@ -767,6 +767,15 @@ class CodexHarness(CliAgentHarness):
             "-c",
             "sandbox_workspace_write.network_access=false",
         ]
+        if bool(self.config.get("codex_disable_code_mode", False)):
+            command.extend(
+                [
+                    "--disable",
+                    "code_mode",
+                    "--disable",
+                    "code_mode_host",
+                ]
+            )
         reasoning_effort = (
             request.metadata.get("reasoning_effort")
             or self.model_config.get("reasoning_effort")

@@ -66,6 +66,7 @@ from src.stages.stage06_task_builder.stage import (
     _neutralize_submission_contract,
     _normalize_converter_report,
     _converter_phase_findings,
+    _ensure_converter_output_scaffold,
     _ensure_reproduction_route_rubric,
     _normalize_workflow_review_aliases,
     _reconcile_task_phase_receipt,
@@ -75,6 +76,7 @@ from src.stages.stage06_task_builder.stage import (
     _run_phase,
     _seed_prior_scientific_review_draft,
     _setup_autonomous_inputs,
+    _setup_converter_inputs,
     _setup_hidden_inputs,
     _setup_reproduction_inputs,
     _task_pair_builder_phase_findings,
@@ -5131,6 +5133,16 @@ def test_agent_command_adapters_are_configurable(tmp_path: Path) -> None:
     assert claude.command_preview(request)[:2] == ["claude", "-p"]
     assert opencode.command_preview(request)[:2] == ["opencode", "run"]
 
+    isolated_codex = create_agent_harness(
+        "codex",
+        config={"codex_disable_code_mode": True},
+        model_config=model,
+    )
+    isolated_command = isolated_codex.command_preview(request)
+    first_disable = isolated_command.index("--disable")
+    assert isolated_command[first_disable : first_disable + 2] == ["--disable", "code_mode"]
+    assert "code_mode_host" in isolated_command
+
 
 def test_stage06_single_agent_builds_reproduction_first_task_pair(tmp_path: Path) -> None:
     toolbox = tmp_path / "toolbox.json"
@@ -6110,6 +6122,80 @@ def test_converter_retry_status_enters_phase_recovery_loop(tmp_path: Path) -> No
         },
         tmp_path,
     ) == ["autonomous_converter_requested_retry"]
+
+
+def test_converter_setup_prestages_correct_writable_root(tmp_path: Path) -> None:
+    source_pair = tmp_path / "source_pair"
+    reproduction = source_pair / "paper_reproduction"
+    inputs = reproduction / "data" / "inputs"
+    inputs.mkdir(parents=True)
+    for name, content in {
+        "task.md": "# Scientific task\n",
+        "task_info.json": "{}\n",
+        "task_spec.json": "{}\n",
+        "submission_contract.json": "{}\n",
+        "process_rubric.json": "[]\n",
+    }.items():
+        (reproduction / name).write_text(content, encoding="utf-8")
+    (inputs / "source.xyz").write_text("1\nsource label\nH 0 0 0\n", encoding="utf-8")
+    write_json(source_pair / "workflow_review.json", {"task_pair_id": "paper-x_task_pair"})
+
+    workspace = tmp_path / "workspace"
+    _setup_converter_inputs(workspace, source_pair)
+
+    autonomous = workspace / "outputs" / "autonomous_research"
+    assert (autonomous / "task.md").is_file()
+    assert (autonomous / "data" / "inputs" / "source.xyz").is_file()
+    assert not (autonomous / "paper_reproduction").exists()
+    assert (workspace / "inputs" / "task_pair" / "paper_reproduction" / "task.md").is_file()
+
+
+def test_converter_recovery_promotes_nested_wrapper_without_overwriting_edits(
+    tmp_path: Path,
+) -> None:
+    reproduction = tmp_path / "inputs" / "task_pair" / "paper_reproduction"
+    (reproduction / "data" / "inputs").mkdir(parents=True)
+    for name, content in {
+        "task.md": "source task\n",
+        "task_info.json": "{}\n",
+        "task_spec.json": "{}\n",
+        "submission_contract.json": "{}\n",
+        "process_rubric.json": "[]\n",
+    }.items():
+        (reproduction / name).write_text(content, encoding="utf-8")
+    (reproduction / "data" / "inputs" / "source.xyz").write_text(
+        "1\nsource\nH 0 0 0\n", encoding="utf-8"
+    )
+    autonomous = tmp_path / "outputs" / "autonomous_research"
+    nested = autonomous / "paper_reproduction"
+    nested.mkdir(parents=True)
+    (autonomous / "task.md").write_text("already redacted\n", encoding="utf-8")
+    (nested / "task_info.json").write_text('{"recovered": true}\n', encoding="utf-8")
+
+    _ensure_converter_output_scaffold(tmp_path)
+
+    assert (autonomous / "task.md").read_text(encoding="utf-8") == "already redacted\n"
+    assert read_json(autonomous / "task_info.json") == {"recovered": True}
+    assert (autonomous / "task_spec.json").is_file()
+    assert (autonomous / "data" / "inputs" / "source.xyz").is_file()
+    assert not nested.exists()
+
+
+def test_converter_validator_rejects_nested_transport_wrappers(tmp_path: Path) -> None:
+    autonomous = tmp_path / "outputs" / "autonomous_research"
+    autonomous.mkdir(parents=True)
+    for name in (
+        "task.md",
+        "task_info.json",
+        "task_spec.json",
+        "submission_contract.json",
+        "process_rubric.json",
+    ):
+        (autonomous / name).write_text("{}\n", encoding="utf-8")
+    (autonomous / "paper_reproduction").mkdir()
+
+    findings = _converter_phase_findings({"status": "converted"}, tmp_path)
+    assert "autonomous_converter_forbidden_wrapper:paper_reproduction" in findings
 
 
 def test_stage07_mechanical_gate_loads_evaluator_contracts(tmp_path: Path) -> None:

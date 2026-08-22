@@ -113,6 +113,10 @@ def test_stage_prompts_reject_trivial_redesign_and_use_one_dependency_contract()
         ):
             assert key in prompt
     assert "hundreds of expensive calculations" in " ".join(judge.split())
+    assert "most central item among the closed candidates is insufficient" in " ".join(
+        builder.split()
+    )
+    assert "most central of the closed candidates" in " ".join(judge.split())
 
 
 def test_converter_keeps_private_handoff_out_of_public_task_and_has_uncertain_status() -> None:
@@ -126,6 +130,8 @@ def test_converter_keeps_private_handoff_out_of_public_task_and_has_uncertain_st
     assert "conversion_uncertain" in prompt
     assert "needs_conversion_retry" in prompt
     assert "code-mode" in normalized
+    assert "already copied" in normalized
+    assert "never create `outputs/autonomous_research/paper_reproduction/`" in normalized
 
 
 def test_recovery_prompt_does_not_confuse_optional_code_mode_with_shell_failure() -> None:
