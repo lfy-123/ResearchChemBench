@@ -62,8 +62,8 @@ Git baseline：`c86de51c3a4b3ac8a83a73f4cf26af96b41d8b15`
 - [x] 明确 dirty worktree 边界；
 - [x] 确认既定 20 篇 paper IDs 与模型组合；
 - [x] 运行 Stage06/07 和 evaluator 基线测试；
-- [ ] 定义 Task Package v1、TaskInfo v1、SubmissionSchema v1、ComputationalScienceReference v1；
-- [ ] 建立不含化学特例的正/负 fixture。
+- [x] 定义 Task Package v1、TaskInfo v1、SubmissionSchema v1、ComputationalScienceReference v1；
+- [x] 建立不含化学特例的正/负 fixture。
 
 预计修改：
 
@@ -74,14 +74,14 @@ Git baseline：`c86de51c3a4b3ac8a83a73f4cf26af96b41d8b15`
 
 计划：
 
-- [ ] 新增 `final_tasks/<task_type>/<task_id>/`；
-- [ ] 从 audited pair 原子组装 `task.md`、`task_info.json`、`submission_schema.json`、`data/`、`evaluation/reference.json`、`package_manifest.json`；
-- [ ] 使用严格 allowlist，不复制 task spec、route evidence、audit、conversion、prompt 或 trace；
-- [ ] 目录名、task ID、task type、family ID 由编排器确定；
-- [ ] manifest 记录 hash、size、visibility 和 public workspace allowlist；
-- [ ] 明确 `approved_ready`、`approved_needs_software`、`technical_blocked`；
-- [ ] 新流程不再依赖 `published_tasks/` + `evaluator_registry/` 双树；
-- [ ] 组装失败不留下半包。
+- [x] 新增 `final_tasks/<task_type>/<task_id>/`；
+- [x] 从 audited pair 原子组装 `task.md`、`task_info.json`、`submission_schema.json`、`data/`、`evaluation/reference.json`、`package_manifest.json`；
+- [x] 使用严格 allowlist，不复制 task spec、route evidence、audit、conversion、prompt 或 trace；
+- [x] 目录名、task ID、task type、family ID 由编排器确定；
+- [x] manifest 记录 hash、size、visibility 和 public workspace allowlist；
+- [x] 明确 `approved_ready`、`approved_needs_software`、`technical_blocked`；
+- [x] 新流程不再依赖 `published_tasks/` + `evaluator_registry/` 双树；
+- [x] 组装失败不留下半包。
 
 预计修改：
 
@@ -252,6 +252,22 @@ paper_9455a82229de2427
 - 结果：`4 passed, 33 failed`；
 - 33 个失败的共同前置原因是当前 34 个旧任务没有 `task.md`，旧 repository 因而发现 0 个任务，runner 随后在旧扁平路径读取 `task.md` 失败；
 - 该失败在本轮开始前已经存在，不通过迁移旧任务修复。v8 将为 Task Package v1 建立独立 fixture 和 loader；legacy loader 作为隔离兼容层处理旧任务，不把旧字段带入 v1。
+
+### 2026-08-23：Phase 0/1——Task Package v1 与 Stage07 assembler
+
+- 新增仓库级共享合同包 `researchchembench_contracts`，供数据生产管线和 benchmark runtime 共同使用；
+- 新增严格的 TaskInfo、SubmissionSchema、ComputationalScienceReference 和 PackageManifest v1 模型；
+- package validator 检查身份、路径、hash、visibility、answer/profile/binding/conclusion 引用和 structured binding 的显式 JSON schema；
+- package manifest 明确自排除 `package_manifest.json`，避免自哈希循环，content hash 覆盖其余全部 payload；
+- Stage07 新增 clean assembler，原子写入 `final_tasks/<task_type>/<task_id>`；
+- Stage07 主路径不再调用 public/evaluator 双树发布函数；
+- final task 只保留 task instruction、精简 metadata、submission schema、public data、private reference 和 manifest；
+- hidden projection 删除 `evaluation_mode`、`score_max`、`expected_result`、profile target/canonical value 和 binding canonical projection；
+- mode-specific truth/profile/binding 在投影时按适用 scope 选择；
+- 只将 `claim_role=final` 的答案纳入 final conclusions，中间结果继续作为 answer/process evidence；
+- 新增 readiness 状态 `approved_ready`、`approved_needs_software` 和 `technical_blocked`；
+- 对旧 20 篇中的真实 approved pair `paper_ba22b36578408587` 做只读组装 smoke，两个 mode 均形成完整包；
+- 测试：共享合同 `5 passed`（增加显式 schema negative case 后）；Stage06/07 v8 package tests `3 passed`；Stage06/07 相关全集 `201 passed`。
 
 ## 7. 测试与提交记录
 

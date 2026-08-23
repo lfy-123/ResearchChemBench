@@ -45,17 +45,16 @@ from src.stages.stage07_task_judge.prompts import (
 from src.stages.stage07_task_judge.validation import (
     _file_digest,
     _normalize_hidden_reference_for_transport,
-    _project_hidden_for_mode,
-    published_bundle_mechanical_check,
     stage07_mechanical_pre_publish_check,
     validate_agent_audit,
 )
+from src.stages.stage07_task_judge.package import assemble_task_packages
 from src.stages.stage06_task_builder.validation import (
     canonical_task_pair_id,
     hidden_reference_transport_findings,
 )
 
-STAGE07_IMPLEMENTATION_VERSION = "v14-hidden-contract-boundary-round5-20260823"
+STAGE07_IMPLEMENTATION_VERSION = "v15-task-package-v1-20260823"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -192,9 +191,8 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
             response["agent_proposed_task_pair_id"] = agent_proposed_task_pair_id
             response["final_task_pair_id"] = final_task_pair_id
             final_path: str | None = None
-            published_paths: dict[str, str] = {}
-            evaluator_paths: dict[str, str] = {}
-            published_bundle_statuses: dict[str, dict[str, Any]] = {}
+            final_task_paths: dict[str, str] = {}
+            task_package_reports: dict[str, dict[str, Any]] = {}
             if decision in STAGE07_APPROVED_DECISIONS:
                 task_root = _stage07_approved_artifact(response, artifact_root)
                 target = stage_root / "audited_tasks" / safe_component(paper_id)
@@ -225,29 +223,42 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 )
                 write_json(target / "stage07_audit.json", response)
                 if mechanical_report.get("mechanical_pre_publish_status") == "passed":
-                    published_paths = _publish_mode_bundles(
-                        target,
-                        stage_root / "published_tasks",
-                        task_pair_id=final_task_pair_id or task_pair_id,
+                    runtime_readiness = (
+                        "needs_software"
+                        if response.get("toolbox_status") == "needs_software"
+                        else "ready"
                     )
-                    evaluator_paths = _publish_private_evaluator_registry(
-                        target,
-                        stage_root / "evaluator_registry",
-                        task_pair_id=final_task_pair_id or task_pair_id,
+                    task_package_reports = assemble_task_packages(
+                        pair_root=target,
+                        final_tasks_root=stage_root / "final_tasks",
+                        task_family_id=final_task_pair_id or task_pair_id,
+                        runtime_readiness=runtime_readiness,
                     )
-                    published_bundle_statuses = {
-                        mode: published_bundle_mechanical_check(Path(path))
-                        for mode, path in published_paths.items()
+                    final_task_paths = {
+                        mode: str(report["path"])
+                        for mode, report in task_package_reports.items()
+                        if report.get("status") == "passed" and report.get("path")
                     }
-                    if published_paths and all(
-                        status.get("status") == "passed"
-                        for status in published_bundle_statuses.values()
-                    ):
-                        response["publication_state"] = "published"
+                    package_findings = sorted(
+                        {
+                            str(finding)
+                            for report in task_package_reports.values()
+                            if report.get("status") != "passed"
+                            for finding in report.get("findings") or []
+                        }
+                    )
+                    if len(final_task_paths) == len(task_package_reports) == 2:
+                        response["publication_state"] = (
+                            "approved_needs_software"
+                            if runtime_readiness == "needs_software"
+                            else "approved_ready"
+                        )
                         response["blocking_phase"] = ""
                     else:
-                        response["publication_state"] = "publish_ready"
-                        response["blocking_phase"] = "published_bundle"
+                        response["orchestrator_mechanical_status"] = "blocked"
+                        response["orchestrator_mechanical_findings"] = package_findings
+                        response["publication_state"] = "technical_blocked"
+                        response["blocking_phase"] = "task_package"
                 else:
                     # A transport failure blocks publication, but does not
                     # reopen the scientific audit or silently turn it into a
@@ -260,6 +271,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                     response["publication_state"] = "mechanical_blocked"
                     response["blocking_phase"] = "prepublish_mechanical"
                 write_json(target / "stage07_audit.json", response)
+                write_manifest(target, target / "audit_manifest.json")
                 final_path = str(target)
             else:
                 target = _publish_stage07_rejection(
@@ -289,7 +301,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                     else "mechanical_blocked",
                 ),
                 "blocking_phase": response.get("blocking_phase", ""),
-                "publish_ready": bool(published_paths),
+                "publish_ready": len(final_task_paths) == 2,
                 "mechanical_approved_but_unpublished": bool(
                     decision in STAGE07_APPROVED_DECISIONS
                     and response.get("orchestrator_mechanical_status") == "blocked"
@@ -320,10 +332,9 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 "orchestrator_normalization_records": response.get(
                     "orchestrator_normalization_records", []
                 ),
-                "published_bundle_statuses": published_bundle_statuses,
+                "task_package_reports": task_package_reports,
                 "task_pair_path": final_path,
-                "published_task_paths": published_paths,
-                "evaluator_registry_paths": evaluator_paths,
+                "final_task_paths": final_task_paths,
                 "audit_path": str(target),
                 "agent_harness": harness.name,
                 "agent_model": harness.model,
@@ -406,12 +417,19 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
         "publish_ready": sum(bool(row.get("publish_ready")) for row in records),
         "publication_states": {
             state: sum(row.get("publication_state") == state for row in records)
-            for state in ("not_applicable", "publish_ready", "mechanical_blocked", "published")
+            for state in (
+                "not_applicable",
+                "approved_ready",
+                "approved_needs_software",
+                "mechanical_blocked",
+                "technical_blocked",
+            )
         },
         "blocking_phases": {
             phase: sum(row.get("blocking_phase") == phase for row in records)
-            for phase in ("prepublish_mechanical", "published_bundle")
+            for phase in ("prepublish_mechanical", "task_package")
         },
+        "final_tasks": sum(len(row.get("final_task_paths") or {}) for row in records),
         "paper_ids": sorted({str(row.get("paper_id")) for row in records if row.get("paper_id")}),
         "needs_software": sum(row.get("toolbox_status") == "needs_software" for row in records),
         "execution_readiness": {
