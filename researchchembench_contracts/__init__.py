@@ -22,6 +22,13 @@ from .task_package import (
     TaskPackageValidation,
     package_content_hash,
     package_payload_entries,
+    is_document_selector,
+    is_document_binding_selector,
+    is_safe_jsonpath_filter,
+    normalize_binding_observed_fields,
+    normalize_binding_artifact_paths,
+    normalize_binding_contract,
+    materialize_result_schema_path,
     validate_task_package,
 )
 
@@ -47,5 +54,12 @@ __all__ = [
     "TaskPackageValidation",
     "package_content_hash",
     "package_payload_entries",
+    "is_document_selector",
+    "is_document_binding_selector",
+    "is_safe_jsonpath_filter",
+    "normalize_binding_observed_fields",
+    "normalize_binding_artifact_paths",
+    "normalize_binding_contract",
+    "materialize_result_schema_path",
     "validate_task_package",
 ]

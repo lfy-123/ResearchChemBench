@@ -71,6 +71,11 @@ def test_stage07b_only_accepts_transport_findings():
     )
     assert open_schema["eligible"] is True
     assert open_schema["unsupported"] == []
+    malformed_selector = classify_technical_findings(
+        ["evaluator_binding_path_invalid:paper_reproduction:ap_x:$.values[?(@.id=~1)]"]
+    )
+    assert malformed_selector["eligible"] is False
+    assert malformed_selector["unsupported"]
 
 
 def test_stage07b_does_not_run_for_scientific_or_empty_findings(tmp_path: Path):

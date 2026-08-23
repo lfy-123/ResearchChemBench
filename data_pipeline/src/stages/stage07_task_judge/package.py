@@ -27,6 +27,10 @@ from researchchembench_contracts import (  # noqa: E402
     PackageManifestV1,
     SubmissionSchemaV1,
     TaskInfoV1,
+    is_document_binding_selector,
+    materialize_result_schema_path,
+    normalize_binding_artifact_paths,
+    normalize_binding_contract,
     package_content_hash,
     package_payload_entries,
     validate_task_package,
@@ -78,6 +82,19 @@ def _as_string_list(value: Any) -> list[str]:
     return []
 
 
+def _normalize_binding_transport(binding: dict[str, Any]) -> dict[str, Any]:
+    """Project known legacy binding spellings without choosing scientific meaning.
+
+    Older Stage06/07 outputs occasionally put submission artifact paths in
+    ``observed_fields`` and put the actual structured result keys in
+    ``target_fields``.  The latter is an unambiguous transport alias: turn
+    those keys into explicit JSONPath selectors.  Ambiguous bindings remain
+    empty/invalid and are rejected by the typed contract instead of guessed.
+    """
+
+    return normalize_binding_contract(binding)
+
+
 def _selected_binding(profile: dict[str, Any], task_type: str) -> dict[str, Any]:
     """Select one already-authored mode binding without inventing a mapping."""
 
@@ -89,7 +106,7 @@ def _selected_binding(profile: dict[str, Any], task_type: str) -> dict[str, Any]
                     _MODE_ALIASES.get(str(raw_mode).strip().casefold()) == task_type
                     and isinstance(binding, dict)
                 ):
-                    return json.loads(json.dumps(binding, ensure_ascii=False))
+                    return _normalize_binding_transport(binding)
     shared = profile.get("submission_binding")
     if not isinstance(shared, dict):
         return {}
@@ -101,13 +118,13 @@ def _selected_binding(profile: dict[str, Any], task_type: str) -> dict[str, Any]
                     _MODE_ALIASES.get(str(raw_mode).strip().casefold()) == task_type
                     and isinstance(binding, dict)
                 ):
-                    return json.loads(json.dumps(binding, ensure_ascii=False))
+                    return _normalize_binding_transport(binding)
     for raw_mode, binding in shared.items():
         if (
             _MODE_ALIASES.get(str(raw_mode).strip().casefold()) == task_type
             and isinstance(binding, dict)
         ):
-            return json.loads(json.dumps(binding, ensure_ascii=False))
+            return _normalize_binding_transport(binding)
     # A shared binding is valid only when it is a binding object rather than a
     # nested mode map.  Scientific applicability was already decided upstream.
     if any(
@@ -121,7 +138,7 @@ def _selected_binding(profile: dict[str, Any], task_type: str) -> dict[str, Any]
             "document_target",
         )
     ):
-        return json.loads(json.dumps(shared, ensure_ascii=False))
+        return _normalize_binding_transport(shared)
     return {}
 
 
@@ -296,12 +313,12 @@ def project_computational_reference(
                 "description": str(profile.get("description") or ""),
             }
         )
-        binding = _selected_binding(profile, task_type)
-        artifact_paths = _as_string_list(
-            binding.get("artifact_paths")
-            or binding.get("artifact_path")
-            or binding.get("artifact")
+        binding = normalize_binding_contract(
+            _selected_binding(profile, task_type),
+            profile=profile,
+            answer=answer,
         )
+        artifact_paths = normalize_binding_artifact_paths(binding)
         observed_fields = _as_string_list(
             binding.get("observed_fields")
             or binding.get("observed_field")
@@ -310,7 +327,14 @@ def project_computational_reference(
         document_binding = bool(
             binding.get("document_binding")
             or binding.get("document_target") is not None
-            or observed_fields == ["document"]
+            or any(
+                is_document_binding_selector(
+                    field,
+                    artifact_paths,
+                    document_binding=bool(binding.get("document_binding")),
+                )
+                for field in observed_fields
+            )
         )
         bindings.append(
             {
@@ -324,6 +348,7 @@ def project_computational_reference(
                     or acceptance_type
                 ).strip(),
                 "document_binding": document_binding,
+                "canonical_projection": binding.get("canonical_projection"),
             }
         )
         answer_to_profile[answer_id] = profile_id
@@ -479,6 +504,45 @@ def _required_capabilities(value: Any) -> list[dict[str, Any]]:
     return capabilities
 
 
+def _normalize_required_deliverables(value: Any) -> tuple[list[dict[str, Any]], list[str]]:
+    """Project the historical deliverable envelope onto TaskInfoV1.
+
+    ``type: workspace_artifact`` was emitted by an older Stage07 prompt but
+    is not part of the shared TaskInfoV1 contract.  It carries no information
+    needed by the benchmark package, so it is removed at this explicit
+    projection boundary and reported as a diagnostic.  Other unknown fields
+    are retained so a genuinely divergent contract still fails loudly.
+    """
+
+    if not isinstance(value, list):
+        return [], []
+    normalized: list[dict[str, Any]] = []
+    diagnostics: list[str] = []
+    for index, item in enumerate(value):
+        if isinstance(item, str):
+            path = item.strip()
+            if path:
+                normalized.append(
+                    {
+                        "path": path,
+                        "description": "Required task artifact.",
+                        "allow_empty": False,
+                    }
+                )
+            continue
+        if not isinstance(item, dict):
+            normalized.append(item)
+            continue
+        row = dict(item)
+        if "type" in row and row.get("type") == "workspace_artifact":
+            row.pop("type", None)
+            diagnostics.append(
+                f"required_deliverables_type_projected:{index}:workspace_artifact"
+            )
+        normalized.append(row)
+    return normalized, diagnostics
+
+
 def _task_info(
     *,
     source_info: dict[str, Any],
@@ -488,6 +552,7 @@ def _task_info(
     task_type: str,
     runtime_readiness: str,
     toolbox_requirements: Any,
+    required_deliverables: Any | None = None,
 ) -> dict[str, Any]:
     related_type = (
         "autonomous_research"
@@ -495,11 +560,11 @@ def _task_info(
         else "paper_reproduction"
     )
     data = source_info.get("data") if isinstance(source_info.get("data"), list) else []
-    deliverables = (
-        source_info.get("required_deliverables")
-        if isinstance(source_info.get("required_deliverables"), list)
-        else []
-    )
+    deliverables = required_deliverables
+    if deliverables is None:
+        deliverables, _ = _normalize_required_deliverables(
+            source_info.get("required_deliverables")
+        )
     value = {
         "schema_version": TASK_INFO_SCHEMA_V1,
         "task_id": task_id,
@@ -524,7 +589,11 @@ def _task_info(
 
 
 def _submission_schema(
-    *, source: dict[str, Any], task_info: dict[str, Any], task_id: str
+    *,
+    source: dict[str, Any],
+    task_info: dict[str, Any],
+    task_id: str,
+    bindings: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     required_files = _as_string_list(source.get("required_files"))
     if not required_files:
@@ -538,18 +607,35 @@ def _submission_schema(
         or source.get("primary_result_file")
         or (required_files[0] if required_files else "")
     ).strip()
+    result_schema = (
+        json.loads(json.dumps(source.get("result_schema"), ensure_ascii=False))
+        if isinstance(source.get("result_schema"), dict)
+        else json.loads(json.dumps(source.get("results_schema"), ensure_ascii=False))
+        if isinstance(source.get("results_schema"), dict)
+        else {}
+    )
+    # Make already-declared open paths explicit at the package boundary.  This
+    # is deterministic transport projection; it does not invent values or
+    # alter the hidden reference.  Filter selectors and document selectors are
+    # intentionally left to their dedicated validators.
+    for binding in bindings or []:
+        if not isinstance(binding, dict):
+            continue
+        projection = binding.get("canonical_projection")
+        for field in _as_string_list(binding.get("observed_fields")):
+            if is_document_binding_selector(
+                field,
+                _as_string_list(binding.get("artifact_paths")),
+                document_binding=bool(binding.get("document_binding")),
+            ):
+                continue
+            materialize_result_schema_path(result_schema, field, projection)
     value = {
         "schema_version": SUBMISSION_SCHEMA_V1,
         "task_id": task_id,
         "required_files": required_files,
         "primary_result_file": primary or None,
-        "result_schema": (
-            source.get("result_schema")
-            if isinstance(source.get("result_schema"), dict)
-            else source.get("results_schema")
-            if isinstance(source.get("results_schema"), dict)
-            else {}
-        ),
+        "result_schema": result_schema,
         "allowed_extra_fields": bool(source.get("allowed_extra_fields", True)),
     }
     return SubmissionSchemaV1.model_validate(value).model_dump(mode="json")
@@ -606,6 +692,9 @@ def assemble_task_package(
         source_info = read_json(source / "task_info.json")
         toolbox_path = pair_root / "toolbox_requirements.json"
         toolbox_requirements = read_json(toolbox_path) if toolbox_path.is_file() else []
+        deliverables, deliverable_diagnostics = _normalize_required_deliverables(
+            source_info.get("required_deliverables")
+        )
         task_info = _task_info(
             source_info=source_info,
             task_text=task_text,
@@ -614,14 +703,9 @@ def assemble_task_package(
             task_type=task_type,
             runtime_readiness=runtime_readiness,
             toolbox_requirements=toolbox_requirements,
+            required_deliverables=deliverables,
         )
         write_json(staging / "task_info.json", task_info)
-        submission = _submission_schema(
-            source=read_json(source / "submission_contract.json"),
-            task_info=task_info,
-            task_id=task_id,
-        )
-        write_json(staging / "submission_schema.json", submission)
         source_data = source / "data"
         if source_data.is_dir():
             shutil.copytree(source_data, staging / "data")
@@ -635,6 +719,13 @@ def assemble_task_package(
             task_id=task_id,
             process_rubric=read_json(source / "process_rubric.json"),
         )
+        submission = _submission_schema(
+            source=read_json(source / "submission_contract.json"),
+            task_info=task_info,
+            task_id=task_id,
+            bindings=reference.get("submission_bindings"),
+        )
+        write_json(staging / "submission_schema.json", submission)
         write_json(evaluation / "reference.json", reference)
         entries = package_payload_entries(staging)
         public_allowlist = ["task.md", "submission_schema.json"]
@@ -662,7 +753,9 @@ def assemble_task_package(
                 "task_type": task_type,
                 "path": "",
                 "findings": validation.findings,
-                "diagnostics": validation.diagnostics,
+                "diagnostics": sorted(
+                    set(validation.diagnostics + deliverable_diagnostics)
+                ),
             }
         atomic_commit_tree(staging, destination)
         return {
@@ -672,7 +765,9 @@ def assemble_task_package(
             "path": str(destination),
             "package_content_sha256": manifest.package_content_sha256,
             "findings": [],
-            "diagnostics": validation.diagnostics,
+            "diagnostics": sorted(
+                set(validation.diagnostics + deliverable_diagnostics)
+            ),
         }
     except Exception as exc:
         return {

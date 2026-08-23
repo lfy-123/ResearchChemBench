@@ -463,11 +463,18 @@ For every approved decision, leave these components under `outputs/task_pair/`:
 Before returning the receipt, reread the final task tree rather than relying on the
 receipt text. Confirm that both `task_info.json` files contain the evaluator-required
 transport fields (including `category` and a plain-string `scientific_requirements`
-list), and that `required_deliverables` contains typed workspace artifact records whose
-`path` values correspond to `submission_contract.json.required_files`. Scientific result
-labels such as `HOMO_energy` or `conformer_geometries` belong in `task.md` or the results
-schema, not in a file-path field. Confirm that each `process_rubric.json` is a top-level list, and that every Ground Truth
-binding points to a real submission artifact and result field. If a result schema is
+list), and that every `required_deliverables` item contains only the TaskInfo transport
+fields `path`, `description`, and optional `allow_empty`; each `path` must correspond to
+`submission_contract.json.required_files`. Do not add a `type` field such as
+`workspace_artifact`. Scientific result labels such as `HOMO_energy` or
+`conformer_geometries` belong in `task.md` or the results schema, not in a file-path
+field. For a structured result, `observed_fields` must be explicit JSONPath-like result
+selectors (for example `$.energies.barrier`); for a report binding use
+`document_binding: true`, a safe report artifact, and `observed_fields: ["document"]`.
+Do not put submission artifact paths in `observed_fields` when `target_fields` is
+available; if a legacy input does so, the orchestrator may project the explicit target
+keys mechanically. Confirm that each `process_rubric.json` is a top-level list, and that every Ground Truth
+binding points to a real submission artifact and, for structured bindings, a result field. If a result schema is
 open-ended, state that explicitly; if a field cannot be bound deterministically, keep
 the finding in `remaining_issues` instead of reporting `contract_status=passed`.
 

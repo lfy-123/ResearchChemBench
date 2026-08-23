@@ -77,6 +77,14 @@ _TECHNICAL_PREFIXES = (
     "submission_contract_",
 )
 
+# A malformed selector has no deterministic transport repair: changing it can
+# change which scientific result is scored.  Keep it out of Stage07B so the
+# scientific audit (or a future explicit mapping repair) remains the owner.
+_UNSUPPORTED_TECHNICAL_PREFIXES = (
+    "evaluator_binding_path_invalid:",
+    "evaluator_binding_filter_invalid:",
+)
+
 
 # Contract files are the only files Stage07B may change. Science files remain
 # in the fingerprint even if an Agent attempts to touch them.
@@ -105,6 +113,7 @@ def classify_technical_findings(findings: list[str] | None) -> dict[str, Any]:
         item
         for item in values
         if any(item.startswith(prefix) for prefix in _TECHNICAL_PREFIXES)
+        and not any(item.startswith(prefix) for prefix in _UNSUPPORTED_TECHNICAL_PREFIXES)
     ]
     unsupported = [item for item in values if item not in allowed]
     return {

@@ -16,6 +16,7 @@ from src.stages.stage07_task_judge.package import (
     canonical_mode_task_id,
     project_computational_reference,
 )
+from src.stages.stage07_task_judge.validation import published_bundle_mechanical_check
 from src.stages.stage07_task_judge.stage import _assemble_task_packages_atomically
 
 
@@ -46,7 +47,13 @@ def _mode(root: Path, name: str) -> None:
             "paper_id": "paper_fixture",
             "category": "fixture",
             "required_deliverables": [
-                {"path": "report/results.json", "description": "Results", "allow_empty": False},
+                {
+                    "path": "report/results.json",
+                    "description": "Results",
+                    "allow_empty": False,
+                    # Legacy Stage07 receipts used this transport-only tag.
+                    "type": "workspace_artifact",
+                },
                 {"path": "report/report.md", "description": "Report", "allow_empty": False},
             ],
             "data": [
@@ -138,13 +145,15 @@ def _pair(tmp_path: Path) -> Path:
                     "mode_submission_bindings": {
                         "paper_reproduction": {
                             "artifact_paths": ["report/results.json"],
-                            "observed_fields": ["$.value"],
+                            "observed_fields": ["report/results.json"],
+                            "target_fields": ["value"],
                             "canonical_projection": 2.0,
                             "comparison": "numeric_tolerance",
                         },
                         "autonomous_research": {
                             "artifact_paths": ["report/results.json"],
-                            "observed_fields": ["$.value"],
+                            "observed_fields": ["report/results.json"],
+                            "target_fields": ["value"],
                             "canonical_projection": 2.0,
                             "comparison": "numeric_tolerance",
                         },
@@ -210,7 +219,8 @@ def test_reference_projection_removes_score_and_duplicate_answers(tmp_path: Path
     assert [item["answer_id"] for item in reference["answer_items"]] == ["gt_value"]
     assert "target" not in reference["acceptance_profiles"][0]
     assert "canonical_value" not in reference["acceptance_profiles"][0]
-    assert "canonical_projection" not in reference["submission_bindings"][0]
+    assert reference["submission_bindings"][0]["canonical_projection"] == 2.0
+    assert reference["submission_bindings"][0]["observed_fields"] == ["$.value"]
 
 
 def test_stage07_assembles_clean_complete_task_packages(tmp_path: Path):
@@ -242,7 +252,83 @@ def test_stage07_assembles_clean_complete_task_packages(tmp_path: Path):
         assert info["runtime_readiness"] == "needs_software"
         assert "task" not in info
         assert "task_mode" not in info
+        assert all("type" not in item for item in info["required_deliverables"])
+        assert any(
+            item.startswith("required_deliverables_type_projected:")
+            for item in report.get("diagnostics", [])
+        )
         assert validate_task_package(root).status == "passed"
+        assert published_bundle_mechanical_check(root)["status"] == "passed"
+
+
+def test_mixed_document_and_structured_binding_preserves_both_selectors(tmp_path: Path):
+    pair = _pair(tmp_path)
+    hidden_path = pair / "hidden_reference" / "ground_truth_common.json"
+    hidden = json.loads(hidden_path.read_text(encoding="utf-8"))
+    hidden["acceptance_profiles"][0]["mode_submission_bindings"][
+        "paper_reproduction"
+    ] = {
+        "artifact_paths": ["report/results.json", "report/report.md"],
+        "observed_fields": ["report/results.json", "report/report.md"],
+        "target_fields": ["value"],
+        "canonical_projection": 2.0,
+        "comparison": "numeric_tolerance",
+    }
+    hidden_path.write_text(json.dumps(hidden, indent=2) + "\n", encoding="utf-8")
+    reference = project_computational_reference(
+        hidden=hidden,
+        task_type="paper_reproduction",
+        task_id="fixture_reproduction",
+        process_rubric=json.loads(
+            (pair / "paper_reproduction" / "process_rubric.json").read_text(
+                encoding="utf-8"
+            )
+        ),
+    )
+    binding = next(
+        item
+        for item in reference["submission_bindings"]
+        if item["acceptance_profile_id"] == "ap_value"
+    )
+    assert "$.value" in binding["observed_fields"]
+    assert "report/report.md" in binding["observed_fields"]
+    assert binding["document_binding"] is True
+
+
+def test_artifact_row_binding_projects_selector_and_authored_semantics(tmp_path: Path):
+    pair = _pair(tmp_path)
+    hidden_path = pair / "hidden_reference" / "ground_truth_common.json"
+    hidden = json.loads(hidden_path.read_text(encoding="utf-8"))
+    hidden["acceptance_profiles"][0]["mode_submission_bindings"][
+        "paper_reproduction"
+    ] = {
+        "artifacts": [
+            {"path": "report/results.json", "json_path": "$.value"},
+            {"path": "report/report.md"},
+        ]
+    }
+    hidden_path.write_text(json.dumps(hidden, indent=2) + "\n", encoding="utf-8")
+    reference = project_computational_reference(
+        hidden=hidden,
+        task_type="paper_reproduction",
+        task_id="fixture_reproduction",
+        process_rubric=json.loads(
+            (pair / "paper_reproduction" / "process_rubric.json").read_text(
+                encoding="utf-8"
+            )
+        ),
+    )
+    binding = next(
+        item
+        for item in reference["submission_bindings"]
+        if item["acceptance_profile_id"] == "ap_value"
+    )
+    assert binding["artifact_paths"] == ["report/results.json", "report/report.md"]
+    assert "$.value" in binding["observed_fields"]
+    assert "report/report.md" in binding["observed_fields"]
+    assert binding["comparison"] == "numeric_tolerance"
+    assert binding["canonical_projection"] == 2.0
+    assert binding["document_binding"] is True
 
 
 def test_stage07_pair_assembly_publishes_both_modes_only_after_validation(tmp_path: Path):

@@ -262,7 +262,9 @@ paper_9455a82229de2427
 - Stage07 新增 clean assembler，原子写入 `final_tasks/<task_type>/<task_id>`；
 - Stage07 主路径不再调用 public/evaluator 双树发布函数；
 - final task 只保留 task instruction、精简 metadata、submission schema、public data、private reference 和 manifest；
-- hidden projection 删除 `evaluation_mode`、`score_max`、`expected_result`、profile target/canonical value 和 binding canonical projection；
+- hidden projection 删除 `evaluation_mode`、`score_max`、`expected_result`、profile target/canonical value；binding 的
+  `canonical_projection` 仅保留在 private `evaluation/reference.json`，不进入 public schema 或 Agent workspace，
+  以便 runtime adapter 能将公开字段映射回唯一隐藏答案；
 - mode-specific truth/profile/binding 在投影时按适用 scope 选择；
 - 只将 `claim_role=final` 的答案纳入 final conclusions，中间结果继续作为 answer/process evidence；
 - 新增 readiness 状态 `approved_ready`、`approved_needs_software` 和 `technical_blocked`；
@@ -297,6 +299,47 @@ paper_9455a82229de2427
 - 以 pair science fingerprint 守护前后科学内容；非法文件改动、指纹变化、复检仍失败或 Agent 未完成均保持 `technical_blocked`，不会覆写原 audited tree。
 - Stage07 summary/record 新增 `stage07b_status`、invoked/repaired/blocked 计数；Stage07 prompt 明确 Stage07B 是后续窄合同修复，不应通过科学内容迁就机械 gate。
 - 测试：`PYTHONPATH=data_pipeline pytest -q data_pipeline/tests/test_stage07b_contract_repair.py` → `6 passed`；v8 package + v7 contract 回归持续通过。
+
+### 2026-08-24：历史技术阻断回放修复（不调用模型）
+
+本次只修改通用 transport/evaluator contract，不改 Stage00–05、不改历史 runs，也没有为任何论文加入特例规则。
+
+- `researchchembench_contracts/task_package.py`：
+  - private reference binding 增加 evaluator-only `canonical_projection`；
+  - 统一有限 JSONPath filter 语法、文档 selector、legacy `observed_fields`/`target_fields` 投影和 open-schema 路径 materialization；
+  - 混合 report + structured binding 只跳过文档 selector，仍检查结构化 selector；非法 filter 和 closed-schema 缺失路径继续阻断。
+- `src/stages/stage07_task_judge/package.py`：
+  - 旧 `workspace_artifact` 类型只在明确 package projection 边界移除并记录 diagnostic；
+  - package assembly 先生成 private reference，再按已审计 binding materialize open result schema；
+  - 不把 `canonical_projection` 或 audit/build 文件写入 public package。
+- `src/stages/stage07_task_judge/validation.py`：
+  - mechanical evaluator dry-run 与 package validator 使用同一 selector/filter 规则；
+  - 修复 evaluator import path 的初始化顺序；
+  - `published_bundle_mechanical_check()` 对 v1 package 改用 canonical package validator，不再要求已淘汰的 `task_spec.json` / `submission_contract.json`。
+- `src/stages/stage07_task_judge/prompts.py`：明确新版 deliverable 和 structured/document binding 输出合同，禁止再生成 `type: workspace_artifact`。
+- `src/stages/stage07_contract_repair/stage.py`：非法 JSONPath/filter 被标记为不支持 Stage07B 的 finding，避免窄 Agent 擅自改写科学字段映射。
+- 新增/更新 v8、shared package、Stage07B 回归 fixture，覆盖 bounded/invalid filter、open schema、mixed document binding、private projection 和 v1 final bundle。
+
+#### 六个历史技术阻断 pair 的临时目录回放
+
+来源：`runs/stage06-07-v8-deepseek-gpt20-concurrency20-20260823`；原目录未写回。
+
+| pair | mechanical gate | package assembly | 结论 |
+|---|---|---|---|
+| `paper_30cec9ecf4782412` | passed | 两种 mode 均 passed | 旧 deliverable 类型是可确定的 transport 投影，恢复可发布 |
+| `paper_611000e1de080f6f` | passed | 两种 mode 均 passed | 受限 filter 记 diagnostic，不再被 package validator 误阻断 |
+| `paper_76ae2dc25f0a5aeb` | passed | 两种 mode 均 passed | legacy target/selector 投影后保留 report 文档证据 |
+| `paper_8b7bf002cc6a4ba9` | failed | 未组装 | shared/mode binding 歧义和 comparison 缺失，继续正确阻断 |
+| `paper_9455a82229de2427` | failed | 未组装 | projection/binding 缺失且存在歧义，继续正确阻断 |
+| `paper_9ec8c4761c4f171b` | failed | 未组装 | 多个适用 profile 没有 binding，Stage07B 不猜测，继续阻断 |
+
+回放期望与实际 gate 结果 `6/6` 一致；前三个 pair 的两个 package 均通过。所有变更均为确定性运输投影或验证边界，不改变答案、容差、命题、证据或科学结论。
+
+定向测试：
+
+- `data_pipeline/tests/test_stage0607_v8_task_packages.py` + Stage07B/v7 contract：`29 passed`；
+- `data_pipeline/tests/test_stage0607_agents.py`：`165 passed, 2 failed`。两个失败是仓库基线中缺失的 `src/stages/stage06_task_builder/bootstrap_task_pair.py`，与本轮改动无关；文档 binding 相关测试全部通过；
+- `tests/test_task_package_v1.py -k 'not v1_runner'`：`12 passed`；runtime adapter smoke 已分别执行，未发现本轮合同回归。
 
 ### 2026-08-23：Phase 3/4 legacy regression
 
@@ -348,6 +391,37 @@ Stage07B harness 对上述 smoke 和固定 20 篇回归验证模型是否能完�
 失败，不改变代码合同结论，批量回归仍按用户指定的 Codex harness 单独记录。
 
 ## 7. 测试与提交记录
+
+### 2026-08-24：历史 Stage07B 产物回放更正与回归修复
+
+上一节的六篇回放表是在完成 Stage07B artifact-row 归一化之前记录的，其中
+`paper_9ec8c4761c4f171b` 被误记为“继续阻断”。本次在临时副本中重新回放，未写回
+历史 runs：
+
+- 修复 `normalize_binding_contract()` 中 artifact-row 派生分支引用未定义局部函数
+  `values` 的纯代码错误；该错误只会在 reproduction/结构化 binding 触发，属于本轮
+  新增回归，已加入 fixture 回归覆盖。
+- 随后新增的 artifact-row 回归又发现 selector 提取顺序问题：先把
+  `{path,json_path}` 压成字符串会丢失 JSONPath，可能把混合 binding 错降为
+  report-only。现已改为先从原始 rows 提取 selector、再归一化 artifact path；回放中
+  `paper_9ec8.../ap_definition` 的 6 个结构化 selector 和 `report/report.md` 均保留。
+- Stage07B 历史产物中的
+  `artifacts/artifact_paths: [{"path": ..., "json_path": ...}]` 被统一投影为合法
+  `artifact_paths` + JSONPath `observed_fields`；缺失的 comparison/projection 只从
+  同一 acceptance profile/answer 的既有语义复制，不生成新科学内容。
+- 重新回放结果：`paper_30cec9ecf4782412`、`paper_611000e1de080f6f`、
+  `paper_76ae2dc25f0a5aeb` 的 gate 和两个 mode package 均 passed；
+  `paper_8b7bf002cc6a4ba9`、`paper_9455a82229de2427` 仍因 binding 歧义/缺失而
+  blocked；`paper_9ec8c4761c4f171b` 的原始 audited tree 仍 blocked，但其历史
+  Stage07B candidate 经归一化后 gate 与两个 mode package 均 passed。
+- `canonical_projection` 只写入 private `evaluation/reference.json`，最终 public
+  `submission_schema.json` 未出现该字段；非法 filter、closed-schema 缺失路径和
+  多候选歧义仍保持阻断。
+
+定向回归：v8 package + Stage07B + shared contract（排除需要外部 runner 的
+`v1_runner` smoke）为 `24 passed, 3 deselected`；完整 Stage06/07 agent 集合仍有
+2 个基线失败，原因是仓库缺失
+`src/stages/stage06_task_builder/bootstrap_task_pair.py`，与本轮无关）。
 
 待每个 Phase 完成后追加，至少记录：
 

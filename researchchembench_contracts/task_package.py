@@ -195,6 +195,11 @@ class SubmissionBindingV1(StrictModel):
     observed_fields: list[str]
     comparison: str
     document_binding: bool = False
+    # This is evaluator-only transport metadata.  It records how a public
+    # submission field maps back to the private canonical answer.  The field
+    # lives only in evaluation/reference.json and is never copied to the
+    # public submission schema or Agent workspace.
+    canonical_projection: Any | None = None
 
     @field_validator("artifact_paths")
     @classmethod
@@ -490,6 +495,312 @@ def _jsonpath_tokens(value: str) -> list[str | int] | None:
     return tokens
 
 
+def _safe_document_artifact(value: Any) -> bool:
+    """Return whether a relative path can safely denote a text/report artifact."""
+
+    if not isinstance(value, str) or not value.strip():
+        return False
+    path = PurePosixPath(value.strip())
+    return (
+        not path.is_absolute()
+        and ".." not in path.parts
+        and "\\" not in value
+        and path.suffix.casefold() in {".md", ".txt", ".json", ".jsonl"}
+    )
+
+
+def is_document_selector(
+    field: Any,
+    artifact_paths: list[str] | None = None,
+    *,
+    allow_json_artifact: bool = False,
+) -> bool:
+    """Identify transport-level document selectors without judging their prose.
+
+    A bare ``report/results.json`` path is not treated as a document by default:
+    it is normally a structured result artifact and must either be projected to a
+    JSONPath or be explicitly marked as a document binding.  Markdown/text report
+    paths remain compatible with older receipts.
+    """
+
+    token = str(field or "").strip().casefold()
+    if token in {"document", "text", "report"}:
+        return True
+    if not artifact_paths or token not in {
+        str(path).strip().casefold() for path in artifact_paths
+    }:
+        return False
+    value = str(field).strip()
+    if not _safe_document_artifact(value):
+        return False
+    suffix = PurePosixPath(value).suffix.casefold()
+    return suffix in {".md", ".txt"} or (
+        allow_json_artifact and suffix in {".json", ".jsonl"}
+    )
+
+
+def is_document_binding_selector(
+    field: Any,
+    artifact_paths: list[str] | None = None,
+    *,
+    document_binding: bool = False,
+) -> bool:
+    """Recognize a report selector, including legacy semantic labels.
+
+    Older receipts used a JSONPath-shaped label for a report-only binding.  If
+    the binding explicitly declares document mode and has no structured JSON
+    result artifact, that label is transport metadata rather than a schema path.
+    Mixed bindings still validate their structured selectors normally.
+    """
+
+    if is_document_selector(
+        field,
+        artifact_paths,
+        allow_json_artifact=document_binding,
+    ):
+        return True
+    if not document_binding:
+        return False
+    artifacts = artifact_paths or []
+    has_structured_artifact = any(
+        PurePosixPath(str(path)).suffix.casefold() in {".json", ".jsonl"}
+        for path in artifacts
+    )
+    return not has_structured_artifact
+
+
+def is_safe_jsonpath_filter(value: Any) -> bool:
+    """Accept the small, answer-free filter form used by result-array bindings.
+
+    The evaluator owns semantic interpretation.  The package contract only
+    needs to ensure that a filter is bounded to one array member selected by a
+    literal field equality and followed by ordinary child selectors.
+    """
+
+    path = str(value or "").strip()
+    marker = "[?(@"
+    if marker not in path:
+        return False
+    prefix, remainder = path.split(marker, 1)
+    if _jsonpath_tokens(prefix) is None:
+        return False
+    match = re.match(
+        r"\.([A-Za-z_][A-Za-z0-9_-]*)\s*==\s*(['\"])([^'\"]*)\2\)\](.*)$",
+        remainder,
+    )
+    if match is None:
+        return False
+    suffix = match.group(4)
+    if not suffix:
+        return True
+    return _jsonpath_tokens("$" + suffix) is not None
+
+
+def normalize_binding_observed_fields(binding: dict[str, Any]) -> list[str]:
+    """Project one unambiguous legacy artifact/target spelling to selectors.
+
+    Some historical receipts used ``observed_fields`` for an artifact path and
+    put the actual structured result keys in ``target_fields``.  When exactly
+    one observed JSON result artifact is present, that mapping is transport-
+    deterministic.  Report selectors are retained for mixed bindings; multiple
+    structured artifacts remain untouched and are rejected by normal validation
+    instead of being guessed.
+    """
+
+    def values(value: Any) -> list[str]:
+        if isinstance(value, str) and value.strip():
+            return [value.strip()]
+        if isinstance(value, list):
+            return [str(item).strip() for item in value if str(item).strip()]
+        return []
+
+    def selector(value: str) -> str:
+        if value.startswith("$"):
+            return value
+        if re.fullmatch(
+            r"[A-Za-z_][A-Za-z0-9_-]*(?:\.[A-Za-z_][A-Za-z0-9_-]*)*", value
+        ):
+            return f"$.{value}"
+        return value
+
+    raw_artifacts = (
+        binding.get("artifact_paths")
+        or binding.get("artifact_path")
+        or binding.get("artifact")
+        or binding.get("artifacts")
+    )
+    artifact_rows = raw_artifacts if isinstance(raw_artifacts, list) else [raw_artifacts]
+    artifacts = []
+    artifact_json_paths: list[str] = []
+    artifact_document_paths: list[str] = []
+    for item in artifact_rows:
+        if isinstance(item, dict):
+            path = str(item.get("path") or item.get("file") or "").strip()
+            json_path = str(item.get("json_path") or item.get("selector") or "").strip()
+            if json_path:
+                artifact_json_paths.append(json_path)
+            elif PurePosixPath(path).suffix.casefold() in {".md", ".txt"}:
+                artifact_document_paths.append(path)
+        else:
+            path = str(item or "").strip()
+            if PurePosixPath(path).suffix.casefold() in {".md", ".txt"}:
+                artifact_document_paths.append(path)
+        if path and path not in artifacts:
+            artifacts.append(path)
+    observed = values(
+        binding.get("observed_fields")
+        or binding.get("observed_field")
+        or binding.get("field")
+    )
+    targets = values(binding.get("target_fields"))
+    for field in artifact_json_paths:
+        if field not in observed:
+            observed.append(field)
+    for field in artifact_document_paths:
+        if field not in observed:
+            observed.append(field)
+    if not observed or not targets:
+        return observed
+    artifact_by_folded = {item.casefold(): item for item in artifacts}
+    structured = [
+        field
+        for field in observed
+        if field.casefold() in artifact_by_folded
+        and PurePosixPath(field).suffix.casefold() in {".json", ".jsonl"}
+    ]
+    if len(structured) != 1:
+        return observed
+    return [
+        *[selector(field) for field in targets],
+        *[
+            field
+            for field in observed
+            if field.casefold() not in {item.casefold() for item in structured}
+        ],
+    ]
+
+
+def normalize_binding_artifact_paths(binding: dict[str, Any]) -> list[str]:
+    """Extract safe transport paths from string or ``{path, json_path}`` rows."""
+
+    raw = (
+        binding.get("artifact_paths")
+        or binding.get("artifact_path")
+        or binding.get("artifact")
+        or binding.get("artifacts")
+    )
+    rows = raw if isinstance(raw, list) else [raw]
+    output: list[str] = []
+    for item in rows:
+        if isinstance(item, dict):
+            value = item.get("path") or item.get("file")
+        else:
+            value = item
+        text = str(value or "").strip()
+        if text and text not in output:
+            output.append(text)
+    return output
+
+
+def normalize_binding_contract(
+    binding: dict[str, Any],
+    *,
+    profile: dict[str, Any] | None = None,
+    answer: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Normalize legacy binding rows and copy authored acceptance semantics.
+
+    This is a transport projection only.  When a binding already names at least
+    one artifact and selector but omits comparison/projection fields, those
+    fields are copied from the owning profile/answer; no value or proposition is
+    invented.  An empty binding remains empty and therefore still blocks.
+    """
+
+    def as_string_list(value: Any) -> list[str]:
+        if isinstance(value, str) and value.strip():
+            return [value.strip()]
+        if isinstance(value, list):
+            return [str(item).strip() for item in value if str(item).strip()]
+        return []
+
+    normalized = json.loads(json.dumps(binding, ensure_ascii=False))
+    if normalized.get("canonical_projection") is None and "projection" in normalized:
+        normalized["canonical_projection"] = normalized.get("projection")
+    if not str(normalized.get("comparison") or "").strip() and normalized.get(
+        "comparison_type"
+    ) is not None:
+        normalized["comparison"] = normalized.get("comparison_type")
+    # Extract selectors while the original artifact rows are still present;
+    # converting ``{path, json_path}`` rows to bare paths first would silently
+    # discard the structured selector and could turn a mixed binding into a
+    # report-only binding.
+    fields = normalize_binding_observed_fields(normalized)
+    artifacts = normalize_binding_artifact_paths(normalized)
+    if artifacts:
+        normalized["artifact_paths"] = artifacts
+    if fields:
+        normalized["observed_fields"] = fields
+    if artifacts and fields:
+        profile = profile or {}
+        answer = answer or {}
+        if not str(normalized.get("comparison") or "").strip():
+            normalized["comparison"] = str(
+                profile.get("comparison")
+                or profile.get("type")
+                or profile.get("acceptance_type")
+                or answer.get("acceptance_type")
+                or ""
+            ).strip()
+        if normalized.get("canonical_projection") is None and normalized.get(
+            "projection"
+        ) is None:
+            profile_type = str(
+                profile.get("type")
+                or profile.get("acceptance_type")
+                or answer.get("acceptance_type")
+                or ""
+            ).strip()
+            if profile_type in {"semantic_propositions", "mechanism_claim"}:
+                normalized["canonical_projection"] = {
+                    "required_propositions": as_string_list(
+                        profile.get("required_propositions")
+                        or answer.get("required_propositions")
+                    ),
+                    "forbidden_contradictions": as_string_list(
+                        profile.get("forbidden_contradictions")
+                        or answer.get("forbidden_contradictions")
+                    ),
+                }
+            elif profile_type == "trend":
+                normalized["canonical_projection"] = {
+                    "required_trends": as_string_list(
+                        profile.get("required_trends")
+                        or profile.get("parameters", {}).get("required_trends")
+                        if isinstance(profile.get("parameters"), dict)
+                        else profile.get("required_trends")
+                    )
+                }
+            elif profile_type == "artifact_validation":
+                normalized["canonical_projection"] = {
+                    "required_artifacts": as_string_list(profile.get("required_artifacts"))
+                }
+            elif "canonical_answer" in answer:
+                normalized["canonical_projection"] = answer.get("canonical_answer")
+    normalized["document_binding"] = bool(
+        normalized.get("document_binding")
+        or normalized.get("document_target") is not None
+        or any(
+            is_document_binding_selector(
+                field,
+                artifacts,
+                document_binding=bool(normalized.get("document_binding")),
+            )
+            for field in fields
+        )
+    )
+    return normalized
+
+
 def _schema_path_status(schema: Any, tokens: list[str | int]) -> str:
     """Return present, open, or missing for a structured submission field."""
 
@@ -527,12 +838,70 @@ def _schema_path_status(schema: Any, tokens: list[str | int]) -> str:
     return "present"
 
 
+def materialize_result_schema_path(
+    schema: dict[str, Any], selector: str, projection: Any = None
+) -> bool:
+    """Declare an already-bound structured path without copying its answer.
+
+    This is a transport projection used when an audited binding walks through
+    an intentionally open object.  It adds only property containers and a
+    coarse JSON type inferred from the binding's projection; it never writes a
+    target, enum, tolerance, or proposition into the public schema.
+    """
+
+    tokens = _jsonpath_tokens(selector)
+    if tokens is None or is_safe_jsonpath_filter(selector):
+        return False
+    if _schema_path_status(schema, tokens) != "open":
+        # A closed schema with a missing path is a real contract defect; do
+        # not make it disappear through transport normalization.
+        return False
+    current: dict[str, Any] = schema
+    for token in tokens:
+        if token == "*" or isinstance(token, int):
+            items = current.get("items")
+            if not isinstance(items, dict):
+                items = {"type": "object"}
+                current["items"] = items
+            current = items
+            continue
+        properties = current.get("properties")
+        if not isinstance(properties, dict):
+            # Preserve the source schema's intentional openness while making
+            # this one already-bound child explicit.  Without this marker a
+            # second sibling under the same open object would look falsely
+            # missing after the first child is materialized.
+            if "additionalProperties" not in current:
+                current["additionalProperties"] = True
+            properties = {}
+            current["properties"] = properties
+        child = properties.get(token)
+        if not isinstance(child, dict):
+            child = {}
+            properties[token] = child
+        current = child
+    if "type" not in current:
+        if isinstance(projection, bool):
+            current["type"] = "boolean"
+        elif isinstance(projection, (int, float)) and not isinstance(projection, bool):
+            current["type"] = "number"
+        elif isinstance(projection, list):
+            current["type"] = "array"
+        elif isinstance(projection, str):
+            current["type"] = "string"
+        else:
+            current["type"] = "object"
+    return True
+
+
 def _binding_schema_findings(
     *,
     submission: SubmissionSchemaV1,
     reference: ComputationalScienceReferenceV1,
+    diagnostics: list[str] | None = None,
 ) -> list[str]:
     findings: list[str] = []
+    diagnostics = diagnostics if diagnostics is not None else []
     required_files = set(submission.required_files)
     for binding in reference.submission_bindings:
         for artifact in binding.artifact_paths:
@@ -540,18 +909,35 @@ def _binding_schema_findings(
                 findings.append(
                     f"binding_artifact_not_required:{binding.binding_id}:{artifact}"
                 )
-        if binding.document_binding or binding.observed_fields == ["document"]:
-            continue
-        if not submission.primary_result_file:
-            findings.append(
-                f"structured_binding_without_primary_result:{binding.binding_id}"
+        document_fields = {
+            field
+            for field in binding.observed_fields
+            if is_document_binding_selector(
+                field,
+                binding.artifact_paths,
+                document_binding=binding.document_binding,
             )
-            continue
-        if submission.primary_result_file not in binding.artifact_paths:
+        }
+        # A mixed binding may contain both a report/document selector and
+        # structured result selectors.  Skip only the document selectors; keep
+        # validating the structured paths.
+        if not submission.primary_result_file:
+            if len(document_fields) != len(binding.observed_fields):
+                findings.append(
+                    f"structured_binding_without_primary_result:{binding.binding_id}"
+                )
+        elif submission.primary_result_file not in binding.artifact_paths and not document_fields:
             findings.append(
                 f"structured_binding_wrong_artifact:{binding.binding_id}"
             )
         for observed in binding.observed_fields:
+            if observed in document_fields:
+                continue
+            if is_safe_jsonpath_filter(observed):
+                diagnostics.append(
+                    f"binding_filter_selector_unchecked:{binding.binding_id}:{observed}"
+                )
+                continue
             tokens = _jsonpath_tokens(observed)
             if tokens is None:
                 findings.append(
@@ -649,7 +1035,9 @@ def validate_task_package(root: str | Path) -> TaskPackageValidation:
                         if submission:
                             findings.extend(
                                 _binding_schema_findings(
-                                    submission=submission, reference=reference
+                                    submission=submission,
+                                    reference=reference,
+                                    diagnostics=diagnostics,
                                 )
                             )
                 else:

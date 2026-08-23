@@ -23,6 +23,7 @@ from researchchembench_contracts import (
     TASK_PACKAGE_SCHEMA_V1,
     package_content_hash,
     package_payload_entries,
+    materialize_result_schema_path,
     validate_task_package,
 )
 
@@ -129,6 +130,7 @@ def _package(tmp_path: Path, *, task_id: str = "fixture_reproduction") -> Path:
                     "observed_fields": ["$.value"],
                     "comparison": "numeric_tolerance",
                     "document_binding": False,
+                    "canonical_projection": 1.5,
                 }
             ],
             "process_key_points": [
@@ -216,6 +218,15 @@ def _rewrite_package(
     _write_json(manifest_path, manifest)
 
 
+def _refresh_manifest(root: Path) -> None:
+    manifest_path = root / "package_manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    entries = package_payload_entries(root)
+    manifest["entries"] = [entry.model_dump(mode="json") for entry in entries]
+    manifest["package_content_sha256"] = package_content_hash(entries)
+    _write_json(manifest_path, manifest)
+
+
 def test_task_package_v1_round_trip(tmp_path: Path):
     root = _package(tmp_path)
     report = validate_task_package(root)
@@ -273,6 +284,71 @@ def test_task_package_v1_requires_explicit_structured_binding_schema(tmp_path: P
     report = validate_task_package(root)
     assert report.status == "failed"
     assert any("binding_schema_path_open" in item for item in report.findings)
+
+
+def _set_filter_binding(root: Path, selector: str) -> None:
+    schema_path = root / "submission_schema.json"
+    submission = json.loads(schema_path.read_text(encoding="utf-8"))
+    submission["result_schema"] = {
+        "type": "object",
+        "properties": {
+            "calculations": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "number"},
+                    },
+                    "additionalProperties": True,
+                },
+            }
+        },
+        "required": ["calculations"],
+        "additionalProperties": True,
+    }
+    _write_json(schema_path, submission)
+    reference_path = root / "evaluation" / "reference.json"
+    reference = json.loads(reference_path.read_text(encoding="utf-8"))
+    reference["submission_bindings"][0]["observed_fields"] = [selector]
+    reference["submission_bindings"][0]["artifact_paths"] = ["report/results.json"]
+    _write_json(reference_path, reference)
+    _refresh_manifest(root)
+
+
+def test_task_package_accepts_bounded_jsonpath_filter_as_diagnostic(tmp_path: Path):
+    root = _package(tmp_path)
+    _set_filter_binding(
+        root,
+        '$.calculations[?(@.input_file=="state_a.xyz")].value',
+    )
+    report = validate_task_package(root)
+    assert report.status == "passed", report.findings
+    assert any("binding_filter_selector_unchecked" in item for item in report.diagnostics)
+
+
+def test_task_package_rejects_unbounded_jsonpath_filter(tmp_path: Path):
+    root = _package(tmp_path)
+    _set_filter_binding(
+        root,
+        '$.calculations[?(@.input_file=~"state_a.xyz")].value',
+    )
+    report = validate_task_package(root)
+    assert report.status == "failed"
+    assert any("binding_jsonpath_invalid" in item for item in report.findings)
+
+
+def test_open_schema_path_materialization_is_transport_only():
+    schema = {
+        "type": "object",
+        "additionalProperties": True,
+    }
+    assert materialize_result_schema_path(schema, "$.energies.barrier", 4.2)
+    assert materialize_result_schema_path(schema, "$.energies.other", 1.0)
+    assert schema["properties"]["energies"]["properties"]["barrier"]["type"] == "number"
+    assert schema["properties"]["energies"]["properties"]["other"]["type"] == "number"
+    # A closed schema defect must remain visible to the validator.
+    closed = {"type": "object", "properties": {"known": {"type": "number"}}}
+    assert not materialize_result_schema_path(closed, "$.missing", 1.0)
 
 
 def test_repository_v2_recurses_filters_and_keeps_private_reference_private(
@@ -409,6 +485,13 @@ def test_v1_runner_isolates_reference_and_dual_axis_adapter_scores(
         item["max_score"] for item in truth["scientific_conclusion_rubric"]
     ) == 100
     assert runtime.policy_id == "dual_axis_100.v1"
+    binding_projection = truth["expected_result"]["submission_bindings"][0][
+        "canonical_projection"
+    ]
+    assert binding_projection == 1.5
+    assert "canonical_projection" not in json.loads(
+        (runner.workspace / "submission_schema.json").read_text(encoding="utf-8")
+    )
 
     (runner.workspace / "report" / "report.md").write_text(
         "Computed result with linked evidence.\n", encoding="utf-8"

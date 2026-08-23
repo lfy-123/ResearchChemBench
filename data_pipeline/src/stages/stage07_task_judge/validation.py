@@ -734,6 +734,18 @@ def published_bundle_mechanical_check(bundle_root: Path) -> dict[str, Any]:
     findings: list[str] = []
     if not bundle_root.is_dir():
         return {"status": "failed", "findings": ["published_bundle_missing"]}
+    # v8 publishes a Task Package v1.  Reuse its canonical structural/hash
+    # validator instead of requiring the retired task_spec/submission_contract
+    # files that belonged to the private audited tree.
+    if (bundle_root / "package_manifest.json").is_file():
+        from researchchembench_contracts import validate_task_package
+
+        package_report = validate_task_package(bundle_root)
+        findings.extend(package_report.findings)
+        return {
+            "status": "passed" if not findings else "failed",
+            "findings": sorted(set(findings)),
+        }
     if (bundle_root / "hidden_reference").exists():
         findings.append("published_hidden_reference_present")
     forbidden = {"workspace", "source_materials", "handoff", "staging", "conversion_packet"}
@@ -868,6 +880,13 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
         repo_root = Path(__file__).resolve().parents[4]
         if str(repo_root) not in sys.path:
             sys.path.insert(0, str(repo_root))
+        from researchchembench_contracts import (
+            is_document_binding_selector,
+            is_safe_jsonpath_filter,
+            normalize_binding_artifact_paths,
+            normalize_binding_contract,
+            normalize_binding_observed_fields,
+        )
         from evaluation.schemas.task import GroundTruth, TaskInfo
         import tempfile
         with tempfile.TemporaryDirectory(prefix="stage07-evaluator-") as tmp:
@@ -903,6 +922,11 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                     isinstance(hidden.get("ground_truth_items"), list)
                     and hidden.get("ground_truth_items")
                 )
+                truth_by_profile = {
+                    str(item.get("acceptance_profile_id") or item.get("acceptance_profile") or ""): item
+                    for item in hidden.get("ground_truth_items") or []
+                    if isinstance(item, dict)
+                }
                 for profile in profiles:
                     if not isinstance(profile, dict):
                         diagnostics.append(f"evaluator_acceptance_profile_invalid:{mode}")
@@ -931,8 +955,8 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                             findings.append(
                                 f"evaluator_acceptance_profile_contract_invalid:{mode}:{finding}"
                             )
-                    binding = _binding_for_mode(profile, mode)
-                    if not binding:
+                    raw_binding = _binding_for_mode(profile, mode)
+                    if not raw_binding:
                         if typed_contract_available:
                             findings.append(
                                 f"evaluator_submission_binding_missing:{mode}:{profile_id}"
@@ -941,6 +965,11 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                             f"evaluator_submission_binding_missing:{mode}:{profile_id}"
                         )
                         continue
+                    binding = normalize_binding_contract(
+                        raw_binding,
+                        profile=profile,
+                        answer=truth_by_profile.get(profile_id),
+                    )
                     if typed_contract_available:
                         if "canonical_projection" not in binding or binding.get(
                             "canonical_projection"
@@ -952,23 +981,16 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                             findings.append(
                                 f"evaluator_binding_comparison_missing:{mode}:{profile_id}"
                             )
-                    fields = _string_list(binding.get("observed_fields"))
-                    artifacts = _string_list(binding.get("artifact_paths"))
+                    fields = normalize_binding_observed_fields(binding)
+                    artifacts = normalize_binding_artifact_paths(binding)
                     if not fields:
                         diagnostics.append(
                             f"evaluator_binding_fields_missing:{mode}:{profile_id}"
                         )
                     schema = submission.get("results_schema")
-                    # An explicit document binding means that the evaluator
-                    # will inspect the declared artifact as text/document
-                    # content.  Its observed selector is semantic metadata
-                    # (agents often use a JSONPath-shaped label such as
-                    # ``$.textual_final_conclusion``), not a property that
-                    # must exist in the structured results schema.  Validate
-                    # the artifact path below, but do not reinterpret the
-                    # selector as a JSON schema path.  Without this branch a
-                    # valid document binding is mechanically blocked whenever
-                    # the report also has a closed results schema.
+                    # A document binding validates its report artifact, while
+                    # structured selectors in the same binding still undergo
+                    # the ordinary schema checks below.
                     if binding.get("document_binding") is True:
                         safe_document_artifacts = [
                             artifact
@@ -985,54 +1007,28 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                             findings.append(
                                 f"evaluator_document_binding_artifact_missing:{mode}:{profile_id}"
                             )
-                        for field in fields:
-                            diagnostics.append(
-                                f"evaluator_document_binding_selector_unchecked:{mode}:{profile_id}:{field}"
-                            )
-                        # Artifact path safety is checked by the common loop
-                        # below; no schema-path checks apply to this binding.
-                        continue
                     for field in fields:
-                        # Semantic conclusion bindings are evaluated against a
-                        # document artifact (usually report.md), not a JSON
-                        # property.  ``document`` is therefore a valid
-                        # transport binding whenever at least one declared
-                        # artifact is a safe report/document path.
-                        if str(field).strip().casefold() in {"document", "text", "report"}:
-                            if any(
-                                isinstance(artifact, str)
-                                and artifact
-                                and not Path(artifact).is_absolute()
-                                and ".." not in Path(artifact).parts
-                                and "\\" not in artifact
-                                and Path(artifact).suffix.casefold() in {".md", ".txt", ".json", ".jsonl"}
-                                for artifact in artifacts
-                            ):
-                                continue
-                        # Some agents use the safe report path itself as the
-                        # observed selector for a document binding.  That is
-                        # a transport spelling of the document artifact, not
-                        # a JSONPath.  Accept only an exact match to a safe
-                        # declared artifact path; never infer a scientific
-                        # field from a path suffix or filename.
-                        if (
-                            isinstance(field, str)
-                            and field in artifacts
-                            and field.casefold().endswith((".md", ".txt", ".json", ".jsonl"))
-                            and not Path(field).is_absolute()
-                            and ".." not in Path(field).parts
-                            and "\\" not in field
+                        if is_document_binding_selector(
+                            field,
+                            artifacts,
+                            document_binding=bool(binding.get("document_binding")),
                         ):
-                            diagnostics.append(
-                                f"evaluator_document_binding_path_compat:{mode}:{profile_id}:{field}"
+                            diagnostic_kind = (
+                                "evaluator_document_binding_path_compat"
+                                if field in artifacts
+                                else "evaluator_document_binding_selector_unchecked"
                             )
+                            diagnostics.append(f"{diagnostic_kind}:{mode}:{profile_id}:{field}")
                             continue
-                        # JSONPath filter expressions are valid evaluator-side
-                        # selectors but intentionally outside this small
-                        # answer-free parser.  Preserve them as an unchecked
-                        # diagnostic instead of turning a syntactic limitation
-                        # into a publication block.
+                        # Use the same bounded filter grammar as the package
+                        # validator.  A malformed or broader expression is a
+                        # real contract finding, not an unchecked diagnostic.
                         if isinstance(field, str) and "[?" in field:
+                            if not is_safe_jsonpath_filter(field):
+                                findings.append(
+                                    f"evaluator_binding_path_invalid:{mode}:{profile_id}:{field}"
+                                )
+                                continue
                             diagnostics.append(
                                 f"evaluator_binding_filter_unchecked:{mode}:{profile_id}:{field}"
                             )
