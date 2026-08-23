@@ -69,6 +69,7 @@ from src.stages.stage06_task_builder.prompts import (
     task_pair_builder_instructions,
 )
 from src.stages.stage06_task_builder.validation import (
+    _acceptance_profile_findings,
     validate_autonomous_route_isolation,
     validate_hidden_reference,
     validate_mode_task,
@@ -84,7 +85,7 @@ from src.stages.stage06_task_builder.validation import (
     canonical_task_pair_id,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v14-task-data-transport-normalization-20260822"
+STAGE06_IMPLEMENTATION_VERSION = "v15-hidden-contract-transport-round4-20260823"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
@@ -266,6 +267,7 @@ def _run_stage06_single_agent(
                     root / "inputs",
                     include_visual_fallback=bool(config.get("stage06_include_visual_fallback", False)),
                 ),
+                semantic_validator=_task_pair_builder_transport_findings,
             )
             if agent_workspace is None:
                 raise FileNotFoundError("Stage06 task-pair builder workspace is unavailable")
@@ -2229,6 +2231,55 @@ def _recover_builder_receipt_from_review(
     except jsonschema.ValidationError:
         return None
     return receipt
+
+
+def _task_pair_builder_transport_findings(
+    response: dict[str, Any], workspace: Path
+) -> list[str]:
+    """Check only hidden evaluator transport at the Stage06A handoff boundary.
+
+    The objective-centered builder intentionally stops before Stage06B creates the
+    autonomous public surface.  Reusing the full pair validator here would turn
+    pending conversion files (and scientific audit questions reserved for Stage07)
+    into false Stage06 retries.  This narrow check catches malformed typed profile
+    and binding syntax while leaving scientific completeness to the designated
+    agents.
+    """
+
+    hidden_path = workspace / "outputs" / "hidden_reference" / "ground_truth_common.json"
+    if not hidden_path.is_file():
+        return []
+    try:
+        before = read_json(hidden_path)
+        if not isinstance(before, dict) or before.get("status") != "ready":
+            return []
+        hidden = _normalize_hidden_reference_contract(before)
+        if hidden != before:
+            write_json(hidden_path, hidden)
+        submission_path = workspace / "outputs" / "paper_reproduction" / "submission_contract.json"
+        # A missing reproduction contract is itself handled by the surrounding
+        # task-pair artifact checks.  Do not pass an empty mapping to the binding
+        # validator: that would turn every otherwise well-shaped artifact path
+        # into the misleading ``artifact_not_required`` finding before the
+        # submission file exists.
+        submission = read_json(submission_path) if submission_path.is_file() else None
+    except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+        return [f"hidden_reference_transport_unreadable:{type(exc).__name__}"]
+    profiles = hidden.get("acceptance_profiles") or []
+    if not isinstance(profiles, list):
+        return ["hidden_reference_transport_profiles_not_array"]
+    findings: list[str] = []
+    for profile in profiles:
+        if not isinstance(profile, dict):
+            findings.append("hidden_reference_transport_profile_not_object")
+            continue
+        findings.extend(
+            _acceptance_profile_findings(
+                profile,
+                submission_contract=submission if isinstance(submission, dict) else None,
+            )
+        )
+    return sorted(set(findings))
 
 
 def _task_pair_builder_phase_findings(
@@ -4601,6 +4652,70 @@ def _hidden_reference_phase_findings(
     )
 
 
+_ACCEPTANCE_TYPE_ALIASES = {
+    "numeric_intermediate_result": "numeric_tolerance",
+    "numeric_final_result": "numeric_tolerance",
+    "textual_intermediate_conclusion": "semantic_propositions",
+    "textual_final_conclusion": "semantic_propositions",
+    "textual_conclusion": "semantic_propositions",
+    "mechanistic_conclusion": "mechanism_claim",
+}
+
+
+def _canonical_acceptance_type(value: Any) -> str:
+    token = str(value or "").strip().casefold()
+    return _ACCEPTANCE_TYPE_ALIASES.get(token, token)
+
+
+def _normalize_acceptance_binding_alias(binding: Any) -> dict[str, Any]:
+    """Project harmless binding aliases without inventing a scientific mapping."""
+
+    if not isinstance(binding, dict):
+        return {}
+    normalized = json.loads(json.dumps(binding, ensure_ascii=False))
+    if "artifact_paths" not in normalized:
+        artifact = (
+            normalized.get("artifact")
+            or normalized.get("artifact_path")
+            or normalized.get("path")
+            or normalized.get("artifacts")
+        )
+        if isinstance(artifact, str) and artifact.strip():
+            normalized["artifact_paths"] = [artifact.strip()]
+        elif isinstance(artifact, list):
+            normalized["artifact_paths"] = artifact
+    if "observed_fields" not in normalized:
+        observed = (
+            normalized.get("observed_field")
+            or normalized.get("field")
+            or normalized.get("fields")
+        )
+        if observed is not None:
+            normalized["observed_fields"] = observed
+        elif str(normalized.get("binding_type") or "").casefold() in {
+            "document",
+            "text",
+            "report",
+        } or normalized.get("document_target") is not None:
+            # A document target is a label interpreted by the downstream judge;
+            # it is not a JSON schema property.  ``document`` is the canonical
+            # transport selector and does not assert a scientific conclusion.
+            normalized["observed_fields"] = ["document"]
+    if str(normalized.get("binding_type") or "").casefold() in {
+        "document",
+        "text",
+        "report",
+    } or normalized.get("document_target") is not None:
+        normalized["document_binding"] = True
+    if "canonical_projection" not in normalized and "projection" in normalized:
+        normalized["canonical_projection"] = normalized.get("projection")
+    if "comparison" not in normalized:
+        comparison = normalized.get("comparison_type")
+        if comparison is not None:
+            normalized["comparison"] = comparison
+    return normalized
+
+
 def _normalize_hidden_reference_contract(response: dict[str, Any]) -> dict[str, Any]:
     """Normalize common model aliases into the strict evaluator contract.
 
@@ -4651,7 +4766,13 @@ def _normalize_hidden_reference_contract(response: dict[str, Any]) -> dict[str, 
         )
         profile.pop("profile_id", None)
         profile["acceptance_profile_id"] = profile_id
-        profile_type = str(truth.get("acceptance_type") or profile.get("type") or "")
+        profile_type = _canonical_acceptance_type(
+            truth.get("acceptance_type")
+            or truth.get("type")
+            or truth.get("kind")
+            or profile.get("type")
+            or profile.get("kind")
+        )
         profile["type"] = profile_type
         parameters: dict[str, Any] = {}
         for source in (
@@ -4661,6 +4782,26 @@ def _normalize_hidden_reference_contract(response: dict[str, Any]) -> dict[str, 
         ):
             if isinstance(source, dict):
                 parameters.update(source)
+        # Some agents express a vector-valued numeric rule as a named tolerance
+        # map.  Preserve that explicit map; never collapse it to one scalar or
+        # invent a unit for quantities that may use different units.
+        numeric_tolerances: dict[str, Any] = {}
+        for source in (
+            profile.get("numeric_tolerances") or {},
+            parameters.get("numeric_tolerances") or {},
+        ):
+            if isinstance(source, dict):
+                numeric_tolerances.update(source)
+        for key, value in parameters.items():
+            if (
+                str(key).casefold().endswith(("_atol", "_rtol"))
+                and isinstance(value, (int, float))
+                and not isinstance(value, bool)
+            ):
+                numeric_tolerances.setdefault(str(key), value)
+        if numeric_tolerances:
+            profile["numeric_tolerances"] = numeric_tolerances
+            parameters["numeric_tolerances"] = numeric_tolerances
         profile["parameters"] = parameters
         canonical_answer = truth.get("canonical_answer")
         propositions = truth.get("required_propositions") or []
@@ -4716,6 +4857,13 @@ def _normalize_hidden_reference_contract(response: dict[str, Any]) -> dict[str, 
             normalized_scope = normalize_mode_scope(truth.get("applies_to_modes"))
             if normalized_scope is not None:
                 truth["applies_to_modes"] = normalized_scope
+        if "applies_to_modes" not in profile and "applies_to_modes" in truth:
+            # A profile owned by a mode-scoped truth item inherits that scope.
+            # Without this projection the evaluator gate would inspect a
+            # reproduction-only profile while checking autonomous mode.
+            profile["applies_to_modes"] = json.loads(
+                json.dumps(truth["applies_to_modes"], ensure_ascii=False)
+            )
         # Emit one canonical mode-binding spelling while accepting legacy input
         # aliases.  This is a transport projection and never changes a target.
         legacy_bindings = profile.get("submission_bindings_by_mode")
@@ -4736,6 +4884,16 @@ def _normalize_hidden_reference_contract(response: dict[str, Any]) -> dict[str, 
         ):
             profile["mode_submission_bindings"] = nested_binding
             profile.pop("submission_binding", None)
+        if isinstance(profile.get("mode_submission_bindings"), dict):
+            profile["mode_submission_bindings"] = {
+                str(mode): _normalize_acceptance_binding_alias(binding)
+                for mode, binding in profile["mode_submission_bindings"].items()
+                if isinstance(binding, dict)
+            }
+        elif isinstance(profile.get("submission_binding"), dict):
+            profile["submission_binding"] = _normalize_acceptance_binding_alias(
+                profile["submission_binding"]
+            )
         if "applies_to_modes" in profile:
             normalized_profile_scope = normalize_mode_scope(profile.get("applies_to_modes"))
             if normalized_profile_scope is not None:

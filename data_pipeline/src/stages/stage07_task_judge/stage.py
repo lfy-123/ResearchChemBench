@@ -43,6 +43,8 @@ from src.stages.stage07_task_judge.prompts import (
     audit_instructions,
 )
 from src.stages.stage07_task_judge.validation import (
+    _file_digest,
+    _normalize_hidden_reference_for_transport,
     _project_hidden_for_mode,
     published_bundle_mechanical_check,
     stage07_mechanical_pre_publish_check,
@@ -50,7 +52,7 @@ from src.stages.stage07_task_judge.validation import (
 )
 from src.stages.stage06_task_builder.validation import canonical_task_pair_id
 
-STAGE07_IMPLEMENTATION_VERSION = "v12-contract-observation-and-publication-state-20260821"
+STAGE07_IMPLEMENTATION_VERSION = "v13-hidden-contract-transport-round4-20260823"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -709,12 +711,54 @@ def _run_audit_repair_agent(
 def _finalize_stage07_response(
     *, response: dict[str, Any], task_root: Path, toolbox: dict[str, Any]
 ) -> dict[str, Any]:
-    """Refresh pair-level file-management metadata without inspecting task content."""
+    """Refresh manifests and canonicalize hidden transport aliases at the artifact boundary."""
 
     decision = str(response.get("audit_decision") or "")
     if decision not in STAGE07_APPROVED_DECISIONS:
         return response
 
+    normalization_records: list[dict[str, Any]] = []
+    common_path = task_root / "hidden_reference" / "ground_truth_common.json"
+    if common_path.is_file():
+        try:
+            before = read_json(common_path)
+            if isinstance(before, dict) and isinstance(
+                before.get("ground_truth_items"), list
+            ) and before.get("ground_truth_items"):
+                after = _normalize_hidden_reference_for_transport(before)
+                if after != before:
+                    before_hash = _file_digest(common_path)
+                    write_json(common_path, after)
+                    normalization_records.append(
+                        {
+                            "kind": "hidden_reference_contract_normalization",
+                            "file": "hidden_reference/ground_truth_common.json",
+                            "before_sha256": before_hash,
+                            "after_sha256": _file_digest(common_path),
+                        }
+                    )
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            # The gate will report an unreadable or incomplete hidden contract;
+            # finalization must not turn a syntax exception into a science verdict.
+            pass
+    if normalization_records:
+        provenance_path = task_root / "orchestrator_normalizations.json"
+        existing: list[dict[str, Any]] = []
+        if provenance_path.is_file():
+            try:
+                value = read_json(provenance_path)
+                if isinstance(value, dict) and isinstance(value.get("records"), list):
+                    existing = [row for row in value["records"] if isinstance(row, dict)]
+            except (OSError, ValueError, TypeError, json.JSONDecodeError):
+                existing = []
+        write_json(
+            provenance_path,
+            {
+                "schema_version": "stage07-normalization-provenance/v1",
+                "records": existing + normalization_records,
+            },
+        )
+        response["orchestrator_normalization_records"] = existing + normalization_records
     write_manifest(task_root, task_root / "task_pair_manifest.json")
     return response
 

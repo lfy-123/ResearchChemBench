@@ -3,7 +3,7 @@ from __future__ import annotations
 STAGE06_REVIEW_VERSION = "v7-stage06-review-round2-ensemble-coverage-20260823"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
-STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
+STAGE06_HIDDEN_VERSION = "v5-stage06-hidden-reference-round4-20260823"
 STAGE06_TASK_PAIR_BUILDER_VERSION = "v7-stage06-builder-round2-ensemble-coverage-20260823"
 STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v7-stage06-converter-round1-decision-protocol-20260823"
 
@@ -948,11 +948,13 @@ represented as an extra Ground Truth/profile. Every emitted acceptance profile m
 item and must apply to at least one public mode.
 
 There is exactly one item-specific Acceptance Profile per frozen Ground Truth item. Keep its id, type, target,
-tolerance, propositions, and other generated typed fields unchanged. Your main job is to replace each profile's
-`submission_binding` placeholders with an executable binding to the frozen public submission contract.
+tolerance, propositions, and other generated typed fields unchanged. Give each profile one executable binding
+contract to the frozen public submission surface: use a shared `submission_binding` when the same representation
+applies to every mode in the profile scope; when representations differ, use
+`mode_submission_bindings` with one row for each applicable public mode. Do not leave a mode-specific profile
+with only another mode's row, and do not emit a redundant shared binding alongside a mode matrix.
 
-Every profile must also contain one `submission_binding` that makes the typed rule executable against the frozen
-public submission contract. It must contain:
+Every selected binding (the shared binding or each applicable mode row) must contain:
 - `artifact_paths`: one or more exact paths from `submission_contract.json`;
 - `observed_fields`: non-empty JSONPath-like selectors, TSV key/column mappings, or `document` for a scored report;
 - Use standard JSONPath spelling for selectors: identifier-like object keys may use dot notation, while keys that

@@ -80,6 +80,81 @@ def normalize_mode_scope(value: Any) -> list[str] | None:
     return [mode for mode in TASK_MODES if mode in normalized]
 
 
+def acceptance_profile_type_findings(
+    profile: dict[str, Any], *, identifier: str | None = None
+) -> list[str]:
+    """Validate only the typed shape of one acceptance profile.
+
+    This helper deliberately does not compare a target with a paper value or decide
+    whether a scientific claim is important.  It checks that a profile has enough
+    typed data for a downstream evaluator to interpret it.  A vector-valued numeric
+    target may use an explicit ``numeric_tolerances`` map (for example one tolerance
+    per reported quantity) instead of a single scalar tolerance and unit; the map is
+    accepted only when every entry is a finite non-negative number.
+    """
+
+    identifier = str(identifier or profile.get("acceptance_profile_id") or "missing")
+    profile_type = str(profile.get("type") or "")
+    findings: list[str] = []
+    if profile_type not in ACCEPTANCE_TYPES:
+        findings.append(f"invalid_acceptance_profile:{identifier}")
+    elif profile_type == "numeric_tolerance":
+        target_present = profile.get("target") is not None
+        unit_present = bool(str(profile.get("unit") or "").strip())
+        raw_vector_tolerances = profile.get("numeric_tolerances")
+        vector_tolerances_valid = isinstance(raw_vector_tolerances, dict) and bool(
+            raw_vector_tolerances
+        )
+        if vector_tolerances_valid:
+            for key, value in raw_vector_tolerances.items():
+                if (
+                    not str(key).strip()
+                    or not isinstance(value, (int, float))
+                    or isinstance(value, bool)
+                    or not math.isfinite(float(value))
+                    or float(value) < 0
+                ):
+                    vector_tolerances_valid = False
+                    break
+        if not target_present or not (unit_present or vector_tolerances_valid):
+            findings.append(f"numeric_acceptance_target_or_unit_missing:{identifier}")
+        scalar_tolerance_present = False
+        for key in ("absolute_tolerance", "relative_tolerance"):
+            value = profile.get(key)
+            if value is None:
+                continue
+            if (
+                not isinstance(value, (int, float))
+                or isinstance(value, bool)
+                or not math.isfinite(float(value))
+                or float(value) < 0
+            ):
+                findings.append(f"numeric_acceptance_tolerance_invalid:{identifier}:{key}")
+            else:
+                scalar_tolerance_present = True
+        if not scalar_tolerance_present and not vector_tolerances_valid:
+            findings.append(f"numeric_acceptance_tolerance_missing:{identifier}")
+    elif profile_type == "categorical" and profile.get("target") is None:
+        findings.append(f"categorical_acceptance_target_missing:{identifier}")
+    elif profile_type == "ranking" and not (
+        profile.get("target_order") or profile.get("required_pairwise_relations")
+    ):
+        findings.append(f"ranking_acceptance_contract_missing:{identifier}")
+    elif profile_type == "trend" and not profile.get("required_trends"):
+        findings.append(f"trend_acceptance_contract_missing:{identifier}")
+    elif profile_type in {"structure_identity", "geometry_metric"} and not (
+        profile.get("target") or profile.get("metrics")
+    ):
+        findings.append(f"structure_acceptance_contract_missing:{identifier}")
+    elif profile_type in {"mechanism_claim", "semantic_propositions"} and not profile.get(
+        "required_propositions"
+    ):
+        findings.append(f"semantic_acceptance_contract_missing:{identifier}")
+    elif profile_type == "artifact_validation" and not profile.get("required_artifacts"):
+        findings.append(f"artifact_acceptance_contract_missing:{identifier}")
+    return findings
+
+
 def canonicalize_complexity_profile(profile: Any) -> dict[str, Any]:
     """Keep only the small, task-level complexity contract.
 
@@ -2202,30 +2277,7 @@ def _acceptance_profile_findings(
 ) -> list[str]:
     identifier = str(profile.get("acceptance_profile_id") or "missing")
     profile_type = profile.get("type")
-    findings: list[str] = []
-    if profile_type == "numeric_tolerance":
-        if profile.get("target") is None or not str(profile.get("unit") or "").strip():
-            findings.append(f"numeric_acceptance_target_or_unit_missing:{identifier}")
-        if profile.get("absolute_tolerance") is None and profile.get("relative_tolerance") is None:
-            findings.append(f"numeric_acceptance_tolerance_missing:{identifier}")
-    elif profile_type == "categorical" and profile.get("target") is None:
-        findings.append(f"categorical_acceptance_target_missing:{identifier}")
-    elif profile_type == "ranking" and not (
-        profile.get("target_order") or profile.get("required_pairwise_relations")
-    ):
-        findings.append(f"ranking_acceptance_contract_missing:{identifier}")
-    elif profile_type == "trend" and not profile.get("required_trends"):
-        findings.append(f"trend_acceptance_contract_missing:{identifier}")
-    elif profile_type in {"structure_identity", "geometry_metric"} and not (
-        profile.get("target") or profile.get("metrics")
-    ):
-        findings.append(f"structure_acceptance_contract_missing:{identifier}")
-    elif profile_type in {"mechanism_claim", "semantic_propositions"} and not profile.get(
-        "required_propositions"
-    ):
-        findings.append(f"semantic_acceptance_contract_missing:{identifier}")
-    elif profile_type == "artifact_validation" and not profile.get("required_artifacts"):
-        findings.append(f"artifact_acceptance_contract_missing:{identifier}")
+    findings = acceptance_profile_type_findings(profile, identifier=identifier)
     if submission_contract is not None:
         findings.extend(
             _submission_binding_findings(

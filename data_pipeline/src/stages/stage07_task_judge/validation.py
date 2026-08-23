@@ -7,6 +7,7 @@ from typing import Any
 
 from src.contracts import read_json, write_json
 from src.stages.stage06_task_builder.validation import (
+    acceptance_profile_type_findings,
     canonicalize_mode_task_contract,
     normalize_submission_contract,
     normalize_process_rubric_contract,
@@ -74,6 +75,24 @@ def _profile_applies_to_mode(profile: dict[str, Any], mode: str) -> tuple[bool, 
     return mode in scope, True
 
 
+def _normalize_hidden_reference_for_transport(value: dict[str, Any]) -> dict[str, Any]:
+    """Use the Stage06 syntax normalizer at the Stage07 artifact boundary.
+
+    The import is intentionally lazy: Stage07 validation must remain usable by
+    lightweight evaluator/gate callers without importing the Stage06 orchestrator
+    during module initialization.  The normalizer only projects aliases and keeps
+    scientific target fields frozen; unsafe omissions remain visible to the typed
+    contract checks below.
+    """
+
+    from src.stages.stage06_task_builder.stage import (
+        _normalize_hidden_reference_contract,
+    )
+
+    normalized = _normalize_hidden_reference_contract(value)
+    return normalized if isinstance(normalized, dict) else value
+
+
 def stage07_mechanical_pre_publish_check(
     pair_root: Path, *, task_pair_id: str | None = None
 ) -> dict[str, Any]:
@@ -88,6 +107,16 @@ def stage07_mechanical_pre_publish_check(
     mode_values: dict[str, dict[str, Any]] = {}
     pair_diagnostics: list[str] = []
     normalization_records: list[dict[str, Any]] = []
+    provenance_path = pair_root / "orchestrator_normalizations.json"
+    if provenance_path.is_file():
+        try:
+            provenance = read_json(provenance_path)
+            if isinstance(provenance, dict) and isinstance(provenance.get("records"), list):
+                normalization_records.extend(
+                    row for row in provenance["records"] if isinstance(row, dict)
+                )
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            findings.append("normalization_provenance_unreadable")
     # The orchestrator owns the deterministic pair identity.  Normalize the private
     # truth identity before checking it, just as mode metadata is normalized below.
     # This changes no scientific field and prevents an Agent-proposed ID from causing
@@ -309,7 +338,30 @@ def stage07_mechanical_pre_publish_check(
         try:
             common_before = read_json(common_path)
             if isinstance(common_before, dict):
-                before_hash = _file_digest(common_path)
+                # Stage07 may receive a repaired artifact directly from an Agent
+                # (without the Stage06 hidden-reference phase).  Apply the same
+                # syntax-only projection at this final transport boundary so
+                # aliases cannot silently bypass typed evaluator checks.
+                has_profile_contract = bool(
+                    isinstance(common_before.get("ground_truth_items"), list)
+                    and common_before.get("ground_truth_items")
+                )
+                if has_profile_contract:
+                    normalized_common = _normalize_hidden_reference_for_transport(
+                        common_before
+                    )
+                    if normalized_common != common_before:
+                        before_hash = _file_digest(common_path)
+                        write_json(common_path, normalized_common)
+                        common_before = normalized_common
+                        normalization_records.append(
+                            {
+                                "kind": "hidden_reference_contract_normalization",
+                                "file": "hidden_reference/ground_truth_common.json",
+                                "before_sha256": before_hash,
+                                "after_sha256": _file_digest(common_path),
+                            }
+                        )
                 mode_schemas = {
                     mode: values["submission"].get("results_schema")
                     for mode, values in mode_values.items()
@@ -318,6 +370,7 @@ def stage07_mechanical_pre_publish_check(
                     common_before, mode_schemas=mode_schemas
                 )
                 if changed_profiles:
+                    before_hash = _file_digest(common_path)
                     write_json(common_path, common_before)
                     normalization_records.append(
                         {
@@ -833,6 +886,10 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                 if not isinstance(profiles, list):
                     findings.append(f"evaluator_acceptance_profiles_not_array:{mode}")
                     profiles = []
+                typed_contract_available = bool(
+                    isinstance(hidden.get("ground_truth_items"), list)
+                    and hidden.get("ground_truth_items")
+                )
                 for profile in profiles:
                     if not isinstance(profile, dict):
                         diagnostics.append(f"evaluator_acceptance_profile_invalid:{mode}")
@@ -853,12 +910,35 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                             f"evaluator_acceptance_profile_not_applicable:{mode}:{profile_id}"
                         )
                         continue
+                    if typed_contract_available:
+                        typed_findings = acceptance_profile_type_findings(
+                            profile, identifier=profile_id
+                        )
+                        for finding in typed_findings:
+                            findings.append(
+                                f"evaluator_acceptance_profile_contract_invalid:{mode}:{finding}"
+                            )
                     binding = _binding_for_mode(profile, mode)
                     if not binding:
+                        if typed_contract_available:
+                            findings.append(
+                                f"evaluator_submission_binding_missing:{mode}:{profile_id}"
+                            )
                         diagnostics.append(
                             f"evaluator_submission_binding_missing:{mode}:{profile_id}"
                         )
                         continue
+                    if typed_contract_available:
+                        if "canonical_projection" not in binding or binding.get(
+                            "canonical_projection"
+                        ) is None:
+                            findings.append(
+                                f"evaluator_binding_projection_missing:{mode}:{profile_id}"
+                            )
+                        if not str(binding.get("comparison") or "").strip():
+                            findings.append(
+                                f"evaluator_binding_comparison_missing:{mode}:{profile_id}"
+                            )
                     fields = _string_list(binding.get("observed_fields"))
                     artifacts = _string_list(binding.get("artifact_paths"))
                     if not fields:
