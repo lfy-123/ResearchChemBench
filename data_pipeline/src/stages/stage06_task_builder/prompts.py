@@ -956,7 +956,9 @@ with only another mode's row, and do not emit a redundant shared binding alongsi
 
 Every selected binding (the shared binding or each applicable mode row) must contain:
 - `artifact_paths`: one or more exact paths from `submission_contract.json`;
-- `observed_fields`: non-empty JSONPath-like selectors, TSV key/column mappings, or `document` for a scored report;
+- `observed_fields`: non-empty JSONPath-like selectors for a structured JSON result, or `document` for a scored
+  report. A CSV/TSV may remain a supporting submission artifact, but do not bind a scored target to an informal
+  key/column expression; expose that scored result in the structured JSON artifact or the scored report instead;
 - Use standard JSONPath spelling for selectors: identifier-like object keys may use dot notation, while keys that
   begin with a digit or contain punctuation must use bracket-quoted notation such as `$['results']['61TS2b']`.
   Do not emit an invalid dot segment for such keys.

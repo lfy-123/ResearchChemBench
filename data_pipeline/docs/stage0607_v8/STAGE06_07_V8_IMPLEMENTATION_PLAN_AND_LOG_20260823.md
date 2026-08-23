@@ -456,6 +456,17 @@ profile/answer 补齐 transport comparison/projection；report-only binding 缺�
 继续阻断。修复后 Stage06/07 相关集合为 `211 passed`，六个历史 pair 的回放边界
 保持不变（3 个恢复、2 个合理阻断、1 个 Stage07B candidate 通过）。
 
+### 2026-08-24：最终 binding Prompt 合同对齐
+
+最终静态审查发现 Stage06 Prompt 仍允许 `TSV key/column mappings`，而 Task Package v1
+运行时合同只实现结构化 JSONPath selector 和显式 document binding。为避免 Agent 生成
+无法执行的第三种评分绑定，本次收窄 Prompt：CSV/TSV 仍可作为辅助提交产物，但被评分的
+目标必须投影到结构化 JSON 结果或明确的评分报告中。本次不新增 tabular binding schema，
+不改变任何科学目标、答案、容差、模式范围或任务资产。
+
+修改后完整 Stage06/07 回归为 `211 passed`；该修复仅消除 Prompt 对运行时不存在能力的
+承诺，并保持任务输出合同精简。
+
 ## 8. 最终对照审查
 
 代码侧已完成一次静态对照：Task Package v1 顶层 allowlist、task.md 唯一指令、
