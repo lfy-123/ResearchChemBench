@@ -445,6 +445,17 @@ Stage07B harness 对上述 smoke 和固定 20 篇回归验证模型是否能完�
 并完成 standalone published-bundle 调用 smoke；没有改变科学字段、答案、容差或
 Stage00–05 文件。
 
+补充：此前记录的 `165 passed, 2 failed` 来自仓库根目录执行
+`data_pipeline/tests/test_stage0607_agents.py`，其中两个测试的相对脚本路径被解析
+到错误的根目录。按项目约定在 `data_pipeline/` 下以 `PYTHONPATH=.` 重新执行，结果为
+`167 passed`；因此这两项不属于基线代码失败。
+
+最后一次回归发现纯 document binding 缺少结构化映射被过度放行的边界问题：只有在
+binding 已经提供明确 JSONPath/`target_fields` 结构化 selector 时，才允许从同一
+profile/answer 补齐 transport comparison/projection；report-only binding 缺少映射
+继续阻断。修复后 Stage06/07 相关集合为 `211 passed`，六个历史 pair 的回放边界
+保持不变（3 个恢复、2 个合理阻断、1 个 Stage07B candidate 通过）。
+
 ## 8. 最终对照审查
 
 代码侧已完成一次静态对照：Task Package v1 顶层 allowlist、task.md 唯一指令、

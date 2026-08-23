@@ -740,7 +740,24 @@ def normalize_binding_contract(
         normalized["artifact_paths"] = artifacts
     if fields:
         normalized["observed_fields"] = fields
-    if artifacts and fields:
+    document_hint = bool(
+        normalized.get("document_binding")
+        or normalized.get("document_target") is not None
+    )
+    structured_fields = [
+        field
+        for field in fields
+        if not is_document_binding_selector(
+            field,
+            artifacts,
+            document_binding=document_hint,
+        )
+    ]
+    # Copying authored answer semantics is safe only when the binding already
+    # identifies a structured result field.  A report-only/document binding
+    # with no projection is a missing scientific mapping and must remain a
+    # finding; otherwise a numeric answer could be silently scored from prose.
+    if artifacts and structured_fields:
         profile = profile or {}
         answer = answer or {}
         if not str(normalized.get("comparison") or "").strip():
