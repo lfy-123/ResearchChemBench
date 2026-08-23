@@ -50,9 +50,12 @@ from src.stages.stage07_task_judge.validation import (
     stage07_mechanical_pre_publish_check,
     validate_agent_audit,
 )
-from src.stages.stage06_task_builder.validation import canonical_task_pair_id
+from src.stages.stage06_task_builder.validation import (
+    canonical_task_pair_id,
+    hidden_reference_transport_findings,
+)
 
-STAGE07_IMPLEMENTATION_VERSION = "v13-hidden-contract-transport-round4-20260823"
+STAGE07_IMPLEMENTATION_VERSION = "v14-hidden-contract-boundary-round5-20260823"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -722,7 +725,10 @@ def _finalize_stage07_response(
     if common_path.is_file():
         try:
             before = read_json(common_path)
-            if isinstance(before, dict) and isinstance(
+            ownership_findings = hidden_reference_transport_findings(
+                before, require_ready_ground_truth=True
+            ) if isinstance(before, dict) else ["hidden_reference_transport_not_object"]
+            if isinstance(before, dict) and not ownership_findings and isinstance(
                 before.get("ground_truth_items"), list
             ) and before.get("ground_truth_items"):
                 after = _normalize_hidden_reference_for_transport(before)

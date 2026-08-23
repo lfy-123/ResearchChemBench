@@ -80,12 +80,13 @@ from src.stages.stage06_task_builder.validation import (
     validate_workflow_review,
     canonicalize_complexity_profile,
     canonicalize_mode_task_contract,
+    hidden_reference_transport_findings,
     normalize_mode_scope,
     anonymous_source_id,
     canonical_task_pair_id,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v15-hidden-contract-transport-round4-20260823"
+STAGE06_IMPLEMENTATION_VERSION = "v16-hidden-contract-boundary-round5-20260823"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
@@ -2253,6 +2254,16 @@ def _task_pair_builder_transport_findings(
         before = read_json(hidden_path)
         if not isinstance(before, dict) or before.get("status") != "ready":
             return []
+    except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+        return [f"hidden_reference_transport_unreadable:{type(exc).__name__}"]
+    ownership_findings = hidden_reference_transport_findings(
+        before, require_ready_ground_truth=True
+    )
+    if ownership_findings:
+        # Keep the model's original contract available for the retry/audit.  A
+        # syntax normalizer must not erase the profile that caused the finding.
+        return sorted(set(ownership_findings))
+    try:
         hidden = _normalize_hidden_reference_contract(before)
         if hidden != before:
             write_json(hidden_path, hidden)
@@ -2277,6 +2288,7 @@ def _task_pair_builder_transport_findings(
             _acceptance_profile_findings(
                 profile,
                 submission_contract=submission if isinstance(submission, dict) else None,
+                required_binding_modes={"paper_reproduction"},
             )
         )
     return sorted(set(findings))
@@ -4633,6 +4645,13 @@ def _hidden_reference_phase_findings(
 ) -> list[str]:
     """Canonicalize syntax while keeping the review's scientific targets frozen."""
 
+    ownership_findings = hidden_reference_transport_findings(
+        response, require_ready_ground_truth=True
+    )
+    if ownership_findings:
+        # Preserve the raw artifact for the bounded retry.  The normalizer is
+        # intentionally not allowed to hide ownership/scope defects.
+        return sorted(set(ownership_findings))
     normalized = _normalize_hidden_reference_contract(response)
     response.clear()
     response.update(normalized)

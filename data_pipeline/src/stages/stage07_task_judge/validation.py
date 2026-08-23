@@ -9,6 +9,7 @@ from src.contracts import read_json, write_json
 from src.stages.stage06_task_builder.validation import (
     acceptance_profile_type_findings,
     canonicalize_mode_task_contract,
+    hidden_reference_transport_findings,
     normalize_submission_contract,
     normalize_process_rubric_contract,
 )
@@ -338,6 +339,10 @@ def stage07_mechanical_pre_publish_check(
         try:
             common_before = read_json(common_path)
             if isinstance(common_before, dict):
+                ownership_findings = hidden_reference_transport_findings(
+                    common_before, require_ready_ground_truth=True
+                )
+                findings.extend(ownership_findings)
                 # Stage07 may receive a repaired artifact directly from an Agent
                 # (without the Stage06 hidden-reference phase).  Apply the same
                 # syntax-only projection at this final transport boundary so
@@ -346,7 +351,10 @@ def stage07_mechanical_pre_publish_check(
                     isinstance(common_before.get("ground_truth_items"), list)
                     and common_before.get("ground_truth_items")
                 )
-                if has_profile_contract:
+                # Do not run a potentially lossy compatibility projection after
+                # an ownership/scope/ambiguity finding.  The raw artifact must
+                # remain available to the audit report and recovery attempt.
+                if has_profile_contract and not ownership_findings:
                     normalized_common = _normalize_hidden_reference_for_transport(
                         common_before
                     )
@@ -362,25 +370,30 @@ def stage07_mechanical_pre_publish_check(
                                 "after_sha256": _file_digest(common_path),
                             }
                         )
-                mode_schemas = {
-                    mode: values["submission"].get("results_schema")
-                    for mode, values in mode_values.items()
-                }
-                changed_profiles = _normalize_hidden_binding_paths(
-                    common_before, mode_schemas=mode_schemas
-                )
-                if changed_profiles:
-                    before_hash = _file_digest(common_path)
-                    write_json(common_path, common_before)
-                    normalization_records.append(
-                        {
-                            "kind": "evaluator_binding_path_normalization",
-                            "file": "hidden_reference/ground_truth_common.json",
-                            "profiles": changed_profiles,
-                            "before_sha256": before_hash,
-                            "after_sha256": _file_digest(common_path),
-                        }
+                # The path compatibility rewrite is also lossy.  Do not apply
+                # it after an ownership/scope/ambiguity finding; preserving the
+                # exact raw contract is necessary for an Agent repair and for
+                # an auditable failure report.
+                if not ownership_findings:
+                    mode_schemas = {
+                        mode: values["submission"].get("results_schema")
+                        for mode, values in mode_values.items()
+                    }
+                    changed_profiles = _normalize_hidden_binding_paths(
+                        common_before, mode_schemas=mode_schemas
                     )
+                    if changed_profiles:
+                        before_hash = _file_digest(common_path)
+                        write_json(common_path, common_before)
+                        normalization_records.append(
+                            {
+                                "kind": "evaluator_binding_path_normalization",
+                                "file": "hidden_reference/ground_truth_common.json",
+                                "profiles": changed_profiles,
+                                "before_sha256": before_hash,
+                                "after_sha256": _file_digest(common_path),
+                            }
+                        )
         except (OSError, ValueError, TypeError, json.JSONDecodeError):
             # The normal evaluator checks below report malformed hidden
             # content.  A best-effort transport repair must not hide that

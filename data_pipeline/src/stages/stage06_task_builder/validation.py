@@ -1503,7 +1503,11 @@ def validate_hidden_reference(
                 findings.append(
                     f"acceptance_profile_mode_scope_invalid:{profile.get('acceptance_profile_id')}"
                 )
-            elif truth_scope is not None and not set(truth_scope).issubset(profile_scope):
+            elif (
+                truth_scope is not None
+                and "applies_to_modes" in profile
+                and set(truth_scope) != set(profile_scope)
+            ):
                 findings.append(
                     f"ground_truth_profile_mode_scope_mismatch:{ground_truth_id}"
                 )
@@ -2274,6 +2278,7 @@ def _acceptance_profile_findings(
     profile: dict[str, Any],
     *,
     submission_contract: dict[str, Any] | None = None,
+    required_binding_modes: set[str] | None = None,
 ) -> list[str]:
     identifier = str(profile.get("acceptance_profile_id") or "missing")
     profile_type = profile.get("type")
@@ -2284,9 +2289,130 @@ def _acceptance_profile_findings(
                 profile,
                 submission_contract=submission_contract,
                 identifier=identifier,
+                required_binding_modes=required_binding_modes,
             )
         )
     return findings
+
+
+def hidden_reference_transport_findings(
+    hidden: Any,
+    *,
+    require_ready_ground_truth: bool = False,
+) -> list[str]:
+    """Check hidden-contract ownership and mode scope before syntax projection.
+
+    This is deliberately a transport check.  It does not inspect a target value,
+    scientific proposition, unit, or comparison semantics.  It exists before the
+    alias normalizer so malformed ownership cannot be hidden by a lossy projection.
+    ``require_ready_ground_truth`` is used at Stage06/07 production boundaries;
+    older lightweight fixtures without a ready status remain compatible.
+    """
+
+    if not isinstance(hidden, dict):
+        return ["hidden_reference_transport_not_object"]
+    # A few evaluator/gate callers intentionally use a minimal legacy envelope
+    # while constructing a task (for example ``expected_result`` only).  The
+    # ownership contract becomes authoritative only once the hidden artifact
+    # explicitly declares ``status=ready``.  Keep those draft/legacy envelopes
+    # observationally compatible; the production Stage06/07 paths invoke this
+    # function with ``require_ready_ground_truth=True`` and therefore still
+    # enforce every finding on a ready contract.
+    if require_ready_ground_truth and hidden.get("status") != "ready":
+        return []
+    raw_truths = hidden.get("ground_truth_items")
+    raw_profiles = hidden.get("acceptance_profiles")
+    findings: list[str] = []
+    if not isinstance(raw_truths, list):
+        findings.append("hidden_ground_truth_items_not_array")
+        raw_truths = []
+    if not isinstance(raw_profiles, list):
+        findings.append("hidden_reference_profiles_not_array")
+        raw_profiles = []
+    truths = [row for row in raw_truths if isinstance(row, dict)]
+    profiles = [row for row in raw_profiles if isinstance(row, dict)]
+    if any(not isinstance(row, dict) for row in raw_truths):
+        findings.append("hidden_ground_truth_item_not_object")
+    if any(not isinstance(row, dict) for row in raw_profiles):
+        findings.append("hidden_reference_profile_not_object")
+    authoritative_ownership = bool(truths) or (
+        require_ready_ground_truth and hidden.get("status") == "ready"
+    )
+    if require_ready_ground_truth and hidden.get("status") == "ready" and not truths:
+        findings.append("hidden_ground_truth_empty")
+
+    truth_refs: dict[str, list[str]] = {}
+    truth_scopes: dict[str, list[str]] = {}
+    for index, truth in enumerate(truths, start=1):
+        truth_id = str(truth.get("ground_truth_id") or f"missing-{index}")
+        raw_reference = str(
+            truth.get("acceptance_profile_id")
+            or truth.get("acceptance_profile")
+            or ""
+        ).strip()
+        if authoritative_ownership and not raw_reference:
+            findings.append(f"ground_truth_profile_missing:{truth_id}")
+        if raw_reference:
+            truth_refs.setdefault(raw_reference, []).append(truth_id)
+        scope = normalize_mode_scope(truth.get("applies_to_modes"))
+        if scope is None and "applies_to_modes" in truth:
+            findings.append(f"ground_truth_mode_scope_invalid:{truth_id}")
+        elif scope is not None:
+            truth_scopes[truth_id] = scope
+
+    profile_ids: dict[str, list[dict[str, Any]]] = {}
+    for profile in profiles:
+        profile_id = str(
+            profile.get("acceptance_profile_id") or profile.get("profile_id") or ""
+        ).strip()
+        if not profile_id:
+            findings.append("acceptance_profile_id_missing")
+            continue
+        profile_ids.setdefault(profile_id, []).append(profile)
+        scope = normalize_mode_scope(profile.get("applies_to_modes"))
+        if scope is None and "applies_to_modes" in profile:
+            findings.append(f"acceptance_profile_mode_scope_invalid:{profile_id}")
+        shared = profile.get("submission_binding")
+        has_mode_matrix = any(
+            isinstance(profile.get(key), dict)
+            for key in ("mode_submission_bindings", "submission_bindings_by_mode")
+        )
+        # A profile must have exactly one binding source.  Even a legacy
+        # nested mode map under ``submission_binding`` is ambiguous when a
+        # canonical mode matrix is also present: the two maps can disagree and
+        # the normalizer would otherwise silently choose one.
+        if has_mode_matrix and isinstance(shared, dict):
+            findings.append(f"acceptance_submission_binding_ambiguous:{profile_id}")
+
+    if authoritative_ownership:
+        for profile_id, rows in profile_ids.items():
+            if len(rows) != 1:
+                findings.append(f"acceptance_profile_not_item_specific:{profile_id}")
+            if profile_id not in truth_refs:
+                findings.append(f"acceptance_profile_orphan:{profile_id}")
+        for profile_id, owners in truth_refs.items():
+            if len(owners) != 1:
+                findings.append(f"acceptance_profile_not_item_specific:{profile_id}")
+            if profile_id not in profile_ids:
+                for truth_id in owners:
+                    findings.append(f"ground_truth_profile_missing:{truth_id}")
+                continue
+            profile = profile_ids[profile_id][0]
+            profile_scope = normalize_mode_scope(profile.get("applies_to_modes"))
+            if profile_scope is None:
+                continue
+            # A profile without an explicit scope inherits its owner's scope
+            # during the normalizer.  Once both sides explicitly declare a
+            # scope, they must describe the same public modes; allowing a
+            # profile to cover extra modes would make the evaluator inspect a
+            # binding for which no Ground Truth exists.
+            if "applies_to_modes" not in profile:
+                continue
+            for truth_id in owners:
+                truth_scope = truth_scopes.get(truth_id)
+                if truth_scope is not None and set(truth_scope) != set(profile_scope):
+                    findings.append(f"ground_truth_profile_mode_scope_mismatch:{truth_id}")
+    return sorted(set(findings))
 
 
 def _submission_binding_findings(
@@ -2294,6 +2420,7 @@ def _submission_binding_findings(
     *,
     submission_contract: dict[str, Any],
     identifier: str,
+    required_binding_modes: set[str] | None = None,
 ) -> list[str]:
     findings: list[str] = []
     required_paths = {
@@ -2344,7 +2471,8 @@ def _submission_binding_findings(
         for mode in scope:
             binding = mode_bindings.get(mode)
             if not isinstance(binding, dict) or not binding:
-                findings.append(f"acceptance_submission_binding_missing:{identifier}:{mode}")
+                if required_binding_modes is None or mode in required_binding_modes:
+                    findings.append(f"acceptance_submission_binding_missing:{identifier}:{mode}")
                 continue
             # A mode matrix may legitimately point at a different required
             # artifact in the other public mode.  Validate path safety here;
