@@ -368,6 +368,15 @@ mode/type 身份、hidden reference 投影、public allowlist、runner 隔离、
 
 ## 9. 20 篇模型回归结果
 
-代码提交后提交。模型组合为 Stage06A/06B=`deepseek-v4-pro-0813`、
-Stage07A/Stage07B=`gpt-5.6-sol`，Codex harness、high reasoning、并发 20；提交后
-只记录运行目录和终态，不在本轮持续轮询。
+已提交运行（代码 commit `082d116`）：
+
+```text
+runs/stage06-07-v8-deepseek-gpt20-concurrency20-20260823
+```
+
+模型组合为 Stage06A/06B=`deepseek-v4-pro-0813`、Stage07A/Stage07B=`gpt-5.6-sol`，
+Codex harness、high reasoning、论文并发 `20`。批次于 `2026-08-23T15:29:10Z`
+写入 `batch_status.json`，20 个 paper worker 均已建立；结果目录和每篇
+`papers/<paper_id>/run_status.json` 由批处理器维护。首次尝试中的 paper ID 拼写错误
+在参数校验阶段退出，没有生成或修改任何论文结果，随后已用上一批次 manifest 的合法
+20 个 ID 重新提交。
