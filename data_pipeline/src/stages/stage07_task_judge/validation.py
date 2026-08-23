@@ -738,6 +738,14 @@ def published_bundle_mechanical_check(bundle_root: Path) -> dict[str, Any]:
     # validator instead of requiring the retired task_spec/submission_contract
     # files that belonged to the private audited tree.
     if (bundle_root / "package_manifest.json").is_file():
+        # Keep this public helper usable when callers import validation.py
+        # directly, without first importing package.py (which normally inserts
+        # the repository root into sys.path as a side effect).
+        import sys
+
+        repo_root = Path(__file__).resolve().parents[4]
+        if str(repo_root) not in sys.path:
+            sys.path.insert(0, str(repo_root))
         from researchchembench_contracts import validate_task_package
 
         package_report = validate_task_package(bundle_root)

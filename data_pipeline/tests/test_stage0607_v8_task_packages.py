@@ -331,6 +331,37 @@ def test_artifact_row_binding_projects_selector_and_authored_semantics(tmp_path:
     assert binding["document_binding"] is True
 
 
+def test_shared_artifact_row_binding_is_not_dropped(tmp_path: Path):
+    pair = _pair(tmp_path)
+    hidden_path = pair / "hidden_reference" / "ground_truth_common.json"
+    hidden = json.loads(hidden_path.read_text(encoding="utf-8"))
+    profile = hidden["acceptance_profiles"][0]
+    profile.pop("mode_submission_bindings", None)
+    profile["submission_binding"] = {
+        "artifacts": [
+            {"path": "report/results.json", "json_path": "$.value"},
+        ],
+    }
+    hidden_path.write_text(json.dumps(hidden, indent=2) + "\n", encoding="utf-8")
+    reference = project_computational_reference(
+        hidden=hidden,
+        task_type="paper_reproduction",
+        task_id="fixture_reproduction",
+        process_rubric=json.loads(
+            (pair / "paper_reproduction" / "process_rubric.json").read_text(
+                encoding="utf-8"
+            )
+        ),
+    )
+    binding = next(
+        item
+        for item in reference["submission_bindings"]
+        if item["acceptance_profile_id"] == "ap_value"
+    )
+    assert binding["artifact_paths"] == ["report/results.json"]
+    assert binding["observed_fields"] == ["$.value"]
+
+
 def test_stage07_pair_assembly_publishes_both_modes_only_after_validation(tmp_path: Path):
     pair = _pair(tmp_path)
     reports = _assemble_task_packages_atomically(

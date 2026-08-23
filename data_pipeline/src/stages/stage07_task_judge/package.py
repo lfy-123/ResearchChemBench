@@ -133,8 +133,11 @@ def _selected_binding(profile: dict[str, Any], task_type: str) -> dict[str, Any]
             "artifact_paths",
             "artifact_path",
             "artifact",
+            "artifacts",
             "observed_fields",
             "observed_field",
+            "target_fields",
+            "field",
             "document_target",
         )
     ):
