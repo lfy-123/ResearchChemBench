@@ -15,15 +15,18 @@ from flask_cors import CORS
 from ..execution.runner import TaskRunner
 from ..provenance.trace import load_tool_trace
 from ..repository import (
+    TaskRepositoryError,
     build_file_tree,
+    get_task_directory,
     get_run_workspace,
     list_runs,
     list_tasks_grouped,
+    load_task_package,
     load_task_info,
     safe_resolve,
 )
 from ..scoring.service import score_run
-from ..settings import AGENT_PRESETS, TASKS_DIR
+from ..settings import AGENT_PRESETS
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
@@ -61,13 +64,16 @@ def api_tasks():
 def api_task_info(task_id: str):
     try:
         return jsonify(load_task_info(task_id))
-    except (FileNotFoundError, ValueError):
+    except (FileNotFoundError, ValueError, TaskRepositoryError):
         return jsonify({"error": "Task not found"}), 404
 
 
 @app.route("/api/tasks/<task_id>/files")
 def api_task_files(task_id: str):
-    data_dir = TASKS_DIR / task_id / "data"
+    try:
+        data_dir = get_task_directory(task_id) / "data"
+    except (FileNotFoundError, TaskRepositoryError):
+        return jsonify([])
     if not data_dir.is_dir():
         return jsonify([])
     return jsonify(build_file_tree(data_dir, "data"))
@@ -75,7 +81,10 @@ def api_task_files(task_id: str):
 
 @app.route("/api/tasks/<task_id>/file")
 def api_task_file(task_id: str):
-    data_dir = TASKS_DIR / task_id / "data"
+    try:
+        data_dir = get_task_directory(task_id) / "data"
+    except (FileNotFoundError, TaskRepositoryError):
+        return jsonify({"error": "File not found"}), 404
     user_path = request.args.get("path", "")
     if user_path.startswith("data/"):
         user_path = user_path[5:]
@@ -96,8 +105,17 @@ def api_start_run():
     data = request.get_json(silent=True) or {}
     task_id = data.get("task_id", "")
     agent_key = data.get("agent", "")
-    if not (TASKS_DIR / task_id / "task_info.json").is_file():
+    try:
+        package = load_task_package(task_id)
+    except (FileNotFoundError, TaskRepositoryError):
         return jsonify({"error": "Unknown task"}), 404
+    if not package.runnable:
+        return jsonify(
+            {
+                "error": "Task is not runnable",
+                "reasons": list(package.unavailable_reasons),
+            }
+        ), 409
     if agent_key not in AGENT_PRESETS:
         return jsonify({"error": "Unknown agent preset"}), 400
     runner = TaskRunner(task_id, agent_key=agent_key)

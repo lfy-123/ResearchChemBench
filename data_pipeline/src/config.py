@@ -168,6 +168,9 @@ def load_config(path: str | Path) -> dict[str, Any]:
     stage07.setdefault("audit_repair_max_tool_calls", 120)
     stage07.setdefault("audit_repair_finalization_reserve", 16)
     stage07.setdefault("audit_repair_recovery_max_tool_calls", 160)
+    stage07.setdefault("stage07b_enabled", True)
+    stage07.setdefault("stage07b_max_tool_calls", 40)
+    stage07.setdefault("stage07b_timeout_seconds", 1800)
     stage07.setdefault("model_context_window", 1_000_000)
     stage07.setdefault("model_auto_compact_token_limit", 750_000)
     stage07.setdefault("model_auto_compact_token_limit_scope", "total")
@@ -416,6 +419,11 @@ def _validate(config: dict[str, Any]) -> None:
             raise ValueError(f"{stage}.max_attempts must be at least 1")
         if not isinstance(config[stage].get("resume"), bool):
             raise ValueError(f"{stage}.resume must be true or false")
+    if not isinstance(config["stage07"].get("stage07b_enabled"), bool):
+        raise ValueError("stage07.stage07b_enabled must be true or false")
+    for key in ("stage07b_max_tool_calls", "stage07b_timeout_seconds"):
+        if int(config["stage07"].get(key, 1)) < 1:
+            raise ValueError(f"stage07.{key} must be positive")
     for role in MODEL_ROLES:
         model = models[role]
         if model.get("enabled", True) and (not model.get("base_url") or not model.get("model")):
@@ -449,7 +457,7 @@ def _validate(config: dict[str, Any]) -> None:
         suffixes = (
             ("task_pair_builder", "autonomous_converter", "scientific_review")
             if stage_name == "stage06"
-            else ("audit_repair", "objective_audit")
+            else ("audit_repair", "objective_audit", "contract_repair")
         )
         for suffix in suffixes:
             for key, allowed in (

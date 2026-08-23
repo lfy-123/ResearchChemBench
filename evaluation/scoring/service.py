@@ -17,7 +17,7 @@ from ..provenance.trace import (
     normalized_tool_calls,
     process_metrics,
 )
-from ..repository import get_run_workspace, load_ground_truth
+from ..repository import get_run_workspace, load_ground_truth, load_task_package
 from ..settings import JUDGE_API_BASE, JUDGE_API_KEY, JUDGE_MODEL_NAME
 from .policies import (
     _apply_criterion_score_limit,
@@ -40,6 +40,7 @@ from .prompts import (
     RUBRIC_JUDGE_USER_TEMPLATE,
     STRICT_AUTONOMOUS_DISCOVERY_JUDGE_PROMPT,
 )
+from .adapters import EvaluatorAdapterError, RuntimeEvaluation, load_runtime_evaluation
 
 
 def _default_judge_call(
@@ -209,7 +210,30 @@ def score_workspace(
     if not report_path.is_file() or not report_path.read_text(encoding="utf-8").strip():
         return {"error": "No non-empty report/report.md found"}
 
-    truth = load_ground_truth(task_id)
+    try:
+        package = load_task_package(task_id)
+        if package.is_v1:
+            runtime_evaluation = load_runtime_evaluation(task_id)
+        else:
+            legacy_truth = load_ground_truth(task_id)
+            runtime_evaluation = RuntimeEvaluation(
+                ground_truth=legacy_truth,
+                adapter_id="legacy-ground-truth-adapter.v1",
+                policy_id=str(
+                    legacy_truth.get("dual_axis_scoring_policy", {}).get("policy_id")
+                    or "legacy"
+                ),
+                task_type=package.task_type,
+                reference_schema=package.reference_schema,
+                package_content_sha256="",
+                package_format=package.package_format,
+            )
+    except (EvaluatorAdapterError, FileNotFoundError, ValueError) as exc:
+        return {
+            "error": f"Evaluator contract unavailable: {type(exc).__name__}: {exc}",
+            "task_id": task_id,
+        }
+    truth = runtime_evaluation.ground_truth
     report = report_path.read_text(encoding="utf-8", errors="replace")
     try:
         events = load_tool_trace(workspace, strict=True)
@@ -610,9 +634,14 @@ def score_workspace(
         "query": meta.get("query", ""),
         "expected_tool_calls": truth.get("expected_tool_calls", []),
         "actual_tool_calls": actual_calls,
-        "expected_result": truth.get("expected_result", ""),
         "evaluation_mode": evaluation_mode,
         "evaluation_profile": truth.get("evaluation_profile", ""),
+        "task_type": runtime_evaluation.task_type,
+        "task_package_format": runtime_evaluation.package_format,
+        "task_package_content_sha256": runtime_evaluation.package_content_sha256,
+        "reference_schema": runtime_evaluation.reference_schema,
+        "evaluator_adapter_id": runtime_evaluation.adapter_id,
+        "evaluation_policy_id": runtime_evaluation.policy_id,
         "score": verdict["score"],
         "score_max": verdict["score_max"],
         "normalized_score": (
@@ -661,6 +690,8 @@ def score_workspace(
         "judge_usage": raw_verdict.get("_judge_usage"),
         "scored_at": datetime.now(timezone.utc).isoformat(),
     }
+    if runtime_evaluation.package_format == "legacy":
+        result["expected_result"] = truth.get("expected_result", "")
     if verdict["parse_error"]:
         result["error"] = verdict["parse_error"]
     score_path = workspace / "_score.json"

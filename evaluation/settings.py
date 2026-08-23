@@ -14,6 +14,36 @@ load_dotenv(PROJECT_ROOT / "config.local.env", override=False)
 load_dotenv(Path(__file__).parent / ".env", override=False)
 
 TASKS_DIR = Path(os.environ.get("RESEARCHCHEMBENCH_TASKS_DIR", PROJECT_ROOT / "tasks")).resolve()
+
+
+def _configured_task_roots() -> tuple[Path, ...]:
+    """Return ordered, de-duplicated read-only task roots.
+
+    ``RESEARCHCHEMBENCH_TASK_ROOTS`` is the v2 multi-producer interface.  It
+    accepts the platform path separator, commas, or newlines so shell and
+    service configuration can use whichever representation is most natural.
+    The original single ``TASKS_DIR`` remains the default and the legacy API
+    surface, but an explicit roots setting replaces rather than silently
+    appends it.
+    """
+
+    raw = os.environ.get("RESEARCHCHEMBENCH_TASK_ROOTS", "").strip()
+    if not raw:
+        return (TASKS_DIR,)
+    normalized = raw.replace("\n", os.pathsep).replace(",", os.pathsep)
+    values: list[Path] = []
+    seen: set[Path] = set()
+    for item in normalized.split(os.pathsep):
+        if not item.strip():
+            continue
+        path = Path(item.strip()).expanduser().resolve()
+        if path not in seen:
+            values.append(path)
+            seen.add(path)
+    return tuple(values) or (TASKS_DIR,)
+
+
+TASK_ROOTS = _configured_task_roots()
 WORKSPACES_DIR = Path(
     os.environ.get("RESEARCHCHEMBENCH_WORKSPACES_DIR", PROJECT_ROOT / "workspaces")
 ).resolve()

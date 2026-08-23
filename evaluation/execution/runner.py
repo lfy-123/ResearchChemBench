@@ -14,7 +14,13 @@ from chemistry_toolbox.src.catalog import (
 )
 from chemistry_toolbox.src.distributed_pool import pool_snapshot
 
-from ..repository import load_task_info, load_task_text
+from ..repository import (
+    TaskNotRunnableError,
+    TaskRepository,
+    load_task_info,
+    load_task_package,
+    load_task_text,
+)
 from ..settings import (
     AGENT_PRESETS,
     DEFAULT_AGENT_TIMEOUT_SECONDS,
@@ -34,7 +40,6 @@ from ..settings import (
     DEFAULT_MCP_TOOL_TIMEOUT_MS,
     DEFAULT_PROGRESS_CONSOLE,
     DEFAULT_PROGRESS_MAX_CHARS,
-    TASKS_DIR,
     WORKSPACES_DIR,
 )
 from .agent_adapter import AgentAdapterMixin
@@ -77,9 +82,18 @@ class TaskRunner(
         if agent_key not in AGENT_PRESETS:
             raise ValueError(f"Unknown agent preset: {agent_key}")
         self.task_id = task_id
-        self.task_dir = TASKS_DIR / task_id
-        self.task_info = load_task_info(task_id)
-        self.task_text = load_task_text(task_id)
+        self.task_repository = TaskRepository()
+        self.task_package = load_task_package(
+            task_id, repository=self.task_repository
+        )
+        if self.task_package.is_v1 and not self.task_package.runnable:
+            raise TaskNotRunnableError(
+                f"Task is catalogued but not runnable: {task_id}: "
+                + ",".join(self.task_package.unavailable_reasons)
+            )
+        self.task_dir = self.task_package.directory
+        self.task_info = load_task_info(task_id, repository=self.task_repository)
+        self.task_text = load_task_text(task_id, repository=self.task_repository)
         self.agent_key = agent_key
         self.agent = AGENT_PRESETS[agent_key]
         self.agent_name = self.agent["label"]
@@ -145,6 +159,7 @@ class TaskRunner(
         self.thread: threading.Thread | None = None
         self._stop_requested = False
         self._opencode_runtime_database: Path | None = None
+        self.public_task_files: list[str] = []
 
     def resource_budget_record(self) -> dict[str, Any]:
         if self.execution_mode == "distributed":

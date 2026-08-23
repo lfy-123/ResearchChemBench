@@ -13,6 +13,7 @@ from zipfile import ZipFile
 from chemistry_toolbox.src.catalog import catalog_snapshot, toolbox_overview
 from chemistry_toolbox.src.distributed_pool import pool_snapshot
 
+from ..repository import materialize_agent_files
 from .instructions import INSTRUCTIONS_TEMPLATE
 
 
@@ -115,17 +116,32 @@ class WorkspaceLifecycleMixin:
             if deliverable_lines
             else "- `report/report.md`: final answer and artifact-linked scientific account."
         )
+        task_type = str(self.task_info.get("task_type") or "").strip()
+        default_mode = task_type or "standard_autonomous_investigation"
+        if task_type == "paper_reproduction":
+            default_mode_description = (
+                "Reproduce the declared scientific workflow and report newly generated evidence."
+            )
+        elif task_type == "autonomous_research":
+            default_mode_description = (
+                "The scientific objective and public boundaries are fixed; choose and justify "
+                "a valid workflow without access to the private reference."
+            )
+        else:
+            default_mode_description = (
+                "The objective is fixed, while scientific planning and execution remain autonomous."
+            )
         return INSTRUCTIONS_TEMPLATE.format(
             workspace=str(self.workspace.resolve()),
             task_desc=self.task_text,
             category=self.task_info.get("category", "uncategorized"),
             data_text=data_text,
             scientific_mode=self.task_info.get(
-                "scientific_mode", "standard_autonomous_investigation"
+                "scientific_mode", default_mode
             ),
             scientific_mode_description=self.task_info.get(
                 "scientific_mode_description",
-                "The objective is fixed, while scientific planning and execution remain autonomous.",
+                default_mode_description,
             ),
             scientific_requirements=requirements_text,
             execution_resource_guidance=self._execution_resource_guidance(),
@@ -254,11 +270,12 @@ class WorkspaceLifecycleMixin:
         if not self.task_dir.is_dir():
             raise FileNotFoundError(f"Task not found: {self.task_id}")
         self.workspace.mkdir(parents=True, exist_ok=False)
-        source_data = self.task_dir / "data"
-        if source_data.exists():
-            shutil.copytree(source_data, self.workspace / "data", dirs_exist_ok=True)
-        else:
-            (self.workspace / "data").mkdir()
+        self.public_task_files = materialize_agent_files(
+            self.task_id,
+            self.workspace,
+            repository=self.task_repository,
+        )
+        (self.workspace / "data").mkdir(exist_ok=True)
         self._extract_task_archives()
         for directory in (
             "code",
@@ -271,8 +288,9 @@ class WorkspaceLifecycleMixin:
         ):
             (self.workspace / directory).mkdir(parents=True, exist_ok=True)
 
-        # Input data is copied but made read-only for the normal benchmark path.
-        for path in (self.workspace / "data").rglob("*"):
+        # Public task definitions and input data are immutable inside a run.
+        for relative in self.public_task_files:
+            path = self.workspace / relative
             if path.is_file():
                 path.chmod(0o444)
 
@@ -300,5 +318,10 @@ class WorkspaceLifecycleMixin:
                 "instruction_bytes": self.instructions_path.stat().st_size,
                 "catalog_snapshot_bytes": catalog_path.stat().st_size,
                 "mcp_public_tool_count": len(self._mcp_server_specs()[0].get("tools", [])),
+                "task_package_format": self.task_package.package_format,
+                "task_type": self.task_package.task_type,
+                "reference_schema": self.task_package.reference_schema,
+                "task_package_content_sha256": self.task_package.package_content_sha256,
+                "public_task_files": self.public_task_files,
             },
         )

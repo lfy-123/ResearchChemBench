@@ -3,6 +3,18 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
+from evaluation.execution.runner import TaskRunner
+from evaluation.repository import (
+    DuplicateTaskIdError,
+    TaskNotRunnableError,
+    TaskRepository,
+    load_private_reference,
+    materialize_agent_files,
+)
+from evaluation.scoring.adapters import load_runtime_evaluation
+from evaluation.scoring.service import score_workspace
 from researchchembench_contracts import (
     COMPUTATIONAL_REFERENCE_SCHEMA_V1,
     PACKAGE_MANIFEST_SCHEMA_V1,
@@ -163,6 +175,47 @@ def _package(tmp_path: Path, *, task_id: str = "fixture_reproduction") -> Path:
     return root
 
 
+def _rewrite_package(
+    root: Path,
+    *,
+    task_type: str | None = None,
+    readiness: str | None = None,
+    reference_schema: str | None = None,
+) -> None:
+    info_path = root / "task_info.json"
+    info = json.loads(info_path.read_text(encoding="utf-8"))
+    if task_type:
+        info["task_type"] = task_type
+    if readiness:
+        info["runtime_readiness"] = readiness
+    if reference_schema:
+        info["reference_schema"] = reference_schema
+    _write_json(info_path, info)
+
+    reference_path = root / "evaluation" / "reference.json"
+    reference = json.loads(reference_path.read_text(encoding="utf-8"))
+    if task_type in {"paper_reproduction", "autonomous_research"}:
+        reference["task_type"] = task_type
+    if reference_schema:
+        reference["schema_version"] = reference_schema
+        if reference_schema != COMPUTATIONAL_REFERENCE_SCHEMA_V1:
+            reference = {
+                "schema_version": reference_schema,
+                "task_id": info["task_id"],
+                "payload": {"future_adapter_owned": True},
+            }
+    _write_json(reference_path, reference)
+
+    manifest_path = root / "package_manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["task_type"] = info["task_type"]
+    manifest["reference_schema"] = info["reference_schema"]
+    entries = package_payload_entries(root)
+    manifest["entries"] = [entry.model_dump(mode="json") for entry in entries]
+    manifest["package_content_sha256"] = package_content_hash(entries)
+    _write_json(manifest_path, manifest)
+
+
 def test_task_package_v1_round_trip(tmp_path: Path):
     root = _package(tmp_path)
     report = validate_task_package(root)
@@ -220,3 +273,193 @@ def test_task_package_v1_requires_explicit_structured_binding_schema(tmp_path: P
     report = validate_task_package(root)
     assert report.status == "failed"
     assert any("binding_schema_path_open" in item for item in report.findings)
+
+
+def test_repository_v2_recurses_filters_and_keeps_private_reference_private(
+    tmp_path: Path,
+):
+    ready = _package(
+        tmp_path / "paper_reproduction", task_id="fixture_reproduction"
+    )
+    pending = _package(
+        tmp_path / "autonomous_research", task_id="fixture_autonomous"
+    )
+    _rewrite_package(
+        pending, task_type="autonomous_research", readiness="needs_software"
+    )
+    repository = TaskRepository([tmp_path])
+
+    assert [item.task_id for item in repository.list()] == [
+        "fixture_autonomous",
+        "fixture_reproduction",
+    ]
+    assert [
+        item.task_id
+        for item in repository.list(task_type="paper_reproduction", runnable_only=True)
+    ] == ["fixture_reproduction"]
+    assert [
+        item.task_id
+        for item in repository.list(readiness="needs_software")
+    ] == ["fixture_autonomous"]
+    with pytest.raises(PermissionError):
+        load_private_reference("fixture_reproduction", repository=repository)
+    assert (
+        load_private_reference(
+            "fixture_reproduction",
+            evaluator_context=True,
+            repository=repository,
+        )["task_id"]
+        == "fixture_reproduction"
+    )
+
+    workspace = tmp_path / "materialized"
+    copied = materialize_agent_files(
+        "fixture_reproduction", workspace, repository=repository
+    )
+    assert copied == [
+        "data/inputs/structure.xyz",
+        "submission_schema.json",
+        "task.md",
+    ]
+    assert not (workspace / "evaluation").exists()
+    assert not (workspace / "task_info.json").exists()
+    assert not (workspace / "package_manifest.json").exists()
+    assert ready.is_dir()
+
+
+def test_repository_v2_catalogs_unknown_adapter_but_will_not_run_it(tmp_path: Path):
+    package = _package(
+        tmp_path / "experiment_validation", task_id="fixture_experiment"
+    )
+    _rewrite_package(
+        package,
+        task_type="experiment_validation",
+        reference_schema="experiment-validation-reference.future",
+    )
+    repository = TaskRepository([tmp_path])
+    record = repository.get("fixture_experiment")
+    assert record.evaluation_ready is False
+    assert record.runnable is False
+    assert repository.list(runnable_only=True) == []
+
+
+def test_repository_v2_rejects_global_task_id_collision(tmp_path: Path):
+    _package(
+        tmp_path / "first" / "paper_reproduction",
+        task_id="duplicate_fixture",
+    )
+    _package(
+        tmp_path / "second" / "paper_reproduction",
+        task_id="duplicate_fixture",
+    )
+    with pytest.raises(DuplicateTaskIdError, match="duplicate_task_id"):
+        TaskRepository([tmp_path / "first", tmp_path / "second"])
+
+
+def test_legacy_adapter_reads_embedded_instruction_without_creating_task_md(
+    tmp_path: Path,
+):
+    root = tmp_path / "legacy_fixture"
+    _write_json(
+        root / "task_info.json",
+        {
+            "task_id": "legacy_fixture",
+            "source_id": "legacy_source",
+            "category": "legacy",
+            "task": "Legacy embedded instruction.",
+        },
+    )
+    _write_json(root / "target_study" / "ground_truth.json", {})
+    repository = TaskRepository([tmp_path])
+    assert repository.get("legacy_fixture").package_format == "legacy"
+    assert not (root / "task.md").exists()
+
+
+@pytest.mark.parametrize(
+    ("task_type", "task_id"),
+    [
+        ("paper_reproduction", "runtime_reproduction"),
+        ("autonomous_research", "runtime_autonomous"),
+    ],
+)
+def test_v1_runner_isolates_reference_and_dual_axis_adapter_scores(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    task_type: str,
+    task_id: str,
+):
+    task_root = _package(tmp_path / "tasks" / task_type, task_id=task_id)
+    _rewrite_package(task_root, task_type=task_type)
+    monkeypatch.setattr("evaluation.repository.TASK_ROOTS", (tmp_path / "tasks",))
+
+    runner = TaskRunner(task_id, agent_key="mock", workspace_root=tmp_path / "runs")
+    runner.setup_workspace()
+    assert not (runner.workspace / "evaluation").exists()
+    assert not (runner.workspace / "task_info.json").exists()
+    assert (runner.workspace / "submission_schema.json").is_file()
+    metadata = json.loads((runner.workspace / "_meta.json").read_text(encoding="utf-8"))
+    assert metadata["task_type"] == task_type
+    assert metadata["task_package_content_sha256"]
+
+    runtime = load_runtime_evaluation(task_id)
+    truth = runtime.ground_truth
+    assert truth["evaluation_mode"] == "dual_axis_100"
+    assert sum(item["max_score"] for item in truth["scoring_rubric"]) == 100
+    assert sum(
+        item["max_score"] for item in truth["scientific_conclusion_rubric"]
+    ) == 100
+    assert runtime.policy_id == "dual_axis_100.v1"
+
+    (runner.workspace / "report" / "report.md").write_text(
+        "Computed result with linked evidence.\n", encoding="utf-8"
+    )
+    verdict = {
+        "scientific_conclusions": [
+            {
+                "id": item["id"],
+                "score": item["max_score"],
+                "max_score": item["max_score"],
+                "evidence_status": "supported",
+                "rationale": "fixture",
+            }
+            for item in truth["scientific_conclusion_rubric"]
+        ],
+        "scientific_conclusion_score": 100,
+        "process_criteria": [
+            {
+                "id": item["id"],
+                "score": item["max_score"],
+                "max_score": item["max_score"],
+                "rationale": "fixture",
+            }
+            for item in truth["scoring_rubric"]
+        ],
+        "research_process_score": 100,
+        "submission_validity": "valid",
+        "critical_failures": [],
+        "objective_issue_flags": [],
+        "rationale": "fixture",
+    }
+    result = score_workspace(runner.workspace, judge_call=lambda _prompt: verdict)
+    assert result["score"] == 100
+    assert result["evaluator_adapter_id"] == "computational-science-dual-axis.v1"
+    assert result["evaluation_policy_id"] == "dual_axis_100.v1"
+    assert "expected_result" not in result
+
+
+def test_v1_runner_rejects_unregistered_evaluator_adapter(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    package = _package(
+        tmp_path / "tasks" / "experiment_validation", task_id="future_experiment"
+    )
+    _rewrite_package(
+        package,
+        task_type="experiment_validation",
+        reference_schema="experiment-validation-reference.future",
+    )
+    monkeypatch.setattr("evaluation.repository.TASK_ROOTS", (tmp_path / "tasks",))
+    with pytest.raises(TaskNotRunnableError, match="evaluator_adapter_unavailable"):
+        TaskRunner(
+            "future_experiment", agent_key="mock", workspace_root=tmp_path / "runs"
+        )

@@ -5,7 +5,10 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Any
 
+DUAL_AXIS_POLICY_ID = "dual_axis_100.v1"
+
 DUAL_AXIS_POLICY: dict[str, Any] = {
+    "policy_id": DUAL_AXIS_POLICY_ID,
     "formula": "scientific_conclusion_score * research_process_score / 100",
     "scientific_conclusion_score_max": 100,
     "research_process_score_max": 100,

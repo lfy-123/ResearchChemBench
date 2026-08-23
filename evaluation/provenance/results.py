@@ -132,6 +132,13 @@ def build_workspace_results(workspace: str | Path) -> dict[str, Any]:
         "task": {
             "id": meta.get("task_id", score.get("task_id", "")),
             "category": meta.get("category", ""),
+            "type": score.get("task_type") or meta.get("task_type", ""),
+            "package_format": score.get("task_package_format")
+            or meta.get("task_package_format", ""),
+            "package_content_sha256": score.get("task_package_content_sha256")
+            or meta.get("task_package_content_sha256", ""),
+            "reference_schema": score.get("reference_schema")
+            or meta.get("reference_schema", ""),
             "scientific_mode": meta.get("scientific_mode", ""),
             "evaluation_mode": score.get("evaluation_mode", ""),
             "evaluation_profile": score.get("evaluation_profile", ""),
@@ -157,6 +164,8 @@ def build_workspace_results(workspace: str | Path) -> dict[str, Any]:
         "judge": {
             "model": score.get("judge_model") or meta.get("configured_judge_model", ""),
             "scored_at": score.get("scored_at"),
+            "evaluator_adapter_id": score.get("evaluator_adapter_id", ""),
+            "evaluation_policy_id": score.get("evaluation_policy_id", ""),
             "usage": judge_tokens,
         },
         "score": score_summary,

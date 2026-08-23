@@ -444,6 +444,14 @@ DECISION SEMANTICS
   separate mechanical schema/binding load check after your artifact is written; real scoring is not
   run before an evaluated submission exists, and this field is never a substitute for scientific audit.
 
+STAGE07B HANDOFF
+If the scientific audit is approved but the orchestrator reports only an allowlisted transport
+finding (for example a mode-specific binding/path or manifest shape mismatch), leave the scientific
+decision unchanged and report the exact finding. Do not alter answers, tolerances, inputs, workflow,
+physical boundaries, task.md, or mode scope merely to make the mechanical check pass. A separate,
+narrow Stage07B contract-repair phase may receive that exact finding; it has no source-material
+access and cannot reopen this scientific decision.
+
 OUTPUT CONTRACT
 For every approved decision, leave these components under `outputs/task_pair/`:
 - `paper_info.json`

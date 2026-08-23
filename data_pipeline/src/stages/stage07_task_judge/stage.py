@@ -49,6 +49,10 @@ from src.stages.stage07_task_judge.validation import (
     validate_agent_audit,
 )
 from src.stages.stage07_task_judge.package import assemble_task_packages
+from src.stages.stage07_contract_repair import (
+    classify_technical_findings,
+    run_stage07b_repair,
+)
 from src.stages.stage06_task_builder.validation import (
     canonical_task_pair_id,
     hidden_reference_transport_findings,
@@ -67,6 +71,96 @@ STAGE07_ELIGIBLE_STAGE06_DECISIONS = {
     "provisional_not_constructible",
     "constructed",
 }
+
+
+def _task_package_findings(
+    reports: dict[str, dict[str, Any]] | None,
+) -> list[str]:
+    """Flatten package-validator findings without interpreting their meaning."""
+
+    return sorted(
+        {
+            str(finding)
+            for report in (reports or {}).values()
+            if report.get("status") != "passed"
+            for finding in report.get("findings") or []
+            if str(finding).strip()
+        }
+    )
+
+
+def _task_packages_passed(reports: dict[str, dict[str, Any]] | None) -> bool:
+    return bool(reports) and set(reports) == {
+        "paper_reproduction",
+        "autonomous_research",
+    } and all(report.get("status") == "passed" for report in reports.values())
+
+
+def _assemble_task_packages_atomically(
+    *,
+    pair_root: Path,
+    stage_root: Path,
+    task_family_id: str,
+    runtime_readiness: str,
+    paper_id: str,
+) -> dict[str, dict[str, Any]]:
+    """Validate both mode packages in a private staging tree before publishing.
+
+    The package assembler validates each mode independently.  Stage07 must
+    expose neither a half pair nor a stale destination while a companion mode
+    is invalid, so this wrapper gives each attempt a private root and commits
+    both validated trees only after the complete pair passes.
+    """
+
+    attempt = stage_root / "package_staging" / safe_component(paper_id) / (
+        f"attempt-{uuid.uuid4().hex[:8]}"
+    )
+    attempt.mkdir(parents=True, exist_ok=False)
+    try:
+        reports = assemble_task_packages(
+            pair_root=pair_root,
+            final_tasks_root=attempt,
+            task_family_id=task_family_id,
+            runtime_readiness=runtime_readiness,
+        )
+        if not _task_packages_passed(reports):
+            # The attempt tree is about to be removed.  Never expose a path
+            # to a successfully validated companion mode when the pair as a
+            # whole was not publishable.
+            return {
+                mode: {
+                    **report,
+                    "path": "",
+                }
+                for mode, report in reports.items()
+            }
+        published: dict[str, dict[str, Any]] = {}
+        for mode, report in reports.items():
+            source = Path(str(report["path"])).resolve()
+            destination = (
+                stage_root / "final_tasks" / mode / safe_component(str(report["task_id"]))
+            )
+            atomic_commit_tree(source, destination)
+            published[mode] = {
+                **report,
+                "path": str(destination),
+            }
+        return published
+    finally:
+        # The staging tree is private and contains no user data outside the
+        # audited pair.  Remove it after either a failed validation or a
+        # successful atomic commit.
+        if attempt.exists():
+            make_writable(attempt)
+            shutil.rmtree(attempt, ignore_errors=True)
+        for parent in (attempt.parent, attempt.parent.parent):
+            try:
+                parent.rmdir()
+            except OSError:
+                # Another paper/attempt may still use the shared staging
+                # parent; leaving a harmless empty directory is preferable to
+                # touching anything outside this scoped tree.
+                pass
 
 
 def _write_stage07_audit_index(root: Path) -> None:
@@ -206,6 +300,43 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                     target, task_pair_id=canonical_task_pair_id(paper_id)
                 )
                 write_json(target / "mechanical_pre_publish_report.json", mechanical_report)
+                stage07b_report: dict[str, Any] = {"status": "not_run"}
+
+                # Stage07B is a single bounded attempt.  It may be needed
+                # either for the ordinary mechanical gate or for a later
+                # Task Package v1 validator finding; both are transport-only
+                # paths and never reopen the Stage07A scientific audit.
+                stage07b_attempted = False
+
+                def _try_stage07b(findings: list[str]) -> None:
+                    nonlocal mechanical_report, stage07b_report, stage07b_attempted
+                    if stage07b_attempted:
+                        return
+                    stage07b_attempted = True
+                    stage07b_report = run_stage07b_repair(
+                        harness=harness,
+                        stage_root=stage_root,
+                        paper_id=paper_id,
+                        task_pair_id=canonical_task_pair_id(paper_id),
+                        audited_root=target,
+                        findings=findings,
+                        config=config,
+                    )
+                    response["stage07b_status"] = stage07b_report.get(
+                        "status", "unknown"
+                    )
+                    response["stage07b_report"] = stage07b_report
+                    if stage07b_report.get("status") == "repaired":
+                        mechanical_report = stage07b_report.get(
+                            "mechanical_after", mechanical_report
+                        )
+                        write_json(
+                            target / "mechanical_pre_publish_report.json",
+                            mechanical_report,
+                        )
+
+                if mechanical_report.get("mechanical_pre_publish_status") != "passed":
+                    _try_stage07b(mechanical_report.get("findings", []))
                 write_manifest(target, target / "audit_manifest.json")
                 response["orchestrator_mechanical_status"] = (
                     "passed"
@@ -228,25 +359,60 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                         if response.get("toolbox_status") == "needs_software"
                         else "ready"
                     )
-                    task_package_reports = assemble_task_packages(
+                    task_package_reports = _assemble_task_packages_atomically(
                         pair_root=target,
-                        final_tasks_root=stage_root / "final_tasks",
+                        stage_root=stage_root,
                         task_family_id=final_task_pair_id or task_pair_id,
                         runtime_readiness=runtime_readiness,
+                        paper_id=paper_id,
                     )
                     final_task_paths = {
                         mode: str(report["path"])
                         for mode, report in task_package_reports.items()
                         if report.get("status") == "passed" and report.get("path")
                     }
-                    package_findings = sorted(
-                        {
-                            str(finding)
-                            for report in task_package_reports.values()
-                            if report.get("status") != "passed"
-                            for finding in report.get("findings") or []
-                        }
-                    )
+                    package_findings = _task_package_findings(task_package_reports)
+
+                    # A package-only contract mismatch (for example an
+                    # existing binding walking through an open object schema)
+                    # is discovered after the pre-publish evaluator dry run.
+                    # Give the same narrow Stage07B one chance to repair it,
+                    # then rerun both validators.  Unknown findings remain a
+                    # visible technical block.
+                    if (
+                        not _task_packages_passed(task_package_reports)
+                        and not stage07b_attempted
+                    ):
+                        package_classification = classify_technical_findings(
+                            package_findings
+                        )
+                        if package_classification.get("eligible"):
+                            _try_stage07b(package_findings)
+                            if (
+                                stage07b_report.get("status") == "repaired"
+                                and mechanical_report.get(
+                                    "mechanical_pre_publish_status"
+                                )
+                                == "passed"
+                            ):
+                                write_manifest(target, target / "audit_manifest.json")
+                                task_package_reports = _assemble_task_packages_atomically(
+                                    pair_root=target,
+                                    stage_root=stage_root,
+                                    task_family_id=final_task_pair_id or task_pair_id,
+                                    runtime_readiness=runtime_readiness,
+                                    paper_id=paper_id,
+                                )
+                                final_task_paths = {
+                                    mode: str(report["path"])
+                                    for mode, report in task_package_reports.items()
+                                    if report.get("status") == "passed"
+                                    and report.get("path")
+                                }
+                                package_findings = _task_package_findings(
+                                    task_package_reports
+                                )
+
                     if len(final_task_paths) == len(task_package_reports) == 2:
                         response["publication_state"] = (
                             "approved_needs_software"
@@ -268,8 +434,18 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                     response["orchestrator_mechanical_findings"] = mechanical_report.get(
                         "findings", []
                     )
-                    response["publication_state"] = "mechanical_blocked"
-                    response["blocking_phase"] = "prepublish_mechanical"
+                    if stage07b_report.get("status") in {
+                        "technical_blocked",
+                        "unresolved",
+                        "agent_failure",
+                    }:
+                        response["publication_state"] = "technical_blocked"
+                        response["blocking_phase"] = "stage07b"
+                    else:
+                        response["publication_state"] = "mechanical_blocked"
+                        response["blocking_phase"] = "prepublish_mechanical"
+                response["stage07b_status"] = stage07b_report.get("status", "not_run")
+                response["stage07b_report"] = stage07b_report
                 write_json(target / "stage07_audit.json", response)
                 write_manifest(target, target / "audit_manifest.json")
                 final_path = str(target)
@@ -332,6 +508,8 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 "orchestrator_normalization_records": response.get(
                     "orchestrator_normalization_records", []
                 ),
+                "stage07b_status": response.get("stage07b_status", "not_run"),
+                "stage07b_report": response.get("stage07b_report", {}),
                 "task_package_reports": task_package_reports,
                 "task_pair_path": final_path,
                 "final_task_paths": final_task_paths,
@@ -414,6 +592,19 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
         "mechanical_contract_passed": sum(
             bool(row.get("mechanical_contract_passed")) for row in records
         ),
+        "stage07b_invoked": sum(
+            row.get("stage07b_status")
+            not in {None, "not_run", "not_eligible", "disabled"}
+            for row in records
+        ),
+        "stage07b_repaired": sum(
+            row.get("stage07b_status") == "repaired" for row in records
+        ),
+        "stage07b_blocked": sum(
+            row.get("stage07b_status")
+            in {"technical_blocked", "unresolved", "agent_failure"}
+            for row in records
+        ),
         "publish_ready": sum(bool(row.get("publish_ready")) for row in records),
         "publication_states": {
             state: sum(row.get("publication_state") == state for row in records)
@@ -427,7 +618,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
         },
         "blocking_phases": {
             phase: sum(row.get("blocking_phase") == phase for row in records)
-            for phase in ("prepublish_mechanical", "task_package")
+            for phase in ("prepublish_mechanical", "stage07b", "task_package")
         },
         "final_tasks": sum(len(row.get("final_task_paths") or {}) for row in records),
         "paper_ids": sorted({str(row.get("paper_id")) for row in records if row.get("paper_id")}),
@@ -654,25 +845,6 @@ def _run_audit_repair_agent(
             )
             write_json(outputs / "stage07_audit.json", response)
             _require_stage07_artifact_delivery(response, root, result)
-            if response.get("audit_decision") in STAGE07_APPROVED_DECISIONS:
-                mechanical_report = stage07_mechanical_pre_publish_check(
-                    outputs / "task_pair", task_pair_id=canonical_task_pair_id(paper_id)
-                )
-                write_json(root / "mechanical_pre_publish_report.json", mechanical_report)
-                if mechanical_report.get("mechanical_pre_publish_status") != "passed":
-                    # Mechanical findings are surfaced to the orchestrator and
-                    # handled as a bounded publication block.  They must not
-                    # trigger another full-paper Stage07 scientific review.
-                    response["orchestrator_mechanical_status"] = "blocked"
-                    response["orchestrator_mechanical_findings"] = mechanical_report.get(
-                        "findings", []
-                    )
-                else:
-                    response["orchestrator_mechanical_status"] = "passed"
-                response["orchestrator_schema_load_diagnostic"] = mechanical_report.get(
-                    "schema_load_diagnostic", "not_run"
-                )
-                write_json(outputs / "stage07_audit.json", response)
         except AgentExecutionError as exc:
             last_error = exc
             recovery_context = agent_recovery_context(exc.result)

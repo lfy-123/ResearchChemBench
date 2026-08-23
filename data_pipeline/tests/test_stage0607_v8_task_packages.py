@@ -16,6 +16,7 @@ from src.stages.stage07_task_judge.package import (
     canonical_mode_task_id,
     project_computational_reference,
 )
+from src.stages.stage07_task_judge.stage import _assemble_task_packages_atomically
 
 
 def _write_json(path: Path, value: object) -> None:
@@ -242,6 +243,36 @@ def test_stage07_assembles_clean_complete_task_packages(tmp_path: Path):
         assert "task" not in info
         assert "task_mode" not in info
         assert validate_task_package(root).status == "passed"
+
+
+def test_stage07_pair_assembly_publishes_both_modes_only_after_validation(tmp_path: Path):
+    pair = _pair(tmp_path)
+    reports = _assemble_task_packages_atomically(
+        pair_root=pair,
+        stage_root=tmp_path / "stage",
+        task_family_id="paper_fixture_task_pair",
+        runtime_readiness="ready",
+        paper_id="paper_fixture",
+    )
+    assert all(report["status"] == "passed" for report in reports.values())
+    assert all(Path(report["path"]).is_dir() for report in reports.values())
+    assert not (tmp_path / "stage" / "package_staging" / "paper_fixture").exists()
+
+    # A companion-mode validation failure must not publish a new half pair.
+    bad_pair = _pair(tmp_path / "bad")
+    (bad_pair / "autonomous_research" / "process_rubric.json").write_text(
+        "[]\n", encoding="utf-8"
+    )
+    bad_reports = _assemble_task_packages_atomically(
+        pair_root=bad_pair,
+        stage_root=tmp_path / "bad_stage",
+        task_family_id="paper_fixture_task_pair",
+        runtime_readiness="ready",
+        paper_id="paper_fixture",
+    )
+    assert bad_reports["autonomous_research"]["status"] == "failed"
+    assert all(not report.get("path") for report in bad_reports.values())
+    assert not (tmp_path / "bad_stage" / "final_tasks").exists()
 
 
 def test_failed_package_does_not_leave_half_task(tmp_path: Path):

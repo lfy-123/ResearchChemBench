@@ -48,6 +48,10 @@ class RunLifecycleMixin:
             "tool_discovery_mode": self.tool_discovery_mode,
             "query": self.task_text,
             "category": self.task_info.get("category", ""),
+            "task_package_format": self.task_package.package_format,
+            "task_type": self.task_package.task_type,
+            "reference_schema": self.task_package.reference_schema,
+            "task_package_content_sha256": self.task_package.package_content_sha256,
             "scientific_mode": self.task_info.get("scientific_mode", ""),
             "scientific_mode_description": self.task_info.get(
                 "scientific_mode_description", ""
