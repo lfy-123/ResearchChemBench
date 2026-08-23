@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v7-stage07-audit-round1-decision-protocol-20260823"
+STAGE07_AUDIT_VERSION = "v7-stage07-audit-round2-ensemble-coverage-20260823"
 
 
 def audit_instructions(
@@ -97,6 +97,13 @@ SCIENTIFIC WORKFLOW
    require both scientific sides unless an evidence-backed source/input blocker makes one side
    unconstructible. Missing software must never appear in a scope downgrade rationale; retain the
    scientific scope and record the installation gap separately.
+   Apply the same sufficiency test to series, ensembles, and weighted aggregates: a single conformer,
+   state, member, or response branch is not enough to establish an ensemble-dependent final claim
+   merely because it is a direct component. Accept it only when the source defines that member as an
+   independently decisive subquestion; otherwise redesign to the smallest closed scope that still
+   answers a central claim, or reject. If a source-controlling field remains unresolved for any scored
+   branch, that branch cannot be marked closed just because another branch is closed; remove it from
+   scoring only with an explicit evidence-backed scope decision.
 6. Check workflow consistency generically as a chain: input structure/state → computational action
    → produced artifact → scientific validation criterion → bound Ground Truth/key point. Flag or
    repair mismatches such as an input state that cannot produce the claimed output, a validation

@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-STAGE06_REVIEW_VERSION = "v7-stage06-review-round1-decision-protocol-20260823"
+STAGE06_REVIEW_VERSION = "v7-stage06-review-round2-ensemble-coverage-20260823"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v4-stage06-hidden-reference-sixth-round-20260819"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v7-stage06-builder-round1-decision-protocol-20260823"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v7-stage06-builder-round2-ensemble-coverage-20260823"
 STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v7-stage06-converter-round1-decision-protocol-20260823"
 
 
@@ -141,6 +141,11 @@ OBJECTIVE-FIRST SELECTION
 5. The selected scope must close the chain from problem inputs to meaningful intermediate and final
    scientific conclusions. It may include competing hypotheses, negative results, descriptor tests,
    selectivity comparisons, or validation branches.
+   When the paper's conclusion depends on a series, paired comparison, state/conformer ensemble,
+   or weighted aggregate, one member alone is only an intermediate/supporting calculation. Do not
+   call such a member the most important closed subworkflow unless the source explicitly treats that
+   member as an independent decisive question; otherwise include the required comparison/ensemble
+   scope or record why no central closed alternative exists.
 6. Do not require a fixed step count or coverage of every paper calculation. The selected objective
    must nevertheless contain a non-trivial author-performed computational-chemistry, molecular-
    simulation, or scientific-modeling workflow that produces new computational evidence. Simple
