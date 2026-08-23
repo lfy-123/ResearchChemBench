@@ -432,6 +432,19 @@ Stage07B harness 对上述 smoke 和固定 20 篇回归验证模型是否能完�
 - 尚未解决的问题；
 - 是否改变科学语义（正常应为否，Prompt 修改需单独说明）。
 
+### 2026-08-24：后续静态审查补丁（commit `7eca759`）
+
+又发现并修复两处通用运输健壮性问题：
+
+- shared `submission_binding` 使用 `artifacts`/`target_fields` 时，package assembler
+  不再把 binding 误识别为空；
+- `published_bundle_mechanical_check()` 被单独导入时也会显式准备 repository
+  import path，不依赖 `package.py` 的导入副作用。
+
+新增回归为 `25 passed, 3 deselected`（排除需要外部 runner 的 `v1_runner` smoke），
+并完成 standalone published-bundle 调用 smoke；没有改变科学字段、答案、容差或
+Stage00–05 文件。
+
 ## 8. 最终对照审查
 
 代码侧已完成一次静态对照：Task Package v1 顶层 allowlist、task.md 唯一指令、
