@@ -5,7 +5,7 @@ STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v5-stage06-hidden-reference-round4-20260823"
 STAGE06_TASK_PAIR_BUILDER_VERSION = "v9-stage06-builder-agent-self-check-20260824"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v9-stage06-converter-agent-self-check-20260824"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v10-stage06-converter-external-only-gate-20260824"
 
 
 def task_pair_builder_instructions(
@@ -535,9 +535,10 @@ The conversion report is optional and its absence is not a conversion failure. A
 is more important than a verbose final message; keep the response small and
 make every claimed path relative to `outputs/`. The orchestrator can recover a report from the
 response when a compliant report file was not written.
-Before the receipt, run `python inputs/tools/phase_gate.py --phase stage06b --root outputs`, repair
-all applicable findings in place, and rerun it after repairs. Do not remove physical boundaries or
-scientific deliverables merely to make the transport check pass.
+The orchestrator will run one independent, read-only transport/public-contract check after your
+receipt. Do not attempt to satisfy that later check by removing physical boundaries or scientific
+deliverables. Return a receipt that describes the files actually present under
+`outputs/autonomous_research/`.
 """
 
 

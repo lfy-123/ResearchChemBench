@@ -88,7 +88,7 @@ from src.stages.stage06_task_builder.validation import (
 )
 from src.stages.phase_gate import install_phase_gate_tool
 
-STAGE06_IMPLEMENTATION_VERSION = "v19-agent-self-check-external-gate-20260824"
+STAGE06_IMPLEMENTATION_VERSION = "v20-stage06b-external-only-gate-20260824"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
@@ -252,6 +252,7 @@ def _run_stage06_single_agent(
                 fingerprint_value={
                     "snapshot_hash": snapshot["snapshot_hash"],
                     "prompt_version": STAGE06_TASK_PAIR_BUILDER_VERSION,
+                    "phase_gate_mode": "agent_and_external",
                     "receipt_schema": canonical_hash(STAGE06_TASK_PAIR_BUILDER_SCHEMA),
                     "workflow_schema": canonical_hash(STAGE06_WORKFLOW_REVIEW_SCHEMA),
                     "harness": harness_name,
@@ -271,9 +272,9 @@ def _run_stage06_single_agent(
                     include_visual_fallback=bool(config.get("stage06_include_visual_fallback", False)),
                 ),
                 phase_gate_validator=_stage06a_phase_gate_findings,
-                phase_gate_max_checks=2,
+                phase_gate_max_checks=1,
                 phase_gate_fail_open=True,
-                phase_gate_agent_self_check=True,
+                phase_gate_mode="agent_and_external",
                 phase_gate_prepare=lambda root: canonicalize_mode_task_contract(
                     root / "outputs" / "paper_reproduction",
                     expected_mode="paper_reproduction",
@@ -365,6 +366,7 @@ def _run_stage06_single_agent(
                             else review.get("objective_card") or {}
                         ),
                         "prompt_version": STAGE06_AUTONOMOUS_CONVERTER_VERSION,
+                        "phase_gate_mode": "external_only",
                         "harness": converter_harness_name,
                         "model": converter_harness.model,
                     },
@@ -376,9 +378,9 @@ def _run_stage06_single_agent(
                     ),
                     semantic_validator=_converter_execution_findings,
                     phase_gate_validator=_converter_contract_gate_findings,
-                    phase_gate_max_checks=2,
+                    phase_gate_max_checks=1,
                     phase_gate_fail_open=True,
-                    phase_gate_agent_self_check=True,
+                    phase_gate_mode="external_only",
                     phase_gate_prepare=lambda root: canonicalize_mode_task_contract(
                         root / "outputs" / "autonomous_research",
                         expected_mode="autonomous_research",
@@ -1819,7 +1821,8 @@ def _run_phase(
     phase_gate_validator: Callable[[dict[str, Any], Path], list[str]] | None = None,
     phase_gate_max_checks: int | None = None,
     phase_gate_fail_open: bool | None = None,
-    phase_gate_agent_self_check: bool = False,
+    phase_gate_mode: str | None = None,
+    phase_gate_agent_self_check: bool | None = None,
     phase_gate_prepare: Callable[[Path], list[str]] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any], Path | None]:
     fingerprint = input_fingerprint(fingerprint_value)
@@ -1834,12 +1837,29 @@ def _run_phase(
         stage_root / "checkpoints" / safe_component(paper_id) / f"{safe_component(phase)}.json"
     )
     failure_checkpoint = checkpoint.with_suffix(".failure.json")
-    gate_enabled = phase_gate_validator is not None
-    # v9: the Agent performs the interactive self-check in its own workspace;
-    # the orchestrator performs one independent, read-only check afterwards.
-    # The legacy bounded recovery path remains available to direct callers and
-    # old fixtures by leaving this flag false.
-    external_gate_only = bool(gate_enabled and phase_gate_agent_self_check)
+    if phase_gate_mode is None:
+        # Backward compatibility for direct callers and old fixtures.  New phase
+        # call sites must choose an explicit mode so that “no Agent self-check”
+        # cannot accidentally select the legacy Gate-recovery path.
+        phase_gate_mode = (
+            "agent_and_external"
+            if phase_gate_agent_self_check
+            else "bounded_recovery"
+        )
+    allowed_gate_modes = {
+        "agent_and_external",
+        "external_only",
+        "bounded_recovery",
+        "none",
+    }
+    if phase_gate_mode not in allowed_gate_modes:
+        raise ValueError(
+            f"unsupported phase_gate_mode={phase_gate_mode!r}; "
+            f"expected one of {sorted(allowed_gate_modes)}"
+        )
+    gate_enabled = phase_gate_validator is not None and phase_gate_mode != "none"
+    agent_self_check = phase_gate_mode == "agent_and_external"
+    external_gate_path = phase_gate_mode in {"agent_and_external", "external_only"}
     gate_limit = max(
         1,
         int(
@@ -1886,7 +1906,7 @@ def _run_phase(
                 else []
             )
             cached_gate_status = str(response.get("phase_gate_status") or "")
-            if external_gate_only and cached_workspace is not None:
+            if external_gate_path and cached_workspace is not None:
                 preparation_findings = (
                     phase_gate_prepare(cached_workspace)
                     if phase_gate_prepare is not None
@@ -1905,7 +1925,7 @@ def _run_phase(
                     "attempt": 1,
                     "max_checks": 1,
                     "findings": cached_findings,
-                    "agent_self_check_required": True,
+                    "agent_self_check_required": agent_self_check,
                     "created_at": now_utc(),
                 }
                 write_json(cached_workspace / "phase_gate_report.json", cached_report)
@@ -1923,7 +1943,7 @@ def _run_phase(
                     {**(cached.get("agent_run") or {}), "cache_hit": True},
                     cached_workspace,
                 )
-            if gate_enabled and not external_gate_only and cached_gate_status == "bypassed_with_warnings":
+            if gate_enabled and not external_gate_path and cached_gate_status == "bypassed_with_warnings":
                 return (
                     response,
                     {**(cached.get("agent_run") or {}), "cache_hit": True},
@@ -1931,7 +1951,7 @@ def _run_phase(
                 )
             cached_gate_findings = (
                 phase_gate_validator(response, cached_workspace)
-                if gate_enabled and not external_gate_only and cached_workspace is not None
+                if gate_enabled and not external_gate_path and cached_workspace is not None
                 else []
             )
             if cached_gate_findings:
@@ -1978,7 +1998,7 @@ def _run_phase(
                 )
 
     attempts = max(1, int(config.get("max_attempts", 3)))
-    if gate_enabled and not external_gate_only:
+    if gate_enabled and not external_gate_path:
         # A phase Gate has its own two-check budget.  Do not let a legacy
         # max_attempts=1 setting accidentally turn the second Gate check into
         # an execution failure.
@@ -2065,7 +2085,7 @@ def _run_phase(
             },
         )
         phase_instructions = instructions
-        if phase_gate_agent_self_check:
+        if agent_self_check:
             self_check_phase = {
                 "task_pair_builder": "stage06a",
                 "autonomous_converter": "stage06b",
@@ -2318,7 +2338,7 @@ last self-check, not an earlier draft.
                     )
             _require_claimed_phase_artifact(result.response or {}, attempt_root, result)
             if gate_enabled:
-                if external_gate_only and phase_gate_prepare is not None:
+                if external_gate_path and phase_gate_prepare is not None:
                     # Normalize deterministic enum/ID wrappers before the
                     # independent final check.  The callback is transport-only
                     # and its findings remain visible in the Gate report.
@@ -2330,7 +2350,7 @@ last self-check, not an earlier draft.
                     set(preparation_findings)
                     | set(phase_gate_validator(result.response or {}, attempt_root))
                 )
-                if external_gate_only:
+                if external_gate_path:
                     gate_report = {
                         "schema_version": "stage06-07-phase-gate/v2",
                         "phase": phase,
@@ -2340,7 +2360,7 @@ last self-check, not an earlier draft.
                         "attempt": gate_checks,
                         "max_checks": 1,
                         "findings": gate_findings,
-                        "agent_self_check_required": True,
+                        "agent_self_check_required": agent_self_check,
                         "created_at": now_utc(),
                     }
                     write_json(attempt_root / "phase_gate_report.json", gate_report)
@@ -2359,7 +2379,7 @@ last self-check, not an earlier draft.
                     write_json(attempt_root / "agent_run.json", result.audit_record())
                     # Continue through normal artifact persistence below.
                     gate_findings = []
-                if not external_gate_only and gate_findings:
+                if not external_gate_path and gate_findings:
                     gate_status = (
                         "bypassed_with_warnings"
                         if gate_fail_open and gate_checks >= gate_limit
@@ -2429,7 +2449,7 @@ last self-check, not an earlier draft.
                         retryable=True,
                         result=result,
                     )
-                if not external_gate_only:
+                if not external_gate_path:
                     gate_report = {
                         "schema_version": "stage06-07-phase-gate/v1",
                         "phase": phase,

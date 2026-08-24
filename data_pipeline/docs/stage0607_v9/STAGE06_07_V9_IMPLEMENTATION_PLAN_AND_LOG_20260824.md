@@ -98,3 +98,40 @@
   `runs/stage06-07-v9-gpt20-codex-20260824/`。提交时 `batch_status.json` 已写入
   `state=RUNNING`、20 篇清单、Stage06/Stage07 模型均为 `gpt-5.6-sol`、harness 为
   `codex`；后续结果分析待测试进程结束后进行。
+
+### v9b-step-0：Stage06B Gate 职责重审
+
+用户确认 Stage06B 不必保留 Agent-facing Gate 自查，但不能取消进入 Stage07 前的外部只读
+检查。新增方案文档：
+`STAGE06_07_V9B_STAGE06B_EXTERNAL_ONLY_GATE_PLAN_20260824.md`。
+
+当前 v9 GPT 批次的 5 个 Stage06 retryable failure 主要发生在转换语义/预算路径，不能证明
+Stage06B Agent 自查带来了收益；因此本轮将其改为 external-only，而 Stage06A 保留
+agent-and-external。
+
+### v9b-step-1：显式 Gate 模式与 Stage06B external-only
+
+- `_run_phase()` 新增 `phase_gate_mode`：`agent_and_external`、`external_only`、
+  `bounded_recovery`、`none`。
+- Stage06A 明确使用 `agent_and_external`；Stage06B 明确使用 `external_only`，外部检查
+  只执行一次，不触发 Gate finding recovery 或 Codex resume。
+- 旧调用未传新参数时仍映射到原 bounded-recovery 行为，保持历史 fixture 兼容。
+- 修正外部报告的 `agent_self_check_required`，Stage06B 为 false；Gate 模式加入 phase
+  fingerprint，避免旧 checkpoint 静默复用。
+- Stage06B prompt 删除强制运行 `phase_gate.py --phase stage06b`，改为说明编排器会执行
+  一次独立只读检查；版本更新为 `v10-stage06-converter-external-only-gate-20260824`。
+- 新增回归：external-only 单次调用、无自查 prompt、finding 不触发恢复；Stage06A 自查
+  prompt 保持；旧 bounded-recovery 测试继续保留。
+
+已完成的定向回归：
+
+```text
+PYTHONPATH=.:.. pytest -q \
+  tests/test_stage0607_v9_self_check.py \
+  tests/test_stage0607_v8_early_gate.py \
+  tests/test_stage0607_v5_contracts.py
+29 passed
+```
+
+后续：运行完整 Stage06/07 回归、提交本轮 Git commit，然后从历史科学批准样本中固定
+抽取 10 篇执行 GPT/Codex 测试并记录逐篇 Gate 轨迹。
