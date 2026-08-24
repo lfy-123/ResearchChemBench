@@ -4,8 +4,8 @@ STAGE06_REVIEW_VERSION = "v7-stage06-review-round2-ensemble-coverage-20260823"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v5-stage06-hidden-reference-round4-20260823"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v8-stage06-builder-early-gate-20260824"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v8-stage06-converter-early-gate-20260824"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v9-stage06-builder-agent-self-check-20260824"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v9-stage06-converter-agent-self-check-20260824"
 
 
 def task_pair_builder_instructions(
@@ -394,10 +394,14 @@ On an objective recovery attempt, preserve source-backed work already written an
 interrupted artifact. Recheck scientific facts against the immutable input snapshot; never fill a
 missing structure, route parameter, or Ground Truth by guessing.
 \nSTAGE06A PREFLIGHT GATE
-If `RECOVERY_CONTEXT.md` lists deterministic handoff findings, repair those fields once while
-preserving the scientific scope and authored claims. A second Gate warning is fail-open workflow
-telemetry, not permission to omit an artifact silently. The `claim_role=final` check only requires
-that at least one final claim is declared; never promote an intermediate claim to satisfy it.
+If `RECOVERY_CONTEXT.md` lists deterministic handoff findings, treat them as transport hints and
+repair the named fields while preserving the scientific scope and authored claims. The
+`claim_role=final` check only requires that at least one final claim is declared; never promote an
+intermediate claim to satisfy it.
+After the artifact is complete, run `python inputs/tools/phase_gate.py --phase stage06a --root outputs`.
+Read all returned findings, repair them in this workspace, and rerun the tool as needed before
+writing the receipt. This self-check is transport-only and must not be satisfied by deleting
+scientific content.
 """
 
 
@@ -531,6 +535,9 @@ The conversion report is optional and its absence is not a conversion failure. A
 is more important than a verbose final message; keep the response small and
 make every claimed path relative to `outputs/`. The orchestrator can recover a report from the
 response when a compliant report file was not written.
+Before the receipt, run `python inputs/tools/phase_gate.py --phase stage06b --root outputs`, repair
+all applicable findings in place, and rerun it after repairs. Do not remove physical boundaries or
+scientific deliverables merely to make the transport check pass.
 """
 
 

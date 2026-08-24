@@ -86,8 +86,9 @@ from src.stages.stage06_task_builder.validation import (
     anonymous_source_id,
     canonical_task_pair_id,
 )
+from src.stages.phase_gate import install_phase_gate_tool
 
-STAGE06_IMPLEMENTATION_VERSION = "v18-bounded-early-gates-native-resume-20260824"
+STAGE06_IMPLEMENTATION_VERSION = "v19-agent-self-check-external-gate-20260824"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
@@ -272,6 +273,12 @@ def _run_stage06_single_agent(
                 phase_gate_validator=_stage06a_phase_gate_findings,
                 phase_gate_max_checks=2,
                 phase_gate_fail_open=True,
+                phase_gate_agent_self_check=True,
+                phase_gate_prepare=lambda root: canonicalize_mode_task_contract(
+                    root / "outputs" / "paper_reproduction",
+                    expected_mode="paper_reproduction",
+                    task_pair_id=canonical_task_pair_id(paper_id),
+                ) if (root / "outputs" / "paper_reproduction").is_dir() else [],
             )
             if agent_workspace is None:
                 raise FileNotFoundError("Stage06 task-pair builder workspace is unavailable")
@@ -327,6 +334,8 @@ def _run_stage06_single_agent(
             handoff_warnings: list[str] = []
             if receipt.get("phase_gate_status") == "bypassed_with_warnings":
                 handoff_warnings.append("stage06a_gate_bypassed_with_warnings")
+            if receipt.get("phase_gate_status") == "failed":
+                handoff_warnings.append("stage06a_external_gate_findings")
             if use_converter:
                 converter_response, converter_audit, converter_workspace = _run_phase(
                     harness=converter_harness,
@@ -369,6 +378,12 @@ def _run_stage06_single_agent(
                     phase_gate_validator=_converter_contract_gate_findings,
                     phase_gate_max_checks=2,
                     phase_gate_fail_open=True,
+                    phase_gate_agent_self_check=True,
+                    phase_gate_prepare=lambda root: canonicalize_mode_task_contract(
+                        root / "outputs" / "autonomous_research",
+                        expected_mode="autonomous_research",
+                        task_pair_id=task_pair_id,
+                    ) if (root / "outputs" / "autonomous_research").is_dir() else [],
                 )
             else:
                 # Explicit legacy mode remains available for old fixtures and migration runs.
@@ -379,6 +394,8 @@ def _run_stage06_single_agent(
                 _normalize_converter_report(converter_response, converter_workspace)
             if converter_response.get("phase_gate_status") == "bypassed_with_warnings":
                 handoff_warnings.append("stage06b_gate_bypassed_with_warnings")
+            if converter_response.get("phase_gate_status") == "failed":
+                handoff_warnings.append("stage06b_external_gate_findings")
             if converter_response.get("status") not in {"converted", "conversion_uncertain"}:
                 return _artifact_delivery_failure(
                     run_id,
@@ -1292,6 +1309,9 @@ def _write_stage06_helper_scripts(root: Path) -> None:
         path = root / name
         path.write_text(content.strip() + "\n", encoding="utf-8")
         path.chmod(0o555)
+    # The phase self-check is copied as a standalone script so Agent workspaces
+    # never need to import the repository or its scientific validators.
+    install_phase_gate_tool(root)
 
 
 _TASK_PAIR_BOOTSTRAP_SCRIPT = Path(__file__).with_name(
@@ -1513,6 +1533,7 @@ def _prepare_input_snapshot(
                 "reproduction": _REPRODUCTION_VALIDATOR_SCRIPT,
                 "copy": _REPRODUCTION_COPY_SCRIPT,
                 "pair": _TASK_PAIR_DRAFT_VALIDATOR_SCRIPT,
+                "phase_gate": Path(__file__).resolve().parents[1].joinpath("phase_gate.py").read_text(encoding="utf-8"),
             }
         ),
     }
@@ -1798,6 +1819,8 @@ def _run_phase(
     phase_gate_validator: Callable[[dict[str, Any], Path], list[str]] | None = None,
     phase_gate_max_checks: int | None = None,
     phase_gate_fail_open: bool | None = None,
+    phase_gate_agent_self_check: bool = False,
+    phase_gate_prepare: Callable[[Path], list[str]] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any], Path | None]:
     fingerprint = input_fingerprint(fingerprint_value)
     artifact_root = (
@@ -1812,6 +1835,11 @@ def _run_phase(
     )
     failure_checkpoint = checkpoint.with_suffix(".failure.json")
     gate_enabled = phase_gate_validator is not None
+    # v9: the Agent performs the interactive self-check in its own workspace;
+    # the orchestrator performs one independent, read-only check afterwards.
+    # The legacy bounded recovery path remains available to direct callers and
+    # old fixtures by leaving this flag false.
+    external_gate_only = bool(gate_enabled and phase_gate_agent_self_check)
     gate_limit = max(
         1,
         int(
@@ -1858,7 +1886,44 @@ def _run_phase(
                 else []
             )
             cached_gate_status = str(response.get("phase_gate_status") or "")
-            if gate_enabled and cached_gate_status == "bypassed_with_warnings":
+            if external_gate_only and cached_workspace is not None:
+                preparation_findings = (
+                    phase_gate_prepare(cached_workspace)
+                    if phase_gate_prepare is not None
+                    else []
+                )
+                cached_findings = sorted(
+                    set(preparation_findings)
+                    | set(phase_gate_validator(response, cached_workspace))
+                )
+                cached_report = {
+                    "schema_version": "stage06-07-phase-gate/v2",
+                    "phase": phase,
+                    "paper_id": paper_id,
+                    "authority": "orchestrator_external_read_only",
+                    "status": "passed" if not cached_findings else "failed",
+                    "attempt": 1,
+                    "max_checks": 1,
+                    "findings": cached_findings,
+                    "agent_self_check_required": True,
+                    "created_at": now_utc(),
+                }
+                write_json(cached_workspace / "phase_gate_report.json", cached_report)
+                response = dict(response)
+                response.update(
+                    {
+                        "phase_gate_status": cached_report["status"],
+                        "phase_gate_attempts": 1,
+                        "phase_gate_findings": cached_findings,
+                        "phase_gate_authority": cached_report["authority"],
+                    }
+                )
+                return (
+                    response,
+                    {**(cached.get("agent_run") or {}), "cache_hit": True},
+                    cached_workspace,
+                )
+            if gate_enabled and not external_gate_only and cached_gate_status == "bypassed_with_warnings":
                 return (
                     response,
                     {**(cached.get("agent_run") or {}), "cache_hit": True},
@@ -1866,7 +1931,7 @@ def _run_phase(
                 )
             cached_gate_findings = (
                 phase_gate_validator(response, cached_workspace)
-                if gate_enabled and cached_workspace is not None
+                if gate_enabled and not external_gate_only and cached_workspace is not None
                 else []
             )
             if cached_gate_findings:
@@ -1913,7 +1978,7 @@ def _run_phase(
                 )
 
     attempts = max(1, int(config.get("max_attempts", 3)))
-    if gate_enabled:
+    if gate_enabled and not external_gate_only:
         # A phase Gate has its own two-check budget.  Do not let a legacy
         # max_attempts=1 setting accidentally turn the second Gate check into
         # an execution failure.
@@ -2000,6 +2065,25 @@ def _run_phase(
             },
         )
         phase_instructions = instructions
+        if phase_gate_agent_self_check:
+            self_check_phase = {
+                "task_pair_builder": "stage06a",
+                "autonomous_converter": "stage06b",
+            }.get(phase)
+            if self_check_phase:
+                phase_instructions += f"""
+
+MANDATORY AGENT SELF-CHECK
+After writing the complete artifact, run:
+`python inputs/tools/phase_gate.py --phase {self_check_phase} --root outputs`
+The tool is read-only and checks only transport/public-contract closure. Read the complete JSON
+report. If it returns `findings`, repair all applicable findings in this same workspace without
+deleting scientific inputs, claims, answers, boundaries, or required deliverables, then run the
+same command again. You may repeat the self-check as needed; there is no fixed repair-round
+requirement. If a finding is caused by the tool itself, preserve the artifact and state that
+uncertainty in the receipt. The final receipt and all claims must describe the files after the
+last self-check, not an earlier draft.
+"""
         if recovery_context:
             (attempt_root / "RECOVERY_CONTEXT.md").write_text(
                 recovery_context, encoding="utf-8"
@@ -2234,11 +2318,48 @@ def _run_phase(
                     )
             _require_claimed_phase_artifact(result.response or {}, attempt_root, result)
             if gate_enabled:
+                if external_gate_only and phase_gate_prepare is not None:
+                    # Normalize deterministic enum/ID wrappers before the
+                    # independent final check.  The callback is transport-only
+                    # and its findings remain visible in the Gate report.
+                    preparation_findings = phase_gate_prepare(attempt_root)
+                else:
+                    preparation_findings = []
                 gate_checks += 1
                 gate_findings = sorted(
-                    set(phase_gate_validator(result.response or {}, attempt_root))
+                    set(preparation_findings)
+                    | set(phase_gate_validator(result.response or {}, attempt_root))
                 )
-                if gate_findings:
+                if external_gate_only:
+                    gate_report = {
+                        "schema_version": "stage06-07-phase-gate/v2",
+                        "phase": phase,
+                        "paper_id": paper_id,
+                        "authority": "orchestrator_external_read_only",
+                        "status": "passed" if not gate_findings else "failed",
+                        "attempt": gate_checks,
+                        "max_checks": 1,
+                        "findings": gate_findings,
+                        "agent_self_check_required": True,
+                        "created_at": now_utc(),
+                    }
+                    write_json(attempt_root / "phase_gate_report.json", gate_report)
+                    result.response = dict(result.response or {})
+                    result.response.update(
+                        {
+                            "phase_gate_status": gate_report["status"],
+                            "phase_gate_attempts": gate_checks,
+                            "phase_gate_findings": gate_findings,
+                            "phase_gate_authority": gate_report["authority"],
+                        }
+                    )
+                    # A final Gate finding is a visible transport result, not a
+                    # hidden Agent retry.  The next phase/final publisher decides
+                    # whether it is blocking after seeing the complete pair.
+                    write_json(attempt_root / "agent_run.json", result.audit_record())
+                    # Continue through normal artifact persistence below.
+                    gate_findings = []
+                if not external_gate_only and gate_findings:
                     gate_status = (
                         "bypassed_with_warnings"
                         if gate_fail_open and gate_checks >= gate_limit
@@ -2308,26 +2429,27 @@ def _run_phase(
                         retryable=True,
                         result=result,
                     )
-                gate_report = {
-                    "schema_version": "stage06-07-phase-gate/v1",
-                    "phase": phase,
-                    "paper_id": paper_id,
-                    "status": "passed",
-                    "attempt": gate_checks,
-                    "max_checks": gate_limit,
-                    "findings": [],
-                    "fail_open": gate_fail_open,
-                    "created_at": now_utc(),
-                }
-                write_json(attempt_root / "phase_gate_report.json", gate_report)
-                result.response = dict(result.response or {})
-                result.response.update(
-                    {
-                        "phase_gate_status": "passed",
-                        "phase_gate_attempts": gate_checks,
-                        "phase_gate_findings": [],
+                if not external_gate_only:
+                    gate_report = {
+                        "schema_version": "stage06-07-phase-gate/v1",
+                        "phase": phase,
+                        "paper_id": paper_id,
+                        "status": "passed",
+                        "attempt": gate_checks,
+                        "max_checks": gate_limit,
+                        "findings": [],
+                        "fail_open": gate_fail_open,
+                        "created_at": now_utc(),
                     }
-                )
+                    write_json(attempt_root / "phase_gate_report.json", gate_report)
+                    result.response = dict(result.response or {})
+                    result.response.update(
+                        {
+                            "phase_gate_status": "passed",
+                            "phase_gate_attempts": gate_checks,
+                            "phase_gate_findings": [],
+                        }
+                    )
         except AgentExecutionError as exc:
             recovered_response = (
                 _recover_builder_receipt_from_review(
@@ -2511,6 +2633,35 @@ def _recover_builder_receipt_from_review(
     return receipt
 
 
+def _phase_gate_deliverable_findings(
+    parsed: dict[str, Any],
+    *,
+    label: str,
+) -> list[str]:
+    """Compare the public deliverable declaration with the submission contract."""
+
+    info = parsed.get("task_info.json")
+    submission = parsed.get("submission_contract.json")
+    if not isinstance(info, dict) or not isinstance(submission, dict):
+        return []
+    declared = {
+        str(item.get("path") or "")
+        for item in info.get("required_deliverables") or []
+        if isinstance(item, dict) and item.get("path")
+    }
+    required = {
+        str(item)
+        for item in submission.get("required_files") or []
+        if isinstance(item, str) and item
+    }
+    findings: list[str] = []
+    if not required:
+        findings.append(f"{label}_submission_required_files_missing")
+    if declared != required:
+        findings.append(f"{label}_submission_contract_deliverables_mismatch")
+    return findings
+
+
 def _stage06a_phase_gate_findings(
     response: dict[str, Any],
     workspace: Path,
@@ -2610,6 +2761,10 @@ def _stage06a_phase_gate_findings(
             encoding="utf-8", errors="replace"
         ).strip():
             findings.append("stage06a_task_instruction_empty")
+
+        findings.extend(
+            _phase_gate_deliverable_findings(parsed, label="stage06a")
+        )
 
         raw_rubric = parsed.get("process_rubric.json")
         if raw_rubric is not None:
@@ -5603,6 +5758,7 @@ def _copy_phase_inputs(
             "visual_fallback": "included" if include_visual_fallback else "excluded_by_default",
         },
     )
+    install_phase_gate_tool(destination / "tools")
     make_read_only(destination)
 
 
@@ -5767,6 +5923,7 @@ def _setup_converter_inputs(
             "preserve_key_point_ids": True,
         },
     )
+    install_phase_gate_tool(root / "inputs" / "tools")
     make_read_only(destination)
     # Directory transport is deterministic.  Stage06B receives a correctly rooted,
     # writable copy and spends its budget only on semantic redaction/neutralization.
@@ -5952,6 +6109,10 @@ def _converter_phase_findings(response: dict[str, Any], workspace: Path) -> list
         encoding="utf-8", errors="replace"
     ).strip():
         findings.append("autonomous_converter_task_instruction_empty")
+
+    findings.extend(
+        _phase_gate_deliverable_findings(parsed, label="autonomous_converter")
+    )
 
     expected_task_mode = "open_discovery"
     for name in ("task_info.json", "task_spec.json"):

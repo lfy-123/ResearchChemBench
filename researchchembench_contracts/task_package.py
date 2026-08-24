@@ -887,7 +887,50 @@ def _schema_status_rank(status: str) -> int:
     return {"missing": 0, "open": 1, "present": 2}.get(status, 0)
 
 
-def _schema_step_schemas(schema: Any, token: str | int) -> tuple[list[Any], bool]:
+def _resolve_local_schema_ref(schema: Any, root: Any, seen: set[str] | None = None) -> Any:
+    """Resolve a local JSON-Schema ``$ref`` without fetching external files.
+
+    Submission schemas are embedded JSON objects, so local JSON-Pointer refs are
+    deterministic and safe to resolve here.  External refs remain opaque/open and
+    are deliberately not fetched by the transport validator.
+    """
+
+    if not isinstance(schema, dict) or not isinstance(schema.get("$ref"), str):
+        return schema
+    reference = schema["$ref"]
+    if not reference.startswith("#/"):
+        return schema
+    seen = set() if seen is None else set(seen)
+    if reference in seen:
+        return schema
+    target: Any = root
+    try:
+        for segment in reference[2:].split("/"):
+            segment = segment.replace("~1", "/").replace("~0", "~")
+            if isinstance(target, dict):
+                target = target[segment]
+            elif isinstance(target, list) and segment.isdigit():
+                target = target[int(segment)]
+            else:
+                return schema
+    except (KeyError, IndexError, TypeError, ValueError):
+        return schema
+    if not isinstance(target, dict):
+        return schema
+    resolved = _resolve_local_schema_ref(target, root, seen | {reference})
+    if not isinstance(resolved, dict):
+        return schema
+    merged = dict(resolved)
+    merged.update({key: value for key, value in schema.items() if key != "$ref"})
+    return merged
+
+
+def _schema_step_schemas(
+    schema: Any,
+    token: str | int,
+    *,
+    root: Any = None,
+) -> tuple[list[Any], bool]:
     """Resolve one JSON-Schema path token without interpreting scientific fields.
 
     The resolver intentionally supports only the structural keywords used by the
@@ -897,6 +940,9 @@ def _schema_step_schemas(schema: Any, token: str | int) -> tuple[list[Any], bool
     through an open ``additionalProperties`` branch.
     """
 
+    if root is None:
+        root = schema
+    schema = _resolve_local_schema_ref(schema, root)
     if not isinstance(schema, dict):
         return [], False
     if isinstance(token, int):
@@ -965,7 +1011,7 @@ def schema_path_status(schema: Any, tokens: list[str | int]) -> str:
     for token in tokens:
         next_states: list[tuple[Any, bool]] = []
         for current, was_open in states:
-            children, open_branch = _schema_step_schemas(current, token)
+            children, open_branch = _schema_step_schemas(current, token, root=schema)
             if children:
                 next_states.extend((child, was_open or open_branch) for child in children)
             elif open_branch:

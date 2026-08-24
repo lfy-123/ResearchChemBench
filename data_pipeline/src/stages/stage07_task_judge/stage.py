@@ -55,8 +55,9 @@ from src.stages.stage07_contract_repair import (
 from src.stages.stage06_task_builder.validation import (
     canonical_task_pair_id,
 )
+from src.stages.phase_gate import install_phase_gate_tool
 
-STAGE07_IMPLEMENTATION_VERSION = "v17-bounded-preflight-read-only-gate-20260824"
+STAGE07_IMPLEMENTATION_VERSION = "v18-agent-self-check-external-gate-20260824"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -725,6 +726,7 @@ def _run_audit_repair_agent(
                 )
 
     attempts = max(1, int(config.get("max_attempts", 3)))
+    agent_self_check_mode = bool(config.get("stage07_agent_self_check", True))
     # The phase contract permits one initial check and one recovery check.
     # Configuration may reduce that budget, but must not silently turn Stage07A
     # into an unbounded repair loop.
@@ -743,8 +745,9 @@ def _run_audit_repair_agent(
         / safe_component(paper_id)
         / "audit_repair"
     )
-    attempts = max(attempts, gate_limit)
-    if native_resume_enabled:
+    if not agent_self_check_mode:
+        attempts = max(attempts, gate_limit)
+    if native_resume_enabled and not agent_self_check_mode:
         attempts += 1
     gate_checks = 0
     last_error: AgentExecutionError | None = None
@@ -761,6 +764,7 @@ def _run_audit_repair_agent(
         )
         inputs = root / "inputs"
         inputs.mkdir(parents=True, exist_ok=True)
+        install_phase_gate_tool(inputs / "tools")
         copytree_exact(handoff_root, inputs / "stage06_candidate")
         _copy_stage07_source_packet(source_root, inputs / "source_materials")
         write_json(inputs / "stage06_record.json", stage06_record)
@@ -841,6 +845,17 @@ def _run_audit_repair_agent(
             finalization_reserve=finalization_reserve,
             source_stage06_decision=source_stage06_decision,
         )
+        instructions += """
+
+MANDATORY AGENT SELF-CHECK
+After the complete `outputs/task_pair/` tree and the audit receipt are written, run:
+`python inputs/tools/phase_gate.py --phase stage07a --root outputs`
+This read-only tool checks transport, mode isolation, and evaluator-facing closure only. Read its
+full JSON output. If it reports findings, repair all applicable findings in this same workspace,
+then rerun the command; repeat as needed until the artifact is clean or the tool itself is clearly
+at fault. Do not delete scientific inputs, claims, answers, physical boundaries, or required
+deliverables to silence a finding. The receipt must describe the final files after the last check.
+"""
         if recovery_context:
             instructions += recovery_instructions(
                 "stage07_audit_repair", max_tool_calls=max_tool_calls
@@ -928,19 +943,33 @@ def _run_audit_repair_agent(
             )
             if gate_findings:
                 gate_status = (
-                    "bypassed_with_warnings"
-                    if gate_fail_open and gate_checks >= gate_limit
-                    else "failed"
+                    "failed"
+                    if agent_self_check_mode
+                    else (
+                        "bypassed_with_warnings"
+                        if gate_fail_open and gate_checks >= gate_limit
+                        else "failed"
+                    )
                 )
                 gate_report = {
-                    "schema_version": "stage06-07-phase-gate/v1",
+                    "schema_version": (
+                        "stage06-07-phase-gate/v2"
+                        if agent_self_check_mode
+                        else "stage06-07-phase-gate/v1"
+                    ),
                     "phase": "stage07a_audit",
                     "paper_id": paper_id,
+                    "authority": (
+                        "orchestrator_external_read_only"
+                        if agent_self_check_mode
+                        else "orchestrator_bounded_preflight"
+                    ),
                     "status": gate_status,
                     "attempt": gate_checks,
                     "max_checks": gate_limit,
                     "findings": sorted(set(gate_findings)),
                     "fail_open": gate_fail_open,
+                    "agent_self_check_required": agent_self_check_mode,
                     "created_at": now_utc(),
                 }
                 write_json(root / "phase_gate_report.json", gate_report)
@@ -953,7 +982,7 @@ def _run_audit_repair_agent(
                     }
                 )
                 write_json(outputs / "stage07_audit.json", response)
-                if gate_status != "bypassed_with_warnings":
+                if gate_status != "bypassed_with_warnings" and not agent_self_check_mode:
                     message = (
                         "Stage07A preflight findings (repair only the listed transport files):\n"
                         + "\n".join(f"- {finding}" for finding in gate_findings)
@@ -974,14 +1003,24 @@ def _run_audit_repair_agent(
                     )
             elif gate_applicable:
                 gate_report = {
-                    "schema_version": "stage06-07-phase-gate/v1",
+                    "schema_version": (
+                        "stage06-07-phase-gate/v2"
+                        if agent_self_check_mode
+                        else "stage06-07-phase-gate/v1"
+                    ),
                     "phase": "stage07a_audit",
                     "paper_id": paper_id,
+                    "authority": (
+                        "orchestrator_external_read_only"
+                        if agent_self_check_mode
+                        else "orchestrator_bounded_preflight"
+                    ),
                     "status": "passed",
                     "attempt": gate_checks,
                     "max_checks": gate_limit,
                     "findings": [],
                     "fail_open": gate_fail_open,
+                    "agent_self_check_required": agent_self_check_mode,
                     "created_at": now_utc(),
                 }
                 write_json(root / "phase_gate_report.json", gate_report)

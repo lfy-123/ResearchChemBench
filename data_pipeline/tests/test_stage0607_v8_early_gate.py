@@ -306,6 +306,7 @@ def test_stage07a_second_gate_failure_is_warning_only(
             "max_attempts": 1,
             "retry_backoff_seconds": 0,
             "stage07a_gate_max_checks": 2,
+            "stage07_agent_self_check": False,
         },
     )
 

@@ -5626,14 +5626,15 @@ def test_stage06_hands_partial_candidate_to_stage07_without_content_retry(
     )
 
     record = result["records"][0]
-    # Stage06A now performs one recovery attempt after its early Gate finding;
-    # the second failed check is fail-open and hands the warning to Stage07.
-    assert calls == 2
+    # v9 keeps contract repair in the Agent workspace.  The orchestrator performs
+    # one independent check and hands the visible finding downstream without
+    # spawning a second model attempt.
+    assert calls == 1
     assert record["decision"] == "provisional_constructed"
-    assert record["stage06a_gate_status"] == "bypassed_with_warnings"
-    assert record["stage06a_gate_attempts"] == 2
+    assert record["stage06a_gate_status"] == "failed"
+    assert record["stage06a_gate_attempts"] == 1
     assert record["handoff_ready"] is True
-    assert "stage06a_gate_bypassed_with_warnings" in record["handoff_warnings"]
+    assert "stage06a_external_gate_findings" in record["handoff_warnings"]
     assert Path(record["handoff_path"]).is_dir()
 
 

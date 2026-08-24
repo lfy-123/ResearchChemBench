@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v8-stage07-audit-bounded-preflight-20260824"
+STAGE07_AUDIT_VERSION = "v9-stage07-audit-agent-self-check-20260824"
 
 
 def audit_instructions(
@@ -445,11 +445,10 @@ DECISION SEMANTICS
   run before an evaluated submission exists, and this field is never a substitute for scientific audit.
 
 STAGE07B HANDOFF
-The orchestrator may run a Stage07A structural preflight before the final publication Gate. If a
-recovery context lists a preflight finding, repair only the named transport/artifact closure issue
-once and reread the complete pair. A second preflight failure is recorded as a warning and passed
-to the final Gate; it is not a scientific approval and it does not authorize guessing missing
-science.
+Run the local self-check before returning. The orchestrator independently runs a structural
+preflight and the final publication Gate after the Agent ends; those checks are authoritative for
+transport, while this Agent remains authoritative for the scientific audit. A Gate finding never
+authorizes guessing missing science.
 
 If the scientific audit is approved but the orchestrator reports only an allowlisted transport
 finding (for example a mode-specific binding/path or manifest shape mismatch), leave the scientific
@@ -571,4 +570,8 @@ LOW-BUDGET RECOVERY CHECKLIST:
 If `RECOVERY_CONTEXT.md` exists, inspect it and the recovered `outputs/` first. Preserve verified
 work, repair only the listed blocker, verify the resulting files, and return a consistent terminal
 decision without restarting a broad paper review.
+Before returning any approved receipt, run `python inputs/tools/phase_gate.py --phase stage07a --root outputs`.
+Repair all applicable transport findings in the same workspace and rerun the tool as needed. The
+self-check cannot justify deleting scientific inputs, answers, boundaries, or required files, and
+the external final Gate remains authoritative over this receipt.
 """
