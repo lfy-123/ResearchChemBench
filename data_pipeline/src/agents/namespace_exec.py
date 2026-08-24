@@ -14,6 +14,7 @@ def main() -> None:
     parser.add_argument("--workspace", type=Path, required=True)
     parser.add_argument("--rootfs", type=Path, required=True)
     parser.add_argument("--executable", type=Path, required=True)
+    parser.add_argument("--codex-home", type=Path)
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
     command = list(args.command)
@@ -40,7 +41,13 @@ def main() -> None:
         )
     _run(["mount", "-t", "tmpfs", "tmpfs", str(root / "tmp")])
     _run(["mount", "-t", "tmpfs", "tmpfs", str(root / "home")])
-    (root / "home" / "agent" / ".codex").mkdir(parents=True)
+    codex_target = root / "home" / "agent" / ".codex"
+    if args.codex_home is not None:
+        codex_home = args.codex_home.expanduser().resolve()
+        codex_home.mkdir(parents=True, exist_ok=True)
+        _bind(codex_home, codex_target)
+    else:
+        codex_target.mkdir(parents=True)
     _run(["mount", "-t", "proc", "proc", str(root / "proc")])
     for name in ("null", "zero", "random", "urandom"):
         source = Path("/dev") / name

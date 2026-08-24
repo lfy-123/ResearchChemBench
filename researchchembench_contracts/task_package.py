@@ -462,6 +462,71 @@ def _read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def normalize_process_rubric(value: Any) -> Any:
+    """Unwrap the supported process-Key-Point container spellings losslessly.
+
+    Stage06 agents have historically emitted either a top-level list or one of
+    ``criteria``, ``items``, ``rubric`` and ``key_points``.  These names are
+    serialization wrappers, not separate scientific schemas.  The helper keeps
+    every row and authored field intact, adding only the transport alias fields
+    needed by downstream readers.  An unknown non-empty object is returned
+    unchanged so callers can report a contract finding instead of silently
+    turning it into an empty rubric.
+    """
+
+    if isinstance(value, list):
+        rows = list(value)
+    elif isinstance(value, dict):
+        rows = []
+        recognized = False
+        for key in ("criteria", "items", "rubric", "key_points"):
+            candidate = value.get(key)
+            if isinstance(candidate, list):
+                recognized = True
+                rows.extend(candidate)
+        if not recognized:
+            return value
+    else:
+        return value
+
+    output: list[Any] = []
+    seen: set[str] = set()
+    for row in rows:
+        if not isinstance(row, dict):
+            # Preserve malformed rows for the validator; dropping them would
+            # hide an Agent contract error and change the authored rubric.
+            output.append(row)
+            continue
+        normalized = dict(row)
+        evidence = (
+            normalized.get("evidence_artifacts")
+            or normalized.get("required_evidence")
+            or normalized.get("required_artifact")
+        )
+        if evidence and "evidence_artifacts" not in normalized:
+            normalized["evidence_artifacts"] = evidence
+        if evidence and "required_evidence" not in normalized:
+            normalized["required_evidence"] = evidence
+        marker = json.dumps(normalized, ensure_ascii=False, sort_keys=True, default=str)
+        if marker in seen:
+            continue
+        seen.add(marker)
+        output.append(normalized)
+    return output
+
+
+def process_rubric_container_findings(value: Any) -> list[str]:
+    """Report only container-shape problems for a process rubric."""
+
+    if isinstance(value, list):
+        return [] if value else ["process_rubric_empty"]
+    if isinstance(value, dict):
+        if any(isinstance(value.get(key), list) for key in ("criteria", "items", "rubric", "key_points")):
+            return []
+        return ["process_rubric_wrapper_unknown"] if value else ["process_rubric_empty"]
+    return ["process_rubric_container_invalid"]
+
+
 def _jsonpath_tokens(value: str) -> list[str | int] | None:
     path = str(value or "").strip()
     if path and not path.startswith("$") and re.fullmatch(
@@ -818,41 +883,109 @@ def normalize_binding_contract(
     return normalized
 
 
-def _schema_path_status(schema: Any, tokens: list[str | int]) -> str:
-    """Return present, open, or missing for a structured submission field."""
+def _schema_status_rank(status: str) -> int:
+    return {"missing": 0, "open": 1, "present": 2}.get(status, 0)
 
-    current = schema
+
+def _schema_step_schemas(schema: Any, token: str | int) -> tuple[list[Any], bool]:
+    """Resolve one JSON-Schema path token without interpreting scientific fields.
+
+    The resolver intentionally supports only the structural keywords used by the
+    benchmark submission contract.  ``patternProperties`` is evaluated alongside
+    ``properties`` (an exact property wins), and multiple matching patterns are
+    retained as alternatives.  The boolean indicates that the token was accepted
+    through an open ``additionalProperties`` branch.
+    """
+
+    if not isinstance(schema, dict):
+        return [], False
+    if isinstance(token, int):
+        items = schema.get("items")
+        if isinstance(items, dict):
+            return [items], False
+        if isinstance(items, list) and 0 <= token < len(items):
+            candidate = items[token]
+            return ([candidate] if isinstance(candidate, dict) else []), False
+        additional = schema.get("additionalItems")
+        if isinstance(additional, dict):
+            return [additional], False
+        return ([], additional is True)
+    if token == "*":
+        items = schema.get("items")
+        if isinstance(items, dict):
+            return [items], False
+        additional = schema.get("additionalProperties")
+        if isinstance(additional, dict):
+            return [additional], False
+        return ([], additional is True or additional is None)
+
+    properties = schema.get("properties")
+    if isinstance(properties, dict) and token in properties:
+        child = properties[token]
+        return ([child] if isinstance(child, dict) else []), False
+
+    patterns = schema.get("patternProperties")
+    matched: list[Any] = []
+    if isinstance(patterns, dict):
+        for pattern, child in patterns.items():
+            try:
+                matches = re.search(str(pattern), token) is not None
+            except re.error:
+                matches = False
+            if matches and isinstance(child, dict):
+                matched.append(child)
+    if matched:
+        return matched, False
+
+    # The pipeline's historical transport contract treats an explicit
+    # ``properties``/``patternProperties`` map as closed unless the author
+    # explicitly opts into additional properties.  This is stricter than the
+    # JSON-Schema default and is retained for backwards-compatible diagnostics.
+    additional = schema.get(
+        "additionalProperties",
+        True if not isinstance(properties, dict) and not isinstance(patterns, dict) else False,
+    )
+    if isinstance(additional, dict):
+        return [additional], False
+    if additional is True:
+        return [], True
+    return [], False
+
+
+def schema_path_status(schema: Any, tokens: list[str | int]) -> str:
+    """Return ``present``, ``open`` or ``missing`` for a JSON-Schema path.
+
+    This is a transport-level check.  It does not validate a submitted value and
+    does not infer any scientific meaning.  A path resolved by a declared
+    ``properties``/``patternProperties`` schema is ``present``; a path accepted
+    only through an open object is ``open``.
+    """
+
+    states: list[tuple[Any, bool]] = [(schema, False)]
     for token in tokens:
-        if not isinstance(current, dict):
+        next_states: list[tuple[Any, bool]] = []
+        for current, was_open in states:
+            children, open_branch = _schema_step_schemas(current, token)
+            if children:
+                next_states.extend((child, was_open or open_branch) for child in children)
+            elif open_branch:
+                # There is no child schema to continue through.  The remainder of
+                # the selector is therefore still open, but not explicitly declared.
+                # An empty schema is the JSON-Schema representation of an
+                # unconstrained/open child; retain it so later dotted selectors
+                # remain ``open`` instead of being falsely reported missing.
+                next_states.append(({}, True))
+        if not next_states:
             return "missing"
-        if token == "*":
-            if isinstance(current.get("items"), dict):
-                current = current["items"]
-                continue
-            if isinstance(current.get("additionalProperties"), dict):
-                current = current["additionalProperties"]
-                continue
-            if current.get("additionalProperties") is True:
-                return "open"
-            return "missing"
-        if isinstance(token, int):
-            if not isinstance(current.get("items"), dict):
-                return "missing"
-            current = current["items"]
-            continue
-        properties = current.get("properties")
-        if isinstance(properties, dict) and token in properties:
-            current = properties[token]
-            continue
-        if isinstance(current.get("additionalProperties"), dict):
-            current = current["additionalProperties"]
-            continue
-        if current.get("additionalProperties") is True or (
-            "additionalProperties" not in current and not isinstance(properties, dict)
-        ):
-            return "open"
-        return "missing"
-    return "present"
+        states = next_states
+    statuses = ["open" if was_open else "present" for _, was_open in states]
+    return max(statuses, key=_schema_status_rank) if statuses else "missing"
+
+
+def _schema_path_status(schema: Any, tokens: list[str | int]) -> str:
+    """Backward-compatible private alias for the shared resolver."""
+
+    return schema_path_status(schema, tokens)
 
 
 def materialize_result_schema_path(

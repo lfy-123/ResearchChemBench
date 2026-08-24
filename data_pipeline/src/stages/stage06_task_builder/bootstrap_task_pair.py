@@ -106,8 +106,10 @@ def normalize_truths(review: dict) -> list[dict]:
                 "acceptance_profile_id": str(raw.get("acceptance_profile_id") or f"ap-{index}"),
                 "evidence_grade": raw.get("evidence_grade") or "B",
                 "evidence_ids": raw.get("evidence_ids") or [],
-                "claim_role": raw.get("claim_role")
-                or ("final" if "final" in kind else "intermediate"),
+                # Claim ownership is scientific authoring, not scaffold syntax.
+                # Keep a missing role visible so the Stage06A Gate can ask the
+                # Agent to repair it; never promote a claim from its kind/name.
+                "claim_role": raw.get("claim_role"),
                 "applies_to_modes": raw.get(
                     "applies_to_modes", ["autonomous_research", "paper_reproduction"]
                 ),

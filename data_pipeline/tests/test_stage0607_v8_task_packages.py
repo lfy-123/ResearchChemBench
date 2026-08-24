@@ -10,7 +10,11 @@ for import_root in (DATA_PIPELINE_ROOT, REPOSITORY_ROOT):
     if str(import_root) not in sys.path:
         sys.path.insert(0, str(import_root))
 
-from researchchembench_contracts import validate_task_package
+from researchchembench_contracts import (
+    normalize_process_rubric,
+    schema_path_status,
+    validate_task_package,
+)
 from src.stages.stage07_task_judge.package import (
     assemble_task_packages,
     canonical_mode_task_id,
@@ -23,6 +27,56 @@ from src.stages.stage07_task_judge.stage import _assemble_task_packages_atomical
 def _write_json(path: Path, value: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+
+
+def test_schema_path_status_supports_pattern_properties_and_open_children() -> None:
+    schema = {
+        "type": "object",
+        "patternProperties": {
+            "^asset_[0-9]+$": {
+                "type": "object",
+                "properties": {"value": {"type": "number"}},
+                "additionalProperties": False,
+            }
+        },
+        "additionalProperties": False,
+    }
+    assert schema_path_status(schema, ["asset_01", "value"]) == "present"
+    assert schema_path_status(schema, ["asset_01", "missing"]) == "missing"
+    assert schema_path_status(schema, ["other", "value"]) == "missing"
+    assert (
+        schema_path_status(
+            {"type": "object", "additionalProperties": True},
+            ["future", "nested"],
+        )
+        == "open"
+    )
+
+
+def test_process_rubric_key_points_wrapper_is_unwrapped_without_data_loss() -> None:
+    raw = {
+        "key_points": [
+            {
+                "key_point_id": "kp_input",
+                "title": "Prepare input",
+                "required_artifact": ["report/input.json"],
+                "authored_extension": {"keep": True},
+            },
+            {
+                "id": "kp_result",
+                "description": "Analyze the result.",
+                "evidence_artifacts": ["report/results.json"],
+            },
+        ]
+    }
+    normalized = normalize_process_rubric(raw)
+    assert isinstance(normalized, list)
+    assert len(normalized) == 2
+    assert normalized[0]["authored_extension"] == {"keep": True}
+    assert normalized[0]["evidence_artifacts"] == ["report/input.json"]
+    assert normalized[1]["required_evidence"] == ["report/results.json"]
+    unknown = {"custom_rows": [{"id": "do_not_drop"}]}
+    assert normalize_process_rubric(unknown) == unknown
 
 
 def _mode(root: Path, name: str) -> None:

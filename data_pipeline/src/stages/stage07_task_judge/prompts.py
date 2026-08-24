@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v7-stage07-audit-round2-ensemble-coverage-20260823"
+STAGE07_AUDIT_VERSION = "v8-stage07-audit-bounded-preflight-20260824"
 
 
 def audit_instructions(
@@ -445,6 +445,12 @@ DECISION SEMANTICS
   run before an evaluated submission exists, and this field is never a substitute for scientific audit.
 
 STAGE07B HANDOFF
+The orchestrator may run a Stage07A structural preflight before the final publication Gate. If a
+recovery context lists a preflight finding, repair only the named transport/artifact closure issue
+once and reread the complete pair. A second preflight failure is recorded as a warning and passed
+to the final Gate; it is not a scientific approval and it does not authorize guessing missing
+science.
+
 If the scientific audit is approved but the orchestrator reports only an allowlisted transport
 finding (for example a mode-specific binding/path or manifest shape mismatch), leave the scientific
 decision unchanged and report the exact finding. Do not alter answers, tolerances, inputs, workflow,

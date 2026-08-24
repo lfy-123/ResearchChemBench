@@ -12,12 +12,19 @@ from src.contracts import read_json, write_json
 from src.stages.stage06_task_builder.prompts import hidden_reference_instructions
 from src.stages.stage06_task_builder.stage import (
     _normalize_hidden_reference_contract,
-    _task_pair_builder_transport_findings,
 )
 from src.stages.stage06_task_builder.validation import acceptance_profile_type_findings
 from src.stages.stage06_task_builder.validation import validate_hidden_reference
 from src.stages.stage07_task_judge.stage import _finalize_stage07_response
-from src.stages.stage07_task_judge.validation import stage07_mechanical_pre_publish_check
+from src.stages.stage07_task_judge.validation import (
+    normalize_stage07_transport_contract,
+    stage07_mechanical_pre_publish_check,
+)
+
+
+def _normalized_mechanical_report(pair: Path, *, task_pair_id: str):
+    normalize_stage07_transport_contract(pair, task_pair_id=task_pair_id)
+    return stage07_mechanical_pre_publish_check(pair, task_pair_id=task_pair_id)
 
 
 def _binding(*, field: str = "$.values", artifact: str = "report/results.json") -> dict:
@@ -228,7 +235,7 @@ def test_gate_filters_mode_specific_profiles_and_accepts_shared_valid_contract(t
         ],
     )
     pair = _make_pair(tmp_path, hidden)
-    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair-round04")
+    report = _normalized_mechanical_report(pair, task_pair_id="pair-round04")
     assert report["mechanical_pre_publish_status"] == "passed"
     assert not any(
         finding.startswith("evaluator_acceptance_profile_contract_invalid")
@@ -323,7 +330,7 @@ def test_shared_profile_is_checked_for_both_modes(tmp_path: Path) -> None:
             ],
         ),
     )
-    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair-round04")
+    report = _normalized_mechanical_report(pair, task_pair_id="pair-round04")
     assert report["mechanical_pre_publish_status"] == "passed"
     assert not any("ap-shared" in finding for finding in report["findings"])
 
@@ -349,7 +356,7 @@ def test_gate_blocks_typed_profile_with_missing_scientific_binding_mapping(tmp_p
         },
     }
     pair = _make_pair(tmp_path, _base_hidden(truths=[truth], profiles=[profile]))
-    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair-round04")
+    report = _normalized_mechanical_report(pair, task_pair_id="pair-round04")
     assert report["mechanical_pre_publish_status"] == "failed"
     assert "evaluator_binding_projection_missing:paper_reproduction:ap-malformed" in report[
         "findings"
@@ -360,44 +367,6 @@ def test_gate_blocks_typed_profile_with_missing_scientific_binding_mapping(tmp_p
     assert read_json(
         pair / "hidden_reference" / "ground_truth_common.json"
     )["acceptance_profiles"][0]["type"] == "numeric_tolerance"
-
-
-def test_stage06_builder_transport_check_does_not_require_autonomous_tree(tmp_path: Path) -> None:
-    workspace = tmp_path / "builder"
-    hidden_root = workspace / "outputs" / "hidden_reference"
-    reproduction = workspace / "outputs" / "paper_reproduction"
-    hidden_root.mkdir(parents=True)
-    reproduction.mkdir(parents=True)
-    truth = {
-        "ground_truth_id": "gt-builder",
-        "acceptance_profile_id": "ap-builder",
-        "acceptance_type": "numeric_tolerance",
-        "canonical_answer": 1.0,
-        "acceptance_parameters": {"unit": "arb", "absolute_tolerance": 0.1},
-        "evidence_grade": "A",
-        "claim_role": "intermediate",
-        "applies_to_modes": ["paper_reproduction"],
-    }
-    hidden = _base_hidden(
-        truths=[truth],
-        profiles=[
-            {
-                "profile_id": "ap-builder",
-                "type": "numeric_tolerance",
-                "submission_binding": _binding(),
-            }
-        ],
-    )
-    write_json(hidden_root / "ground_truth_common.json", hidden)
-    write_json(
-        reproduction / "submission_contract.json",
-        {"required_files": ["report/results.json"], "results_schema": {"type": "object"}},
-    )
-    findings = _task_pair_builder_transport_findings(
-        {"status": "ready"}, workspace
-    )
-    assert findings == []
-    assert not (workspace / "outputs" / "autonomous_research").exists()
 
 
 def test_stage07_finalizer_records_hidden_contract_normalization(tmp_path: Path) -> None:

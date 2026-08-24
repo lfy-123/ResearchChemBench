@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -10,7 +11,12 @@ from types import SimpleNamespace
 import jsonschema
 import pytest
 
-from src.agents import AgentExecutionError, AgentRunRequest, create_agent_harness
+from src.agents import (
+    AgentExecutionError,
+    AgentRunRequest,
+    AgentRunResult,
+    create_agent_harness,
+)
 from src.agents.harness import (
     _apply_schema_defaults,
     _recover_trusted_workspace_response,
@@ -67,6 +73,7 @@ from src.stages.stage06_task_builder.stage import (
     _neutralize_public_key_point_fields,
     _neutralize_submission_contract,
     _normalize_converter_report,
+    _converter_execution_findings,
     _converter_phase_findings,
     _ensure_converter_output_scaffold,
     _ensure_reproduction_route_rubric,
@@ -127,10 +134,16 @@ from src.stages.stage07_task_judge.validation import (
     final_task_pair_integrity_findings,
     merge_audit_outcomes,
     reconcile_toolbox_requirements,
+    normalize_stage07_transport_contract,
     software_matches_installed,
     stage07_mechanical_pre_publish_check,
     validate_agent_audit,
 )
+
+
+def _normalized_mechanical_report(pair: Path, *, task_pair_id: str | None = None):
+    normalize_stage07_transport_contract(pair, task_pair_id=task_pair_id)
+    return stage07_mechanical_pre_publish_check(pair, task_pair_id=task_pair_id)
 
 
 class _Model:
@@ -1010,7 +1023,7 @@ def test_converter_recovery_keeps_normal_budget_when_global_recovery_is_small(
             "resume": False,
         },
         setup=setup,
-        semantic_validator=_converter_phase_findings,
+        semantic_validator=_converter_execution_findings,
     )
 
     assert calls == 2
@@ -4311,6 +4324,18 @@ def _single_agent_mock_responder(request: AgentRunRequest) -> dict:
     hidden_root = outputs / "hidden_reference"
     dump(hidden_root / "ground_truth_common.json", hidden)
     dump(hidden_root / "private_evidence_map.json", review["evidence_map"])
+    dump(
+        outputs / "workflow_completeness_check.json",
+        {
+            "inputs": ["data/inputs/structures.xyz"],
+            "workflow_steps": [step["step_id"] for step in review["workflow_steps"]],
+            "status": "closed",
+        },
+    )
+    dump(
+        outputs / "public_to_private_asset_map.json",
+        {"data/inputs/structures.xyz": "source-structures"},
+    )
     dump(outputs / "toolbox_requirements.json", review["toolbox_requirements"])
     subprocess.run(
         [sys.executable, "inputs/scripts/validate_task_pair_draft.py"],
@@ -5314,6 +5339,165 @@ def test_agent_command_adapters_are_configurable(tmp_path: Path) -> None:
     assert "code_mode_host" in isolated_command
 
 
+def test_codex_native_resume_uses_explicit_session_without_last_or_ephemeral(
+    tmp_path: Path,
+) -> None:
+    model = {"model": "model-x", "base_url": "https://example.test/v1"}
+    codex = create_agent_harness("codex", config={}, model_config=model)
+    fresh = AgentRunRequest(
+        phase="test",
+        record_id="record",
+        workspace=tmp_path,
+        instructions="Return JSON.",
+        output_schema=AGENT_SUMMARY_SCHEMA,
+        prompt_version="v1",
+        metadata={"codex_native_resume": True},
+    )
+    fresh_command = codex.command_preview(fresh)
+    assert "--ephemeral" not in fresh_command
+
+    session_id = "12345678-1234-4234-9234-123456789abc"
+    resumed = AgentRunRequest(
+        phase="test",
+        record_id="record",
+        workspace=tmp_path,
+        instructions="Repair the listed findings.",
+        output_schema=AGENT_SUMMARY_SCHEMA,
+        prompt_version="v1",
+        metadata={
+            "codex_native_resume": True,
+            "codex_resume_session_id": session_id,
+        },
+    )
+    resumed_command = codex.command_preview(resumed)
+    resume_index = resumed_command.index("resume")
+    assert resumed_command[resume_index + 1] == session_id
+    assert "--last" not in resumed_command
+    assert "--ephemeral" not in resumed_command
+    assert resumed_command.index("-C") < resume_index
+    assert resumed_command.index("--sandbox") < resume_index
+
+
+def test_codex_extracts_thread_started_session_id(tmp_path: Path) -> None:
+    codex = create_agent_harness(
+        "codex",
+        config={},
+        model_config={"model": "model-x", "base_url": "https://example.test/v1"},
+    )
+    stdout = tmp_path / "stdout.jsonl"
+    stdout.write_text(
+        "not-json\n"
+        + json.dumps(
+            {
+                "type": "thread.started",
+                "thread_id": "12345678-1234-4234-9234-123456789abc",
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    assert codex._extract_session_metadata(stdout) == {
+        "session_id": "12345678-1234-4234-9234-123456789abc",
+        "source": "codex_thread_started",
+    }
+
+
+def test_codex_native_resume_session_home_never_resolves_from_empty_path(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    session_tmp = tmp_path / "session-tmp"
+    monkeypatch.setenv("TMPDIR", str(session_tmp))
+    codex = create_agent_harness(
+        "codex",
+        config={},
+        model_config={"model": "model-x", "base_url": "https://example.test/v1"},
+    )
+    request = AgentRunRequest(
+        phase="test",
+        record_id="record",
+        workspace=tmp_path / "workspace",
+        instructions="Return JSON.",
+        output_schema=AGENT_SUMMARY_SCHEMA,
+        prompt_version="v1",
+        metadata={"codex_native_resume": True, "codex_session_home": ""},
+    )
+
+    environment = codex._environment(None, request=request)
+
+    assert Path(environment["CODEX_HOME"]) == (
+        session_tmp / f"rcb-codex-sessions-{os.getuid()}"
+    )
+    assert Path(environment["CODEX_HOME"]) != Path.cwd()
+
+
+def test_codex_native_resume_fake_cli_smoke(tmp_path: Path) -> None:
+    fake_cli = tmp_path / "fake-codex"
+    fake_cli.write_text(
+        "#!/usr/bin/env python3\n"
+        "import json, pathlib, sys\n"
+        "args = sys.argv[1:]\n"
+        "target = pathlib.Path(args[args.index('--output-last-message') + 1])\n"
+        "target.write_text(json.dumps({'status': 'ok'}), encoding='utf-8')\n"
+        "print(json.dumps({'type': 'thread.started', "
+        "'thread_id': '12345678-1234-4234-9234-123456789abc'}))\n",
+        encoding="utf-8",
+    )
+    fake_cli.chmod(0o755)
+    session_home = tmp_path / "codex-sessions"
+    codex = create_agent_harness(
+        "codex",
+        config={
+            "executable": str(fake_cli),
+            "filesystem_isolation": False,
+        },
+        model_config={"model": "model-x", "base_url": "https://example.test/v1"},
+    )
+    first_workspace = tmp_path / "first"
+    first = AgentRunRequest(
+        phase="test",
+        record_id="record",
+        workspace=first_workspace,
+        instructions="Return JSON.",
+        output_schema=AGENT_SUMMARY_SCHEMA,
+        prompt_version="v1",
+        metadata={
+            "codex_wire_api": "responses",
+            "codex_native_resume": True,
+            "codex_session_home": str(session_home),
+        },
+    )
+
+    first_result = codex.run(first)
+
+    assert first_result.session_id == "12345678-1234-4234-9234-123456789abc"
+    assert first_result.resume_mode == "fresh"
+    assert "--ephemeral" not in first_result.command
+
+    resumed = AgentRunRequest(
+        phase="test",
+        record_id="record",
+        workspace=tmp_path / "second",
+        instructions="Repair.",
+        output_schema=AGENT_SUMMARY_SCHEMA,
+        prompt_version="v1",
+        metadata={
+            "codex_wire_api": "responses",
+            "codex_native_resume": True,
+            "codex_session_home": str(session_home),
+            "codex_resume_session_id": first_result.session_id,
+        },
+    )
+
+    resumed_result = codex.run(resumed)
+
+    assert resumed_result.status == "succeeded"
+    assert resumed_result.resume_mode == "native_session"
+    resume_index = resumed_result.command.index("resume")
+    assert resumed_result.command[resume_index + 1] == first_result.session_id
+    assert "--last" not in resumed_result.command
+
+
 def test_stage06_single_agent_builds_reproduction_first_task_pair(tmp_path: Path) -> None:
     toolbox = tmp_path / "toolbox.json"
     toolbox.write_text(json.dumps({"profile_id": "test", "backends": {}}), encoding="utf-8")
@@ -5409,8 +5593,12 @@ def test_stage06_hands_partial_candidate_to_stage07_without_content_retry(
     def partial_responder(request: AgentRunRequest) -> dict:
         nonlocal calls
         calls += 1
+        if calls > 1 and (request.workspace / "outputs" / "paper_reproduction").exists():
+            # The mock rewrites the complete pair on recovery; a real Agent may
+            # instead edit the staged tree in place.
+            shutil.rmtree(request.workspace / "outputs" / "paper_reproduction")
         receipt = _single_agent_mock_responder(request)
-        shutil.rmtree(request.workspace / "outputs" / "autonomous_research")
+        (request.workspace / "outputs" / "paper_reproduction" / "task.md").unlink()
         return receipt
 
     result = run_stage06(
@@ -5438,12 +5626,14 @@ def test_stage06_hands_partial_candidate_to_stage07_without_content_retry(
     )
 
     record = result["records"][0]
-    assert calls == 1
+    # Stage06A now performs one recovery attempt after its early Gate finding;
+    # the second failed check is fail-open and hands the warning to Stage07.
+    assert calls == 2
     assert record["decision"] == "provisional_constructed"
+    assert record["stage06a_gate_status"] == "bypassed_with_warnings"
+    assert record["stage06a_gate_attempts"] == 2
     assert record["handoff_ready"] is True
-    assert "candidate_task_tree_incomplete_stage07_review_required" in record[
-        "handoff_warnings"
-    ]
+    assert "stage06a_gate_bypassed_with_warnings" in record["handoff_warnings"]
     assert Path(record["handoff_path"]).is_dir()
 
 
@@ -6469,7 +6659,7 @@ def test_stage07_mechanical_gate_loads_evaluator_contracts(tmp_path: Path) -> No
         write_json(root / "process_rubric.json", rubric)
     truth = {"evaluation_mode": "binary", "score_max": 1, "expected_result": {}}
     write_json(pair / "hidden_reference" / "ground_truth_common.json", truth)
-    report = stage07_mechanical_pre_publish_check(pair)
+    report = _normalized_mechanical_report(pair)
     assert report["mechanical_pre_publish_status"] == "passed"
     assert report["schema_load_diagnostic"] == "passed"
 
@@ -6739,7 +6929,7 @@ def test_mechanical_gate_normalizes_hidden_pair_identity(tmp_path: Path) -> None
         write_json(root / "process_rubric.json", rubric)
     (pair / "hidden_reference").mkdir(parents=True)
     write_json(pair / "hidden_reference" / "ground_truth_common.json", {"task_pair_id": "stale"})
-    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+    report = _normalized_mechanical_report(pair, task_pair_id="pair_test")
     assert report["mechanical_pre_publish_status"] == "passed"
     assert "hidden_ground_truth_task_pair_id_mismatch" not in report["findings"]
     assert any(
@@ -6808,7 +6998,7 @@ def test_mechanical_gate_projects_structured_critical_failures(tmp_path: Path) -
         },
     )
 
-    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+    report = _normalized_mechanical_report(pair, task_pair_id="pair_test")
 
     assert report["mechanical_pre_publish_status"] == "passed"
     assert report["schema_load_diagnostic"] == "passed"
@@ -6890,7 +7080,7 @@ def test_mode_pair_neutral_paths_are_diagnostic_not_mechanical_failure(
         {"task_pair_id": "pair_test", "evaluation_mode": "binary", "score_max": 1, "expected_result": {}},
     )
 
-    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+    report = _normalized_mechanical_report(pair, task_pair_id="pair_test")
 
     assert report["mechanical_pre_publish_status"] == "passed"
     assert "mode_pair_submission_contract_mismatch" not in report["findings"]
@@ -6954,7 +7144,7 @@ def test_binding_missing_from_explicit_result_schema_is_reported(tmp_path: Path)
         },
     )
 
-    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+    report = _normalized_mechanical_report(pair, task_pair_id="pair_test")
 
     assert "evaluator_binding_field_missing:paper_reproduction:ap-1:$.missing" in report["findings"]
     assert "evaluator_binding_field_missing:autonomous_research:ap-1:$.missing" in report["findings"]
@@ -7025,7 +7215,7 @@ def test_mode_submission_binding_alias_and_document_binding_are_supported(tmp_pa
         },
     )
 
-    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+    report = _normalized_mechanical_report(pair, task_pair_id="pair_test")
 
     assert report["mechanical_pre_publish_status"] == "passed"
     assert report["schema_load_diagnostic"] == "passed"
@@ -7049,7 +7239,7 @@ def test_nested_open_schema_is_diagnostic_not_missing_binding(tmp_path: Path) ->
         (root / "task.md").write_text("task\n", encoding="utf-8")
     write_json(pair / "hidden_reference" / "ground_truth_common.json", {"task_pair_id": "pair_test", "evaluation_mode": "binary", "score_max": 1, "expected_result": {}, "acceptance_profiles": [{"acceptance_profile_id": "ap-1", "submission_binding": {"observed_fields": ["$.descriptors.gap_eV"]}}]})
 
-    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+    report = _normalized_mechanical_report(pair, task_pair_id="pair_test")
 
     assert report["mechanical_pre_publish_status"] == "passed"
     assert "evaluator_binding_field_missing:paper_reproduction:ap-1:$.descriptors.gap_eV" not in report["findings"]
@@ -7071,7 +7261,7 @@ def test_dotted_submission_field_mapping_is_accepted(tmp_path: Path) -> None:
         (root / "task.md").write_text("task\n", encoding="utf-8")
     write_json(pair / "hidden_reference" / "ground_truth_common.json", {"task_pair_id": "pair_test", "evaluation_mode": "binary", "score_max": 1, "expected_result": {}, "acceptance_profiles": [{"acceptance_profile_id": "ap-1", "submission_binding": {"observed_fields": ["frontier_orbitals.gap_ev"]}}]})
 
-    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+    report = _normalized_mechanical_report(pair, task_pair_id="pair_test")
 
     assert report["mechanical_pre_publish_status"] == "passed"
 
@@ -7135,7 +7325,7 @@ def test_document_binding_accepts_matching_report_path(tmp_path: Path) -> None:
         },
     )
 
-    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+    report = _normalized_mechanical_report(pair, task_pair_id="pair_test")
 
     assert report["mechanical_pre_publish_status"] == "passed"
     assert not any("binding_path_invalid" in finding for finding in report["findings"])
@@ -7209,7 +7399,7 @@ def test_explicit_document_binding_does_not_require_selector_in_results_schema(t
         },
     )
 
-    report = stage07_mechanical_pre_publish_check(pair, task_pair_id="pair_test")
+    report = _normalized_mechanical_report(pair, task_pair_id="pair_test")
 
     assert report["mechanical_pre_publish_status"] == "passed"
     assert not any("binding_field_missing" in finding for finding in report["findings"])

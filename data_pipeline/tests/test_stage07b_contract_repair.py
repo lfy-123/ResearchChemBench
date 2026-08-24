@@ -168,7 +168,9 @@ def test_stage07b_freezes_task_type_and_process_key_point_content(tmp_path: Path
     assert science_fingerprint(pair) == before
 
 
-def test_stage07b_freezes_answers_but_allows_binding_transport_projection(tmp_path: Path):
+def test_stage07b_freezes_answers_and_projection_but_allows_binding_path_changes(
+    tmp_path: Path,
+):
     pair = _pair(tmp_path)
     hidden_path = pair / "hidden_reference" / "ground_truth_common.json"
     hidden_path.write_text(
@@ -196,12 +198,51 @@ def test_stage07b_freezes_answers_but_allows_binding_transport_projection(tmp_pa
     hidden = json.loads(hidden_path.read_text(encoding="utf-8"))
     hidden["task_pair_id"] = "new"
     hidden["acceptance_profiles"][0]["submission_binding"]["observed_fields"] = ["$.new"]
-    hidden["acceptance_profiles"][0]["submission_binding"]["canonical_projection"] = 99
     hidden_path.write_text(json.dumps(hidden) + "\n", encoding="utf-8")
     assert science_fingerprint(pair) == before
+    hidden["acceptance_profiles"][0]["submission_binding"]["canonical_projection"] = 99
+    hidden_path.write_text(json.dumps(hidden) + "\n", encoding="utf-8")
+    assert science_fingerprint(pair) != before
+    hidden["acceptance_profiles"][0]["submission_binding"]["canonical_projection"] = 4
     hidden["ground_truth_items"][0]["canonical_answer"] = 5
     hidden_path.write_text(json.dumps(hidden) + "\n", encoding="utf-8")
     assert science_fingerprint(pair) != before
+
+
+def test_stage07b_science_fingerprint_treats_mode_scope_as_set(tmp_path: Path):
+    pair = _pair(tmp_path)
+    hidden_path = pair / "hidden_reference" / "ground_truth_common.json"
+    hidden = {
+        "ground_truth_items": [
+            {
+                "ground_truth_id": "answer",
+                "canonical_answer": 4,
+                "applies_to_modes": [
+                    "paper_reproduction",
+                    "autonomous_research",
+                ],
+            }
+        ],
+        "acceptance_profiles": [
+            {
+                "acceptance_profile_id": "profile",
+                "applies_to_modes": [
+                    "paper_reproduction",
+                    "autonomous_research",
+                ],
+            }
+        ],
+    }
+    hidden_path.write_text(json.dumps(hidden) + "\n", encoding="utf-8")
+    before = science_fingerprint(pair)
+    for row in (
+        hidden["ground_truth_items"][0],
+        hidden["acceptance_profiles"][0],
+    ):
+        row["applies_to_modes"].reverse()
+    hidden_path.write_text(json.dumps(hidden) + "\n", encoding="utf-8")
+
+    assert science_fingerprint(pair) == before
 
 
 def test_stage07b_disabled_is_explicit(tmp_path: Path):

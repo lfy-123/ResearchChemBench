@@ -10,7 +10,6 @@ from __future__ import annotations
 from pathlib import Path
 
 from src.contracts import read_json, write_json
-from src.stages.stage06_task_builder.stage import _task_pair_builder_transport_findings
 from src.stages.stage06_task_builder.validation import hidden_reference_transport_findings
 from src.stages.stage07_task_judge.validation import stage07_mechanical_pre_publish_check
 
@@ -136,33 +135,6 @@ def _pair(tmp_path: Path, hidden: dict) -> Path:
             ],
         )
     return pair
-
-
-def test_stage06a_partial_mode_matrix_defers_autonomous_binding(tmp_path: Path) -> None:
-    workspace = tmp_path / "builder"
-    hidden_root = workspace / "outputs" / "hidden_reference"
-    reproduction = workspace / "outputs" / "paper_reproduction"
-    hidden_root.mkdir(parents=True)
-    reproduction.mkdir(parents=True)
-    truth = _truth("gt-repro", "ap-repro", ["paper_reproduction"])
-    write_json(
-        hidden_root / "ground_truth_common.json",
-        _hidden(
-            [truth],
-            [
-                _profile(
-                    "ap-repro",
-                    ["paper_reproduction"],
-                    matrix={"paper_reproduction": _binding()},
-                )
-            ],
-        ),
-    )
-    write_json(
-        reproduction / "submission_contract.json",
-        {"required_files": ["report/results.json"], "results_schema": {"type": "object"}},
-    )
-    assert _task_pair_builder_transport_findings({"status": "ready"}, workspace) == []
 
 
 def test_stage07_requires_all_rows_for_applicable_modes(tmp_path: Path) -> None:

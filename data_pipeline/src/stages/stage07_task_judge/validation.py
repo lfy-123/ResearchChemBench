@@ -2,10 +2,16 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any
 
 from src.contracts import read_json, write_json
+
+_REPOSITORY_ROOT = Path(__file__).resolve().parents[4]
+if str(_REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPOSITORY_ROOT))
+from researchchembench_contracts import schema_path_status
 from src.stages.stage06_task_builder.validation import (
     acceptance_profile_type_findings,
     canonicalize_mode_task_contract,
@@ -13,6 +19,7 @@ from src.stages.stage06_task_builder.validation import (
     normalize_submission_contract,
     normalize_process_rubric_contract,
 )
+from researchchembench_contracts import process_rubric_container_findings
 
 OUTCOME_TYPES = {
     "needs_software",
@@ -94,6 +101,182 @@ def _normalize_hidden_reference_for_transport(value: dict[str, Any]) -> dict[str
     return normalized if isinstance(normalized, dict) else value
 
 
+def _normalization_records(pair_root: Path) -> tuple[list[dict[str, Any]], list[str]]:
+    """Load prior transport-normalization provenance without changing the pair."""
+
+    path = pair_root / "orchestrator_normalizations.json"
+    if not path.is_file():
+        return [], []
+    try:
+        value = read_json(path)
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return [], ["normalization_provenance_unreadable"]
+    if not isinstance(value, dict) or not isinstance(value.get("records"), list):
+        return [], ["normalization_provenance_unreadable"]
+    return [row for row in value["records"] if isinstance(row, dict)], []
+
+
+def normalize_stage07_transport_contract(
+    pair_root: Path, *, task_pair_id: str | None = None
+) -> dict[str, Any]:
+    """Apply deterministic transport projections before the read-only Gate.
+
+    This function owns the small compatibility surface (mode enums/IDs,
+    submission/rubric wrappers, hidden binding aliases).  It records every
+    changed file by hash and never changes target values, tolerances, claim
+    roles, scientific scope, or public input payloads.
+    """
+
+    records, findings = _normalization_records(pair_root)
+    new_records: list[dict[str, Any]] = []
+    common_path = pair_root / "hidden_reference" / "ground_truth_common.json"
+    if task_pair_id and common_path.is_file():
+        try:
+            common = read_json(common_path)
+            if isinstance(common, dict) and common.get("task_pair_id") != task_pair_id:
+                before_hash = _file_digest(common_path)
+                updated = dict(common)
+                updated["task_pair_id"] = task_pair_id
+                write_json(common_path, updated)
+                new_records.append(
+                    {
+                        "kind": "hidden_reference_identity_normalization",
+                        "file": "hidden_reference/ground_truth_common.json",
+                        "before_sha256": before_hash,
+                        "after_sha256": _file_digest(common_path),
+                    }
+                )
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            # The read-only Gate reports malformed hidden content.
+            pass
+
+    mode_schemas: dict[str, Any] = {}
+    for mode in _TASK_MODES:
+        root = pair_root / mode
+        if not root.is_dir():
+            continue
+        tracked = (
+            "task_info.json",
+            "task_spec.json",
+            "submission_contract.json",
+            "process_rubric.json",
+        )
+        before_hashes = {name: _file_digest(root / name) for name in tracked}
+        mode_findings = canonicalize_mode_task_contract(
+            root,
+            expected_mode=mode,
+            task_pair_id=task_pair_id,
+        )
+        findings.extend(mode_findings)
+
+        submission_path = root / "submission_contract.json"
+        if submission_path.is_file():
+            try:
+                raw_submission = read_json(submission_path)
+                normalized_submission = normalize_submission_contract(raw_submission)
+                if normalized_submission != raw_submission:
+                    write_json(submission_path, normalized_submission)
+                if isinstance(normalized_submission, dict):
+                    mode_schemas[mode] = normalized_submission.get("results_schema")
+            except (OSError, ValueError, TypeError, json.JSONDecodeError):
+                pass
+
+        rubric_path = root / "process_rubric.json"
+        if rubric_path.is_file():
+            try:
+                raw_rubric = read_json(rubric_path)
+                normalized_rubric = normalize_process_rubric_contract(raw_rubric)
+                if isinstance(normalized_rubric, list) and normalized_rubric != raw_rubric:
+                    write_json(rubric_path, normalized_rubric)
+            except (OSError, ValueError, TypeError, json.JSONDecodeError):
+                pass
+
+        after_hashes = {name: _file_digest(root / name) for name in tracked}
+        changed = [
+            name
+            for name in tracked
+            if before_hashes.get(name) != after_hashes.get(name)
+        ]
+        if changed:
+            new_records.append(
+                {
+                    "mode": mode,
+                    "kind": "transport_normalization",
+                    "files": changed,
+                    "before_sha256": {
+                        name: before_hashes.get(name) for name in changed
+                    },
+                    "after_sha256": {
+                        name: after_hashes.get(name) for name in changed
+                    },
+                    "findings": mode_findings,
+                }
+            )
+
+    if common_path.is_file():
+        try:
+            common = read_json(common_path)
+            ownership_findings = hidden_reference_transport_findings(
+                common, require_ready_ground_truth=True
+            ) if isinstance(common, dict) else ["hidden_reference_transport_not_object"]
+            has_owned_truth_contract = bool(
+                isinstance(common, dict)
+                and isinstance(common.get("ground_truth_items"), list)
+                and common.get("ground_truth_items")
+            )
+            if isinstance(common, dict) and not ownership_findings and has_owned_truth_contract:
+                normalized = _normalize_hidden_reference_for_transport(common)
+                if normalized != common:
+                    before_hash = _file_digest(common_path)
+                    write_json(common_path, normalized)
+                    common = normalized
+                    new_records.append(
+                        {
+                            "kind": "hidden_reference_contract_normalization",
+                            "file": "hidden_reference/ground_truth_common.json",
+                            "before_sha256": before_hash,
+                            "after_sha256": _file_digest(common_path),
+                        }
+                    )
+            if isinstance(common, dict) and not ownership_findings:
+                before_hash = _file_digest(common_path)
+                changed_profiles = _normalize_hidden_binding_paths(
+                    common, mode_schemas=mode_schemas
+                )
+                if changed_profiles:
+                    write_json(common_path, common)
+                    new_records.append(
+                        {
+                            "kind": "evaluator_binding_path_normalization",
+                            "file": "hidden_reference/ground_truth_common.json",
+                            "profiles": changed_profiles,
+                            "before_sha256": before_hash,
+                            "after_sha256": _file_digest(common_path),
+                        }
+                    )
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            pass
+
+    if new_records:
+        records.extend(new_records)
+        try:
+            write_json(
+                pair_root / "orchestrator_normalizations.json",
+                {
+                    "schema_version": "stage07-normalization-provenance/v1",
+                    "records": records,
+                },
+            )
+        except OSError:
+            findings.append("normalization_provenance_write_failed")
+    return {
+        "status": "passed" if not findings else "findings",
+        "findings": sorted(set(findings)),
+        "records": records,
+        "new_records": new_records,
+    }
+
+
 def stage07_mechanical_pre_publish_check(
     pair_root: Path, *, task_pair_id: str | None = None
 ) -> dict[str, Any]:
@@ -107,66 +290,13 @@ def stage07_mechanical_pre_publish_check(
     required_modes = ("paper_reproduction", "autonomous_research")
     mode_values: dict[str, dict[str, Any]] = {}
     pair_diagnostics: list[str] = []
-    normalization_records: list[dict[str, Any]] = []
-    provenance_path = pair_root / "orchestrator_normalizations.json"
-    if provenance_path.is_file():
-        try:
-            provenance = read_json(provenance_path)
-            if isinstance(provenance, dict) and isinstance(provenance.get("records"), list):
-                normalization_records.extend(
-                    row for row in provenance["records"] if isinstance(row, dict)
-                )
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            findings.append("normalization_provenance_unreadable")
-    # The orchestrator owns the deterministic pair identity.  Normalize the private
-    # truth identity before checking it, just as mode metadata is normalized below.
-    # This changes no scientific field and prevents an Agent-proposed ID from causing
-    # a false mechanical publication block.
-    if task_pair_id:
-        common_path = pair_root / "hidden_reference" / "ground_truth_common.json"
-        if common_path.is_file():
-            try:
-                common_before = read_json(common_path)
-                if isinstance(common_before, dict) and common_before.get("task_pair_id") != task_pair_id:
-                    before_hash = _file_digest(common_path)
-                    common_after = dict(common_before)
-                    common_after["task_pair_id"] = task_pair_id
-                    write_json(common_path, common_after)
-                    normalization_records.append(
-                        {
-                            "kind": "hidden_reference_identity_normalization",
-                            "file": "hidden_reference/ground_truth_common.json",
-                            "before_sha256": before_hash,
-                            "after_sha256": _file_digest(common_path),
-                        }
-                    )
-            except (OSError, ValueError, TypeError, json.JSONDecodeError):
-                # The ordinary hidden-reference checks below report unreadable/invalid
-                # content; do not turn this best-effort normalization into a new verdict.
-                pass
+    normalization_records, provenance_findings = _normalization_records(pair_root)
+    findings.extend(provenance_findings)
     for mode in required_modes:
         root = pair_root / mode
         if not root.is_dir():
             findings.append(f"missing_mode_directory:{mode}")
             continue
-        # Normalize enum/ID/legacy-complexity transport fields before checking
-        # the gate.  This is a bounded mechanical rewrite, not a scientific
-        # decision and avoids spending a full Agent audit on recoverable drift.
-        tracked_files = (
-            "task_info.json",
-            "task_spec.json",
-            "submission_contract.json",
-            "process_rubric.json",
-        )
-        before_hashes = {
-            name: _file_digest(root / name) for name in tracked_files
-        }
-        normalization_findings = canonicalize_mode_task_contract(
-            root,
-            expected_mode=mode,
-            task_pair_id=task_pair_id,
-        )
-        findings.extend(normalization_findings)
         for name in ("task.md", "task_info.json", "task_spec.json", "submission_contract.json", "process_rubric.json"):
             path = root / name
             if not path.is_file():
@@ -174,42 +304,18 @@ def stage07_mechanical_pre_publish_check(
         try:
             info = read_json(root / "task_info.json")
             spec = read_json(root / "task_spec.json")
-            submission = normalize_submission_contract(
-                read_json(root / "submission_contract.json")
-            )
-            write_json(root / "submission_contract.json", submission)
+            submission = read_json(root / "submission_contract.json")
             raw_rubric = read_json(root / "process_rubric.json")
+            rubric_container_findings = process_rubric_container_findings(raw_rubric)
+            findings.extend(
+                f"{finding}:{mode}"
+                for finding in rubric_container_findings
+                if finding != "process_rubric_empty"
+            )
             rubric = normalize_process_rubric_contract(raw_rubric)
-            if rubric != raw_rubric:
-                write_json(root / "process_rubric.json", rubric)
         except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
             findings.append(f"unreadable_mode_json:{mode}:{type(exc).__name__}")
             continue
-        # Include writes performed by both canonicalization and the lightweight
-        # submission/rubric container projection in the provenance record.
-        after_hashes = {
-            name: _file_digest(root / name) for name in tracked_files
-        }
-        changed = [
-            name
-            for name in tracked_files
-            if before_hashes.get(name) != after_hashes.get(name)
-        ]
-        if changed:
-            normalization_records.append(
-                {
-                    "mode": mode,
-                    "kind": "transport_normalization",
-                    "files": changed,
-                    "before_sha256": {
-                        name: before_hashes[name] for name in changed
-                    },
-                    "after_sha256": {
-                        name: after_hashes[name] for name in changed
-                    },
-                    "findings": normalization_findings,
-                }
-            )
         mode_values[mode] = {"info": info, "spec": spec, "submission": submission, "rubric": rubric}
         expected_task_mode = "guided_reproduction" if mode == "paper_reproduction" else "open_discovery"
         expected_suffix = "_reproduction" if mode == "paper_reproduction" else "_autonomous"
@@ -330,10 +436,9 @@ def stage07_mechanical_pre_publish_check(
         if (pair_root / mode / "hidden_reference").exists():
             findings.append(f"hidden_reference_in_public_mode:{mode}")
 
-    # Apply the tiny legacy selector repair only after the public schemas have
-    # been loaded.  This prevents a recursive-descent-looking string from being
-    # rewritten when the corresponding explicit child path is not declared by
-    # any applicable mode.
+    # Detect compatibility projections without applying them.  The explicit
+    # normalization phase runs before this Gate in the production pipeline;
+    # direct callers receive a visible finding instead of a mutated input.
     common_path = pair_root / "hidden_reference" / "ground_truth_common.json"
     if common_path.is_file():
         try:
@@ -343,56 +448,37 @@ def stage07_mechanical_pre_publish_check(
                     common_before, require_ready_ground_truth=True
                 )
                 findings.extend(ownership_findings)
-                # Stage07 may receive a repaired artifact directly from an Agent
-                # (without the Stage06 hidden-reference phase).  Apply the same
-                # syntax-only projection at this final transport boundary so
-                # aliases cannot silently bypass typed evaluator checks.
                 has_profile_contract = bool(
                     isinstance(common_before.get("ground_truth_items"), list)
                     and common_before.get("ground_truth_items")
                 )
-                # Do not run a potentially lossy compatibility projection after
-                # an ownership/scope/ambiguity finding.  The raw artifact must
-                # remain available to the audit report and recovery attempt.
                 if has_profile_contract and not ownership_findings:
                     normalized_common = _normalize_hidden_reference_for_transport(
                         common_before
                     )
                     if normalized_common != common_before:
-                        before_hash = _file_digest(common_path)
-                        write_json(common_path, normalized_common)
-                        common_before = normalized_common
-                        normalization_records.append(
-                            {
-                                "kind": "hidden_reference_contract_normalization",
-                                "file": "hidden_reference/ground_truth_common.json",
-                                "before_sha256": before_hash,
-                                "after_sha256": _file_digest(common_path),
-                            }
+                        findings.append("normalization_required:hidden_reference_contract")
+                        common_for_paths = normalized_common
+                    else:
+                        common_for_paths = json.loads(
+                            json.dumps(common_before, ensure_ascii=False)
                         )
-                # The path compatibility rewrite is also lossy.  Do not apply
-                # it after an ownership/scope/ambiguity finding; preserving the
-                # exact raw contract is necessary for an Agent repair and for
-                # an auditable failure report.
+                else:
+                    common_for_paths = json.loads(
+                        json.dumps(common_before, ensure_ascii=False)
+                    )
                 if not ownership_findings:
                     mode_schemas = {
                         mode: values["submission"].get("results_schema")
                         for mode, values in mode_values.items()
                     }
                     changed_profiles = _normalize_hidden_binding_paths(
-                        common_before, mode_schemas=mode_schemas
+                        common_for_paths, mode_schemas=mode_schemas
                     )
                     if changed_profiles:
-                        before_hash = _file_digest(common_path)
-                        write_json(common_path, common_before)
-                        normalization_records.append(
-                            {
-                                "kind": "evaluator_binding_path_normalization",
-                                "file": "hidden_reference/ground_truth_common.json",
-                                "profiles": changed_profiles,
-                                "before_sha256": before_hash,
-                                "after_sha256": _file_digest(common_path),
-                            }
+                        findings.append(
+                            "normalization_required:hidden_binding_paths:"
+                            + ",".join(changed_profiles)
                         )
         except (OSError, ValueError, TypeError, json.JSONDecodeError):
             # The normal evaluator checks below report malformed hidden
@@ -401,20 +487,6 @@ def stage07_mechanical_pre_publish_check(
             pass
     evaluator = _evaluator_dry_run(pair_root, mode_values)
     findings.extend(evaluator["findings"])
-    if normalization_records:
-        # Keep provenance beside the pair, never inside either public mode tree.
-        # The record contains hashes and transport reasons only; it cannot alter
-        # the Agent's scientific decision or disclose private answers.
-        try:
-            write_json(
-                pair_root / "orchestrator_normalizations.json",
-                {
-                    "schema_version": "stage07-normalization-provenance/v1",
-                    "records": normalization_records,
-                },
-            )
-        except OSError:
-            findings.append("normalization_provenance_write_failed")
     return {
         "mechanical_pre_publish_status": "passed" if not findings else "failed",
         # This check currently validates schemas and safe artifact bindings; it
@@ -679,53 +751,9 @@ def _jsonpath_tokens(value: Any) -> list[str | int] | None:
 
 
 def _schema_path_status(schema: Any, tokens: list[str | int]) -> str:
-    """Return present, open, or missing for a binding path in JSON Schema."""
+    """Backward-compatible alias to the shared Task Package schema resolver."""
 
-    current = schema
-    for token in tokens:
-        if not isinstance(current, dict):
-            return "missing"
-        if token == "*":
-            if isinstance(current.get("items"), dict):
-                current = current["items"]
-                continue
-            if isinstance(current.get("additionalProperties"), dict):
-                current = current["additionalProperties"]
-                continue
-            if current.get("additionalProperties") is True:
-                return "open"
-            return "missing"
-        if isinstance(token, int):
-            if not isinstance(current.get("items"), dict):
-                return "missing"
-            current = current["items"]
-            continue
-        properties = current.get("properties")
-        if isinstance(properties, dict):
-            if token in properties:
-                current = properties[token]
-                continue
-            # An explicit properties map is closed for undeclared keys unless
-            # the schema explicitly opens additional properties.
-            if current.get("additionalProperties") is not True:
-                return "missing"
-        # A schema may intentionally describe an open object with only a
-        # ``required`` list (or an omitted ``additionalProperties`` keyword).
-        # Its nested keys are evaluator/semantic contract details, not proven
-        # missing fields.  Treat that state as open rather than blocking it.
-        if (
-            isinstance(current, dict)
-            and ("required" in current or "additionalProperties" not in current)
-            and current.get("additionalProperties") is not False
-        ):
-            return "open"
-        if isinstance(current.get("additionalProperties"), dict):
-            current = current["additionalProperties"]
-            continue
-        if current.get("additionalProperties") is True:
-            return "open"
-        return "missing"
-    return "present"
+    return schema_path_status(schema, tokens)
 
 
 def published_bundle_mechanical_check(bundle_root: Path) -> dict[str, Any]:

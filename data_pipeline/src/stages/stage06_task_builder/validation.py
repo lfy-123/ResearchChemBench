@@ -11,6 +11,14 @@ from typing import Any
 from src.agents.workspace import directory_manifest, validate_relative_path
 from src.contracts import canonical_hash, read_json, write_json
 
+_REPOSITORY_ROOT = Path(__file__).resolve().parents[4]
+if str(_REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPOSITORY_ROOT))
+from researchchembench_contracts import (  # noqa: E402
+    normalize_process_rubric,
+    process_rubric_container_findings,
+)
+
 ACCEPTANCE_TYPES = {
     "numeric_tolerance",
     "categorical",
@@ -493,20 +501,9 @@ def normalize_submission_contract(value: Any) -> dict[str, Any]:
 
 
 def normalize_process_rubric_contract(value: Any) -> Any:
-    """Project harmless rubric container wrappers to the evaluator list shape.
+    """Compatibility entry point for the shared, lossless rubric normalizer."""
 
-    This helper does not invent criteria or change scores. It only removes a
-    serialization wrapper used by older Agent drafts around the same criteria.
-    """
-
-    if isinstance(value, list):
-        return value
-    if isinstance(value, dict):
-        for key in ("criteria", "items", "rubric"):
-            rows = value.get(key)
-            if isinstance(rows, list):
-                return rows
-    return value
+    return normalize_process_rubric(value)
 
 
 def validate_scientific_review(review: dict[str, Any], evidence_ids: set[str]) -> list[str]:

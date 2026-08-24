@@ -55,6 +55,8 @@ class AgentRunResult:
     error: dict[str, Any] | None = None
     receipt_recovered_from_artifact: bool = False
     usage: dict[str, Any] = field(default_factory=dict)
+    session_id: str | None = None
+    resume_mode: str = "fresh"
 
     def audit_record(self) -> dict[str, Any]:
         return {key: value for key, value in self.__dict__.items() if key != "response"}
@@ -335,8 +337,10 @@ class CliAgentHarness(AgentHarness):
                 bridge=bridge,
             )
             if bool(self.config.get("filesystem_isolation", True)) and os.name == "posix":
-                command, isolation_root = self._isolate_command(command, workspace)
-            environment = self._environment(bridge)
+                command, isolation_root = self._isolate_command(
+                    command, workspace, request=request
+                )
+            environment = self._environment(bridge, request=request)
             with (
                 stdout_path.open("w", encoding="utf-8") as stdout,
                 stderr_path.open("w", encoding="utf-8") as stderr,
@@ -367,6 +371,17 @@ class CliAgentHarness(AgentHarness):
                     failure_class=failure_class,
                     retryable=retryable,
                 )
+            session_metadata = self._extract_session_metadata(stdout_path)
+            requested_session_id = str(
+                request.metadata.get("codex_resume_session_id") or ""
+            ).strip()
+            if session_metadata is None and requested_session_id:
+                session_metadata = {
+                    "session_id": requested_session_id,
+                    "source": "explicit_codex_resume_request",
+                }
+            if session_metadata:
+                write_json(workspace / "codex_session.json", session_metadata)
             try:
                 response = self._parse_response(stdout_path, final_path)
                 response = _validated_structured_response(
@@ -401,6 +416,10 @@ class CliAgentHarness(AgentHarness):
                 tool_calls=bridge.tool_call_count if bridge is not None else 0,
                 usage=_agent_usage_summary(bridge, stdout_path),
                 receipt_recovered_from_artifact=receipt_recovered_from_artifact,
+                session_id=(session_metadata or {}).get("session_id"),
+                resume_mode=(
+                    "native_session" if requested_session_id else "fresh"
+                ),
             )
             write_json(workspace / "agent_run.json", result.audit_record())
             return result
@@ -425,6 +444,16 @@ class CliAgentHarness(AgentHarness):
                 tool_calls=bridge.tool_call_count if bridge is not None else 0,
                 usage=_agent_usage_summary(bridge, stdout_path),
                 error={"error_type": type(exc).__name__, "message": str(exc)},
+                session_id=(self._extract_session_metadata(stdout_path) or {}).get(
+                    "session_id"
+                )
+                or str(request.metadata.get("codex_resume_session_id") or "").strip()
+                or None,
+                resume_mode=(
+                    "native_session"
+                    if request.metadata.get("codex_resume_session_id")
+                    else "fresh"
+                ),
             )
             write_json(workspace / "agent_run.json", result.audit_record())
             exc.result = result
@@ -450,6 +479,16 @@ class CliAgentHarness(AgentHarness):
                 tool_calls=bridge.tool_call_count if bridge is not None else 0,
                 usage=_agent_usage_summary(bridge, stdout_path),
                 error={"error_type": type(exc).__name__, "message": str(exc)[:3000]},
+                session_id=(self._extract_session_metadata(stdout_path) or {}).get(
+                    "session_id"
+                )
+                or str(request.metadata.get("codex_resume_session_id") or "").strip()
+                or None,
+                resume_mode=(
+                    "native_session"
+                    if request.metadata.get("codex_resume_session_id")
+                    else "fresh"
+                ),
             )
             write_json(workspace / "agent_run.json", result.audit_record())
             raise AgentExecutionError(
@@ -477,12 +516,28 @@ class CliAgentHarness(AgentHarness):
     def _bridge(self, request: AgentRunRequest) -> ResponsesBridge | None:
         return None
 
-    def _environment(self, bridge: ResponsesBridge | None) -> dict[str, str]:
+    def _environment(
+        self,
+        bridge: ResponsesBridge | None,
+        *,
+        request: AgentRunRequest | None = None,
+    ) -> dict[str, str]:
         environment = os.environ.copy()
         environment["PYTHONUNBUFFERED"] = "1"
         return environment
 
-    def _isolate_command(self, command: list[str], workspace: Path) -> tuple[list[str], Path]:
+    def _extract_session_metadata(self, stdout_path: Path) -> dict[str, Any] | None:
+        """Optional persisted-session hook for CLI harnesses."""
+
+        return None
+
+    def _isolate_command(
+        self,
+        command: list[str],
+        workspace: Path,
+        *,
+        request: AgentRunRequest | None = None,
+    ) -> tuple[list[str], Path]:
         unshare = shutil.which("unshare")
         executable = shutil.which(str(self.config.get("executable") or self.executable))
         if not unshare or not executable:
@@ -493,8 +548,7 @@ class CliAgentHarness(AgentHarness):
             )
         root = Path(tempfile.mkdtemp(prefix="rcb-agent-rootfs-"))
         helper = Path(__file__).with_name("namespace_exec.py").resolve()
-        return (
-            [
+        isolated = [
                 unshare,
                 "--user",
                 "--map-root-user",
@@ -509,11 +563,16 @@ class CliAgentHarness(AgentHarness):
                 str(root),
                 "--executable",
                 executable,
-                "--",
-                *command,
-            ],
-            root,
-        )
+            ]
+        metadata = request.metadata if request is not None else {}
+        if bool(metadata.get("codex_native_resume")):
+            raw_session_home = str(metadata.get("codex_session_home") or "").strip()
+            if raw_session_home:
+                session_home = Path(raw_session_home).expanduser().resolve()
+                session_home.mkdir(parents=True, exist_ok=True)
+                isolated.extend(["--codex-home", str(session_home)])
+        isolated.extend(["--", *command])
+        return isolated, root
 
     @abstractmethod
     def _build_command(
@@ -682,8 +741,13 @@ class CodexHarness(CliAgentHarness):
             retries=int(self.model_config.get("retries", 2)),
         )
 
-    def _environment(self, bridge: ResponsesBridge | None) -> dict[str, str]:
-        environment = super()._environment(bridge)
+    def _environment(
+        self,
+        bridge: ResponsesBridge | None,
+        *,
+        request: AgentRunRequest | None = None,
+    ) -> dict[str, str]:
+        environment = super()._environment(bridge, request=request)
         for key in list(environment):
             if key.endswith("_API_KEY") or key in {
                 "OPENAI_API_KEY",
@@ -708,7 +772,52 @@ class CodexHarness(CliAgentHarness):
             api_key = os.environ.get(key_name, "")
             if api_key:
                 environment["OPENAI_API_KEY"] = api_key
+        request_metadata = request.metadata if request is not None else {}
+        native_resume = bool(
+            request_metadata.get(
+                "codex_native_resume",
+                self.config.get("codex_native_resume", False),
+            )
+        )
+        if native_resume:
+            # Sessions share one run-local store, but every resume uses an
+            # explicit UUID.  Never use `--last`: concurrent papers must not
+            # be able to select one another's conversation.
+            raw_session_home = str(
+                request_metadata.get("codex_session_home")
+                or self.config.get("codex_session_home")
+                or ""
+            ).strip()
+            session_home = (
+                Path(raw_session_home).expanduser().resolve()
+                if raw_session_home
+                else Path(os.environ.get("TMPDIR", "/tmp"))
+                / f"rcb-codex-sessions-{os.getuid()}"
+            )
+            session_home.mkdir(parents=True, exist_ok=True)
+            environment["CODEX_HOME"] = str(session_home)
         return environment
+
+    def _extract_session_metadata(self, stdout_path: Path) -> dict[str, Any] | None:
+        if not stdout_path.is_file():
+            return None
+        session_id = ""
+        try:
+            lines = stdout_path.read_text(encoding="utf-8", errors="replace").splitlines()
+        except OSError:
+            return None
+        for line in lines:
+            try:
+                event = json.loads(line)
+            except (TypeError, ValueError, json.JSONDecodeError):
+                continue
+            if event.get("type") == "thread.started":
+                session_id = str(
+                    event.get("thread_id") or event.get("threadId") or event.get("id") or ""
+                ).strip()
+                if session_id:
+                    break
+        return {"session_id": session_id, "source": "codex_thread_started"} if session_id else None
 
     def _build_command(
         self,
@@ -725,17 +834,35 @@ class CodexHarness(CliAgentHarness):
             else str(self.model_config.get("base_url") or "").rstrip("/")
         )
         provider = "rcb_pipeline"
+        native_resume_value = request.metadata.get("codex_native_resume")
+        native_resume = bool(
+            self.config.get("codex_native_resume", False)
+            if native_resume_value is None
+            else native_resume_value
+        )
+        resume_session_id = str(request.metadata.get("codex_resume_session_id") or "").strip()
         command = [
             str(self.config.get("executable") or self.executable),
             "exec",
+        ]
+        if resume_session_id:
+            # `-C` and the sandbox are parent `exec` options.  Supplying them
+            # before the resume subcommand makes the recovered conversation
+            # operate on the newly staged recovery workspace.
+            command.extend(
+                [
+                    "-C",
+                    str(request.workspace.resolve()),
+                    "--sandbox",
+                    "danger-full-access",
+                    "resume",
+                    resume_session_id,
+                ]
+            )
+        command.extend([
             "--ignore-user-config",
             "--ignore-rules",
             "--skip-git-repo-check",
-            "--ephemeral",
-            "-C",
-            str(request.workspace.resolve()),
-            "--sandbox",
-            "danger-full-access",
             "--json",
             "--output-schema",
             str(schema_path.resolve()),
@@ -767,7 +894,11 @@ class CodexHarness(CliAgentHarness):
             f"model_auto_compact_token_limit_scope={json.dumps(str(self.config.get('model_auto_compact_token_limit_scope', 'total')))}",
             "-c",
             "sandbox_workspace_write.network_access=false",
-        ]
+        ])
+        if not resume_session_id:
+            if not native_resume:
+                command.insert(5, "--ephemeral")
+            command.extend(["-C", str(request.workspace.resolve()), "--sandbox", "danger-full-access"])
         if bool(self.config.get("codex_disable_code_mode", False)):
             command.extend(
                 [
@@ -841,8 +972,13 @@ class ClaudeHarness(CliAgentHarness):
 class OpenCodeHarness(CliAgentHarness):
     executable = "opencode"
 
-    def _environment(self, bridge: ResponsesBridge | None) -> dict[str, str]:
-        environment = super()._environment(bridge)
+    def _environment(
+        self,
+        bridge: ResponsesBridge | None,
+        *,
+        request: AgentRunRequest | None = None,
+    ) -> dict[str, str]:
+        environment = super()._environment(bridge, request=request)
         key_name = str(self.model_config.get("api_key_env") or "")
         api_key = os.environ.get(key_name, "")
         if not api_key:

@@ -31,6 +31,7 @@ from researchchembench_contracts import (  # noqa: E402
     materialize_result_schema_path,
     normalize_binding_artifact_paths,
     normalize_binding_contract,
+    normalize_process_rubric,
     package_content_hash,
     package_payload_entries,
     validate_task_package,
@@ -170,6 +171,7 @@ def _profile_parameters(
 
 
 def _process_key_points(rows: Any) -> list[dict[str, Any]]:
+    rows = normalize_process_rubric(rows)
     values: list[dict[str, Any]] = []
     seen: set[str] = set()
     for index, row in enumerate(rows or [], start=1):
@@ -186,7 +188,9 @@ def _process_key_points(rows: Any) -> list[dict[str, Any]]:
         ).strip()
         description = str(row.get("description") or title).strip()
         evidence = _as_string_list(
-            row.get("evidence_artifacts") or row.get("required_evidence")
+            row.get("evidence_artifacts")
+            or row.get("required_evidence")
+            or row.get("required_artifact")
         )
         metadata = {
             key: row[key]

@@ -4,8 +4,8 @@ STAGE06_REVIEW_VERSION = "v7-stage06-review-round2-ensemble-coverage-20260823"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v5-stage06-hidden-reference-round4-20260823"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v7-stage06-builder-round2-ensemble-coverage-20260823"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v7-stage06-converter-round1-decision-protocol-20260823"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v8-stage06-builder-early-gate-20260824"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v8-stage06-converter-early-gate-20260824"
 
 
 def task_pair_builder_instructions(
@@ -393,6 +393,11 @@ receipt small. Do not create scattered sentinel files such as finished_at.txt or
 On an objective recovery attempt, preserve source-backed work already written and finish the
 interrupted artifact. Recheck scientific facts against the immutable input snapshot; never fill a
 missing structure, route parameter, or Ground Truth by guessing.
+\nSTAGE06A PREFLIGHT GATE
+If `RECOVERY_CONTEXT.md` lists deterministic handoff findings, repair those fields once while
+preserving the scientific scope and authored claims. A second Gate warning is fail-open workflow
+telemetry, not permission to omit an artifact silently. The `claim_role=final` check only requires
+that at least one final claim is declared; never promote an intermediate claim to satisfy it.
 """
 
 
@@ -438,6 +443,10 @@ host is unavailable does not mean the shell or filesystem is unavailable. A comm
 and prints workspace content proves access. Do not burn the call budget repeating `pwd` or `ls` after
 that point. On a recovery attempt, read `RECOVERY_CONTEXT.md` first, preserve the staged output, then
 use one grouped inspection, one grouped repair, and one grouped validation whenever possible.
+
+If `conversion_packet/stage06a_gate_warning.json` is present, treat it as a transport warning from
+Stage06A. Repair only the listed autonomous-surface files and carry the warning into the receipt;
+do not infer hidden answers or reconstruct missing scientific inputs.
 
 Your responsibility is public-surface conversion, not a new scientific review. Rewrite the
 pre-staged public tree into an autonomous-research task that:

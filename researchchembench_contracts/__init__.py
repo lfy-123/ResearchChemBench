@@ -29,6 +29,9 @@ from .task_package import (
     normalize_binding_artifact_paths,
     normalize_binding_contract,
     materialize_result_schema_path,
+    normalize_process_rubric,
+    process_rubric_container_findings,
+    schema_path_status,
     validate_task_package,
 )
 
@@ -61,5 +64,8 @@ __all__ = [
     "normalize_binding_artifact_paths",
     "normalize_binding_contract",
     "materialize_result_schema_path",
+    "normalize_process_rubric",
+    "process_rubric_container_findings",
+    "schema_path_status",
     "validate_task_package",
 ]

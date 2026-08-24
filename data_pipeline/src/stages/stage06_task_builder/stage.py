@@ -82,11 +82,12 @@ from src.stages.stage06_task_builder.validation import (
     canonicalize_mode_task_contract,
     hidden_reference_transport_findings,
     normalize_mode_scope,
+    normalize_process_rubric_contract,
     anonymous_source_id,
     canonical_task_pair_id,
 )
 
-STAGE06_IMPLEMENTATION_VERSION = "v16-hidden-contract-boundary-round5-20260823"
+STAGE06_IMPLEMENTATION_VERSION = "v18-bounded-early-gates-native-resume-20260824"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
@@ -268,11 +269,18 @@ def _run_stage06_single_agent(
                     root / "inputs",
                     include_visual_fallback=bool(config.get("stage06_include_visual_fallback", False)),
                 ),
-                semantic_validator=_task_pair_builder_transport_findings,
+                phase_gate_validator=_stage06a_phase_gate_findings,
+                phase_gate_max_checks=2,
+                phase_gate_fail_open=True,
             )
             if agent_workspace is None:
                 raise FileNotFoundError("Stage06 task-pair builder workspace is unavailable")
             outputs = agent_workspace / "outputs"
+            stage06a_gate_report = (
+                read_json(agent_workspace / "phase_gate_report.json")
+                if (agent_workspace / "phase_gate_report.json").is_file()
+                else {}
+            )
             if receipt.get("decision") == "scientific_not_constructible":
                 # A scientific rejection is allowed to stop after the receipt; it is
                 # not required to emit a workflow review or any task files.  Do not
@@ -316,6 +324,9 @@ def _run_stage06_single_agent(
             write_json(staging_root / "construction_receipt.json", receipt)
             _ensure_objective_handoff_artifacts(staging_root, review)
             use_converter = generation_strategy == "two_agent_objective_centered"
+            handoff_warnings: list[str] = []
+            if receipt.get("phase_gate_status") == "bypassed_with_warnings":
+                handoff_warnings.append("stage06a_gate_bypassed_with_warnings")
             if use_converter:
                 converter_response, converter_audit, converter_workspace = _run_phase(
                     harness=converter_harness,
@@ -349,14 +360,25 @@ def _run_stage06_single_agent(
                         "model": converter_harness.model,
                     },
                     config=config,
-                    setup=lambda root: _setup_converter_inputs(root, staging_root),
-                    semantic_validator=_converter_phase_findings,
+                    setup=lambda root: _setup_converter_inputs(
+                        root,
+                        staging_root,
+                        stage06a_gate_report=stage06a_gate_report,
+                    ),
+                    semantic_validator=_converter_execution_findings,
+                    phase_gate_validator=_converter_contract_gate_findings,
+                    phase_gate_max_checks=2,
+                    phase_gate_fail_open=True,
                 )
             else:
                 # Explicit legacy mode remains available for old fixtures and migration runs.
                 converter_response = {"status": "converted", "artifact_path": "outputs/autonomous_research"}
                 converter_audit = {"status": "skipped", "reason": "legacy_single_agent_mode"}
                 converter_workspace = None
+            if use_converter and converter_workspace is not None:
+                _normalize_converter_report(converter_response, converter_workspace)
+            if converter_response.get("phase_gate_status") == "bypassed_with_warnings":
+                handoff_warnings.append("stage06b_gate_bypassed_with_warnings")
             if converter_response.get("status") not in {"converted", "conversion_uncertain"}:
                 return _artifact_delivery_failure(
                     run_id,
@@ -386,9 +408,13 @@ def _run_stage06_single_agent(
                     task_pair_id=task_pair_id,
                 )
                 if mode_findings:
-                    raise ValueError(
-                        "Stage06B autonomous mode contract is incomplete: "
-                        + "; ".join(mode_findings)
+                    # The Stage06B Gate already had its bounded repair budget.
+                    # Post-Gate transport normalization must not turn a second
+                    # failed Gate into an exception after the phase was explicitly
+                    # allowed to continue with warnings.
+                    handoff_warnings.extend(
+                        f"stage06b_post_normalization_warning:{finding}"
+                        for finding in mode_findings
                     )
                 report_path = converter_workspace / "outputs" / "conversion_report.json"
                 if report_path.is_file():
@@ -434,7 +460,6 @@ def _run_stage06_single_agent(
                 )
             autonomous_root = staging_root / "autonomous_research"
             reproduction_root = staging_root / "paper_reproduction"
-            handoff_warnings: list[str] = []
             hidden_path = staging_root / "hidden_reference" / "ground_truth_common.json"
             if reproduction_root.is_dir() and autonomous_root.is_dir() and hidden_path.is_file():
                 try:
@@ -546,6 +571,19 @@ def _run_stage06_single_agent(
                 ).casefold()
                 in {"replaced", "corrected", "ignored"},
                 "handoff_warnings": handoff_warnings,
+                "stage06a_gate_status": receipt.get("phase_gate_status", "not_run"),
+                "stage06a_gate_attempts": receipt.get("phase_gate_attempts", 0),
+                "stage06a_gate_findings": receipt.get("phase_gate_findings", []),
+                "stage06a_gate_report": stage06a_gate_report,
+                "stage06b_gate_status": converter_response.get(
+                    "phase_gate_status", "not_run"
+                ),
+                "stage06b_gate_attempts": converter_response.get(
+                    "phase_gate_attempts", 0
+                ),
+                "stage06b_gate_findings": converter_response.get(
+                    "phase_gate_findings", []
+                ),
                 "agent_harness": harness.name,
                 "agent_model": harness.model,
                 "mode_generation_strategy": generation_strategy,
@@ -611,6 +649,34 @@ def _run_stage06_single_agent(
         "artifact_delivery_failures": sum(
             row.get("decision") == "artifact_delivery_failure_retryable"
             for row in records
+        ),
+        "stage06a_gate_bypassed": sum(
+            row.get("stage06a_gate_status") == "bypassed_with_warnings"
+            for row in records
+        ),
+        "stage06a_gate_attempts": sum(
+            int(row.get("stage06a_gate_attempts") or 0) for row in records
+        ),
+        "stage06a_gate_findings": sorted(
+            {
+                str(finding)
+                for row in records
+                for finding in row.get("stage06a_gate_findings") or []
+            }
+        ),
+        "stage06b_gate_bypassed": sum(
+            row.get("stage06b_gate_status") == "bypassed_with_warnings"
+            for row in records
+        ),
+        "stage06b_gate_attempts": sum(
+            int(row.get("stage06b_gate_attempts") or 0) for row in records
+        ),
+        "stage06b_gate_findings": sorted(
+            {
+                str(finding)
+                for row in records
+                for finding in row.get("stage06b_gate_findings") or []
+            }
         ),
         "toolbox_gaps": sum(bool(row.get("toolbox_gap_present")) for row in records),
         "paper_ids": sorted({str(row.get("paper_id")) for row in records if row.get("paper_id")}),
@@ -1699,6 +1765,23 @@ def _prepare_input_snapshot(
     }
 
 
+def _phase_gate_recovery_context(
+    *, phase: str, findings: list[str], attempt: int
+) -> str:
+    """Render deterministic Gate findings for one bounded Agent recovery."""
+
+    return (
+        "# Phase Gate Recovery\n\n"
+        f"The {phase} phase Gate check {attempt} found transport/contract issues.\n"
+        "Repair only the listed files and rerun the phase contract checks. These findings do "
+        "not decide scientific importance or correctness. Do not change hidden answers, "
+        "tolerances, claim roles, workflow scope, or input assets merely to satisfy the Gate.\n\n"
+        "## Validation failure to repair\n\n"
+        + "\n".join(f"- {finding}" for finding in findings[:120])
+        + "\n"
+    )
+
+
 def _run_phase(
     *,
     harness,
@@ -1712,6 +1795,9 @@ def _run_phase(
     config: dict[str, Any],
     setup: Callable[[Path], None],
     semantic_validator: Callable[[dict[str, Any], Path], list[str]] | None = None,
+    phase_gate_validator: Callable[[dict[str, Any], Path], list[str]] | None = None,
+    phase_gate_max_checks: int | None = None,
+    phase_gate_fail_open: bool | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any], Path | None]:
     fingerprint = input_fingerprint(fingerprint_value)
     artifact_root = (
@@ -1725,6 +1811,39 @@ def _run_phase(
         stage_root / "checkpoints" / safe_component(paper_id) / f"{safe_component(phase)}.json"
     )
     failure_checkpoint = checkpoint.with_suffix(".failure.json")
+    gate_enabled = phase_gate_validator is not None
+    gate_limit = max(
+        1,
+        int(
+            phase_gate_max_checks
+            if phase_gate_max_checks is not None
+            else config.get(
+                f"{phase}_gate_max_checks", config.get("phase_gate_max_checks", 2)
+            )
+        ),
+    )
+    gate_fail_open = bool(
+        phase_gate_fail_open
+        if phase_gate_fail_open is not None
+        else config.get(
+            f"{phase}_gate_fail_open", config.get("phase_gate_fail_open", False)
+        )
+    )
+    gate_checks = 0
+    native_resume_enabled = bool(
+        getattr(harness, "name", "") == "codex"
+        and config.get("codex_native_resume", True)
+    )
+    # Keep the persisted Codex conversation private to one paper and one phase.
+    # Attempts within the phase share it for explicit-UUID resume, while other
+    # concurrent papers cannot inspect one another's hidden conversation store.
+    codex_session_home = (
+        stage_root
+        / "codex_sessions"
+        / safe_component(paper_id)
+        / safe_component(phase)
+    )
+    recovery_session_id: str | None = None
     cached_recovery_context: str | None = None
     cached_recovery_workspace: Path | None = None
     if bool(config.get("resume", True)) and checkpoint.is_file():
@@ -1738,11 +1857,35 @@ def _run_phase(
                 if semantic_validator is not None and cached_workspace is not None
                 else []
             )
+            cached_gate_status = str(response.get("phase_gate_status") or "")
+            if gate_enabled and cached_gate_status == "bypassed_with_warnings":
+                return (
+                    response,
+                    {**(cached.get("agent_run") or {}), "cache_hit": True},
+                    cached_workspace,
+                )
+            cached_gate_findings = (
+                phase_gate_validator(response, cached_workspace)
+                if gate_enabled and cached_workspace is not None
+                else []
+            )
+            if cached_gate_findings:
+                gate_checks = max(
+                    1,
+                    int(response.get("phase_gate_attempts") or 0),
+                )
+                cached_recovery_context = _phase_gate_recovery_context(
+                    phase=phase,
+                    findings=cached_gate_findings,
+                    attempt=gate_checks,
+                )
+                cached_recovery_workspace = cached_workspace
             invalid_claimed_artifact = bool(
                 response.get("status") == "invalid" and response.get("artifact_path")
             )
             if (
                 not semantic_findings
+                and not cached_gate_findings
                 and not invalid_claimed_artifact
                 and (
                     not response.get("artifact_path")
@@ -1755,7 +1898,7 @@ def _run_phase(
                     {**(cached.get("agent_run") or {}), "cache_hit": True},
                     artifact_root if artifact_root.is_dir() else None,
                 )
-            if semantic_findings:
+            if semantic_findings and not cached_gate_findings:
                 cached_recovery_context = (
                     "# Previous Agent Attempt\n\n"
                     "The cached phase artifact has a valid JSON shape but fails the current "
@@ -1770,6 +1913,16 @@ def _run_phase(
                 )
 
     attempts = max(1, int(config.get("max_attempts", 3)))
+    if gate_enabled:
+        # A phase Gate has its own two-check budget.  Do not let a legacy
+        # max_attempts=1 setting accidentally turn the second Gate check into
+        # an execution failure.
+        attempts = max(attempts, gate_limit)
+        if native_resume_enabled:
+            # Reserve one invocation for the file-level fallback if an
+            # explicit Codex session UUID cannot be resumed.  This does not
+            # increase the number of Gate evaluations.
+            attempts += 1
     last_error: AgentExecutionError | None = None
     recovery_context = cached_recovery_context
     recovery_workspace = cached_recovery_workspace
@@ -1922,6 +2075,14 @@ def _run_phase(
                     "when the source evidence itself proves a required input, route, or scoreable "
                     "claim cannot be recovered.\n"
                 )
+        if recovery_session_id:
+            phase_instructions = (
+                "Continue the existing phase conversation in the newly staged recovery "
+                "workspace. Read RECOVERY_CONTEXT.md first, inspect the preserved outputs, "
+                "repair only the listed deterministic Gate findings, rerun the phase checks, "
+                "and return the original structured receipt. Do not change the scientific "
+                "scope, answers, tolerances, claim roles, or inputs merely to satisfy the Gate."
+            )
         artifact_receipt_metadata: dict[str, Any] = {}
         if phase == "autonomous_task":
             artifact_receipt_metadata = {
@@ -2022,9 +2183,13 @@ def _run_phase(
                     "task_pair_builder": "outputs/construction_receipt.json",
                 }.get(phase),
                 "recovery_attempt": bool(recovery_context),
+                "codex_native_resume": native_resume_enabled,
+                "codex_session_home": str(codex_session_home),
+                "codex_resume_session_id": recovery_session_id,
                 **artifact_receipt_metadata,
             },
         )
+        requested_resume_session_id = recovery_session_id
         try:
             result = harness.run(request)
             if phase == "scientific_review":
@@ -2068,6 +2233,101 @@ def _run_phase(
                         result=result,
                     )
             _require_claimed_phase_artifact(result.response or {}, attempt_root, result)
+            if gate_enabled:
+                gate_checks += 1
+                gate_findings = sorted(
+                    set(phase_gate_validator(result.response or {}, attempt_root))
+                )
+                if gate_findings:
+                    gate_status = (
+                        "bypassed_with_warnings"
+                        if gate_fail_open and gate_checks >= gate_limit
+                        else "failed"
+                    )
+                    gate_report = {
+                        "schema_version": "stage06-07-phase-gate/v1",
+                        "phase": phase,
+                        "paper_id": paper_id,
+                        "status": gate_status,
+                        "attempt": gate_checks,
+                        "max_checks": gate_limit,
+                        "findings": gate_findings,
+                        "fail_open": gate_fail_open,
+                        "created_at": now_utc(),
+                    }
+                    write_json(attempt_root / "phase_gate_report.json", gate_report)
+                    result.response = dict(result.response or {})
+                    result.response.update(
+                        {
+                            "phase_gate_status": gate_status,
+                            "phase_gate_attempts": gate_checks,
+                            "phase_gate_findings": gate_findings,
+                        }
+                    )
+                    if gate_status == "bypassed_with_warnings":
+                        result.status = "succeeded"
+                        result.failure_class = None
+                        result.retryable = False
+                        write_json(attempt_root / "agent_run.json", result.audit_record())
+                        _persist_phase_artifacts(attempt_root, artifact_root)
+                        write_json(
+                            checkpoint,
+                            {
+                                "phase": phase,
+                                "paper_id": paper_id,
+                                "input_fingerprint": fingerprint,
+                                "prompt_version": prompt_version,
+                                "response": result.response,
+                                "agent_run": result.audit_record(),
+                                "phase_gate": gate_report,
+                                "completed_at": now_utc(),
+                            },
+                        )
+                        failure_checkpoint.unlink(missing_ok=True)
+                        return (
+                            result.response,
+                            {**result.audit_record(), "cache_hit": False},
+                            artifact_root if artifact_root.is_dir() else attempt_root,
+                        )
+                    message = _phase_gate_recovery_context(
+                        phase=phase,
+                        findings=gate_findings,
+                        attempt=gate_checks,
+                    )
+                    result.status = "failed"
+                    result.failure_class = "invalid_phase_contract"
+                    result.retryable = True
+                    result.error = {
+                        "error_type": "PhaseGateFinding",
+                        "message": message[:4000],
+                    }
+                    write_json(attempt_root / "agent_run.json", result.audit_record())
+                    raise AgentExecutionError(
+                        message,
+                        failure_class="invalid_phase_contract",
+                        retryable=True,
+                        result=result,
+                    )
+                gate_report = {
+                    "schema_version": "stage06-07-phase-gate/v1",
+                    "phase": phase,
+                    "paper_id": paper_id,
+                    "status": "passed",
+                    "attempt": gate_checks,
+                    "max_checks": gate_limit,
+                    "findings": [],
+                    "fail_open": gate_fail_open,
+                    "created_at": now_utc(),
+                }
+                write_json(attempt_root / "phase_gate_report.json", gate_report)
+                result.response = dict(result.response or {})
+                result.response.update(
+                    {
+                        "phase_gate_status": "passed",
+                        "phase_gate_attempts": gate_checks,
+                        "phase_gate_findings": [],
+                    }
+                )
         except AgentExecutionError as exc:
             recovered_response = (
                 _recover_builder_receipt_from_review(
@@ -2108,6 +2368,23 @@ def _run_phase(
                     artifact_root if artifact_root.is_dir() else attempt_root,
                 )
             last_error = exc
+            is_gate_recovery = bool(
+                exc.failure_class == "invalid_phase_contract"
+                and exc.result is not None
+                and (exc.result.error or {}).get("error_type") == "PhaseGateFinding"
+            )
+            if is_gate_recovery and native_resume_enabled and exc.result is not None:
+                recovery_session_id = str(exc.result.session_id or "").strip() or None
+            elif requested_resume_session_id:
+                # Native resume is an optimization, not a new failure mode.
+                # If the CLI/session store cannot recover the explicit UUID,
+                # retain the file-level Gate context and retry once without it.
+                recovery_session_id = None
+                if attempt < attempts:
+                    recovery_workspace = (
+                        artifact_root if artifact_root.is_dir() else recovery_workspace
+                    )
+                    continue
             _persist_phase_artifacts(attempt_root, artifact_root)
             latest_context = agent_recovery_context(exc.result)
             if exc.failure_class == "invalid_phase_contract" or recovery_context is None:
@@ -2234,63 +2511,212 @@ def _recover_builder_receipt_from_review(
     return receipt
 
 
-def _task_pair_builder_transport_findings(
-    response: dict[str, Any], workspace: Path
+def _stage06a_phase_gate_findings(
+    response: dict[str, Any],
+    workspace: Path,
 ) -> list[str]:
-    """Check only hidden evaluator transport at the Stage06A handoff boundary.
+    """Check only the Stage06A-owned handoff before autonomous conversion.
 
-    The objective-centered builder intentionally stops before Stage06B creates the
-    autonomous public surface.  Reusing the full pair validator here would turn
-    pending conversion files (and scientific audit questions reserved for Stage07)
-    into false Stage06 retries.  This narrow check catches malformed typed profile
-    and binding syntax while leaving scientific completeness to the designated
-    agents.
+    Stage06A owns the reproduction surface, private reference draft, and the
+    small conversion handoff.  It does *not* own the autonomous surface, so this
+    Gate must never reuse the complete-pair validator.  The checks below are
+    deliberately syntactic/transport checks; scientific closure and importance
+    remain Agent decisions.
     """
 
-    hidden_path = workspace / "outputs" / "hidden_reference" / "ground_truth_common.json"
-    if not hidden_path.is_file():
-        return []
-    try:
-        before = read_json(hidden_path)
-        if not isinstance(before, dict) or before.get("status") != "ready":
-            return []
-    except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
-        return [f"hidden_reference_transport_unreadable:{type(exc).__name__}"]
-    ownership_findings = hidden_reference_transport_findings(
-        before, require_ready_ground_truth=True
-    )
-    if ownership_findings:
-        # Keep the model's original contract available for the retry/audit.  A
-        # syntax normalizer must not erase the profile that caused the finding.
-        return sorted(set(ownership_findings))
-    try:
-        hidden = _normalize_hidden_reference_contract(before)
-        if hidden != before:
-            write_json(hidden_path, hidden)
-        submission_path = workspace / "outputs" / "paper_reproduction" / "submission_contract.json"
-        # A missing reproduction contract is itself handled by the surrounding
-        # task-pair artifact checks.  Do not pass an empty mapping to the binding
-        # validator: that would turn every otherwise well-shaped artifact path
-        # into the misleading ``artifact_not_required`` finding before the
-        # submission file exists.
-        submission = read_json(submission_path) if submission_path.is_file() else None
-    except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
-        return [f"hidden_reference_transport_unreadable:{type(exc).__name__}"]
-    profiles = hidden.get("acceptance_profiles") or []
-    if not isinstance(profiles, list):
-        return ["hidden_reference_transport_profiles_not_array"]
+    outputs = workspace / "outputs"
     findings: list[str] = []
-    for profile in profiles:
-        if not isinstance(profile, dict):
-            findings.append("hidden_reference_transport_profile_not_object")
+
+    receipt_path = outputs / "construction_receipt.json"
+    receipt: dict[str, Any] = {}
+    if not receipt_path.is_file():
+        findings.append("stage06a_construction_receipt_missing")
+    else:
+        try:
+            raw_receipt = read_json(receipt_path)
+            if isinstance(raw_receipt, dict):
+                receipt = raw_receipt
+            else:
+                findings.append("stage06a_construction_receipt_not_object")
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            findings.append("stage06a_construction_receipt_unreadable")
+
+    decision = str(response.get("decision") or receipt.get("decision") or "")
+    if receipt and receipt.get("decision") != decision:
+        findings.append("stage06a_receipt_decision_mismatch")
+    if decision == "scientific_not_constructible":
+        # A source-backed negative decision has no success-tree obligation.
+        # A half-written public mode tree is ambiguous and must be removed or
+        # completed by the Agent; the Gate does not reinterpret the rejection.
+        # Ignore an empty directory scaffold created by the orchestrator itself.
+        for mode in ("paper_reproduction", "autonomous_research"):
+            mode_root = outputs / mode
+            if mode_root.is_dir() and any(
+                path.is_file() or path.is_symlink() for path in mode_root.rglob("*")
+            ):
+                findings.append(f"stage06a_negative_contains_mode_tree:{mode}")
+        return sorted(set(findings))
+    if decision != "constructed":
+        findings.append(f"stage06a_decision_invalid:{decision or 'missing'}")
+
+    review_path = outputs / "workflow_review.json"
+    if not review_path.is_file():
+        findings.append("stage06a_workflow_review_missing")
+    else:
+        try:
+            review = read_json(review_path)
+            if not isinstance(review, dict):
+                findings.append("stage06a_workflow_review_not_object")
+            elif review.get("decision") != "candidate_ready":
+                findings.append("stage06a_workflow_review_not_candidate_ready")
+            else:
+                try:
+                    jsonschema.validate(review, STAGE06_WORKFLOW_REVIEW_SCHEMA)
+                except jsonschema.ValidationError as exc:
+                    location = "/".join(str(item) for item in exc.absolute_path) or "$"
+                    findings.append(
+                        f"stage06a_workflow_review_schema_invalid:{location}:{exc.validator}"
+                    )
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            findings.append("stage06a_workflow_review_unreadable")
+
+    reproduction = outputs / "paper_reproduction"
+    required_reproduction = (
+        "task.md",
+        "task_info.json",
+        "task_spec.json",
+        "submission_contract.json",
+        "process_rubric.json",
+        "paper_route.md",
+        "workflow_spec.json",
+        "route_evidence_map.json",
+    )
+    parsed: dict[str, Any] = {}
+    if not reproduction.is_dir():
+        findings.append("stage06a_reproduction_directory_missing")
+    else:
+        for name in required_reproduction:
+            path = reproduction / name
+            if not path.is_file():
+                findings.append(f"stage06a_reproduction_file_missing:{name}")
+                continue
+            if name.endswith(".json"):
+                try:
+                    parsed[name] = read_json(path)
+                except (OSError, ValueError, TypeError, json.JSONDecodeError):
+                    findings.append(f"stage06a_reproduction_json_unreadable:{name}")
+        task_path = reproduction / "task.md"
+        if task_path.is_file() and not task_path.read_text(
+            encoding="utf-8", errors="replace"
+        ).strip():
+            findings.append("stage06a_task_instruction_empty")
+
+        raw_rubric = parsed.get("process_rubric.json")
+        if raw_rubric is not None:
+            rubric = normalize_process_rubric_contract(raw_rubric)
+            if not isinstance(rubric, list):
+                findings.append("stage06a_process_rubric_container_invalid")
+            elif not rubric:
+                findings.append("stage06a_process_rubric_empty")
+
+        input_root = reproduction / "data" / "inputs"
+        if not input_root.is_dir():
+            findings.append("stage06a_input_directory_missing")
+        task_spec = parsed.get("task_spec.json")
+        if isinstance(task_spec, dict) and input_root.is_dir():
+            for index, asset in enumerate(task_spec.get("input_assets") or []):
+                if not isinstance(asset, dict):
+                    findings.append(f"stage06a_input_asset_invalid:{index}")
+                    continue
+                try:
+                    relative = validate_relative_path(str(asset.get("path") or ""))
+                except ValueError:
+                    findings.append(f"stage06a_input_asset_path_invalid:{index}")
+                    continue
+                relative = relative.removeprefix("data/inputs/").removeprefix(
+                    "inputs/"
+                )
+                if not (input_root / relative).is_file():
+                    findings.append(f"stage06a_input_asset_missing:{relative}")
+
+    for name in (
+        "workflow_completeness_check.json",
+        "public_to_private_asset_map.json",
+        "toolbox_requirements.json",
+    ):
+        path = outputs / name
+        if not path.is_file():
+            findings.append(f"stage06a_handoff_file_missing:{name}")
             continue
+        try:
+            read_json(path)
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            findings.append(f"stage06a_handoff_json_unreadable:{name}")
+
+    hidden_root = outputs / "hidden_reference"
+    common_path = hidden_root / "ground_truth_common.json"
+    evidence_path = hidden_root / "private_evidence_map.json"
+    hidden: dict[str, Any] | None = None
+    if not common_path.is_file():
+        findings.append("stage06a_hidden_reference_missing")
+    else:
+        try:
+            value = read_json(common_path)
+            if isinstance(value, dict):
+                hidden = value
+            else:
+                findings.append("stage06a_hidden_reference_not_object")
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            findings.append("stage06a_hidden_reference_unreadable")
+    if not evidence_path.is_file():
+        findings.append("stage06a_private_evidence_map_missing")
+    else:
+        try:
+            read_json(evidence_path)
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            findings.append("stage06a_private_evidence_map_unreadable")
+
+    if hidden is not None:
+        if hidden.get("status") != "ready":
+            findings.append("stage06a_hidden_reference_not_ready")
         findings.extend(
-            _acceptance_profile_findings(
-                profile,
-                submission_contract=submission if isinstance(submission, dict) else None,
-                required_binding_modes={"paper_reproduction"},
+            hidden_reference_transport_findings(
+                hidden, require_ready_ground_truth=True
             )
         )
+        truths = hidden.get("ground_truth_items")
+        if not isinstance(truths, list) or not truths:
+            findings.append("stage06a_ground_truth_items_missing")
+            truths = []
+        # This is intentionally a raw-field existence check.  Never infer a
+        # final claim from `kind`, an acceptance profile, or rubric wording.
+        if not any(
+            isinstance(item, dict) and item.get("claim_role") == "final"
+            for item in truths
+        ):
+            findings.append("stage06a_final_claim_missing")
+        profiles = hidden.get("acceptance_profiles")
+        if not isinstance(profiles, list) or not profiles:
+            findings.append("stage06a_acceptance_profiles_missing")
+        else:
+            submission = parsed.get("submission_contract.json")
+            for profile in profiles:
+                if not isinstance(profile, dict):
+                    findings.append("stage06a_acceptance_profile_not_object")
+                    continue
+                findings.extend(
+                    _acceptance_profile_findings(
+                        profile,
+                        submission_contract=(
+                            submission if isinstance(submission, dict) else None
+                        ),
+                        required_binding_modes={"paper_reproduction"},
+                    )
+                )
+        conclusion_rubric = hidden.get("scientific_conclusion_rubric")
+        if not isinstance(conclusion_rubric, list) or not conclusion_rubric:
+            findings.append("stage06a_conclusion_key_points_missing")
+
     return sorted(set(findings))
 
 
@@ -3029,7 +3455,6 @@ def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]
         truth.setdefault("required_propositions", [])
         truth.setdefault("forbidden_contradictions", [])
         truth.setdefault("evidence_grade", "B")
-        truth.setdefault("claim_role", "final" if "final" in truth["kind"] else "intermediate")
         normalized_truths.append(truth)
     if normalized_truths:
         value["ground_truth_items"] = normalized_truths
@@ -4491,7 +4916,7 @@ def _seed_prior_scientific_review_draft(
             ),
         },
     )
-    return findings
+    return sorted(set(findings))
 
 
 def _interrupted_scientific_review_recovery(
@@ -5181,7 +5606,12 @@ def _copy_phase_inputs(
     make_read_only(destination)
 
 
-def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
+def _setup_converter_inputs(
+    root: Path,
+    source_pair: Path,
+    *,
+    stage06a_gate_report: dict[str, Any] | None = None,
+) -> None:
     """Give Stage06B the reproduction task plus a minimal conversion packet.
 
     Stage06B must know what to redact and which physical/public boundaries to preserve, but it
@@ -5204,6 +5634,19 @@ def _setup_converter_inputs(root: Path, source_pair: Path) -> None:
             review = {}
     packet = destination / "conversion_packet"
     packet.mkdir(parents=True, exist_ok=True)
+    gate_report = stage06a_gate_report if isinstance(stage06a_gate_report, dict) else {}
+    if gate_report.get("status") == "bypassed_with_warnings":
+        # Findings are transport diagnostics only; do not copy the full
+        # Stage06 workspace or any hidden reference into Stage06B inputs.
+        write_json(
+            packet / "stage06a_gate_warning.json",
+            {
+                "schema_version": "stage06a-gate-warning/v1",
+                "status": gate_report.get("status"),
+                "attempt": gate_report.get("attempt"),
+                "findings": gate_report.get("findings") or [],
+            },
+        )
     public_basis = review.get("public_task_basis") or {}
     scope = dict(review.get("workflow_scope") or {})
     # Public conversion needs the scope shape, not the answer-bearing claims.
@@ -5494,10 +5937,100 @@ def _converter_phase_findings(response: dict[str, Any], workspace: Path) -> list
     for forbidden in ("paper_reproduction", "conversion_packet"):
         if (autonomous / forbidden).exists():
             findings.append(f"autonomous_converter_forbidden_wrapper:{forbidden}")
-    # conversion_report.json is optional internal telemetry.  Its absence must not trigger a
-    # retry when the autonomous task tree itself was delivered successfully.
-    _normalize_converter_report(response, workspace)
-    return findings
+    parsed: dict[str, Any] = {}
+    for name in required:
+        path = autonomous / name
+        if not path.is_file() or not name.endswith(".json"):
+            continue
+        try:
+            parsed[name] = read_json(path)
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            findings.append(f"autonomous_converter_json_unreadable:{name}")
+
+    task_path = autonomous / "task.md"
+    if task_path.is_file() and not task_path.read_text(
+        encoding="utf-8", errors="replace"
+    ).strip():
+        findings.append("autonomous_converter_task_instruction_empty")
+
+    expected_task_mode = "open_discovery"
+    for name in ("task_info.json", "task_spec.json"):
+        value = parsed.get(name)
+        if not isinstance(value, dict):
+            continue
+        if value.get("mode") != "autonomous_research":
+            findings.append(f"autonomous_converter_mode_invalid:{name}")
+        if value.get("scientific_mode") != "autonomous_research":
+            findings.append(f"autonomous_converter_scientific_mode_invalid:{name}")
+        if value.get("task_mode") != expected_task_mode:
+            findings.append(f"autonomous_converter_task_mode_invalid:{name}")
+
+    submission = parsed.get("submission_contract.json")
+    if isinstance(submission, dict):
+        required_files = submission.get("required_files")
+        if not isinstance(required_files, list) or not required_files:
+            findings.append("autonomous_converter_required_files_missing")
+        if not isinstance(submission.get("results_schema"), dict):
+            findings.append("autonomous_converter_results_schema_missing")
+
+    raw_rubric = parsed.get("process_rubric.json")
+    if raw_rubric is not None:
+        rubric = normalize_process_rubric_contract(raw_rubric)
+        if not isinstance(rubric, list):
+            findings.append("autonomous_converter_process_rubric_container_invalid")
+        elif not rubric:
+            findings.append("autonomous_converter_process_rubric_empty")
+
+    input_root = autonomous / "data" / "inputs"
+    if not input_root.is_dir():
+        findings.append("autonomous_converter_input_directory_missing")
+    task_spec = parsed.get("task_spec.json")
+    if isinstance(task_spec, dict) and input_root.is_dir():
+        for index, asset in enumerate(task_spec.get("input_assets") or []):
+            if not isinstance(asset, dict):
+                findings.append(f"autonomous_converter_input_asset_invalid:{index}")
+                continue
+            try:
+                relative = validate_relative_path(str(asset.get("path") or ""))
+            except ValueError:
+                findings.append(f"autonomous_converter_input_path_invalid:{index}")
+                continue
+            relative = relative.removeprefix("data/inputs/").removeprefix("inputs/")
+            if not (input_root / relative).is_file():
+                findings.append(f"autonomous_converter_input_missing:{relative}")
+
+    for forbidden in (
+        "paper_route.md",
+        "workflow_spec.json",
+        "route_evidence_map.json",
+        "hidden_reference",
+        "source_materials",
+        "stage06_candidate",
+    ):
+        if (autonomous / forbidden).exists():
+            findings.append(f"autonomous_converter_forbidden_public_artifact:{forbidden}")
+    return sorted(set(findings))
+
+
+def _converter_execution_findings(
+    response: dict[str, Any], workspace: Path
+) -> list[str]:
+    """Keep an explicit Agent retry request distinct from the fail-open Gate."""
+
+    if response.get("status") == "needs_conversion_retry":
+        return ["autonomous_converter_requested_retry"]
+    return []
+
+
+def _converter_contract_gate_findings(
+    response: dict[str, Any], workspace: Path
+) -> list[str]:
+    """Check delivered Stage06B files; a second failure is warning-only."""
+
+    if response.get("status") not in {"converted", "conversion_uncertain"}:
+        return []
+    findings = _converter_phase_findings(response, workspace)
+    return [finding for finding in findings if finding != "autonomous_converter_requested_retry"]
 
 
 def _normalize_converter_report(
@@ -5553,6 +6086,9 @@ def _persist_phase_artifacts(workspace: Path, destination: Path) -> None:
     staging = prepare_clean_directory(destination.parent / f".{destination.name}-{uuid.uuid4().hex[:8]}")
     for name in available:
         copytree_exact(workspace / name, staging / name)
+    gate_report = workspace / "phase_gate_report.json"
+    if gate_report.is_file():
+        shutil.copy2(gate_report, staging / "phase_gate_report.json")
     atomic_commit_tree(staging, destination)
 
 
@@ -6901,7 +7437,7 @@ def _normalize_submission_contract(value: Any) -> dict[str, Any]:
 
 
 def _normalize_process_rubric(value: Any) -> list[dict[str, Any]]:
-    rows = value.get("criteria") if isinstance(value, dict) else value
+    rows = normalize_process_rubric_contract(value)
     if not isinstance(rows, list):
         return []
     output: list[dict[str, Any]] = []
@@ -6919,6 +7455,12 @@ def _normalize_process_rubric(value: Any) -> list[dict[str, Any]]:
         normalized["description"] = str(
             row.get("description") or row.get("criterion") or row.get("statement") or ""
         )
+        if "evidence_artifacts" not in normalized:
+            evidence = row.get("required_evidence") or row.get("required_artifact")
+            if evidence:
+                normalized["evidence_artifacts"] = evidence
+        if "required_evidence" not in normalized and normalized.get("evidence_artifacts"):
+            normalized["required_evidence"] = normalized["evidence_artifacts"]
         output.append(normalized)
     return output
 

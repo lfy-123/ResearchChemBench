@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sys
 import uuid
 from pathlib import Path
 from typing import Any
@@ -29,6 +30,11 @@ from src.agents.workspace import (
 )
 from src.contracts import read_json, safe_component, write_json
 from .prompts import STAGE07B_REPAIR_VERSION, contract_repair_instructions
+
+_REPOSITORY_ROOT = Path(__file__).resolve().parents[4]
+if str(_REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPOSITORY_ROOT))
+from researchchembench_contracts import normalize_binding_contract  # noqa: E402
 
 
 STAGE07B_REPAIR_SCHEMA = object_schema(
@@ -62,6 +68,7 @@ _TECHNICAL_PREFIXES = (
     "binding_schema_path_open:",
     "evaluator_document_binding_",
     "evaluator_binding_path_",
+    "acceptance_submission_binding_ambiguous:",
     "submission_required_files_",
     "submission_results_schema_",
     "unsafe_required_path:",
@@ -123,6 +130,105 @@ def classify_technical_findings(findings: list[str] | None) -> dict[str, Any]:
     }
 
 
+def _safe_ambiguous_binding_findings(
+    audited_root: Path, findings: list[str]
+) -> tuple[list[str], list[str]]:
+    """Allow shared-binding cleanup only when a complete equivalent mode matrix exists."""
+
+    ambiguous = [
+        value
+        for value in findings
+        if value.startswith("acceptance_submission_binding_ambiguous:")
+    ]
+    if not ambiguous:
+        return [], []
+    try:
+        hidden = read_json(
+            audited_root / "hidden_reference" / "ground_truth_common.json"
+        )
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return [], ambiguous
+    profiles = {
+        str(row.get("acceptance_profile_id") or row.get("profile_id") or ""): row
+        for row in hidden.get("acceptance_profiles") or []
+        if isinstance(row, dict)
+    }
+    allowed: list[str] = []
+    unsupported: list[str] = []
+    mode_aliases = {
+        "paper_reproduction": "paper_reproduction",
+        "guided_reproduction": "paper_reproduction",
+        "reproduction": "paper_reproduction",
+        "autonomous_research": "autonomous_research",
+        "open_discovery": "autonomous_research",
+        "autonomous": "autonomous_research",
+    }
+
+    def canonical_binding(value: dict[str, Any], profile: dict[str, Any]) -> dict[str, Any]:
+        normalized = normalize_binding_contract(value, profile=profile)
+        # Remove only serialization aliases already projected onto canonical
+        # fields by normalize_binding_contract.  Unknown keys stay in the
+        # equality comparison, making the safety test conservative.
+        for key in (
+            "artifact_path",
+            "artifact",
+            "artifacts",
+            "field",
+            "fields",
+            "result_field",
+            "result_fields",
+            "json_path",
+            "json_paths",
+            "projection",
+            "comparison_type",
+            "document_target",
+        ):
+            normalized.pop(key, None)
+        return normalized
+
+    for finding in ambiguous:
+        profile_id = finding.split(":", 1)[1]
+        profile = profiles.get(profile_id)
+        matrix = profile.get("mode_submission_bindings") if profile else None
+        scope = profile.get("applies_to_modes") if profile else None
+        normalized_matrix = {
+            mode_aliases.get(str(mode), str(mode)): binding
+            for mode, binding in (matrix.items() if isinstance(matrix, dict) else [])
+        }
+        applicable = (
+            {
+                mode_aliases.get(str(mode), str(mode))
+                for mode in scope
+            }
+            if isinstance(scope, list)
+            else {"paper_reproduction", "autonomous_research"}
+        )
+        shared = profile.get("submission_binding") if profile else None
+        shared_canonical = (
+            canonical_binding(shared, profile)
+            if isinstance(shared, dict) and isinstance(profile, dict)
+            else None
+        )
+        matrix_canonical = {
+            mode: canonical_binding(binding, profile)
+            for mode, binding in normalized_matrix.items()
+            if isinstance(binding, dict) and isinstance(profile, dict)
+        }
+        if (
+            profile
+            and shared_canonical
+            and applicable.issubset(matrix_canonical)
+            and all(
+                matrix_canonical.get(mode) == shared_canonical
+                for mode in applicable
+            )
+        ):
+            allowed.append(finding)
+        else:
+            unsupported.append(finding)
+    return allowed, unsupported
+
+
 def _hash_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
 
@@ -153,8 +259,56 @@ def science_fingerprint(pair_root: str | Path) -> str:
                         # evidence IDs, and mode scope in the frozen payload.
                         normalized = json.loads(json.dumps(value, ensure_ascii=False))
                         normalized.pop("task_pair_id", None)
+                        # ``applies_to_modes`` is a set-valued contract.  Transport
+                        # normalization may canonicalize its serialization order;
+                        # freeze membership while avoiding a false science change
+                        # caused only by list ordering.
+                        for collection_name in (
+                            "ground_truth_items",
+                            "acceptance_profiles",
+                        ):
+                            for row in normalized.get(collection_name, []) or []:
+                                if isinstance(row, dict) and isinstance(
+                                    row.get("applies_to_modes"), list
+                                ):
+                                    row["applies_to_modes"] = sorted(
+                                        row["applies_to_modes"], key=str
+                                    )
                         for profile in normalized.get("acceptance_profiles", []) or []:
                             if isinstance(profile, dict):
+                                # Binding paths and legacy container spellings are
+                                # transport metadata, but canonical projections can
+                                # contain answer-bearing values/propositions. Freeze
+                                # the unique projection values independently of
+                                # whether an equivalent shared binding or mode matrix
+                                # carries them, then remove the mutable containers.
+                                projections: list[str] = []
+
+                                def collect_projections(node: Any) -> None:
+                                    if isinstance(node, dict):
+                                        if "canonical_projection" in node:
+                                            projections.append(
+                                                json.dumps(
+                                                    node["canonical_projection"],
+                                                    ensure_ascii=False,
+                                                    sort_keys=True,
+                                                    separators=(",", ":"),
+                                                )
+                                            )
+                                        for nested_key, nested in node.items():
+                                            if nested_key != "canonical_projection":
+                                                collect_projections(nested)
+                                    elif isinstance(node, list):
+                                        for nested in node:
+                                            collect_projections(nested)
+
+                                for key in _HIDDEN_BINDING_KEYS:
+                                    if key in profile:
+                                        collect_projections({key: profile[key]})
+                                if projections:
+                                    profile["_binding_canonical_projections"] = sorted(
+                                        set(projections)
+                                    )
                                 for key in _HIDDEN_BINDING_KEYS:
                                     profile.pop(key, None)
                         content = json.dumps(
@@ -262,6 +416,27 @@ def run_stage07b_repair(
     config: dict[str, Any],
 ) -> dict[str, Any]:
     classification = classify_technical_findings(findings)
+    safe_ambiguous, unsafe_ambiguous = _safe_ambiguous_binding_findings(
+        audited_root, findings
+    )
+    ambiguous_values = {
+        value
+        for value in findings
+        if value.startswith("acceptance_submission_binding_ambiguous:")
+    }
+    classification["allowed"] = sorted(
+        (set(classification["allowed"]) - ambiguous_values) | set(safe_ambiguous)
+    )
+    if unsafe_ambiguous:
+        classification["allowed"] = sorted(
+            set(classification["allowed"]) - set(unsafe_ambiguous)
+        )
+        classification["unsupported"] = sorted(
+            set(classification["unsupported"]) | set(unsafe_ambiguous)
+        )
+    classification["eligible"] = bool(classification["allowed"]) and not bool(
+        classification["unsupported"]
+    )
     before_hash = science_fingerprint(audited_root)
     base_report: dict[str, Any] = {
         "schema_version": "stage07b-contract-repair/v1",
@@ -277,7 +452,9 @@ def run_stage07b_repair(
     if not classification["eligible"]:
         base_report["status"] = "not_eligible"
         base_report["reason"] = (
-            "No allowlisted technical findings or unsupported findings were present."
+            "Unsupported or scientifically ambiguous findings require Stage07A review."
+            if classification["unsupported"]
+            else "No allowlisted technical findings were present."
         )
         return base_report
     if not bool(config.get("stage07b_enabled", True)):
@@ -345,6 +522,18 @@ def run_stage07b_repair(
         return base_report
 
     candidate = outputs / "task_pair"
+    # Stage07B may write an accepted legacy alias.  Apply the same explicit,
+    # provenance-recorded transport projection used before the final Gate;
+    # any resulting change outside Stage07B's allowlist is still rejected by
+    # the changed-file and science-fingerprint checks below.
+    from src.stages.stage07_task_judge.validation import (
+        normalize_stage07_transport_contract,
+        stage07_mechanical_pre_publish_check,
+    )
+
+    normalization = normalize_stage07_transport_contract(
+        candidate, task_pair_id=task_pair_id
+    )
     after_hash = science_fingerprint(candidate)
     changed = _changed_files(audited_root, candidate)
     illegal = [path for path in changed if not _contract_path_allowed(path)]
@@ -357,6 +546,7 @@ def run_stage07b_repair(
         "science_hash_after": after_hash,
         "agent_response": response,
         "agent_run": result.audit_record(),
+        "orchestrator_normalization": normalization,
     }
     if after_hash != before_hash:
         report["status"] = "technical_blocked"
@@ -370,13 +560,6 @@ def run_stage07b_repair(
         report["status"] = "unresolved"
         report["reason"] = response.get("summary") or "Stage07B did not repair all findings."
         return report
-
-    # Import lazily to avoid a package-initialization cycle: the Stage07
-    # package imports this narrow phase, while the mechanical validator lives
-    # under the Stage07 package.
-    from src.stages.stage07_task_judge.validation import (
-        stage07_mechanical_pre_publish_check,
-    )
 
     mechanical = stage07_mechanical_pre_publish_check(
         candidate, task_pair_id=task_pair_id

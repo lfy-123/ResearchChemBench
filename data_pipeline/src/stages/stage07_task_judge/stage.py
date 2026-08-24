@@ -43,8 +43,7 @@ from src.stages.stage07_task_judge.prompts import (
     audit_instructions,
 )
 from src.stages.stage07_task_judge.validation import (
-    _file_digest,
-    _normalize_hidden_reference_for_transport,
+    normalize_stage07_transport_contract,
     stage07_mechanical_pre_publish_check,
     validate_agent_audit,
 )
@@ -55,10 +54,9 @@ from src.stages.stage07_contract_repair import (
 )
 from src.stages.stage06_task_builder.validation import (
     canonical_task_pair_id,
-    hidden_reference_transport_findings,
 )
 
-STAGE07_IMPLEMENTATION_VERSION = "v15-task-package-v1-20260823"
+STAGE07_IMPLEMENTATION_VERSION = "v17-bounded-preflight-read-only-gate-20260824"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 STAGE07_IGNORED_PAIR_FILES = {*IGNORED_MANIFEST_NAMES, "construction_record.json"}
 STAGE07_APPROVED_DECISIONS = {
@@ -291,9 +289,24 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 task_root = _stage07_approved_artifact(response, artifact_root)
                 target = stage_root / "audited_tasks" / safe_component(paper_id)
                 atomic_commit_tree(task_root, target)
-                _synchronize_hidden_pair_identity(
+                # A cached artifact may predate the current transport contract.
+                # Normalize it through the same provenance-recorded boundary as
+                # a fresh Stage07A result; never perform a hidden identity write
+                # outside that record.
+                final_normalization = normalize_stage07_transport_contract(
                     target, task_pair_id=canonical_task_pair_id(paper_id)
                 )
+                if final_normalization.get("records"):
+                    response["orchestrator_normalization_records"] = (
+                        final_normalization["records"]
+                    )
+                if final_normalization.get("new_records") and final_normalization.get(
+                    "findings"
+                ):
+                    response["orchestrator_normalization_findings"] = (
+                        final_normalization["findings"]
+                    )
+                write_manifest(target, target / "task_pair_manifest.json")
                 write_json(target / "stage07_audit.json", response)
                 write_json(target / "stage06_handoff_record.json", record)
                 mechanical_report = stage07_mechanical_pre_publish_check(
@@ -510,6 +523,9 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 ),
                 "stage07b_status": response.get("stage07b_status", "not_run"),
                 "stage07b_report": response.get("stage07b_report", {}),
+                "stage07a_gate_status": response.get("stage07a_gate_status", "not_run"),
+                "stage07a_gate_attempts": response.get("stage07a_gate_attempts", 0),
+                "stage07a_gate_findings": response.get("stage07a_gate_findings", []),
                 "task_package_reports": task_package_reports,
                 "task_pair_path": final_path,
                 "final_task_paths": final_task_paths,
@@ -605,6 +621,20 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
             in {"technical_blocked", "unresolved", "agent_failure"}
             for row in records
         ),
+        "stage07a_gate_bypassed": sum(
+            row.get("stage07a_gate_status") == "bypassed_with_warnings"
+            for row in records
+        ),
+        "stage07a_gate_attempts": sum(
+            int(row.get("stage07a_gate_attempts") or 0) for row in records
+        ),
+        "stage07a_gate_findings": sorted(
+            {
+                str(finding)
+                for row in records
+                for finding in row.get("stage07a_gate_findings") or []
+            }
+        ),
         "publish_ready": sum(bool(row.get("publish_ready")) for row in records),
         "publication_states": {
             state: sum(row.get("publication_state") == state for row in records)
@@ -695,9 +725,32 @@ def _run_audit_repair_agent(
                 )
 
     attempts = max(1, int(config.get("max_attempts", 3)))
+    # The phase contract permits one initial check and one recovery check.
+    # Configuration may reduce that budget, but must not silently turn Stage07A
+    # into an unbounded repair loop.
+    gate_limit = min(2, max(1, int(config.get("stage07a_gate_max_checks", 2))))
+    # This phase Gate is diagnostic/recovery infrastructure, not the final
+    # publication authority.  Per contract, its second failed check always
+    # continues with warnings; the final read-only Gate remains strict.
+    gate_fail_open = True
+    native_resume_enabled = bool(
+        getattr(harness, "name", "") == "codex"
+        and config.get("codex_native_resume", True)
+    )
+    codex_session_home = (
+        stage_root
+        / "codex_sessions"
+        / safe_component(paper_id)
+        / "audit_repair"
+    )
+    attempts = max(attempts, gate_limit)
+    if native_resume_enabled:
+        attempts += 1
+    gate_checks = 0
     last_error: AgentExecutionError | None = None
     recovery_context: str | None = None
     recovery_workspace: Path | None = None
+    recovery_session_id: str | None = None
     for attempt in range(1, attempts + 1):
         root = prepare_clean_directory(
             stage_root
@@ -792,6 +845,15 @@ def _run_audit_repair_agent(
             instructions += recovery_instructions(
                 "stage07_audit_repair", max_tool_calls=max_tool_calls
             )
+        if recovery_session_id:
+            instructions = (
+                "Continue the existing Stage07A audit conversation in the newly staged "
+                "recovery workspace. Read RECOVERY_CONTEXT.md, inspect the preserved "
+                "outputs/task_pair tree, repair only the listed mechanical contract "
+                "findings, rerun the checks, and update outputs/stage07_audit.json. "
+                "Do not change the scientific decision, answers, tolerances, claim roles, "
+                "workflow scope, or public inputs merely to satisfy the Gate."
+            )
         request = AgentRunRequest(
             phase="stage07_audit_repair",
             record_id=task_pair_id,
@@ -814,8 +876,12 @@ def _run_audit_repair_agent(
                 "inline_contract": True,
                 "structured_artifact_path": "outputs/stage07_audit.json",
                 "recovery_attempt": bool(recovery_context),
+                "codex_native_resume": native_resume_enabled,
+                "codex_session_home": str(codex_session_home),
+                "codex_resume_session_id": recovery_session_id,
             },
         )
+        requested_resume_session_id = recovery_session_id
         try:
             result = harness.run(request)
             response = result.response or {}
@@ -842,11 +908,116 @@ def _run_audit_repair_agent(
                 response=response,
                 task_root=outputs / "task_pair",
                 toolbox=toolbox,
+                task_pair_id=task_pair_id,
             )
             write_json(outputs / "stage07_audit.json", response)
             _require_stage07_artifact_delivery(response, root, result)
+            gate_applicable = str(response.get("audit_decision") or "") in (
+                STAGE07_APPROVED_DECISIONS
+            )
+            if gate_applicable:
+                gate_checks += 1
+            gate_findings = (
+                _stage07a_phase_gate_findings(
+                    response,
+                    root,
+                    task_pair_id=task_pair_id,
+                )
+                if gate_applicable
+                else []
+            )
+            if gate_findings:
+                gate_status = (
+                    "bypassed_with_warnings"
+                    if gate_fail_open and gate_checks >= gate_limit
+                    else "failed"
+                )
+                gate_report = {
+                    "schema_version": "stage06-07-phase-gate/v1",
+                    "phase": "stage07a_audit",
+                    "paper_id": paper_id,
+                    "status": gate_status,
+                    "attempt": gate_checks,
+                    "max_checks": gate_limit,
+                    "findings": sorted(set(gate_findings)),
+                    "fail_open": gate_fail_open,
+                    "created_at": now_utc(),
+                }
+                write_json(root / "phase_gate_report.json", gate_report)
+                response = dict(response)
+                response.update(
+                    {
+                        "stage07a_gate_status": gate_status,
+                        "stage07a_gate_attempts": gate_checks,
+                        "stage07a_gate_findings": sorted(set(gate_findings)),
+                    }
+                )
+                write_json(outputs / "stage07_audit.json", response)
+                if gate_status != "bypassed_with_warnings":
+                    message = (
+                        "Stage07A preflight findings (repair only the listed transport files):\n"
+                        + "\n".join(f"- {finding}" for finding in gate_findings)
+                    )
+                    result.status = "failed"
+                    result.failure_class = "invalid_phase_contract"
+                    result.retryable = True
+                    result.error = {
+                        "error_type": "Stage07APhaseGateFinding",
+                        "message": message[:4000],
+                    }
+                    write_json(root / "agent_run.json", result.audit_record())
+                    raise AgentExecutionError(
+                        message,
+                        failure_class="invalid_phase_contract",
+                        retryable=True,
+                        result=result,
+                    )
+            elif gate_applicable:
+                gate_report = {
+                    "schema_version": "stage06-07-phase-gate/v1",
+                    "phase": "stage07a_audit",
+                    "paper_id": paper_id,
+                    "status": "passed",
+                    "attempt": gate_checks,
+                    "max_checks": gate_limit,
+                    "findings": [],
+                    "fail_open": gate_fail_open,
+                    "created_at": now_utc(),
+                }
+                write_json(root / "phase_gate_report.json", gate_report)
+                response = dict(response)
+                response.update(
+                    {
+                        "stage07a_gate_status": "passed",
+                        "stage07a_gate_attempts": gate_checks,
+                        "stage07a_gate_findings": [],
+                    }
+                )
+                write_json(outputs / "stage07_audit.json", response)
+            else:
+                response = dict(response)
+                response.update(
+                    {
+                        "stage07a_gate_status": "not_applicable",
+                        "stage07a_gate_attempts": 0,
+                        "stage07a_gate_findings": [],
+                    }
+                )
+                write_json(outputs / "stage07_audit.json", response)
         except AgentExecutionError as exc:
             last_error = exc
+            is_gate_recovery = bool(
+                exc.failure_class == "invalid_phase_contract"
+                and exc.result is not None
+                and (exc.result.error or {}).get("error_type")
+                == "Stage07APhaseGateFinding"
+            )
+            if is_gate_recovery and native_resume_enabled and exc.result is not None:
+                recovery_session_id = str(exc.result.session_id or "").strip() or None
+            elif requested_resume_session_id:
+                recovery_session_id = None
+                if attempt < attempts:
+                    continue
             recovery_context = agent_recovery_context(exc.result)
             recovery_workspace = (
                 Path(exc.result.workspace)
@@ -878,6 +1049,9 @@ def _run_audit_repair_agent(
             artifact_root.parent / f".{artifact_root.name}-{uuid.uuid4().hex[:8]}"
         )
         copytree_exact(outputs, staging / "outputs")
+        phase_gate_report = root / "phase_gate_report.json"
+        if phase_gate_report.is_file():
+            shutil.copy2(phase_gate_report, staging / "phase_gate_report.json")
         atomic_commit_tree(staging, artifact_root)
         write_json(
             checkpoint,
@@ -891,6 +1065,15 @@ def _run_audit_repair_agent(
                 "artifact_manifest_hash": directory_manifest(artifact_root)[
                     "content_hash"
                 ],
+                "phase_gate": (
+                    read_json(root / "phase_gate_report.json")
+                    if (root / "phase_gate_report.json").is_file()
+                    else {
+                        "status": response.get("stage07a_gate_status", "passed"),
+                        "attempt": response.get("stage07a_gate_attempts", gate_checks),
+                        "findings": response.get("stage07a_gate_findings", []),
+                    }
+                ),
                 "completed_at": now_utc(),
             },
         )
@@ -902,59 +1085,25 @@ def _run_audit_repair_agent(
 
 
 def _finalize_stage07_response(
-    *, response: dict[str, Any], task_root: Path, toolbox: dict[str, Any]
+    *,
+    response: dict[str, Any],
+    task_root: Path,
+    toolbox: dict[str, Any],
+    task_pair_id: str | None = None,
 ) -> dict[str, Any]:
-    """Refresh manifests and canonicalize hidden transport aliases at the artifact boundary."""
+    """Normalize transport contracts before the read-only publication Gate."""
 
     decision = str(response.get("audit_decision") or "")
     if decision not in STAGE07_APPROVED_DECISIONS:
         return response
 
-    normalization_records: list[dict[str, Any]] = []
-    common_path = task_root / "hidden_reference" / "ground_truth_common.json"
-    if common_path.is_file():
-        try:
-            before = read_json(common_path)
-            ownership_findings = hidden_reference_transport_findings(
-                before, require_ready_ground_truth=True
-            ) if isinstance(before, dict) else ["hidden_reference_transport_not_object"]
-            if isinstance(before, dict) and not ownership_findings and isinstance(
-                before.get("ground_truth_items"), list
-            ) and before.get("ground_truth_items"):
-                after = _normalize_hidden_reference_for_transport(before)
-                if after != before:
-                    before_hash = _file_digest(common_path)
-                    write_json(common_path, after)
-                    normalization_records.append(
-                        {
-                            "kind": "hidden_reference_contract_normalization",
-                            "file": "hidden_reference/ground_truth_common.json",
-                            "before_sha256": before_hash,
-                            "after_sha256": _file_digest(common_path),
-                        }
-                    )
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            # The gate will report an unreadable or incomplete hidden contract;
-            # finalization must not turn a syntax exception into a science verdict.
-            pass
-    if normalization_records:
-        provenance_path = task_root / "orchestrator_normalizations.json"
-        existing: list[dict[str, Any]] = []
-        if provenance_path.is_file():
-            try:
-                value = read_json(provenance_path)
-                if isinstance(value, dict) and isinstance(value.get("records"), list):
-                    existing = [row for row in value["records"] if isinstance(row, dict)]
-            except (OSError, ValueError, TypeError, json.JSONDecodeError):
-                existing = []
-        write_json(
-            provenance_path,
-            {
-                "schema_version": "stage07-normalization-provenance/v1",
-                "records": existing + normalization_records,
-            },
-        )
-        response["orchestrator_normalization_records"] = existing + normalization_records
+    normalization = normalize_stage07_transport_contract(
+        task_root, task_pair_id=task_pair_id
+    )
+    if normalization.get("records"):
+        response["orchestrator_normalization_records"] = normalization["records"]
+    if normalization.get("new_records") and normalization.get("findings"):
+        response["orchestrator_normalization_findings"] = normalization["findings"]
     write_manifest(task_root, task_root / "task_pair_manifest.json")
     return response
 
@@ -1000,26 +1149,6 @@ def _publish_private_evaluator_registry(
         write_manifest(destination, destination / "published_manifest.json")
         exported[mode] = str(destination)
     return exported
-
-
-def _synchronize_hidden_pair_identity(pair_root: Path, *, task_pair_id: str) -> None:
-    """Synchronize the transport identity of the single hidden Ground Truth source.
-
-    The scientific contents are untouched.  Agent-proposed IDs are not authoritative;
-    the canonical pair ID is assigned by the orchestrator and must also be reflected in
-    the private evaluator projection.
-    """
-
-    path = pair_root / "hidden_reference" / "ground_truth_common.json"
-    if not path.is_file():
-        return
-    value = read_json(path)
-    if not isinstance(value, dict):
-        return
-    if value.get("task_pair_id") == task_pair_id:
-        return
-    value["task_pair_id"] = task_pair_id
-    write_json(path, value)
 
 
 def _approved_receipt_contract_findings(response: dict[str, Any]) -> list[str]:
@@ -1143,6 +1272,85 @@ def _require_stage07_artifact_delivery(
             retryable=True,
             result=result,
         ) from exc
+
+
+def _stage07a_phase_gate_findings(
+    response: dict[str, Any],
+    workspace: Path,
+    *,
+    task_pair_id: str | None = None,
+) -> list[str]:
+    """Check Stage07A's delivered audit artifact before the final publish Gate.
+
+    This is deliberately structural.  Scientific approval, representativeness,
+    software suitability and answer correctness remain Agent responsibilities;
+    the final mechanical Gate remains the publication authority.
+    """
+
+    if str(response.get("audit_decision") or "") not in STAGE07_APPROVED_DECISIONS:
+        return []
+    task_root = workspace / "outputs" / "task_pair"
+    findings: list[str] = []
+    if not task_root.is_dir():
+        return ["stage07a_task_pair_missing"]
+    required = (
+        "task.md",
+        "task_info.json",
+        "task_spec.json",
+        "submission_contract.json",
+        "process_rubric.json",
+    )
+    for mode in ("paper_reproduction", "autonomous_research"):
+        mode_root = task_root / mode
+        if not mode_root.is_dir():
+            findings.append(f"stage07a_mode_missing:{mode}")
+            continue
+        for name in required:
+            if not (mode_root / name).is_file():
+                findings.append(f"stage07a_required_file_missing:{mode}/{name}")
+        if mode == "paper_reproduction":
+            for name in ("paper_route.md", "workflow_spec.json", "route_evidence_map.json"):
+                if not (mode_root / name).is_file():
+                    findings.append(f"stage07a_reproduction_file_missing:{name}")
+    hidden = task_root / "hidden_reference" / "ground_truth_common.json"
+    if not hidden.is_file():
+        findings.append("stage07a_hidden_reference_missing")
+    else:
+        try:
+            value = read_json(hidden)
+            if not isinstance(value, dict):
+                findings.append("stage07a_hidden_reference_not_object")
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            findings.append("stage07a_hidden_reference_unreadable")
+    # Once the minimum tree exists, reuse the final read-only contract Gate so
+    # Stage07A gets one bounded opportunity to repair evaluator bindings and
+    # schema/rubric closure before publication.  This remains a mechanical
+    # check and does not reconsider the Agent's scientific approval.
+    if not any(
+        finding.startswith(
+            (
+                "stage07a_task_pair_missing",
+                "stage07a_mode_missing:",
+                "stage07a_required_file_missing:",
+                "stage07a_hidden_reference_missing",
+                "stage07a_hidden_reference_unreadable",
+            )
+        )
+        for finding in findings
+    ):
+        # The orchestrator owns pair identity.  Agent-proposed receipt IDs are
+        # only a legacy fallback for direct helper calls and must never redirect
+        # evaluator lookup in the active Stage07A path.
+        pair_id = str(task_pair_id or "").strip() or str(
+            response.get("final_task_pair_id")
+            or response.get("original_task_pair_id")
+            or ""
+        ).strip()
+        mechanical = stage07_mechanical_pre_publish_check(
+            task_root, task_pair_id=pair_id or None
+        )
+        findings.extend(mechanical.get("findings") or [])
+    return sorted(set(findings))
 
 
 def _copy_stage07_source_packet(source_root: Path, destination: Path) -> None:

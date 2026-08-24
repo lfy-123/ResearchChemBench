@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-STAGE07B_REPAIR_VERSION = "v1-contract-only-20260823"
+STAGE07B_REPAIR_VERSION = "v3-safe-binding-matrix-projection-freeze-20260824"
 
 
 def contract_repair_instructions(
@@ -57,6 +57,13 @@ tolerance, proposition, or scientific label into the public schema.  Do not
 create a new result field or change a binding to point elsewhere.  If the
 schema cannot be made explicit without a scientific inference, report the
 finding unresolved.
+
+For `acceptance_submission_binding_ambiguous:<profile_id>`, remove a redundant
+shared `submission_binding` only when the existing `mode_submission_bindings`
+matrix has one valid row for every applicable mode and the rows are equivalent
+transport mappings. Do not invent a row, change a selector, or alter the
+profile's answer, tolerance, mode scope, or comparison semantics. If the matrix
+is incomplete or differs semantically, report the finding unresolved.
 
 Before finishing, reread the candidate files, list every actual changed path, and write exactly one
 receipt to `outputs/stage07b_repair.json`. Return the same JSON object in your final response:
