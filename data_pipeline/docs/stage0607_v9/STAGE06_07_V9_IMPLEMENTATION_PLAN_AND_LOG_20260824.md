@@ -82,6 +82,19 @@
 - 新增通用 `$ref + array index` 回归 fixture 和自检工具多 finding/泄漏/外部 Gate 单次检查用例。
 - 测试结果：上述 31 + Stage06 agent 171 全部通过。
 
-### v9-step-3：整体对照（待完成）
+### v9-step-3：整体对照与批量测试（已完成代码审查，测试已提交）
 
-- 待执行：全量 Stage06/07 单元回归、代码 diff/死代码审查、与 v9 方案逐条核对、20 篇 GPT-5.6-sol Codex 测试。
+- 逐条核对方案：三阶段 workspace 均注入同一标准库自检工具；prompt 均要求在原 workspace
+  自检、修复后再检；Agent Gate finding 不再自动创建模型 recovery；编排器在 canonical
+  normalization 后执行一次独立只读最终 Gate；Stage07B 仍只处理 transport/合同字段。
+- 核对结果：未发现本轮新增的论文特例规则、科学裁决硬编码、Gate finding 历史账本或重复
+  recovery 分支；无关工作区修改未纳入本轮提交。`git diff --check` 通过。
+- 回归结果：`tests/test_stage0607_v9_self_check.py` 与早期 Gate 回归共 13 passed；Task
+  Package v1 回归通过；此前完整 Stage06/07 回归为 223 passed（其中 Stage06 Agent 171
+  passed）。
+- Stage05 来源共发现 582 篇通过候选。已固定 seed `20260824` 抽取 20 篇，使用
+  `gpt-5.6-sol`、Codex harness、reasoning effort `high`、并发 20 提交测试。
+- 测试输出目录：
+  `runs/stage06-07-v9-gpt20-codex-20260824/`。提交时 `batch_status.json` 已写入
+  `state=RUNNING`、20 篇清单、Stage06/Stage07 模型均为 `gpt-5.6-sol`、harness 为
+  `codex`；后续结果分析待测试进程结束后进行。
