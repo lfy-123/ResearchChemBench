@@ -135,3 +135,17 @@ PYTHONPATH=.:.. pytest -q \
 
 后续：运行完整 Stage06/07 回归、提交本轮 Git commit，然后从历史科学批准样本中固定
 抽取 10 篇执行 GPT/Codex 测试并记录逐篇 Gate 轨迹。
+
+### v9b-step-2：10 篇历史科学批准样本测试与审计（已完成）
+
+- 测试目录：`runs/stage06-07-v9b-gpt10-codex-20260824/`；10/10 完成，worker 失败数为 0。
+- 6/10 进入 `provisional_constructed`，4/10 被科学判定为 `provisional_not_constructible`；后者没有进入 Stage06B，不能归因于机械 Gate。
+- 6 个构建任务中，Stage06A Agent 在同一 workspace 内最终自查通过 5/6；外部 Stage06A Gate 通过 1/6。差异来自 standalone 工具没有覆盖 `_stage06a_phase_gate_findings()` 中的 acceptance profile/binding typed-contract 检查。
+- Stage06B Agent-facing Gate 调用为 0，外部 Gate 通过 5/6、失败 1/6；`agent_self_check_required=false` 和 external-only 路径均得到验证。
+- 6 个科学构建任务全部被 Stage07 科学批准；最终只有 `paper_3590deded767345e` 经过 Stage07B 窄合同修复后发布，其他任务因 evaluator 合同缺陷、重复 binding 来源或超出 Stage07B 权限而未发布。
+- 完整逐篇轨迹、缺失项责任划分和下一轮最小修复建议见：
+  `STAGE06_07_V9B_GPT10_GATE_ANALYSIS_20260824.md`。
+- 本轮尚未声称 Agent 自查提高最终发布率；需固定样本 A/B 才能作因果判断。
+- 为便于交给其他 agent 继续处理，补充交接文档：
+  `STAGE06_07_V9B_HANDOFF_CURRENT_PROGRESS_GOALS_AND_TEST_METHOD_20260824.md`。
+  文档明确记录了两套 Gate 的实现差异、当前目标、职责边界、禁止事项和可复现的 fixture/A-B 测试方法。
