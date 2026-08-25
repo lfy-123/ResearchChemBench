@@ -16,6 +16,7 @@
 | 每个 key point/conclusion 必须有 rule | `minimal_evaluator_findings()` | 通过；缺 coverage 会阻断 |
 | 只保留 numeric/ordering/condition/semantic | `MINIMAL_RULE_TYPES`、`_V15_RULE_TYPES` | 通过；旧字段只作读取归一化，不是新 prompt 入口 |
 | numeric 必须有 target/unit/tolerance | shared helper 和独立 Gate fallback | 通过；容差只做可执行性检查，不评价科学最佳值 |
+| numeric reference 不得降级为 semantic；semantic expected 不能是泛化占位 | `minimal_evaluator_findings()` | 通过；数值 reference 强制 numeric，泛化 expected 阻断 |
 | 其他三类必须有 expected | shared helper 和独立 Gate fallback | 通过 |
 | binding 必须可执行并指向公开 required_files | shared helper、phase Gate | 通过 |
 | keywords 不再是必需字段 | shared helper、prompt、测试 | 通过 |
