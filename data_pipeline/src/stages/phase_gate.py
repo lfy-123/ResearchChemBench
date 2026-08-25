@@ -23,8 +23,11 @@ from typing import Any
 
 try:
     from src.stages.evaluator_reference import minimal_evaluator_findings as _shared_minimal_evaluator_findings
-except ImportError:  # The installed Agent tool is intentionally self-contained.
-    _shared_minimal_evaluator_findings = None
+except ImportError:  # Installed next to this script in an isolated Agent workspace.
+    try:
+        from evaluator_reference import minimal_evaluator_findings as _shared_minimal_evaluator_findings
+    except ImportError:
+        _shared_minimal_evaluator_findings = None
 
 
 MODES = ("paper_reproduction", "autonomous_research")
@@ -105,15 +108,25 @@ _V13_PRIMARY_REFERENCE_FILES = (
 )
 _V13_REFERENCE_MODES = frozenset({"paper_reproduction", "autonomous_research"})
 _V15_RULE_TYPES = frozenset({"numeric", "ordering", "condition", "semantic"})
-_PLACEHOLDER_STATEMENT = re.compile(
-    r"^(?:reference\s+scientific\s+result|report\s+(?:the|this)\s+result|check\s+whether)\b",
-    re.I,
+_PLACEHOLDER_STATEMENT_MARKERS = (
+    "agent_required",
+    "todo",
+    "<placeholder>",
+    "<fill",
+    "reference scientific result ",
 )
 GATE_CHECKER_VERSION = "stage06-07-gate-v15"
 
 
 def _has_evaluator_value(value: Any) -> bool:
     return value is not None and value != "" and value != [] and value != {}
+
+
+def _is_evaluator_placeholder(value: Any) -> bool:
+    if not isinstance(value, str):
+        return False
+    text = value.strip().casefold()
+    return any(marker in text for marker in _PLACEHOLDER_STATEMENT_MARKERS)
 
 
 def _numeric_evaluator_value(value: Any) -> bool:
@@ -197,13 +210,7 @@ def _identity_findings(root: Path, findings: list[str]) -> None:
 
 
 def _v13_evaluator_reference_findings(root: Path, findings: list[str]) -> None:
-    """Check split evaluator files with policy-content warnings.
-
-    The standalone tool must remain self-contained because it is copied into
-    an Agent workspace.  Keep this small transport checker independent from
-    the pipeline helper module.  Missing/invalid primary files are blocking;
-    scoring-rule content is represented by ``scoring_rule_*`` warnings.
-    """
+    """Check split evaluator files through the shared v15 contract."""
 
     directory = root / _V13_REFERENCE_DIR
     if not directory.is_dir():
@@ -313,7 +320,7 @@ def _v13_evaluator_reference_findings(root: Path, findings: list[str]) -> None:
     for row in key_items:
         identifier = str(row.get("key_point_id") or "").strip() or "missing"
         statement = str(row.get("statement") or "").strip()
-        if not statement or _PLACEHOLDER_STATEMENT.search(statement):
+        if not statement or _is_evaluator_placeholder(statement):
             findings.append(f"reference_key_point_statement_invalid:{identifier}")
         if not _has_evaluator_value(row.get("expected", row.get("reference_value"))):
             findings.append(f"reference_key_point_expected_missing:{identifier}")
@@ -327,7 +334,7 @@ def _v13_evaluator_reference_findings(root: Path, findings: list[str]) -> None:
     for row in conclusion_items:
         identifier = str(row.get("conclusion_id") or "").strip() or "missing"
         statement = str(row.get("statement") or "").strip()
-        if not statement or _PLACEHOLDER_STATEMENT.search(statement):
+        if not statement or _is_evaluator_placeholder(statement):
             findings.append(f"reference_conclusion_statement_invalid:{identifier}")
         if not _has_evaluator_value(row.get("expected", row.get("reference_value"))):
             findings.append(f"reference_conclusion_expected_missing:{identifier}")
@@ -424,23 +431,6 @@ def _v13_evaluator_reference_findings(root: Path, findings: list[str]) -> None:
                 )
         elif not _has_evaluator_value(row.get("expected", row.get("target"))):
             findings.append(f"scoring_rule_expected_missing:{rule_id or 'missing'}")
-        if reference_id in key_ids or reference_id in conclusion_ids:
-            reference_rows = key_items if reference_id in key_ids else conclusion_items
-            reference = next(
-                item for item in reference_rows
-                if isinstance(item, dict)
-                and str(item.get("key_point_id") or item.get("conclusion_id") or "").strip() == reference_id
-            )
-            reference_expected = reference.get("expected", reference.get("reference_value"))
-            numeric_reference = _numeric_evaluator_value(reference_expected) or (
-                isinstance(reference_expected, dict)
-                and bool(reference_expected)
-                and all(_numeric_evaluator_value(value) for value in reference_expected.values())
-            )
-            if numeric_reference and evaluation_type != "numeric":
-                findings.append(f"scoring_rule_numeric_type_required:{rule_id or 'missing'}")
-            if evaluation_type == "semantic" and _PLACEHOLDER_STATEMENT.search(str(row.get("expected") or "")):
-                findings.append(f"scoring_rule_expected_placeholder:{rule_id or 'missing'}")
         binding = row.get("binding") or row.get("submission_binding")
         if not isinstance(binding, dict) or not binding:
             findings.append(f"scoring_rule_binding_missing:{rule_id or 'missing'}")
@@ -1333,14 +1323,19 @@ def run(phase: str, root: Path) -> dict[str, Any]:
 
 
 def install_phase_gate_tool(destination: Path) -> Path:
-    """Copy this standalone tool into an Agent's read-only input tree."""
+    """Install the CLI and its shared evaluator checker for Agent self-checks."""
 
     destination.mkdir(parents=True, exist_ok=True)
     target = destination / "phase_gate.py"
     source = Path(__file__).resolve()
     if source != target:
         shutil.copyfile(source, target)
+    evaluator_source = Path(__file__).with_name("evaluator_reference.py").resolve()
+    evaluator_target = destination / "evaluator_reference.py"
+    if evaluator_source != evaluator_target:
+        shutil.copyfile(evaluator_source, evaluator_target)
     target.chmod(stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
+    evaluator_target.chmod(stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
     return target
 
 

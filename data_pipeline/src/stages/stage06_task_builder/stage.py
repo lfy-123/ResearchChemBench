@@ -6,6 +6,7 @@ import re
 import shutil
 import time
 import uuid
+from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
 from types import SimpleNamespace
@@ -81,14 +82,27 @@ from src.stages.stage06_task_builder.validation import (
     canonicalize_complexity_profile,
     canonicalize_mode_task_contract,
     hidden_reference_transport_findings,
+    normalize_binding_contract,
     normalize_mode_scope,
     normalize_process_rubric_contract,
     anonymous_source_id,
     canonical_task_pair_id,
 )
-from src.stages.phase_gate import install_phase_gate_tool
+from src.stages.phase_gate import (
+    _conversion_renamed_paths,
+    install_phase_gate_tool,
+    run as run_shared_phase_gate,
+    snapshot_sha256 as phase_gate_snapshot_sha256,
+    write_final_self_check_report,
+)
+from src.stages.evaluator_reference import (
+    is_blocking_finding,
+    legacy_reference_from_split,
+    read_split_reference,
+    materialize_split_reference,
+)
 
-STAGE06_IMPLEMENTATION_VERSION = "v20-stage06b-external-only-gate-20260824"
+STAGE06_IMPLEMENTATION_VERSION = "v22-stage06b-oneshot-20260825"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 STAGE06_INPUT_PACKAGE_VERSION = "v2-canonical-deduplicated-inputs"
 
@@ -122,6 +136,15 @@ def run_stage06(
     run_id: str,
 ):
     """Construct benchmark pairs with the configured Stage06 generation strategy."""
+
+    # Stage06 is a single Agent construction pass.  The Agent's own final
+    # self-check is the correction loop; replaying the same conversation from
+    # the orchestrator obscures first-pass failures and can resurrect stale
+    # artifacts.  Keep process-level retries for the earlier low-cost stages,
+    # but make this late-stage entry explicitly fresh and one-shot.
+    config = dict(config)
+    config["resume"] = False
+    config["max_attempts"] = 1
 
     strategy = str(
         config.get("mode_generation_strategy") or "two_agent_objective_centered"
@@ -234,14 +257,20 @@ def _run_stage06_single_agent(
                     snapshot_hash=snapshot["snapshot_hash"],
                     max_tool_calls=int(
                         config.get(
-                            "task_pair_builder_max_tool_calls",
-                            config.get("max_tool_calls", 120),
+                            "stage06a_max_tool_calls",
+                            config.get(
+                                "task_pair_builder_max_tool_calls",
+                                config.get("max_tool_calls", 120),
+                            ),
                         )
                     ),
                     finalization_reserve=int(
                         config.get(
-                            "task_pair_builder_finalization_reserve",
-                            config.get("finalization_reserve", 12),
+                            "stage06a_finalization_reserve",
+                            config.get(
+                                "task_pair_builder_finalization_reserve",
+                                config.get("finalization_reserve", 16),
+                            ),
                         )
                     ),
                     evidence_search_max_tool_calls=int(
@@ -275,18 +304,21 @@ def _run_stage06_single_agent(
                 phase_gate_max_checks=1,
                 phase_gate_fail_open=True,
                 phase_gate_mode="agent_and_external",
-                phase_gate_prepare=lambda root: canonicalize_mode_task_contract(
-                    root / "outputs" / "paper_reproduction",
-                    expected_mode="paper_reproduction",
+                phase_gate_prepare=lambda root: _stage06a_phase_gate_prepare(
+                    root,
                     task_pair_id=canonical_task_pair_id(paper_id),
-                ) if (root / "outputs" / "paper_reproduction").is_dir() else [],
+                ),
             )
             if agent_workspace is None:
                 raise FileNotFoundError("Stage06 task-pair builder workspace is unavailable")
             outputs = agent_workspace / "outputs"
+            external_gate_path = agent_workspace / "external_phase_gate_report.json"
+            legacy_gate_path = agent_workspace / "phase_gate_report.json"
             stage06a_gate_report = (
-                read_json(agent_workspace / "phase_gate_report.json")
-                if (agent_workspace / "phase_gate_report.json").is_file()
+                read_json(external_gate_path)
+                if external_gate_path.is_file()
+                else read_json(legacy_gate_path)
+                if legacy_gate_path.is_file()
                 else {}
             )
             if receipt.get("decision") == "scientific_not_constructible":
@@ -295,7 +327,15 @@ def _run_stage06_single_agent(
                 # turn that Agent decision into a filesystem failure by reading a
                 # success-only artifact first.
                 review_path = outputs / "workflow_review.json"
-                review = read_json(review_path) if review_path.is_file() else {}
+                # A model may have started a draft review before deciding that
+                # the source is not constructible.  That draft is not part of
+                # the negative contract and may be truncated or malformed;
+                # never convert it into a processing/retry failure.
+                try:
+                    candidate_review = read_json(review_path) if review_path.is_file() else {}
+                except (OSError, ValueError, TypeError, json.JSONDecodeError):
+                    candidate_review = {}
+                review = candidate_review if isinstance(candidate_review, dict) else {}
                 return _publish_provisional_not_constructible(
                     stage_root=stage_root,
                     run_id=run_id,
@@ -315,11 +355,9 @@ def _run_stage06_single_agent(
             # preserve any Agent proposal only as non-authoritative review metadata.
             task_pair_id = canonical_task_pair_id(paper_id)
             proposed_task_pair_id = str(
-                review.get("task_pair_id") or receipt.get("task_pair_id") or ""
+                review.get("paper_id") or receipt.get("paper_id") or ""
             )
-            if proposed_task_pair_id and proposed_task_pair_id != task_pair_id:
-                review["agent_proposed_task_pair_id"] = proposed_task_pair_id
-            review["task_pair_id"] = task_pair_id
+            review["paper_id"] = task_pair_id
             staging_root = prepare_clean_directory(
                 stage_root
                 / "staging"
@@ -356,7 +394,7 @@ def _run_stage06_single_agent(
                     ),
                     output_schema=STAGE06_AUTONOMOUS_CONVERTER_SCHEMA,
                     fingerprint_value={
-                        "task_pair_id": task_pair_id,
+                        "paper_id": task_pair_id,
                         "paper_reproduction_hash": directory_manifest(
                             staging_root / "paper_reproduction"
                         )["content_hash"],
@@ -366,38 +404,53 @@ def _run_stage06_single_agent(
                             else review.get("objective_card") or {}
                         ),
                         "prompt_version": STAGE06_AUTONOMOUS_CONVERTER_VERSION,
-                        "phase_gate_mode": "external_only",
+                        "phase_gate_mode": "agent_and_external",
                         "harness": converter_harness_name,
                         "model": converter_harness.model,
                     },
-                    config=config,
+                    config={
+                        **config,
+                        "max_attempts": 1,
+                        "resume": False,
+                        "codex_native_resume": False,
+                    },
                     setup=lambda root: _setup_converter_inputs(
                         root,
                         staging_root,
                         stage06a_gate_report=stage06a_gate_report,
                     ),
-                    semantic_validator=_converter_execution_findings,
+                    # Stage06B is a single file-conversion Agent.  Its receipt is
+                    # diagnostic input; it must never be promoted into a hidden
+                    # semantic retry.  Execution/contract status is decided from
+                    # process and artifact facts below.
+                    semantic_validator=None,
                     phase_gate_validator=_converter_contract_gate_findings,
                     phase_gate_max_checks=1,
                     phase_gate_fail_open=True,
-                    phase_gate_mode="external_only",
-                    phase_gate_prepare=lambda root: canonicalize_mode_task_contract(
-                        root / "outputs" / "autonomous_research",
-                        expected_mode="autonomous_research",
-                        task_pair_id=task_pair_id,
-                    ) if (root / "outputs" / "autonomous_research").is_dir() else [],
+                    phase_gate_mode="agent_and_external",
+                    phase_gate_prepare=lambda root: _converter_phase_gate_prepare(
+                        root, task_pair_id=task_pair_id
+                    ),
                 )
             else:
                 # Explicit legacy mode remains available for old fixtures and migration runs.
                 converter_response = {"status": "converted", "artifact_path": "outputs/autonomous_research"}
                 converter_audit = {"status": "skipped", "reason": "legacy_single_agent_mode"}
                 converter_workspace = None
-            if use_converter and converter_workspace is not None:
-                _normalize_converter_report(converter_response, converter_workspace)
+            # conversion_report.json is optional handoff metadata.  It is read
+            # from the one-shot workspace later, but never used to decide whether
+            # Stage06B should execute again.
             if converter_response.get("phase_gate_status") == "bypassed_with_warnings":
                 handoff_warnings.append("stage06b_gate_bypassed_with_warnings")
             if converter_response.get("phase_gate_status") == "failed":
                 handoff_warnings.append("stage06b_external_gate_findings")
+            converter_status = str(converter_response.get("status") or "").strip()
+            if converter_status == "conversion_uncertain":
+                # This is a semantic handoff state, not an execution failure.
+                # Preserve the complete file pair and make the uncertainty
+                # explicit to Stage07 instead of collapsing it into the generic
+                # constructed-candidate status.
+                handoff_warnings.append("stage06b_conversion_uncertain")
             if converter_response.get("status") not in {"converted", "conversion_uncertain"}:
                 return _artifact_delivery_failure(
                     run_id,
@@ -421,20 +474,6 @@ def _run_stage06_single_agent(
                 if converted_root != old_autonomous_root:
                     copytree_exact(converted_root, old_autonomous_root)
                 make_writable(old_autonomous_root)
-                mode_findings = canonicalize_mode_task_contract(
-                    old_autonomous_root,
-                    expected_mode="autonomous_research",
-                    task_pair_id=task_pair_id,
-                )
-                if mode_findings:
-                    # The Stage06B Gate already had its bounded repair budget.
-                    # Post-Gate transport normalization must not turn a second
-                    # failed Gate into an exception after the phase was explicitly
-                    # allowed to continue with warnings.
-                    handoff_warnings.extend(
-                        f"stage06b_post_normalization_warning:{finding}"
-                        for finding in mode_findings
-                    )
                 report_path = converter_workspace / "outputs" / "conversion_report.json"
                 if report_path.is_file():
                     shutil.copy2(report_path, staging_root / "conversion_report.json")
@@ -453,7 +492,7 @@ def _run_stage06_single_agent(
                         _json_object(submission_path)
                     )
                     mode_submission.pop("task_id", None)
-                    mode_submission["task_pair_id"] = task_pair_id
+                    mode_submission["paper_id"] = task_pair_id
                     write_json(submission_path, mode_submission)
                 rubric_path = reproduction_root / "process_rubric.json"
                 if rubric_path.is_file():
@@ -482,20 +521,21 @@ def _run_stage06_single_agent(
             hidden_path = staging_root / "hidden_reference" / "ground_truth_common.json"
             if reproduction_root.is_dir() and autonomous_root.is_dir() and hidden_path.is_file():
                 try:
-                    for mode_root, expected_mode in (
-                        (reproduction_root, "paper_reproduction"),
-                        (autonomous_root, "autonomous_research"),
-                    ):
-                        mode_findings = canonicalize_mode_task_contract(
-                            mode_root,
-                            expected_mode=expected_mode,
-                            task_pair_id=task_pair_id,
-                        )
-                        if mode_findings:
-                            raise ValueError(
-                                f"{expected_mode} mode contract is incomplete: "
-                                + "; ".join(mode_findings)
+                    if not use_converter:
+                        for mode_root, expected_mode in (
+                            (reproduction_root, "paper_reproduction"),
+                            (autonomous_root, "autonomous_research"),
+                        ):
+                            mode_findings = canonicalize_mode_task_contract(
+                                mode_root,
+                                expected_mode=expected_mode,
+                                task_pair_id=task_pair_id,
                             )
+                            if mode_findings:
+                                raise ValueError(
+                                    f"{expected_mode} mode contract is incomplete: "
+                                    + "; ".join(mode_findings)
+                                )
                     _write_mode_public_manifest(reproduction_root)
                     _write_mode_public_manifest(autonomous_root)
                     _materialize_pair_metadata(
@@ -538,6 +578,24 @@ def _run_stage06_single_agent(
                     )
             else:
                 handoff_warnings.append("candidate_task_tree_incomplete_stage07_review_required")
+            _write_conversion_audit(
+                staging_root,
+                stage06a_gate_report=stage06a_gate_report,
+                stage06b_response=converter_response,
+                stage06b_agent_audit=converter_audit,
+                stage06b_self_check=(
+                    read_json(converter_workspace / "agent_self_check_report.json")
+                    if converter_workspace is not None
+                    and (converter_workspace / "agent_self_check_report.json").is_file()
+                    else None
+                ),
+                stage06b_external_gate=(
+                    read_json(converter_workspace / "external_phase_gate_report.json")
+                    if converter_workspace is not None
+                    and (converter_workspace / "external_phase_gate_report.json").is_file()
+                    else None
+                ),
+            )
             _write_provisional_handoff_metadata(
                 staging_root,
                 paper_id=paper_id,
@@ -566,9 +624,20 @@ def _run_stage06_single_agent(
                 "input_candidate_ids": [
                     str(row.get("candidate_id") or "") for row in paper_candidates
                 ],
-                "task_pair_id": task_pair_id,
+                "paper_id": task_pair_id,
                 "processing_status": "completed",
                 "decision": "provisional_constructed",
+                "scientific_status": (
+                    "conversion_uncertain"
+                    if converter_status == "conversion_uncertain"
+                    else "constructed_candidate"
+                ),
+                "contract_status": (
+                    "complete"
+                    if receipt.get("phase_gate_status") == "passed"
+                    and converter_response.get("phase_gate_status") == "passed"
+                    else "contract_incomplete"
+                ),
                 "handoff_ready": True,
                 "passed": False,
                 "provisional": True,
@@ -602,6 +671,12 @@ def _run_stage06_single_agent(
                 ),
                 "stage06b_gate_findings": converter_response.get(
                     "phase_gate_findings", []
+                ),
+                "stage06b_conversion_status": converter_status or "not_run",
+                "stage06b_conversion_report": (
+                    converter_response.get("conversion_report")
+                    if isinstance(converter_response.get("conversion_report"), dict)
+                    else {}
                 ),
                 "agent_harness": harness.name,
                 "agent_model": harness.model,
@@ -661,6 +736,9 @@ def _run_stage06_single_agent(
         ),
         "provisional_not_constructible": sum(
             row.get("decision") == "provisional_not_constructible" for row in records
+        ),
+        "contract_incomplete": sum(
+            row.get("contract_status") == "contract_incomplete" for row in records
         ),
         "retryable_failures": sum(
             row.get("decision") == "objective_failure_retryable" for row in records
@@ -852,7 +930,7 @@ def _run_stage06_legacy(
                     run_id,
                     paper_id,
                     candidate_id,
-                    str(review_response.get("task_pair_id") or "") or None,
+                    str(review_response.get("paper_id") or "") or None,
                     review_findings,
                     {"review": review_audit},
                 )
@@ -860,7 +938,7 @@ def _run_stage06_legacy(
             # Agent-selected identifiers are scientific metadata, not transport identity.
             # Use the deterministic pair id supplied by the orchestrator for all new tasks.
             task_pair_id = canonical_task_pair_id(paper_id)
-            review_response["task_pair_id"] = task_pair_id
+            review_response["paper_id"] = task_pair_id
             staging_root = prepare_clean_directory(
                 stage_root
                 / "staging"
@@ -1144,7 +1222,7 @@ def _run_stage06_legacy(
                 "input_candidate_ids": [
                     str(row.get("candidate_id") or "") for row in paper_candidates
                 ],
-                "task_pair_id": task_pair_id,
+                "paper_id": task_pair_id,
                 "processing_status": "completed",
                 "decision": "constructed",
                 "passed": True,
@@ -1329,7 +1407,7 @@ from pathlib import Path
 path = Path(sys.argv[1] if len(sys.argv) > 1 else "outputs/workflow_review.json")
 value = json.loads(path.read_text(encoding="utf-8"))
 required = {
-    "decision", "task_pair_id", "paper_workflow_inventory_complete",
+    "decision", "paper_id", "paper_workflow_inventory_complete",
     "full_paper_workflow_checked", "alternative_scope_search_complete",
     "workflow_inventory", "workflow_scope", "complexity_profile", "evidence_map",
     "toolbox_requirements", "resource_assessment", "failure_code", "failure_reasons",
@@ -1479,7 +1557,7 @@ def _public_builder_packet(shared, mode):
 
     return {
         "mode": mode,
-        "task_pair_id": shared.get("task_pair_id"),
+        "paper_id": shared.get("paper_id"),
         "scientific_record": shared.get("scientific_record"),
         "required_assets": shared.get("required_assets"),
         "allowed_backends": shared.get("allowed_backends"),
@@ -1825,6 +1903,12 @@ def _run_phase(
     phase_gate_agent_self_check: bool | None = None,
     phase_gate_prepare: Callable[[Path], list[str]] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any], Path | None]:
+    gate_phase_name = {
+        "task_pair_builder": "stage06a",
+        "autonomous_converter": "stage06b",
+        "stage06a": "stage06a",
+        "stage06b": "stage06b",
+    }.get(phase, phase)
     fingerprint = input_fingerprint(fingerprint_value)
     artifact_root = (
         stage_root
@@ -1907,6 +1991,11 @@ def _run_phase(
             )
             cached_gate_status = str(response.get("phase_gate_status") or "")
             if external_gate_path and cached_workspace is not None:
+                pre_self_report = (
+                    read_json(cached_workspace / "agent_self_check_report.json")
+                    if (cached_workspace / "agent_self_check_report.json").is_file()
+                    else None
+                )
                 preparation_findings = (
                     phase_gate_prepare(cached_workspace)
                     if phase_gate_prepare is not None
@@ -1916,19 +2005,50 @@ def _run_phase(
                     set(preparation_findings)
                     | set(phase_gate_validator(response, cached_workspace))
                 )
+                final_self_report = write_final_self_check_report(
+                    phase=gate_phase_name,
+                    outputs=cached_workspace / "outputs",
+                    report_root=cached_workspace,
+                    pre_normalization=pre_self_report,
+                    findings=cached_findings,
+                    normalization_findings=preparation_findings,
+                )
                 cached_report = {
-                    "schema_version": "stage06-07-phase-gate/v2",
-                    "phase": phase,
+                    "schema_version": "stage06-07-phase-gate/v3",
+                    "phase": gate_phase_name,
+                    "implementation_phase": phase,
                     "paper_id": paper_id,
                     "authority": "orchestrator_external_read_only",
-                    "status": "passed" if not cached_findings else "failed",
+                    "status": (
+                        "passed"
+                        if not any(is_blocking_finding(item) for item in cached_findings)
+                        else "failed"
+                    ),
                     "attempt": 1,
                     "max_checks": 1,
                     "findings": cached_findings,
+                    "blocking_findings": [
+                        item for item in cached_findings if is_blocking_finding(item)
+                    ],
+                    "warnings": [
+                        item for item in cached_findings if not is_blocking_finding(item)
+                    ],
                     "agent_self_check_required": agent_self_check,
+                    "snapshot_sha256": phase_gate_snapshot_sha256(
+                        cached_workspace / "outputs"
+                    ),
+                    "snapshot_stage": "post_normalization",
+                    "self_check_snapshot_sha256": final_self_report["snapshot_sha256"],
+                    "self_check_snapshot_parity": final_self_report.get("snapshot_parity"),
+                    "self_check_external_snapshot_parity": final_self_report["snapshot_sha256"]
+                    == phase_gate_snapshot_sha256(cached_workspace / "outputs"),
+                    "normalization_findings": preparation_findings,
                     "created_at": now_utc(),
                 }
-                write_json(cached_workspace / "phase_gate_report.json", cached_report)
+                write_json(
+                    cached_workspace / "external_phase_gate_report.json",
+                    cached_report,
+                )
                 response = dict(response)
                 response.update(
                     {
@@ -2093,16 +2213,18 @@ def _run_phase(
             if self_check_phase:
                 phase_instructions += f"""
 
-MANDATORY AGENT SELF-CHECK
-After writing the complete artifact, run:
+MANDATORY AGENT SELF-CHECK (FINALIZATION STEP)
+This self-check is part of completing the {self_check_phase} task. After writing the complete
+artifact, run:
 `python inputs/tools/phase_gate.py --phase {self_check_phase} --root outputs`
 The tool is read-only and checks only transport/public-contract closure. Read the complete JSON
 report. If it returns `findings`, repair all applicable findings in this same workspace without
 deleting scientific inputs, claims, answers, boundaries, or required deliverables, then run the
-same command again. You may repeat the self-check as needed; there is no fixed repair-round
-requirement. If a finding is caused by the tool itself, preserve the artifact and state that
-uncertainty in the receipt. The final receipt and all claims must describe the files after the
-last self-check, not an earlier draft.
+same command again. Reserve enough tool calls for at least one repair and one final check. Scoring
+rules are required Stage06A deliverables: a failed report is not a completed constructed task and
+must not be returned as one. Repair every blocking finding, including rule coverage, evidence-map
+shape, numeric target/unit/tolerance, binding paths/fields, and route fidelity. The final receipt
+and all claims must describe the files after the last passing self-check, not an earlier draft.
 """
         if recovery_context:
             (attempt_root / "RECOVERY_CONTEXT.md").write_text(
@@ -2115,8 +2237,6 @@ last self-check, not an earlier draft.
             )
             if phase == "task_pair_builder":
                 _prepare_task_pair_builder_recovery(attempt_root)
-        if phase == "autonomous_converter":
-            _ensure_converter_output_scaffold(attempt_root)
         prior_review_findings: list[str] | None = None
         if phase == "scientific_review" and recovery_context:
             prior_review_findings = _seed_prior_scientific_review_draft(
@@ -2315,6 +2435,9 @@ last self-check, not an earlier draft.
                 result.response = _reconcile_converter_phase_receipt(
                     result.response or {}, workspace=attempt_root
                 )
+                result.response = _reconcile_complete_converter_artifact(
+                    result.response or {}, workspace=attempt_root, result=result
+                )
             if semantic_validator is not None:
                 semantic_findings = semantic_validator(result.response or {}, attempt_root)
                 if semantic_findings:
@@ -2338,6 +2461,11 @@ last self-check, not an earlier draft.
                     )
             _require_claimed_phase_artifact(result.response or {}, attempt_root, result)
             if gate_enabled:
+                pre_self_report = (
+                    read_json(attempt_root / "agent_self_check_report.json")
+                    if (attempt_root / "agent_self_check_report.json").is_file()
+                    else None
+                )
                 if external_gate_path and phase_gate_prepare is not None:
                     # Normalize deterministic enum/ID wrappers before the
                     # independent final check.  The callback is transport-only
@@ -2351,19 +2479,50 @@ last self-check, not an earlier draft.
                     | set(phase_gate_validator(result.response or {}, attempt_root))
                 )
                 if external_gate_path:
+                    final_self_report = write_final_self_check_report(
+                        phase=gate_phase_name,
+                        outputs=attempt_root / "outputs",
+                        report_root=attempt_root,
+                        pre_normalization=pre_self_report,
+                        findings=gate_findings,
+                        normalization_findings=preparation_findings,
+                    )
                     gate_report = {
-                        "schema_version": "stage06-07-phase-gate/v2",
-                        "phase": phase,
+                        "schema_version": "stage06-07-phase-gate/v3",
+                        "phase": gate_phase_name,
+                        "implementation_phase": phase,
                         "paper_id": paper_id,
                         "authority": "orchestrator_external_read_only",
-                        "status": "passed" if not gate_findings else "failed",
+                        "status": (
+                            "passed"
+                            if not any(is_blocking_finding(item) for item in gate_findings)
+                            else "failed"
+                        ),
                         "attempt": gate_checks,
                         "max_checks": 1,
                         "findings": gate_findings,
+                        "blocking_findings": [
+                            item for item in gate_findings if is_blocking_finding(item)
+                        ],
+                        "warnings": [
+                            item for item in gate_findings if not is_blocking_finding(item)
+                        ],
                         "agent_self_check_required": agent_self_check,
+                        "snapshot_sha256": phase_gate_snapshot_sha256(
+                            attempt_root / "outputs"
+                        ),
+                        "snapshot_stage": "post_normalization",
+                        "self_check_snapshot_sha256": final_self_report["snapshot_sha256"],
+                        "self_check_snapshot_parity": final_self_report.get("snapshot_parity"),
+                        "self_check_external_snapshot_parity": final_self_report["snapshot_sha256"]
+                        == phase_gate_snapshot_sha256(attempt_root / "outputs"),
+                        "normalization_findings": preparation_findings,
                         "created_at": now_utc(),
                     }
-                    write_json(attempt_root / "phase_gate_report.json", gate_report)
+                    write_json(
+                        attempt_root / "external_phase_gate_report.json",
+                        gate_report,
+                    )
                     result.response = dict(result.response or {})
                     result.response.update(
                         {
@@ -2620,7 +2779,7 @@ def _recover_builder_receipt_from_review(
             if decision == "candidate_ready"
             else "scientific_not_constructible"
         ),
-        "task_pair_id": str(review.get("task_pair_id") or ""),
+        "paper_id": str(review.get("paper_id") or ""),
         "artifact_path": (
             "outputs"
             if decision == "candidate_ready"
@@ -2682,7 +2841,7 @@ def _phase_gate_deliverable_findings(
     return findings
 
 
-def _stage06a_phase_gate_findings(
+def _stage06a_legacy_phase_gate_findings(
     response: dict[str, Any],
     workspace: Path,
 ) -> list[str]:
@@ -2895,6 +3054,48 @@ def _stage06a_phase_gate_findings(
     return sorted(set(findings))
 
 
+def _stage06a_phase_gate_findings(
+    response: dict[str, Any],
+    workspace: Path,
+) -> list[str]:
+    """Run exactly the shared file contract exposed to the Agent self-check."""
+
+    outputs = workspace / "outputs"
+    return sorted(set(run_shared_phase_gate("stage06a", outputs)["findings"]))
+
+
+def _stage06a_phase_gate_prepare(
+    workspace: Path,
+    *,
+    task_pair_id: str | None = None,
+) -> list[str]:
+    """Canonicalize only a positive Stage06A task tree.
+
+    A ``scientific_not_constructible`` receipt uses a failure-only Gate scope.
+    The bootstrap may still leave an empty mode directory, but sending that
+    directory through the positive canonicalizer would create spurious
+    ``missing_public_file`` findings that are absent from the Agent self-check.
+    """
+
+    outputs = workspace / "outputs"
+    receipt_path = outputs / "construction_receipt.json"
+    if receipt_path.is_file():
+        try:
+            receipt = read_json(receipt_path)
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            receipt = None
+        if isinstance(receipt, dict) and receipt.get("decision") == "scientific_not_constructible":
+            return []
+    reproduction = outputs / "paper_reproduction"
+    if not reproduction.is_dir():
+        return []
+    return canonicalize_mode_task_contract(
+        reproduction,
+        expected_mode="paper_reproduction",
+        task_pair_id=task_pair_id,
+    )
+
+
 def _task_pair_builder_phase_findings(
     receipt: dict[str, Any],
     workspace: Path,
@@ -2952,7 +3153,7 @@ def _task_pair_builder_phase_findings(
     findings = list(review_findings)
     _synchronize_builder_receipt(receipt, review, outputs=outputs)
     write_json(outputs / "construction_receipt.json", receipt)
-    if receipt.get("task_pair_id") != review.get("task_pair_id"):
+    if receipt.get("paper_id") != review.get("paper_id"):
         findings.append("receipt_task_pair_id_mismatch")
     expected_receipt_decision = (
         "constructed"
@@ -3075,7 +3276,7 @@ def _prepare_task_pair_builder_recovery(attempt_root: Path) -> None:
         attempt_root / "TASK_PAIR_RECOVERY_STATUS.json",
         {
             "review_decision": review.get("decision"),
-            "task_pair_id": review.get("task_pair_id"),
+            "paper_id": review.get("paper_id"),
             "frozen_review_hash": (
                 canonical_hash(review) if frozen_output.is_file() else None
             ),
@@ -3238,7 +3439,7 @@ def _synchronize_builder_receipt(
     receipt["decision"] = (
         "scientific_not_constructible" if negative else "constructed"
     )
-    receipt["task_pair_id"] = str(review.get("task_pair_id") or "")
+    receipt["paper_id"] = str(review.get("paper_id") or "")
     receipt["artifact_path"] = (
         "outputs/construction_receipt.json" if negative else "outputs"
     )
@@ -4544,9 +4745,16 @@ def _mode_asset_projection(public_basis: dict[str, Any]) -> list[dict[str, Any]]
             relative = _normalize_public_input_path(str(asset.get("path") or ""))
         except ValueError:
             continue
+        # ``public_basis.input_assets`` may already carry the task-relative
+        # ``data/inputs/`` prefix (for example after Stage06A canonicalization).
+        # Store one canonical path only; adding the prefix a second time makes
+        # Gate report a false missing input even though the file is present.
+        public_path = (
+            relative if relative.startswith("data/inputs/") else f"data/inputs/{relative}"
+        )
         output.append(
             {
-                "path": f"data/inputs/{relative}",
+                "path": public_path,
                 "description": asset.get("description") or asset.get("name") or "Public input",
                 "role": asset.get("role") or "computational_input",
                 "source_evidence_ids": asset.get("source_evidence_ids") or [],
@@ -4691,7 +4899,7 @@ def _hidden_reference_from_review(
     payload = {
         **current,
         "status": "ready",
-        "task_pair_id": review.get("task_pair_id"),
+        "paper_id": review.get("paper_id"),
         "ground_truth_items": expected_truths,
     }
     hidden = _normalize_hidden_reference_contract(payload)
@@ -4804,7 +5012,7 @@ def _normalize_task_pair_artifact_contracts(
     ):
         return ["pair_contract_normalization_json_invalid"]
 
-    pair_id = str(review.get("task_pair_id") or "")
+    pair_id = str(review.get("paper_id") or "")
     scope = _canonical_workflow_scope(review.get("workflow_scope") or {})
     complexity = json.loads(
         json.dumps(review.get("complexity_profile") or {}, ensure_ascii=False)
@@ -4829,7 +5037,7 @@ def _normalize_task_pair_artifact_contracts(
         "",
     )
     common_spec = {
-        "task_pair_id": pair_id,
+        "paper_id": pair_id,
         "scientific_question": pair_scientific_question,
         "target_definition": public_basis.get("target_definition")
         or public_basis.get("scientific_question")
@@ -4854,7 +5062,7 @@ def _normalize_task_pair_artifact_contracts(
         (autonomous, autonomous_submission),
     ):
         if mode_submission.get("required_files"):
-            mode_submission["task_pair_id"] = pair_id
+            mode_submission["paper_id"] = pair_id
             write_json(mode_root / "submission_contract.json", mode_submission)
     # Use one contract only as the initial private scaffold vocabulary.  It is
     # not copied into either public mode and may be refined to explicit
@@ -4869,7 +5077,7 @@ def _normalize_task_pair_artifact_contracts(
     # provenance remains in the pair-level paper_info/source_manifest files.
     source_id = anonymous_source_id(pair_id)
     common_info = {
-        "task_pair_id": pair_id,
+        "paper_id": pair_id,
         "scientific_question": pair_scientific_question,
         "source_id": source_id,
         "category": str(
@@ -4908,7 +5116,10 @@ def _normalize_task_pair_artifact_contracts(
         ("autonomous_research", autonomous_info, autonomous_spec),
     ):
         is_reproduction = mode == "paper_reproduction"
-        task_id = f"{safe_component(pair_id)}_{'reproduction' if is_reproduction else 'autonomous'}"
+        # Modes are directories, not identities.  Both mode metadata files use
+        # the one paper-level identity so no mode suffix can drift between
+        # Stage06A, Stage06B, Stage07, and publication.
+        task_id = safe_component(pair_id)
         task_mode = "guided_reproduction" if is_reproduction else "open_discovery"
         disclosure = (
             "paper_route_disclosed"
@@ -5272,8 +5483,15 @@ def _hidden_reference_phase_findings(
 
 
 _ACCEPTANCE_TYPE_ALIASES = {
+    "numeric": "numeric_tolerance",
+    "number": "numeric_tolerance",
+    "numeric_value": "numeric_tolerance",
+    "numerical_value": "numeric_tolerance",
+    "numeric_result": "numeric_tolerance",
     "numeric_intermediate_result": "numeric_tolerance",
     "numeric_final_result": "numeric_tolerance",
+    "semantic": "semantic_propositions",
+    "text": "semantic_propositions",
     "textual_intermediate_conclusion": "semantic_propositions",
     "textual_final_conclusion": "semantic_propositions",
     "textual_conclusion": "semantic_propositions",
@@ -5401,6 +5619,55 @@ def _normalize_hidden_reference_contract(response: dict[str, Any]) -> dict[str, 
         ):
             if isinstance(source, dict):
                 parameters.update(source)
+        # Accept the same legacy top-level aliases that the shared Gate and
+        # bootstrap contract accept.  This keeps a model-emitted profile with
+        # ``tolerance`` mechanically equivalent to one using
+        # ``absolute_tolerance``.
+        for key in (
+            "unit",
+            "absolute_tolerance",
+            "relative_tolerance",
+            "tolerance",
+            "numeric_tolerances",
+        ):
+            if profile.get(key) is not None:
+                parameters.setdefault(key, profile[key])
+        # Some legacy drafts keep a prose ``tolerance`` note alongside the
+        # actual numeric absolute/relative tolerance.  Once an explicit
+        # numeric scalar is present, the prose alias is stale transport
+        # metadata and must not remain in the evaluator contract.  Remove
+        # only that non-numeric alias; numeric legacy tolerances remain valid
+        # and continue through the normal alias projection below.
+        if (
+            profile_type == "numeric_tolerance"
+            and any(
+                isinstance(parameters.get(key), (int, float))
+                and not isinstance(parameters.get(key), bool)
+                for key in ("absolute_tolerance", "relative_tolerance")
+            )
+            and "tolerance" in parameters
+            and not isinstance(parameters.get("tolerance"), (int, float))
+        ):
+            parameters.pop("tolerance", None)
+            if not isinstance(profile.get("tolerance"), (int, float)):
+                profile.pop("tolerance", None)
+        truth_parameters = truth.get("acceptance_parameters")
+        if (
+            profile_type == "numeric_tolerance"
+            and isinstance(truth_parameters, dict)
+            and any(
+                isinstance(truth_parameters.get(key), (int, float))
+                and not isinstance(truth_parameters.get(key), bool)
+                for key in ("absolute_tolerance", "relative_tolerance")
+            )
+            and "tolerance" in truth_parameters
+            and not isinstance(truth_parameters.get("tolerance"), (int, float))
+        ):
+            truth["acceptance_parameters"] = {
+                key: value
+                for key, value in truth_parameters.items()
+                if key != "tolerance"
+            }
         # Some agents express a vector-valued numeric rule as a named tolerance
         # map.  Preserve that explicit map; never collapse it to one scalar or
         # invent a unit for quantities that may use different units.
@@ -5517,6 +5784,47 @@ def _normalize_hidden_reference_contract(response: dict[str, Any]) -> dict[str, 
             normalized_profile_scope = normalize_mode_scope(profile.get("applies_to_modes"))
             if normalized_profile_scope is not None:
                 profile["applies_to_modes"] = normalized_profile_scope
+        # A complete mode matrix may coexist with a stale shared binding after
+        # Stage07 edits.  Remove the shared source only when every applicable
+        # row normalizes to the exact same transport mapping.  Any difference
+        # remains visible to the Gate as a real ambiguity.
+        matrix = profile.get("mode_submission_bindings")
+        shared_binding = profile.get("submission_binding")
+        if isinstance(matrix, dict) and isinstance(shared_binding, dict):
+            scope = normalize_mode_scope(profile.get("applies_to_modes")) or [
+                "autonomous_research",
+                "paper_reproduction",
+            ]
+            normalized_matrix = {
+                {
+                    "autonomous": "autonomous_research",
+                    "open_discovery": "autonomous_research",
+                    "reproduction": "paper_reproduction",
+                    "guided_reproduction": "paper_reproduction",
+                }.get(str(mode), str(mode)): binding
+                for mode, binding in matrix.items()
+                if isinstance(binding, dict)
+            }
+
+            def comparable(binding: dict[str, Any]) -> dict[str, Any]:
+                normalized = normalize_binding_contract(binding, profile=profile)
+                return {
+                    key: normalized.get(key)
+                    for key in (
+                        "artifact_paths",
+                        "observed_fields",
+                        "comparison",
+                        "document_binding",
+                        "canonical_projection",
+                    )
+                    if normalized.get(key) is not None
+                }
+
+            shared_shape = comparable(shared_binding)
+            if set(scope).issubset(normalized_matrix) and all(
+                comparable(normalized_matrix[mode]) == shared_shape for mode in scope
+            ):
+                profile.pop("submission_binding", None)
         normalized_profiles.append(profile)
 
     profile_to_truth = {
@@ -5677,6 +5985,54 @@ def _reconcile_converter_phase_receipt(
     return output
 
 
+def _reconcile_complete_converter_artifact(
+    receipt: dict[str, Any], *, workspace: Path, result: Any
+) -> dict[str, Any]:
+    """Make a complete file-first tree authoritative over contradictory prose.
+
+    A successful one-shot CLI process can return ``objective_consistency_error``
+    after writing the complete tree when the model misinterprets successful shell
+    results as rejected tool calls.  Preserve that status as diagnostics, but do
+    not discard a checkable artifact or turn model prose into a hidden retry.
+    """
+
+    autonomous = workspace / "outputs" / "autonomous_research"
+    required = {
+        "task.md",
+        "task_info.json",
+        "task_spec.json",
+        "submission_contract.json",
+        "process_rubric.json",
+    }
+    present = {
+        path.relative_to(autonomous).as_posix()
+        for path in autonomous.rglob("*")
+        if autonomous.is_dir() and path.is_file()
+    }
+    if not required.issubset(present):
+        return receipt
+    if getattr(result, "status", None) != "succeeded" or getattr(result, "exit_code", 0) not in (0, None):
+        return receipt
+    status = str(receipt.get("status") or "").strip()
+    if status not in {"objective_consistency_error", "invalid"}:
+        return receipt
+    output = dict(receipt)
+    output["agent_reported_status"] = status
+    output["status"] = "conversion_uncertain"
+    output["summary"] = (
+        "A complete autonomous task tree was delivered by a successful process, "
+        "but the Agent returned a negative prose status; Stage07 must audit the "
+        "final public surface."
+    )
+    reasons = output.get("invalid_reasons")
+    if not isinstance(reasons, list):
+        reasons = []
+    output["invalid_reasons"] = [*reasons, f"agent_reported_status:{status}"]
+    output["artifact_path"] = "outputs/autonomous_research"
+    output["receipt_reconciled_from_artifact"] = True
+    return output
+
+
 def _require_claimed_phase_artifact(
     receipt: dict[str, Any], workspace: Path, result: Any
 ) -> None:
@@ -5808,21 +6164,7 @@ def _setup_converter_inputs(
             review = read_json(review_path)
         except (OSError, ValueError, TypeError, json.JSONDecodeError):
             review = {}
-    packet = destination / "conversion_packet"
-    packet.mkdir(parents=True, exist_ok=True)
     gate_report = stage06a_gate_report if isinstance(stage06a_gate_report, dict) else {}
-    if gate_report.get("status") == "bypassed_with_warnings":
-        # Findings are transport diagnostics only; do not copy the full
-        # Stage06 workspace or any hidden reference into Stage06B inputs.
-        write_json(
-            packet / "stage06a_gate_warning.json",
-            {
-                "schema_version": "stage06a-gate-warning/v1",
-                "status": gate_report.get("status"),
-                "attempt": gate_report.get("attempt"),
-                "findings": gate_report.get("findings") or [],
-            },
-        )
     public_basis = review.get("public_task_basis") or {}
     scope = dict(review.get("workflow_scope") or {})
     # Public conversion needs the scope shape, not the answer-bearing claims.
@@ -5832,22 +6174,36 @@ def _setup_converter_inputs(
     method_policy = public_basis.get("method_constraints") or public_basis.get(
         "public_method_constraints"
     ) or []
-    write_json(
-        packet / "public_objective.json",
-        {
-            "schema_version": "stage06-public-objective-v1",
-            "objective_id": review.get("objective_id"),
+    input_assets = public_basis.get("input_assets") or []
+    truths = review.get("ground_truth_items") or []
+    public_aliases = _public_key_point_aliases(truths)
+    boundary_conditions = public_basis.get("boundary_conditions") or []
+    reproduction_submission_path = reproduction / "submission_contract.json"
+    reproduction_submission = (
+        read_json(reproduction_submission_path)
+        if reproduction_submission_path.is_file()
+        else {}
+    )
+    submission_required_files = [
+        str(path)
+        for path in (
+            reproduction_submission.get("required_files")
+            if isinstance(reproduction_submission, dict)
+            else []
+        ) or []
+        if isinstance(path, str) and path.strip()
+    ]
+    conversion_contract = {
+        "schema_version": "stage06-conversion-contract/v1",
+        "paper_id": review.get("paper_id"),
+        "public_objective": {
             "public_scientific_question": review.get("public_scientific_question")
             or review.get("scientific_question"),
             "workflow_scope": scope,
             "autonomy_scope": selected_autonomy_scope,
             "method_constraints": method_policy,
         },
-    )
-    input_assets = public_basis.get("input_assets") or []
-    write_json(
-        packet / "public_input_assets.json",
-        [
+        "public_input_assets": [
             {
                 key: asset.get(key)
                 for key in ("asset_id", "path", "description", "role")
@@ -5856,12 +6212,7 @@ def _setup_converter_inputs(
             for asset in input_assets
             if isinstance(asset, dict)
         ],
-    )
-    truths = review.get("ground_truth_items") or []
-    public_aliases = _public_key_point_aliases(truths)
-    write_json(
-        packet / "key_point_ids.json",
-        [
+        "key_point_ids": [
             {
                 "key_point_id": public_aliases.get(
                     str(row.get("ground_truth_id") or row.get("item_id") or ""),
@@ -5874,11 +6225,7 @@ def _setup_converter_inputs(
             if isinstance(row, dict)
             and (row.get("ground_truth_id") or row.get("item_id"))
         ],
-    )
-    boundary_conditions = public_basis.get("boundary_conditions") or []
-    write_json(
-        packet / "preserve_boundary_conditions.json",
-        [
+        "preserve_boundary_conditions": [
             {
                 **row,
                 "classification": row.get("classification") or "needs_stage07_review",
@@ -5887,11 +6234,8 @@ def _setup_converter_inputs(
             else {"value": row, "classification": "needs_stage07_review"}
             for row in boundary_conditions
         ],
-    )
-    write_json(packet / "preserve_method_constraints.json", method_policy)
-    write_json(
-        packet / "route_redaction_map.json",
-        {
+        "preserve_method_constraints": method_policy,
+        "route_redaction_map": {
             "files_to_remove": ["paper_route.md", "workflow_spec.json", "route_evidence_map.json"],
             "fields_to_rewrite": [
                 "scientific_mode_description",
@@ -5920,10 +6264,7 @@ def _setup_converter_inputs(
                 "required_trends",
             ],
         },
-    )
-    write_json(
-        packet / "asset_neutralization_map.json",
-        [
+        "asset_neutralization_map": [
             {
                 "source_path": asset.get("path"),
                 "public_identifier": f"candidate_{index}",
@@ -5933,16 +6274,27 @@ def _setup_converter_inputs(
             for index, asset in enumerate(input_assets, start=1)
             if isinstance(asset, dict) and asset.get("path")
         ],
-    )
-    write_json(
-        packet / "deliverable_contract.json",
-        {
-            "task_pair_id": review.get("task_pair_id"),
-            "required_files": ["task.md", "task_info.json", "task_spec.json", "submission_contract.json", "process_rubric.json"],
+        "deliverable_contract": {
+            "required_package_files": [
+                "task.md",
+                "task_info.json",
+                "task_spec.json",
+                "submission_contract.json",
+                "process_rubric.json",
+            ],
+            "submission_required_files": submission_required_files,
+            "package_files_are_not_submission_deliverables": True,
             "preserve_submission_contract": True,
             "preserve_key_point_ids": True,
         },
-    )
+    }
+    if gate_report.get("status") == "bypassed_with_warnings":
+        conversion_contract["stage06a_gate_warning"] = {
+            "status": gate_report.get("status"),
+            "attempt": gate_report.get("attempt"),
+            "findings": gate_report.get("findings") or [],
+        }
+    write_json(destination / "conversion_contract.json", conversion_contract)
     install_phase_gate_tool(root / "inputs" / "tools")
     make_read_only(destination)
     # Directory transport is deterministic.  Stage06B receives a correctly rooted,
@@ -5950,63 +6302,17 @@ def _setup_converter_inputs(
     autonomous = root / "outputs" / "autonomous_research"
     copytree_exact(reproduction, autonomous)
     make_writable(autonomous)
-
-
-def _ensure_converter_output_scaffold(root: Path) -> None:
-    """Restore only the converter's deterministic writable tree layout.
-
-    Recovery artifacts may contain the reproduction wrapper one level too deep.  Promote that
-    unambiguous transport wrapper, preserve any already edited top-level files, and fill only the
-    files needed to keep the converter operable.  Scientific redaction remains entirely Stage06B's
-    responsibility.
-    """
-
-    reproduction = root / "inputs" / "task_pair" / "paper_reproduction"
-    if not reproduction.is_dir():
-        raise FileNotFoundError("Stage06B reproduction task is unavailable")
-    autonomous = root / "outputs" / "autonomous_research"
-    autonomous.mkdir(parents=True, exist_ok=True)
-
-    def copy_missing(source: Path, destination: Path) -> None:
-        destination.mkdir(parents=True, exist_ok=True)
-        for source_path in sorted(source.rglob("*")):
-            relative = source_path.relative_to(source)
-            target = destination / relative
-            if source_path.is_dir():
-                target.mkdir(parents=True, exist_ok=True)
-            elif source_path.is_file() and not target.exists():
-                target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(source_path, target)
-
-    nested = autonomous / "paper_reproduction"
-    if nested.is_dir():
-        copy_missing(nested, autonomous)
-        shutil.rmtree(nested)
-
-    public_files = [path for path in autonomous.rglob("*") if path.is_file()]
-    if not public_files:
-        copy_missing(reproduction, autonomous)
-    else:
-        required = (
-            "task.md",
-            "task_info.json",
-            "task_spec.json",
-            "submission_contract.json",
-            "process_rubric.json",
-        )
-        for name in required:
-            target = autonomous / name
-            source = reproduction / name
-            if not target.exists() and source.is_file():
-                shutil.copy2(source, target)
-        autonomous_inputs = autonomous / "data" / "inputs"
-        if not autonomous_inputs.is_dir() or not any(
-            path.is_file() for path in autonomous_inputs.rglob("*")
-        ):
-            source_inputs = reproduction / "data" / "inputs"
-            if source_inputs.is_dir():
-                copy_missing(source_inputs, autonomous_inputs)
-    make_writable(autonomous)
+    # Seed the converter with the canonical autonomous transport surface.  This
+    # removes deterministic reproduction-only route files and fixes enum/ID
+    # aliases before the one-shot Agent spends its budget on semantic redaction.
+    # It does not rewrite scientific fields, inputs, or evaluator targets.
+    for name in ("paper_route.md", "workflow_spec.json", "route_evidence_map.json"):
+        (autonomous / name).unlink(missing_ok=True)
+    canonicalize_mode_task_contract(
+        autonomous,
+        expected_mode="autonomous_research",
+        task_pair_id=str(review.get("paper_id") or "").strip() or None,
+    )
 
 
 def _ensure_objective_handoff_artifacts(pair_root: Path, review: dict[str, Any]) -> None:
@@ -6021,7 +6327,7 @@ def _ensure_objective_handoff_artifacts(pair_root: Path, review: dict[str, Any])
         objective = review.get("objective_card")
         if not isinstance(objective, dict):
             objective = {
-                "objective_id": str(review.get("objective_id") or "objective-1"),
+                "paper_id": review.get("paper_id"),
                 "task_family": str(
                     review.get("task_family") or review.get("category") or "computational_chemistry"
                 ),
@@ -6037,6 +6343,10 @@ def _ensure_objective_handoff_artifacts(pair_root: Path, review: dict[str, Any])
                 "final_claim": review.get("final_claim") or {},
                 "evidence_ids": [],
             }
+        else:
+            objective = dict(objective)
+            objective.pop("objective_id", None)
+            objective.setdefault("paper_id", review.get("paper_id"))
         write_json(objective_path, objective)
     key_points_path = pair_root / "key_points.json"
     if not key_points_path.is_file():
@@ -6084,180 +6394,63 @@ def _ensure_objective_handoff_artifacts(pair_root: Path, review: dict[str, Any])
             write_json(manifest_path, manifest)
 
 
-def _converter_phase_findings(response: dict[str, Any], workspace: Path) -> list[str]:
-    """Check only the converter's file contract; scientific decisions remain with the Agents."""
-
-    if response.get("status") == "needs_conversion_retry":
-        # The converter schema explicitly distinguishes a recoverable malformed
-        # artifact from a completed conversion.  Surface that state to _run_phase
-        # so its existing bounded recovery/retry loop can regenerate the files.
-        return ["autonomous_converter_requested_retry"]
-    if response.get("status") not in {"converted", "conversion_uncertain"}:
-        return []
-    outputs = workspace / "outputs"
-    autonomous = outputs / "autonomous_research"
-    required = {
-        "task.md",
-        "task_info.json",
-        "task_spec.json",
-        "submission_contract.json",
-        "process_rubric.json",
-    }
-    if not autonomous.is_dir():
-        return ["autonomous_converter_artifact_missing"]
-    present = {
-        path.relative_to(autonomous).as_posix()
-        for path in autonomous.rglob("*")
-        if path.is_file()
-    }
-    findings = [f"autonomous_converter_missing:{name}" for name in sorted(required - present)]
-    for forbidden in ("paper_reproduction", "conversion_packet"):
-        if (autonomous / forbidden).exists():
-            findings.append(f"autonomous_converter_forbidden_wrapper:{forbidden}")
-    parsed: dict[str, Any] = {}
-    for name in required:
-        path = autonomous / name
-        if not path.is_file() or not name.endswith(".json"):
-            continue
-        try:
-            parsed[name] = read_json(path)
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            findings.append(f"autonomous_converter_json_unreadable:{name}")
-
-    task_path = autonomous / "task.md"
-    if task_path.is_file() and not task_path.read_text(
-        encoding="utf-8", errors="replace"
-    ).strip():
-        findings.append("autonomous_converter_task_instruction_empty")
-
-    findings.extend(
-        _phase_gate_deliverable_findings(parsed, label="autonomous_converter")
-    )
-
-    expected_task_mode = "open_discovery"
-    for name in ("task_info.json", "task_spec.json"):
-        value = parsed.get(name)
-        if not isinstance(value, dict):
-            continue
-        if value.get("mode") != "autonomous_research":
-            findings.append(f"autonomous_converter_mode_invalid:{name}")
-        if value.get("scientific_mode") != "autonomous_research":
-            findings.append(f"autonomous_converter_scientific_mode_invalid:{name}")
-        if value.get("task_mode") != expected_task_mode:
-            findings.append(f"autonomous_converter_task_mode_invalid:{name}")
-
-    submission = parsed.get("submission_contract.json")
-    if isinstance(submission, dict):
-        required_files = submission.get("required_files")
-        if not isinstance(required_files, list) or not required_files:
-            findings.append("autonomous_converter_required_files_missing")
-        if not isinstance(submission.get("results_schema"), dict):
-            findings.append("autonomous_converter_results_schema_missing")
-
-    raw_rubric = parsed.get("process_rubric.json")
-    if raw_rubric is not None:
-        rubric = normalize_process_rubric_contract(raw_rubric)
-        if not isinstance(rubric, list):
-            findings.append("autonomous_converter_process_rubric_container_invalid")
-        elif not rubric:
-            findings.append("autonomous_converter_process_rubric_empty")
-
-    input_root = autonomous / "data" / "inputs"
-    if not input_root.is_dir():
-        findings.append("autonomous_converter_input_directory_missing")
-    task_spec = parsed.get("task_spec.json")
-    if isinstance(task_spec, dict) and input_root.is_dir():
-        for index, asset in enumerate(task_spec.get("input_assets") or []):
-            if not isinstance(asset, dict):
-                findings.append(f"autonomous_converter_input_asset_invalid:{index}")
-                continue
-            try:
-                relative = validate_relative_path(str(asset.get("path") or ""))
-            except ValueError:
-                findings.append(f"autonomous_converter_input_path_invalid:{index}")
-                continue
-            relative = relative.removeprefix("data/inputs/").removeprefix("inputs/")
-            if not (input_root / relative).is_file():
-                findings.append(f"autonomous_converter_input_missing:{relative}")
-
-    for forbidden in (
-        "paper_route.md",
-        "workflow_spec.json",
-        "route_evidence_map.json",
-        "hidden_reference",
-        "source_materials",
-        "stage06_candidate",
-    ):
-        if (autonomous / forbidden).exists():
-            findings.append(f"autonomous_converter_forbidden_public_artifact:{forbidden}")
-    return sorted(set(findings))
-
-
-def _converter_execution_findings(
-    response: dict[str, Any], workspace: Path
-) -> list[str]:
-    """Keep an explicit Agent retry request distinct from the fail-open Gate."""
-
-    if response.get("status") == "needs_conversion_retry":
-        return ["autonomous_converter_requested_retry"]
-    return []
-
-
 def _converter_contract_gate_findings(
     response: dict[str, Any], workspace: Path
 ) -> list[str]:
-    """Check delivered Stage06B files; a second failure is warning-only."""
+    """Check the final Stage06B artifact through the shared file contract.
 
-    if response.get("status") not in {"converted", "conversion_uncertain"}:
-        return []
-    findings = _converter_phase_findings(response, workspace)
-    return [finding for finding in findings if finding != "autonomous_converter_requested_retry"]
-
-
-def _normalize_converter_report(
-    response: dict[str, Any], workspace: Path
-) -> dict[str, Any] | None:
-    """Normalize the converter's optional report into one pair-level handoff file.
-
-    Agents occasionally return the report in their structured response, or write it below the
-    autonomous task directory.  Both are equivalent mechanical delivery forms.  Recovering the
-    report here prevents a response/file-placement mismatch from causing a retry, while keeping
-    the report out of the public task directory.  This helper deliberately does not inspect the
-    scientific content of the report.
+    The Agent receipt is not the authority for whether a file tree is checkable.
+    A malformed/uncertain receipt must not bypass the external Gate when the
+    autonomous tree exists; conversely, a missing tree is reported as a concrete
+    Gate finding instead of being converted into an Agent retry.
     """
 
-    outputs = workspace / "outputs"
-    root_report = outputs / "conversion_report.json"
-    candidates: list[Path] = [root_report, outputs / "autonomous_research" / "conversion_report.json"]
-    report: dict[str, Any] | None = None
-    for path in candidates:
-        if not path.is_file():
-            continue
-        try:
-            value = read_json(path)
-        except (OSError, TypeError, ValueError, json.JSONDecodeError):
-            continue
-        if isinstance(value, dict):
-            report = value
-            break
-    if report is None:
-        value = response.get("conversion_report")
-        if isinstance(value, dict):
-            report = value
-    if report is None:
-        return None
-    existing_root: Any = None
-    if root_report.is_file():
-        try:
-            existing_root = read_json(root_report)
-        except (OSError, TypeError, ValueError, json.JSONDecodeError):
-            existing_root = None
-    if existing_root != report:
-        write_json(root_report, report)
-    nested = outputs / "autonomous_research" / "conversion_report.json"
-    if nested.is_file() and nested != root_report:
-        nested.unlink(missing_ok=True)
-    return report
+    del response
+    return list(run_shared_phase_gate("stage06b", workspace / "outputs")["findings"])
+
+
+def _converter_phase_gate_prepare(root: Path, *, task_pair_id: str) -> list[str]:
+    """Apply only deterministic converter path/ID normalization before Gate."""
+
+    autonomous = root / "outputs" / "autonomous_research"
+    if not autonomous.is_dir():
+        return []
+    findings = canonicalize_mode_task_contract(
+        autonomous,
+        expected_mode="autonomous_research",
+        task_pair_id=task_pair_id,
+    )
+    report_path = root / "outputs" / "conversion_report.json"
+    if not report_path.is_file():
+        return findings
+    try:
+        report = read_json(report_path)
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return findings
+    # Use the same tolerant rename projection as the shared Gate.  The
+    # converter may report a pair as [old, new] or as {from, to}; both forms
+    # describe the same lossless transport edit.
+    renamed = _conversion_renamed_paths(root / "outputs")
+    if not renamed:
+        return findings
+    spec_path = autonomous / "task_spec.json"
+    try:
+        spec = read_json(spec_path)
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return findings
+    changed = False
+    if isinstance(spec, dict):
+        for asset in spec.get("input_assets") or []:
+            if not isinstance(asset, dict):
+                continue
+            path = str(asset.get("path") or "").replace("\\", "/")
+            replacement = renamed.get(path)
+            if replacement:
+                asset["path"] = replacement
+                changed = True
+    if changed:
+        write_json(spec_path, spec)
+    return findings
 
 
 def _persist_phase_artifacts(workspace: Path, destination: Path) -> None:
@@ -6267,9 +6460,14 @@ def _persist_phase_artifacts(workspace: Path, destination: Path) -> None:
     staging = prepare_clean_directory(destination.parent / f".{destination.name}-{uuid.uuid4().hex[:8]}")
     for name in available:
         copytree_exact(workspace / name, staging / name)
-    gate_report = workspace / "phase_gate_report.json"
-    if gate_report.is_file():
-        shutil.copy2(gate_report, staging / "phase_gate_report.json")
+    for name in (
+        "agent_self_check_report.json",
+        "external_phase_gate_report.json",
+        "phase_gate_report.json",
+    ):
+        gate_report = workspace / name
+        if gate_report.is_file():
+            shutil.copy2(gate_report, staging / name)
     atomic_commit_tree(staging, destination)
 
 
@@ -6369,7 +6567,7 @@ def _setup_autonomous_inputs(
     write_json(
         inputs / "construction_contract.json",
         {
-            "task_pair_id": task_pair_id,
+            "paper_id": task_pair_id,
             "mode": "autonomous_research",
             "hidden_reference_access": False,
             "paper_route_access": False,
@@ -6470,8 +6668,8 @@ info = load(root / "task_info.json")
 spec = load(root / "task_spec.json")
 submission = load(root / "submission_contract.json")
 rubric = load(root / "process_rubric.json")
-pair_id = str(info.get("task_pair_id") or spec.get("task_pair_id") or "task")
-task_id = pair_id + "_reproduction"
+pair_id = str(info.get("paper_id") or spec.get("paper_id") or "task")
+task_id = pair_id
 software = ", ".join(
     str(row.get("name") or "").strip()
     for row in route.get("software") or []
@@ -6514,7 +6712,7 @@ task_path.write_text(task_text.rstrip() + "\n", encoding="utf-8")
 info.update(
     {
         "task_id": task_id,
-        "task_pair_id": pair_id,
+        "paper_id": pair_id,
         "mode": "paper_reproduction",
         "task_mode": "guided_reproduction",
         "scientific_mode": "paper_reproduction",
@@ -6538,7 +6736,7 @@ dump(root / "task_info.json", info)
 spec.update(
     {
         "task_id": task_id,
-        "task_pair_id": pair_id,
+        "paper_id": pair_id,
         "task_mode": "guided_reproduction",
         "mode": "paper_reproduction",
         "scientific_mode": "paper_reproduction",
@@ -6724,7 +6922,7 @@ def _write_reproduction_route_scaffold(
     """Render validated route facts before the Agent performs mode-specific editing."""
 
     route = review.get("paper_route") or {}
-    task_pair_id = str(review.get("task_pair_id") or "")
+    task_pair_id = str(review.get("paper_id") or "")
     workflow_steps = _public_reproduction_workflow_steps(review)
     public_input_assets = [
         f"data/inputs/{_normalize_public_input_path(str(asset.get('path') or ''))}"
@@ -6735,7 +6933,7 @@ def _write_reproduction_route_scaffold(
     ]
     workflow_spec = {
         "schema_version": "1.0",
-        "task_pair_id": task_pair_id,
+        "paper_id": task_pair_id,
         "mode": "paper_reproduction",
         "route_completeness": route.get("route_completeness") or {},
         "software": route.get("software") or [],
@@ -6752,7 +6950,7 @@ def _write_reproduction_route_scaffold(
     }
     route_evidence = {
         "schema_version": "1.0",
-        "task_pair_id": task_pair_id,
+        "paper_id": task_pair_id,
         "route_evidence_ids": sorted(
             set(_route_evidence_ids(route)) | set(_route_evidence_ids(workflow_steps))
         ),
@@ -6881,8 +7079,8 @@ def _safe_route_evidence_map(value: Any) -> dict[str, Any]:
         "schema_version": str(source.get("schema_version") or "1.0"),
         "route_evidence_ids": evidence_ids,
     }
-    if source.get("task_pair_id") not in (None, ""):
-        output["task_pair_id"] = source.get("task_pair_id")
+    if source.get("paper_id") not in (None, ""):
+        output["paper_id"] = source.get("paper_id")
     categories: list[str] = []
     for key in ("route_category", "route_categories", "category", "categories"):
         raw = source.get(key)
@@ -6946,7 +7144,7 @@ def _reproduction_phase_findings(
         findings.append("reproduction_spec_scientific_mode_not_guided")
     if spec.get("task_id") != info.get("task_id"):
         findings.append("reproduction_mode_task_ids_differ")
-    if spec.get("task_pair_id") != info.get("task_pair_id"):
+    if spec.get("paper_id") != info.get("paper_id"):
         findings.append("reproduction_mode_pair_ids_differ")
     disclosure_text = json.dumps(
         {"info": info, "spec": spec}, ensure_ascii=False, sort_keys=True
@@ -6993,7 +7191,7 @@ def _setup_hidden_inputs(
     write_json(
         inputs / "hidden_reference_packet.json",
         {
-            "task_pair_id": review.get("task_pair_id"),
+            "paper_id": review.get("paper_id"),
             "scientific_question": review.get("scientific_question"),
             "frozen_ground_truth_items": review.get("ground_truth_items") or [],
             "submission_contract": submission_contract,
@@ -7045,7 +7243,7 @@ def _hidden_reference_scaffold(
     scaffold = _normalize_hidden_reference_contract(
         {
             "status": "ready",
-            "task_pair_id": review.get("task_pair_id"),
+            "paper_id": review.get("paper_id"),
             "expected_result": {
                 "ground_truth_by_id": {
                     str(item.get("ground_truth_id")): item.get("canonical_answer")
@@ -7158,7 +7356,6 @@ def _public_basis(
     basis.update(
         {
             "paper_id": paper_id,
-            "task_pair_id": task_pair_id,
             "scientific_question": review.get("public_scientific_question"),
             "task_direction": review.get("task_direction"),
             "category": review.get("category") or review.get("task_direction"),
@@ -7382,8 +7579,8 @@ def _materialize_reproduction(
             info[field] = proposed_info[field]
     info.update(
         {
-            "task_id": f"{safe_component(task_pair_id)}_reproduction",
-            "task_pair_id": task_pair_id,
+        "task_id": safe_component(task_pair_id),
+            "paper_id": task_pair_id,
             "mode": "paper_reproduction",
             "task_mode": "guided_reproduction",
             "scientific_mode": "paper_reproduction",
@@ -7392,7 +7589,7 @@ def _materialize_reproduction(
         }
     )
     frozen_spec_fields = {
-        "task_pair_id",
+        "paper_id",
         "scientific_question",
         "target_definition",
         "input_assets",
@@ -7408,8 +7605,8 @@ def _materialize_reproduction(
     )
     spec.update(
         {
-            "task_id": f"{safe_component(task_pair_id)}_reproduction",
-            "task_pair_id": task_pair_id,
+        "task_id": safe_component(task_pair_id),
+            "paper_id": task_pair_id,
             "mode": "paper_reproduction",
             "task_mode": "guided_reproduction",
             "scientific_mode": "paper_reproduction",
@@ -7426,7 +7623,7 @@ def _materialize_reproduction(
         proposed_submission = _normalize_submission_contract(
             read_json(autonomous_root / "submission_contract.json")
         )
-    proposed_submission["task_pair_id"] = task_pair_id
+    proposed_submission["paper_id"] = task_pair_id
     write_json(root / "submission_contract.json", proposed_submission)
     write_json(
         root / "process_rubric.json",
@@ -7532,8 +7729,8 @@ def _normalized_task_info(
     required_files = submission_contract.get("required_files") or []
     output.update(
         {
-            "task_id": f"{safe_component(task_pair_id)}_autonomous",
-            "task_pair_id": task_pair_id,
+        "task_id": safe_component(task_pair_id),
+            "paper_id": task_pair_id,
             "source_id": anonymous_source_id(task_pair_id),
             "category": str(public_basis.get("category") or "computational_chemistry"),
             "mode": mode,
@@ -7656,8 +7853,8 @@ def _normalized_task_spec(
     output = _normalize_evaluation_references(dict(value))
     output.update(
         {
-            "task_id": f"{safe_component(task_pair_id)}_autonomous",
-            "task_pair_id": task_pair_id,
+        "task_id": safe_component(task_pair_id),
+            "paper_id": task_pair_id,
             "mode": mode,
             "task_mode": "open_discovery",
             "scientific_mode": "autonomous_research",
@@ -7807,30 +8004,10 @@ def _materialize_pair_metadata(
     mode_generation_order: list[str] | None = None,
     mode_generation_strategy: str = "legacy_multi_phase",
 ) -> None:
-    # Stage06B may return a task_spec with the public question while omitting
-    # the duplicated field in task_info.  Normalize this at the pair boundary
-    # for both the legacy single-agent and converter paths.  The value comes
-    # only from evaluator-facing task specs; private review text is never
-    # copied into a public task directory.
-    for mode_root in (autonomous_root, reproduction_root):
-        info_path = mode_root / "task_info.json"
-        spec_path = mode_root / "task_spec.json"
-        if not (info_path.is_file() and spec_path.is_file()):
-            continue
-        info = _json_object(info_path)
-        spec = _json_object(spec_path)
-        changed = False
-        for field in ("scientific_question", "target_definition"):
-            if not str(info.get(field) or "").strip() and str(spec.get(field) or "").strip():
-                info[field] = spec[field]
-                changed = True
-        if changed:
-            write_json(info_path, info)
     write_json(
         root / "paper_info.json",
         {
             "paper_id": paper_id,
-            "task_pair_id": task_pair_id,
             "doi": next((row.get("doi") for row in documents if row.get("doi")), None),
             "title": _paper_title(documents),
             "journal": next(
@@ -7873,7 +8050,18 @@ def _materialize_pair_metadata(
         )
     hidden_root = root / "hidden_reference"
     hidden_root.mkdir(parents=True, exist_ok=True)
-    write_json(hidden_root / "ground_truth_common.json", hidden)
+    # The split files are the authored authority.  Never overwrite them from
+    # the legacy compatibility envelope after Stage06A has completed its
+    # self-check.  Only bootstrap split files for old artifacts that lack them.
+    split_reference = read_split_reference(root)
+    if split_reference is None:
+        write_json(hidden_root / "ground_truth_common.json", hidden)
+        materialize_split_reference(root, hidden)
+    else:
+        write_json(
+            hidden_root / "ground_truth_common.json",
+            legacy_reference_from_split(split_reference),
+        )
     write_json(
         hidden_root / "disclosure_contract.json",
         {
@@ -7901,7 +8089,6 @@ def _materialize_pair_metadata(
         root / "construction_record.json",
         {
             "paper_id": paper_id,
-            "task_pair_id": task_pair_id,
             "implementation_version": STAGE06_IMPLEMENTATION_VERSION,
             "phase_audits": phase_audits,
             "toolbox_access": "read_only_snapshot",
@@ -8963,6 +9150,245 @@ def _write_mode_public_manifest(root: Path) -> None:
     write_json(root / "public_manifest.json", directory_manifest(root))
 
 
+def _write_conversion_audit(
+    pair_root: Path,
+    *,
+    stage06a_gate_report: dict[str, Any] | None,
+    stage06b_response: dict[str, Any],
+    stage06b_agent_audit: dict[str, Any] | None,
+    stage06b_self_check: dict[str, Any] | None,
+    stage06b_external_gate: dict[str, Any] | None = None,
+) -> None:
+    """Persist a mechanical reproduction→autonomous audit beside the pair.
+
+    This report is diagnostic metadata for Stage07/operators.  It never enters either
+    public mode directory and it never changes a scientific decision.  The external
+    Gate remains the contract authority; this audit records the exact file/input
+    comparison that made the result reproducible.
+    """
+
+    required = {
+        "task.md",
+        "task_info.json",
+        "task_spec.json",
+        "submission_contract.json",
+        "process_rubric.json",
+    }
+    reproduction = pair_root / "paper_reproduction"
+    autonomous = pair_root / "autonomous_research"
+    findings: list[str] = []
+    disclosure_findings: list[str] = []
+
+    def parse(name: str, root: Path) -> dict[str, Any]:
+        path = root / name
+        if not path.is_file():
+            return {}
+        try:
+            value = read_json(path)
+        except (OSError, TypeError, ValueError, json.JSONDecodeError):
+            findings.append(f"json_unreadable:{root.name}/{name}")
+            return {}
+        return value if isinstance(value, dict) else {}
+
+    def file_set(root: Path) -> set[str]:
+        return {
+            path.relative_to(root).as_posix()
+            for path in root.rglob("*")
+            if path.is_file()
+        } if root.is_dir() else set()
+
+    def input_fingerprints(root: Path, spec: dict[str, Any]) -> dict[str, str]:
+        result: dict[str, str] = {}
+        input_root = root / "data" / "inputs"
+        for asset in spec.get("input_assets") or []:
+            if not isinstance(asset, dict):
+                continue
+            raw = str(asset.get("path") or "").replace("\\", "/")
+            for prefix in ("data/inputs/", "inputs/"):
+                if raw.startswith(prefix):
+                    raw = raw[len(prefix) :]
+                    break
+            if not raw:
+                continue
+            path = input_root / raw
+            if path.is_file():
+                if path.suffix.casefold() == ".xyz":
+                    # Comments/neutral filenames are allowed to change during
+                    # conversion.  Fingerprint atom count, element order and
+                    # coordinate rows—the scientific geometry payload—only.
+                    lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+                    try:
+                        count = int(lines[0].strip())
+                        rows = [line.strip() for line in lines[2 : 2 + count]]
+                    except (IndexError, ValueError):
+                        rows = []
+                    result[raw] = canonical_hash(rows)
+                else:
+                    result[raw] = sha256_file(path)
+            else:
+                findings.append(f"input_missing:{root.name}:{raw}")
+        return result
+
+    reproduction_info = parse("task_info.json", reproduction)
+    autonomous_info = parse("task_info.json", autonomous)
+    reproduction_spec = parse("task_spec.json", reproduction)
+    autonomous_spec = parse("task_spec.json", autonomous)
+    reproduction_submission = parse("submission_contract.json", reproduction)
+    autonomous_submission = parse("submission_contract.json", autonomous)
+    reproduction_files = file_set(reproduction)
+    autonomous_files = file_set(autonomous)
+    for name in sorted(required - reproduction_files):
+        findings.append(f"reproduction_required_missing:{name}")
+    for name in sorted(required - autonomous_files):
+        findings.append(f"autonomous_required_missing:{name}")
+
+    mode_values = {
+        "reproduction_mode": reproduction_info.get("mode"),
+        "autonomous_mode": autonomous_info.get("mode"),
+        "reproduction_task_mode": reproduction_info.get("task_mode"),
+        "autonomous_task_mode": autonomous_info.get("task_mode"),
+    }
+    if autonomous_info.get("mode") not in {"autonomous_research", "autonomous"}:
+        findings.append("autonomous_mode_invalid")
+    if autonomous_info.get("task_mode") not in {"open_discovery", "autonomous_research", "autonomous"}:
+        findings.append("autonomous_task_mode_invalid")
+
+    def declared_deliverables(info: dict[str, Any]) -> set[str]:
+        return {
+            str(row.get("path"))
+            for row in info.get("required_deliverables") or []
+            if isinstance(row, dict) and row.get("path")
+        }
+
+    def required_deliverables(contract: dict[str, Any]) -> set[str]:
+        return {str(row) for row in contract.get("required_files") or [] if isinstance(row, str)}
+
+    deliverable_closure = {
+        "reproduction": declared_deliverables(reproduction_info)
+        == required_deliverables(reproduction_submission),
+        "autonomous": declared_deliverables(autonomous_info)
+        == required_deliverables(autonomous_submission),
+    }
+    for mode, closed in deliverable_closure.items():
+        if not closed:
+            findings.append(f"{mode}_deliverable_contract_not_closed")
+
+    reproduction_inputs = input_fingerprints(reproduction, reproduction_spec)
+    autonomous_inputs = input_fingerprints(autonomous, autonomous_spec)
+    if Counter(reproduction_inputs.values()) != Counter(autonomous_inputs.values()):
+        findings.append("public_input_fingerprint_mismatch")
+
+    forbidden_names = {
+        "paper_route.md",
+        "workflow_spec.json",
+        "route_evidence_map.json",
+        "conversion_contract.json",
+    }
+    forbidden_dirs = {"paper_reproduction", "conversion_packet", "hidden_reference", "source_materials"}
+    marker_re = re.compile(
+        r"\b(?:gt_[A-Za-z0-9_.-]+|canonical_answer|acceptance_profile_id|source_evidence|evidence_id)\b",
+        re.IGNORECASE,
+    )
+    if autonomous.is_dir():
+        for path in autonomous.rglob("*"):
+            relative = path.relative_to(autonomous).as_posix()
+            if path.is_dir() and path.name in forbidden_dirs:
+                disclosure_findings.append(f"forbidden_directory:{relative}")
+            elif path.is_file():
+                if path.name in forbidden_names:
+                    disclosure_findings.append(f"forbidden_file:{relative}")
+                if path.suffix.lower() in {".md", ".json", ".txt", ".xyz"}:
+                    try:
+                        text = path.read_text(encoding="utf-8", errors="replace")
+                    except OSError:
+                        continue
+                    if marker_re.search(text):
+                        disclosure_findings.append(f"internal_marker:{relative}")
+
+    self_findings = sorted(set((stage06b_self_check or {}).get("findings") or []))
+    external_findings = sorted(set(stage06b_response.get("phase_gate_findings") or []))
+    conversion_report = stage06b_response.get("conversion_report")
+    if not isinstance(conversion_report, dict):
+        conversion_report = {}
+    remaining_disclosures = [
+        str(item).strip()
+        for item in conversion_report.get("remaining_disclosures") or []
+        if str(item).strip()
+    ]
+    agent_status = str(stage06b_response.get("status") or "not_run").strip()
+    # ``conversion_uncertain`` is meaningful only when the Agent left a concrete
+    # unresolved disclosure.  A conservative prose label on an otherwise closed
+    # artifact must not downgrade a complete conversion.
+    semantic_uncertain = bool(remaining_disclosures)
+    contract_complete = not findings and not external_findings
+    audit = {
+        "schema_version": "researchchembench.stage06b-conversion-audit.v1",
+        # ``complete`` means that the conversion is both mechanically closed
+        # and semantically settled.  A passed Gate cannot erase an Agent's
+        # explicit conversion_uncertain/remaining_disclosures state.
+        "status": (
+            "uncertain"
+            if semantic_uncertain and contract_complete
+            else "complete"
+            if contract_complete
+            else "incomplete"
+        ),
+        "execution_status": (
+            "completed"
+            if str((stage06b_agent_audit or {}).get("status") or "")
+            in {"succeeded", "completed"}
+            else "unknown"
+        ),
+        "process_exit_code": (stage06b_agent_audit or {}).get("exit_code"),
+        "agent_reported_status": agent_status,
+        "contract_status": "complete" if contract_complete else "incomplete",
+        "scientific_status": (
+            "conversion_uncertain" if semantic_uncertain else "converted"
+        ),
+        "remaining_disclosures": remaining_disclosures,
+        "mode_values": mode_values,
+        "required_files": {
+            "reproduction": sorted(required & reproduction_files),
+            "autonomous": sorted(required & autonomous_files),
+            "autonomous_extra_files": sorted(autonomous_files - required),
+        },
+        "deliverable_closure": deliverable_closure,
+        "public_input_fingerprints": {
+            "reproduction": reproduction_inputs,
+            "autonomous": autonomous_inputs,
+            "equal": Counter(reproduction_inputs.values()) == Counter(autonomous_inputs.values()),
+        },
+        "tree_manifests": {
+            "reproduction": directory_manifest(reproduction) if reproduction.is_dir() else None,
+            "autonomous": directory_manifest(autonomous) if autonomous.is_dir() else None,
+        },
+        "self_external_gate": {
+            "self_check": stage06b_self_check,
+            "external_gate": {
+                **(stage06b_external_gate or {}),
+                "status": (stage06b_external_gate or {}).get(
+                    "status", stage06b_response.get("phase_gate_status", "not_run")
+                ),
+                "findings": (stage06b_external_gate or {}).get(
+                    "findings", external_findings
+                ),
+            },
+            "findings_equal": self_findings == external_findings,
+            "snapshot_sha256_equal": bool(
+                isinstance(stage06b_self_check, dict)
+                and isinstance(stage06b_external_gate, dict)
+                and stage06b_self_check.get("snapshot_sha256")
+                == stage06b_external_gate.get("snapshot_sha256")
+            ),
+        },
+        "stage06a_gate": stage06a_gate_report or {},
+        "disclosure_findings": sorted(set(disclosure_findings)),
+        "findings": sorted(set(findings)),
+        "created_at": now_utc(),
+    }
+    write_json(pair_root / "conversion_audit.json", audit)
+
+
 def _resource_risk_present(value: dict[str, Any]) -> bool:
     status = str(value.get("status") or value.get("cost_status") or "").casefold()
     return status in {
@@ -9014,7 +9440,6 @@ def _write_provisional_handoff_metadata(
             paper_info_path,
             {
                 "paper_id": paper_id,
-                "task_pair_id": task_pair_id,
                 "doi": next((row.get("doi") for row in documents if row.get("doi")), None),
                 "title": _paper_title(documents),
                 "journal": next(
@@ -9058,7 +9483,6 @@ def _write_provisional_handoff_metadata(
         {
             "schema_version": "researchchembench.stage06-provisional-handoff.v1",
             "paper_id": paper_id,
-            "task_pair_id": task_pair_id,
             "decision": decision,
             "handoff_ready": True,
             "source_snapshot_path": str(snapshot["root"]),
@@ -9116,9 +9540,11 @@ def _publish_provisional_not_constructible(
     return {
         **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
         "candidate_id": candidate_id,
-        "task_pair_id": task_pair_id,
+        "paper_id": task_pair_id,
         "processing_status": "completed",
         "decision": "provisional_not_constructible",
+        "scientific_status": "scientific_not_constructible",
+        "contract_status": "not_applicable",
         "handoff_ready": True,
         "passed": False,
         "retryable": False,
@@ -9152,7 +9578,7 @@ def _scientific_not_constructible(
     return {
         **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
         "candidate_id": candidate_id,
-        "task_pair_id": review.get("task_pair_id") or None,
+        "paper_id": review.get("paper_id") or None,
         "processing_status": "completed",
         "decision": "scientific_not_constructible",
         "passed": False,
@@ -9192,7 +9618,7 @@ def _scientific_reject(
     return {
         **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
         "candidate_id": candidate_id,
-        "task_pair_id": task_pair_id or None,
+        "paper_id": task_pair_id or None,
         "processing_status": "completed",
         "decision": "scientific_reject",
         "passed": False,
@@ -9216,7 +9642,7 @@ def _objective_failure(
     return {
         **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
         "candidate_id": candidate_id,
-        "task_pair_id": task_pair_id,
+        "paper_id": task_pair_id,
         "processing_status": "failed",
         "decision": "objective_failure_retryable" if retryable else "objective_failure",
         "passed": False,
@@ -9239,7 +9665,7 @@ def _artifact_delivery_failure(
     return {
         **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
         "candidate_id": candidate_id,
-        "task_pair_id": None,
+        "paper_id": None,
         "processing_status": "failed",
         "decision": "artifact_delivery_failure_retryable",
         "handoff_ready": False,
@@ -9262,7 +9688,7 @@ def _construction_invalid(
     return {
         **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
         "candidate_id": candidate_id,
-        "task_pair_id": task_pair_id,
+        "paper_id": task_pair_id,
         "processing_status": "completed",
         "decision": "construction_invalid",
         "passed": False,

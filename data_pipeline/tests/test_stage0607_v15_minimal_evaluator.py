@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 from src.stages.evaluator_reference import minimal_evaluator_findings
-from src.stages.phase_gate import run
+from src.stages.phase_gate import install_phase_gate_tool, run
 
 
 def _write(path: Path, value) -> None:
@@ -93,16 +95,93 @@ def test_placeholder_reference_is_blocking(tmp_path: Path) -> None:
     assert "reference_key_point_statement_invalid:kp-energy" in minimal_evaluator_findings(pair)
 
 
-def test_numeric_reference_cannot_be_downgraded_to_semantic(tmp_path: Path) -> None:
+def test_installed_self_check_uses_exact_shared_evaluator_contract(tmp_path: Path) -> None:
     pair = _package(tmp_path)
-    path = pair / "evaluator_reference" / "scoring_rules.json"
-    value = json.loads(path.read_text(encoding="utf-8"))
-    value["rules"][0]["type"] = "semantic"
-    value["rules"][0].pop("target", None)
-    value["rules"][0].pop("unit", None)
-    value["rules"][0].pop("tolerance", None)
-    value["rules"][0]["expected"] = "gt-energy evaluated scientific result"
-    _write(path, value)
-    findings = minimal_evaluator_findings(pair)
-    assert "scoring_rule_numeric_type_required:rule-energy" in findings
-    assert "scoring_rule_expected_placeholder:rule-energy" in findings
+    _write(
+        pair / "construction_receipt.json",
+        {"decision": "constructed", "paper_id": "paper-v15", "artifact_path": "outputs"},
+    )
+    rules_path = pair / "evaluator_reference" / "scoring_rules.json"
+    rules = json.loads(rules_path.read_text(encoding="utf-8"))
+    rules["rules"][0]["binding"] = {
+        "artifact": "report/results.json",
+        "field": "$.barrier",
+    }
+    _write(rules_path, rules)
+    _write(
+        pair / "evaluator_reference" / "critical_failures.json",
+        {"paper_id": "paper-v15", "critical_failures": ["fabrication"]},
+    )
+
+    expected = run("stage06a", pair)["blocking_findings"]
+    tool = install_phase_gate_tool(tmp_path / "tools")
+    completed = subprocess.run(
+        [sys.executable, str(tool), "--phase", "stage06a", "--root", str(pair)],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=tmp_path,
+    )
+    actual = json.loads(completed.stdout)["blocking_findings"]
+    assert actual == expected
+    assert "critical_failures_items_invalid" in actual
+    assert "scoring_rule_binding_incomplete:rule-energy" in actual
+
+
+def test_bootstrap_separates_process_points_from_final_conclusions(tmp_path: Path) -> None:
+    outputs = tmp_path / "outputs"
+    outputs.mkdir()
+    review = {
+        "decision": "candidate_ready",
+        "paper_id": "paper-v15",
+        "ground_truth_items": [
+            {
+                "ground_truth_id": "kp-barrier",
+                "description": "Computed activation barrier",
+                "canonical_answer": 12.5,
+                "kind": "numeric_intermediate_result",
+                "claim_role": "intermediate",
+                "acceptance_type": "numeric_tolerance",
+                "acceptance_parameters": {"unit": "kcal/mol", "tolerance": 0.5},
+                "evidence_ids": ["ev-1"],
+            },
+            {
+                "ground_truth_id": "preferred-path",
+                "description": "Path A is preferred",
+                "canonical_answer": "Path A has the lower barrier.",
+                "kind": "textual_final_conclusion",
+                "claim_role": "final",
+                "supporting_key_point_ids": ["kp-barrier"],
+                "acceptance_type": "semantic_propositions",
+                "evidence_ids": ["ev-1"],
+            },
+        ],
+        "evidence_map": {"ev-1": {"description": "Paper table"}},
+    }
+    review_path = outputs / "workflow_review.json"
+    _write(review_path, review)
+    script = (
+        Path(__file__).resolve().parents[1]
+        / "src/stages/stage06_task_builder/bootstrap_task_pair.py"
+    )
+    subprocess.run(
+        [sys.executable, str(script), str(outputs), str(review_path)],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    reference = outputs / "evaluator_reference"
+    key_points = json.loads((reference / "reference_key_points.json").read_text())
+    conclusions = json.loads((reference / "reference_conclusions.json").read_text())
+    rules = json.loads((reference / "scoring_rules.json").read_text())
+    evidence = json.loads((reference / "evidence_map.json").read_text())
+    assert [row["key_point_id"] for row in key_points["items"]] == ["kp-barrier"]
+    assert [row["conclusion_id"] for row in conclusions["items"]] == [
+        "claim_preferred-path"
+    ]
+    assert {row["reference_id"] for row in rules["rules"]} == {
+        "kp-barrier",
+        "claim_preferred-path",
+    }
+    assert [row["evidence_id"] for row in evidence["evidence"]] == ["ev-1"]

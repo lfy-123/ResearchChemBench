@@ -23,7 +23,25 @@ def safe_path(value: object) -> str:
     parts = [part for part in text.split("/") if part not in {"", "."}]
     if any(part == ".." for part in parts):
         raise SystemExit("unsafe public input path")
-    return "/".join(parts) or "input.dat"
+    text = "/".join(parts)
+    # The review may express an asset relative to the input root (``foo.xyz``)
+    # or relative to the public task (``data/inputs/foo.xyz``).  This helper
+    # writes below ``paper_reproduction/data/inputs`` and therefore must strip
+    # transport prefixes before both materializing the file and projecting its
+    # task_spec path.  Iterate so legacy nested aliases normalize once.
+    prefixes = (
+        "task/data/inputs/",
+        "data/inputs/",
+        "task/inputs/",
+        "inputs/",
+        "public_inputs/",
+    )
+    while True:
+        stripped = next((text[len(prefix) :] for prefix in prefixes if text.startswith(prefix)), None)
+        if stripped is None:
+            break
+        text = stripped
+    return text or "input.dat"
 
 
 def evidence_ids(value) -> list[str]:
@@ -35,6 +53,45 @@ def evidence_ids(value) -> list[str]:
                 result.extend(nested if isinstance(nested, list) else [nested])
         return [str(item) for item in result if str(item)]
     return [str(item) for item in (value or []) if str(item)]
+
+
+def evaluator_evidence_map(value, *, paper_id: str) -> dict:
+    """Project authored review evidence into the one v15 transport shape."""
+
+    if isinstance(value, dict) and isinstance(value.get("evidence"), list):
+        candidates = value["evidence"]
+    elif isinstance(value, dict) and isinstance(value.get("items"), list):
+        candidates = value["items"]
+    elif isinstance(value, dict):
+        candidates = []
+        for identifier, raw in value.items():
+            row = dict(raw) if isinstance(raw, dict) else {"description": str(raw)}
+            row.setdefault("evidence_id", str(identifier))
+            candidates.append(row)
+    elif isinstance(value, list):
+        candidates = value
+    else:
+        candidates = []
+    rows = []
+    seen = set()
+    for raw in candidates:
+        if isinstance(raw, str):
+            row = {"evidence_id": raw}
+        elif isinstance(raw, dict):
+            row = dict(raw)
+        else:
+            continue
+        identifier = str(row.get("evidence_id") or "").strip()
+        if not identifier or identifier in seen:
+            continue
+        seen.add(identifier)
+        row["evidence_id"] = identifier
+        rows.append(row)
+    return {
+        "schema_version": "evidence-map/v1",
+        "paper_id": paper_id,
+        "evidence": rows,
+    }
 
 
 def normalize_assets(value) -> list[dict]:
@@ -77,9 +134,14 @@ def normalize_truths(review: dict) -> list[dict]:
         identifier = str(raw.get("ground_truth_id") or raw.get("item_id") or f"gt-{index}")
         kind = str(raw.get("kind") or raw.get("type") or "textual_intermediate_conclusion")
         kind = {
+            "numeric": "numeric_final_result",
+            "number": "numeric_final_result",
             "numerical_value": "numeric_final_result",
             "numeric_value": "numeric_final_result",
+            "numeric_result": "numeric_final_result",
             "conclusion": "textual_final_conclusion",
+            "semantic": "textual_final_conclusion",
+            "text": "textual_final_conclusion",
             "intermediate_conclusion": "textual_intermediate_conclusion",
         }.get(kind, kind)
         answer = raw.get("canonical_answer", raw.get("value"))
@@ -99,17 +161,20 @@ def normalize_truths(review: dict) -> list[dict]:
                 "ground_truth_id": identifier,
                 "kind": kind,
                 "canonical_answer": answer,
+                "description": raw.get("description") or raw.get("statement"),
                 "required_propositions": propositions,
                 "forbidden_contradictions": raw.get("forbidden_contradictions") or [],
                 "acceptance_type": acceptance_type,
                 "acceptance_parameters": raw.get("acceptance_parameters") or {},
-                "acceptance_profile_id": str(raw.get("acceptance_profile_id") or f"ap-{index}"),
+                "unit": raw.get("unit") or (raw.get("acceptance_parameters") or {}).get("unit"),
+                "rule_id": str(raw.get("rule_id") or raw.get("acceptance_profile_id") or f"rule-{index}"),
                 "evidence_grade": raw.get("evidence_grade") or "B",
                 "evidence_ids": raw.get("evidence_ids") or [],
                 # Claim ownership is scientific authoring, not scaffold syntax.
                 # Keep a missing role visible so the Stage06A Gate can ask the
                 # Agent to repair it; never promote a claim from its kind/name.
                 "claim_role": raw.get("claim_role"),
+                "supporting_key_point_ids": raw.get("supporting_key_point_ids") or [],
                 "applies_to_modes": raw.get(
                     "applies_to_modes", ["autonomous_research", "paper_reproduction"]
                 ),
@@ -131,8 +196,8 @@ def _mode_info(
     suffix = "autonomous" if mode == "autonomous_research" else "reproduction"
     public = review.get("public_task_basis") or {}
     return {
-        "task_id": f"{pair_id}_{suffix}",
-        "task_pair_id": pair_id,
+        "paper_id": pair_id,
+        "task_id": pair_id,
         "source_id": str(review.get("source_id") or "paper_source"),
         "category": str(review.get("category") or "computational_chemistry"),
         "benchmark_family": str(review.get("task_direction") or ""),
@@ -189,8 +254,8 @@ def _mode_spec(
         or "Determine the paper-defined computational quantities."
     )
     return {
-        "task_id": f"{pair_id}_{suffix}",
-        "task_pair_id": pair_id,
+        "paper_id": pair_id,
+        "task_id": pair_id,
         "mode": mode,
         "task_mode": task_mode,
         "scientific_mode": mode,
@@ -208,7 +273,7 @@ def _mode_spec(
 def _profiles(truths: list[dict]) -> list[dict]:
     profiles = []
     for truth in truths:
-        profile_id = truth["acceptance_profile_id"]
+        profile_id = truth["rule_id"]
         profile_type = truth["acceptance_type"]
         parameters = truth.get("acceptance_parameters") or {}
         answer = truth.get("canonical_answer")
@@ -219,7 +284,7 @@ def _profiles(truths: list[dict]) -> list[dict]:
             "comparison": profile_type,
         }
         profile = {
-            "acceptance_profile_id": profile_id,
+            "rule_id": profile_id,
             "type": profile_type,
             "submission_binding": binding,
             "applies_to_modes": truth.get(
@@ -227,13 +292,25 @@ def _profiles(truths: list[dict]) -> list[dict]:
             ),
         }
         if profile_type == "numeric_tolerance":
-            profile.update(
-                {
-                    "target": answer,
-                    "unit": parameters.get("unit") or "source_unit",
-                    "absolute_tolerance": parameters.get("absolute_tolerance", 0.0),
-                }
-            )
+            # Preserve scientific incompleteness for the Agent/Gate to repair.
+            # A fake unit or zero tolerance changes evaluator meaning and can
+            # make an invalid task look complete.
+            profile["target"] = answer
+            if parameters.get("unit") not in (None, ""):
+                profile["unit"] = parameters["unit"]
+            for key in (
+                "absolute_tolerance",
+                "relative_tolerance",
+                "tolerance",
+                "numeric_tolerances",
+            ):
+                if parameters.get(key) is not None:
+                    # ``tolerance`` is the legacy absolute-tolerance spelling;
+                    # expose the canonical evaluator field while retaining the
+                    # original parameter object for provenance.
+                    profile[
+                        "absolute_tolerance" if key == "tolerance" else key
+                    ] = parameters[key]
             binding["observed_fields"] = ["$.value"]
         elif profile_type == "ranking":
             profile["target_order"] = parameters.get("target_order") or answer
@@ -258,7 +335,7 @@ def main() -> None:
         raise SystemExit("bootstrap requires workflow_review decision=candidate_ready")
     scope = review.get("workflow_scope") or {}
     complexity = review.get("complexity_profile") or {}
-    pair_id = str(review.get("task_pair_id") or "task_pair")
+    pair_id = str(review.get("paper_id") or "paper")
     public = review.get("public_task_basis") or {}
     question = str(review.get("public_scientific_question") or review.get("scientific_question") or "Determine the paper-defined computational quantities.")
     reproduction = root / "paper_reproduction"
@@ -276,7 +353,7 @@ def main() -> None:
         reproduction / "submission_contract.json",
         {
             "schema_version": "researchchembench.submission.v1",
-            "task_pair_id": pair_id,
+            "paper_id": pair_id,
             "required_files": ["report/results.json", "report/report.md"],
             "submission_path": "report/results.json",
             "results_schema": {
@@ -287,7 +364,25 @@ def main() -> None:
             "allowed_extra_fields": True,
         },
     )
-    dump(reproduction / "process_rubric.json", [{"id": "workflow_execution", "description": "Execute the complete scientific workflow and preserve intermediate evidence."}, {"id": "validation_and_analysis", "description": "Validate outputs and connect them to the scientific question."}])
+    dump(
+        reproduction / "process_rubric.json",
+        [
+            {
+                "id": "workflow_execution",
+                "description": "Execute the complete scientific workflow and preserve intermediate evidence.",
+            },
+            {
+                "id": "validation_and_analysis",
+                "description": "Validate outputs and connect them to the scientific question.",
+            },
+            {
+                "id": "paper_route_fidelity",
+                "criterion_type": "route_fidelity",
+                "description": "Follow and document the disclosed paper route.",
+                "evidence_artifacts": ["report/report.md"],
+            },
+        ],
+    )
     (reproduction / "task.md").write_text(task_text + "\n", encoding="utf-8")
     (reproduction / "paper_route.md").write_text(json.dumps(review.get("paper_route") or {}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     dump(reproduction / "workflow_spec.json", {"steps": review.get("workflow_steps") or []})
@@ -297,11 +392,128 @@ def main() -> None:
     rubric = []
     if truths:
         for truth in truths:
-            rubric.append({"id": "claim_" + truth["ground_truth_id"], "statement": str(truth.get("canonical_answer") or truth["ground_truth_id"]), "acceptance_rule": "Evaluate against the linked typed acceptance profile.", "required_evidence": ["report/results.json", "report/report.md"], "ground_truth_ids": [truth["ground_truth_id"]], "acceptance_profile_ids": [truth["acceptance_profile_id"]]})
+            rubric.append({"id": "claim_" + truth["ground_truth_id"], "statement": str(truth.get("canonical_answer") or truth["ground_truth_id"]), "acceptance_rule": "Evaluate against the linked typed scoring rule.", "required_evidence": ["report/results.json", "report/report.md"], "ground_truth_ids": [truth["ground_truth_id"]], "rule_ids": [truth["rule_id"]]})
     hidden_root = root / "hidden_reference"
-    hidden = {"status": "ready", "task_pair_id": pair_id, "expected_result": {}, "ground_truth_items": truths, "acceptance_profiles": profiles, "scientific_conclusion_rubric": rubric, "critical_failures": ["No real chemistry calculation was executed."], "reference_evidence": {"evidence_ids": evidence_ids(review.get("evidence_map"))}, "evidence_gate_policy": {}, "managed_computation_policy": {"required": True}, "summary": "Replace this scaffold summary with an evidence-backed summary."}
+    hidden = {"status": "ready", "paper_id": pair_id, "expected_result": {}, "ground_truth_items": truths, "scoring_rules": profiles, "scientific_conclusion_rubric": rubric, "critical_failures": ["No real chemistry calculation was executed."], "reference_evidence": {"evidence_ids": evidence_ids(review.get("evidence_map"))}, "evidence_gate_policy": {}, "managed_computation_policy": {"required": True}, "summary": "Replace this scaffold summary with an evidence-backed summary."}
     dump(hidden_root / "ground_truth_common.json", hidden)
     dump(hidden_root / "private_evidence_map.json", review.get("evidence_map") or {})
+    # Split evaluator transport draft. Scientific authoring and final closure
+    # remain the Agent's responsibility; this projection merely avoids
+    # duplicating every Ground Truth item into both reference collections.
+    evaluator_root = root / "evaluator_reference"
+    intermediate_truths = [truth for truth in truths if truth.get("claim_role") != "final"]
+    final_truths = [truth for truth in truths if truth.get("claim_role") == "final"]
+    dump(
+        evaluator_root / "reference_key_points.json",
+        {
+            "schema_version": "reference-key-points/v1",
+            "paper_id": pair_id,
+            "items": [
+                {
+                    "key_point_id": truth["ground_truth_id"],
+                    "kind": truth.get("kind") or truth.get("type") or "scientific_result",
+                    "statement": str(truth.get("description") or truth.get("canonical_answer") or truth["ground_truth_id"]),
+                    "claim_role": truth.get("claim_role") or "intermediate",
+                    "expected": truth.get("canonical_answer"),
+                    "reference_value": truth.get("canonical_answer"),
+                    "unit": truth.get("unit"),
+                    "evidence_ids": truth.get("evidence_ids") or [],
+                    "evidence_grade": truth.get("evidence_grade") or "",
+                    "applies_to_modes": truth.get("applies_to_modes") or ["paper_reproduction", "autonomous_research"],
+                }
+                for truth in intermediate_truths
+            ],
+        },
+    )
+    dump(
+        evaluator_root / "reference_conclusions.json",
+        {
+            "schema_version": "reference-conclusions/v1",
+            "paper_id": pair_id,
+            "items": [
+                {
+                    "conclusion_id": "claim_" + truth["ground_truth_id"],
+                    "statement": str(truth.get("description") or truth.get("canonical_answer") or truth["ground_truth_id"]),
+                    "expected": truth.get("canonical_answer"),
+                    "claim_role": "final",
+                    "supporting_key_point_ids": truth.get("supporting_key_point_ids") or [],
+                    "evidence_ids": truth.get("evidence_ids") or [],
+                    "applies_to_modes": truth.get("applies_to_modes") or ["paper_reproduction", "autonomous_research"],
+                }
+                for truth in final_truths
+            ],
+        },
+    )
+    profiles_by_id = {profile.get("rule_id"): profile for profile in profiles}
+    split_rules = []
+    for truth in truths:
+        profile = profiles_by_id.get(truth.get("rule_id")) or {}
+        legacy_type = str(profile.get("type") or truth.get("acceptance_type") or "semantic_propositions")
+        rule_type = {
+            "numeric_tolerance": "numeric",
+            "ranking": "ordering",
+            "trend": "semantic",
+            "semantic_propositions": "semantic",
+            "mechanism_claim": "semantic",
+        }.get(legacy_type, legacy_type)
+        reference_id = (
+            "claim_" + truth["ground_truth_id"]
+            if truth.get("claim_role") == "final"
+            else truth["ground_truth_id"]
+        )
+        rule = {
+            "rule_id": profile.get("rule_id"),
+            "reference_id": reference_id,
+            "type": rule_type,
+            "binding": profile.get("submission_binding") or {},
+        }
+        if rule_type == "numeric":
+            parameters = truth.get("acceptance_parameters") or {}
+            rule.update(
+                {
+                    "target": truth.get("canonical_answer"),
+                    "unit": truth.get("unit"),
+                    "tolerance": parameters.get("tolerance")
+                    if parameters.get("tolerance") is not None
+                    else parameters.get("absolute_tolerance")
+                    if parameters.get("absolute_tolerance") is not None
+                    else parameters.get("numeric_tolerances"),
+                }
+            )
+        else:
+            rule["expected"] = truth.get("canonical_answer") or truth.get("required_propositions")
+        split_rules.append(rule)
+    dump(
+        evaluator_root / "scoring_rules.json",
+        {
+            "schema_version": "scoring-rules/v1",
+            "paper_id": pair_id,
+            "rules": split_rules,
+        },
+    )
+    dump(
+        evaluator_root / "evidence_map.json",
+        evaluator_evidence_map(review.get("evidence_map"), paper_id=pair_id),
+    )
+    dump(
+        evaluator_root / "critical_failures.json",
+        {
+            "schema_version": "critical-failures/v1",
+            "paper_id": pair_id,
+            "items": hidden["critical_failures"],
+        },
+    )
+    # These are deterministic handoff projections from the authored review.
+    # Creating their files is transport scaffolding; the Agent remains
+    # responsible for the scientific contents and may refine either object.
+    dump(
+        root / "workflow_completeness_check.json",
+        review.get("workflow_completeness_check") or {},
+    )
+    dump(
+        root / "public_to_private_asset_map.json",
+        review.get("public_to_private_asset_map") or {},
+    )
     dump(root / "toolbox_requirements.json", review.get("toolbox_requirements") or [])
     print("task-pair scaffold created; replace scaffold prose and validate before receipt")
 

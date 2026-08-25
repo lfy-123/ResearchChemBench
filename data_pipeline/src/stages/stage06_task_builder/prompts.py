@@ -4,7 +4,7 @@ STAGE06_REVIEW_VERSION = "v7-stage06-review-round2-ensemble-coverage-20260823"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v5-stage06-hidden-reference-round4-20260823"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v10-stage06-builder-unified-gate-20260824"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v11-stage06-builder-evaluator-closure-20260825"
 STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v11-stage06-converter-one-shot-self-check-20260825"
 
 
@@ -785,6 +785,30 @@ Use separate numeric rules for numeric values, ordering for relative ranks, cond
 convergence, frequency counts, connectivity or state, and semantic only for genuinely linguistic mechanism/trend
 claims. Every rule needs a concrete expected result and an executable binding; numeric rules additionally need
 target, unit, and tolerance.
+
+EVALUATOR FINALIZATION CONTRACT
+The five files under `outputs/evaluator_reference/` are mandatory Stage06A deliverables, not an
+optional draft for Stage07 or a human to complete. Treat the bootstrap output only as a transport
+draft. Rewrite it into one coherent evaluator after the public submission contract is final:
+
+- `reference_key_points.json` contains the meaningful calculation/validation nodes, each with a
+  unique `key_point_id`, concrete `statement`, paper-backed `expected`, and closed `evidence_ids`;
+- `reference_conclusions.json` contains actual final scientific answers, each with a unique
+  `conclusion_id`, concrete `statement` and `expected`, supporting key-point IDs, and closed
+  evidence IDs. Do not mechanically duplicate every key point as a conclusion;
+- `scoring_rules.json` contains at least one rule for every ID appearing in either reference file.
+  Before writing it, form the exact union of all `key_point_id` and `conclusion_id` values and
+  verify that the set of `reference_id` values covers that union with no omissions;
+- `evidence_map.json` is one JSON object whose `evidence` field is a list of objects containing
+  `evidence_id`; copy every source evidence ID cited by a key point or conclusion into that list;
+- `critical_failures.json` is one JSON object whose `items` field is a list.
+
+Bindings use `artifact_paths` and `fields` (or `observed_fields`) and must point to exact required
+files and result selectors from the finalized public `submission_contract.json`. Do not use the
+singular aliases `artifact` or `field`. A numeric rule has `type="numeric"`, a real `target`, a
+non-empty `unit`, and a non-negative `tolerance`; every other rule has a concrete `expected`.
+Do not return a constructed receipt while the Stage06A self-check status is failed. Read its entire
+finding list, repair it as a checklist, rerun the same command, and finish only after it passes.
 
 `representativeness_review` should be included for every new review (and is required for a ready review when
 the evidence pass completed). A scientific-reject recovery may omit it only when the source packet is
