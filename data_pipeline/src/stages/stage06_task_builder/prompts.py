@@ -106,7 +106,7 @@ SOURCE AUTHORITY AND READING ORDER
   it never makes a scientifically complete task fail.
 - References to supplied structures must use neutral asset names in public task metadata, never
   author labels that classify an asset. Keep any hidden source-label mapping in the private
-  private reference only; do not expose that mapping to the autonomous public surface.
+  reference only; do not expose that mapping to the autonomous public surface.
 
 OBJECTIVE-FIRST SELECTION
 1. Inventory author-performed computational workflows and the claims each supports.

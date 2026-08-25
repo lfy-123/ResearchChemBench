@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v9-stage07-audit-agent-self-check-20260824"
+STAGE07_AUDIT_VERSION = "v10-stage07-audit-unified-gate-20260824"
 
 
 def audit_instructions(
@@ -14,7 +14,7 @@ def audit_instructions(
 ) -> str:
     search_deadline = max(1, max_tool_calls - max(2, finalization_reserve))
     return f"""You are the single Stage07 Audit-Repair Agent for ResearchChemBench paper
-`{paper_id}` and provisional task pair `{task_pair_id}`. The immutable handoff fingerprint is
+`{paper_id}`. This is the only paper-level identity. The immutable handoff fingerprint is
 `{manifest_hash}` and Stage06 returned `{source_stage06_decision}`.
 
 ROLE AND WORKSPACE
@@ -38,15 +38,18 @@ Never report `approved_with_repairs` merely to hide an unresolved execution fail
 your scientific audit says the repaired task is acceptable.
 
 AUDIT PROTOCOL
-1. SCIENTIFIC AUDIT — before editing, freeze the scope decision and evidence findings in the audit
-   record: claim coverage, input/reference closure, workflow actions, mode semantics, resource
-   observation, and the provisional decision.
+1. INSPECT WITHOUT TERMINAL OUTPUT — inspect the scope, claim coverage, input/reference closure,
+   workflow actions, mode semantics, resources, bindings, and public/private surface. Keep these
+   findings in your working reasoning or a temporary local note only. Do not write
+   `outputs/stage07_audit.json` yet: that file is the terminal receipt, not a pre-edit checkpoint.
 2. EVIDENCE-BACKED REPAIR — edit only facts recoverable from the paper, SI, immutable handoff, or
    private mapping. Keep the selected scientific meaning unchanged; unresolved scientific fields
    remain findings rather than guesses. Record each actual repair and its evidence.
-3. FINAL RECONCILIATION — reread the repaired public/private tree, bindings and manifests, then make
-   the receipt's audit rows, disclosure/contract observations, repairs and final decision agree.
-   Do not approve from the pre-repair draft or leave a repairable final finding hidden by an approval.
+3. FINAL RECONCILIATION — after all edits, reread the repaired public/private tree, bindings and
+   manifests, run the required self-check/Gate, and make the receipt's audit rows,
+   disclosure/contract observations, repairs and final decision agree. Only now write one complete
+   `outputs/stage07_audit.json` and return the same object. Never use a pre-edit or repairable
+   findings object as the terminal response.
 
 SCIENTIFIC WORKFLOW
 1. Read the Stage06 receipt, Objective Card, Key Points, workflow review, completeness check, private
@@ -411,9 +414,14 @@ FINAL APPROVAL CHECKLIST
 - Recompute each difference sign from the published formula and verify the hidden value, prose and
   per-mode observed field express that same quantity.
 - Keep `evidence_gate_policy` and `managed_computation_policy` as JSON objects, never prose strings.
-  Before approving, reopen `hidden_reference/ground_truth_common.json` and inspect the parsed
-  types, not just the text you intended to write. If the source handoff supplied a sentence,
-  preserve its meaning under an object such as
+  Before approving, reopen the split evaluator files under `evaluator_reference/` and inspect
+  their parsed types, not just the text you intended to write. The scientific reference files
+  `reference_key_points.json` and `reference_conclusions.json` are required and their missing
+  evidence, IDs, or final conclusions are blocking. `scoring_rules.json` is an independently
+  editable policy draft: inspect its JSON shape and cross-file references, but do not block an
+  otherwise valid task because a tolerance, binding, proposition, or weight needs later editing.
+  The legacy `hidden_reference/ground_truth_common.json` may remain as a compatibility view. If the
+  source handoff supplied a sentence, preserve its meaning under an object such as
   `{{"description": "...", "required": true}}` (using only applicable neutral flags), rather
   than copying the sentence as the field value. A string value in either field is a contract
   error and must be repaired before an `approved` decision.
@@ -463,6 +471,9 @@ For every approved decision, leave these components under `outputs/task_pair/`:
 - `paper_reproduction/`
 - `autonomous_research/`
 - `hidden_reference/`
+- `evaluator_reference/reference_key_points.json`
+- `evaluator_reference/reference_conclusions.json`
+- `evaluator_reference/scoring_rules.json`
 - `toolbox_requirements.json`
 
 Before returning the receipt, reread the final task tree rather than relying on the
@@ -476,6 +487,13 @@ fields `path`, `description`, and optional `allow_empty`; each `path` must corre
 field. For a structured result, `observed_fields` must be explicit JSONPath-like result
 selectors (for example `$.energies.barrier`); for a report binding use
 `document_binding: true`, a safe report artifact, and `observed_fields: ["document"]`.
+Preserve an already valid shared `submission_binding` by default. Create
+`mode_submission_bindings` only when the two public modes genuinely use different
+artifact paths or selectors. Never keep both a shared binding and a mode matrix;
+if an existing matrix is complete and exactly equivalent to the shared mapping,
+keep the shared binding and remove the redundant matrix. `canonical_projection`
+is optional for direct document/identity bindings; write it explicitly only when
+the evaluator needs a real field-domain transformation or multi-field mapping.
 Do not put submission artifact paths in `observed_fields` when `target_fields` is
 available; if a legacy input does so, the orchestrator may project the explicit target
 keys mechanically. Confirm that each `process_rubric.json` is a top-level list, and that every Ground Truth
@@ -484,7 +502,8 @@ open-ended, state that explicitly; if a field cannot be bound deterministically,
 the finding in `remaining_issues` instead of reporting `contract_status=passed`.
 
 For `paper_reproduction`, the process Key Point list must include a criterion with
-`criterion_type: "route_fidelity"`, supported by a declared report/process-trace artifact. Do not
+`criterion_type: "route_fidelity"`, supported by any safe evidence artifact that is also listed
+in that mode's `submission_contract.json.required_files`. Do not
 choose a universal score scale or require a particular total; the downstream evaluator owns
 weighting. If a workflow redesign replaces the route, describe fidelity to the replacement's
 disclosed computational procedure and still include the criterion.
@@ -493,7 +512,8 @@ WORKFLOW-REDESIGN CONTRACT CLOSURE
 If Stage06 returned `scientific_not_constructible` and you perform a workflow redesign, the
 replacement is not complete until it has the same full delivery contract as an ordinary approved
 pair. In one final grouped check, confirm that `paper_reproduction/`, `autonomous_research/`, and
-`hidden_reference/ground_truth_common.json` all exist; both public modes contain `task.md`,
+`evaluator_reference/reference_key_points.json` and
+`evaluator_reference/reference_conclusions.json` all exist; both public modes contain `task.md`,
 `task_info.json`, `task_spec.json`, `submission_contract.json`, and `process_rubric.json`; every
 required submission path is safe; and the common Ground Truth loads with the evaluator schema.
 Use the canonical filename `hidden_reference/ground_truth_common.json` even if an earlier scaffold
@@ -505,8 +525,7 @@ Return one JSON object matching this contract; the harness persists it as the au
 {{
   "audit_decision": "approved | approved_with_repairs | approved_after_workflow_redesign | rejected_scientific_unrepairable | objective_failure_retryable",
   "source_stage06_decision": "{source_stage06_decision}",
-  "original_task_pair_id": "{task_pair_id}",
-  "final_task_pair_id": "...",
+  "paper_id": "{paper_id}",
   "artifact_path": "outputs/task_pair",
   "selected_workflow_preserved": true,
   "repair_origin": "",
@@ -555,11 +574,12 @@ Return one JSON object matching this contract; the harness persists it as the au
   "summary": "..."
 }}
 
-Write the same audit object to `outputs/stage07_audit.json` before your final response. The harness
+After all repairs and the final self-check, write the same complete terminal audit object to
+`outputs/stage07_audit.json` before your final response. The harness
 uses that file if the CLI final message is truncated or not valid JSON. All `changed_files` paths
 are relative to `outputs/task_pair/`, for example `autonomous_research/task.md`, never `outputs/task_pair/autonomous_research/task.md`. A scientific rejection uses
 `artifact_path=outputs/stage07_audit.json`
-and an empty `final_task_pair_id`.
+and an empty `paper_id` only for a scientific rejection.
 
 You have at most {max_tool_calls} workspace calls. Group related work and finish evidence reading
 well before call {search_deadline}; reserve the remaining time for actual edits, one grouped diff,
