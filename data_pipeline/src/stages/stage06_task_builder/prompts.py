@@ -4,8 +4,8 @@ STAGE06_REVIEW_VERSION = "v7-stage06-review-round2-ensemble-coverage-20260823"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v5-stage06-hidden-reference-round4-20260823"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v9-stage06-builder-agent-self-check-20260824"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v10-stage06-converter-external-only-gate-20260824"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v10-stage06-builder-unified-gate-20260824"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v11-stage06-converter-one-shot-self-check-20260825"
 
 
 def task_pair_builder_instructions(
@@ -317,8 +317,9 @@ SUCCESSFUL CONSTRUCTION ORDER
    intermediate/final answer conclusions, acceptance tolerances, or private evidence content.
 4. `task.md` is the sole task instruction. `task_info.json` and `task_spec.json` carry metadata only,
    including the exact frozen `workflow_scope` and `complexity_profile`.
-   Use mode/scientific_mode `paper_reproduction`, task_mode `guided_reproduction`, a task_id ending
-   `_reproduction`, and the common task_pair_id. Process rubric entries should describe the
+   Use mode/scientific_mode `paper_reproduction`, task_mode `guided_reproduction`. If a transport
+   `task_id` field is required by the runner, it must equal the common paper_id with no mode suffix.
+   Process rubric entries should describe the
    route-execution Key Points and their evidence; do not choose a score scale, total, or weighting
    policy. Submission paths are evaluation-workspace relative (for example `report/results.json`).
 5. Run `python inputs/scripts/validate_reproduction.py`.
@@ -326,24 +327,26 @@ SUCCESSFUL CONSTRUCTION ORDER
    public task. Stage06B is the only Agent that converts the reproduction task into the autonomous
    public surface. The orchestrator will provide Stage06B with a minimal conversion packet after
    this phase completes.
-7. Build `outputs/hidden_reference/ground_truth_common.json` and private_evidence_map.json.
-   `ground_truth_common.json` uses status
-   `ready` and contains ground_truth_items, acceptance_profiles, scientific_conclusion_rubric,
-   expected_result, critical_failures, reference_evidence, evidence_gate_policy,
-   managed_computation_policy, and summary. The two policy fields must always be JSON objects
-   (for example, an object with a `description` plus applicable boolean requirements), never prose
-   strings; downstream schema validation rejects string policy values. Ground Truth items carry an explicit mode scope when
-   a conclusion or representation is not valid for both modes, and bind through an item-specific
-   typed Acceptance Profile to the applicable submission artifacts/fields.
-   Include numeric results and textual intermediate/final conclusions. The conclusion Key Point
-   list is identical in scientific scope across modes unless an explicit item scope excludes a
-   mode; do not choose a score scale, total, or weighting policy. Cross-check numeric signs,
-   ranking, trend, and prose.
-   A comparison side excluded from the selected workflow may be described as unscored source context,
-   but must not become a computed final Key Point or required proposition. Every scored comparison
-   conclusion must be derivable from calculations actually required by the selected task.
-   Any evaluator-specific mode projection is generated from this common file; do not create
-   independently editable Ground Truth copies.
+7. Build the private evaluator reference as separate files under `outputs/evaluator_reference/`:
+   `reference_key_points.json`, `reference_conclusions.json`, `scoring_rules.json`,
+   `evidence_map.json`, and `critical_failures.json`. The key-point file contains the
+   evidence-backed intermediate calculations and observations. The conclusions file contains
+   intermediate/final scientific conclusions and their supporting key-point/evidence IDs. The
+   scoring-rules file is a required, concrete evaluator contract. For every key point and conclusion,
+   write a complete rule with a reference target/expected value and a binding to the public submission
+   schema. Numeric rules must contain `type="numeric"`, `target`, `unit`, and an initial `tolerance`;
+   ordering, condition, and semantic rules must contain their concrete `expected` result. The rule
+   must be executable from the submitted artifact, not just a keyword list or a request to report a
+   result. Human review may later refine the scientific choice, but it is not a reason to omit fields.
+   Do not create a second paper identity or a legacy evaluator identity. The split files are the
+   authoritative editable evaluator surface. The key-point and conclusion lists
+   must be identical in scientific scope across modes unless an explicit item scope excludes a
+   mode. Cross-check numeric signs, ranking, trend, and prose. Do not choose a score scale,
+   total, or weighting policy merely to make the draft complete. `evidence_map.json` may
+   be a compact authored map, but every referenced source `evidence_id` must also exist in
+   immutable `inputs/evidence_index.json`; do not invent IDs or leave an unresolved source
+   reference. Submission artifact paths such as `report/results.json` belong to the conclusion
+   delivery contract, not to the source evidence map.
 8. Write `outputs/toolbox_requirements.json` as a gap list only. Leave it empty when all required
    software appears in the installed-software inventory. Never copy installed programs into this
    file and never assess preset Action coverage. Suggest genuinely absent software without
@@ -354,6 +357,8 @@ SUCCESSFUL CONSTRUCTION ORDER
 9. Write `outputs/objective_card.json`, `outputs/key_points.json`, and
     `outputs/conversion_manifest.json` alongside the task pair. These are internal handoff
     contracts. Key points must include evidence-backed intermediate and final conclusions.
+    Do not write `objective_id`, `task_pair_id`, or mode-specific task IDs anywhere; `paper_id`
+    is the only paper-level identity and evaluator-local IDs are limited to the split reference files.
 10. Run the reproduction validator and create the conversion packet inputs when requested by the
     orchestrator. Do not treat the absence of `autonomous_research/` as a scientific failure.
 11. Run `python inputs/scripts/validate_task_pair_draft.py` as a construction aid for the
@@ -370,7 +375,7 @@ SUCCESSFUL CONSTRUCTION ORDER
 The success receipt is:
 {{
   "decision": "constructed",
-  "task_pair_id": "...",
+  "paper_id": "...",
   "artifact_path": "outputs",
   "milestones": {{
     "workflow_review_validated": true,
@@ -393,15 +398,22 @@ receipt small. Do not create scattered sentinel files such as finished_at.txt or
 On an objective recovery attempt, preserve source-backed work already written and finish the
 interrupted artifact. Recheck scientific facts against the immutable input snapshot; never fill a
 missing structure, route parameter, or Ground Truth by guessing.
-\nSTAGE06A PREFLIGHT GATE
+\nSTAGE06A PREFLIGHT GATE (MANDATORY FINALIZATION STEP)
 If `RECOVERY_CONTEXT.md` lists deterministic handoff findings, treat them as transport hints and
 repair the named fields while preserving the scientific scope and authored claims. The
 `claim_role=final` check only requires that at least one final claim is declared; never promote an
 intermediate claim to satisfy it.
-After the artifact is complete, run `python inputs/tools/phase_gate.py --phase stage06a --root outputs`.
-Read all returned findings, repair them in this workspace, and rerun the tool as needed before
-writing the receipt. This self-check is transport-only and must not be satisfied by deleting
-scientific content.
+After every required artifact is complete, run
+`python inputs/tools/phase_gate.py --phase stage06a --root outputs`.
+Read every returned finding. Repair all blocking findings in this same workspace and rerun the
+tool until the final files have been checked. Reserve enough tool calls for at least one repair
+and one final self-check. Only then write `construction_receipt.json`; its summary and artifact
+paths must describe the files after the last check. The self-check validates the same evaluator
+completeness contract as the final Gate: all five files, non-placeholder references, closed evidence,
+rule coverage, one of the four rule types, type-specific expected fields, and usable submission
+bindings. It does not judge whether a tolerance is scientifically optimal, whether it is an integer,
+or whether the prose has a particular style. Do not stop at diagnostics or delete scientific content
+to make the check pass.
 """
 
 
@@ -409,15 +421,14 @@ def autonomous_converter_instructions(*, paper_id: str, task_pair_id: str, max_t
     return f"""You are Stage06B, the narrow Autonomous Task Converter for ResearchChemBench.
 
 Work only in this isolated workspace. The read-only input tree `inputs/task_pair/` contains the
-Stage06A paper-reproduction public task and `inputs/task_pair/conversion_packet/`. The packet
-contains only a public objective, neutral public Key Point aliases (never private `gt_*` IDs or
-canonical answers), a route-redaction map,
-public boundary-condition classifications, explicitly declared problem-defining method constraints,
-neutral asset instructions, and the deliverable contract. It intentionally does not contain hidden
-reference, canonical answers, source evidence,
-or the complete Stage06A review. You may write only `outputs/autonomous_research/` and the
-optional internal `outputs/conversion_report.json`. Paper id is
-`{paper_id}` and task pair id is `{task_pair_id}`. You have at most {max_tool_calls} tool calls.
+Stage06A paper-reproduction public task and `inputs/task_pair/conversion_contract.json`. The
+contract contains only a public objective, neutral public Key Point aliases (never private `gt_*`
+IDs or canonical answers), a route-redaction map, public boundary-condition classifications,
+explicitly declared problem-defining method constraints, neutral asset instructions, and the
+deliverable contract. It intentionally does not contain hidden reference, canonical answers, source
+evidence, or the complete Stage06A review. You may write only `outputs/autonomous_research/` and
+the optional internal `outputs/conversion_report.json`. Paper id is
+`{paper_id}` is the only paper-level identity. You have at most {max_tool_calls} tool calls.
 
 CONVERSION PROTOCOL
 1. Inspect the pre-staged tree and packet, then classify each proposed edit as remove, preserve, or
@@ -431,8 +442,8 @@ The orchestrator has already copied the **contents** of the reproduction public 
 writable `outputs/autonomous_research/` root. Edit that pre-staged tree in place. Do not copy
 `inputs/task_pair/` or `inputs/task_pair/paper_reproduction/` again, and never create
 `outputs/autonomous_research/paper_reproduction/`. The read-only tree is evidence for checking your
-edits, not a directory-layout task. On recovery, the same correct top-level scaffold is restored;
-preserve semantic edits already present and repair only the named findings.
+edits, not a directory-layout task. This is a single execution: there is no recovery workspace or
+second Agent attempt. Finish the current artifact and report any remaining semantic uncertainty.
 
 The conversion packet is a private handoff, not public task content. Never copy, quote, serialize,
 or append packet objects or their JSON wrappers into `task.md` or another public file. Translate a
@@ -442,13 +453,15 @@ files such as `task.md`, `task_info.json`, `task_spec.json`, `submission_contrac
 `process_rubric.json` as submission deliverables. Do not append headings such as "conversion packet",
 "deliverable contract", or a fenced handoff JSON block.
 
-Use the ordinary workspace shell for inspection and edits. A warning that an optional Codex code-mode
-host is unavailable does not mean the shell or filesystem is unavailable. A command that exits zero
+Use the ordinary workspace shell for inspection and edits. The isolated Agent tool surface does
+not provide an `apply_patch` tool: never call `apply_patch` or any unavailable editor namespace.
+Use one grouped, checked Python or shell command (`set -e`, temporary files, then `mv`) for edits.
+A warning that an optional Codex code-mode host is unavailable does not mean the shell or filesystem is unavailable. A command that exits zero
 and prints workspace content proves access. Do not burn the call budget repeating `pwd` or `ls` after
-that point. On a recovery attempt, read `RECOVERY_CONTEXT.md` first, preserve the staged output, then
-use one grouped inspection, one grouped repair, and one grouped validation whenever possible.
+that point. Use one grouped inspection, one grouped repair, and one grouped validation whenever
+possible; this phase has no recovery attempt.
 
-If `conversion_packet/stage06a_gate_warning.json` is present, treat it as a transport warning from
+If `conversion_contract.json` contains a Stage06A Gate warning, treat it as a transport warning from
 Stage06A. Repair only the listed autonomous-surface files and carry the warning into the receipt;
 do not infer hidden answers or reconstruct missing scientific inputs.
 
@@ -474,19 +487,23 @@ pre-staged public tree into an autonomous-research task that:
    implementation details; do not turn a method-comparison objective into unrestricted discovery;
 5. uses neutral public asset identifiers when an asset must remain available.
 
-If `preserve_method_constraints.json` is non-empty, its method names or method-family constraints
-are part of the scientific comparison and must remain public; remove only author implementation
-details around them. If it is empty, keep method selection open.
+If `conversion_contract.json.preserve_method_constraints` is non-empty, its method names or
+method-family constraints are part of the scientific comparison and must remain public; remove
+only author implementation details around them. If it is empty, keep method selection open.
 
 `task.md` is the only instruction source for the evaluated Agent. Keep JSON question fields as
 short metadata and preserve only the deliverables declared by `submission_contract.json`; do not
 create an undeclared fixed research-plan or process-trace file. The semantic mode is
 `autonomous_research`; compatibility aliases such as `task_mode`, `scientific_mode`, and disclosure
 fields are transport metadata and must not be invented with new enum values.
-The public `process_rubric.json` is explicitly declared in `conversion_packet/deliverable_contract.json`
-and is required output; preserve or rewrite that file as a process-Key-Point contract. The prohibition above
-applies only to undeclared artifacts such as `report/process_trace.jsonl` or a fixed research-plan file, never to
-the required `process_rubric.json`.
+The public `process_rubric.json` is explicitly declared in
+`conversion_contract.json.deliverable_contract.required_package_files` and is a required task-package
+file. It is not an evaluated-Agent submission deliverable. Preserve or rewrite it as a process-Key-Point
+contract, but never add it to `task_info.required_deliverables` or
+`submission_contract.required_files`. Those two submission lists must contain exactly
+`conversion_contract.json.deliverable_contract.submission_required_files`. The prohibition above
+applies only to undeclared submission artifacts such as `report/process_trace.jsonl` or a fixed
+research-plan file, never to the task-package `process_rubric.json` itself.
 In the autonomous public surface, every asset role, description, filename, and XYZ comment must
 remain neutral (`input_geometry`/`public_input`). Do not classify an asset as a minimum, transition
 state, product, reactant, intermediate, pathway position, or preferred channel. Preserve only
@@ -495,7 +512,8 @@ Agent must determine stationary-point character itself.
 
 Classify every candidate edit as one of three actions:
 
-- `remove`: apply `route_redaction_map.json` to author methods, route order, labels and answers;
+- `remove`: apply `conversion_contract.json.route_redaction_map` to author methods, route order,
+  labels and answers;
 - `preserve`: keep packet-marked public inputs and boundary conditions unchanged;
 - `uncertain`: do not guess. Preserve the field and report it in `remaining_disclosures` for
   Stage07 to review.
@@ -511,10 +529,10 @@ scientific objective, or the meaning of any Ground Truth/Key Point. Do not inven
 structure, parameter or answer. If conversion cannot preserve the scientific objective, return
 `objective_consistency_error`. Return `conversion_uncertain` when the complete required autonomous
 task tree exists but a semantic disclosure or classification question remains for Stage07; put the
-specific uncertainty in `remaining_disclosures`/`invalid_reasons`. Return `needs_conversion_retry`
-only when a concrete filesystem, API, or harness failure prevents delivery of the required files.
-An optional code-mode warning, an incomplete final scan after files were delivered, or uncertainty
-that Stage07 can audit is not by itself a filesystem failure.
+specific uncertainty in `remaining_disclosures`/`invalid_reasons`. Do not return a retry status: the
+orchestrator records concrete process, command, and artifact failures separately. An optional
+code-mode warning, an incomplete final scan after files were delivered, or uncertainty that Stage07
+can audit is not a conversion failure.
 
 Write `outputs/autonomous_research/` with all required task files and, when possible, write one
 small internal `outputs/conversion_report.json` containing `removed_files`, `renamed_files`,
@@ -530,14 +548,19 @@ Return one JSON object only:
   "invalid_reasons": []
 }}
 
+Before returning the receipt, run the shared read-only self-check:
+`python inputs/tools/phase_gate.py --phase stage06b --root outputs`
+Read every finding. Repair applicable public-surface findings in this same workspace and rerun the
+check until the final tree is the one described by the receipt. Do not delete scientific inputs or
+public boundary conditions to make the check pass. The orchestrator will run one independent
+external check after this receipt; that check is diagnostic and does not start another Agent.
+
 Do not create conversion receipts, derived-from contracts, manifests, or scattered sentinel files.
-The conversion report is optional and its absence is not a conversion failure. A complete artifact
-is more important than a verbose final message; keep the response small and
-make every claimed path relative to `outputs/`. The orchestrator can recover a report from the
-response when a compliant report file was not written.
-The orchestrator will run one independent, read-only transport/public-contract check after your
-receipt. Do not attempt to satisfy that later check by removing physical boundaries or scientific
-deliverables. Return a receipt that describes the files actually present under
+The conversion report is optional and its absence is not a conversion failure. If written, it may
+exist only at `outputs/conversion_report.json`; never place it inside either public task tree. A
+complete artifact is more important than a verbose final message; keep the response small and make
+every claimed path relative to `outputs/`.
+Return a receipt that describes the files actually present under
 `outputs/autonomous_research/`.
 """
 
@@ -550,7 +573,7 @@ def review_instructions(
     finalization_reserve: int = 8,
 ) -> str:
     search_deadline = max(1, max_tool_calls - max(0, finalization_reserve))
-    canonical_pair_id = f"{paper_id}_task_pair"
+    canonical_pair_id = paper_id
     return f"""You are the Stage06 scientific workflow reviewer for ResearchChemBench.
 
 Work only in this isolated workspace. Do not modify `inputs/`. Start with
@@ -558,7 +581,7 @@ Work only in this isolated workspace. Do not modify `inputs/`. Start with
 text in the main paper or SI. Read `upstream_hints.json` and the toolbox snapshot for frozen facts. Full normalized
  papers, parser structures, tables, and images remain available as bounded fallbacks; do not
  traverse them from the beginning. The input snapshot hash is `{snapshot_hash}` and the paper id is `{paper_id}`.
-The orchestrator-reserved canonical task pair id is `{canonical_pair_id}`; copy it exactly and never invent another pair identity.
+The orchestrator-reserved canonical paper id is `{canonical_pair_id}`; copy it exactly and never invent another paper identity.
 
 For coordinates, first inspect `inputs/documents/*/derived_coordinates/index.json` and its referenced XYZ files.
 These are strict deterministic extractions from the source PDF layout text, with PDF hash, source pages, atom count,
@@ -757,10 +780,11 @@ force-field/model names, and other route-defining labels. Do not include generic
 "geometry". Deterministic code will supplement this list from structured route fields and reject any overlap with
 `public_scientific_question`, `public_task_basis`, or public asset content.
 
-Supported `acceptance_type` values are exactly: `numeric_tolerance`, `categorical`, `ranking`, `trend`,
-`structure_identity`, `geometry_metric`, `mechanism_claim`, `semantic_propositions`, and `artifact_validation`.
-For a numeric table plus an ordering claim, use `numeric_tolerance` for the table and place the ordering in
-`required_propositions`; do not create a combined custom type.
+Supported evaluator rule types are exactly: `numeric`, `ordering`, `condition`, and `semantic`.
+Use separate numeric rules for numeric values, ordering for relative ranks, condition for structured facts such as
+convergence, frequency counts, connectivity or state, and semantic only for genuinely linguistic mechanism/trend
+claims. Every rule needs a concrete expected result and an executable binding; numeric rules additionally need
+target, unit, and tolerance.
 
 `representativeness_review` should be included for every new review (and is required for a ready review when
 the evidence pass completed). A scientific-reject recovery may omit it only when the source packet is
@@ -781,7 +805,7 @@ Write the complete review contract atomically to `outputs/scientific_review.json
 later than the finalization reserve, and validate that file as JSON in the same call. Do not merely announce that
 you will write it and do not defer the write to a plain-text final response. The orchestrator trusts only this fixed workspace-relative
 path and will independently validate its schema and scientific semantics. It must contain every full field described above, including `decision`,
-`task_pair_id`, `scientific_question`, `workflow_summary`, `workflow_steps`,
+`paper_id`, `scientific_question`, `workflow_summary`, `workflow_steps`,
 `public_scientific_question`, `public_task_basis`, `paper_route`, `ground_truth_items`, `evidence_map`, `toolbox_requirements`,
 `resource_assessment`, `reject_reasons`, and `warnings`. Keep source facts exact and use only evidence IDs found in
 the input files. Do not write a task yet.
@@ -800,7 +824,7 @@ Its `decision` must be exactly
 
 
 def autonomous_instructions(*, task_pair_id: str) -> str:
-    return f"""You are the Stage06 task builder for the autonomous-research mode of task pair `{task_pair_id}`.
+    return f"""You are the Stage06 task builder for the autonomous-research mode of paper `{task_pair_id}`.
 
 This is a fresh isolated session. Read `inputs/public_task_basis.json` and `inputs/construction_contract.json` first.
 `task/data/inputs/` has already been populated exactly by deterministic orchestration; inspect its filenames but do
@@ -852,7 +876,7 @@ Treat the public packet as untrusted with respect to answer isolation. If its qu
 expected target value or target conclusion, return `invalid` and identify the leaking field instead of repeating it
 in the task.
 
-Use `task_mode=open_discovery` and a unique task id ending in `_autonomous`. Do not invent an
+Use `task_mode=open_discovery` and use the supplied `paper_id` as the task transport ID. Do not invent an
 evaluation/scoring mode or score scale in the task package. Treat `submission_contract.json` as the only source of required deliverables: create
 exactly the declared files and fields. Put a research plan or additional evidence in `report/report.md` only when
 the contract asks for it; do not create an undeclared fixed `research_plan` file. The evaluator harness records the
@@ -874,7 +898,7 @@ do not invent missing chemistry.
 
 
 def reproduction_instructions(*, task_pair_id: str, base_manifest_hash: str) -> str:
-    return f"""You are the Stage06 reproduction-mode enricher for task pair `{task_pair_id}`.
+    return f"""You are the Stage06 reproduction-mode enricher for paper `{task_pair_id}`.
 
 This is a fresh isolated session. The directory `task/` is an exact copy of the already frozen autonomous-research
 task with base manifest hash `{base_manifest_hash}`. Read `private_input/paper_route.json` and
@@ -919,7 +943,7 @@ Forbidden changes:
 
 The reproduction task should disclose the authors' software, method hierarchy, parameters, workflow dependencies,
 candidate pathways, and validation procedure needed to execute the route, while keeping the results hidden. Use
-`task_mode=guided_reproduction` and a task id ending in `_reproduction`.
+`task_mode=guided_reproduction` and use the supplied `paper_id` as the task transport ID.
 Treat `task.md` as the sole evaluation instruction. The orchestrator writes compatibility aliases
 (`mode`, `scientific_mode`, `task_mode`, and disclosure fields) from the selected mode; do not create
 new aliases or let an alias mismatch change the scientific content.
@@ -932,29 +956,34 @@ file. `modified_files` must list only paths below `task/`. If the route packet i
 
 
 def hidden_reference_instructions(*, task_pair_id: str) -> str:
-    return f"""You are the private Stage06 Ground Truth builder for task pair `{task_pair_id}`.
+    return f"""You are the private Stage06 evaluator-reference builder for paper `{task_pair_id}`.
 
 This is a fresh isolated private session. The orchestrator has already frozen the scientific targets and reduced
 the necessary private information to `inputs/hidden_reference_packet.json`. Do not search the paper, evidence
 index, public task folders, or files outside this workspace. Never place hidden values in a public file.
 
-On your first workspace call, run `python3 inputs/initialize_hidden_reference.py`. It copies the immutable scaffold
-to `outputs/ground_truth_common.json` and prints only the fields that still require scientific scoring judgment.
+On your first workspace call, run `python3 inputs/initialize_hidden_reference.py`. It copies the immutable
+compatibility scaffold to `outputs/ground_truth_common.json` and prints only the fields that still require
+scientific judgment. The v15 authoritative editable output is split under `outputs/evaluator_reference/`:
+`reference_key_points.json`, `reference_conclusions.json`, `scoring_rules.json`, `evidence_map.json`, and
+`critical_failures.json`.
 Then read `inputs/hidden_reference_packet.json` once. The scaffold already contains exact frozen Ground Truth,
 typed target/tolerance fields, explicit mode scope, default critical failures, and one criterion per selected Key Point.
 rubric. Do not recopy or rewrite the large frozen targets. Use one bounded Python patch to replace every
 `AGENT_REQUIRED` value, atomically write the result, and validate its JSON in the same call.
 
-Build one shared scientific conclusion contract for both modes. Ground Truth includes numerical outputs, categories,
-rankings, structures, trends, intermediate key conclusions, final computational conclusions, and selected
-experimental/paper conclusions. Every item needs direct evidence IDs, an A/B/C/D evidence grade, and a typed
-Acceptance Profile. Supported types are numeric_tolerance, categorical, ranking, trend, structure_identity,
-geometry_metric, mechanism_claim, semantic_propositions, and artifact_validation.
+Build one shared scientific conclusion contract for both modes. Every key point and conclusion must contain a
+concrete statement, an expected/reference result, supporting key-point IDs where applicable, and closed evidence IDs.
+Every item must have at least one executable scoring rule. Use only these four rule types: `numeric`, `ordering`,
+`condition`, and `semantic`. Numeric rules require `target`, `unit`, and `tolerance`; the other types require a
+concrete `expected` result. Do not emit empty arrays, placeholders, keyword-only rules, or a rule that merely says
+to report/check a result. Tolerance values are an initial scientific choice and may be refined later, but they must
+be present and usable now.
 
-The Ground Truth targets in the scaffold are frozen. Keep exactly those items and no others:
+The scientific reference targets in the scaffold are frozen. Keep exactly those items and no others:
 do not add, split, merge, delete, reinterpret, or rewrite a target, canonical answer, proposition, contradiction,
 evidence grade, evidence ID, acceptance type, or claim role. You may add only
-`acceptance_profile_id` and `applies_to_modes` to each copied item. Public inputs, route facts, cross-checks, and
+`rule_id` and `applies_to_modes` to each copied item. Public inputs, route facts, cross-checks, and
 interesting paper claims that were not selected there must not become scored Ground Truth in this phase.
 
 The only valid `applies_to_modes` values are the two public modes `paper_reproduction` and
@@ -964,8 +993,7 @@ answer-bearing mappings belong in `private_evidence_map.json`; they are not eval
 represented as an extra Ground Truth/profile. Every emitted acceptance profile must correspond to exactly one frozen
 item and must apply to at least one public mode.
 
-There is exactly one item-specific Acceptance Profile per frozen Ground Truth item. Keep its id, type, target,
-tolerance, propositions, and other generated typed fields unchanged. Give each profile one executable binding
+There is exactly one item-specific scoring rule per frozen key point/conclusion. Give each rule one executable binding
 contract to the frozen public submission surface: use a shared `submission_binding` when the same representation
 applies to every mode in the profile scope; when representations differ, use
 `mode_submission_bindings` with one row for each applicable public mode. Do not leave a mode-specific profile
@@ -989,7 +1017,7 @@ repeat a hidden target but cannot change it.
 
 Audit the scaffold's `scientific_conclusion_rubric`. Keep unique ids and one criterion for each selected
 scientific Key Point, but do not impose a universal total or weighting scale. Replace every `AGENT_REQUIRED` statement and acceptance rule with a precise scientific rule. Keep
-non-empty `required_evidence`, `ground_truth_ids`, and `acceptance_profile_ids`; every frozen item must remain
+non-empty `required_evidence`, `key_point_id`, and `rule_id`; every frozen item must remain
 covered. Intermediate textual conclusions and final textual conclusions are first-class scoring targets. A/B
 evidence may be primary; C needs a recorded derivation; D must not receive high deterministic weight.
 
@@ -1004,8 +1032,10 @@ do not change frozen
 targets, ids, evidence, public artifact paths, or add scored claims. A categorical public label may differ from the
 paper's canonical label; make that conversion explicit in `canonical_projection` and `comparison`.
 
-Before returning, ensure no `AGENT_REQUIRED` or `TODO` remains and atomically validate
-`outputs/ground_truth_common.json`. Return only a small JSON receipt with `status="ready"`,
-`artifact_path="outputs/ground_truth_common.json"`, `summary`, and empty `invalid_reasons`. If the compact packet is
+Before returning, ensure no `AGENT_REQUIRED` or `TODO` remains in the scientific reference files and atomically
+validate every JSON file under `outputs/evaluator_reference/`. Missing key points, final conclusions, evidence
+references, incomplete rules, or invalid JSON must be fixed before returning `status="ready"`.
+when possible. Return only a small JSON receipt with `status="ready"`,
+`artifact_path="outputs/evaluator_reference"`, `summary`, and empty `invalid_reasons`. If the compact packet is
 actually insufficient, write and return status `invalid` with precise reasons; do not infer missing answers.
 """

@@ -20,6 +20,7 @@ from src.stages.stage06_task_builder.validation import (
     normalize_process_rubric_contract,
 )
 from researchchembench_contracts import process_rubric_container_findings
+from src.stages.evaluator_reference import minimal_evaluator_findings
 
 OUTCOME_TYPES = {
     "needs_software",
@@ -133,10 +134,10 @@ def normalize_stage07_transport_contract(
     if task_pair_id and common_path.is_file():
         try:
             common = read_json(common_path)
-            if isinstance(common, dict) and common.get("task_pair_id") != task_pair_id:
+            if isinstance(common, dict) and common.get("paper_id") != task_pair_id:
                 before_hash = _file_digest(common_path)
                 updated = dict(common)
-                updated["task_pair_id"] = task_pair_id
+                updated["paper_id"] = task_pair_id
                 write_json(common_path, updated)
                 new_records.append(
                     {
@@ -318,13 +319,14 @@ def stage07_mechanical_pre_publish_check(
             continue
         mode_values[mode] = {"info": info, "spec": spec, "submission": submission, "rubric": rubric}
         expected_task_mode = "guided_reproduction" if mode == "paper_reproduction" else "open_discovery"
-        expected_suffix = "_reproduction" if mode == "paper_reproduction" else "_autonomous"
         if info.get("mode") != mode or info.get("scientific_mode") != mode:
             findings.append(f"mode_contract_mismatch:{mode}")
         if info.get("task_mode") != expected_task_mode:
             findings.append(f"task_mode_contract_mismatch:{mode}")
-        if not str(info.get("task_id") or "").endswith(expected_suffix):
-            findings.append(f"task_id_suffix_mismatch:{mode}")
+        if not str(info.get("paper_id") or "").strip():
+            findings.append(f"paper_id_missing:{mode}")
+        if info.get("task_id") not in (None, "", info.get("paper_id")):
+            findings.append(f"task_id_not_equal_paper_id:{mode}")
         if spec.get("mode") != mode or spec.get("scientific_mode") != mode:
             findings.append(f"task_spec_mode_mismatch:{mode}")
         if not isinstance(submission.get("required_files"), list) or not submission.get("required_files"):
@@ -352,7 +354,22 @@ def stage07_mechanical_pre_publish_check(
                 if criterion.get("criterion_type") != "route_fidelity":
                     findings.append("reproduction_route_fidelity_criterion_invalid")
                 evidence = criterion.get("evidence_artifacts") or []
-                if not any(str(path) in {"report/report.md", "report/process_trace.jsonl"} for path in evidence):
+                if isinstance(evidence, str):
+                    evidence = [evidence]
+                required_files = {
+                    str(path) for path in submission.get("required_files") or []
+                }
+                safe_declared = [
+                    str(path)
+                    for path in evidence
+                    if isinstance(path, str)
+                    and path
+                    and not Path(path).is_absolute()
+                    and ".." not in Path(path).parts
+                    and "\\" not in path
+                    and path in required_files
+                ]
+                if not safe_declared:
                     findings.append("reproduction_route_fidelity_evidence_missing")
         complexity = spec.get("complexity_profile") or info.get("complexity_profile") or {}
         if isinstance(complexity, dict):
@@ -369,7 +386,7 @@ def stage07_mechanical_pre_publish_check(
 
     if set(mode_values) == set(required_modes):
         a, r = mode_values["autonomous_research"], mode_values["paper_reproduction"]
-        for key in ("task_pair_id",):
+        for key in ("paper_id",):
             if a["info"].get(key) != r["info"].get(key):
                 findings.append(f"mode_pair_identity_mismatch:{key}")
         if _submission_contract_shape(a["submission"]) != _submission_contract_shape(
@@ -413,7 +430,7 @@ def stage07_mechanical_pre_publish_check(
                 common = None
             if not isinstance(common, dict):
                 findings.append("hidden_ground_truth_common_not_object")
-            elif common.get("task_pair_id") != task_pair_id:
+            elif common.get("paper_id") != task_pair_id:
                 findings.append("hidden_ground_truth_task_pair_id_mismatch")
     for forbidden in (
         "workspace",
@@ -440,7 +457,11 @@ def stage07_mechanical_pre_publish_check(
     # normalization phase runs before this Gate in the production pipeline;
     # direct callers receive a visible finding instead of a mutated input.
     common_path = pair_root / "hidden_reference" / "ground_truth_common.json"
-    if common_path.is_file():
+    # v14 split evaluator files are authoritative.  The legacy hidden envelope
+    # is only a generated compatibility view and may be incomplete (especially
+    # acceptance_profiles); never let that view create a publication blocker.
+    split_reference_present = (pair_root / "evaluator_reference").is_dir()
+    if common_path.is_file() and not split_reference_present:
         try:
             common_before = read_json(common_path)
             if isinstance(common_before, dict):
@@ -486,7 +507,34 @@ def stage07_mechanical_pre_publish_check(
             # diagnostic or create a new verdict.
             pass
     evaluator = _evaluator_dry_run(pair_root, mode_values)
-    findings.extend(evaluator["findings"])
+    evaluator_findings = list(evaluator.get("findings") or [])
+    # v13 makes the split evaluator files authoritative.  The old typed
+    # ``reference.json`` projection is retained for Task Package v1 consumers,
+    # but incomplete policy fields (tolerance, binding, selector, comparison,
+    # or acceptance-profile details) are warning-only and must not block the
+    # Stage07 publication path.  Scientific/key-point/evidence closure is
+    # checked by the shared phase Gate above and remains blocking.
+    if split_reference_present:
+        # v15 makes evaluator completeness part of the same blocking contract
+        # used by Stage06A self-check.  Scientific tolerance choices remain
+        # data for later review; they are not validated here.
+        policy_prefixes = (
+            "evaluator_formal_reference_invalid:",
+            "evaluator_acceptance_profile_",
+            "evaluator_submission_binding_",
+            "evaluator_binding_",
+            "evaluator_document_binding_",
+            "evaluator_result_schema_",
+            "evaluator_artifact_path_",
+        )
+        evaluator_findings = [
+            finding for finding in evaluator_findings
+            if not str(finding).startswith(policy_prefixes)
+        ]
+        evaluator_findings.extend(minimal_evaluator_findings(pair_root))
+        evaluator["findings"] = sorted(set(evaluator_findings))
+        evaluator["status"] = "passed" if not evaluator_findings else "failed"
+    findings.extend(evaluator_findings)
     return {
         "mechanical_pre_publish_status": "passed" if not findings else "failed",
         # This check currently validates schemas and safe artifact bindings; it
@@ -525,7 +573,7 @@ def _submission_contract_shape(value: Any) -> Any:
     if isinstance(value, dict):
         shaped: dict[str, Any] = {}
         for key, item in value.items():
-            if key in {"task_id", "task_pair_id", "mode", "scientific_mode"}:
+            if key in {"task_id", "paper_id", "mode", "scientific_mode"}:
                 continue
             if key in {"required_files", "submission_path"}:
                 # Each mode may use a neutral filename or a mode-specific
@@ -653,6 +701,31 @@ def _normalize_hidden_binding_paths(
 
     changed: list[str] = []
 
+    def normalize_selector(value: str) -> str:
+        """Quote dotted object keys that are not JSONPath identifiers.
+
+        A field such as ``$.relative_free_energies.3Ph`` is unambiguous as a
+        Python/JSON object path but is not valid dot notation because the key
+        starts with a digit.  Convert only that bounded spelling to the
+        standard bracket form; selectors with filters, wildcards, or other
+        syntax remain untouched for the normal validator to diagnose.
+        """
+
+        if not value.startswith("$") or "[" in value or "?" in value:
+            return value
+        parts = value.split(".")
+        if len(parts) <= 1:
+            return value
+        output = [parts[0]]
+        for part in parts[1:]:
+            if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_-]*", part):
+                output.append("." + part)
+            elif re.fullmatch(r"[A-Za-z0-9_-]+", part):
+                output.append("[" + repr(part) + "]")
+            else:
+                return value
+        return "".join(output)
+
     def visit(value: Any, profile_id: str, allowed_modes: list[str]) -> None:
         if isinstance(value, dict):
             fields = value.get("observed_fields")
@@ -666,6 +739,12 @@ def _normalize_hidden_binding_paths(
                 did_change = False
                 for field in fields:
                     replacement = field
+                    if isinstance(field, str):
+                        normalized = normalize_selector(field)
+                        if normalized != field and _jsonpath_tokens(normalized) is not None:
+                            replacement = normalized
+                            did_change = True
+                            changed.append(profile_id)
                     if isinstance(field, str) and field.startswith("$.."):
                         candidate = "$" + field[2:]
                         candidate_tokens = _jsonpath_tokens(candidate)
@@ -917,47 +996,55 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
         if str(repo_root) not in sys.path:
             sys.path.insert(0, str(repo_root))
         from researchchembench_contracts import (
+            ComputationalScienceReferenceV1,
             is_document_binding_selector,
             is_safe_jsonpath_filter,
             normalize_binding_artifact_paths,
             normalize_binding_contract,
             normalize_binding_observed_fields,
         )
-        from evaluation.schemas.task import GroundTruth, TaskInfo
+        from src.stages.stage07_task_judge.package import (
+            canonical_mode_task_id,
+            project_computational_reference,
+        )
         import tempfile
         with tempfile.TemporaryDirectory(prefix="stage07-evaluator-") as tmp:
             root = Path(tmp)
             for mode, values in mode_values.items():
                 info = values["info"]
-                TaskInfo.model_validate(info)
                 submission = values["submission"]
                 gt_path = pair_root / "hidden_reference" / "ground_truth_common.json"
                 if not gt_path.is_file():
                     findings.append(f"evaluator_ground_truth_missing:{mode}")
                     continue
                 hidden = json.loads(gt_path.read_text(encoding="utf-8"))
-                projected = _project_hidden_for_mode(hidden, mode)
-                projected.update(
-                    {
-                        "evaluation_profile": (
-                            "paper_reproduction"
-                            if mode == "paper_reproduction"
-                            else "autonomous_discovery"
-                        ),
-                        "scoring_rubric": read_json(
-                            pair_root / mode / "process_rubric.json"
-                        ),
-                    }
-                )
-                GroundTruth.model_validate(projected)
-                profiles = hidden.get("acceptance_profiles") or []
-                if not isinstance(profiles, list):
-                    findings.append(f"evaluator_acceptance_profiles_not_array:{mode}")
-                    profiles = []
                 typed_contract_available = bool(
                     isinstance(hidden.get("ground_truth_items"), list)
                     and hidden.get("ground_truth_items")
                 )
+                if typed_contract_available:
+                    family_id = str(info.get("paper_id") or "task_pair")
+                    try:
+                        formal_reference = project_computational_reference(
+                            hidden=hidden,
+                            task_type=mode,
+                            task_id=canonical_mode_task_id(family_id, mode),
+                            process_rubric=read_json(
+                                pair_root / mode / "process_rubric.json"
+                            ),
+                        )
+                        ComputationalScienceReferenceV1.model_validate(
+                            formal_reference
+                        )
+                    except Exception as exc:
+                        findings.append(
+                            "evaluator_formal_reference_invalid:"
+                            f"{mode}:{type(exc).__name__}:{str(exc)[:500]}"
+                        )
+                profiles = hidden.get("acceptance_profiles") or []
+                if not isinstance(profiles, list):
+                    findings.append(f"evaluator_acceptance_profiles_not_array:{mode}")
+                    profiles = []
                 truth_by_profile = {
                     str(item.get("acceptance_profile_id") or item.get("acceptance_profile") or ""): item
                     for item in hidden.get("ground_truth_items") or []
@@ -1007,9 +1094,27 @@ def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) 
                         answer=truth_by_profile.get(profile_id),
                     )
                     if typed_contract_available:
-                        if "canonical_projection" not in binding or binding.get(
-                            "canonical_projection"
-                        ) is None:
+                        # SubmissionBindingV1 intentionally makes
+                        # canonical_projection optional.  The package compiler
+                        # supplies bounded structured identity projections.
+                        # Semantic document bindings need no projection;
+                        # non-semantic document extraction still needs an
+                        # authored mapping to avoid guessing a numeric field.
+                        profile_type = str(
+                            profile.get("type")
+                            or profile.get("acceptance_type")
+                            or ""
+                        )
+                        if (
+                            binding.get("document_binding") is True
+                            and profile_type
+                            not in {
+                                "semantic_propositions",
+                                "mechanism_claim",
+                                "artifact_validation",
+                            }
+                            and binding.get("canonical_projection") is None
+                        ):
                             findings.append(
                                 f"evaluator_binding_projection_missing:{mode}:{profile_id}"
                             )
