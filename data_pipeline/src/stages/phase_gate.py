@@ -424,6 +424,23 @@ def _v13_evaluator_reference_findings(root: Path, findings: list[str]) -> None:
                 )
         elif not _has_evaluator_value(row.get("expected", row.get("target"))):
             findings.append(f"scoring_rule_expected_missing:{rule_id or 'missing'}")
+        if reference_id in key_ids or reference_id in conclusion_ids:
+            reference_rows = key_items if reference_id in key_ids else conclusion_items
+            reference = next(
+                item for item in reference_rows
+                if isinstance(item, dict)
+                and str(item.get("key_point_id") or item.get("conclusion_id") or "").strip() == reference_id
+            )
+            reference_expected = reference.get("expected", reference.get("reference_value"))
+            numeric_reference = _numeric_evaluator_value(reference_expected) or (
+                isinstance(reference_expected, dict)
+                and bool(reference_expected)
+                and all(_numeric_evaluator_value(value) for value in reference_expected.values())
+            )
+            if numeric_reference and evaluation_type != "numeric":
+                findings.append(f"scoring_rule_numeric_type_required:{rule_id or 'missing'}")
+            if evaluation_type == "semantic" and _PLACEHOLDER_STATEMENT.search(str(row.get("expected") or "")):
+                findings.append(f"scoring_rule_expected_placeholder:{rule_id or 'missing'}")
         binding = row.get("binding") or row.get("submission_binding")
         if not isinstance(binding, dict) or not binding:
             findings.append(f"scoring_rule_binding_missing:{rule_id or 'missing'}")

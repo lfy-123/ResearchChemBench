@@ -66,6 +66,11 @@ def test_condition_and_semantic_rules_are_supported_without_extra_types(tmp_path
     pair = _package(tmp_path)
     path = pair / "evaluator_reference" / "scoring_rules.json"
     value = json.loads(path.read_text(encoding="utf-8"))
+    key_path = pair / "evaluator_reference" / "reference_key_points.json"
+    key_value = json.loads(key_path.read_text(encoding="utf-8"))
+    key_value["items"][0]["expected"] = {"converged": True, "imaginary_frequency_count": 0}
+    key_value["items"][0].pop("unit", None)
+    _write(key_path, key_value)
     value["rules"][0] = {
         "rule_id": "rule-energy",
         "reference_id": "kp-energy",
@@ -86,3 +91,18 @@ def test_placeholder_reference_is_blocking(tmp_path: Path) -> None:
     value["items"][0]["statement"] = "Reference scientific result kp-energy."
     _write(path, value)
     assert "reference_key_point_statement_invalid:kp-energy" in minimal_evaluator_findings(pair)
+
+
+def test_numeric_reference_cannot_be_downgraded_to_semantic(tmp_path: Path) -> None:
+    pair = _package(tmp_path)
+    path = pair / "evaluator_reference" / "scoring_rules.json"
+    value = json.loads(path.read_text(encoding="utf-8"))
+    value["rules"][0]["type"] = "semantic"
+    value["rules"][0].pop("target", None)
+    value["rules"][0].pop("unit", None)
+    value["rules"][0].pop("tolerance", None)
+    value["rules"][0]["expected"] = "gt-energy evaluated scientific result"
+    _write(path, value)
+    findings = minimal_evaluator_findings(pair)
+    assert "scoring_rule_numeric_type_required:rule-energy" in findings
+    assert "scoring_rule_expected_placeholder:rule-energy" in findings

@@ -71,7 +71,7 @@ def _statement(row: dict[str, Any], identifier: str) -> str:
 
 MINIMAL_RULE_TYPES = frozenset({"numeric", "ordering", "condition", "semantic"})
 _PLACEHOLDER_RE = re.compile(
-    r"^(?:reference\s+scientific\s+result|report\s+(?:the|this)\s+result|check\s+whether)\b",
+    r"^(?:reference\s+scientific\s+result|report\s+(?:the|this)\s+result|check\s+whether|(?:gt|kp|claim)[_-][\w.-]+\s+evaluated\s+scientific\s+result)\b",
     re.IGNORECASE,
 )
 
@@ -292,6 +292,25 @@ def minimal_evaluator_findings(root: Path) -> list[str]:
                 findings.append(f"scoring_rule_missing_numeric_tolerance:{rule_id}")
         elif not _has_value(row.get("expected", row.get("target"))):
             findings.append(f"scoring_rule_expected_missing:{rule_id}")
+        if reference_id in key_ids or reference_id in conclusion_ids:
+            reference_rows = key_items if reference_id in key_ids else conclusion_items
+            reference = next(
+                item for item in reference_rows
+                if isinstance(item, dict) and str(item.get("key_point_id") or item.get("conclusion_id") or "").strip() == reference_id
+            )
+            reference_expected = reference.get("expected", reference.get("reference_value"))
+            numeric_reference = _numeric_value(reference_expected) or (
+                isinstance(reference_expected, dict)
+                and bool(reference_expected)
+                and all(_numeric_value(value) for value in reference_expected.values())
+            )
+            if numeric_reference and kind != "numeric":
+                findings.append(f"scoring_rule_numeric_type_required:{rule_id}")
+            if kind == "semantic" and isinstance(row.get("expected"), dict):
+                if not _strings(row["expected"].get("required")) and not _strings(row["expected"].get("forbidden")):
+                    findings.append(f"scoring_rule_semantic_expected_invalid:{rule_id}")
+            if kind == "semantic" and _PLACEHOLDER_RE.search(str(row.get("expected") or "")):
+                findings.append(f"scoring_rule_expected_placeholder:{rule_id}")
         binding = _rule_binding(row)
         if not isinstance(binding, dict) or not binding:
             findings.append(f"scoring_rule_binding_missing:{rule_id}")
