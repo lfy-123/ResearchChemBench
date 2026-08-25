@@ -127,6 +127,33 @@
 | 2026-08-26 | P6 | 一致性审计 | 已完成代码级审计；未新增 Agent、retry、论文特例或 human-review 标签 | 本轮提交 |
 | 待执行 | P7 | 十篇论文测试 | 等待代码提交后启动并持续监控 | 待提交 |
 
+## 6. P7 前置回归：Stage07 终局写入缺陷
+
+### 6.1 发现
+
+`paper_308bbee002d4560c` 的 Stage07 Agent 调用成功（11 次调用、无 stderr、`agent_run.status=succeeded`），但只把
+“pre-edit scientific audit freeze”写入 `outputs/stage07_audit.json`，随后直接结束。该对象将所有可修复检查列为
+`repairable`，并明确写着 coordinate parsing、binding reconciliation、public scan 和 Gate 尚未执行；编排器因此把
+模型返回的 `objective_failure_retryable` 当作终局失败。这里没有 API、harness 或文件系统故障，根因是 prompt 把一个中间审计检查点设计成了和终局回执相同的文件/结构。
+
+### 6.2 修复
+
+提交 `7756998 fix(stage07): require terminal audit after repairs`：
+
+- Stage07 prompt 改为“先检查但不写终局文件 → 完成 source-backed 修复 → 运行 self-check/Gate → 只写一次完整
+  `stage07_audit.json`”；明确禁止把 pre-edit/repairable findings 对象作为终局响应；
+- 保留科学拒绝和真实运行故障的语义边界，不用代码标签掩盖未完成修复；
+- 修复 Stage06 prompt 的 `private private reference` 笔误；
+- 增加 prompt 回归断言，确保该中间态描述不会回归。
+
+### 6.3 另一项科学质量回归
+
+`paper_3590deded767345e` 在 v16 Stage06A 因“坐标解析损坏”科学拒绝，但 v15 rerun3 的 Stage07 曾依据 SI layout
+恢复 5 个氮原子字段并成功发布。v16 Agent 已查看 `pypdf_layout.txt`，但未继续执行 source-backed 恢复，过早把 parser
+异常等同于 source absence。该现象不是 Gate 误阻断，而是 input-closure 工作流执行不足；后续十篇重跑需单独统计并对比
+`derived_coordinates/index.json`、layout fallback 和 Stage07 修复证据。代码不应猜测原子或化学结构，改进重点应是 prompt 中的
+恢复顺序/预算和 Agent 是否真正完成恢复后的闭合检查。
+
 ## 4. 最终一致性标准
 
 只有同时满足以下条件才进入十篇论文测试：
