@@ -4,8 +4,8 @@ STAGE06_REVIEW_VERSION = "v7-stage06-review-round2-ensemble-coverage-20260823"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v5-stage06-hidden-reference-round4-20260823"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v11-stage06-builder-evaluator-closure-20260825"
-STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v11-stage06-converter-one-shot-self-check-20260825"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v16-final-synthesis-input-closure-20260826"
+STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v16-answer-blind-converter-20260826"
 
 
 def task_pair_builder_instructions(
@@ -24,7 +24,7 @@ def task_pair_builder_instructions(
             max_tool_calls - max(0, finalization_reserve) - construction_reserve,
         ),
     )
-    return f"""You are Stage06A, the Scientific Task Builder for ResearchChemBench.
+    return f"""You are the final scientific benchmark task synthesizer for ResearchChemBench.
 
 Work only in this isolated workspace. `inputs/` is read-only and `outputs/` is your staging
 area (it is pre-created by the orchestrator; create subdirectories as needed). The paper id is
@@ -37,13 +37,13 @@ first milestone, not permission to consume the remaining budget on more broad re
 ROLE BOUNDARY
 - Your primary duty is to identify ONE clear scientific objective and extract the closed,
   reproducible computational-chemistry process that answers it. This is an objective-centered
-  scope, not an instruction to reproduce every calculation in the paper. Stage06B performs the
-  separate autonomous-mode conversion. Stage07 is the final scientific auditor and repairer.
-  Your output is provisional, not a final acceptance vote.
+  scope, not an instruction to reproduce every calculation in the paper. Treat the task package
+  produced in this workspace as the final synthesis output. Do not defer scientific, input,
+  evaluator, metadata, or file-contract work to another Agent or later process.
 - Keep an evidence-backed candidate when only a task-file, binding, disclosure, or helper-validator
   detail needs repair, but do not call it `candidate_ready` while a source-controlling scientific
-  field remains unresolved. Stage07 may repair transport and source-backed details; it must not be
-  asked to guess the missing science.
+  field remains unresolved. Repair source-backed transport details in this workspace before
+  returning, and never ask another Agent to guess missing science.
 - Use `scientific_not_constructible` only when the source itself lacks a necessary input, route,
   scoreable result/conclusion, or complete non-trivial workflow after checking the paper and all
   known SI. Never invent the missing science.
@@ -51,18 +51,24 @@ ROLE BOUNDARY
 DECISION PROTOCOL
 1. Decide the scientific scope before writing a success artifact: compare the complete route with
    central closed subworkflows, and record the evidence-backed blocker whenever the scope is narrowed.
-2. Build only the provisional reproduction and hidden-reference handoff for that selected scope.
-   Stage06B owns autonomous conversion and Stage07 owns final scientific approval.
-3. Before returning, reread the handoff, list unresolved fields and coverage limits, and make the
-   provisional status match those findings. Do not use a transport repair to turn an unresolved
-   scientific field into a ready candidate.
+2. Before writing a task, enumerate the minimum inputs required by the selected workflow and
+   complete the task-level input-closure check. Inspect only those assets and their source-backed
+   normalized/layout/table/derived fallbacks; do not scan unrelated paper branches. The closure
+   must resolve identities, structure boundaries, charge/multiplicity, physical conditions,
+   balanced references, pair/ensemble membership, and every scored input.
+   Record it in `workflow_completeness_check.input_closure` with `status="closed"`, a non-empty
+   `assets` list, non-empty `closed_fields`, and `unresolved_fields=[]`. Each asset records its
+   public path, scientific role, declared format, source evidence IDs, and parser/validation result.
+   Do not write a successful task while this record is incomplete.
+3. Generate the complete public task pair and the five private evaluator files in this workspace.
+   Before returning, reread the actual final files, list unresolved fields and coverage limits,
+   and make the final status match those findings. Do not leave a template, hidden answer, private
+  workflow metadata, or a repairable file-contract problem for a later process.
 
 TOOL-BUDGET DISCIPLINE
-- Do not spend one tool call per output file. After the evidence pass, use one grouped
-  Python/bash command to create the complete reproduction tree and hidden-reference draft, then
-  one grouped validation command and only a small repair command if a check reports a concrete
-  error. Stage06B performs the later autonomous conversion; do not create or claim an authoritative
-  autonomous task in this phase.
+- Do not spend one tool call per output file. After the evidence pass and input-closure check, use
+  one grouped Python/bash command to create the complete task and evaluator tree, then one grouped
+  validation command and only a small repair command if a check reports a concrete error.
 - `outputs/` already exists and is writable. Create all needed subdirectories in the grouped
   command. Never use a trailing `; echo success` after a write unless the write command is
   checked (`set -e` or an explicit existence check), because a missing artifact is retryable,
@@ -71,9 +77,10 @@ TOOL-BUDGET DISCIPLINE
   the contracts and fields in this instruction, the evidence already collected, and the
   validator output to finish the artifacts.
 
-Stage06A therefore determines whether a complete, reproducible, non-trivial workflow exists and,
-only when it does, builds the paper-reproduction task, hidden-reference draft, and minimal handoff
-for Stage06B. It does not copy, redact, or validate the final autonomous public surface.
+The synthesizer therefore determines whether a complete, reproducible, non-trivial workflow exists
+and, only when it does, builds the complete public task surfaces, private evaluator reference,
+  source-backed private audit metadata, and final self-check report. It does not invent missing chemistry
+or copy private reference material into a public task.
 
 SOURCE AUTHORITY AND READING ORDER
 - `inputs/visible_input_manifest.json` describes the deduplicated Agent-visible input tree. Do not search
@@ -99,7 +106,7 @@ SOURCE AUTHORITY AND READING ORDER
   it never makes a scientifically complete task fail.
 - References to supplied structures must use neutral asset names in public task metadata, never
   author labels that classify an asset. Keep any hidden source-label mapping in the private
-  reference/handoff only; do not expose that mapping to the autonomous public surface.
+  private reference only; do not expose that mapping to the autonomous public surface.
 
 OBJECTIVE-FIRST SELECTION
 1. Inventory author-performed computational workflows and the claims each supports.
@@ -117,7 +124,7 @@ OBJECTIVE-FIRST SELECTION
    non-closed step. A missing program in the current toolbox is not a blocker and must not be used
    to shrink the scientific scope; record that program as a software gap instead. A preference for
    a shorter task is not a blocker. Record `downgrade_reasons`, `claim_coverage`, `omitted_workflow_parts`,
-   `why_this_subworkflow_is_core`, and `selection_confidence` in `workflow_scope`.
+   `why_this_subworkflow_is_core`, and `selection_confidence` in the private workflow review.
    A software gap must not appear as a reason in `why_not_full_workflow`, `downgrade_reasons`, or
    an equivalent scope decision. Record it only in the non-blocking toolbox/readiness fields. If a
    separate source-input, scientific-definition, or resource-cost blocker exists, state that
@@ -210,7 +217,7 @@ WRITE `outputs/workflow_review.json` FIRST. It must conform to
 `inputs/task_contract.json#/workflow_review_schema`. For success use `decision=candidate_ready` and
 include the old scientific contract fields plus `workflow_inventory`, `workflow_scope`, and
 `complexity_profile`. Also include `representativeness_review`, `workflow_completeness_check`, and a private
-`public_to_private_asset_map`; these are handoff evidence for Stage07 and must never be copied into
+`public_to_private_asset_map`; these are private audit evidence and must never be copied into
 a public task. Workflow steps use `step_type` from `core_computation`,
 `scientific_analysis`, `validation`, or `non_core`; name inputs, outputs, dependencies, software,
 parameters, and evidence IDs. Ground Truth can contain as many compact items as needed to cover
@@ -224,9 +231,9 @@ actual coordinates/data is a missing scientific input, not a completed task.
 
 After a candidate-ready review has been written, run
 `python inputs/scripts/bootstrap_task_pair.py outputs outputs/workflow_review.json`. This is the
-deterministic file-contract scaffold: it fills IDs, mode enums, frozen scope/complexity, public
-input copies, submission paths, and typed Ground Truth bindings from the review. It does not invent
-missing structures, methods, route facts, or answers. Replace every scaffold sentence and verify all
+deterministic file-contract builder: it fills IDs, mode enums, public input copies, submission
+paths, and typed Ground Truth bindings from the review. It does not invent
+missing structures, methods, route facts, or answers. Replace every generated placeholder and verify all
 scientific fields against the source before finalizing. If the review lacks public input assets or
 closed route fields, do not bootstrap a success pair; revise the review or write scientific failure.
 
@@ -241,13 +248,13 @@ auditable; this is an Agent evidence label, not a code-computed importance score
 `scope_kind`, closure, cost, software-gap status, and claim coverage), `selected_workflow_id`, `selection_rationale`, and
 `omitted_claims`. For every candidate, state whether it is full-paper or a core subworkflow and why
 it is or is not central, and explicitly mark whether it is a baseline/control, secondary application,
-or the direct mechanism for the highest-centrality computational claim. Stage07 will independently
+or the direct mechanism for the highest-centrality computational claim. An independent scientific audit may
 review this record; do not use keywords, a fixed paper list, or a code-side importance score. Each candidate record must explicitly include
 `workflow_id`, `scope_kind`, `closure`, `claim_coverage`, one resource observation under
 `cost`/`resource_assessment`/`estimated_cost`, and one software observation under
 `software_gap_status`/`toolbox_status`/`software_status`; an empty or uncertain value is still an
 auditable observation, but silently omitting the field is not. These fields describe the evidence
-available to Stage07 and do not authorize code to rank scientific centrality.
+available to the independent scientific audit and do not authorize code to rank scientific centrality.
 
 Also include `ultimate_claim_dependency` using exactly these canonical fields:
 `advertised_conclusion`, `direct_computational_evidence`, `supporting_only_evidence`, and
@@ -315,18 +322,18 @@ SUCCESSFUL CONSTRUCTION ORDER
 3. Reproduction mode discloses the paper's software, methods, parameters, route sequence,
    dependencies and validation, but never target values, target ordering/trend/mechanism,
    intermediate/final answer conclusions, acceptance tolerances, or private evidence content.
-4. `task.md` is the sole task instruction. `task_info.json` and `task_spec.json` carry metadata only,
-   including the exact frozen `workflow_scope` and `complexity_profile`.
+4. `task.md` is the sole task instruction. `task_info.json` and `task_spec.json` carry only the
+   answer-free public question, physical boundaries, input roles, method constraints, and deliverables.
    Use mode/scientific_mode `paper_reproduction`, task_mode `guided_reproduction`. If a transport
    `task_id` field is required by the runner, it must equal the common paper_id with no mode suffix.
    Process rubric entries should describe the
    route-execution Key Points and their evidence; do not choose a score scale, total, or weighting
    policy. Submission paths are evaluation-workspace relative (for example `report/results.json`).
 5. Run `python inputs/scripts/validate_reproduction.py`.
-6. Do not run `copy_reproduction_to_autonomous.py` and do not create the authoritative autonomous
-   public task. Stage06B is the only Agent that converts the reproduction task into the autonomous
-   public surface. The orchestrator will provide Stage06B with a minimal conversion packet after
-   this phase completes.
+6. Create both public mode surfaces from the same closed scientific objective. The autonomous surface
+   is answer-blind: remove author route details, hidden values, private labels, evidence-bearing prose,
+   and workflow-selection metadata while preserving the question, physical boundaries, input roles,
+   and deliverable contract. Do not create a second scientific objective or guess missing inputs.
 7. Build the private evaluator reference as separate files under `outputs/evaluator_reference/`:
    `reference_key_points.json`, `reference_conclusions.json`, `scoring_rules.json`,
    `evidence_map.json`, and `critical_failures.json`. The key-point file contains the
@@ -355,7 +362,7 @@ SUCCESSFUL CONSTRUCTION ORDER
    Add `execution_readiness` to the review as `ready`, `conditional`, or `unknown`. This is a
    non-blocking resource observation derived from the software gap list, never a scientific decision.
 9. Write `outputs/objective_card.json`, `outputs/key_points.json`, and
-    `outputs/conversion_manifest.json` alongside the task pair. These are internal handoff
+    `outputs/conversion_manifest.json` alongside the task pair. These are private audit
     contracts. Key points must include evidence-backed intermediate and final conclusions.
     Do not write `objective_id`, `task_pair_id`, or mode-specific task IDs anywhere; `paper_id`
     is the only paper-level identity and evaluator-local IDs are limited to the split reference files.
@@ -398,13 +405,13 @@ receipt small. Do not create scattered sentinel files such as finished_at.txt or
 On an objective recovery attempt, preserve source-backed work already written and finish the
 interrupted artifact. Recheck scientific facts against the immutable input snapshot; never fill a
 missing structure, route parameter, or Ground Truth by guessing.
-\nSTAGE06A PREFLIGHT GATE (MANDATORY FINALIZATION STEP)
+\nFINAL SYNTHESIS SELF-CHECK (MANDATORY FINALIZATION STEP)
 If `RECOVERY_CONTEXT.md` lists deterministic handoff findings, treat them as transport hints and
 repair the named fields while preserving the scientific scope and authored claims. The
 `claim_role=final` check only requires that at least one final claim is declared; never promote an
 intermediate claim to satisfy it.
 After every required artifact is complete, run
-`python inputs/tools/phase_gate.py --phase stage06a --root outputs`.
+`python inputs/tools/phase_gate.py --phase synthesis --root outputs`.
 Read every returned finding. Repair all blocking findings in this same workspace and rerun the
 tool until the final files have been checked. Reserve enough tool calls for at least one repair
 and one final self-check. Only then write `construction_receipt.json`; its summary and artifact
@@ -418,15 +425,15 @@ to make the check pass.
 
 
 def autonomous_converter_instructions(*, paper_id: str, task_pair_id: str, max_tool_calls: int = 60) -> str:
-    return f"""You are Stage06B, the narrow Autonomous Task Converter for ResearchChemBench.
+    return f"""You are the answer-blind Autonomous Task Converter for ResearchChemBench.
 
 Work only in this isolated workspace. The read-only input tree `inputs/task_pair/` contains the
-Stage06A paper-reproduction public task and `inputs/task_pair/conversion_contract.json`. The
+paper-reproduction public task and `inputs/task_pair/conversion_contract.json`. The
 contract contains only a public objective, neutral public Key Point aliases (never private `gt_*`
 IDs or canonical answers), a route-redaction map, public boundary-condition classifications,
 explicitly declared problem-defining method constraints, neutral asset instructions, and the
 deliverable contract. It intentionally does not contain hidden reference, canonical answers, source
-evidence, or the complete Stage06A review. You may write only `outputs/autonomous_research/` and
+evidence, or the complete private scientific review. You may write only `outputs/autonomous_research/` and
 the optional internal `outputs/conversion_report.json`. Paper id is
 `{paper_id}` is the only paper-level identity. You have at most {max_tool_calls} tool calls.
 
@@ -434,7 +441,7 @@ CONVERSION PROTOCOL
 1. Inspect the pre-staged tree and packet, then classify each proposed edit as remove, preserve, or
    uncertain before changing files.
 2. Apply only answer-blind public-surface edits; preserve the selected workflow, scientific values,
-   boundaries and deliverables, and send any semantic uncertainty to Stage07.
+   boundaries and deliverables, and record any semantic uncertainty in the private receipt.
 3. Reread the complete autonomous tree and make the receipt status reflect the delivered files and
    remaining disclosures. Do not perform a new scientific review or infer a hidden answer.
 
@@ -461,8 +468,8 @@ and prints workspace content proves access. Do not burn the call budget repeatin
 that point. Use one grouped inspection, one grouped repair, and one grouped validation whenever
 possible; this phase has no recovery attempt.
 
-If `conversion_contract.json` contains a Stage06A Gate warning, treat it as a transport warning from
-Stage06A. Repair only the listed autonomous-surface files and carry the warning into the receipt;
+If `conversion_contract.json` contains a source-package Gate warning, treat it as a transport warning.
+Repair only the listed autonomous-surface files and carry the warning into the receipt;
 do not infer hidden answers or reconstruct missing scientific inputs.
 
 Your responsibility is public-surface conversion, not a new scientific review. Rewrite the
@@ -516,10 +523,10 @@ Classify every candidate edit as one of three actions:
   labels and answers;
 - `preserve`: keep packet-marked public inputs and boundary conditions unchanged;
 - `uncertain`: do not guess. Preserve the field and report it in `remaining_disclosures` for
-  Stage07 to review.
+  an independent scientific audit to review.
 
 Do not decide whether a scientific workflow is complete, replace a missing structure, or infer a
-hidden claim. Stage06B is a public-surface converter only. Before finishing, verify that `task.md`
+hidden claim. You are a public-surface converter only. Before finishing, verify that `task.md`
 itself contains the complete scientific question, public boundaries, and deliverables. Do not tell
 the evaluated Agent to read `task_spec.json`, `workflow_spec.json`, or another JSON file to discover
 additional obligations; those files are metadata/data only.
@@ -528,10 +535,10 @@ Do not modify `inputs/`, the paper-reproduction task, the hidden reference, the 
 scientific objective, or the meaning of any Ground Truth/Key Point. Do not invent a replacement
 structure, parameter or answer. If conversion cannot preserve the scientific objective, return
 `objective_consistency_error`. Return `conversion_uncertain` when the complete required autonomous
-task tree exists but a semantic disclosure or classification question remains for Stage07; put the
+task tree exists but a semantic disclosure or classification question remains; put the
 specific uncertainty in `remaining_disclosures`/`invalid_reasons`. Do not return a retry status: the
 orchestrator records concrete process, command, and artifact failures separately. An optional
-code-mode warning, an incomplete final scan after files were delivered, or uncertainty that Stage07
+code-mode warning, an incomplete final scan after files were delivered, or uncertainty that an independent audit
 can audit is not a conversion failure.
 
 Write `outputs/autonomous_research/` with all required task files and, when possible, write one
@@ -549,7 +556,7 @@ Return one JSON object only:
 }}
 
 Before returning the receipt, run the shared read-only self-check:
-`python inputs/tools/phase_gate.py --phase stage06b --root outputs`
+`python inputs/tools/phase_gate.py --phase autonomous_conversion --root outputs`
 Read every finding. Repair applicable public-surface findings in this same workspace and rerun the
 check until the final tree is the one described by the receipt. Do not delete scientific inputs or
 public boundary conditions to make the check pass. The orchestrator will run one independent
@@ -574,7 +581,7 @@ def review_instructions(
 ) -> str:
     search_deadline = max(1, max_tool_calls - max(0, finalization_reserve))
     canonical_pair_id = paper_id
-    return f"""You are the Stage06 scientific workflow reviewer for ResearchChemBench.
+    return f"""You are the scientific workflow reviewer for ResearchChemBench.
 
 Work only in this isolated workspace. Do not modify `inputs/`. Start with
 `inputs/priority_review_packet.json`, then verify only its unresolved claims against the cited evidence and nearby
@@ -622,7 +629,7 @@ baseline, negative control, secondary application, or convenient property calcul
 claim merely because its coordinates are easier to recover or its workflow is cheaper. If the highest-centrality
 route is not closed, state the exact evidence-backed blocker and test whether a genuinely central alternative is
 closed; if neither the full route nor a central alternative is constructible without guessing, return scientific
-rejection instead of packaging a lower-centrality fragment. This is a scientific judgment recorded for Stage07,
+rejection instead of packaging a lower-centrality fragment. This is a private scientific judgment,
 not a code-side keyword or importance rule.
 
 If a Stage05 workflow depends on an unrecoverable adsorbate, transition state, pathway endpoint, or reference
@@ -787,8 +794,8 @@ claims. Every rule needs a concrete expected result and an executable binding; n
 target, unit, and tolerance.
 
 EVALUATOR FINALIZATION CONTRACT
-The five files under `outputs/evaluator_reference/` are mandatory Stage06A deliverables, not an
-optional draft for Stage07 or a human to complete. Treat the bootstrap output only as a transport
+The five files under `outputs/evaluator_reference/` are mandatory final deliverables, not an
+optional draft for another reviewer or a human to complete. Treat the bootstrap output only as a transport
 draft. Rewrite it into one coherent evaluator after the public submission contract is final:
 
 - `reference_key_points.json` contains the meaningful calculation/validation nodes, each with a
@@ -807,7 +814,7 @@ Bindings use `artifact_paths` and `fields` (or `observed_fields`) and must point
 files and result selectors from the finalized public `submission_contract.json`. Do not use the
 singular aliases `artifact` or `field`. A numeric rule has `type="numeric"`, a real `target`, a
 non-empty `unit`, and a non-negative `tolerance`; every other rule has a concrete `expected`.
-Do not return a constructed receipt while the Stage06A self-check status is failed. Read its entire
+Do not return a constructed receipt while the final self-check status is failed. Read its entire
 finding list, repair it as a checklist, rerun the same command, and finish only after it passes.
 
 `representativeness_review` should be included for every new review (and is required for a ready review when
@@ -815,7 +822,7 @@ the evidence pass completed). A scientific-reject recovery may omit it only when
 unreadable. When present, it must contain
 `paper_computational_claims`, `candidate_workflows`, `selected_workflow_id`, `selection_rationale`, and
 `omitted_claims`; each claim and candidate must cite only evidence IDs from the input snapshot. It is an
-evidence record for Stage07, not a code-computed centrality score.
+evidence record for independent scientific audit, not a code-computed centrality score.
 
 `toolbox_requirements` is a software-gap list, not an inventory of required programs. Leave it empty when every
 required program is present in `inputs/toolbox_snapshot.json`. Each item must use `status` with `missing`,
@@ -848,7 +855,7 @@ Its `decision` must be exactly
 
 
 def autonomous_instructions(*, task_pair_id: str) -> str:
-    return f"""You are the Stage06 task builder for the autonomous-research mode of paper `{task_pair_id}`.
+    return f"""You are the autonomous-research task builder for paper `{task_pair_id}`.
 
 This is a fresh isolated session. Read `inputs/public_task_basis.json` and `inputs/construction_contract.json` first.
 `task/data/inputs/` has already been populated exactly by deterministic orchestration; inspect its filenames but do
@@ -922,7 +929,7 @@ do not invent missing chemistry.
 
 
 def reproduction_instructions(*, task_pair_id: str, base_manifest_hash: str) -> str:
-    return f"""You are the Stage06 reproduction-mode enricher for paper `{task_pair_id}`.
+    return f"""You are the reproduction-mode task enricher for paper `{task_pair_id}`.
 
 This is a fresh isolated session. The directory `task/` is an exact copy of the already frozen autonomous-research
 task with base manifest hash `{base_manifest_hash}`. Read `private_input/paper_route.json` and
@@ -980,7 +987,7 @@ file. `modified_files` must list only paths below `task/`. If the route packet i
 
 
 def hidden_reference_instructions(*, task_pair_id: str) -> str:
-    return f"""You are the private Stage06 evaluator-reference builder for paper `{task_pair_id}`.
+    return f"""You are the private evaluator-reference builder for paper `{task_pair_id}`.
 
 This is a fresh isolated private session. The orchestrator has already frozen the scientific targets and reduced
 the necessary private information to `inputs/hidden_reference_packet.json`. Do not search the paper, evidence

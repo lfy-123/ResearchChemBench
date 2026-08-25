@@ -11,6 +11,7 @@ the final check.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import math
@@ -114,8 +115,15 @@ _PLACEHOLDER_STATEMENT_MARKERS = (
     "<placeholder>",
     "<fill",
     "reference scientific result ",
+    "replace this scaffold",
+    "replace the scaffold",
 )
-GATE_CHECKER_VERSION = "stage06-07-gate-v15"
+GATE_CHECKER_VERSION = "stage06-07-gate-v16"
+PHASE_ALIASES = {
+    "synthesis": "stage06a",
+    "autonomous_conversion": "stage06b",
+    "final_package": "stage07a",
+}
 
 
 def _has_evaluator_value(value: Any) -> bool:
@@ -997,12 +1005,123 @@ def _input_findings(root: Path, parsed: dict[str, Any], findings: list[str]) -> 
                 if (input_root / renamed_relative).is_file():
                     continue
             findings.append(f"input_asset_missing:{root.name}:{raw}")
+        findings.extend(_declared_asset_format_findings(input_root / raw, root.name, raw))
+
+
+def _declared_asset_format_findings(path: Path, mode_name: str, relative: str) -> list[str]:
+    """Run small format readers for declared assets; never infer their chemistry."""
+
+    if not path.is_file():
+        return []
+    try:
+        text = path.read_text(encoding="utf-8", errors="strict")
+    except (OSError, UnicodeError) as exc:
+        return [f"input_asset_unreadable:{mode_name}:{relative}:{type(exc).__name__}"]
+    if not text.strip():
+        return [f"input_asset_empty:{mode_name}:{relative}"]
+    suffix = path.suffix.casefold()
+    if suffix == ".json":
+        try:
+            json.loads(text)
+        except (ValueError, TypeError, json.JSONDecodeError):
+            return [f"input_asset_json_invalid:{mode_name}:{relative}"]
+    elif suffix in {".csv", ".tsv"}:
+        delimiter = "\t" if suffix == ".tsv" else ","
+        try:
+            rows = list(csv.reader(text.splitlines(), delimiter=delimiter, strict=True))
+        except csv.Error:
+            return [f"input_asset_table_invalid:{mode_name}:{relative}"]
+        widths = {len(row) for row in rows if row}
+        if not widths or len(widths) != 1:
+            return [f"input_asset_table_invalid:{mode_name}:{relative}"]
+    elif suffix == ".xyz":
+        lines = text.splitlines()
+        cursor = 0
+        frames = 0
+        while cursor < len(lines):
+            if not lines[cursor].strip():
+                cursor += 1
+                continue
+            try:
+                atom_count = int(lines[cursor].strip())
+            except ValueError:
+                return [f"input_asset_xyz_header_invalid:{mode_name}:{relative}"]
+            if atom_count <= 0 or cursor + atom_count + 2 > len(lines):
+                return [f"input_asset_xyz_record_incomplete:{mode_name}:{relative}"]
+            for row in lines[cursor + 2 : cursor + 2 + atom_count]:
+                columns = row.split()
+                if len(columns) < 4 or not re.fullmatch(r"(?:[A-Z][a-z]?|\d+)", columns[0]):
+                    return [f"input_asset_xyz_atom_row_invalid:{mode_name}:{relative}"]
+                try:
+                    coordinates = [float(value) for value in columns[1:4]]
+                except ValueError:
+                    return [f"input_asset_xyz_coordinate_invalid:{mode_name}:{relative}"]
+                if not all(math.isfinite(value) for value in coordinates):
+                    return [f"input_asset_xyz_coordinate_invalid:{mode_name}:{relative}"]
+            frames += 1
+            cursor += atom_count + 2
+        if not frames:
+            return [f"input_asset_xyz_empty:{mode_name}:{relative}"]
+    elif suffix in {".cif", ".vasp", ".poscar"} or path.name.casefold() in {"poscar", "contcar"}:
+        if len([line for line in text.splitlines() if line.strip()]) < 2:
+            return [f"input_asset_structure_too_short:{mode_name}:{relative}"]
+    return []
+
+
+_PUBLIC_PRIVATE_KEYS = frozenset(
+    {
+        "workflow_scope",
+        "complexity_profile",
+        "ground_truth_items",
+        "canonical_answer",
+        "acceptance_parameters",
+        "acceptance_profiles",
+        "scoring_rules",
+        "reference_value",
+        "public_to_private_asset_map",
+    }
+)
+
+
+def _public_surface_findings(root: Path, findings: list[str]) -> None:
+    """Reject private evaluator metadata and generated placeholders in public files."""
+
+    for path in root.rglob("*"):
+        if not path.is_file() or path.suffix.casefold() not in {".json", ".md", ".txt"}:
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="strict")
+        except (OSError, UnicodeError):
+            continue
+        lowered = text.casefold()
+        if any(marker in lowered for marker in _PLACEHOLDER_STATEMENT_MARKERS):
+            findings.append(f"public_placeholder:{root.name}:{path.relative_to(root).as_posix()}")
+        if path.suffix.casefold() != ".json":
+            continue
+        try:
+            value = json.loads(text)
+        except (ValueError, TypeError, json.JSONDecodeError):
+            continue
+        stack = [value]
+        while stack:
+            current = stack.pop()
+            if isinstance(current, dict):
+                for key, nested in current.items():
+                    if key in _PUBLIC_PRIVATE_KEYS:
+                        findings.append(
+                            f"public_private_field_present:{root.name}:{path.name}:{key}"
+                        )
+                    if isinstance(nested, (dict, list)):
+                        stack.append(nested)
+            elif isinstance(current, list):
+                stack.extend(item for item in current if isinstance(item, (dict, list)))
 
 
 def _mode_contract(root: Path, mode: str, findings: list[str]) -> dict[str, Any]:
     parsed = _required_files(root, REPRODUCTION_FILES if mode == "paper_reproduction" else CORE_FILES, findings)
     _deliverable_findings(root, parsed, findings)
     _input_findings(root, parsed, findings)
+    _public_surface_findings(root, findings)
     info = parsed.get("task_info.json")
     spec = parsed.get("task_spec.json")
     expected_task_mode = "guided_reproduction" if mode == "paper_reproduction" else "open_discovery"
@@ -1279,6 +1398,7 @@ def write_final_self_check_report(
 
 
 def run(phase: str, root: Path) -> dict[str, Any]:
+    phase = PHASE_ALIASES.get(phase, phase)
     findings: list[str] = []
     if not root.is_dir():
         findings.append("root_missing")
@@ -1341,7 +1461,11 @@ def install_phase_gate_tool(destination: Path) -> Path:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Read-only Stage06/07 phase self-check")
-    parser.add_argument("--phase", required=True, choices=("stage06a", "stage06b", "stage07a"))
+    parser.add_argument(
+        "--phase",
+        required=True,
+        choices=("stage06a", "stage06b", "stage07a", *PHASE_ALIASES),
+    )
     parser.add_argument("--root", default="outputs", type=Path)
     args = parser.parse_args(argv)
     try:

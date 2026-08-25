@@ -5014,9 +5014,6 @@ def _normalize_task_pair_artifact_contracts(
 
     pair_id = str(review.get("paper_id") or "")
     scope = _canonical_workflow_scope(review.get("workflow_scope") or {})
-    complexity = json.loads(
-        json.dumps(review.get("complexity_profile") or {}, ensure_ascii=False)
-    )
     public_basis = review.get("public_task_basis") or {}
     # The public task_info/task_spec pair must carry the same answer-free
     # scientific question.  Prefer the explicit public contract, but recover
@@ -5044,8 +5041,6 @@ def _normalize_task_pair_artifact_contracts(
         or review.get("public_scientific_question"),
         "boundary_conditions": public_basis.get("boundary_conditions") or [],
         "input_assets": _mode_asset_projection(public_basis),
-        "workflow_scope": scope,
-        "complexity_profile": complexity,
         "method_constraints": public_basis.get("method_constraints")
         or public_basis.get("public_method_constraints")
         or [],
@@ -5105,8 +5100,6 @@ def _normalize_task_pair_artifact_contracts(
         "archive_extractions": reproduction_info.get("archive_extractions")
         or autonomous_info.get("archive_extractions")
         or [],
-        "workflow_scope": scope,
-        "complexity_profile": complexity,
         "method_constraints": public_basis.get("method_constraints")
         or public_basis.get("public_method_constraints")
         or [],
@@ -5131,6 +5124,10 @@ def _normalize_task_pair_artifact_contracts(
             )
         )
         info.update(common_info)
+        # Workflow selection and complexity are private review evidence, never
+        # part of an evaluated public task surface.
+        info.pop("workflow_scope", None)
+        info.pop("complexity_profile", None)
         info.update(
             {
                 "task_id": task_id,
@@ -5150,6 +5147,8 @@ def _normalize_task_pair_artifact_contracts(
                 )
             )
         spec.update(common_spec)
+        spec.pop("workflow_scope", None)
+        spec.pop("complexity_profile", None)
         spec.update(
             {
                 "task_id": task_id,
@@ -7755,6 +7754,8 @@ def _normalized_task_info(
             ],
         }
     )
+    for private_key in ("workflow_scope", "complexity_profile", "ground_truth_items", "canonical_answer", "evidence_ids"):
+        output.pop(private_key, None)
     output.setdefault("benchmark_family", str(public_basis.get("task_direction") or ""))
     output.setdefault("scientific_requirements", [])
     output.pop("deliverables", None)
@@ -7882,6 +7883,8 @@ def _normalized_task_spec(
             ],
         }
     )
+    for private_key in ("workflow_scope", "complexity_profile", "ground_truth_items", "canonical_answer", "evidence_ids"):
+        output.pop(private_key, None)
     return output
 
 

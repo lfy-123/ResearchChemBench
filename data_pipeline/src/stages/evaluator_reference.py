@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 from pathlib import Path
 from typing import Any
 
@@ -154,6 +155,56 @@ def _required_submission_paths(root: Path) -> set[str]:
     return paths
 
 
+def _submission_schemas(root: Path) -> dict[str, list[dict[str, Any]]]:
+    schemas: dict[str, list[dict[str, Any]]] = {}
+    for mode in REFERENCE_MODES:
+        path = root / mode / "submission_contract.json"
+        if not path.is_file():
+            continue
+        try:
+            contract = read_json_file(path)
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            continue
+        if not isinstance(contract, dict):
+            continue
+        schema = contract.get("results_schema") or contract.get("result_schema")
+        result_path = str(contract.get("submission_path") or "report/results.json")
+        if isinstance(schema, dict):
+            schemas.setdefault(result_path, []).append(schema)
+    return schemas
+
+
+def _selector_schema_known(schema: dict[str, Any], selector: str) -> bool | None:
+    """Return False only when a declared closed JSON schema disproves a selector."""
+
+    if selector == "document":
+        return True
+    if not selector.startswith("$"):
+        return False
+    tail = selector[1:]
+    token_pattern = re.compile(
+        r"\.([A-Za-z_][A-Za-z0-9_]*)|\[['\"]([^'\"]+)['\"]\]|\[(\d+)\]"
+    )
+    matches = list(token_pattern.finditer(tail))
+    if "".join(match.group(0) for match in matches) != tail:
+        return False
+    keys = [left or right for left, right, index in (match.groups() for match in matches) if not index]
+    if not keys:
+        return None
+    current: Any = schema
+    for key in keys:
+        if not isinstance(current, dict):
+            return None
+        properties = current.get("properties")
+        if isinstance(properties, dict) and key in properties:
+            current = properties[key]
+            continue
+        if current.get("additionalProperties") is False:
+            return False
+        return None
+    return True
+
+
 def minimal_evaluator_findings(root: Path) -> list[str]:
     """Validate the v15 evaluator contract shared by self-check and Gate.
 
@@ -237,6 +288,7 @@ def minimal_evaluator_findings(root: Path) -> list[str]:
                 if isinstance(row, dict) and str(row.get("evidence_id") or "").strip()
             )
     required_paths = _required_submission_paths(root)
+    submission_schemas = _submission_schemas(root)
     for row in key_items:
         if not isinstance(row, dict):
             findings.append("reference_key_point_not_object")
@@ -302,8 +354,10 @@ def minimal_evaluator_findings(root: Path) -> list[str]:
                 tolerance = row.get("numeric_tolerances")
             if tolerance is None:
                 tolerance = row.get("absolute_tolerance")
-            if not _tolerance_value(tolerance):
+            if not _has_value(tolerance):
                 findings.append(f"scoring_rule_missing_numeric_tolerance:{rule_id}")
+            elif not _tolerance_value(tolerance):
+                findings.append(f"scoring_rule_quality_tolerance_format:{rule_id}")
         elif not _has_value(row.get("expected") if row.get("expected") is not None else row.get("target")):
             findings.append(f"scoring_rule_expected_missing:{rule_id}")
         binding = _rule_binding(row)
@@ -319,6 +373,17 @@ def minimal_evaluator_findings(root: Path) -> list[str]:
                 findings.append(f"scoring_rule_binding_path_invalid:{rule_id}:{artifact}")
             elif required_paths and normalized not in required_paths:
                 findings.append(f"scoring_rule_binding_path_not_required:{rule_id}:{normalized}")
+        if fields and not all(field == "document" or field.startswith("$") for field in fields):
+            findings.append(f"scoring_rule_binding_field_invalid:{rule_id}")
+        for artifact in artifacts:
+            normalized = artifact.replace("\\", "/").removeprefix("./")
+            for schema in submission_schemas.get(normalized, []):
+                for field in fields:
+                    if _selector_schema_known(schema, field) is False:
+                        findings.append(f"scoring_rule_binding_field_not_declared:{rule_id}:{field}")
+        comparison = binding.get("comparison") or row.get("comparison")
+        if not _nonempty_text(comparison):
+            findings.append(f"scoring_rule_comparison_missing:{rule_id}")
     for reference_id in sorted((key_ids | conclusion_ids) - covered):
         findings.append(f"scoring_rule_missing_for_reference:{reference_id}")
     return sorted(set(findings))
@@ -665,7 +730,11 @@ def evaluator_reference_findings(root: Path) -> tuple[list[str], list[str]]:
 
     if not (root / REFERENCE_DIRNAME).is_dir():
         return [], []
-    return minimal_evaluator_findings(root), []
+    findings = minimal_evaluator_findings(root)
+    return (
+        [finding for finding in findings if is_blocking_finding(finding)],
+        [finding for finding in findings if not is_blocking_finding(finding)],
+    )
 def is_blocking_finding(finding: str) -> bool:
     """Classify shared Gate findings without introducing a new business label."""
 

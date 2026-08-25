@@ -193,8 +193,13 @@ def _mode_info(
     task_mode: str,
     disclosure: str,
 ) -> dict:
-    suffix = "autonomous" if mode == "autonomous_research" else "reproduction"
     public = review.get("public_task_basis") or {}
+    question = str(
+        review.get("public_scientific_question")
+        or public.get("scientific_question")
+        or review.get("scientific_question")
+        or "Determine the paper-defined computational quantities."
+    )
     return {
         "paper_id": pair_id,
         "task_id": pair_id,
@@ -206,8 +211,13 @@ def _mode_info(
         "scientific_mode": mode,
         "method_disclosure": disclosure,
         "pathway_disclosure": disclosure,
-        "scientific_mode_description": "Replace this scaffold with an evidence-backed task description.",
-        "scientific_requirements": [],
+        "scientific_mode_description": question,
+        "scientific_question": question,
+        "scientific_requirements": [
+            str(row.get("name") or row.get("description") or "")
+            for row in public.get("boundary_conditions") or []
+            if isinstance(row, dict) and str(row.get("name") or row.get("description") or "").strip()
+        ],
         "required_deliverables": [
             {"path": "report/results.json", "description": "Structured scientific results.", "allow_empty": False},
             {"path": "report/report.md", "description": "Evidence-backed scientific report.", "allow_empty": False},
@@ -221,8 +231,9 @@ def _mode_info(
             }
         ],
         "archive_extractions": [],
-        "workflow_scope": scope,
-        "complexity_profile": complexity,
+        "method_constraints": public.get("method_constraints")
+        or public.get("public_method_constraints")
+        or [],
     }
 
 
@@ -237,7 +248,6 @@ def _mode_spec(
     disclosure: str,
 ) -> dict:
     public = review.get("public_task_basis") or {}
-    suffix = "autonomous" if mode == "autonomous_research" else "reproduction"
     assets = []
     for asset in normalize_assets(public.get("input_assets")):
         assets.append(
@@ -265,8 +275,9 @@ def _mode_spec(
         "target_definition": question,
         "boundary_conditions": public.get("boundary_conditions") or [],
         "input_assets": assets,
-        "workflow_scope": scope,
-        "complexity_profile": complexity,
+        "method_constraints": public.get("method_constraints")
+        or public.get("public_method_constraints")
+        or [],
     }
 
 
@@ -346,7 +357,14 @@ def main() -> None:
         target = reproduction / "data" / "inputs" / safe_path(asset.get("path"))
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(str(asset["content"]), encoding="utf-8")
-    task_text = "Follow the author-disclosed route to determine the stated computational quantities. Replace this scaffold with the complete evidence-backed reproduction instruction."
+    task_text = str(
+        public.get("task_instruction")
+        or public.get("task_description")
+        or review.get("public_task_instruction")
+        or review.get("public_scientific_question")
+        or review.get("scientific_question")
+        or ""
+    ).strip()
     dump(reproduction / "task_info.json", _mode_info(review, scope, complexity, pair_id, mode="paper_reproduction", task_mode="guided_reproduction", disclosure="paper_route_disclosed"))
     dump(reproduction / "task_spec.json", _mode_spec(review, scope, complexity, pair_id, mode="paper_reproduction", task_mode="guided_reproduction", disclosure="paper_route_disclosed"))
     dump(
@@ -364,25 +382,7 @@ def main() -> None:
             "allowed_extra_fields": True,
         },
     )
-    dump(
-        reproduction / "process_rubric.json",
-        [
-            {
-                "id": "workflow_execution",
-                "description": "Execute the complete scientific workflow and preserve intermediate evidence.",
-            },
-            {
-                "id": "validation_and_analysis",
-                "description": "Validate outputs and connect them to the scientific question.",
-            },
-            {
-                "id": "paper_route_fidelity",
-                "criterion_type": "route_fidelity",
-                "description": "Follow and document the disclosed paper route.",
-                "evidence_artifacts": ["report/report.md"],
-            },
-        ],
-    )
+    dump(reproduction / "process_rubric.json", review.get("process_rubric") or [])
     (reproduction / "task.md").write_text(task_text + "\n", encoding="utf-8")
     (reproduction / "paper_route.md").write_text(json.dumps(review.get("paper_route") or {}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     dump(reproduction / "workflow_spec.json", {"steps": review.get("workflow_steps") or []})

@@ -134,32 +134,34 @@ def test_stage06b_external_only_does_not_inject_self_check_or_retry(tmp_path: Pa
             parents=True
         ),
         phase_gate_validator=lambda _response, _workspace: ["synthetic_external_finding"],
-        phase_gate_mode="external_only",
+        phase_gate_mode="agent_and_external",
         phase_gate_max_checks=1,
     )
     assert calls == 1
     assert len(instructions_seen) == 1
-    assert "MANDATORY AGENT SELF-CHECK" not in instructions_seen[0]
-    assert "phase_gate.py --phase stage06b" not in instructions_seen[0]
+    assert "phase_gate.py --phase autonomous_conversion" in instructions_seen[0]
     assert response["phase_gate_status"] == "failed"
     assert workspace is not None
-    report = json.loads((workspace / "phase_gate_report.json").read_text(encoding="utf-8"))
-    assert report["agent_self_check_required"] is False
+    report = json.loads(
+        (workspace / "external_phase_gate_report.json").read_text(encoding="utf-8")
+    )
+    assert report["agent_self_check_required"] is True
     assert report["authority"] == "orchestrator_external_read_only"
+    assert not (workspace / "phase_gate_report.json").exists()
 
 
 def test_stage06a_agent_and_external_mode_injects_self_check() -> None:
     prompt = task_pair_builder_instructions(paper_id="paper-a", snapshot_hash="snapshot")
-    assert "phase_gate.py --phase stage06a" in prompt
-    assert "STAGE06A PREFLIGHT GATE" in prompt
+    assert "phase_gate.py --phase synthesis" in prompt
+    assert "FINAL SYNTHESIS SELF-CHECK" in prompt
 
 
-def test_stage06b_prompt_defers_gate_to_orchestrator() -> None:
+def test_stage06b_prompt_runs_self_check_and_defers_external_gate() -> None:
     prompt = autonomous_converter_instructions(
         paper_id="paper-b", task_pair_id="paper-b_task_pair"
     )
-    assert "orchestrator will run one independent" in prompt
-    assert "phase_gate.py --phase stage06b" not in prompt
+    assert "phase_gate.py --phase autonomous_conversion" in prompt
+    assert "external check" in prompt
 
 
 def test_phase_gate_cli_exit_codes(tmp_path: Path) -> None:

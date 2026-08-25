@@ -10,11 +10,15 @@ from typing import Any
 
 from src.agents.workspace import directory_manifest, validate_relative_path
 from src.contracts import canonical_hash, read_json, write_json
+from src.stages.phase_gate import (
+    acceptance_profile_type_findings as shared_acceptance_profile_type_findings,
+)
 
 _REPOSITORY_ROOT = Path(__file__).resolve().parents[4]
 if str(_REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPOSITORY_ROOT))
 from researchchembench_contracts import (  # noqa: E402
+    normalize_binding_contract,
     normalize_process_rubric,
     process_rubric_container_findings,
 )
@@ -91,76 +95,11 @@ def normalize_mode_scope(value: Any) -> list[str] | None:
 def acceptance_profile_type_findings(
     profile: dict[str, Any], *, identifier: str | None = None
 ) -> list[str]:
-    """Validate only the typed shape of one acceptance profile.
+    """Delegate typed shape validation to the Agent-visible shared Gate core."""
 
-    This helper deliberately does not compare a target with a paper value or decide
-    whether a scientific claim is important.  It checks that a profile has enough
-    typed data for a downstream evaluator to interpret it.  A vector-valued numeric
-    target may use an explicit ``numeric_tolerances`` map (for example one tolerance
-    per reported quantity) instead of a single scalar tolerance and unit; the map is
-    accepted only when every entry is a finite non-negative number.
-    """
-
-    identifier = str(identifier or profile.get("acceptance_profile_id") or "missing")
-    profile_type = str(profile.get("type") or "")
-    findings: list[str] = []
-    if profile_type not in ACCEPTANCE_TYPES:
-        findings.append(f"invalid_acceptance_profile:{identifier}")
-    elif profile_type == "numeric_tolerance":
-        target_present = profile.get("target") is not None
-        unit_present = bool(str(profile.get("unit") or "").strip())
-        raw_vector_tolerances = profile.get("numeric_tolerances")
-        vector_tolerances_valid = isinstance(raw_vector_tolerances, dict) and bool(
-            raw_vector_tolerances
-        )
-        if vector_tolerances_valid:
-            for key, value in raw_vector_tolerances.items():
-                if (
-                    not str(key).strip()
-                    or not isinstance(value, (int, float))
-                    or isinstance(value, bool)
-                    or not math.isfinite(float(value))
-                    or float(value) < 0
-                ):
-                    vector_tolerances_valid = False
-                    break
-        if not target_present or not (unit_present or vector_tolerances_valid):
-            findings.append(f"numeric_acceptance_target_or_unit_missing:{identifier}")
-        scalar_tolerance_present = False
-        for key in ("absolute_tolerance", "relative_tolerance"):
-            value = profile.get(key)
-            if value is None:
-                continue
-            if (
-                not isinstance(value, (int, float))
-                or isinstance(value, bool)
-                or not math.isfinite(float(value))
-                or float(value) < 0
-            ):
-                findings.append(f"numeric_acceptance_tolerance_invalid:{identifier}:{key}")
-            else:
-                scalar_tolerance_present = True
-        if not scalar_tolerance_present and not vector_tolerances_valid:
-            findings.append(f"numeric_acceptance_tolerance_missing:{identifier}")
-    elif profile_type == "categorical" and profile.get("target") is None:
-        findings.append(f"categorical_acceptance_target_missing:{identifier}")
-    elif profile_type == "ranking" and not (
-        profile.get("target_order") or profile.get("required_pairwise_relations")
-    ):
-        findings.append(f"ranking_acceptance_contract_missing:{identifier}")
-    elif profile_type == "trend" and not profile.get("required_trends"):
-        findings.append(f"trend_acceptance_contract_missing:{identifier}")
-    elif profile_type in {"structure_identity", "geometry_metric"} and not (
-        profile.get("target") or profile.get("metrics")
-    ):
-        findings.append(f"structure_acceptance_contract_missing:{identifier}")
-    elif profile_type in {"mechanism_claim", "semantic_propositions"} and not profile.get(
-        "required_propositions"
-    ):
-        findings.append(f"semantic_acceptance_contract_missing:{identifier}")
-    elif profile_type == "artifact_validation" and not profile.get("required_artifacts"):
-        findings.append(f"artifact_acceptance_contract_missing:{identifier}")
-    return findings
+    return shared_acceptance_profile_type_findings(
+        profile, identifier=identifier
+    )
 
 
 def canonicalize_complexity_profile(profile: Any) -> dict[str, Any]:
@@ -318,19 +257,24 @@ def canonicalize_mode_task_contract(
     expected_task_mode = (
         "open_discovery" if expected_mode == "autonomous_research" else "guided_reproduction"
     )
-    suffix = "_autonomous" if expected_mode == "autonomous_research" else "_reproduction"
     # task_info is a deliberately compact projection and may omit both
     # workflow_scope and method_constraints.  Read the sibling task_spec once
     # so both files receive the same derived disclosure metadata.
     peer_scope: dict[str, Any] = {}
     peer_method_constraints: Any = None
+    peer_public_fields: dict[str, Any] = {}
     peer_spec_path = task_root / "task_spec.json"
-    if expected_mode == "autonomous_research" and peer_spec_path.is_file():
+    if peer_spec_path.is_file():
         try:
             peer_spec = read_json(peer_spec_path)
         except (OSError, TypeError, ValueError, json.JSONDecodeError):
             peer_spec = {}
         if isinstance(peer_spec, dict):
+            peer_public_fields = {
+                field: peer_spec.get(field)
+                for field in ("scientific_question", "target_definition")
+                if str(peer_spec.get(field) or "").strip()
+            }
             candidate_scope = peer_spec.get("workflow_scope")
             if isinstance(candidate_scope, dict):
                 peer_scope = candidate_scope
@@ -351,17 +295,16 @@ def canonicalize_mode_task_contract(
         if not isinstance(value, dict):
             findings.append(f"public_file_not_object:{name}")
             continue
-        pair_id = str(task_pair_id or value.get("task_pair_id") or "").strip()
+        pair_id = str(task_pair_id or value.get("paper_id") or "").strip()
         if not pair_id:
-            findings.append(f"task_pair_id_missing:{name}")
+            findings.append(f"paper_id_missing:{name}")
             continue
-        canonical_id = f"{pair_id}{suffix}"
         # Evaluator metadata needs a stable provenance key, but the public task
         # must not expose a DOI/title.  Derive the same anonymous key for both
         # modes from the pair identity and keep full provenance in paper_info.
         value["source_id"] = anonymous_source_id(pair_id)
-        value["task_pair_id"] = pair_id
-        value["task_id"] = canonical_id
+        value["paper_id"] = pair_id
+        value["task_id"] = pair_id
         value["mode"] = expected_mode
         value["scientific_mode"] = expected_mode
         value["task_mode"] = expected_task_mode
@@ -409,6 +352,13 @@ def canonicalize_mode_task_contract(
                 value.get("scientific_requirements")
             )
         if name == "task_info.json":
+            # These values are already public in the sibling task_spec.  Copying
+            # them before the external Gate closes a transport projection without
+            # introducing private review content or mutating the checked snapshot
+            # after the Gate has run.
+            for field, peer_value in peer_public_fields.items():
+                if not str(value.get(field) or "").strip():
+                    value[field] = peer_value
             if "data" in value:
                 value["data"] = normalize_task_data_files(value.get("data"))
             raw_deliverables = value.get("required_deliverables")
@@ -444,12 +394,16 @@ def anonymous_source_id(task_pair_id: str) -> str:
 
 
 def canonical_task_pair_id(paper_id: str) -> str:
-    """Return the deterministic pair identity used by newly built task pairs."""
+    """Return the single canonical paper identity used by every task artifact.
+
+    The historical function name is retained for internal call-site stability;
+    it no longer creates a second ``*_task_pair`` identity.
+    """
 
     value = re.sub(r"[^A-Za-z0-9._-]+", "_", str(paper_id).strip()).strip("._-")
     if not value:
         value = "paper"
-    return f"{value}_task_pair"
+    return value
 
 
 def normalize_submission_contract(value: Any) -> dict[str, Any]:
@@ -506,6 +460,36 @@ def normalize_process_rubric_contract(value: Any) -> Any:
     return normalize_process_rubric(value)
 
 
+def _input_closure_findings(review: dict[str, Any]) -> list[str]:
+    """Validate the Agent's selected-workflow input closure without inferring chemistry."""
+
+    completeness = review.get("workflow_completeness_check") or {}
+    closure = completeness.get("input_closure") if isinstance(completeness, dict) else None
+    if closure is None:
+        closure = review.get("input_closure")
+    # The public basis is the older equivalent contract.  Accept it when a
+    # review predates the explicit nested record, but never synthesize closure.
+    if closure is None:
+        closure = (review.get("public_task_basis") or {}).get("input_completeness")
+    if not isinstance(closure, dict):
+        return ["input_closure_missing"]
+    findings: list[str] = []
+    if closure.get("status") != "closed" and closure.get("status") != "confirmed":
+        findings.append("input_closure_not_closed")
+    assets = (
+        closure.get("assets")
+        or closure.get("closed_assets")
+        or (review.get("public_task_basis") or {}).get("input_assets")
+        or []
+    )
+    if not isinstance(assets, list) or not assets:
+        findings.append("input_closure_assets_missing")
+    unresolved = closure.get("unresolved_fields") or []
+    if unresolved:
+        findings.append("input_closure_fields_unresolved")
+    return findings
+
+
 def validate_scientific_review(review: dict[str, Any], evidence_ids: set[str]) -> list[str]:
     findings: list[str] = []
     if _contains_review_placeholder(review):
@@ -517,7 +501,7 @@ def validate_scientific_review(review: dict[str, Any], evidence_ids: set[str]) -
     if review.get("decision") != "candidate_ready":
         return ["invalid_review_decision"]
     for field in (
-        "task_pair_id",
+        "paper_id",
         "selected_candidate_id",
         "scientific_question",
         "public_scientific_question",
@@ -544,6 +528,7 @@ def validate_scientific_review(review: dict[str, Any], evidence_ids: set[str]) -
             findings.append(f"workflow_step_missing_output:{step.get('step_id')}")
         findings.extend(_unknown_evidence(step.get("evidence_ids"), evidence_ids, "workflow"))
     public_basis = review.get("public_task_basis") or {}
+    findings.extend(_input_closure_findings(review))
     completeness = public_basis.get("input_completeness") or {}
     if completeness.get("status") != "confirmed":
         findings.append("public_input_completeness_not_confirmed")
@@ -1336,22 +1321,21 @@ def validate_mode_task(task_root: Path, *, expected_mode: str) -> list[str]:
         findings.append("task_info_mode_mismatch")
     if task_info.get("scientific_mode") != expected_mode:
         findings.append("task_info_scientific_mode_mismatch")
-    suffix = "_autonomous" if expected_mode == "autonomous_research" else "_reproduction"
-    task_id = str(task_info.get("task_id") or "")
-    if not task_id.endswith(suffix):
-        findings.append("task_id_mode_suffix_mismatch")
+    paper_id = str(task_info.get("paper_id") or "")
+    if not paper_id:
+        findings.append("task_info_paper_id_missing")
+    if task_info.get("task_id") not in (None, "", paper_id):
+        findings.append("task_id_not_equal_paper_id")
     if task_spec.get("mode") != expected_mode:
         findings.append("task_spec_mode_mismatch")
     if task_spec.get("task_mode") != expected_task_mode:
         findings.append("task_spec_task_mode_mismatch")
     if task_spec.get("scientific_mode") != expected_mode:
         findings.append("task_spec_scientific_mode_mismatch")
-    if task_spec.get("task_id") != task_id:
-        findings.append("task_spec_task_id_mismatch")
-    if not str(task_info.get("task_pair_id") or "").strip():
-        findings.append("task_info_task_pair_id_missing")
-    if task_spec.get("task_pair_id") != task_info.get("task_pair_id"):
-        findings.append("task_spec_task_pair_id_mismatch")
+    if task_spec.get("task_id") not in (None, "", paper_id):
+        findings.append("task_spec_task_id_not_equal_paper_id")
+    if task_spec.get("paper_id") != task_info.get("paper_id"):
+        findings.append("task_spec_paper_id_mismatch")
     scientific_question = str(task_spec.get("scientific_question") or "").strip()
     task_info_question = str(task_info.get("scientific_question") or "").strip()
     if not scientific_question:
@@ -1911,24 +1895,18 @@ def validate_task_pair_draft(
             or (review.get("public_task_basis") or {}).get("public_method_constraints"),
         )
     )
-    expected_scope = dict(review.get("workflow_scope") or {})
-    # Legacy reviews omitted the autonomous scope.  Pair normalization writes
-    # the explicit method-discovery default, so compare against that canonical
-    # transport projection rather than treating the added metadata as drift.
-    expected_scope.setdefault("autonomy_scope", "fixed_input_method_discovery")
-    expected_complexity = review.get("complexity_profile") or {}
+    # Workflow selection and complexity are private review evidence.  Public
+    # mode metadata must not mirror them, because doing so leaks answer-bearing
+    # claim coverage and route-selection rationale into the evaluated task.
     for mode_root in (autonomous, reproduction):
         for file_name in ("task_info.json", "task_spec.json"):
             path = mode_root / file_name
             if not path.is_file():
                 continue
             value = read_json(path)
-            if value.get("workflow_scope") != expected_scope:
-                findings.append(f"mode_workflow_scope_not_frozen:{mode_root.name}:{file_name}")
-            if value.get("complexity_profile") != expected_complexity:
-                findings.append(
-                    f"mode_complexity_profile_not_frozen:{mode_root.name}:{file_name}"
-                )
+            for private_key in ("workflow_scope", "complexity_profile", "ground_truth_items"):
+                if private_key in value:
+                    findings.append(f"public_private_field_present:{mode_root.name}:{file_name}:{private_key}")
     for name in ("paper_route.md", "workflow_spec.json", "route_evidence_map.json"):
         if (autonomous / name).exists():
             findings.append(f"autonomous_reproduction_file_present:{name}")
@@ -2168,19 +2146,15 @@ def _pair_identity_findings(autonomous: Path, reproduction: Path) -> list[str]:
         "benchmark_family",
         "data",
         "archive_extractions",
-        "workflow_scope",
-        "complexity_profile",
     ):
         if a_info.get(field) != r_info.get(field):
             findings.append(f"mode_pair_task_info_differs:{field}")
     for field in (
-        "task_pair_id",
+        "paper_id",
         "scientific_question",
         "target_definition",
         "input_assets",
         "boundary_conditions",
-        "workflow_scope",
-        "complexity_profile",
     ):
         if a_spec.get(field) != r_spec.get(field):
             findings.append(f"mode_pair_task_spec_differs:{field}")
@@ -2370,16 +2344,52 @@ def hidden_reference_transport_findings(
         if scope is None and "applies_to_modes" in profile:
             findings.append(f"acceptance_profile_mode_scope_invalid:{profile_id}")
         shared = profile.get("submission_binding")
-        has_mode_matrix = any(
-            isinstance(profile.get(key), dict)
-            for key in ("mode_submission_bindings", "submission_bindings_by_mode")
+        matrix = next(
+            (
+                profile.get(key)
+                for key in ("mode_submission_bindings", "submission_bindings_by_mode")
+                if isinstance(profile.get(key), dict)
+            ),
+            None,
         )
+        has_mode_matrix = isinstance(matrix, dict)
         # A profile must have exactly one binding source.  Even a legacy
         # nested mode map under ``submission_binding`` is ambiguous when a
         # canonical mode matrix is also present: the two maps can disagree and
         # the normalizer would otherwise silently choose one.
         if has_mode_matrix and isinstance(shared, dict):
-            findings.append(f"acceptance_submission_binding_ambiguous:{profile_id}")
+            scope = normalize_mode_scope(profile.get("applies_to_modes")) or list(
+                TASK_MODES
+            )
+
+            def comparable(binding: dict[str, Any]) -> dict[str, Any]:
+                normalized = normalize_binding_contract(binding, profile=profile)
+                return {
+                    key: normalized.get(key)
+                    for key in (
+                        "artifact_paths",
+                        "observed_fields",
+                        "comparison",
+                        "document_binding",
+                        "canonical_projection",
+                    )
+                    if normalized.get(key) is not None
+                }
+
+            matrix_by_mode = {
+                mode: binding
+                for raw_mode, binding in matrix.items()
+                if (mode := MODE_ALIASES.get(str(raw_mode).casefold()))
+                and isinstance(binding, dict)
+            }
+            shared_shape = comparable(shared)
+            equivalent = set(scope).issubset(matrix_by_mode) and all(
+                comparable(matrix_by_mode[mode]) == shared_shape for mode in scope
+            )
+            if not equivalent:
+                findings.append(
+                    f"acceptance_submission_binding_ambiguous:{profile_id}"
+                )
 
     if authoritative_ownership:
         for profile_id, rows in profile_ids.items():
@@ -2420,6 +2430,23 @@ def _submission_binding_findings(
     required_binding_modes: set[str] | None = None,
 ) -> list[str]:
     findings: list[str] = []
+
+    def prepared(binding: dict[str, Any]) -> dict[str, Any]:
+        normalized = normalize_binding_contract(binding, profile=profile)
+        fields = normalized.get("observed_fields") or []
+        if isinstance(fields, str):
+            fields = [fields]
+        document_binding = bool(
+            normalized.get("document_binding")
+            or any(str(field).casefold() in {"document", "report", "text"} for field in fields)
+        )
+        if document_binding and str(profile.get("type") or "") not in {
+            "semantic_propositions",
+            "mechanism_claim",
+            "artifact_validation",
+        }:
+            normalized["projection_required"] = True
+        return normalized
     required_paths = {
         str(value)
         for value in submission_contract.get("required_files") or []
@@ -2476,7 +2503,7 @@ def _submission_binding_findings(
             # Stage07's mode-aware gate checks the actual mode contract.
             findings.extend(
                 _binding_shape_findings(
-                    binding,
+                    prepared(binding),
                     identifier=f"{identifier}:{mode}",
                     required_paths=None,
                 )
@@ -2487,7 +2514,7 @@ def _submission_binding_findings(
         return [f"acceptance_submission_binding_missing:{identifier}"]
     findings.extend(
         _binding_shape_findings(
-            shared,
+            prepared(shared),
             identifier=identifier,
             required_paths=required_paths,
         )
@@ -2524,7 +2551,19 @@ def _binding_shape_findings(
         observed_fields = [observed_fields]
     if not observed_fields or not all(str(value).strip() for value in observed_fields):
         findings.append(f"acceptance_submission_fields_missing:{identifier}")
-    if "canonical_projection" not in binding or binding.get("canonical_projection") is None:
+    mapping_type = str(
+        binding.get("mapping_type")
+        or binding.get("mapping_kind")
+        or binding.get("transformation")
+        or ""
+    ).strip().casefold()
+    projection_required = binding.get("projection_required") is True or bool(
+        mapping_type and mapping_type not in {"identity", "direct", "none"}
+    )
+    if projection_required and (
+        "canonical_projection" not in binding
+        or binding.get("canonical_projection") is None
+    ):
         findings.append(f"acceptance_submission_projection_missing:{identifier}")
     if not str(binding.get("comparison") or "").strip():
         findings.append(f"acceptance_submission_comparison_missing:{identifier}")

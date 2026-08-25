@@ -32,9 +32,9 @@ def _package(tmp_path: Path, *, rule_overrides: dict | None = None) -> Path:
     ref = pair / "evaluator_reference"
     _write(ref / "reference_key_points.json", {"paper_id": "paper-v15", "items": [{"key_point_id": "kp-energy", "statement": "Barrier is 12.5 kcal/mol.", "expected": 12.5, "unit": "kcal/mol", "evidence_ids": ["ev-1"]}]})
     _write(ref / "reference_conclusions.json", {"paper_id": "paper-v15", "items": [{"conclusion_id": "conc-order", "statement": "The lower barrier is preferred.", "expected": {"ordering": ["path-a", "path-b"]}, "supporting_key_point_ids": ["kp-energy"], "evidence_ids": ["ev-1"], "claim_role": "final"}]})
-    rule = {"rule_id": "rule-energy", "reference_id": "kp-energy", "type": "numeric", "target": 12.5, "unit": "kcal/mol", "tolerance": {"absolute": 0.37}, "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.barrier"]}}
+    rule = {"rule_id": "rule-energy", "reference_id": "kp-energy", "type": "numeric", "target": 12.5, "unit": "kcal/mol", "tolerance": {"absolute": 0.37}, "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.barrier"], "comparison": "absolute_difference"}}
     rule.update(rule_overrides or {})
-    _write(ref / "scoring_rules.json", {"paper_id": "paper-v15", "rules": [rule, {"rule_id": "rule-order", "reference_id": "conc-order", "type": "ordering", "expected": {"ordering": ["path-a", "path-b"]}, "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.ordering"]}}]})
+    _write(ref / "scoring_rules.json", {"paper_id": "paper-v15", "rules": [rule, {"rule_id": "rule-order", "reference_id": "conc-order", "type": "ordering", "expected": {"ordering": ["path-a", "path-b"]}, "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.ordering"], "comparison": "ordered_sequence"}}]})
     _write(ref / "evidence_map.json", {"paper_id": "paper-v15", "evidence": [{"evidence_id": "ev-1", "description": "Paper result"}]})
     _write(ref / "critical_failures.json", {"paper_id": "paper-v15", "items": []})
     return pair
@@ -49,6 +49,15 @@ def test_numeric_contract_is_blocking_when_required_fields_are_missing(tmp_path:
     assert "scoring_rule_missing_target:rule-energy" in findings
     assert "scoring_rule_missing_unit:rule-energy" in findings
     assert "scoring_rule_missing_numeric_tolerance:rule-energy" in findings
+
+
+def test_authored_tolerance_format_is_diagnostic_not_blocking(tmp_path: Path) -> None:
+    pair = _package(tmp_path, rule_overrides={"tolerance": "about 0.5 kcal/mol"})
+    findings = minimal_evaluator_findings(pair)
+    assert "scoring_rule_quality_tolerance_format:rule-energy" in findings
+    report = run("stage07a", pair.parent)
+    assert "scoring_rule_quality_tolerance_format:rule-energy" in report["diagnostics"]
+    assert "scoring_rule_quality_tolerance_format:rule-energy" not in report["blocking_findings"]
 
 
 def test_self_check_and_external_gate_share_blocking_findings(tmp_path: Path) -> None:
@@ -78,12 +87,46 @@ def test_condition_and_semantic_rules_are_supported_without_extra_types(tmp_path
         "reference_id": "kp-energy",
         "type": "condition",
         "expected": {"converged": True, "imaginary_frequency_count": 0},
-        "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.validation"]},
+        "binding": {"artifact_paths": ["report/results.json"], "fields": ["$.validation"], "comparison": "conditions_satisfied"},
     }
     value["rules"][1]["type"] = "semantic"
     value["rules"][1]["expected"] = {"required": ["lower barrier is preferred"]}
     _write(path, value)
     assert minimal_evaluator_findings(pair) == []
+
+
+def test_binding_requires_executable_field_and_comparison(tmp_path: Path) -> None:
+    pair = _package(
+        tmp_path,
+        rule_overrides={
+            "binding": {
+                "artifact_paths": ["report/results.json"],
+                "fields": ["barrier"],
+            }
+        },
+    )
+    findings = minimal_evaluator_findings(pair)
+    assert "scoring_rule_binding_field_invalid:rule-energy" in findings
+    assert "scoring_rule_comparison_missing:rule-energy" in findings
+
+
+def test_binding_selector_must_match_closed_result_schema(tmp_path: Path) -> None:
+    pair = _package(tmp_path)
+    for mode in ("paper_reproduction", "autonomous_research"):
+        _write(
+            pair / mode / "submission_contract.json",
+            {
+                "required_files": ["report/results.json"],
+                "submission_path": "report/results.json",
+                "results_schema": {
+                    "type": "object",
+                    "properties": {"ordering": {"type": "array"}},
+                    "additionalProperties": False,
+                },
+            },
+        )
+    findings = minimal_evaluator_findings(pair)
+    assert "scoring_rule_binding_field_not_declared:rule-energy:$.barrier" in findings
 
 
 def test_placeholder_reference_is_blocking(tmp_path: Path) -> None:
