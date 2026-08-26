@@ -1358,6 +1358,36 @@ self-check has blocking findings. The final receipt must describe the files afte
                 "task_pair_builder": "outputs/construction_receipt.json",
                 "autonomous_converter": "outputs/conversion_report.json",
             }.get(phase),
+            # A converter may finish the file tree but time out before its final
+            # JSON response.  This is a trusted, fixed recovery contract rather
+            # than a retry: only the declared public files can authorize it.
+            "artifact_receipt": (
+                {
+                    "status": "conversion_uncertain",
+                    "artifact_path": "outputs/autonomous_research",
+                    "summary": "Recovered complete autonomous tree after Agent timeout; Stage07 must audit it.",
+                    "conversion_report": {},
+                    "invalid_reasons": ["agent_timeout_after_artifact_write"],
+                }
+                if phase == "autonomous_converter"
+                else None
+            ),
+            "artifact_receipt_path": (
+                "outputs/autonomous_research"
+                if phase == "autonomous_converter"
+                else None
+            ),
+            "artifact_required_files": (
+                [
+                    "task.md",
+                    "task_info.json",
+                    "task_spec.json",
+                    "submission_contract.json",
+                    "process_rubric.json",
+                ]
+                if phase == "autonomous_converter"
+                else None
+            ),
         },
     )
     try:

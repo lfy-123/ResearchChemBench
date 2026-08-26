@@ -206,6 +206,16 @@ def _trusted_artifact_receipt(
     receipt = json.loads(json.dumps(receipt_value, ensure_ascii=False))
     receipt["artifact_path"] = relative.as_posix()
     receipt["receipt_recovered_from_artifact"] = True
+    conversion_report = artifact_root.parent / "conversion_report.json"
+    if "conversion_report" in receipt and conversion_report.is_file():
+        try:
+            parsed_report = json.loads(
+                conversion_report.read_text(encoding="utf-8", errors="strict")
+            )
+        except (OSError, UnicodeError, ValueError, json.JSONDecodeError):
+            parsed_report = None
+        if isinstance(parsed_report, dict):
+            receipt["conversion_report"] = parsed_report
     receipt = _apply_schema_defaults(receipt, request.output_schema)
     try:
         jsonschema.validate(receipt, request.output_schema)
@@ -341,6 +351,7 @@ class CliAgentHarness(AgentHarness):
                     command, workspace, request=request
                 )
             environment = self._environment(bridge, request=request)
+            response: dict[str, Any] | None = None
             with (
                 stdout_path.open("w", encoding="utf-8") as stdout,
                 stderr_path.open("w", encoding="utf-8") as stderr,
@@ -358,12 +369,24 @@ class CliAgentHarness(AgentHarness):
                     exit_code = process.wait(timeout=request.timeout_seconds)
                 except subprocess.TimeoutExpired as exc:
                     self._terminate(process)
-                    raise AgentExecutionError(
-                        f"{self.name} timed out after {request.timeout_seconds} seconds",
-                        failure_class="agent_timeout",
-                        retryable=True,
-                    ) from exc
+                    response = _trusted_artifact_receipt(
+                        request=request,
+                        workspace=workspace,
+                    )
+                    if response is None:
+                        raise AgentExecutionError(
+                            f"{self.name} timed out after {request.timeout_seconds} seconds",
+                            failure_class="agent_timeout",
+                            retryable=True,
+                        ) from exc
+                    receipt_recovered_from_artifact = True
             if exit_code != 0:
+                if response is not None:
+                    raise AgentExecutionError(
+                        f"{self.name} terminated after recovering an artifact with exit code {exit_code}",
+                        failure_class="agent_timeout",
+                        retryable=False,
+                    )
                 stderr_tail = _tail(stderr_path, 5000)
                 failure_class, retryable = classify_cli_failure(stderr_tail)
                 raise AgentExecutionError(
@@ -382,22 +405,23 @@ class CliAgentHarness(AgentHarness):
                 }
             if session_metadata:
                 write_json(workspace / "codex_session.json", session_metadata)
-            try:
-                response = self._parse_response(stdout_path, final_path)
-                response = _validated_structured_response(
-                    response,
-                    request=request,
-                    workspace=workspace,
-                )
-            except (jsonschema.ValidationError, ValueError, json.JSONDecodeError):
-                recovered = _recover_trusted_workspace_response(
-                    request=request,
-                    workspace=workspace,
-                )
-                if recovered is None:
-                    raise
-                response = recovered
-                receipt_recovered_from_artifact = True
+            if response is None:
+                try:
+                    response = self._parse_response(stdout_path, final_path)
+                    response = _validated_structured_response(
+                        response,
+                        request=request,
+                        workspace=workspace,
+                    )
+                except (jsonschema.ValidationError, ValueError, json.JSONDecodeError):
+                    recovered = _recover_trusted_workspace_response(
+                        request=request,
+                        workspace=workspace,
+                    )
+                    if recovered is None:
+                        raise
+                    response = recovered
+                    receipt_recovered_from_artifact = True
             result = AgentRunResult(
                 status="succeeded",
                 response=response,

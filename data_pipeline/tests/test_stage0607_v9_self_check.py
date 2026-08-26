@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from src.agents import AgentExecutionError, AgentRunRequest, create_agent_harness
+from src.agents.harness import _trusted_artifact_receipt
 from src.agents.schemas import STAGE06_AUTONOMOUS_CONVERTER_SCHEMA
 from src.stages.stage06_task_builder.prompts import (
     autonomous_converter_instructions,
@@ -198,3 +199,51 @@ def test_phase_gate_cli_exit_codes(tmp_path: Path) -> None:
     result = subprocess.run(command, capture_output=True, text=True, check=False)
     assert result.returncode == 1
     assert json.loads(result.stdout)["status"] == "failed"
+
+
+def test_timeout_artifact_recovery_requires_complete_declared_tree(tmp_path: Path) -> None:
+    outputs = tmp_path / "outputs"
+    autonomous = outputs / "autonomous_research"
+    autonomous.mkdir(parents=True)
+    for name, value in {
+        "task.md": "task\n",
+        "task_info.json": {},
+        "task_spec.json": {},
+        "submission_contract.json": {},
+        "process_rubric.json": [],
+    }.items():
+        path = autonomous / name
+        path.write_text(value if isinstance(value, str) else json.dumps(value), encoding="utf-8")
+    (outputs / "conversion_report.json").write_text(
+        json.dumps({"remaining_disclosures": ["audit this"]}), encoding="utf-8"
+    )
+    request = AgentRunRequest(
+        phase="stage06_autonomous_converter",
+        record_id="paper-timeout",
+        workspace=tmp_path,
+        instructions="",
+        output_schema=STAGE06_AUTONOMOUS_CONVERTER_SCHEMA,
+        prompt_version="test",
+        metadata={
+            "artifact_receipt_path": "outputs/autonomous_research",
+            "artifact_receipt": {
+                "status": "conversion_uncertain",
+                "artifact_path": "outputs/autonomous_research",
+                "summary": "recovered",
+                "conversion_report": {},
+                "invalid_reasons": ["agent_timeout_after_artifact_write"],
+            },
+            "artifact_required_files": [
+                "task.md",
+                "task_info.json",
+                "task_spec.json",
+                "submission_contract.json",
+                "process_rubric.json",
+            ],
+        },
+    )
+    recovered = _trusted_artifact_receipt(request=request, workspace=tmp_path)
+    assert recovered is not None
+    assert recovered["status"] == "conversion_uncertain"
+    assert recovered["receipt_recovered_from_artifact"] is True
+    assert recovered["conversion_report"]["remaining_disclosures"] == ["audit this"]

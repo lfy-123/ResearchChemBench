@@ -94,6 +94,7 @@ Stage07A 一次审计/修复后只执行一次代码 Gate 和 package assembly�
 | 2026-08-26 | Final regression | completed | Canonical Stage06/07 and batch tests: 70 passed. Pipeline integration tests: 241 passed. |
 | 2026-08-26 | Receipt timing fix | completed | Agent self-check no longer requires the final `construction_receipt.json`, because the prompt writes it after self-check. The external post-write Gate still requires it. Added a regression test for this temporal boundary; the combined late-stage suite now has 312 passing tests. |
 | 2026-08-26 | Superseded batch cleanup | completed | Stopped the pre-fix five-paper batch and its stale Agent processes. Its partial artifacts are retained only as defect evidence and are not treated as formal v18 results. |
+| 2026-08-26 | Timeout artifact recovery | completed | The rerun exposed a one-shot gap: Stage06B wrote a Gate-passing autonomous tree but timed out before returning JSON, so Stage07 was skipped. Added a trusted, declared-file recovery receipt for this case; it performs no retry or conversation resume and still runs the external Gate and Stage07 audit. |
 
 ## 4. 验收标准
 
