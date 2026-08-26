@@ -39,7 +39,7 @@ from src.stages.stage06_task_builder.prompts import (
 )
 
 
-STAGE06_IMPLEMENTATION_VERSION = "v19-reproduction-first-single-agent"
+STAGE06_IMPLEMENTATION_VERSION = "v19.1-reproduction-first-single-agent"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 
 

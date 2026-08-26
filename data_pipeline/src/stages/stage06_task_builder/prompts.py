@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-STAGE06_SYNTHESIS_PROMPT_VERSION = "v19-reproduction-first-synthesis-20260826"
+STAGE06_SYNTHESIS_PROMPT_VERSION = "v19.1-reproduction-first-synthesis-20260826"
 
 
 def final_task_synthesis_instructions(
@@ -48,6 +48,9 @@ Work in this order:
    freedom changes the submission or comparison contract.
 10. Audit every Agent-visible surface, then run the full-pair Gate, repair all blocking findings
     and rerun it after the final write.
+11. Write `outputs/construction_receipt.json` last. It is the terminal receipt, not a progress
+    file. A schema-valid receipt ends this Agent run immediately, so never write it before the
+    applicable self-checks and repairs are complete.
 
 Required output tree for a constructed task:
 
@@ -89,7 +92,20 @@ outputs/
 
 For a scientific rejection, write only `workflow_review.json` and `construction_receipt.json`.
 Use `decision=scientific_not_constructible` and give concrete source/input reasons. Do not call a
-mere execution timeout or unfinished writing a scientific rejection.
+mere execution timeout or unfinished writing a scientific rejection. Finish the evidence-backed
+workflow review first, then write this exact terminal receipt shape as the final action:
+
+{{
+  "decision": "scientific_not_constructible",
+  "paper_id": "{paper_id}",
+  "artifact_path": "outputs/workflow_review.json",
+  "milestones": {{"input_closure": "failed"}},
+  "failure_code": "specific_scientific_failure_code",
+  "failure_reasons": [
+    {{"field": "specific missing field", "reason": "why guessing is required", "evidence_ids": ["..."]}}
+  ],
+  "summary": "Concise evidence-backed reason the task cannot be constructed."
+}}
 
 Each public `task_info.json` uses only:
 
@@ -159,8 +175,25 @@ creating autonomous. After completing and auditing autonomous, run the mandatory
 python inputs/tools/phase_gate.py --phase synthesis --root outputs
 
 Read `outputs/agent_self_check_report.json`, repair every blocking finding, and rerun after all
-final edits. Return `constructed` only when the final self-check passes. The receipt must describe
-the final files and use paper_id `{paper_id}`.
+final edits. Only after the final report says `passed`, write the following terminal receipt as
+the final file operation and return no further workspace tool call:
+
+{{
+  "decision": "constructed",
+  "paper_id": "{paper_id}",
+  "artifact_path": "outputs",
+  "milestones": {{
+    "input_closure": "passed",
+    "paper_reproduction_completed": true,
+    "paper_reproduction_self_check": "passed",
+    "autonomous_research_derived": true,
+    "full_pair_self_check": "passed"
+  }},
+  "summary": "Concise description of the completed, self-checked task pair."
+}}
+
+The receipt keys `decision`, `paper_id`, `artifact_path`, and `summary` are mandatory. Do not add
+the receipt earlier as a placeholder, and do not repeatedly inspect files after writing it.
 """
 
 

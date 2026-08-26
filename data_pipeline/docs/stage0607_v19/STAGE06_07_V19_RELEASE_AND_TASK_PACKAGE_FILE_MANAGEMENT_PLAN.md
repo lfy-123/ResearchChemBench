@@ -14,6 +14,18 @@
 5. 人工确认后，将 release 安装到 benchmark 的 `papers/` 和 `tasks/`；
 6. 不把 workspace、checkpoint、Agent 脚本或构建记录复制进正式 benchmark。
 
+Stage06 的双模式合成采用一次连续 Agent 调用，但不是同时铺开两套模板。Agent 必须先
+完成完整的 `paper_reproduction` 任务、输入、submission schema 和 evaluator，运行单模式
+self-check 并修复到通过；之后才以该稳定基线为副本，语义派生完整
+`autonomous_research`，最后运行双模式 self-check。派生必须审查整个公开合同和 evaluator，
+不能只改 `task.md`。原 Stage06B 的转换职责合并到这一次调用中，不恢复独立 converter、
+conversion retry、receipt 或 uncertain 状态。
+
+`construction_receipt.json` 是该调用的终止合同，只能最后写入：构建成功时必须晚于两次
+self-check；科学不可构建时必须晚于完整的 evidence-backed `workflow_review.json`。Prompt
+必须明确 receipt 的必填字段 `decision`、`paper_id`、`artifact_path`、`summary`，避免模型
+写出无效 receipt 后被 `required_until_artifact` 执行协议持续要求无意义工具调用。
+
 ## 2. 三层数据边界
 
 ### 2.1 运行与审计层

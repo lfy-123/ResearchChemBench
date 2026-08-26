@@ -3,7 +3,10 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import jsonschema
+
 from evaluation.contracts import validate_task_package
+from src.agents.schemas import STAGE06_SYNTHESIS_SCHEMA
 from src.stages.phase_gate import run as run_gate
 from src.stages.stage06_task_builder.prompts import final_task_synthesis_instructions
 from src.stages.stage07_task_judge.package import TASK_TYPES, assemble_release_pair
@@ -106,6 +109,19 @@ def test_prompt_is_reproduction_first_then_same_agent_derivation() -> None:
     final_gate = prompt.index("full-pair Gate")
     assert reproduction < intermediate_gate < autonomous < final_gate
     assert "converter" not in prompt.casefold()
+    assert prompt.index("construction_receipt.json` last") > final_gate
+
+
+def test_prompt_terminal_receipt_examples_match_stage06_schema() -> None:
+    prompt = final_task_synthesis_instructions(paper_id=PAPER_ID, snapshot_hash="abc")
+    decoder = json.JSONDecoder()
+    for decision in ("scientific_not_constructible", "constructed"):
+        marker = f'"decision": "{decision}"'
+        start = prompt.rfind("{", 0, prompt.index(marker))
+        receipt, _ = decoder.raw_decode(prompt[start:])
+        jsonschema.validate(receipt, STAGE06_SYNTHESIS_SCHEMA)
+        assert receipt["paper_id"] == PAPER_ID
+        assert receipt["summary"]
 
 
 def test_gate_can_be_installed_into_a_copied_immutable_snapshot(tmp_path: Path) -> None:

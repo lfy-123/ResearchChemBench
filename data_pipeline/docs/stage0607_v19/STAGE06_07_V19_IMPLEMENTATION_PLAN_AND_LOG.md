@@ -171,6 +171,22 @@
 | 五篇并发测试 | 待实施 | |
 | 最终分析报告 | 待实施 | |
 
+### 5.1 reproduction-first 首轮真实轨迹修正
+
+首轮修复 workspace 权限后的五篇运行已证明主流程能够先写 reproduction，但同时暴露出
+终止合同缺口：Stage06 把 `outputs/construction_receipt.json` 作为结构化终止 artifact，
+而 prompt 没有明确其 schema。科学拒绝样本写出的 receipt 缺少必填 `summary`，因此
+`gpt-5.6-sol` 的 `required_until_artifact` 协议持续要求 shell 工具调用，模型反复执行
+`find`/`json.tool` 而不能自然结束。该现象不是 Stage06 retry、resume 或 converter。
+
+修正保持单 Agent 架构不变：
+
+1. 明确先完整 reproduction、自查修复，再派生完整 autonomous，最后 pair self-check；
+2. 明确 receipt 只能作为最后文件写入，禁止进度占位；
+3. 在 prompt 中给出 constructed 与 scientific rejection 两种精确 receipt 结构；
+4. receipt 必须包含 schema 要求的 `decision`、`paper_id`、`artifact_path`、`summary`；
+5. 不为此恢复 Stage06B、retry 或新的编排器修复循环。
+
 ## 6. 方案一致性复核
 
 ### 6.1 Stage06
