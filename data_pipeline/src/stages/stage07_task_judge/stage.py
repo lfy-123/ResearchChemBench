@@ -30,6 +30,7 @@ from src.contracts import (
     write_jsonl,
 )
 from src.core.concurrency import ordered_parallel_map
+from src.stages.pdf_layout import install_document_query_tool
 from src.stages.phase_gate import install_phase_gate_tool
 from src.stages.stage07_task_judge.package import (
     assemble_release_pair,
@@ -46,7 +47,7 @@ from src.stages.stage07_task_judge.validation import (
 )
 
 
-STAGE07_IMPLEMENTATION_VERSION = "v19-bounded-final-audit"
+STAGE07_IMPLEMENTATION_VERSION = "v20-independent-input-and-evaluator-audit"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 ELIGIBLE_STAGE06_DECISIONS = {"provisional_constructed", "constructed"}
 
@@ -241,6 +242,7 @@ def _run_audit_agent(
     copytree_exact(source, workspace / "inputs" / "source")
     (workspace / "inputs" / "tools").mkdir(parents=True)
     install_phase_gate_tool(workspace / "inputs" / "tools")
+    install_document_query_tool(workspace / "inputs" / "tools")
     (workspace / "outputs").mkdir()
     make_read_only(workspace / "inputs")
     request = AgentRunRequest(

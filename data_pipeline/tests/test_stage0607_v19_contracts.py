@@ -92,7 +92,7 @@ def candidate(root: Path, *, both_modes: bool = True) -> Path:
             "paper_id": PAPER_ID,
             "scientific_core": {"objective": "barrier"},
             "paper_route": {"method": "source supported"},
-            "input_closure": {"status": "closed", "assets": ["reactant.xyz"]},
+            "input_closure": {"status": "passed", "assets": ["reactant.xyz"]},
         },
     )
     _mode(root, "paper_reproduction")

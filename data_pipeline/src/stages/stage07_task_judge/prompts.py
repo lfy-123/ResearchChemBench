@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-STAGE07_AUDIT_PROMPT_VERSION = "v19-bounded-final-audit-20260826"
+STAGE07_AUDIT_PROMPT_VERSION = "v20-independent-input-and-evaluator-audit-20260827"
 
 
 def final_task_audit_instructions(
@@ -20,6 +20,9 @@ Read:
 - `inputs/source/`: the immutable paper/SI evidence used for synthesis;
 - `inputs/tools/phase_gate.py`: the same mechanical contract checker used after your work.
 
+Use `python inputs/tools/document_query.py --root inputs/source --list` and its `--document`,
+`--page`, `--contains` and `--context` options when layout evidence is needed.
+
 First copy the candidate exactly to `outputs/audited_task/`. Perform all repairs only in that copy.
 Do not create a task from an empty directory and do not replace the selected scientific objective.
 
@@ -28,17 +31,24 @@ Audit the following scientific questions by reading the actual files, not only m
 1. Is the scientific objective central, non-trivial, source-supported and honestly classified as
    discovery, validation, comparison, or another appropriate task kind?
 2. Are all public inputs sufficient and scientifically consistent with the objective, physical
-   boundaries and requested results? Do not demand that code standardize paper-specific inputs.
-3. Does `paper_reproduction/task.md` disclose the source-supported computational route completely
+   boundaries and requested results? If a synthesis review claims an input is missing or
+   unrecoverable, verify that against layout/source-PDF evidence rather than trusting a damaged
+   Markdown, OCR or HTML representation. Allow only unique transcription from clear source
+   evidence; do not guess through genuine source ambiguity. Do not demand that code standardize
+   paper-specific inputs.
+3. For every task-defining scientific object, do the actual public input contents, task claims,
+   submission schema, evaluator reference and paper evidence identify the same molecule, state,
+   structure and boundary conditions? Format validity alone is not scientific identity.
+4. Does `paper_reproduction/task.md` disclose the source-supported computational route completely
    enough to execute without the paper, while withholding reference results and conclusions?
-4. Does `autonomous_research` preserve the same scientific problem while leaving method, search
+5. Does `autonomous_research` preserve the same scientific problem while leaving method, search
    strategy and analysis choices to the evaluated Agent? Inspect task.md, task_info, submission
    schema, public filenames, input comments and other visible data for paper-route or answer leaks.
-5. Are both evaluators scientifically specific, evidence-supported and aligned with their public
+6. Are both evaluators scientifically specific, evidence-supported and aligned with their public
    task and submission schema? Every key point and conclusion must have a usable scoring rule.
    Numeric rules must contain an authored target, unit and tolerance. Judge scientific coherence;
    do not reject merely because another reasonable tolerance or equivalent format could be chosen.
-6. Are the two modes genuinely paired: same objective and physical problem, with differences only
+7. Are the two modes genuinely paired: same objective and physical problem, with differences only
    where route disclosure changes the public contract or appropriate evaluation?
 
 Allowed repairs are local and source-determined: clarify wording or boundaries, remove a leaked

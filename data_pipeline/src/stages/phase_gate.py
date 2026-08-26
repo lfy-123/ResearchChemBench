@@ -383,8 +383,8 @@ def validate(root: str | Path, *, mode: str | None = None) -> dict[str, Any]:
     for field in ("scientific_core", "paper_route", "input_closure"):
         if not isinstance(review.get(field), dict) or not review[field]:
             findings.append(f"workflow_review_{field}_missing")
-    if isinstance(review.get("input_closure"), dict) and review["input_closure"].get("status") != "closed":
-        findings.append("input_closure_not_closed")
+    if isinstance(review.get("input_closure"), dict) and review["input_closure"].get("status") != "passed":
+        findings.append("input_closure_not_passed")
     modes = (mode,) if mode else MODES
     if mode and mode not in MODES:
         findings.append(f"unsupported_mode:{mode}")

@@ -10,10 +10,12 @@ from typing import Any, Iterable
 from src.config import load_config
 from src.contracts import canonical_hash, read_jsonl, safe_component, write_json
 from src.model_client import RoleModelClient
+from src.stages.paper_metadata import canonical_paper_metadata, locate_grobid_tei
 from src.stages.stage06_task_builder.stage import run_stage06
 from src.stages.stage07_task_judge.stage import run_stage07
 
 STAGE_PATHS = {
+    "stage01_documents": "stage_01_document_preparation/documents.jsonl",
     "stage02": "stage_02_computational_content/decisions.jsonl",
     "stage03": "stage_03_toolbox_resource_gate/decisions.jsonl",
     "stage04": "stage_04_mineru_deep_normalization/decisions.jsonl",
@@ -76,7 +78,10 @@ def run_stage06_07_from_history(
             "allow_stage05_review_hints": allow_stage05_review_hints,
             "input_hashes": {
                 key: canonical_hash(inputs[key])
-                for key in ("stage02", "stage03", "stage04", "documents", "candidates")
+                for key in (
+                    "stage02", "stage03", "stage04", "documents", "candidates",
+                    "paper_metadata",
+                )
             },
         },
     )
@@ -92,6 +97,7 @@ def run_stage06_07_from_history(
         stage03_records=inputs["stage03"],
         stage04_records=inputs["stage04"],
         documents=inputs["documents"],
+        paper_metadata_by_paper={inputs["paper_id"]: inputs["paper_metadata"]},
         config={
             **config["stage06"],
             "toolbox_capabilities": config["stage03"]["toolbox_capabilities"],
@@ -162,7 +168,7 @@ def load_historical_stage_inputs(
     filtered = {
         key: _latest_rows(
             [row for row in rows if str(row.get("paper_id") or "") == paper_id],
-            key_field="document_id" if key == "documents" else "paper_id",
+            key_field="document_id" if key in {"documents", "stage01_documents"} else "paper_id",
         )
         for key, rows in loaded.items()
         if key not in {"candidates", "candidate_audits"}
@@ -198,6 +204,26 @@ def load_historical_stage_inputs(
         ),
         None,
     )
+    stage01_documents = filtered.get("stage01_documents") or []
+    metadata_documents = [*stage01_documents, *filtered["documents"]]
+    primary_ids = [
+        str(row.get("document_id") or "")
+        for row in metadata_documents
+        if str(row.get("document_role") or "")
+        in {"main_paper", "main_article", "paper", "article"}
+    ]
+    explicit_tei_paths = [
+        row["grobid_tei_path"]
+        for row in metadata_documents
+        if row.get("grobid_tei_path")
+        and Path(str(row["grobid_tei_path"])).expanduser().is_file()
+    ]
+    paper_metadata = canonical_paper_metadata(
+        paper_id=paper_id,
+        paper_records=[*filtered["stage02"], *filtered["stage03"], *filtered["stage04"]],
+        documents=metadata_documents,
+        tei_paths=[*explicit_tei_paths, *locate_grobid_tei(root, primary_ids)],
+    )
     return {
         "paper_id": paper_id,
         "doi": doi,
@@ -207,6 +233,7 @@ def load_historical_stage_inputs(
         "stage04": filtered["stage04"],
         "documents": filtered["documents"],
         "candidates": candidates,
+        "paper_metadata": paper_metadata,
     }
 
 

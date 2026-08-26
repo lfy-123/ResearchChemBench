@@ -32,6 +32,12 @@ from src.contracts import (
     write_jsonl,
 )
 from src.core.concurrency import ordered_parallel_map
+from src.stages.paper_metadata import canonical_paper_metadata
+from src.stages.pdf_layout import (
+    LAYOUT_EXTRACTOR_VERSION,
+    install_document_query_tool,
+    write_layout_blocks,
+)
 from src.stages.phase_gate import install_phase_gate_tool, run as run_shared_phase_gate
 from src.stages.stage06_task_builder.prompts import (
     STAGE06_SYNTHESIS_PROMPT_VERSION,
@@ -39,7 +45,7 @@ from src.stages.stage06_task_builder.prompts import (
 )
 
 
-STAGE06_IMPLEMENTATION_VERSION = "v19.1-reproduction-first-single-agent"
+STAGE06_IMPLEMENTATION_VERSION = "v20-model-driven-input-closure"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 
 
@@ -50,6 +56,7 @@ def run_stage06(
     documents,
     stage02_records=None,
     stage03_records=None,
+    paper_metadata_by_paper=None,
     config,
     model,
     workspace: Path,
@@ -58,6 +65,7 @@ def run_stage06(
     """Synthesize a complete reproduction-first task pair in one Agent call."""
 
     config = dict(config)
+    paper_metadata_by_paper = dict(paper_metadata_by_paper or {})
     stage_root = workspace / STAGE06_DIRECTORY
     stage_root.mkdir(parents=True, exist_ok=True)
     stage04_by_paper = {
@@ -99,6 +107,12 @@ def run_stage06(
                 "No parsed paper or supplementary document is available."
             )
         try:
+            paper_info = _paper_info(
+                paper_id,
+                paper_documents,
+                metadata=paper_metadata_by_paper.get(paper_id),
+                paper_records=[stage02_by_paper.get(paper_id) or {}],
+            )
             snapshot = _prepare_input_snapshot(
                 stage_root=stage_root,
                 paper_id=paper_id,
@@ -131,8 +145,8 @@ def run_stage06(
                     candidate_id=candidate_id,
                     outputs=outputs,
                     snapshot=snapshot,
-                    documents=paper_documents,
                     audit=audit,
+                    paper_info=paper_info,
                 )
 
             gate_report = run_shared_phase_gate("synthesis", outputs)
@@ -164,7 +178,7 @@ def run_stage06(
             )
             copytree_exact(outputs, staging)
             make_writable(staging)
-            write_json(staging / "paper_info.json", _paper_info(paper_id, paper_documents))
+            write_json(staging / "paper_info.json", paper_info)
             write_json(staging / "source_manifest.json", snapshot["source_manifest"])
             write_json(
                 staging / "stage06_handoff.json",
@@ -277,6 +291,7 @@ def _run_synthesis_agent(
     # the complete Agent input tree again.
     make_writable(inputs)
     install_phase_gate_tool(inputs / "tools")
+    install_document_query_tool(inputs / "tools")
     make_read_only(inputs)
     (workspace / "outputs").mkdir(parents=True)
     request = AgentRunRequest(
@@ -344,6 +359,7 @@ def _prepare_input_snapshot(
         ],
         "implementation_version": STAGE06_IMPLEMENTATION_VERSION,
         "prompt_version": STAGE06_SYNTHESIS_PROMPT_VERSION,
+        "layout_extractor_version": LAYOUT_EXTRACTOR_VERSION,
     }
     snapshot_hash = input_fingerprint(source_facts)
     root = stage_root / "input_snapshots" / safe_component(paper_id) / snapshot_hash[:16]
@@ -379,6 +395,8 @@ def _prepare_input_snapshot(
             shutil.copy2(source, target)
             materials.append({"kind": key, "path": target.relative_to(root).as_posix()})
         source_value = document.get("source_path")
+        layout_status = "unavailable"
+        layout_error = ""
         if source_value:
             source = Path(str(source_value)).expanduser().resolve()
             if source.is_file() and source.suffix.casefold() == ".pdf":
@@ -391,6 +409,22 @@ def _prepare_input_snapshot(
                         "sha256": sha256_file(target),
                     }
                 )
+                layout_path = document_root / "layout_blocks.jsonl"
+                try:
+                    block_count = write_layout_blocks(target, layout_path)
+                except (OSError, RuntimeError, ValueError) as exc:
+                    layout_error = f"{type(exc).__name__}: {exc}"
+                else:
+                    layout_status = "available" if block_count else "empty"
+                    if block_count:
+                        materials.append(
+                            {
+                                "kind": "pdf_layout_blocks",
+                                "path": layout_path.relative_to(root).as_posix(),
+                                "records": block_count,
+                                "extractor_version": LAYOUT_EXTRACTOR_VERSION,
+                            }
+                        )
         blocks = document_root / "content_blocks.jsonl"
         if blocks.is_file():
             for row in read_jsonl(blocks):
@@ -414,6 +448,8 @@ def _prepare_input_snapshot(
                 "file_name": document.get("file_name"),
                 "sha256": document.get("sha256"),
                 "materials": materials,
+                "layout_status": layout_status,
+                "layout_error": layout_error,
             }
         )
     if not evidence_index:
@@ -431,17 +467,20 @@ def _prepare_input_snapshot(
     return {"root": root, "snapshot_hash": snapshot_hash, "source_manifest": source_manifest}
 
 
-def _paper_info(paper_id: str, documents: list[dict[str, Any]]) -> dict[str, Any]:
-    primary = next(
-        (row for row in documents if row.get("document_role") == "main_paper"),
-        documents[0],
+def _paper_info(
+    paper_id: str,
+    documents: list[dict[str, Any]],
+    *,
+    metadata: dict[str, Any] | None = None,
+    paper_records: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    canonical = metadata or canonical_paper_metadata(
+        paper_id=paper_id,
+        paper_records=paper_records or [],
+        documents=documents,
     )
     return {
-        "paper_id": paper_id,
-        "title": primary.get("title") or primary.get("paper_title") or "",
-        "doi": primary.get("doi") or "",
-        "journal": primary.get("journal_name") or primary.get("journal") or "",
-        "publication_date": primary.get("publication_date") or "",
+        **canonical,
         "documents": [
             {
                 "document_id": row.get("document_id"),
@@ -457,15 +496,15 @@ def _paper_info(paper_id: str, documents: list[dict[str, Any]]) -> dict[str, Any
 
 def _publish_scientific_rejection(
     *, stage_root: Path, run_id: str, paper_id: str, candidate_id: str,
-    outputs: Path, snapshot: dict[str, Any], documents: list[dict[str, Any]],
-    audit: dict[str, Any],
+    outputs: Path, snapshot: dict[str, Any],
+    audit: dict[str, Any], paper_info: dict[str, Any],
 ) -> dict[str, Any]:
     staging = prepare_clean_directory(
         stage_root / "staging" / safe_component(paper_id) / f"rejected-{uuid.uuid4().hex[:8]}"
     )
     copytree_exact(outputs, staging)
     make_writable(staging)
-    write_json(staging / "paper_info.json", _paper_info(paper_id, documents))
+    write_json(staging / "paper_info.json", paper_info)
     target = stage_root / "provisional_rejections" / safe_component(paper_id)
     atomic_commit_tree(staging, target)
     review = read_json(target / "workflow_review.json")

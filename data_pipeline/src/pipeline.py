@@ -59,6 +59,7 @@ from src.stages.stage03_toolbox_resource_gate.stage import run_stage03
 from src.stages.stage04_mineru_normalization.stage import run_stage04
 from src.stages.stage05_benchmark_suitability.stage import run_stage05
 from src.stages.stage06_task_builder.stage import run_stage06
+from src.stages.paper_metadata import canonical_metadata_index
 from src.stages.stage07_task_judge.stage import run_stage07
 
 STAGE_DIRS = {
@@ -427,6 +428,16 @@ def _run_loaded_pipeline(
         stage03_records=aggregated["stage03"]["records"],
         stage04_records=aggregated["stage04"]["records"],
         documents=aggregated["stage04"]["documents"],
+        paper_metadata_by_paper=canonical_metadata_index(
+            paper_ids={
+                str(row["paper_id"]) for row in aggregated["stage05"]["candidates"]
+            },
+            paper_records=[
+                *aggregated["stage01"]["papers"],
+                *aggregated["stage02"]["records"],
+            ],
+            documents=aggregated["stage01"]["documents"],
+        ),
         config={
             **config["stage06"],
             "toolbox_capabilities": config["stage03"]["toolbox_capabilities"],

@@ -9,7 +9,6 @@ import pytest
 import src.pipeline as pipeline_module
 import src.stages.stage01_document_preparation.normalization as normalization_module
 import src.stages.stage04_mineru_normalization.stage as stage04_module
-import src.stages.stage06_task_builder.stage as stage06_module
 from src.config import load_config
 from src.contracts import write_jsonl
 from src.integrations.llm_client import _parse_json_object
@@ -1535,18 +1534,6 @@ def test_stage04_promotes_parser_results_and_removes_successful_mineru_raw(
     assert cleanup["status"] == "removed"
     assert cleanup["bytes_removed"] > 0
     assert attempts[0]["output_path"] == documents[0]["normalized_markdown_path"]
-
-    snapshot = tmp_path / "stage06-snapshot"
-    snapshot_document = snapshot / "documents" / "main"
-    snapshot_document.mkdir(parents=True)
-    copied = stage06_module._copy_parser_materials(
-        parser_metadata=stage06_module._parser_metadata(documents[0]),
-        document_root=snapshot_document,
-        snapshot_root=snapshot,
-    )
-    assert any(item["kind"] == "content_list_v2_path" for item in copied)
-    assert (snapshot_document / "images" / "figure.jpg").is_file()
-
 
 def test_role_model_cache_replays_without_second_call(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setenv("TEST_MODEL_KEY", "secret")
