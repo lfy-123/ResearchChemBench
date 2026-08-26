@@ -111,6 +111,8 @@ split_reference_compatibility_projection_warning:ValidationError
 
 该任务的 autonomous 仍保留“三个连续几何三元组对应 A/B/C”的中性分组，因为这是定义比较对象所必需的，不是答案排序泄露。科学目标质量高，且 reproduction/autonomous 仍是同一个问题。
 
+需要注意一个 contract 一致性问题：Stage06B 的私有 `conversion_contract.json` 曾把 B3LYP/6-31G(d,p) 和 QST3 列入 `preserve_method_constraints`，但最终 autonomous public task 被 Stage07 改成“选择合适方法”。这两者不能同时作为规范。若该方法只是作者实现细节，Stage06B 就不应把它列为 preserve constraint；若它决定 evaluator 数值的可比性，就必须保留。当前样本没有因此被 Gate 阻断，但说明“问题定义方法约束”和“作者路线细节”的分类还不够明确。
+
 ### `paper_76ae2dc25f0a5aeb`
 
 目标是两个 CPA annulation 过渡态的相对自由能差，包含两份 130 原子 XYZ、优化/频率、溶剂单点、ΔΔG 和较低势垒判断。Stage07 修复了真实 evaluator 缺陷：frequency numeric map 的规则类型，以及缺失的 `con_ddg` 规则；没有改变目标或方法。
