@@ -166,7 +166,7 @@
 | Stage06 直接双模式合成 | 完成 | 单次 synthesis；reproduction 先完成并单模式自查；同一 Agent 再派生 autonomous；删除 builder/converter 旧实现和旧 schema |
 | 统一 Gate | 完成 | Agent 工具和 orchestrator 直接使用 `phase_gate.py` 同一实现；两种报告分离；tolerance 科学选择只诊断 |
 | Stage07/release | 完成 | Stage07 仅审计和有限修复；不能重建；release 生成 paper 和两个隔离任务包；batch 汇总根 release |
-| 定向测试 | 完成 | v19 Stage06/07、release、task package、runtime、scoring adapter、基础 CLI 共 21 项通过；核心合同组合 14 项通过 |
+| 定向测试 | 完成 | 最终组合回归 35 项通过；其中核心 Stage06/07 + late runner + Task Package 组合 28 项通过 |
 | 方案一致性复核 | 完成 | 见第 6 节；没有发现需要恢复旧 converter、旧 ID 或旧 package 投影的缺口 |
 | 五篇并发测试 | 待实施 | |
 | 最终分析报告 | 待实施 | |
@@ -224,3 +224,14 @@
 
 这些问题无法由机械 fixture 证明，将在五篇同样本运行中通过 Agent 轨迹和逐文件科学
 审计验证，并与 v18 同论文输出逐篇比较。
+
+## 7. Git 实施记录
+
+- `da7d260 docs(stage0607): finalize v19 synthesis and release plan`
+- `5e9286d refactor(evaluation): adopt paper-scoped v19 task packages`
+- `d070108 refactor(stage0607): synthesize reproduction-first v19 releases`
+- experiment-validation 独立仓库参考文档：
+  `8b2affc docs(reference): capture computational v19 stage design`
+
+三个主仓库提交均使用显式路径暂存，未纳入 Stage00-05、chemistry toolbox、本地配置和
+其他既有工作区修改。
