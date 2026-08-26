@@ -25,6 +25,35 @@ def _api_batch_workflow_module():
     return module
 
 
+def _late_stage_batch_workflow_module():
+    path = Path(__file__).resolve().parents[1] / "scripts/workflows/run_stage06_07_gpt_batch.py"
+    spec = importlib.util.spec_from_file_location("run_stage06_07_gpt_batch", path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_late_stage_batch_treats_scientific_rejection_as_terminal_success(tmp_path) -> None:
+    workflow = _late_stage_batch_workflow_module()
+    summary = tmp_path / "late_stage_run_summary.json"
+    summary.write_text(
+        '{"stage06":{"provisional_not_constructible":1,"decisions":{"provisional_not_constructible":1}},"stage07":{"status":"not_run"}}',
+        encoding="utf-8",
+    )
+    assert workflow._late_stage_pipeline_failure(summary) is None
+
+
+def test_late_stage_batch_still_flags_unexplained_stage07_not_run(tmp_path) -> None:
+    workflow = _late_stage_batch_workflow_module()
+    summary = tmp_path / "late_stage_run_summary.json"
+    summary.write_text(
+        '{"stage06":{"provisional_constructed":1,"decisions":{"provisional_constructed":1}},"stage07":{"status":"not_run"}}',
+        encoding="utf-8",
+    )
+    assert workflow._late_stage_pipeline_failure(summary) == "stage07_not_run"
+
+
 def test_batch_sandbox_prewarm_uses_default_image_and_configured_timeout(
     tmp_path, monkeypatch
 ) -> None:
@@ -63,11 +92,18 @@ def test_api_batch_config_uses_no_managed_worker_and_stops_after_stage05(tmp_pat
     }
     args = SimpleNamespace(
         dataset="en-paper-hzzj",
+        publication_date_from="2026-01-01",
+        publication_index_path=str(tmp_path / "publication-index.jsonl"),
         credentials=str(tmp_path / "credentials"),
         seed=20260813,
         sandbox_cpu=64,
         sandbox_memory="128Gi",
         sandbox_startup_timeout_seconds=14400,
+        sandbox_cleanup="stop",
+        mineru_sandbox_count=32,
+        mineru_sandbox_cpu=16,
+        mineru_sandbox_memory="32Gi",
+        mineru_sandbox_startup_concurrency=32,
         api_base_url="http://127.0.0.1:13000/v1",
         api_key_env="RCB_NEW_API_KEY",
         microbatch_size=10,
@@ -95,21 +131,32 @@ def test_api_batch_config_uses_no_managed_worker_and_stops_after_stage05(tmp_pat
     assert config["models"]["screening"]["managed_rlaunch"] is False
     assert config["models"]["screening"]["allow_worker_creation"] is False
     assert config["stage04"]["mineru"]["managed_gpu"] is False
-    assert config["stage04"]["mineru"]["api_concurrency"] == 4
+    assert config["stage00"]["publication_date_from"] == "2026-01-01"
+    assert config["execution"]["mineru_sandbox_pool"]["count"] == 32
+    assert config["stage04"]["mineru"]["api_concurrency"] == 8
     assert config["microbatch"]["stage_concurrency"]["stage04"] == 2
-    assert config["models"]["stage02_screening"]["model"] == "Qwen3.6-27B"
-    assert config["models"]["stage03_screening"]["model"] == "DeepSeek-V4-Flash"
+    assert config["models"]["stage02_screening"]["model"] == "DeepSeek-V4-Pro"
+    assert config["models"]["stage03_screening"]["model"] == "Nex-N2-Pro"
     assert config["stage02"]["classification_max_tokens"] == 12288
     assert config["stage02"]["pass_verification_max_tokens"] == 6144
     assert config["stage03"]["max_tokens"] == 12288
     assert config["models"]["stage02_screening"]["context_window_tokens"] == 32768
     assert config["models"]["stage03_screening"]["context_window_tokens"] == 32768
-    assert config["models"]["stage05_router"]["model"] == "DeepSeek-V4-Flash-DSpark"
+    assert config["models"]["stage02_screening"]["chat_template_kwargs"] == {
+        "thinking": False
+    }
+    assert config["models"]["stage03_screening"]["chat_template_kwargs"] == {
+        "enable_thinking": False
+    }
+    assert config["models"]["stage05_router"]["model"] == "DeepSeek-V4-Flash"
+    assert config["execution"]["sandbox"]["cleanup"] == "stop"
     assert config["models"]["suitability"]["model"] == "Nex-N2-Pro-w8a8"
     assert config["models"]["suitability"]["max_tokens"] == 8192
     assert config["stage05"]["auditor_max_tokens"] == 8192
     assert config["models"]["stage05_router"]["base_url_env"] == "RCB_NEW_API_BASE_URL"
-    assert config["models"]["suitability"]["model_env"] == "RCB_NEW_STAGE05_AUDITOR_MODEL"
+    assert config["models"]["suitability"]["model_env"] == (
+        "RCB_RUN_SELECTED_STAGE05_AUDITOR_MODEL"
+    )
     assert config["models"]["stage05_router"]["chat_template_kwargs"] == {"thinking": False}
     assert config["models"]["suitability"]["chat_template_kwargs"] is None
 

@@ -15,6 +15,8 @@ import os
 import random
 import subprocess
 import sys
+import urllib.error
+import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
@@ -31,6 +33,39 @@ DEFAULT_MODEL = "gpt-5.6-sol"
 
 def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _preflight_models(
+    endpoints: dict[str, tuple[str, str, str]],
+) -> dict[str, str] | None:
+    """Return unavailable requested models, or ``None`` when the endpoint cannot be probed.
+
+    The preflight is deliberately fail-open for gateways without a `/models`
+    route.  When the route is available it prevents a known account/model
+    mismatch from launching ten identical Agent processes and their internal
+    reconnect loops.
+    """
+
+    unavailable: dict[str, str] = {}
+    for role, (base_url, api_key, model) in endpoints.items():
+        url = base_url.rstrip("/") + "/models"
+        request = urllib.request.Request(url, headers={"Authorization": f"Bearer {api_key}"})
+        try:
+            with urllib.request.urlopen(request, timeout=10) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+        except (OSError, urllib.error.URLError, TimeoutError, ValueError, TypeError, json.JSONDecodeError):
+            # A gateway may intentionally omit /models. Let the real request
+            # decide in that case; this preflight is only a deterministic guard
+            # for known model/account mismatches.
+            continue
+        available = {
+            str(row.get("id") or "").strip()
+            for row in (payload.get("data") or [])
+            if isinstance(row, dict) and str(row.get("id") or "").strip()
+        }
+        if model not in available:
+            unavailable[role] = model
+    return unavailable
 
 
 def _write_json(path: Path, payload: dict[str, Any]) -> None:
@@ -221,10 +256,20 @@ def _late_stage_pipeline_failure(summary_path: Path) -> str | None:
                     return "stage06_retryable_failure"
             except (TypeError, ValueError):
                 return "stage06_summary_invalid"
+    try:
+        scientific_rejections = int(
+            stage06.get("provisional_not_constructible")
+            or (decisions.get("provisional_not_constructible") if isinstance(decisions, dict) else 0)
+            or 0
+        )
+    except (TypeError, ValueError):
+        return "stage06_summary_invalid"
     stage07 = summary.get("stage07") or {}
     if not isinstance(stage07, dict):
         return "stage07_summary_invalid"
     if str(stage07.get("status") or "").casefold() == "not_run":
+        if scientific_rejections > 0:
+            return None
         return "stage07_not_run"
     try:
         if int(stage07.get("objective_failure_retryable") or 0) > 0:
@@ -393,6 +438,48 @@ def main(argv: list[str] | None = None) -> int:
         "papers": selected,
     }
     _write_json(args.output_root / "batch_status.json", batch)
+    unavailable = _preflight_models(
+        {
+            "stage06": (stage06_base_url, stage06_api_key, stage06_model),
+            "stage07": (stage07_base_url, stage07_api_key, stage07_model),
+        }
+    )
+    if unavailable:
+        results = [
+            {
+                "paper_id": paper,
+                "state": "FAILED",
+                "started_at": _now(),
+                "finished_at": _now(),
+                "exit_code": None,
+                "skipped": False,
+                "failure_class": "model_not_available",
+                "unavailable_models": sorted(set(unavailable.values())),
+            }
+            for paper in selected
+        ]
+        batch.update(
+            {
+                "state": "COMPLETED",
+                "completed_count": len(results),
+                "failed_count": len(results),
+                "results": results,
+                "finished_at": _now(),
+                "preflight": {
+                    "status": "failed",
+                    "failure_class": "model_not_available",
+                    "unavailable_models": sorted(set(unavailable.values())),
+                    "unavailable_by_role": unavailable,
+                },
+            }
+        )
+        for result in results:
+            _write_json(
+                args.output_root / "papers" / result["paper_id"] / "run_status.json",
+                result,
+            )
+        _write_json(args.output_root / "batch_status.json", batch)
+        return 0
     results: list[dict[str, Any]] = []
     with ThreadPoolExecutor(max_workers=args.max_parallel) as executor:
         futures = {
