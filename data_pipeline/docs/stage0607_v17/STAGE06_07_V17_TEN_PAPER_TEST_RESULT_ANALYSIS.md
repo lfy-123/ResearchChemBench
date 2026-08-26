@@ -78,3 +78,5 @@ autonomous_research: passed
 ```
 
 结论：v17 已解决 Stage07 重建导致的科学边界失控，以及科学通过后被 package boundary 机械阻断的主要问题；剩余问题集中在 API runner 的失败收敛、批次状态分类和非阻断 warning 的表达。
+
+补充运行 `python -m pytest -q tests/test_stage0607*.py` 得到 `272 passed, 18 failed`。这 18 个失败来自旧测试仍断言已删除的 `task_pair_id` 兼容字段、旧 Stage07 retry/resume 或旧 Gate ID 优先级行为；本轮方案明确要求论文层统一 `paper_id`、Stage07 单次审计且不重建，因此这些测试应随新契约更新或移除，不能作为 v17 运行结果的失败依据。
