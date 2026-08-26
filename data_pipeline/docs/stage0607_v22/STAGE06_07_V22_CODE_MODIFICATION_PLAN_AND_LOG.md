@@ -124,10 +124,38 @@ autonomous_research
 | 编排元数据 | completed | Stage06/07 implementation 与 strategy 版本升级 |
 | 定向测试 | completed | v19/v20 相关测试与新增 v22 测试共 32 passed |
 | 方案一致性审查 | completed | 已搜索旧版本语义，确认 stage06/07 源码无旧策略残留 |
-| 五篇真实回归 | pending | 待代码和测试通过后执行 |
-| 运行结果报告 | pending | 待回归完成后执行 |
+| 五篇真实回归 | completed_with_findings | 3 published、1 scientific_rejection、1 technical_blocked；详见五篇回归报告 |
+| 运行结果报告 | completed_with_findings | 已逐篇核对双模式边界、PDF/SI 隔离、evaluator、Gate 与运行轨迹 |
 
-## 6. 当前验证记录
+## 6. 五篇回归后的方案一致性复核
+
+回归目录：
+
+`runs/stage0607-v22-gpt-5.6-sol-20260827-dual-mode-five`
+
+已确认的实现一致项：
+
+- release 目录和 `tasks/{task_type}/{paper_id}` 布局符合 v22 设计；论文 PDF/SI 只在
+  `release/papers/{paper_id}/documents/`，没有进入 `agent_input`。
+- 两种模式均自主规划计算路线；autonomous 在 611/945 中隐藏作者科学路线并要求自主假设或
+  搜索；reproduction 暴露作者定性科学路线。
+- Stage06 self-check、Stage07 audit self-check 和 external Gate 对已发布的三篇均通过；
+  tolerance 仅产生人工复核 diagnostics，不构成机械阻断。
+- a556 因输入图结构不可唯一恢复而科学拒绝，符合“不猜测任务定义输入”的边界。
+
+尚未完全一致项：
+
+- `paper_2aca1dd116799b28` 的 reproduction `task.md` 把 `17 > 15 > 16` 及其对应机理方向
+  写入公开 objective，属于结果方向泄露。Stage07 当前审计未识别该语义问题；需要按回归报告
+  第 4 节加强 author-route/参考答案边界。
+- `paper_76ae2dc25f0a5aeb` 的 Agent 在 reproduction self-check 后反复搜索目录，未在预算内
+  创建 autonomous 文件。编排器正确地以 `technical_blocked` 拒绝不完整任务，但 Prompt 的
+  阶段切换仍需更明确的终止式里程碑。
+
+因此，代码结构和文件合同已基本落地，但在扩大运行前仍应完成上述两个 Prompt/流程层面的
+最小修正；不应通过 Gate 黑名单、论文特例或旧版兼容代码绕过问题。
+
+## 7. 当前验证记录
 
 - 旧 v19/v20 相关测试与 v22 新增测试：`32 passed`。
 - `src/stages/stage06_task_builder`、`src/stages/stage07_task_judge` 中未发现旧的
