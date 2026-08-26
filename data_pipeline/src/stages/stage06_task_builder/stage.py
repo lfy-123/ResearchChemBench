@@ -336,6 +336,28 @@ def _run_stage06_single_agent(
                 except (OSError, ValueError, TypeError, json.JSONDecodeError):
                     candidate_review = {}
                 review = candidate_review if isinstance(candidate_review, dict) else {}
+                failure_code = str(
+                    receipt.get("failure_code") or review.get("failure_code") or ""
+                ).strip()
+                if failure_code == "execution_artifact_incomplete":
+                    return _artifact_delivery_failure(
+                        run_id,
+                        paper_id,
+                        candidate_id,
+                        failure_code,
+                        str(
+                            receipt.get("summary")
+                            or next(
+                                (
+                                    row.get("details")
+                                    for row in receipt.get("failure_reasons") or []
+                                    if isinstance(row, dict) and row.get("details")
+                                ),
+                                "Stage06 did not complete the candidate task artifacts.",
+                            )
+                        ),
+                        agent_run=agent_audit,
+                    )
                 return _publish_provisional_not_constructible(
                     stage_root=stage_root,
                     run_id=run_id,
@@ -9438,6 +9460,7 @@ def _write_provisional_handoff_metadata(
     snapshot: dict[str, Any],
     agent_audit: dict[str, Any],
     handoff_warnings: list[str],
+    handoff_ready: bool = True,
 ) -> None:
     """Write provenance for Stage07 without judging the candidate's science."""
 
@@ -9491,7 +9514,7 @@ def _write_provisional_handoff_metadata(
             "schema_version": "researchchembench.stage06-provisional-handoff.v1",
             "paper_id": paper_id,
             "decision": decision,
-            "handoff_ready": True,
+            "handoff_ready": handoff_ready,
             "source_snapshot_path": str(snapshot["root"]),
             "snapshot_hash": snapshot.get("snapshot_hash"),
             "construction_receipt": receipt,
@@ -9537,7 +9560,8 @@ def _publish_provisional_not_constructible(
         receipt=receipt,
         snapshot=snapshot,
         agent_audit=agent_audit,
-        handoff_warnings=["stage06_agent_abstained_stage07_source_review_required"],
+        handoff_warnings=[],
+        handoff_ready=False,
     )
     write_manifest(staging, staging / "task_pair_manifest.json")
     target = stage_root / "provisional_rejections" / safe_component(paper_id)
@@ -9552,7 +9576,7 @@ def _publish_provisional_not_constructible(
         "decision": "provisional_not_constructible",
         "scientific_status": "scientific_not_constructible",
         "contract_status": "not_applicable",
-        "handoff_ready": True,
+        "handoff_ready": False,
         "passed": False,
         "retryable": False,
         "failure_code": review.get("failure_code"),

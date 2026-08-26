@@ -118,7 +118,7 @@ def run_stage06_07_from_history(
         row
         for row in stage06["records"]
         if row.get("decision")
-        in {"provisional_constructed", "provisional_not_constructible"}
+        in {"provisional_constructed", "constructed"}
         and row.get("handoff_ready", True)
     ]
     if include_stage07 and stage07_handoffs:

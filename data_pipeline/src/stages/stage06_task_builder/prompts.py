@@ -213,7 +213,7 @@ sortable numbers. Use evidence-backed tie groups, a partial order, endpoint/grou
 acceptance instead. Reserve strict total ordering for distinctions shown to be robust for the applicable
 mode.
 
-WRITE `outputs/workflow_review.json` FIRST. It must conform to
+Once one candidate is selected, write a compact but complete `outputs/workflow_review.json`. It must conform to
 `inputs/task_contract.json#/workflow_review_schema`. For success use `decision=candidate_ready` and
 include the old scientific contract fields plus `workflow_inventory`, `workflow_scope`, and
 `complexity_profile`. Also include `representativeness_review`, `workflow_completeness_check`, and a private
@@ -228,6 +228,11 @@ Do not hide required top-level fields only inside `workflow_inventory` or `workf
 `ground_truth_items` explicitly at the top level. Every declared public input asset must also
 exist as a non-empty file under `outputs/paper_reproduction/data/inputs/`; a JSON path without the
 actual coordinates/data is a missing scientific input, not a completed task.
+Do not expand this review into a long narrative before the deliverable exists. As soon as its required
+scientific closure fields and exact input assets are present, validate it, bootstrap the task pair, and
+write both public modes plus the evaluator core. Add optional explanatory metadata only after the
+complete task/evaluator tree has passed a self-check. The task pair is the primary deliverable; a large
+review file is not a substitute for it.
 
 After a candidate-ready review has been written, run
 `python inputs/scripts/bootstrap_task_pair.py outputs outputs/workflow_review.json`. This is the
@@ -315,7 +320,10 @@ source-backed profile, copy the exact `failure_code` and `failure_reasons`, and 
 Do not create either task directory for a scientific failure.
 
 SUCCESSFUL CONSTRUCTION ORDER
-1. Run `python inputs/scripts/validate_workflow_review.py`, then run the supplied bootstrap script.
+1. As soon as the compact complete review and its real input assets exist, run
+   `python inputs/scripts/validate_workflow_review.py`, then run the supplied bootstrap script. Do not
+   continue broad source exploration or enlarge the review after this point unless a concrete missing
+   scientific fact blocks the task/evaluator files.
 2. In one grouped write command, refine `outputs/paper_reproduction/` with task.md, task_info.json, task_spec.json,
    submission_contract.json, process_rubric.json, data/inputs/, paper_route.md,
    workflow_spec.json, and route_evidence_map.json.
@@ -422,6 +430,9 @@ If `RECOVERY_CONTEXT.md` lists deterministic handoff findings, treat them as tra
 repair the named fields while preserving the scientific scope and authored claims. The
 `claim_role=final` check only requires that at least one final claim is declared; never promote an
 intermediate claim to satisfy it.
+Once the finalization reserve begins, do not repeat `pwd`, broad `ls`/`find`, source inventory, or
+workflow selection. Use those remaining calls only to complete named task/evaluator files, run the
+self-check, repair its concrete findings, and reread the final receipt and essential artifacts.
 After every required artifact is complete, run
 `python inputs/tools/phase_gate.py --phase synthesis --root outputs`.
 Read every returned finding. Repair all blocking findings in this same workspace and rerun the

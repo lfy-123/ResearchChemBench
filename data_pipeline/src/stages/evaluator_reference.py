@@ -99,16 +99,61 @@ def _expected_value(row: dict[str, Any]) -> Any:
     return row.get("reference_value") if value is None else value
 
 
-def _numeric_value(value: Any) -> bool:
+def _numeric_scalar(value: Any) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(float(value))
 
 
-def _tolerance_value(value: Any) -> bool:
-    if _numeric_value(value):
-        return float(value) >= 0
+def _numeric_value(value: Any) -> bool:
+    """Return whether value is a non-empty tree containing only finite numbers."""
+
+    if _numeric_scalar(value):
+        return True
+    if isinstance(value, list) and value:
+        return all(_numeric_value(item) for item in value)
     if isinstance(value, dict) and value:
-        return all(_numeric_value(item) and float(item) >= 0 for item in value.values())
+        return all(str(key).strip() and _numeric_value(item) for key, item in value.items())
     return False
+
+
+def _tolerance_value(value: Any) -> bool:
+    if _numeric_scalar(value):
+        return float(value) >= 0
+    if isinstance(value, (list, dict)) and value:
+        items = value if isinstance(value, list) else value.values()
+        return all(_tolerance_value(item) for item in items)
+    return False
+
+
+def _numeric_shape(value: Any) -> Any:
+    if _numeric_scalar(value):
+        return "number"
+    if isinstance(value, list):
+        return ("list", tuple(_numeric_shape(item) for item in value))
+    if isinstance(value, dict):
+        return (
+            "map",
+            tuple((str(key), _numeric_shape(item)) for key, item in sorted(value.items())),
+        )
+    return None
+
+
+def _numeric_values_equal(left: Any, right: Any) -> bool:
+    if _numeric_scalar(left) and _numeric_scalar(right):
+        return float(left) == float(right)
+    if isinstance(left, list) and isinstance(right, list) and len(left) == len(right):
+        return all(_numeric_values_equal(a, b) for a, b in zip(left, right))
+    if isinstance(left, dict) and isinstance(right, dict) and left.keys() == right.keys():
+        return all(_numeric_values_equal(left[key], right[key]) for key in left)
+    return False
+
+
+def _projection(rule: dict[str, Any], binding: Any) -> Any:
+    sources = (rule, binding if isinstance(binding, dict) else {})
+    for source in sources:
+        for key in ("canonical_projection", "projection", "aggregation", "aggregate"):
+            if _has_value(source.get(key)):
+                return source[key]
+    return None
 
 
 def _rule_type(rule: dict[str, Any]) -> str:
@@ -324,6 +369,18 @@ def minimal_evaluator_findings(root: Path) -> list[str]:
             if evidence_id not in evidence_ids and evidence_id not in required_paths:
                 findings.append(f"reference_evidence_missing:conclusion:{identifier}:{evidence_id}")
 
+    references = {
+        str(row.get("key_point_id") or "").strip(): row
+        for row in key_items
+        if isinstance(row, dict) and str(row.get("key_point_id") or "").strip()
+    }
+    references.update(
+        {
+            str(row.get("conclusion_id") or "").strip(): row
+            for row in conclusion_items
+            if isinstance(row, dict) and str(row.get("conclusion_id") or "").strip()
+        }
+    )
     seen_rules: set[str] = set()
     covered: set[str] = set()
     for row in rules:
@@ -344,10 +401,18 @@ def minimal_evaluator_findings(root: Path) -> list[str]:
         kind = _rule_type(row)
         if kind not in MINIMAL_RULE_TYPES:
             findings.append(f"scoring_rule_type_invalid:{rule_id}")
+        binding = _rule_binding(row)
+        projection = _projection(row, binding)
+        reference_value = _expected_value(references.get(reference_id, {}))
+        numeric_reference = _numeric_value(reference_value)
+        if numeric_reference and kind != "numeric" and projection is None:
+            findings.append(
+                f"scoring_rule_numeric_reference_type_mismatch:{rule_id}:{kind or 'missing'}"
+            )
         if kind == "numeric":
             if not _numeric_value(row.get("target")):
                 findings.append(f"scoring_rule_missing_target:{rule_id}")
-            if not _nonempty_text(row.get("unit")):
+            if not _has_value(row.get("unit")):
                 findings.append(f"scoring_rule_missing_unit:{rule_id}")
             tolerance = row.get("tolerance")
             if tolerance is None:
@@ -360,7 +425,6 @@ def minimal_evaluator_findings(root: Path) -> list[str]:
                 findings.append(f"scoring_rule_quality_tolerance_format:{rule_id}")
         elif not _has_value(row.get("expected") if row.get("expected") is not None else row.get("target")):
             findings.append(f"scoring_rule_expected_missing:{rule_id}")
-        binding = _rule_binding(row)
         if not isinstance(binding, dict) or not binding:
             findings.append(f"scoring_rule_binding_missing:{rule_id}")
             continue
@@ -384,6 +448,21 @@ def minimal_evaluator_findings(root: Path) -> list[str]:
         comparison = binding.get("comparison") or row.get("comparison")
         if not _nonempty_text(comparison):
             findings.append(f"scoring_rule_comparison_missing:{rule_id}")
+        target = row.get("target")
+        if kind == "numeric" and projection is None:
+            if len(fields) > 1 and _numeric_scalar(target):
+                findings.append(
+                    f"scoring_rule_multifield_scalar_target_without_projection:{rule_id}"
+                )
+            if numeric_reference and _numeric_value(target):
+                if _numeric_shape(target) != _numeric_shape(reference_value):
+                    findings.append(
+                        f"scoring_rule_target_reference_shape_mismatch:{rule_id}"
+                    )
+                elif not _numeric_values_equal(target, reference_value):
+                    findings.append(
+                        f"scoring_rule_target_reference_value_mismatch:{rule_id}"
+                    )
     for reference_id in sorted((key_ids | conclusion_ids) - covered):
         findings.append(f"scoring_rule_missing_for_reference:{reference_id}")
     return sorted(set(findings))

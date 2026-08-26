@@ -23,13 +23,13 @@ OBJECT_ARRAY = {"type": "array", "items": OBJECT}
 STAGE06_TASK_PAIR_BUILDER_SCHEMA = object_schema(
     [
         "decision",
-        "task_pair_id",
+        "paper_id",
         "artifact_path",
         "summary",
     ],
     {
         "decision": {"enum": ["constructed", "scientific_not_constructible"]},
-        "task_pair_id": STRING,
+        "paper_id": STRING,
         "artifact_path": STRING,
         "milestones": OBJECT,
         "workflow_scope_kind": {
@@ -55,7 +55,7 @@ STAGE06_TASK_PAIR_BUILDER_SCHEMA = object_schema(
 STAGE06_WORKFLOW_REVIEW_SCHEMA = object_schema(
     [
         "decision",
-        "task_pair_id",
+        "paper_id",
         "paper_workflow_inventory_complete",
         "full_paper_workflow_checked",
         "alternative_scope_search_complete",
@@ -71,7 +71,7 @@ STAGE06_WORKFLOW_REVIEW_SCHEMA = object_schema(
     ],
     {
         "decision": {"enum": ["candidate_ready", "scientific_not_constructible"]},
-        "task_pair_id": STRING,
+        "paper_id": STRING,
         "paper_workflow_inventory_complete": {"type": "boolean"},
         "full_paper_workflow_checked": {"type": "boolean"},
         "alternative_scope_search_complete": {"type": "boolean"},
@@ -111,7 +111,7 @@ STAGE06_WORKFLOW_REVIEW_SCHEMA = object_schema(
 STAGE06_AUTONOMOUS_CONVERTER_SCHEMA = object_schema(
     ["status", "artifact_path", "summary"],
     {
-        "status": {"enum": ["converted", "conversion_uncertain", "needs_conversion_retry", "objective_consistency_error"]},
+        "status": {"enum": ["converted", "conversion_uncertain", "objective_consistency_error"]},
         "artifact_path": STRING,
         "summary": STRING,
         "conversion_report": OBJECT,
@@ -123,7 +123,7 @@ STAGE06_AUTONOMOUS_CONVERTER_SCHEMA = object_schema(
 STAGE06_REVIEW_SCHEMA = object_schema(
     [
         "decision",
-        "task_pair_id",
+        "paper_id",
         "selected_candidate_id",
         "stage05_candidate_disposition",
         "scientific_question",
@@ -143,7 +143,7 @@ STAGE06_REVIEW_SCHEMA = object_schema(
     ],
     {
         "decision": {"enum": ["candidate_ready", "scientific_reject"]},
-        "task_pair_id": STRING,
+        "paper_id": STRING,
         "artifact_path": STRING,
         "selected_candidate_id": {"type": "string", "default": ""},
         "stage05_candidate_disposition": {"type": "string", "default": ""},
@@ -195,7 +195,7 @@ STAGE06_HIDDEN_SCHEMA = object_schema(
     {
         "status": {"enum": ["ready", "invalid"]},
         "artifact_path": STRING,
-        "task_pair_id": STRING,
+        "paper_id": STRING,
         "expected_result": OBJECT,
         "ground_truth_items": OBJECT_ARRAY,
         "acceptance_profiles": OBJECT_ARRAY,
@@ -206,6 +206,60 @@ STAGE06_HIDDEN_SCHEMA = object_schema(
         },
         "summary": STRING,
         "invalid_reasons": EMPTY_STRING_ARRAY,
+    },
+)
+
+
+# v13 split evaluator-reference files.  Scientific reference schemas are
+# intentionally narrower than the scoring-policy schema.  The latter accepts
+# draft fields because Gate validates its content as non-blocking policy
+# findings rather than as a scientific construction decision.
+STAGE06_REFERENCE_KEY_POINTS_SCHEMA = object_schema(
+    ["items"],
+    {
+        "schema_version": STRING,
+        "paper_id": STRING,
+        "items": OBJECT_ARRAY,
+    },
+)
+
+
+STAGE06_REFERENCE_CONCLUSIONS_SCHEMA = object_schema(
+    ["items"],
+    {
+        "schema_version": STRING,
+        "paper_id": STRING,
+        "items": OBJECT_ARRAY,
+    },
+)
+
+
+STAGE06_SCORING_RULES_SCHEMA = object_schema(
+    ["rules"],
+    {
+        "schema_version": STRING,
+        "paper_id": STRING,
+        "rules": OBJECT_ARRAY,
+    },
+)
+
+
+STAGE06_EVIDENCE_MAP_SCHEMA = object_schema(
+    [],
+    {
+        "schema_version": STRING,
+        "paper_id": STRING,
+        "evidence": OBJECT_ARRAY,
+    },
+)
+
+
+STAGE06_CRITICAL_FAILURES_SCHEMA = object_schema(
+    [],
+    {
+        "schema_version": STRING,
+        "paper_id": STRING,
+        "items": {"type": "array", "items": {"oneOf": [STRING, OBJECT]}},
     },
 )
 
@@ -221,7 +275,6 @@ STAGE07_AUDIT_SCHEMA = object_schema(
             "enum": [
                 "approved",
                 "approved_with_repairs",
-                "approved_after_workflow_redesign",
                 "rejected_scientific_unrepairable",
                 "objective_failure_retryable",
             ]
@@ -229,16 +282,14 @@ STAGE07_AUDIT_SCHEMA = object_schema(
         "source_stage06_decision": {
             "enum": [
                 "provisional_constructed",
-                "provisional_not_constructible",
+                "constructed",
             ]
         },
-        "original_task_pair_id": STRING,
-        "final_task_pair_id": STRING,
+        "paper_id": STRING,
         "artifact_path": STRING,
         "selected_workflow_preserved": {"type": "boolean"},
         "repair_origin": {"type": "string", "default": ""},
         "repairs": OBJECT_ARRAY,
-        "workflow_redesign": OBJECT,
         "remaining_issues": OBJECT_ARRAY,
         "toolbox_status": {
             "enum": ["available", "needs_software", "unknown"]
@@ -257,7 +308,6 @@ STAGE07_AUDIT_SCHEMA = object_schema(
         "schema_load_diagnostic": {"enum": ["passed", "failed", "not_run"]},
         "summary": STRING,
         "scientific_audit_table": OBJECT_ARRAY,
-        "agent_proposed_task_pair_id": STRING,
     },
 )
 

@@ -72,10 +72,6 @@ from src.stages.stage06_task_builder.stage import (
     _safe_route_evidence_map,
     _neutralize_public_key_point_fields,
     _neutralize_submission_contract,
-    _normalize_converter_report,
-    _converter_execution_findings,
-    _converter_phase_findings,
-    _ensure_converter_output_scaffold,
     _ensure_reproduction_route_rubric,
     _normalize_workflow_review_aliases,
     _workflow_scope_kind,
@@ -128,6 +124,7 @@ from src.stages.stage07_task_judge.stage import (
 )
 from src.stages.stage07_task_judge.validation import (
     _binding_for_mode,
+    _normalize_hidden_binding_paths,
     _profile_applies_to_mode,
     _project_hidden_for_mode,
     _jsonpath_tokens,
@@ -956,7 +953,7 @@ def test_positive_task_receipt_missing_artifact_is_retried(tmp_path: Path) -> No
     assert budgets == [8, 16]
 
 
-def test_converter_recovery_keeps_normal_budget_when_global_recovery_is_small(
+def test_converter_one_shot_does_not_recover_when_receipt_is_complete(
     tmp_path: Path,
 ) -> None:
     calls = 0
@@ -965,23 +962,17 @@ def test_converter_recovery_keeps_normal_budget_when_global_recovery_is_small(
     def responder(request: AgentRunRequest) -> dict:
         nonlocal calls
         calls += 1
+        output = request.workspace / "outputs" / "autonomous_research"
+        output.mkdir(parents=True, exist_ok=True)
         budgets.append(
             (
                 int(request.metadata["max_tool_calls"]),
                 int(request.metadata["finalization_reserve"]),
             )
         )
-        if calls == 1:
-            return {
-                "status": "needs_conversion_retry",
-                "artifact_path": "outputs/autonomous_research",
-                "summary": "retry",
-                "conversion_report": {},
-                "invalid_reasons": ["interrupted conversion"],
-            }
         return {
             "status": "converted",
-            "artifact_path": "autonomous_research",
+            "artifact_path": "outputs/autonomous_research",
             "summary": "complete recovered tree",
             "conversion_report": {},
             "invalid_reasons": [],
@@ -1014,7 +1005,7 @@ def test_converter_recovery_keeps_normal_budget_when_global_recovery_is_small(
         output_schema=STAGE06_AUTONOMOUS_CONVERTER_SCHEMA,
         fingerprint_value={"paper": "paper-test"},
         config={
-            "max_attempts": 2,
+            "max_attempts": 1,
             "retry_backoff_seconds": 0,
             "max_tool_calls": 120,
             "autonomous_converter_max_tool_calls": 60,
@@ -1023,13 +1014,14 @@ def test_converter_recovery_keeps_normal_budget_when_global_recovery_is_small(
             "resume": False,
         },
         setup=setup,
-        semantic_validator=_converter_execution_findings,
+        semantic_validator=None,
+        phase_gate_mode="external_only",
     )
 
-    assert calls == 2
+    assert calls == 1
     assert receipt["artifact_path"] == "outputs/autonomous_research"
     assert workspace is not None
-    assert budgets == [(60, 8), (60, 8)]
+    assert budgets == [(60, 8)]
 
 
 def test_scientific_review_recovery_seeds_prior_contract_as_revision_draft(
@@ -1152,6 +1144,23 @@ def test_public_input_paths_are_relative_to_task_input_root() -> None:
     assert _normalize_public_input_path("inputs/xyz/a.xyz") == "xyz/a.xyz"
     assert _normalize_public_input_path("public_inputs/xyz/a.xyz") == "xyz/a.xyz"
     assert _normalize_public_input_path("inputs/public_inputs/data/a.json") == "data/a.json"
+
+
+def test_mode_asset_projection_does_not_double_prefix_task_input_path() -> None:
+    from src.stages.stage06_task_builder.stage import _mode_asset_projection
+
+    projected = _mode_asset_projection(
+        {
+            "input_assets": [
+                {"path": "data/inputs/compound.xyz", "description": "input"},
+                {"path": "inputs/other.xyz", "description": "other"},
+            ]
+        }
+    )
+    assert [row["path"] for row in projected] == [
+        "data/inputs/compound.xyz",
+        "data/inputs/other.xyz",
+    ]
 
 
 def test_markdown_html_table_is_exported_with_derived_evidence(tmp_path: Path) -> None:
@@ -4707,6 +4716,9 @@ def test_workflow_scope_kind_projection_accepts_contract_aliases(
 
 def test_task_pair_bootstrap_creates_contract_scaffold_from_review(tmp_path: Path) -> None:
     review = _mock_responses()["stage06_scientific_review"]
+    review["public_task_basis"]["input_assets"][0]["path"] = (
+        "data/inputs/structures.xyz"
+    )
     review.update(
         {
             "workflow_scope": {
@@ -4740,12 +4752,17 @@ def test_task_pair_bootstrap_creates_contract_scaffold_from_review(tmp_path: Pat
 
     reproduction = root / "paper_reproduction"
     assert (reproduction / "data" / "inputs" / "structures.xyz").is_file()
+    assert not (reproduction / "data" / "inputs" / "data" / "inputs").exists()
+    spec = read_json(reproduction / "task_spec.json")
+    assert spec["input_assets"][0]["path"] == "data/inputs/structures.xyz"
     info = read_json(reproduction / "task_info.json")
     assert info["source_id"] == "paper_source"
     assert info["task_mode"] == "guided_reproduction"
     hidden = read_json(root / "hidden_reference" / "ground_truth_common.json")
     assert hidden["status"] == "ready"
     assert len(hidden["ground_truth_items"]) == 2
+    assert (root / "workflow_completeness_check.json").is_file()
+    assert (root / "public_to_private_asset_map.json").is_file()
     assert read_json(root / "toolbox_requirements.json")
 
 
@@ -4935,7 +4952,7 @@ def test_stage07_scaffold_initializes_and_requires_agent_judgment(tmp_path: Path
     assert validate_agent_audit(artifact) == []
 
 
-def test_stage07_prompt_enforces_repair_before_workflow_redesign() -> None:
+def test_stage07_prompt_enforces_bounded_repair_without_workflow_redesign() -> None:
     prompt = audit_instructions(
         paper_id="paper-test",
         task_pair_id="pair-test",
@@ -4945,22 +4962,19 @@ def test_stage07_prompt_enforces_repair_before_workflow_redesign() -> None:
         source_stage06_decision="provisional_constructed",
     )
 
-    repair_rule = "First audit and attempt to repair the workflow selected by Stage06"
-    redesign_rule = "Only after recording an evidence-backed"
-    assert repair_rule in prompt
-    assert redesign_rule in prompt
-    assert prompt.index(repair_rule) < prompt.index(redesign_rule)
-    assert "Missing software never causes scientific rejection" in prompt
-    assert "never infer missing\n  software from an absent Action" in prompt
-    assert "set `toolbox_status=available`" in prompt
-    assert "IS ALREADY POPULATED" in prompt
-    assert "Never report `approved_with_repairs`" in prompt
-    assert "SCIENTIFIC WORKFLOW" in prompt
-    assert "/usr/bin/python3` batch script" in prompt
+    assert "Do not search for a replacement workflow" in prompt
+    assert "construct a new task from the paper" in prompt
+    assert "The selected scientific question" in prompt
+    assert "Missing software is not a scientific rejection" in prompt
+    assert "invent a structure, value, state, tolerance" in prompt
+    assert "already\npopulated at `outputs/task_pair/`" in prompt
+    assert "Never report `approved_with_repairs`" in " ".join(prompt.split())
+    assert "SCIENTIFIC OBJECTIVE AUDIT" in prompt
+    assert "bounded `/usr/bin/python3` batch inspection" in prompt
     assert "The filesystem is the source of truth" in prompt
-    assert "PUBLIC METADATA IS PUBLIC" in prompt
-    assert "Do not leave `scientific_question` null" in prompt
-    assert "Never use it merely because the audit" in prompt
+    assert "MODE AND PUBLIC-SURFACE AUDIT" in prompt
+    assert "Do not write `outputs/stage07_audit.json` yet" in prompt
+    assert "approved_after_workflow_redesign" not in prompt
 
 
 def test_stage06_prompt_requires_neutral_autonomous_structure_metadata() -> None:
@@ -5000,9 +5014,10 @@ def test_stage07_prompt_requires_full_asset_parse_index_base_and_robust_rankings
     )
 
     assert "full-format parser or schema" in prompt
-    assert "zero-based or\n  one-based indexing" in prompt
-    assert "Near-degenerate or method-sensitive members" in prompt
-    assert "tie group,\n  partial order, endpoint/group trend" in prompt
+    assert "zero-based or one-based indexing" in prompt
+    normalized = " ".join(prompt.split())
+    assert "degenerate or method-sensitive members" in normalized
+    assert "tie group, or endpoint/group trend" in normalized
 
 
 def test_stage07_prompt_audits_the_entire_autonomous_public_surface() -> None:
@@ -5015,7 +5030,7 @@ def test_stage07_prompt_audits_the_entire_autonomous_public_surface() -> None:
         source_stage06_decision="provisional_constructed",
     )
 
-    assert "GENERAL AUTONOMOUS PUBLIC-SURFACE REVIEW" in prompt
+    assert "MODE AND PUBLIC-SURFACE AUDIT" in prompt
     for required_surface in (
         "task.md",
         "task_info.json",
@@ -5026,18 +5041,15 @@ def test_stage07_prompt_audits_the_entire_autonomous_public_surface() -> None:
     ):
         assert required_surface in prompt
     assert "not only `task.md`" in prompt
-    assert "intermediate classifications" in prompt
-    assert "target answers, rankings, trends" in prompt
-    assert "XYZ filenames/comments" in prompt
-    assert "Neutral filenames do not make semantic metadata neutral" in prompt
-    assert "orchestrator will only refresh hashes" in prompt
-    assert "never changes your scientific decision" in prompt
+    assert "final/intermediate classifications" in prompt
+    assert "target answers" in prompt
+    assert "XYZ comments" in prompt
+    assert "Neutral filenames do not make semantic metadata neutral" in " ".join(
+        prompt.split()
+    )
     assert "same underlying scientific inputs" in prompt
-    assert "relative to `outputs/task_pair/`" in prompt
-    assert "never `outputs/task_pair/autonomous_research/task.md`" in prompt
-    assert "LOW-BUDGET RECOVERY CHECKLIST" in prompt
-    assert "do not rely on a fixed list" in prompt
-    assert "it will not rename files" in prompt
+    assert "repair that copy in place" in prompt
+    assert "Do not inspect other\npapers" in prompt
 
 
 def test_stage07_preserves_agent_objective_failure_without_code_side_reclassification(
@@ -5336,7 +5348,48 @@ def test_agent_command_adapters_are_configurable(tmp_path: Path) -> None:
     isolated_command = isolated_codex.command_preview(request)
     first_disable = isolated_command.index("--disable")
     assert isolated_command[first_disable : first_disable + 2] == ["--disable", "code_mode"]
-    assert "code_mode_host" in isolated_command
+    assert "code_mode_host" not in isolated_command
+
+
+def test_codex_namespace_mounts_matching_code_mode_host(
+    tmp_path: Path,
+) -> None:
+    if shutil.which("unshare") is None:
+        pytest.skip("mount namespace helper is unavailable")
+    binary_dir = tmp_path / "bin"
+    binary_dir.mkdir()
+    codex_binary = binary_dir / "codex"
+    code_mode_host = binary_dir / "codex-code-mode-host"
+    codex_binary.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    code_mode_host.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    codex_binary.chmod(0o755)
+    code_mode_host.chmod(0o755)
+    workspace = tmp_path / "workspace"
+    workspace.mkdir()
+    request = AgentRunRequest(
+        phase="test",
+        record_id="record",
+        workspace=workspace,
+        instructions="Return JSON.",
+        output_schema=AGENT_SUMMARY_SCHEMA,
+        prompt_version="v1",
+    )
+    codex = create_agent_harness(
+        "codex",
+        config={"executable": str(codex_binary), "codex_disable_code_mode": True},
+        model_config={"model": "model-x", "base_url": "https://example.test/v1"},
+    )
+
+    isolated, rootfs = codex._isolate_command(
+        codex.command_preview(request), workspace, request=request
+    )
+    try:
+        host_index = isolated.index("--code-mode-host")
+        assert isolated[host_index + 1] == str(code_mode_host)
+        disable_index = isolated.index("--disable")
+        assert isolated[disable_index + 1] == "code_mode"
+    finally:
+        shutil.rmtree(rootfs, ignore_errors=True)
 
 
 def test_codex_native_resume_uses_explicit_session_without_last_or_ephemeral(
@@ -6487,34 +6540,6 @@ def test_stage06_input_packet_excludes_visual_duplicates_by_default(tmp_path: Pa
     assert (tmp_path / "fallback" / "documents" / "doc" / "images" / "figure.jpg").exists()
 
 
-def test_converter_report_is_recovered_from_response_or_nested_file(tmp_path: Path) -> None:
-    workspace = tmp_path
-    (workspace / "outputs" / "autonomous_research").mkdir(parents=True)
-    report = {"removed_files": ["paper_route.md"], "remaining_disclosures": []}
-    response = {"status": "converted", "conversion_report": report}
-
-    recovered = _normalize_converter_report(response, workspace)
-    assert recovered == report
-    assert read_json(workspace / "outputs" / "conversion_report.json") == report
-
-    nested = workspace / "outputs" / "autonomous_research" / "conversion_report.json"
-    write_json(nested, {"rewritten_files": ["task.md"]})
-    recovered_nested = _normalize_converter_report({"status": "converted"}, workspace)
-    assert recovered_nested == report
-    assert not nested.exists()
-
-
-def test_converter_retry_status_enters_phase_recovery_loop(tmp_path: Path) -> None:
-    assert _converter_phase_findings(
-        {
-            "status": "needs_conversion_retry",
-            "artifact_path": "outputs/autonomous_research",
-            "summary": "metadata needs regeneration",
-        },
-        tmp_path,
-    ) == ["autonomous_converter_requested_retry"]
-
-
 def test_converter_receipt_uses_complete_file_first_artifact(tmp_path: Path) -> None:
     autonomous = tmp_path / "outputs" / "autonomous_research"
     autonomous.mkdir(parents=True)
@@ -6562,7 +6587,10 @@ def test_converter_setup_prestages_correct_writable_root(tmp_path: Path) -> None
         "task.md": "# Scientific task\n",
         "task_info.json": "{}\n",
         "task_spec.json": "{}\n",
-        "submission_contract.json": "{}\n",
+        "submission_contract.json": json.dumps(
+            {"required_files": ["report/results.json", "report/report.md"]}
+        )
+        + "\n",
         "process_rubric.json": "[]\n",
     }.items():
         (reproduction / name).write_text(content, encoding="utf-8")
@@ -6576,55 +6604,23 @@ def test_converter_setup_prestages_correct_writable_root(tmp_path: Path) -> None
     assert (autonomous / "task.md").is_file()
     assert (autonomous / "data" / "inputs" / "source.xyz").is_file()
     assert not (autonomous / "paper_reproduction").exists()
+    assert not (autonomous / "paper_route.md").exists()
+    assert not (autonomous / "workflow_spec.json").exists()
     assert (workspace / "inputs" / "task_pair" / "paper_reproduction" / "task.md").is_file()
-
-
-def test_converter_recovery_promotes_nested_wrapper_without_overwriting_edits(
-    tmp_path: Path,
-) -> None:
-    reproduction = tmp_path / "inputs" / "task_pair" / "paper_reproduction"
-    (reproduction / "data" / "inputs").mkdir(parents=True)
-    for name, content in {
-        "task.md": "source task\n",
-        "task_info.json": "{}\n",
-        "task_spec.json": "{}\n",
-        "submission_contract.json": "{}\n",
-        "process_rubric.json": "[]\n",
-    }.items():
-        (reproduction / name).write_text(content, encoding="utf-8")
-    (reproduction / "data" / "inputs" / "source.xyz").write_text(
-        "1\nsource\nH 0 0 0\n", encoding="utf-8"
-    )
-    autonomous = tmp_path / "outputs" / "autonomous_research"
-    nested = autonomous / "paper_reproduction"
-    nested.mkdir(parents=True)
-    (autonomous / "task.md").write_text("already redacted\n", encoding="utf-8")
-    (nested / "task_info.json").write_text('{"recovered": true}\n', encoding="utf-8")
-
-    _ensure_converter_output_scaffold(tmp_path)
-
-    assert (autonomous / "task.md").read_text(encoding="utf-8") == "already redacted\n"
-    assert read_json(autonomous / "task_info.json") == {"recovered": True}
-    assert (autonomous / "task_spec.json").is_file()
-    assert (autonomous / "data" / "inputs" / "source.xyz").is_file()
-    assert not nested.exists()
-
-
-def test_converter_validator_rejects_nested_transport_wrappers(tmp_path: Path) -> None:
-    autonomous = tmp_path / "outputs" / "autonomous_research"
-    autonomous.mkdir(parents=True)
-    for name in (
+    contract = read_json(workspace / "inputs" / "task_pair" / "conversion_contract.json")
+    deliverables = contract["deliverable_contract"]
+    assert deliverables["required_package_files"] == [
         "task.md",
         "task_info.json",
         "task_spec.json",
         "submission_contract.json",
         "process_rubric.json",
-    ):
-        (autonomous / name).write_text("{}\n", encoding="utf-8")
-    (autonomous / "paper_reproduction").mkdir()
-
-    findings = _converter_phase_findings({"status": "converted"}, tmp_path)
-    assert "autonomous_converter_forbidden_wrapper:paper_reproduction" in findings
+    ]
+    assert deliverables["submission_required_files"] == [
+        "report/results.json",
+        "report/report.md",
+    ]
+    assert deliverables["package_files_are_not_submission_deliverables"] is True
 
 
 def test_stage07_mechanical_gate_loads_evaluator_contracts(tmp_path: Path) -> None:
@@ -7027,6 +7023,36 @@ def test_submission_aliases_and_rubric_wrappers_are_transport_normalized() -> No
     ]
 
 
+def test_hidden_binding_paths_quote_numeric_json_keys_without_rewriting_selectors() -> None:
+    hidden = {
+        "acceptance_profiles": [
+            {
+                "acceptance_profile_id": "ap-1",
+                "submission_binding": {
+                    "observed_fields": [
+                        "$.relative_free_energies.3Ph",
+                        "$.relative_free_energies.4Ph",
+                        "$.ordinary.field",
+                        "$.values[?(@.id=~1)]",
+                        "$.relative_free_energies['5Ph']",
+                    ]
+                },
+            }
+        ]
+    }
+
+    changed = _normalize_hidden_binding_paths(hidden)
+
+    assert changed == ["ap-1"]
+    assert hidden["acceptance_profiles"][0]["submission_binding"]["observed_fields"] == [
+        "$.relative_free_energies['3Ph']",
+        "$.relative_free_energies['4Ph']",
+        "$.ordinary.field",
+        "$.values[?(@.id=~1)]",
+        "$.relative_free_energies['5Ph']",
+    ]
+
+
 def test_mode_pair_neutral_paths_are_diagnostic_not_mechanical_failure(
     tmp_path: Path,
 ) -> None:
@@ -7060,7 +7086,7 @@ def test_mode_pair_neutral_paths_are_diagnostic_not_mechanical_failure(
             "scientific_mode": mode,
         }
         submission = {
-            "required_files": [f"report/{filename}"],
+            "required_files": [f"report/{filename}", "report/process_trace.jsonl"],
             "results_schema": {"type": "object", "additionalProperties": True},
         }
         rubric = [
@@ -7235,7 +7261,7 @@ def test_nested_open_schema_is_diagnostic_not_missing_binding(tmp_path: Path) ->
         info = {"task_id": "pair_test" + suffix, "task_pair_id": "pair_test", "source_id": "paper-test", "category": "computational_chemistry", "mode": mode, "scientific_mode": mode, "task_mode": task_mode}
         write_json(root / "task_info.json", info)
         write_json(root / "task_spec.json", {"task_id": info["task_id"], "task_pair_id": "pair_test", "mode": mode, "scientific_mode": mode})
-        write_json(root / "submission_contract.json", {"required_files": ["report/results.json"], "results_schema": {"type": "object", "properties": {"descriptors": {"type": "object", "required": ["gap_eV"]}}}})
+        write_json(root / "submission_contract.json", {"required_files": ["report/results.json", "report/report.md"], "results_schema": {"type": "object", "properties": {"descriptors": {"type": "object", "required": ["gap_eV"]}}}})
         write_json(root / "process_rubric.json", [{"id": "route_fidelity", "criterion_type": "route_fidelity", "max_score": 100, "evidence_artifacts": ["report/report.md"]}])
         (root / "task.md").write_text("task\n", encoding="utf-8")
     write_json(pair / "hidden_reference" / "ground_truth_common.json", {"task_pair_id": "pair_test", "evaluation_mode": "binary", "score_max": 1, "expected_result": {}, "acceptance_profiles": [{"acceptance_profile_id": "ap-1", "submission_binding": {"observed_fields": ["$.descriptors.gap_eV"]}}]})
@@ -7257,7 +7283,7 @@ def test_dotted_submission_field_mapping_is_accepted(tmp_path: Path) -> None:
         info = {"task_id": "pair_test" + suffix, "task_pair_id": "pair_test", "source_id": "paper-test", "category": "computational_chemistry", "mode": mode, "scientific_mode": mode, "task_mode": task_mode}
         write_json(root / "task_info.json", info)
         write_json(root / "task_spec.json", {"task_id": info["task_id"], "task_pair_id": "pair_test", "mode": mode, "scientific_mode": mode})
-        write_json(root / "submission_contract.json", {"required_files": ["report/results.json"], "results_schema": {"type": "object", "properties": {"frontier_orbitals": {"type": "object", "properties": {"gap_ev": {"type": "number"}}}}}})
+        write_json(root / "submission_contract.json", {"required_files": ["report/results.json", "report/process_trace.jsonl"], "results_schema": {"type": "object", "properties": {"frontier_orbitals": {"type": "object", "properties": {"gap_ev": {"type": "number"}}}}}})
         write_json(root / "process_rubric.json", [{"id": "route_fidelity", "criterion_type": "route_fidelity", "max_score": 100, "evidence_artifacts": ["report/process_trace.jsonl"]}])
         (root / "task.md").write_text("task\n", encoding="utf-8")
     write_json(pair / "hidden_reference" / "ground_truth_common.json", {"task_pair_id": "pair_test", "evaluation_mode": "binary", "score_max": 1, "expected_result": {}, "acceptance_profiles": [{"acceptance_profile_id": "ap-1", "submission_binding": {"observed_fields": ["frontier_orbitals.gap_ev"]}}]})

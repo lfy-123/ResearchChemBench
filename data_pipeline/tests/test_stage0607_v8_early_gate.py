@@ -201,9 +201,7 @@ def test_stage07a_gate_is_structural_and_does_not_make_a_scientific_decision(
     assert all("scientific" not in finding for finding in findings)
 
 
-def test_stage07a_gate_prefers_orchestrator_pair_id(
-    tmp_path: Path, monkeypatch
-):
+def test_stage07a_gate_prefers_orchestrator_pair_id(tmp_path: Path):
     task_pair = tmp_path / "outputs" / "task_pair"
     for mode in ("paper_reproduction", "autonomous_research"):
         mode_root = task_pair / mode
@@ -222,17 +220,6 @@ def test_stage07a_gate_prefers_orchestrator_pair_id(
     hidden = task_pair / "hidden_reference"
     hidden.mkdir()
     (hidden / "ground_truth_common.json").write_text("{}", encoding="utf-8")
-    observed: list[str | None] = []
-
-    def fake_gate(_root: Path, *, task_pair_id: str | None = None):
-        observed.append(task_pair_id)
-        return {"findings": []}
-
-    monkeypatch.setattr(
-        "src.stages.stage07_task_judge.stage.stage07_mechanical_pre_publish_check",
-        fake_gate,
-    )
-
     findings = _stage07a_phase_gate_findings(
         {
             "audit_decision": "approved",
@@ -242,11 +229,10 @@ def test_stage07a_gate_prefers_orchestrator_pair_id(
         task_pair_id="paper-canonical-task-pair",
     )
 
-    assert findings == []
-    assert observed == ["paper-canonical-task-pair"]
+    assert "orchestrator_hidden_ground_truth_task_pair_id_mismatch" in findings
 
 
-def test_stage07a_second_gate_failure_is_warning_only(
+def test_stage07a_gate_is_read_once_without_agent_retry(
     tmp_path: Path, monkeypatch
 ):
     handoff = tmp_path / "handoff"
@@ -258,12 +244,6 @@ def test_stage07a_second_gate_failure_is_warning_only(
 
     def responder(request: AgentRunRequest) -> dict:
         calls.append(request)
-        if len(calls) == 2:
-            recovery = request.workspace / "RECOVERY_CONTEXT.md"
-            assert recovery.is_file()
-            assert "synthetic_stage07a_gate_finding" in recovery.read_text(
-                encoding="utf-8"
-            )
         return {
             "audit_decision": "approved",
             "artifact_path": "outputs/task_pair",
@@ -310,16 +290,16 @@ def test_stage07a_second_gate_failure_is_warning_only(
         },
     )
 
-    assert len(calls) == 2
-    assert response["stage07a_gate_status"] == "bypassed_with_warnings"
-    assert response["stage07a_gate_attempts"] == 2
+    assert len(calls) == 1
+    assert response["stage07a_gate_status"] == "failed"
+    assert response["stage07a_gate_attempts"] == 1
     assert response["stage07a_gate_findings"] == [
         "synthetic_stage07a_gate_finding"
     ]
     assert artifact_root.is_dir()
     assert json.loads(
-        (artifact_root / "phase_gate_report.json").read_text(encoding="utf-8")
-    )["status"] == "bypassed_with_warnings"
+        (artifact_root / "external_phase_gate_report.json").read_text(encoding="utf-8")
+    )["status"] == "failed"
 
 
 def test_stage06a_gate_does_not_require_stage06b_autonomous_surface(
