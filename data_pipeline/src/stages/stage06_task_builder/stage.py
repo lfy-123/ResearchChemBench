@@ -1449,7 +1449,12 @@ def _stage06a_phase_gate_findings(
     """Run exactly the shared file contract exposed to the Agent self-check."""
 
     outputs = workspace / "outputs"
-    return sorted(set(run_shared_phase_gate("stage06a", outputs)["findings"]))
+    findings = list(run_shared_phase_gate("stage06a", outputs)["findings"])
+    # The Agent intentionally runs its self-check before writing the final receipt;
+    # the external post-write Gate is the authority for receipt presence.
+    if not (outputs / "construction_receipt.json").is_file():
+        findings.append("construction_receipt_missing")
+    return sorted(set(findings))
 
 
 def _stage06a_phase_gate_prepare(

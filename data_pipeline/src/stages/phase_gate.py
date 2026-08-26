@@ -1188,8 +1188,6 @@ def _mode_contract(root: Path, mode: str, findings: list[str]) -> dict[str, Any]
 def _stage06a(root: Path, findings: list[str]) -> None:
     receipt_path = root / "construction_receipt.json"
     receipt = _json(receipt_path, findings) if receipt_path.is_file() else None
-    if not receipt_path.is_file():
-        findings.append("construction_receipt_missing")
     if isinstance(receipt, dict) and receipt.get("decision") == "scientific_not_constructible":
         # A negative scientific receipt has no success-tree obligation. Keep
         # this failure-only scope small, but reject a partially emitted mode

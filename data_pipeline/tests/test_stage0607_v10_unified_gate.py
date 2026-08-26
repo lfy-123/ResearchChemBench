@@ -7,6 +7,7 @@ from pathlib import Path
 from src.stages.evaluator_reference import evaluator_reference_findings
 from src.stages.phase_gate import run
 from src.stages.stage06_task_builder.bootstrap_task_pair import safe_path
+from src.stages.stage06_task_builder.stage import _stage06a_phase_gate_findings
 from src.stages.stage07_task_judge.validation import stage07_mechanical_pre_publish_check
 
 
@@ -88,6 +89,19 @@ def test_stage06a_and_stage07a_use_same_evaluator_findings(tmp_path: Path) -> No
     shutil.copytree(pair, stage07_root / "task_pair")
     stage07_report = run("stage07a", stage07_root)
     assert set(stage06_report["blocking_findings"]) <= set(stage07_report["blocking_findings"])
+
+
+def test_stage06a_receipt_is_checked_only_after_agent_self_check(tmp_path: Path) -> None:
+    pair = _pair(tmp_path)
+    (pair / "construction_receipt.json").unlink()
+
+    self_check = run("stage06a", pair)
+    assert "construction_receipt_missing" not in self_check["findings"]
+
+    workspace = tmp_path / "workspace"
+    shutil.copytree(pair, workspace / "outputs")
+    external_findings = _stage06a_phase_gate_findings({}, workspace)
+    assert "construction_receipt_missing" in external_findings
 
 
 def test_hidden_reference_is_not_a_valid_current_contract(tmp_path: Path) -> None:
