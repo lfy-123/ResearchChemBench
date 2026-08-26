@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 from src.agents import AgentExecutionError, AgentRunRequest, create_agent_harness
-from src.agents.harness import _trusted_artifact_receipt
+from src.agents.harness import CliAgentHarness, _trusted_artifact_receipt
 from src.agents.schemas import STAGE06_AUTONOMOUS_CONVERTER_SCHEMA
 from src.stages.stage06_task_builder.prompts import (
     autonomous_converter_instructions,
@@ -247,3 +247,66 @@ def test_timeout_artifact_recovery_requires_complete_declared_tree(tmp_path: Pat
     assert recovered["status"] == "conversion_uncertain"
     assert recovered["receipt_recovered_from_artifact"] is True
     assert recovered["conversion_report"]["remaining_disclosures"] == ["audit this"]
+
+
+def test_cli_timeout_returns_trusted_complete_artifact_without_retry(tmp_path: Path) -> None:
+    class TimeoutHarness(CliAgentHarness):
+        executable = sys.executable
+
+        def _build_command(self, **_kwargs: object) -> list[str]:
+            script = """
+import json, pathlib, time
+root = pathlib.Path('outputs/autonomous_research')
+root.mkdir(parents=True)
+for name, value in {
+    'task.md': 'task\\n',
+    'task_info.json': {},
+    'task_spec.json': {},
+    'submission_contract.json': {},
+    'process_rubric.json': [],
+}.items():
+    path = root / name
+    path.write_text(value if isinstance(value, str) else json.dumps(value))
+time.sleep(5)
+"""
+            return [sys.executable, "-c", script]
+
+        def _parse_response(self, _stdout_path: Path, _final_path: Path) -> dict:
+            raise AssertionError("timeout recovery must not parse a missing final response")
+
+    request = AgentRunRequest(
+        phase="stage06_autonomous_converter",
+        record_id="paper-timeout",
+        workspace=tmp_path,
+        instructions="",
+        output_schema=STAGE06_AUTONOMOUS_CONVERTER_SCHEMA,
+        prompt_version="test",
+        timeout_seconds=1,
+        metadata={
+            "artifact_receipt_path": "outputs/autonomous_research",
+            "artifact_receipt": {
+                "status": "conversion_uncertain",
+                "artifact_path": "outputs/autonomous_research",
+                "summary": "recovered",
+                "conversion_report": {},
+                "invalid_reasons": ["agent_timeout_after_artifact_write"],
+            },
+            "artifact_required_files": [
+                "task.md",
+                "task_info.json",
+                "task_spec.json",
+                "submission_contract.json",
+                "process_rubric.json",
+            ],
+        },
+    )
+    harness = TimeoutHarness(
+        name="timeout-test",
+        config={"filesystem_isolation": False},
+        model_config={"model": "test"},
+    )
+    result = harness.run(request)
+    assert result.status == "succeeded"
+    assert result.receipt_recovered_from_artifact is True
+    assert result.response is not None
+    assert result.response["status"] == "conversion_uncertain"

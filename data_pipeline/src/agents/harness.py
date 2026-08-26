@@ -380,13 +380,7 @@ class CliAgentHarness(AgentHarness):
                             retryable=True,
                         ) from exc
                     receipt_recovered_from_artifact = True
-            if exit_code != 0:
-                if response is not None:
-                    raise AgentExecutionError(
-                        f"{self.name} terminated after recovering an artifact with exit code {exit_code}",
-                        failure_class="agent_timeout",
-                        retryable=False,
-                    )
+            if exit_code != 0 and response is None:
                 stderr_tail = _tail(stderr_path, 5000)
                 failure_class, retryable = classify_cli_failure(stderr_tail)
                 raise AgentExecutionError(
