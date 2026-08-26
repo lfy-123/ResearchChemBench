@@ -11,11 +11,7 @@ from typing import Any
 
 from src.agents.workspace import atomic_commit_tree, make_writable, prepare_clean_directory
 from src.contracts import read_json, safe_component, write_json
-from src.stages.evaluator_reference import (
-    legacy_reference_from_split,
-    read_split_reference,
-    split_legacy_reference,
-)
+from src.stages.evaluator_reference import read_split_reference
 
 
 _REPOSITORY_ROOT = Path(__file__).resolve().parents[4]
@@ -23,20 +19,15 @@ if str(_REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPOSITORY_ROOT))
 
 from researchchembench_contracts import (  # noqa: E402
-    COMPUTATIONAL_REFERENCE_SCHEMA_V1,
     PACKAGE_MANIFEST_SCHEMA_V1,
     SUBMISSION_SCHEMA_V1,
     TASK_INFO_SCHEMA_V1,
     TASK_PACKAGE_SCHEMA_V1,
-    ComputationalScienceReferenceV1,
     PackageManifestV1,
     SubmissionSchemaV1,
     TaskInfoV1,
     is_document_binding_selector,
     materialize_result_schema_path,
-    normalize_binding_artifact_paths,
-    normalize_binding_contract,
-    normalize_process_rubric,
     package_content_hash,
     package_payload_entries,
     validate_task_package,
@@ -63,501 +54,12 @@ def canonical_mode_task_id(task_family_id: str, task_type: str) -> str:
     return safe_component(task_family_id)
 
 
-def _scope(value: Any) -> set[str] | None:
-    if value is None:
-        return None
-    values = value if isinstance(value, list) else [value]
-    normalized = {
-        _MODE_ALIASES.get(str(item).strip().casefold(), "") for item in values
-    }
-    normalized.discard("")
-    return normalized or set()
-
-
-def _applies(value: dict[str, Any], task_type: str) -> bool:
-    raw = value.get("applies_to_modes")
-    if raw is None:
-        raw = value.get("mode_scope")
-    scope = _scope(raw)
-    return scope is None or task_type in scope
-
-
 def _as_string_list(value: Any) -> list[str]:
     if isinstance(value, str) and value.strip():
         return [value.strip()]
     if isinstance(value, list):
         return [str(item).strip() for item in value if str(item).strip()]
     return []
-
-
-def _normalize_binding_transport(binding: dict[str, Any]) -> dict[str, Any]:
-    """Project known legacy binding spellings without choosing scientific meaning.
-
-    Older Stage06/07 outputs occasionally put submission artifact paths in
-    ``observed_fields`` and put the actual structured result keys in
-    ``target_fields``.  The latter is an unambiguous transport alias: turn
-    those keys into explicit JSONPath selectors.  Ambiguous bindings remain
-    empty/invalid and are rejected by the typed contract instead of guessed.
-    """
-
-    return normalize_binding_contract(binding)
-
-
-def _selected_binding(profile: dict[str, Any], task_type: str) -> dict[str, Any]:
-    """Select one already-authored mode binding without inventing a mapping."""
-
-    selected_matrix_binding: dict[str, Any] | None = None
-    for key in ("mode_submission_bindings", "submission_bindings_by_mode"):
-        matrix = profile.get(key)
-        if isinstance(matrix, dict):
-            for raw_mode, binding in matrix.items():
-                if (
-                    _MODE_ALIASES.get(str(raw_mode).strip().casefold()) == task_type
-                    and isinstance(binding, dict)
-                ):
-                    selected_matrix_binding = binding
-                    break
-            if selected_matrix_binding is not None:
-                break
-    shared = profile.get("submission_binding")
-    shared_is_binding = isinstance(shared, dict) and any(
-        key in shared
-        for key in (
-            "artifact_paths",
-            "artifact_path",
-            "artifact",
-            "artifacts",
-            "observed_fields",
-            "observed_field",
-            "target_fields",
-            "field",
-            "document_target",
-        )
-    )
-    if selected_matrix_binding is not None:
-        selected = normalize_binding_contract(selected_matrix_binding, profile=profile)
-        if shared_is_binding:
-            shared_normalized = normalize_binding_contract(shared, profile=profile)
-
-            def comparable(value: dict[str, Any]) -> dict[str, Any]:
-                return {
-                    key: value.get(key)
-                    for key in (
-                        "artifact_paths",
-                        "observed_fields",
-                        "comparison",
-                        "document_binding",
-                        "canonical_projection",
-                    )
-                    if value.get(key) is not None
-                }
-
-            if comparable(selected) != comparable(shared_normalized):
-                raise ValueError(
-                    "conflicting shared and mode submission bindings: "
-                    + str(
-                        profile.get("acceptance_profile_id")
-                        or profile.get("profile_id")
-                        or "unknown"
-                    )
-                )
-        return _normalize_binding_transport(selected_matrix_binding)
-    if not isinstance(shared, dict):
-        return {}
-    for key in ("mode_submission_bindings", "submission_bindings_by_mode"):
-        matrix = shared.get(key)
-        if isinstance(matrix, dict):
-            for raw_mode, binding in matrix.items():
-                if (
-                    _MODE_ALIASES.get(str(raw_mode).strip().casefold()) == task_type
-                    and isinstance(binding, dict)
-                ):
-                    return _normalize_binding_transport(binding)
-    for raw_mode, binding in shared.items():
-        if (
-            _MODE_ALIASES.get(str(raw_mode).strip().casefold()) == task_type
-            and isinstance(binding, dict)
-        ):
-            return _normalize_binding_transport(binding)
-    # A shared binding is valid only when it is a binding object rather than a
-    # nested mode map.  Scientific applicability was already decided upstream.
-    if any(
-        key in shared
-        for key in (
-            "artifact_paths",
-            "artifact_path",
-            "artifact",
-            "artifacts",
-            "observed_fields",
-            "observed_field",
-            "target_fields",
-            "field",
-            "document_target",
-        )
-    ):
-        return _normalize_binding_transport(shared)
-    return {}
-
-
-def _profile_parameters(
-    profile: dict[str, Any], answer: dict[str, Any]
-) -> dict[str, Any]:
-    values: dict[str, Any] = {}
-    # Merge already-authored sources from least to most specific.  Returning
-    # only the first non-empty container can discard a unit from the answer
-    # when the profile carries only a tolerance (or vice versa).
-    for candidate in (
-        answer.get("acceptance_parameters"),
-        profile.get("tolerance"),
-        profile.get("parameters"),
-    ):
-        if isinstance(candidate, dict):
-            values.update(json.loads(json.dumps(candidate, ensure_ascii=False)))
-    for key in (
-        "unit",
-        "absolute_tolerance",
-        "relative_tolerance",
-        "allowed_values",
-        "expected_order",
-        "expected_sign",
-    ):
-        if key in profile:
-            values[key] = profile[key]
-    return values
-
-
-def _process_key_points(rows: Any) -> list[dict[str, Any]]:
-    rows = normalize_process_rubric(rows)
-    values: list[dict[str, Any]] = []
-    seen: set[str] = set()
-    for index, row in enumerate(rows or [], start=1):
-        if not isinstance(row, dict):
-            continue
-        identifier = str(
-            row.get("id") or row.get("key_point_id") or f"process_key_point_{index}"
-        ).strip()
-        if not identifier or identifier in seen:
-            continue
-        seen.add(identifier)
-        title = str(
-            row.get("key_point") or row.get("name") or row.get("title") or identifier
-        ).strip()
-        description = str(row.get("description") or title).strip()
-        evidence = _as_string_list(
-            row.get("evidence_artifacts")
-            or row.get("required_evidence")
-            or row.get("required_artifact")
-        )
-        metadata = {
-            key: row[key]
-            for key in ("criterion_type", "evidence_anchor")
-            if key in row
-        }
-        values.append(
-            {
-                "key_point_id": identifier,
-                "title": title,
-                "description": description,
-                "evidence_requirements": evidence,
-                "metadata": metadata,
-            }
-        )
-    return values
-
-
-def _critical_failures(value: Any) -> list[str]:
-    values: list[str] = []
-    for item in value or []:
-        if isinstance(item, str) and item.strip():
-            values.append(item.strip())
-        elif isinstance(item, dict):
-            text = str(
-                item.get("description")
-                or item.get("statement")
-                or item.get("failure")
-                or ""
-            ).strip()
-            if text:
-                values.append(text)
-    return values
-
-
-def project_computational_reference(
-    *,
-    hidden: dict[str, Any],
-    task_type: str,
-    task_id: str,
-    process_rubric: Any,
-) -> dict[str, Any]:
-    """Create one clean, mode-specific scientific reference.
-
-    This is a lossy transport projection by design: duplicate targets,
-    evaluator score fields, legacy mode aliases, and canonical projections are
-    removed.  No scientific answer, tolerance, proposition, or conclusion is
-    invented or changed.
-    """
-
-    if task_type not in COMPUTATIONAL_TASK_TYPES:
-        raise ValueError(f"unsupported task type: {task_type}")
-    raw_answers = [
-        row
-        for row in hidden.get("ground_truth_items") or []
-        if isinstance(row, dict) and _applies(row, task_type)
-    ]
-    raw_profiles = [
-        row
-        for row in hidden.get("scoring_rules") or hidden.get("acceptance_profiles") or []
-        if isinstance(row, dict) and _applies(row, task_type)
-    ]
-    profiles_by_id = {
-        str(row.get("rule_id") or row.get("acceptance_profile_id") or row.get("profile_id") or "").strip(): row
-        for row in raw_profiles
-        if str(row.get("rule_id") or row.get("acceptance_profile_id") or row.get("profile_id") or "").strip()
-    }
-    answers: list[dict[str, Any]] = []
-    profiles: list[dict[str, Any]] = []
-    bindings: list[dict[str, Any]] = []
-    answer_to_profile: dict[str, str] = {}
-    final_answer_ids: set[str] = set()
-    for answer in raw_answers:
-        answer_id = str(answer.get("key_point_id") or answer.get("ground_truth_id") or answer.get("answer_id") or "").strip()
-        profile_id = str(
-            answer.get("rule_id")
-            or answer.get("acceptance_profile_id")
-            or answer.get("acceptance_profile")
-            or ""
-        ).strip()
-        if not answer_id or not profile_id or profile_id not in profiles_by_id:
-            # Missing ownership is a technical contract defect.  Omitting it
-            # here makes the strict reference validator fail rather than
-            # fabricating an identity or binding.
-            continue
-        profile = profiles_by_id[profile_id]
-        claim_role = str(answer.get("claim_role") or "intermediate").strip().casefold()
-        if claim_role not in {"intermediate", "final"}:
-            claim_role = "intermediate"
-        if claim_role == "final":
-            final_answer_ids.add(answer_id)
-        metadata = {
-            key: answer[key]
-            for key in ("required_propositions", "forbidden_contradictions")
-            if key in answer
-        }
-        answers.append(
-            {
-                "answer_id": answer_id,
-                "kind": str(answer.get("kind") or answer.get("acceptance_type") or "result"),
-                "canonical_answer": answer.get("canonical_answer"),
-                "claim_role": claim_role,
-                "evidence_grade": str(answer.get("evidence_grade") or ""),
-                "evidence_ids": _as_string_list(answer.get("evidence_ids")),
-                "metadata": metadata,
-            }
-        )
-        acceptance_type = str(
-            profile.get("acceptance_type")
-            or profile.get("type")
-            or answer.get("acceptance_type")
-            or ""
-        ).strip()
-        profiles.append(
-            {
-            "acceptance_profile_id": profile_id,
-                "answer_id": answer_id,
-                "acceptance_type": acceptance_type,
-                "parameters": _profile_parameters(profile, answer),
-                "required_propositions": _as_string_list(
-                    profile.get("required_propositions")
-                    or answer.get("required_propositions")
-                ),
-                "forbidden_contradictions": _as_string_list(
-                    profile.get("forbidden_contradictions")
-                    or answer.get("forbidden_contradictions")
-                ),
-                "description": str(profile.get("description") or ""),
-            }
-        )
-        binding = normalize_binding_contract(
-            _selected_binding(profile, task_type),
-            profile=profile,
-            answer=answer,
-        )
-        artifact_paths = normalize_binding_artifact_paths(binding)
-        observed_fields = _as_string_list(
-            binding.get("observed_fields")
-            or binding.get("observed_field")
-            or binding.get("field")
-        )
-        document_binding = bool(
-            binding.get("document_binding")
-            or binding.get("document_target") is not None
-            or any(
-                is_document_binding_selector(
-                    field,
-                    artifact_paths,
-                    document_binding=bool(binding.get("document_binding")),
-                )
-                for field in observed_fields
-            )
-        )
-        if (
-            document_binding
-            and acceptance_type
-            not in {
-                "semantic_propositions",
-                "mechanism_claim",
-                "artifact_validation",
-            }
-            and binding.get("canonical_projection") is None
-        ):
-            raise ValueError(
-                "non-semantic document binding requires canonical projection: "
-                f"{profile_id}"
-            )
-        bindings.append(
-            {
-                "binding_id": f"binding_{safe_component(profile_id)}",
-                "acceptance_profile_id": profile_id,
-                "artifact_paths": artifact_paths,
-                "observed_fields": observed_fields,
-                "comparison": str(
-                    binding.get("comparison")
-                    or binding.get("comparison_type")
-                    or acceptance_type
-                ).strip(),
-                "document_binding": document_binding,
-                "canonical_projection": binding.get("canonical_projection"),
-            }
-        )
-        answer_to_profile[answer_id] = profile_id
-
-    raw_conclusions = [
-        row
-        for row in hidden.get("scientific_conclusion_rubric") or []
-        if isinstance(row, dict) and _applies(row, task_type)
-    ]
-    conclusions: list[dict[str, Any]] = []
-    covered_final_answers: set[str] = set()
-    answers_by_id = {row["answer_id"]: row for row in answers}
-    for index, row in enumerate(raw_conclusions, start=1):
-        answer_ids = [
-            value
-            for value in _as_string_list(
-                row.get("ground_truth_ids") or row.get("answer_ids")
-            )
-            if value in final_answer_ids
-        ]
-        if not answer_ids:
-            continue
-        profile_ids = [
-            answer_to_profile[answer_id]
-            for answer_id in answer_ids
-            if answer_id in answer_to_profile
-        ]
-        if not profile_ids:
-            continue
-        statement = row.get("statement")
-        if len(answer_ids) == 1 and statement == answers_by_id[answer_ids[0]]["canonical_answer"]:
-            statement = f"Evaluate the final scientific result identified by {answer_ids[0]}."
-        conclusions.append(
-            {
-                "conclusion_id": str(
-                    row.get("id") or row.get("conclusion_id") or f"conclusion_{index}"
-                ),
-                "statement": statement,
-                "answer_ids": answer_ids,
-                "acceptance_profile_ids": profile_ids,
-                "required_evidence": _as_string_list(row.get("required_evidence")),
-                "metadata": {
-                    "acceptance_rule": row.get("acceptance_rule")
-                }
-                if row.get("acceptance_rule") is not None
-                else {},
-            }
-        )
-        covered_final_answers.update(answer_ids)
-    for answer_id in sorted(final_answer_ids - covered_final_answers):
-        profile_id = answer_to_profile.get(answer_id)
-        if not profile_id:
-            continue
-        conclusions.append(
-            {
-                "conclusion_id": f"conclusion_{safe_component(answer_id)}",
-                "statement": f"Evaluate the final scientific result identified by {answer_id}.",
-                "answer_ids": [answer_id],
-                "acceptance_profile_ids": [profile_id],
-                "required_evidence": [],
-                "metadata": {"derived_from_claim_role": "final"},
-            }
-        )
-
-    constraints = {
-        key: hidden[key]
-        for key in (
-            "managed_computation_policy",
-            "evidence_gate_policy",
-            "reference_conclusion_gate_policy",
-        )
-        if isinstance(hidden.get(key), dict) and hidden[key]
-    }
-    reference = {
-        "schema_version": COMPUTATIONAL_REFERENCE_SCHEMA_V1,
-        "task_id": task_id,
-        "task_type": task_type,
-        "answer_items": answers,
-        "acceptance_profiles": profiles,
-        "submission_bindings": bindings,
-        "process_key_points": _process_key_points(process_rubric),
-        "final_conclusions": conclusions,
-        "critical_failures": _critical_failures(hidden.get("critical_failures")),
-        "private_evidence": (
-            hidden.get("reference_evidence")
-            if isinstance(hidden.get("reference_evidence"), dict)
-            else {}
-        ),
-        "evaluation_constraints": constraints,
-    }
-    return ComputationalScienceReferenceV1.model_validate(reference).model_dump(
-        mode="json"
-    )
-
-
-def _compatibility_reference_stub(
-    *,
-    task_id: str,
-    task_type: str,
-    hidden: dict[str, Any],
-    process_rubric: Any,
-) -> dict[str, Any]:
-    """Return a non-authoritative v1 envelope when split policy is incomplete.
-
-    v13's split files are the evaluator source of truth.  A human may leave a
-    scoring-rule draft without a binding or tolerance, so the legacy compiled
-    view must not turn that editable policy state into a publication failure.
-    The stub is deliberately answer-free; consumers that need evaluator data
-    must read the split private files.
-    """
-
-    return {
-        "schema_version": COMPUTATIONAL_REFERENCE_SCHEMA_V1,
-        "task_id": task_id,
-        "task_type": task_type,
-        "answer_items": [],
-        "acceptance_profiles": [],
-        "submission_bindings": [],
-        "process_key_points": _process_key_points(process_rubric),
-        "final_conclusions": [],
-        "critical_failures": _critical_failures(hidden.get("critical_failures")),
-        "private_evidence": (
-            hidden.get("reference_evidence")
-            if isinstance(hidden.get("reference_evidence"), dict)
-            else {}
-        ),
-        "evaluation_constraints": {
-            "v13_split_reference_authoritative": True,
-            "compatibility_projection_only": True,
-        },
-    }
 
 
 def _task_title(task_text: str, info: dict[str, Any], task_id: str) -> str:
@@ -715,7 +217,7 @@ def _task_info(
         "data": data,
         "required_deliverables": deliverables,
         "related_task_ids": [canonical_mode_task_id(task_family_id, related_type)],
-        "reference_schema": COMPUTATIONAL_REFERENCE_SCHEMA_V1,
+        "reference_schema": "researchchembench.split-evaluator.v1",
     }
     return TaskInfoV1.model_validate(value).model_dump(mode="json")
 
@@ -785,7 +287,6 @@ def assemble_task_package(
 
     pair_root = pair_root.expanduser().resolve()
     source = pair_root / task_type
-    hidden_path = pair_root / "hidden_reference" / "ground_truth_common.json"
     split_reference = read_split_reference(pair_root)
     task_id = canonical_mode_task_id(task_family_id, task_type)
     destination = final_tasks_root / task_type / task_id
@@ -803,8 +304,16 @@ def assemble_task_package(
         source / "submission_contract.json",
         source / "process_rubric.json",
     ]
-    if split_reference is None:
-        required.append(hidden_path)
+    required.extend(
+        pair_root / "evaluator_reference" / filename
+        for filename in (
+            "reference_key_points.json",
+            "reference_conclusions.json",
+            "scoring_rules.json",
+            "evidence_map.json",
+            "critical_failures.json",
+        )
+    )
     missing = [path.relative_to(pair_root).as_posix() for path in required if not path.is_file()]
     if missing:
         return {
@@ -847,58 +356,25 @@ def assemble_task_package(
             (staging / "data").mkdir()
         evaluation = staging / "evaluation"
         evaluation.mkdir()
-        hidden_value = (
-            legacy_reference_from_split(split_reference)
-            if split_reference is not None
-            else read_json(hidden_path)
-        )
-        process_rubric = read_json(source / "process_rubric.json")
-        try:
-            reference = project_computational_reference(
-                hidden=hidden_value,
-                task_type=task_type,
-                task_id=task_id,
-                process_rubric=process_rubric,
+        if split_reference is None:
+            raise ValueError(
+                "evaluator_reference_missing: split evaluator files are required"
             )
-        except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError) as exc:
-            if split_reference is None:
-                raise
-            # The split evaluator is authoritative in v13.  Keep package
-            # assembly available for a policy draft that still needs human
-            # edits, while preserving a diagnostic for the compatibility view.
-            reference = _compatibility_reference_stub(
-                task_id=task_id,
-                task_type=task_type,
-                hidden=hidden_value,
-                process_rubric=process_rubric,
-            )
-            compatibility_projection_diagnostic = (
-                f"split_reference_compatibility_projection_warning:{type(exc).__name__}"
-            )
-        else:
-            compatibility_projection_diagnostic = ""
         submission = _submission_schema(
             source=read_json(source / "submission_contract.json"),
             task_info=task_info,
             task_id=task_id,
-            bindings=reference.get("submission_bindings"),
+            bindings=None,
         )
         write_json(staging / "submission_schema.json", submission)
-        write_json(evaluation / "reference.json", reference)
-        # v13 exposes the evaluator reference as independently editable files.
-        # Keep the compiled reference.json as a Task Package v1 compatibility
-        # view; it is generated from these same private inputs and is never
-        # public to the evaluated Agent.
-        package_split_reference = (
-            split_reference
-            if split_reference is not None
-            else split_legacy_reference(hidden_value)
-        )
-        write_json(evaluation / "reference_key_points.json", package_split_reference["reference_key_points"])
-        write_json(evaluation / "reference_conclusions.json", package_split_reference["reference_conclusions"])
-        write_json(evaluation / "scoring_rules.json", package_split_reference["scoring_rules"])
-        write_json(evaluation / "evidence_map.json", package_split_reference["evidence_map"])
-        write_json(evaluation / "critical_failures.json", package_split_reference["critical_failures"])
+        for key, filename in {
+            "reference_key_points": "reference_key_points.json",
+            "reference_conclusions": "reference_conclusions.json",
+            "scoring_rules": "scoring_rules.json",
+            "evidence_map": "evidence_map.json",
+            "critical_failures": "critical_failures.json",
+        }.items():
+            write_json(evaluation / filename, split_reference[key])
         entries = package_payload_entries(staging)
         public_allowlist = ["task.md", "submission_schema.json"]
         if any(entry.path.startswith("data/") for entry in entries):
@@ -909,7 +385,7 @@ def assemble_task_package(
             task_id=task_id,
             task_family_id=task_family_id,
             task_type=task_type,
-            reference_schema=COMPUTATIONAL_REFERENCE_SCHEMA_V1,
+            reference_schema="researchchembench.split-evaluator.v1",
             assembler_version=TASK_PACKAGE_ASSEMBLER_VERSION,
             package_content_sha256=package_content_hash(entries),
             entries=entries,
@@ -929,7 +405,6 @@ def assemble_task_package(
                     set(
                         validation.diagnostics
                         + deliverable_diagnostics
-                        + ([compatibility_projection_diagnostic] if compatibility_projection_diagnostic else [])
                     )
                 ),
             }
@@ -945,7 +420,6 @@ def assemble_task_package(
                 set(
                     validation.diagnostics
                     + deliverable_diagnostics
-                    + ([compatibility_projection_diagnostic] if compatibility_projection_diagnostic else [])
                 )
             ),
         }

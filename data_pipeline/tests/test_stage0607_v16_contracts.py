@@ -93,7 +93,6 @@ def test_synthesis_prompt_closes_gate_feedback_before_success() -> None:
 def test_stage07_requires_complete_rules_but_not_optimal_tolerance() -> None:
     prompt = audit_instructions(
         paper_id="paper-v16",
-        task_pair_id="paper-v16",
         manifest_hash="hash",
         max_tool_calls=48,
         finalization_reserve=8,

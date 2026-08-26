@@ -171,7 +171,7 @@ def test_installed_self_check_uses_exact_shared_evaluator_contract(tmp_path: Pat
     assert "scoring_rule_binding_incomplete:rule-energy" in actual
 
 
-def test_bootstrap_separates_process_points_from_final_conclusions(tmp_path: Path) -> None:
+def test_bootstrap_leaves_scientific_evaluator_authoring_to_agent(tmp_path: Path) -> None:
     outputs = tmp_path / "outputs"
     outputs.mkdir()
     review = {
@@ -214,17 +214,5 @@ def test_bootstrap_separates_process_points_from_final_conclusions(tmp_path: Pat
         text=True,
     )
 
-    reference = outputs / "evaluator_reference"
-    key_points = json.loads((reference / "reference_key_points.json").read_text())
-    conclusions = json.loads((reference / "reference_conclusions.json").read_text())
-    rules = json.loads((reference / "scoring_rules.json").read_text())
-    evidence = json.loads((reference / "evidence_map.json").read_text())
-    assert [row["key_point_id"] for row in key_points["items"]] == ["kp-barrier"]
-    assert [row["conclusion_id"] for row in conclusions["items"]] == [
-        "claim_preferred-path"
-    ]
-    assert {row["reference_id"] for row in rules["rules"]} == {
-        "kp-barrier",
-        "claim_preferred-path",
-    }
-    assert [row["evidence_id"] for row in evidence["evidence"]] == ["ev-1"]
+    assert not (outputs / "evaluator_reference").exists()
+    assert not (outputs / "hidden_reference").exists()

@@ -230,14 +230,15 @@ exist as a non-empty file under `outputs/paper_reproduction/data/inputs/`; a JSO
 actual coordinates/data is a missing scientific input, not a completed task.
 Do not expand this review into a long narrative before the deliverable exists. As soon as its required
 scientific closure fields and exact input assets are present, validate it, bootstrap the task pair, and
-write both public modes plus the evaluator core. Add optional explanatory metadata only after the
+write the public reproduction mode. Then author the autonomous mode and all five evaluator files
+directly from the paper. Add optional explanatory metadata only after the
 complete task/evaluator tree has passed a self-check. The task pair is the primary deliverable; a large
 review file is not a substitute for it.
 
 After a candidate-ready review has been written, run
 `python inputs/scripts/bootstrap_task_pair.py outputs outputs/workflow_review.json`. This is the
-deterministic file-contract builder: it fills IDs, mode enums, public input copies, submission
-paths, and typed Ground Truth bindings from the review. It does not invent
+deterministic file-contract builder: it fills the canonical paper ID, mode enums, public input copies,
+and submission paths from the review. It does not invent
 missing structures, methods, route facts, or answers. Replace every generated placeholder and verify all
 scientific fields against the source before finalizing. If the review lacks public input assets or
 closed route fields, do not bootstrap a success pair; revise the review or write scientific failure.
@@ -410,7 +411,7 @@ The success receipt is:
     "autonomous_conversion_pending": true,
     "autonomous_copy_created": false,
     "autonomous_validated": false,
-    "hidden_reference_validated": true,
+    "evaluator_reference_validated": true,
     "pair_draft_validated": false
   }},
   "workflow_scope_kind": "full_paper_core_workflow",
@@ -422,12 +423,12 @@ The success receipt is:
 
 Write JSON atomically (temporary file then rename). Keep detailed evidence in files and keep the final
 receipt small. Do not create scattered sentinel files such as finished_at.txt or failed_count.txt.
-On an objective recovery attempt, preserve source-backed work already written and finish the
-interrupted artifact. Recheck scientific facts against the immutable input snapshot; never fill a
-missing structure, route parameter, or Ground Truth by guessing.
+If an artifact is incomplete, finish it in the current workspace before writing the receipt. Recheck
+scientific facts against the immutable input snapshot; never fill a missing structure, route
+parameter, or evaluator reference by guessing.
 \nFINAL SYNTHESIS SELF-CHECK (MANDATORY FINALIZATION STEP)
-If `RECOVERY_CONTEXT.md` lists deterministic handoff findings, treat them as transport hints and
-repair the named fields while preserving the scientific scope and authored claims. The
+If the self-check lists deterministic handoff findings, repair the named fields while preserving
+the scientific scope and authored claims. The
 `claim_role=final` check only requires that at least one final claim is declared; never promote an
 intermediate claim to satisfy it.
 Once the finalization reserve begins, do not repeat `pwd`, broad `ls`/`find`, source inventory, or
@@ -1009,90 +1010,4 @@ After editing and rereading the copied folder, return only a small JSON receipt 
 `artifact_path="task"`, `route_disclosure_summary`, `modified_files`, and `invalid_reasons`. Do not inline any task
 file. `modified_files` must list only paths below `task/`. If the route packet is internally inconsistent, return
 `invalid`; do not repair it with invented facts.
-"""
-
-
-def hidden_reference_instructions(*, task_pair_id: str) -> str:
-    return f"""You are the private evaluator-reference builder for paper `{task_pair_id}`.
-
-This is a fresh isolated private session. The orchestrator has already frozen the scientific targets and reduced
-the necessary private information to `inputs/hidden_reference_packet.json`. Do not search the paper, evidence
-index, public task folders, or files outside this workspace. Never place hidden values in a public file.
-
-On your first workspace call, run `python3 inputs/initialize_hidden_reference.py`. It copies the immutable
-compatibility scaffold to `outputs/ground_truth_common.json` and prints only the fields that still require
-scientific judgment. The v15 authoritative editable output is split under `outputs/evaluator_reference/`:
-`reference_key_points.json`, `reference_conclusions.json`, `scoring_rules.json`, `evidence_map.json`, and
-`critical_failures.json`.
-Then read `inputs/hidden_reference_packet.json` once. The scaffold already contains exact frozen Ground Truth,
-typed target/tolerance fields, explicit mode scope, default critical failures, and one criterion per selected Key Point.
-rubric. Do not recopy or rewrite the large frozen targets. Use one bounded Python patch to replace every
-`AGENT_REQUIRED` value, atomically write the result, and validate its JSON in the same call.
-
-Build one shared scientific conclusion contract for both modes. Every key point and conclusion must contain a
-concrete statement, an expected/reference result, supporting key-point IDs where applicable, and closed evidence IDs.
-Every item must have at least one executable scoring rule. Use only these four rule types: `numeric`, `ordering`,
-`condition`, and `semantic`. Numeric rules require `target`, `unit`, and `tolerance`; the other types require a
-concrete `expected` result. Do not emit empty arrays, placeholders, keyword-only rules, or a rule that merely says
-to report/check a result. Tolerance values are an initial scientific choice and may be refined later, but they must
-be present and usable now.
-
-The scientific reference targets in the scaffold are frozen. Keep exactly those items and no others:
-do not add, split, merge, delete, reinterpret, or rewrite a target, canonical answer, proposition, contradiction,
-evidence grade, evidence ID, acceptance type, or claim role. You may add only
-`rule_id` and `applies_to_modes` to each copied item. Public inputs, route facts, cross-checks, and
-interesting paper claims that were not selected there must not become scored Ground Truth in this phase.
-
-The only valid `applies_to_modes` values are the two public modes `paper_reproduction` and
-`autonomous_research`, alone or together. Do not create a Ground Truth item or acceptance profile whose scope is
-`hidden_reference_only`, `private_only`, or another non-public label. Private source aliases, author labels, and
-answer-bearing mappings belong in `private_evidence_map.json`; they are not evaluator-scored items and must not be
-represented as an extra Ground Truth/profile. Every emitted acceptance profile must correspond to exactly one frozen
-item and must apply to at least one public mode.
-
-There is exactly one item-specific scoring rule per frozen key point/conclusion. Give each rule one executable binding
-contract to the frozen public submission surface: use a shared `submission_binding` when the same representation
-applies to every mode in the profile scope; when representations differ, use
-`mode_submission_bindings` with one row for each applicable public mode. Do not leave a mode-specific profile
-with only another mode's row, and do not emit a redundant shared binding alongside a mode matrix.
-
-Every selected binding (the shared binding or each applicable mode row) must contain:
-- `artifact_paths`: one or more exact paths from `submission_contract.json`;
-- `observed_fields`: non-empty JSONPath-like selectors for a structured JSON result, or `document` for a scored
-  report. A CSV/TSV may remain a supporting submission artifact, but do not bind a scored target to an informal
-  key/column expression; expose that scored result in the structured JSON artifact or the scored report instead;
-- Use standard JSONPath spelling for selectors: identifier-like object keys may use dot notation, while keys that
-  begin with a digit or contain punctuation must use bracket-quoted notation such as `$['results']['61TS2b']`.
-  Do not emit an invalid dot segment for such keys.
-- `canonical_projection`: the frozen canonical target projected into those submitted fields;
-- `comparison`: the deterministic operation that combines the binding with the profile type.
-When the public representation differs from the canonical representation, the projection must make the conversion
-explicit. For example, a canonical pair of named sensitizer categories scored against per-record boolean `capable`
-must provide the category-to-boolean mapping, identity fields, and any cross-product/broadcast rule. Do not leave
-that interpretation to evaluator prose or scientific common sense. The binding is private scorer metadata; it may
-repeat a hidden target but cannot change it.
-
-Audit the scaffold's `scientific_conclusion_rubric`. Keep unique ids and one criterion for each selected
-scientific Key Point, but do not impose a universal total or weighting scale. Replace every `AGENT_REQUIRED` statement and acceptance rule with a precise scientific rule. Keep
-non-empty `required_evidence`, `key_point_id`, and `rule_id`; every frozen item must remain
-covered. Intermediate textual conclusions and final textual conclusions are first-class scoring targets. A/B
-evidence may be primary; C needs a recorded derivation; D must not receive high deterministic weight.
-
-The two modes use the same scientific `expected_result`, `ground_truth_items`, `acceptance_profiles`, and
-`scientific_conclusion_rubric` unless an item's explicit `applies_to_modes` scope excludes a mode. Their process
-Key Point lists may differ. Do not weaken or change a conclusion based on mode. Preserve each evidence-backed
-Ground Truth mode scope; use both modes only when the item is genuinely valid for both. Add critical failures for fabrication, hidden-answer copying, absence of real
-scientific computation, invalid chemical identities/states, and unsupported claims as appropriate.
-
-The only editable fields are the `AGENT_REQUIRED` placeholders in submission bindings, Key Point prose, and summary;
-do not change frozen
-targets, ids, evidence, public artifact paths, or add scored claims. A categorical public label may differ from the
-paper's canonical label; make that conversion explicit in `canonical_projection` and `comparison`.
-
-Before returning, ensure no `AGENT_REQUIRED` or `TODO` remains in the scientific reference files and atomically
-validate every JSON file under `outputs/evaluator_reference/`. Missing key points, final conclusions, evidence
-references, incomplete rules, or invalid JSON must be fixed before returning `status="ready"`.
-when possible. Return only a small JSON receipt with `status="ready"`,
-`artifact_path="outputs/evaluator_reference"`, `summary`, and empty `invalid_reasons`. If the compact packet is
-actually insufficient, write and return status `invalid` with precise reasons; do not infer missing answers.
 """

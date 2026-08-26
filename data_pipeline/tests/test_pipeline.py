@@ -77,7 +77,6 @@ from src.stages.stage05_benchmark_suitability.stage import (
     _without_evidence_ids,
     run_stage05,
 )
-from src.stages.stage06_task_builder.stage import _public_builder_packet
 
 
 def test_config_rejects_unknown_stage_screening_role(tmp_path: Path) -> None:
@@ -150,6 +149,43 @@ def test_model_protocol_policy_is_configurable_and_not_overridden_by_stage_defau
     assert loaded["models"]["judge"]["tool_choice_policy"] == "required_until_artifact"
     assert loaded["models"]["judge"]["response_format_policy"] == "json_object"
     assert "tool_choice_policy" not in loaded["stage07"]
+
+
+def test_model_protocol_profiles_apply_by_model_and_allow_explicit_overrides(
+    tmp_path: Path, monkeypatch
+) -> None:
+    profiles = {
+        "defaults": {
+            "codex_wire_api": "chat_completions",
+            "tool_choice_policy": "auto",
+            "response_format_policy": "auto",
+        },
+        "models": {
+            "gpt-5.6-sol": {
+                "tool_choice_policy": "required_until_artifact",
+                "response_format_policy": "none",
+            }
+        },
+    }
+    (tmp_path / "model_protocol_profiles.json").write_text(
+        json.dumps(profiles), encoding="utf-8"
+    )
+    config = _base_config(tmp_path)
+    config["model_protocol_profiles_path"] = "model_protocol_profiles.json"
+    config["models"]["builder"]["model"] = "GPT-5.6-SOL"
+    config["models"]["judge"]["model"] = "gpt-5.6-sol"
+    config["models"]["judge"]["tool_choice_policy"] = "none"
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config), encoding="utf-8")
+
+    loaded = load_config(path)
+
+    assert loaded["models"]["builder"]["model_protocol_profile"] == "gpt-5.6-sol"
+    assert loaded["models"]["builder"]["tool_choice_policy"] == "required_until_artifact"
+    assert loaded["models"]["builder"]["response_format_policy"] == "none"
+    assert loaded["models"]["judge"]["tool_choice_policy"] == "none"
+    monkeypatch.setenv("RCB_JUDGE_TOOL_CHOICE_POLICY", "required")
+    assert load_config(path)["models"]["judge"]["tool_choice_policy"] == "required"
 
 
 def test_managed_worker_preservation_requires_explicit_boolean(tmp_path: Path) -> None:
@@ -5125,23 +5161,6 @@ def test_stage05_packet_removes_nested_stage04_evidence_ids() -> None:
     }
 
     assert "evidence_ids" not in json.dumps(_without_evidence_ids(value))
-
-
-def test_public_builder_packet_never_contains_hidden_reference() -> None:
-    packet = _public_builder_packet(
-        {
-            "task_pair_id": "pair",
-            "scientific_record": {"question": "q"},
-            "hidden_reference": {"answer": "secret"},
-            "required_assets": [],
-            "allowed_backends": ["gaussian"],
-            "allowed_actions": ["calculate_energy"],
-            "budget": {},
-        },
-        "autonomous",
-    )
-    assert "hidden_reference" not in packet
-    assert "secret" not in json.dumps(packet)
 
 
 def _base_config(tmp_path: Path) -> dict:

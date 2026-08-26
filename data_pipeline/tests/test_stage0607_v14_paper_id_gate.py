@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from src.stages.phase_gate import run
-from src.stages.stage06_task_builder.validation import canonical_task_pair_id
+from src.stages.stage06_task_builder.validation import canonical_paper_id
 from src.stages.stage06_task_builder.stage import _publish_provisional_not_constructible
 
 
@@ -132,7 +132,7 @@ def test_invalid_scientific_reference_still_blocks(tmp_path: Path) -> None:
 
 
 def test_canonical_identity_is_the_paper_id() -> None:
-    assert canonical_task_pair_id("paper_abc") == "paper_abc"
+    assert canonical_paper_id("paper_abc") == "paper_abc"
 
 
 def test_scientific_negative_ignores_truncated_success_review(tmp_path: Path) -> None:

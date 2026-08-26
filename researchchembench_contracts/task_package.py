@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
 from pathlib import Path, PurePosixPath
 from typing import Any, Literal
@@ -195,10 +196,8 @@ class SubmissionBindingV1(StrictModel):
     observed_fields: list[str]
     comparison: str
     document_binding: bool = False
-    # This is evaluator-only transport metadata.  It records how a public
-    # submission field maps back to the private canonical answer.  The field
-    # lives only in evaluation/reference.json and is never copied to the
-    # public submission schema or Agent workspace.
+    # Evaluator-only transport metadata; never copied to the public submission
+    # schema or Agent workspace.
     canonical_projection: Any | None = None
 
     @field_validator("artifact_paths")
@@ -283,6 +282,7 @@ class ComputationalScienceReferenceV1(StrictModel):
         if not self.final_conclusions:
             raise ValueError("final_conclusions must not be empty")
         answer_set = set(answer_ids)
+        answer_by_id = {item.answer_id: item for item in self.answer_items}
         profile_set = set(profile_ids)
         profile_by_id = {
             item.acceptance_profile_id: item for item in self.acceptance_profiles
@@ -292,6 +292,48 @@ class ComputationalScienceReferenceV1(StrictModel):
                 raise ValueError(
                     f"acceptance profile references unknown answer: {profile.answer_id}"
                 )
+                continue
+            acceptance_type = profile.acceptance_type.strip().casefold()
+            answer = answer_by_id[profile.answer_id]
+            if acceptance_type in {"semantic_propositions", "mechanism_claim"}:
+                if not profile.required_propositions:
+                    raise ValueError(
+                        "semantic acceptance profile requires propositions: "
+                        f"{profile.acceptance_profile_id}"
+                    )
+            elif acceptance_type == "numeric_tolerance":
+                if answer.canonical_answer is None:
+                    raise ValueError(
+                        "numeric acceptance profile requires a canonical answer: "
+                        f"{profile.acceptance_profile_id}"
+                    )
+                parameters = profile.parameters
+                vector = parameters.get("numeric_tolerances")
+                vector_valid = isinstance(vector, dict) and bool(vector) and all(
+                    str(key).strip()
+                    and isinstance(value, (int, float))
+                    and not isinstance(value, bool)
+                    and math.isfinite(float(value))
+                    and float(value) >= 0
+                    for key, value in vector.items()
+                )
+                scalar_tolerance = any(
+                    isinstance(parameters.get(key), (int, float))
+                    and not isinstance(parameters.get(key), bool)
+                    and math.isfinite(float(parameters[key]))
+                    and float(parameters[key]) >= 0
+                    for key in ("absolute_tolerance", "relative_tolerance")
+                )
+                if not vector_valid and not str(parameters.get("unit") or "").strip():
+                    raise ValueError(
+                        "numeric acceptance profile requires an explicit unit: "
+                        f"{profile.acceptance_profile_id}"
+                    )
+                if not vector_valid and not scalar_tolerance:
+                    raise ValueError(
+                        "numeric acceptance profile requires a tolerance: "
+                        f"{profile.acceptance_profile_id}"
+                    )
         bindings_by_profile: dict[str, int] = {}
         for binding in self.submission_bindings:
             if binding.acceptance_profile_id not in profile_set:
@@ -302,6 +344,21 @@ class ComputationalScienceReferenceV1(StrictModel):
             bindings_by_profile[binding.acceptance_profile_id] = (
                 bindings_by_profile.get(binding.acceptance_profile_id, 0) + 1
             )
+            owner = profile_by_id[binding.acceptance_profile_id]
+            if (
+                binding.document_binding
+                and owner.acceptance_type.strip().casefold()
+                not in {
+                    "semantic_propositions",
+                    "mechanism_claim",
+                    "artifact_validation",
+                }
+                and binding.canonical_projection is None
+            ):
+                raise ValueError(
+                    "non-semantic document binding requires canonical projection: "
+                    f"{binding.binding_id}"
+                )
         for profile_id in profile_by_id:
             if bindings_by_profile.get(profile_id) != 1:
                 raise ValueError(
@@ -422,7 +479,13 @@ def _visibility(path: str) -> Visibility:
         return "public_contract"
     if path.startswith("data/"):
         return "public_data"
-    if path == "evaluation/reference.json":
+    if path in {
+        "evaluation/reference_key_points.json",
+        "evaluation/reference_conclusions.json",
+        "evaluation/scoring_rules.json",
+        "evaluation/evidence_map.json",
+        "evaluation/critical_failures.json",
+    }:
         return "private_reference"
     if path.startswith("evaluation/hidden_assets/"):
         return "private_asset"
@@ -818,11 +881,11 @@ def normalize_binding_contract(
             document_binding=document_hint,
         )
     ]
-    # Copying authored answer semantics is safe only when the binding already
-    # identifies a structured result field.  A report-only/document binding
-    # with no projection is a missing scientific mapping and must remain a
-    # finding; otherwise a numeric answer could be silently scored from prose.
-    if artifacts and structured_fields:
+    # Comparison is a typed transport operator and is uniquely determined by
+    # an already-authored profile type even for document bindings.  Projection
+    # remains optional for document/identity bindings in SubmissionBindingV1;
+    # only structured fields receive the bounded projection below.
+    if artifacts and fields:
         profile = profile or {}
         answer = answer or {}
         if not str(normalized.get("comparison") or "").strip():
@@ -833,6 +896,12 @@ def normalize_binding_contract(
                 or answer.get("acceptance_type")
                 or ""
             ).strip()
+    # Copying authored answer semantics is safe only when the binding already
+    # identifies a structured result field.  A report-only/document binding
+    # does not need a canonical projection under the formal package model.
+    if artifacts and structured_fields:
+        profile = profile or {}
+        answer = answer or {}
         if normalized.get("canonical_projection") is None and normalized.get(
             "projection"
         ) is None:
@@ -1200,44 +1269,47 @@ def validate_task_package(root: str | Path) -> TaskPackageValidation:
         deliverables = {item.path for item in task_info.required_deliverables}
         if submission and deliverables != set(submission.required_files):
             findings.append("deliverable_submission_required_files_mismatch")
-        reference_path = root / "evaluation" / "reference.json"
-        if reference_path.is_file():
+        split_root = root / "evaluation"
+        if (split_root / "reference.json").exists():
+            findings.append("legacy_reference_file_forbidden")
+
+        split_files = {
+            "reference_key_points.json": True,
+            "reference_conclusions.json": True,
+            "scoring_rules.json": True,
+            "evidence_map.json": True,
+            "critical_failures.json": True,
+        }
+        split_root = root / "evaluation"
+        for name, required in split_files.items():
+            path = split_root / name
+            if not path.is_file():
+                if required:
+                    findings.append(f"split_reference_file_missing:{name}")
+                continue
             try:
-                reference_value = _read_json(reference_path)
+                value = _read_json(path)
             except Exception as exc:
-                findings.append(f"reference_invalid_json:{type(exc).__name__}:{exc}")
-            else:
-                schema = str(
-                    reference_value.get("schema_version")
-                    if isinstance(reference_value, dict)
-                    else ""
-                )
-                if schema != task_info.reference_schema:
-                    findings.append("reference_schema_mismatch")
-                elif schema == COMPUTATIONAL_REFERENCE_SCHEMA_V1:
-                    try:
-                        reference = ComputationalScienceReferenceV1.model_validate(
-                            reference_value
-                        )
-                    except Exception as exc:
-                        findings.append(
-                            f"computational_reference_invalid:{type(exc).__name__}:{exc}"
-                        )
-                    else:
-                        if reference.task_id != task_info.task_id:
-                            findings.append("reference_task_id_mismatch")
-                        if reference.task_type != task_info.task_type:
-                            findings.append("reference_task_type_mismatch")
-                        if submission:
-                            findings.extend(
-                                _binding_schema_findings(
-                                    submission=submission,
-                                    reference=reference,
-                                    diagnostics=diagnostics,
-                                )
-                            )
-                else:
-                    diagnostics.append(f"reference_schema_unregistered:{schema}")
+                findings.append(f"split_reference_invalid_json:{name}:{type(exc).__name__}")
+                continue
+            if not isinstance(value, dict):
+                findings.append(f"split_reference_not_object:{name}")
+                continue
+            if name == "reference_key_points.json":
+                items = value.get("items")
+                if not isinstance(items, list) or not items:
+                    findings.append("split_reference_key_points_empty")
+            elif name == "reference_conclusions.json":
+                items = value.get("items")
+                if not isinstance(items, list) or not any(
+                    isinstance(item, dict)
+                    and str(item.get("claim_role") or "").casefold() == "final"
+                    for item in (items or [])
+                ):
+                    findings.append("split_reference_final_conclusion_missing")
+            elif name == "scoring_rules.json":
+                if not isinstance(value.get("rules"), list):
+                    diagnostics.append("split_scoring_rules_not_array")
 
     if manifest:
         if task_info:

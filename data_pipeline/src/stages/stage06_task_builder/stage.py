@@ -4,12 +4,10 @@ import hashlib
 import json
 import re
 import shutil
-import time
 import uuid
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
-from types import SimpleNamespace
 from typing import Any, Callable
 
 import jsonschema
@@ -18,25 +16,18 @@ from pypdf import __version__ as pypdf_version
 
 from src.agents import AgentExecutionError, AgentRunRequest, create_agent_harness
 from src.agents.schemas import (
-    STAGE06_AUTONOMOUS_SCHEMA,
     STAGE06_AUTONOMOUS_CONVERTER_SCHEMA,
-    STAGE06_HIDDEN_SCHEMA,
-    STAGE06_REPRODUCTION_SCHEMA,
-    STAGE06_REVIEW_SCHEMA,
     STAGE06_TASK_PAIR_BUILDER_SCHEMA,
     STAGE06_WORKFLOW_REVIEW_SCHEMA,
 )
 from src.agents.workspace import (
-    agent_recovery_context,
     atomic_commit_tree,
-    copy_recovery_artifacts,
     copytree_exact,
     directory_manifest,
     input_fingerprint,
     make_read_only,
     make_writable,
     prepare_clean_directory,
-    recovery_instructions,
     sha256_file,
     validate_relative_path,
     write_manifest,
@@ -56,37 +47,15 @@ from src.contracts import (
 from src.core.concurrency import ordered_parallel_map
 from src.core.toolbox_inventory import installed_software_inventory
 from src.stages.stage06_task_builder.prompts import (
-    STAGE06_AUTONOMOUS_VERSION,
     STAGE06_AUTONOMOUS_CONVERTER_VERSION,
-    STAGE06_HIDDEN_VERSION,
-    STAGE06_REPRODUCTION_VERSION,
-    STAGE06_REVIEW_VERSION,
     STAGE06_TASK_PAIR_BUILDER_VERSION,
-    autonomous_instructions,
     autonomous_converter_instructions,
-    hidden_reference_instructions,
-    reproduction_instructions,
-    review_instructions,
     task_pair_builder_instructions,
 )
 from src.stages.stage06_task_builder.validation import (
-    _acceptance_profile_findings,
-    validate_autonomous_route_isolation,
-    validate_hidden_reference,
-    validate_mode_task,
-    validate_scientific_review,
-    validate_task_boundary_conditions,
-    validate_task_pair,
-    validate_task_pair_draft,
-    validate_workflow_review,
     canonicalize_complexity_profile,
     canonicalize_mode_task_contract,
-    hidden_reference_transport_findings,
-    normalize_binding_contract,
-    normalize_mode_scope,
-    normalize_process_rubric_contract,
-    anonymous_source_id,
-    canonical_task_pair_id,
+    canonical_paper_id,
 )
 from src.stages.phase_gate import (
     _conversion_renamed_paths,
@@ -95,12 +64,7 @@ from src.stages.phase_gate import (
     snapshot_sha256 as phase_gate_snapshot_sha256,
     write_final_self_check_report,
 )
-from src.stages.evaluator_reference import (
-    is_blocking_finding,
-    legacy_reference_from_split,
-    read_split_reference,
-    materialize_split_reference,
-)
+from src.stages.evaluator_reference import is_blocking_finding, read_split_reference
 
 STAGE06_IMPLEMENTATION_VERSION = "v22-stage06b-oneshot-20260825"
 STAGE06_DIRECTORY = "stage_06_task_construction"
@@ -137,19 +101,9 @@ def run_stage06(
 ):
     """Construct benchmark pairs with the configured Stage06 generation strategy."""
 
-    # Stage06 is a single Agent construction pass.  The Agent's own final
-    # self-check is the correction loop; replaying the same conversation from
-    # the orchestrator obscures first-pass failures and can resurrect stale
-    # artifacts.  Keep process-level retries for the earlier low-cost stages,
-    # but make this late-stage entry explicitly fresh and one-shot.
     config = dict(config)
-    config["resume"] = False
-    config["max_attempts"] = 1
-
-    strategy = str(
-        config.get("mode_generation_strategy") or "two_agent_objective_centered"
-    )
-    if strategy in {"single_agent", "two_agent_objective_centered"}:
+    strategy = str(config.get("mode_generation_strategy") or "two_agent_objective_centered")
+    if strategy == "two_agent_objective_centered":
         return _run_stage06_single_agent(
             candidates=candidates,
             stage04_records=stage04_records,
@@ -162,9 +116,7 @@ def run_stage06(
             run_id=run_id,
         )
     raise ValueError(
-        "stage06.mode_generation_strategy must be single_agent; the legacy multi-phase "
-        "strategies are disabled because their deterministic semantic validators can "
-        "override Agent scientific decisions"
+        "stage06.mode_generation_strategy must be two_agent_objective_centered"
     )
 
 
@@ -180,7 +132,7 @@ def _run_stage06_single_agent(
     workspace: Path,
     run_id: str,
 ):
-    generation_strategy = str(config.get("mode_generation_strategy") or "single_agent")
+    generation_strategy = "two_agent_objective_centered"
     stage_root = workspace / STAGE06_DIRECTORY
     stage_root.mkdir(parents=True, exist_ok=True)
     coverage = {str(row["paper_id"]): row for row in stage04_records}
@@ -306,21 +258,14 @@ def _run_stage06_single_agent(
                 phase_gate_mode="agent_and_external",
                 phase_gate_prepare=lambda root: _stage06a_phase_gate_prepare(
                     root,
-                    task_pair_id=canonical_task_pair_id(paper_id),
+                    paper_id=canonical_paper_id(paper_id),
                 ),
             )
             if agent_workspace is None:
                 raise FileNotFoundError("Stage06 task-pair builder workspace is unavailable")
             outputs = agent_workspace / "outputs"
             external_gate_path = agent_workspace / "external_phase_gate_report.json"
-            legacy_gate_path = agent_workspace / "phase_gate_report.json"
-            stage06a_gate_report = (
-                read_json(external_gate_path)
-                if external_gate_path.is_file()
-                else read_json(legacy_gate_path)
-                if legacy_gate_path.is_file()
-                else {}
-            )
+            stage06a_gate_report = read_json(external_gate_path) if external_gate_path.is_file() else {}
             if receipt.get("decision") == "scientific_not_constructible":
                 # A scientific rejection is allowed to stop after the receipt; it is
                 # not required to emit a workflow review or any task files.  Do not
@@ -375,10 +320,7 @@ def _run_stage06_single_agent(
 
             # Transport identity is deterministic and owned by the orchestrator;
             # preserve any Agent proposal only as non-authoritative review metadata.
-            task_pair_id = canonical_task_pair_id(paper_id)
-            proposed_task_pair_id = str(
-                review.get("paper_id") or receipt.get("paper_id") or ""
-            )
+            task_pair_id = canonical_paper_id(paper_id)
             review["paper_id"] = task_pair_id
             staging_root = prepare_clean_directory(
                 stage_root
@@ -391,14 +333,12 @@ def _run_stage06_single_agent(
             write_json(staging_root / "workflow_review.json", review)
             write_json(staging_root / "construction_receipt.json", receipt)
             _ensure_objective_handoff_artifacts(staging_root, review)
-            use_converter = generation_strategy == "two_agent_objective_centered"
             handoff_warnings: list[str] = []
             if receipt.get("phase_gate_status") == "bypassed_with_warnings":
                 handoff_warnings.append("stage06a_gate_bypassed_with_warnings")
             if receipt.get("phase_gate_status") == "failed":
                 handoff_warnings.append("stage06a_external_gate_findings")
-            if use_converter:
-                converter_response, converter_audit, converter_workspace = _run_phase(
+            converter_response, converter_audit, converter_workspace = _run_phase(
                     harness=converter_harness,
                     stage_root=stage_root,
                     paper_id=paper_id,
@@ -430,12 +370,7 @@ def _run_stage06_single_agent(
                         "harness": converter_harness_name,
                         "model": converter_harness.model,
                     },
-                    config={
-                        **config,
-                        "max_attempts": 1,
-                        "resume": False,
-                        "codex_native_resume": False,
-                    },
+                    config=config,
                     setup=lambda root: _setup_converter_inputs(
                         root,
                         staging_root,
@@ -451,14 +386,9 @@ def _run_stage06_single_agent(
                     phase_gate_fail_open=True,
                     phase_gate_mode="agent_and_external",
                     phase_gate_prepare=lambda root: _converter_phase_gate_prepare(
-                        root, task_pair_id=task_pair_id
+                        root, paper_id=task_pair_id
                     ),
-                )
-            else:
-                # Explicit legacy mode remains available for old fixtures and migration runs.
-                converter_response = {"status": "converted", "artifact_path": "outputs/autonomous_research"}
-                converter_audit = {"status": "skipped", "reason": "legacy_single_agent_mode"}
-                converter_workspace = None
+            )
             # conversion_report.json is optional handoff metadata.  It is read
             # from the one-shot workspace later, but never used to decide whether
             # Stage06B should execute again.
@@ -486,19 +416,18 @@ def _run_stage06_single_agent(
                     ),
                     agent_run=converter_audit,
                 )
-            if use_converter:
-                converted_root = converter_workspace / "outputs" / "autonomous_research"
-                if not converted_root.is_dir():
-                    raise FileNotFoundError("Stage06B autonomous task artifact is unavailable")
-                old_autonomous_root = staging_root / "autonomous_research"
-                if old_autonomous_root.exists() and converted_root != old_autonomous_root:
-                    shutil.rmtree(old_autonomous_root)
-                if converted_root != old_autonomous_root:
-                    copytree_exact(converted_root, old_autonomous_root)
-                make_writable(old_autonomous_root)
-                report_path = converter_workspace / "outputs" / "conversion_report.json"
-                if report_path.is_file():
-                    shutil.copy2(report_path, staging_root / "conversion_report.json")
+            converted_root = converter_workspace / "outputs" / "autonomous_research"
+            if not converted_root.is_dir():
+                raise FileNotFoundError("Stage06B autonomous task artifact is unavailable")
+            old_autonomous_root = staging_root / "autonomous_research"
+            if old_autonomous_root.exists() and converted_root != old_autonomous_root:
+                shutil.rmtree(old_autonomous_root)
+            if converted_root != old_autonomous_root:
+                copytree_exact(converted_root, old_autonomous_root)
+            make_writable(old_autonomous_root)
+            report_path = converter_workspace / "outputs" / "conversion_report.json"
+            if report_path.is_file():
+                shutil.copy2(report_path, staging_root / "conversion_report.json")
             # Canonicalize each public mode's transport contract before Stage07 sees
             # the pair.  The modes may intentionally use neutral filenames, field
             # names, or result representations; do not overwrite one with the
@@ -540,24 +469,9 @@ def _run_stage06_single_agent(
                 )
             autonomous_root = staging_root / "autonomous_research"
             reproduction_root = staging_root / "paper_reproduction"
-            hidden_path = staging_root / "hidden_reference" / "ground_truth_common.json"
-            if reproduction_root.is_dir() and autonomous_root.is_dir() and hidden_path.is_file():
+            split_reference = read_split_reference(staging_root)
+            if reproduction_root.is_dir() and autonomous_root.is_dir() and split_reference is not None:
                 try:
-                    if not use_converter:
-                        for mode_root, expected_mode in (
-                            (reproduction_root, "paper_reproduction"),
-                            (autonomous_root, "autonomous_research"),
-                        ):
-                            mode_findings = canonicalize_mode_task_contract(
-                                mode_root,
-                                expected_mode=expected_mode,
-                                task_pair_id=task_pair_id,
-                            )
-                            if mode_findings:
-                                raise ValueError(
-                                    f"{expected_mode} mode contract is incomplete: "
-                                    + "; ".join(mode_findings)
-                                )
                     _write_mode_public_manifest(reproduction_root)
                     _write_mode_public_manifest(autonomous_root)
                     _materialize_pair_metadata(
@@ -568,7 +482,6 @@ def _run_stage06_single_agent(
                         stage04=coverage[paper_id],
                         candidates=paper_candidates,
                         review=review,
-                        hidden=read_json(hidden_path),
                         evidence_index=snapshot["evidence_index"],
                         snapshot=snapshot,
                         autonomous_root=autonomous_root,
@@ -577,11 +490,7 @@ def _run_stage06_single_agent(
                         review_harness=harness,
                         phase_audits={
                             "task_pair_builder": agent_audit,
-                            **(
-                                {"autonomous_converter": converter_audit}
-                                if use_converter
-                                else {}
-                            ),
+                            "autonomous_converter": converter_audit,
                         },
                         mode_generation_order=["paper_reproduction", "autonomous_research"],
                         mode_generation_strategy=generation_strategy,
@@ -807,531 +716,6 @@ def _run_stage06_single_agent(
     return {"records": records, "summary": summary}
 
 
-def _run_stage06_legacy(
-    *,
-    candidates,
-    stage04_records,
-    documents,
-    stage02_records=None,
-    stage03_records=None,
-    config,
-    model,
-    review_model=None,
-    workspace: Path,
-    run_id: str,
-):
-    """Construct one isolated two-mode benchmark task per eligible paper."""
-
-    stage_root = workspace / STAGE06_DIRECTORY
-    stage_root.mkdir(parents=True, exist_ok=True)
-    coverage = {str(row["paper_id"]): row for row in stage04_records}
-    stage02_by_paper = {
-        str(row["paper_id"]): row for row in (stage02_records or []) if row.get("paper_id")
-    }
-    stage03_by_paper = {
-        str(row["paper_id"]): row for row in (stage03_records or []) if row.get("paper_id")
-    }
-    documents_by_paper: dict[str, list[dict[str, Any]]] = {}
-    for document in documents:
-        if document.get("decision") == "pass":
-            documents_by_paper.setdefault(str(document["paper_id"]), []).append(document)
-    candidates_by_paper: dict[str, list[dict[str, Any]]] = {}
-    for candidate in candidates:
-        candidates_by_paper.setdefault(str(candidate["paper_id"]), []).append(candidate)
-
-    review_model = review_model or model
-    model_config = dict(getattr(model, "config", {}) or {})
-    review_model_config = dict(getattr(review_model, "config", {}) or {})
-    harness_name = str(config.get("harness") or "codex")
-    construction_harness = create_agent_harness(
-        harness_name,
-        config=config,
-        model_config=model_config,
-        model_client=model,
-    )
-    review_harness = create_agent_harness(
-        harness_name,
-        config=config,
-        model_config=review_model_config,
-        model_client=review_model,
-    )
-
-    def build(item: tuple[str, list[dict[str, Any]]]) -> dict[str, Any]:
-        paper_id, paper_candidates = item
-        candidate_id = str(paper_candidates[0].get("candidate_id") or paper_id)
-        try:
-            if paper_id not in coverage:
-                return _objective_failure(
-                    run_id,
-                    paper_id,
-                    candidate_id,
-                    "stage04_record_missing",
-                    "The Stage04 paper record is unavailable.",
-                )
-            paper_documents = documents_by_paper.get(paper_id, [])
-            if not paper_documents:
-                return _objective_failure(
-                    run_id,
-                    paper_id,
-                    candidate_id,
-                    "source_parse_failure",
-                    "No successfully parsed main-paper or supplementary document is available.",
-                )
-            snapshot = _prepare_input_snapshot(
-                stage_root=stage_root,
-                paper_id=paper_id,
-                candidates=paper_candidates,
-                stage02=stage02_by_paper.get(paper_id),
-                stage03=stage03_by_paper.get(paper_id),
-                stage04=coverage[paper_id],
-                documents=paper_documents,
-                config=config,
-                run_id=run_id,
-            )
-            evidence_ids = set(snapshot["evidence_by_id"])
-
-            review_receipt, review_audit, review_workspace = _run_phase(
-                harness=review_harness,
-                stage_root=stage_root,
-                paper_id=paper_id,
-                phase="scientific_review",
-                prompt_version=STAGE06_REVIEW_VERSION,
-                instructions=review_instructions(
-                    paper_id=paper_id,
-                    snapshot_hash=snapshot["snapshot_hash"],
-                    max_tool_calls=int(
-                        config.get(
-                            "scientific_review_max_tool_calls",
-                            config.get("max_tool_calls", 32),
-                        )
-                    ),
-                    finalization_reserve=int(
-                        config.get(
-                            "scientific_review_finalization_reserve",
-                            config.get("finalization_reserve", 8),
-                        )
-                    ),
-                ),
-                output_schema=STAGE06_REVIEW_SCHEMA,
-                fingerprint_value={
-                    "snapshot_hash": snapshot["snapshot_hash"],
-                    "prompt_version": STAGE06_REVIEW_VERSION,
-                    "harness": harness_name,
-                    "model": review_harness.model,
-                },
-                config=config,
-                setup=lambda root: _copy_phase_inputs(
-                    snapshot["root"],
-                    root / "inputs",
-                    include_visual_fallback=bool(config.get("stage06_include_visual_fallback", False)),
-                ),
-                semantic_validator=lambda response, root: _scientific_review_phase_findings(
-                    response, root, evidence_ids
-                ),
-            )
-            review_response = _load_phase_json_artifact(
-                review_receipt,
-                review_workspace,
-                fallback=review_receipt,
-            )
-            _hydrate_public_input_assets(review_response, review_workspace)
-            review_findings = validate_scientific_review(review_response, evidence_ids)
-            if review_response.get("decision") == "scientific_reject":
-                reasons = list(review_response.get("reject_reasons") or [])
-                return _scientific_reject(
-                    run_id=run_id,
-                    paper_id=paper_id,
-                    candidate_id=candidate_id,
-                    task_pair_id=canonical_task_pair_id(paper_id),
-                    reasons=sorted(set(reasons or ["scientific_workflow_not_constructible"])),
-                    review_audit=review_audit,
-                    stage05_disposition=review_response.get("stage05_candidate_disposition"),
-                )
-            if review_findings:
-                return _construction_invalid(
-                    run_id,
-                    paper_id,
-                    candidate_id,
-                    str(review_response.get("paper_id") or "") or None,
-                    review_findings,
-                    {"review": review_audit},
-                )
-
-            # Agent-selected identifiers are scientific metadata, not transport identity.
-            # Use the deterministic pair id supplied by the orchestrator for all new tasks.
-            task_pair_id = canonical_task_pair_id(paper_id)
-            review_response["paper_id"] = task_pair_id
-            staging_root = prepare_clean_directory(
-                stage_root
-                / "staging"
-                / safe_component(paper_id)
-                / f"{safe_component(task_pair_id)}-{uuid.uuid4().hex[:8]}"
-            )
-            public_basis = _public_basis(review_response, paper_id, task_pair_id, config)
-            autonomous_response, autonomous_audit, autonomous_workspace = _run_phase(
-                harness=construction_harness,
-                stage_root=stage_root,
-                paper_id=paper_id,
-                phase="autonomous_task",
-                prompt_version=STAGE06_AUTONOMOUS_VERSION,
-                instructions=autonomous_instructions(task_pair_id=task_pair_id),
-                output_schema=STAGE06_AUTONOMOUS_SCHEMA,
-                fingerprint_value={
-                    "public_basis": public_basis,
-                    "prompt_version": STAGE06_AUTONOMOUS_VERSION,
-                    "harness": harness_name,
-                    "model": construction_harness.model,
-                },
-                config=config,
-                setup=lambda root: _setup_autonomous_inputs(
-                    root,
-                    public_basis=public_basis,
-                    toolbox_snapshot=snapshot["toolbox_snapshot"],
-                    task_pair_id=task_pair_id,
-                ),
-                semantic_validator=lambda response, root: (
-                    _autonomous_phase_findings(
-                        root,
-                        public_basis=public_basis,
-                        review=review_response,
-                    )
-                    if response.get("artifact_path")
-                    else []
-                ),
-            )
-            if autonomous_response.get("status") != "ready":
-                return _construction_invalid(
-                    run_id,
-                    paper_id,
-                    candidate_id,
-                    task_pair_id,
-                    autonomous_response.get("invalid_reasons") or ["autonomous_builder_invalid"],
-                    {"review": review_audit, "autonomous": autonomous_audit},
-                )
-            autonomous_root = staging_root / "autonomous_research"
-            _materialize_autonomous(
-                autonomous_root,
-                autonomous_response,
-                public_basis=public_basis,
-                paper_id=paper_id,
-                task_pair_id=task_pair_id,
-                key_point_aliases=_public_key_point_aliases(
-                    review_response.get("ground_truth_items") or []
-                ),
-                agent_workspace=autonomous_workspace,
-            )
-            autonomous_findings = validate_mode_task(
-                autonomous_root, expected_mode="autonomous_research"
-            )
-            autonomous_findings.extend(
-                validate_task_boundary_conditions(
-                    autonomous_root,
-                    expected_conditions=public_basis.get("boundary_conditions"),
-                )
-            )
-            autonomous_findings.extend(
-                validate_autonomous_route_isolation(
-                    autonomous_root,
-                    paper_route=review_response.get("paper_route") or {},
-                    allowed_boundary_conditions=public_basis.get("boundary_conditions"),
-                    allowed_method_constraints=public_basis.get("method_constraints")
-                    or public_basis.get("public_method_constraints"),
-                )
-            )
-            if autonomous_findings:
-                return _construction_invalid(
-                    run_id,
-                    paper_id,
-                    candidate_id,
-                    task_pair_id,
-                    autonomous_findings,
-                    {"review": review_audit, "autonomous": autonomous_audit},
-                )
-
-            reproduction_root = staging_root / "paper_reproduction"
-            copytree_exact(autonomous_root, reproduction_root)
-            base_manifest = directory_manifest(reproduction_root)
-            reproduction_response, reproduction_audit, reproduction_workspace = _run_phase(
-                harness=construction_harness,
-                stage_root=stage_root,
-                paper_id=paper_id,
-                phase="paper_reproduction",
-                prompt_version=STAGE06_REPRODUCTION_VERSION,
-                instructions=reproduction_instructions(
-                    task_pair_id=task_pair_id,
-                    base_manifest_hash=base_manifest["content_hash"],
-                ),
-                output_schema=STAGE06_REPRODUCTION_SCHEMA,
-                fingerprint_value={
-                    "base_manifest_hash": base_manifest["content_hash"],
-                    "paper_route": review_response.get("paper_route"),
-                    "prompt_version": STAGE06_REPRODUCTION_VERSION,
-                    "harness": harness_name,
-                    "model": construction_harness.model,
-                },
-                config=config,
-                setup=lambda root: _setup_reproduction_inputs(
-                    root,
-                    autonomous_root=autonomous_root,
-                    review=review_response,
-                    base_manifest=base_manifest,
-                ),
-                semantic_validator=lambda response, root: (
-                    _reproduction_phase_findings(
-                        root,
-                        autonomous_root=autonomous_root,
-                        review=review_response,
-                    )
-                    if response.get("artifact_path")
-                    else []
-                ),
-            )
-            if reproduction_response.get("status") != "ready":
-                return _construction_invalid(
-                    run_id,
-                    paper_id,
-                    candidate_id,
-                    task_pair_id,
-                    reproduction_response.get("invalid_reasons")
-                    or ["reproduction_builder_invalid"],
-                    {
-                        "review": review_audit,
-                        "autonomous": autonomous_audit,
-                        "reproduction": reproduction_audit,
-                    },
-                )
-            _materialize_reproduction(
-                reproduction_root,
-                reproduction_response,
-                autonomous_root=autonomous_root,
-                paper_id=paper_id,
-                task_pair_id=task_pair_id,
-                base_manifest_hash=base_manifest["content_hash"],
-                agent_workspace=reproduction_workspace,
-            )
-            reproduction_findings = validate_mode_task(
-                reproduction_root, expected_mode="paper_reproduction"
-            )
-            reproduction_findings.extend(
-                _reproduction_copy_findings(
-                    autonomous_root,
-                    reproduction_root,
-                    reproduction_response.get("modified_files") or [],
-                )
-            )
-            if reproduction_findings:
-                return _construction_invalid(
-                    run_id,
-                    paper_id,
-                    candidate_id,
-                    task_pair_id,
-                    sorted(set(reproduction_findings)),
-                    {
-                        "review": review_audit,
-                        "autonomous": autonomous_audit,
-                        "reproduction": reproduction_audit,
-                    },
-                )
-
-            submission_contract = read_json(autonomous_root / "submission_contract.json")
-            hidden_receipt, hidden_audit, hidden_workspace = _run_phase(
-                harness=construction_harness,
-                stage_root=stage_root,
-                paper_id=paper_id,
-                phase="hidden_reference",
-                prompt_version=STAGE06_HIDDEN_VERSION,
-                instructions=hidden_reference_instructions(task_pair_id=task_pair_id),
-                output_schema=STAGE06_HIDDEN_SCHEMA,
-                fingerprint_value={
-                    "review_hash": canonical_hash(review_response),
-                    "autonomous_hash": directory_manifest(autonomous_root)["content_hash"],
-                    "reproduction_hash": directory_manifest(reproduction_root)["content_hash"],
-                    "prompt_version": STAGE06_HIDDEN_VERSION,
-                    "harness": harness_name,
-                    "model": construction_harness.model,
-                },
-                config=config,
-                setup=lambda root: _setup_hidden_inputs(
-                    root,
-                    review=review_response,
-                    autonomous_root=autonomous_root,
-                    reproduction_root=reproduction_root,
-                    evidence_index=snapshot["evidence_index"],
-                ),
-                semantic_validator=lambda response, root: _hidden_reference_phase_findings(
-                    response,
-                    root,
-                    review=review_response,
-                    submission_contract=submission_contract,
-                ),
-            )
-            hidden_response = _load_phase_json_artifact(
-                hidden_receipt,
-                hidden_workspace,
-                fallback=hidden_receipt,
-            )
-            hidden_findings = validate_hidden_reference(
-                hidden_response,
-                expected_ground_truth_items=review_response.get("ground_truth_items") or [],
-                submission_contract=submission_contract,
-            )
-            if hidden_response.get("status") != "ready" or hidden_findings:
-                reasons = list(hidden_response.get("invalid_reasons") or [])
-                reasons.extend(hidden_findings)
-                return _construction_invalid(
-                    run_id,
-                    paper_id,
-                    candidate_id,
-                    task_pair_id,
-                    sorted(set(reasons)),
-                    {
-                        "review": review_audit,
-                        "autonomous": autonomous_audit,
-                        "reproduction": reproduction_audit,
-                        "hidden_reference": hidden_audit,
-                    },
-                )
-
-            _materialize_pair_metadata(
-                staging_root,
-                paper_id=paper_id,
-                task_pair_id=task_pair_id,
-                documents=paper_documents,
-                stage04=coverage[paper_id],
-                candidates=paper_candidates,
-                review=review_response,
-                hidden=hidden_response,
-                evidence_index=snapshot["evidence_index"],
-                snapshot=snapshot,
-                autonomous_root=autonomous_root,
-                reproduction_root=reproduction_root,
-                construction_harness=construction_harness,
-                review_harness=review_harness,
-                phase_audits={
-                    "review": review_audit,
-                    "autonomous": autonomous_audit,
-                    "reproduction": reproduction_audit,
-                    "hidden_reference": hidden_audit,
-                },
-            )
-            pair_audit = validate_task_pair(staging_root)
-            write_json(staging_root / "construction_validation.json", pair_audit)
-            write_manifest(staging_root, staging_root / "task_pair_manifest.json")
-            if not pair_audit["passed"]:
-                return _construction_invalid(
-                    run_id,
-                    paper_id,
-                    candidate_id,
-                    task_pair_id,
-                    pair_audit["findings"],
-                    {
-                        "review": review_audit,
-                        "autonomous": autonomous_audit,
-                        "reproduction": reproduction_audit,
-                        "hidden_reference": hidden_audit,
-                    },
-                )
-
-            target = stage_root / "tasks" / safe_component(paper_id)
-            atomic_commit_tree(staging_root, target)
-            toolbox_gap = any(
-                _toolbox_requirement_status(row) in {"missing", "unknown", "incompatible"}
-                for row in review_response.get("toolbox_requirements") or []
-            )
-            return {
-                **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
-                "candidate_id": str(review_response.get("selected_candidate_id") or candidate_id),
-                "input_candidate_ids": [
-                    str(row.get("candidate_id") or "") for row in paper_candidates
-                ],
-                "paper_id": task_pair_id,
-                "processing_status": "completed",
-                "decision": "constructed",
-                "passed": True,
-                "task_pair_path": str(target),
-                "toolbox_gap_present": toolbox_gap,
-                "stage05_candidate_disposition": review_response.get(
-                    "stage05_candidate_disposition"
-                ),
-                "deterministic_audit": pair_audit,
-                "agent_harness": construction_harness.name,
-                "agent_model": construction_harness.model,
-                "scientific_review_agent_model": review_harness.model,
-            }
-        except AgentExecutionError as exc:
-            result = exc.result.audit_record() if exc.result else None
-            return _objective_failure(
-                run_id,
-                paper_id,
-                candidate_id,
-                exc.failure_class,
-                str(exc),
-                task_pair_id=None,
-                agent_run=result,
-                retryable=exc.retryable,
-            )
-        except (FileNotFoundError, OSError) as exc:
-            return _objective_failure(
-                run_id,
-                paper_id,
-                candidate_id,
-                "source_or_workspace_failure",
-                f"{type(exc).__name__}: {exc}",
-            )
-        except Exception as exc:
-            return _construction_invalid(
-                run_id,
-                paper_id,
-                candidate_id,
-                None,
-                [f"{type(exc).__name__}: {exc}"],
-                {},
-            )
-
-    records = ordered_parallel_map(
-        build,
-        sorted(candidates_by_paper.items()),
-        max_workers=int(config.get("workers", 1)),
-    )
-    write_jsonl(stage_root / "build_results.jsonl", records)
-    summary = {
-        **record_header(run_id=run_id, stage="stage06"),
-        "implementation_version": STAGE06_IMPLEMENTATION_VERSION,
-        "papers": len(records),
-        "constructed": sum(row.get("decision") == "constructed" for row in records),
-        "scientific_rejects": sum(row.get("decision") == "scientific_reject" for row in records),
-        "retryable_failures": sum(
-            row.get("decision") == "objective_failure_retryable" for row in records
-        ),
-        "invalid_constructions": sum(
-            row.get("decision") == "construction_invalid" for row in records
-        ),
-        "toolbox_gaps": sum(bool(row.get("toolbox_gap_present")) for row in records),
-        "decisions": decision_counts(records),
-        "agent_harness": construction_harness.name,
-        "agent_model": construction_harness.model,
-        "scientific_review_agent_model": review_harness.model,
-    }
-    write_json(stage_root / "stage_summary.json", summary)
-    return {"records": records, "summary": summary}
-
-
-def deterministic_builder_audit(*args):
-    """Compatibility wrapper for callers that previously audited three API objects."""
-
-    if len(args) == 1 and isinstance(args[0], (str, Path)):
-        return validate_task_pair(Path(args[0]))
-    if len(args) == 3:
-        shared, autonomous, reproduction = args
-        findings: list[str] = []
-        if autonomous.get("mode") != "autonomous" or reproduction.get("mode") != "reproduction":
-            findings.append("mode_mismatch")
-        if not shared.get("hidden_reference"):
-            findings.append("missing_private_reference")
-        return {"passed": not findings, "findings": findings}
-    raise TypeError("deterministic_builder_audit expects a task path or three legacy records")
-
-
 def _source_coverage_manifest(
     *, root: Path, source_manifest: list[dict[str, Any]]
 ) -> dict[str, Any]:
@@ -1539,57 +923,35 @@ print(base_hash)
 
 
 _TASK_PAIR_DRAFT_VALIDATOR_SCRIPT = r'''#!/usr/bin/env python3
-import hashlib
-import json
 import sys
 from pathlib import Path
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "outputs")
 reproduction = root / "paper_reproduction"
-autonomous = root / "autonomous_research"
-hidden = root / "hidden_reference" / "ground_truth_common.json"
 required_public = {
     "task.md", "task_info.json", "task_spec.json", "submission_contract.json",
-    "process_rubric.json",
+    "process_rubric.json", "paper_route.md", "workflow_spec.json",
+    "route_evidence_map.json",
 }
-for mode_root in (reproduction, autonomous):
-    missing = sorted(name for name in required_public if not (mode_root / name).is_file())
-    if missing:
-        raise SystemExit(mode_root.name + " missing: " + ", ".join(missing))
-if not hidden.is_file():
-    raise SystemExit("hidden_reference/ground_truth_common.json is missing")
-for name in ("paper_route.md", "workflow_spec.json", "route_evidence_map.json"):
-    if (autonomous / name).exists():
-        raise SystemExit("autonomous route file remains: " + name)
-if (reproduction / "submission_contract.json").read_bytes() != (
-    autonomous / "submission_contract.json"
-).read_bytes():
-    raise SystemExit("submission contracts differ")
-
-def tree_hash(path):
-    rows = []
-    for item in sorted(entry for entry in path.rglob("*") if entry.is_file()):
-        rows.append((item.relative_to(path).as_posix(), hashlib.sha256(item.read_bytes()).hexdigest()))
-    return hashlib.sha256(json.dumps(rows, separators=(",", ":")).encode()).hexdigest()
-
-if tree_hash(reproduction / "data") != tree_hash(autonomous / "data"):
-    raise SystemExit("public inputs differ")
-print("task pair draft shape: OK")
+missing = sorted(name for name in required_public if not (reproduction / name).is_file())
+if missing:
+    raise SystemExit("paper_reproduction missing: " + ", ".join(missing))
+if not (reproduction / "data" / "inputs").is_dir():
+    raise SystemExit("paper_reproduction data/inputs is missing")
+evaluator = root / "evaluator_reference"
+required_evaluator = {
+    "reference_key_points.json", "reference_conclusions.json", "scoring_rules.json",
+    "evidence_map.json", "critical_failures.json",
+}
+missing = sorted(name for name in required_evaluator if not (evaluator / name).is_file())
+if missing:
+    raise SystemExit("evaluator_reference missing: " + ", ".join(missing))
+if (root / "hidden_reference").exists():
+    raise SystemExit("legacy hidden_reference is forbidden")
+print("Stage06 synthesis draft shape: OK")
 '''
 
 
-def _public_builder_packet(shared, mode):
-    """Legacy helper retained as an explicit hidden-reference exclusion test."""
-
-    return {
-        "mode": mode,
-        "paper_id": shared.get("paper_id"),
-        "scientific_record": shared.get("scientific_record"),
-        "required_assets": shared.get("required_assets"),
-        "allowed_backends": shared.get("allowed_backends"),
-        "allowed_actions": shared.get("allowed_actions"),
-        "budget": shared.get("budget"),
-    }
 
 
 def _prepare_input_snapshot(
@@ -1713,8 +1075,9 @@ def _prepare_input_snapshot(
             "bootstrap_script": "inputs/scripts/bootstrap_task_pair.py",
             "bootstrap_usage": (
                 "After candidate_ready workflow_review.json, run the bootstrap script once. "
-                "It creates a syntax-complete draft from the review and copies only source-provided "
-                "public input content; replace marked prose and validate before writing the receipt."
+                "It creates the public reproduction file scaffold and copies only source-provided "
+                "input content. Author all five evaluator_reference files from the paper, then "
+                "run the shared Gate before writing the receipt."
             ),
             "autonomous_editable_files": "recursive_autonomous_public_surface",
             "shared_across_modes": [
@@ -1892,23 +1255,6 @@ def _prepare_input_snapshot(
     }
 
 
-def _phase_gate_recovery_context(
-    *, phase: str, findings: list[str], attempt: int
-) -> str:
-    """Render deterministic Gate findings for one bounded Agent recovery."""
-
-    return (
-        "# Phase Gate Recovery\n\n"
-        f"The {phase} phase Gate check {attempt} found transport/contract issues.\n"
-        "Repair only the listed files and rerun the phase contract checks. These findings do "
-        "not decide scientific importance or correctness. Do not change hidden answers, "
-        "tolerances, claim roles, workflow scope, or input assets merely to satisfy the Gate.\n\n"
-        "## Validation failure to repair\n\n"
-        + "\n".join(f"- {finding}" for finding in findings[:120])
-        + "\n"
-    )
-
-
 def _run_phase(
     *,
     harness,
@@ -1929,6 +1275,8 @@ def _run_phase(
     phase_gate_agent_self_check: bool | None = None,
     phase_gate_prepare: Callable[[Path], list[str]] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any], Path | None]:
+    """Run one late-stage Agent invocation and one shared post-write Gate."""
+
     gate_phase_name = {
         "task_pair_builder": "stage06a",
         "autonomous_converter": "stage06b",
@@ -1937,1147 +1285,198 @@ def _run_phase(
     }.get(phase, phase)
     fingerprint = input_fingerprint(fingerprint_value)
     artifact_root = (
-        stage_root
-        / "phase_artifacts"
-        / safe_component(paper_id)
-        / safe_component(phase)
-        / fingerprint[:16]
+        stage_root / "phase_artifacts" / safe_component(paper_id)
+        / safe_component(phase) / fingerprint[:16]
     )
     checkpoint = (
-        stage_root / "checkpoints" / safe_component(paper_id) / f"{safe_component(phase)}.json"
+        stage_root / "checkpoints" / safe_component(paper_id)
+        / f"{safe_component(phase)}.json"
     )
-    failure_checkpoint = checkpoint.with_suffix(".failure.json")
-    if phase_gate_mode is None:
-        # Backward compatibility for direct callers and old fixtures.  New phase
-        # call sites must choose an explicit mode so that “no Agent self-check”
-        # cannot accidentally select the legacy Gate-recovery path.
-        phase_gate_mode = (
-            "agent_and_external"
-            if phase_gate_agent_self_check
-            else "bounded_recovery"
-        )
-    allowed_gate_modes = {
-        "agent_and_external",
-        "external_only",
-        "bounded_recovery",
-        "none",
-    }
-    if phase_gate_mode not in allowed_gate_modes:
-        raise ValueError(
-            f"unsupported phase_gate_mode={phase_gate_mode!r}; "
-            f"expected one of {sorted(allowed_gate_modes)}"
-        )
-    gate_enabled = phase_gate_validator is not None and phase_gate_mode != "none"
-    agent_self_check = phase_gate_mode == "agent_and_external"
-    external_gate_path = phase_gate_mode in {"agent_and_external", "external_only"}
-    gate_limit = max(
-        1,
-        int(
-            phase_gate_max_checks
-            if phase_gate_max_checks is not None
-            else config.get(
-                f"{phase}_gate_max_checks", config.get("phase_gate_max_checks", 2)
-            )
-        ),
-    )
-    gate_fail_open = bool(
-        phase_gate_fail_open
-        if phase_gate_fail_open is not None
-        else config.get(
-            f"{phase}_gate_fail_open", config.get("phase_gate_fail_open", False)
-        )
-    )
-    gate_checks = 0
-    native_resume_enabled = bool(
-        getattr(harness, "name", "") == "codex"
-        and config.get("codex_native_resume", True)
-    )
-    # Keep the persisted Codex conversation private to one paper and one phase.
-    # Attempts within the phase share it for explicit-UUID resume, while other
-    # concurrent papers cannot inspect one another's hidden conversation store.
-    codex_session_home = (
-        stage_root
-        / "codex_sessions"
-        / safe_component(paper_id)
-        / safe_component(phase)
-    )
-    recovery_session_id: str | None = None
-    cached_recovery_context: str | None = None
-    cached_recovery_workspace: Path | None = None
-    if bool(config.get("resume", True)) and checkpoint.is_file():
+    gate_mode = phase_gate_mode or "none"
+    if gate_mode not in {"none", "agent_and_external", "external_only"}:
+        raise ValueError(f"unsupported phase_gate_mode={gate_mode!r}")
+    gate_enabled = phase_gate_validator is not None and gate_mode != "none"
+    agent_self_check = gate_mode == "agent_and_external"
+    external_gate = gate_mode in {"agent_and_external", "external_only"}
+    if phase_gate_max_checks not in (None, 1):
+        raise ValueError("late-stage phases allow exactly one Gate check")
+
+    # A completed artifact may be reused as a process checkpoint. Failed runs and
+    # failed conversations are never resumed or copied into a new prompt.
+    if bool(config.get("checkpoint_cache_enabled", True)) and checkpoint.is_file() and artifact_root.is_dir():
         cached = read_json(checkpoint)
         if cached.get("input_fingerprint") == fingerprint:
-            response = cached.get("response")
+            response = cached.get("response") or {}
             jsonschema.validate(response, output_schema)
-            cached_workspace = artifact_root if artifact_root.is_dir() else None
-            semantic_findings = (
-                semantic_validator(response, cached_workspace)
-                if semantic_validator is not None and cached_workspace is not None
-                else []
-            )
-            cached_gate_status = str(response.get("phase_gate_status") or "")
-            if external_gate_path and cached_workspace is not None:
-                pre_self_report = (
-                    read_json(cached_workspace / "agent_self_check_report.json")
-                    if (cached_workspace / "agent_self_check_report.json").is_file()
-                    else None
-                )
-                preparation_findings = (
-                    phase_gate_prepare(cached_workspace)
-                    if phase_gate_prepare is not None
-                    else []
-                )
-                cached_findings = sorted(
-                    set(preparation_findings)
-                    | set(phase_gate_validator(response, cached_workspace))
-                )
-                final_self_report = write_final_self_check_report(
-                    phase=gate_phase_name,
-                    outputs=cached_workspace / "outputs",
-                    report_root=cached_workspace,
-                    pre_normalization=pre_self_report,
-                    findings=cached_findings,
-                    normalization_findings=preparation_findings,
-                )
-                cached_report = {
-                    "schema_version": "stage06-07-phase-gate/v3",
-                    "phase": gate_phase_name,
-                    "implementation_phase": phase,
-                    "paper_id": paper_id,
-                    "authority": "orchestrator_external_read_only",
-                    "status": (
-                        "passed"
-                        if not any(is_blocking_finding(item) for item in cached_findings)
-                        else "failed"
-                    ),
-                    "attempt": 1,
-                    "max_checks": 1,
-                    "findings": cached_findings,
-                    "blocking_findings": [
-                        item for item in cached_findings if is_blocking_finding(item)
-                    ],
-                    "warnings": [
-                        item for item in cached_findings if not is_blocking_finding(item)
-                    ],
-                    "agent_self_check_required": agent_self_check,
-                    "snapshot_sha256": phase_gate_snapshot_sha256(
-                        cached_workspace / "outputs"
-                    ),
-                    "snapshot_stage": "post_normalization",
-                    "self_check_snapshot_sha256": final_self_report["snapshot_sha256"],
-                    "self_check_snapshot_parity": final_self_report.get("snapshot_parity"),
-                    "self_check_external_snapshot_parity": final_self_report["snapshot_sha256"]
-                    == phase_gate_snapshot_sha256(cached_workspace / "outputs"),
-                    "normalization_findings": preparation_findings,
-                    "created_at": now_utc(),
-                }
-                write_json(
-                    cached_workspace / "external_phase_gate_report.json",
-                    cached_report,
-                )
-                response = dict(response)
-                response.update(
-                    {
-                        "phase_gate_status": cached_report["status"],
-                        "phase_gate_attempts": 1,
-                        "phase_gate_findings": cached_findings,
-                        "phase_gate_authority": cached_report["authority"],
-                    }
-                )
-                return (
-                    response,
-                    {**(cached.get("agent_run") or {}), "cache_hit": True},
-                    cached_workspace,
-                )
-            if gate_enabled and not external_gate_path and cached_gate_status == "bypassed_with_warnings":
-                return (
-                    response,
-                    {**(cached.get("agent_run") or {}), "cache_hit": True},
-                    cached_workspace,
-                )
-            cached_gate_findings = (
-                phase_gate_validator(response, cached_workspace)
-                if gate_enabled and not external_gate_path and cached_workspace is not None
-                else []
-            )
-            if cached_gate_findings:
-                gate_checks = max(
-                    1,
-                    int(response.get("phase_gate_attempts") or 0),
-                )
-                cached_recovery_context = _phase_gate_recovery_context(
-                    phase=phase,
-                    findings=cached_gate_findings,
-                    attempt=gate_checks,
-                )
-                cached_recovery_workspace = cached_workspace
-            invalid_claimed_artifact = bool(
-                response.get("status") == "invalid" and response.get("artifact_path")
-            )
-            if (
-                not semantic_findings
-                and not cached_gate_findings
-                and not invalid_claimed_artifact
-                and (
-                    not response.get("artifact_path")
-                    or artifact_root.is_dir()
-                    or _receipt_is_terminal_negative(response)
-                )
-            ):
-                return (
-                    response,
-                    {**(cached.get("agent_run") or {}), "cache_hit": True},
-                    artifact_root if artifact_root.is_dir() else None,
-                )
-            if semantic_findings and not cached_gate_findings:
-                cached_recovery_context = (
-                    "# Previous Agent Attempt\n\n"
-                    "The cached phase artifact has a valid JSON shape but fails the current "
-                    "deterministic semantic contract. Treat it as a revision draft.\n\n"
-                    "Failure class: invalid_phase_contract\n\n"
-                    "## Validation failure to repair\n\n"
-                    + "\n".join(f"- {finding}" for finding in semantic_findings[:80])
-                    + "\n"
-                )
-                cached_recovery_workspace = (
-                    artifact_root if artifact_root.is_dir() else None
-                )
+            findings: list[str] = []
+            if semantic_validator is not None:
+                findings.extend(semantic_validator(response, artifact_root))
+            if gate_enabled and phase_gate_prepare is not None:
+                findings.extend(phase_gate_prepare(artifact_root))
+            if gate_enabled:
+                findings.extend(phase_gate_validator(response, artifact_root))
+            if not findings:
+                return response, {**(cached.get("agent_run") or {}), "cache_hit": True}, artifact_root
 
-    attempts = max(1, int(config.get("max_attempts", 3)))
-    if gate_enabled and not external_gate_path:
-        # A phase Gate has its own two-check budget.  Do not let a legacy
-        # max_attempts=1 setting accidentally turn the second Gate check into
-        # an execution failure.
-        attempts = max(attempts, gate_limit)
-        if native_resume_enabled:
-            # Reserve one invocation for the file-level fallback if an
-            # explicit Codex session UUID cannot be resumed.  This does not
-            # increase the number of Gate evaluations.
-            attempts += 1
-    last_error: AgentExecutionError | None = None
-    recovery_context = cached_recovery_context
-    recovery_workspace = cached_recovery_workspace
-    if (
-        bool(config.get("resume", True))
-        and recovery_context is None
-        and failure_checkpoint.is_file()
-    ):
-        failed = read_json(failure_checkpoint)
-        if failed.get("input_fingerprint") == fingerprint:
-            saved_context = str(failed.get("recovery_context") or "").strip() or None
-            audit = failed.get("agent_run")
-            regenerated_context = (
-                agent_recovery_context(SimpleNamespace(**audit))
-                if isinstance(audit, dict)
-                else None
-            )
-            saved_has_validation = bool(
-                saved_context and "## Validation failure to repair" in saved_context
-            )
-            regenerated_has_validation = bool(
-                regenerated_context
-                and "## Validation failure to repair" in regenerated_context
-            )
-            recovery_context = (
-                saved_context
-                if saved_has_validation and not regenerated_has_validation
-                else regenerated_context or saved_context
-            )
-            recovery_workspace = artifact_root if artifact_root.is_dir() else None
-    if (
-        bool(config.get("resume", True))
-        and recovery_context is None
-        and phase == "scientific_review"
-    ):
-        interrupted = _interrupted_scientific_review_recovery(
-            stage_root=stage_root,
-            paper_id=paper_id,
-            snapshot_hash=str((fingerprint_value or {}).get("snapshot_hash") or ""),
-        )
-        if interrupted is not None:
-            recovery_context, recovery_workspace = interrupted
-    if bool(config.get("resume", True)) and recovery_context is None:
-        interrupted = _interrupted_phase_artifact_recovery(
-            stage_root=stage_root,
-            paper_id=paper_id,
-            phase=phase,
-            input_fingerprint_value=fingerprint,
-        )
-        if interrupted is not None:
-            recovery_context, recovery_workspace = interrupted
-    for attempt in range(1, attempts + 1):
-        attempt_root = prepare_clean_directory(
-            stage_root
-            / "workspaces"
-            / safe_component(paper_id)
-            / safe_component(phase)
-            / f"attempt-{attempt:02d}-{uuid.uuid4().hex[:8]}"
-        )
-        setup(attempt_root)
-        # Every Stage06/07 Agent receives an explicit writable artifact root.  Some
-        # harnesses expose only the isolated workspace and a model can otherwise
-        # mask a failed shell redirection such as `cat > outputs/receipt.json` with
-        # a trailing successful command.  Creating the directory in the orchestrator
-        # makes file-first contracts deterministic across Codex, Claude, and
-        # OpenCode adapters.
-        (attempt_root / "outputs").mkdir(parents=True, exist_ok=True)
-        write_json(
-            attempt_root / "phase_state.json",
-            {
-                "phase": phase,
-                "paper_id": paper_id,
-                "input_fingerprint": fingerprint,
-                "prompt_version": prompt_version,
-            },
-        )
-        phase_instructions = instructions
-        if agent_self_check:
-            self_check_phase = {
-                "task_pair_builder": "stage06a",
-                "autonomous_converter": "stage06b",
-            }.get(phase)
-            if self_check_phase:
-                phase_instructions += f"""
+    attempt_root = prepare_clean_directory(
+        stage_root / "workspaces" / safe_component(paper_id)
+        / safe_component(phase) / f"attempt-01-{uuid.uuid4().hex[:8]}"
+    )
+    setup(attempt_root)
+    (attempt_root / "outputs").mkdir(parents=True, exist_ok=True)
+    write_json(
+        attempt_root / "phase_state.json",
+        {"phase": phase, "paper_id": paper_id, "input_fingerprint": fingerprint,
+         "prompt_version": prompt_version},
+    )
+    phase_instructions = instructions
+    if agent_self_check and phase in {"task_pair_builder", "autonomous_converter"}:
+        phase_instructions += f"""
 
 MANDATORY AGENT SELF-CHECK (FINALIZATION STEP)
-This self-check is part of completing the {self_check_phase} task. After writing the complete
-artifact, run:
-`python inputs/tools/phase_gate.py --phase {self_check_phase} --root outputs`
-The tool is read-only and checks only transport/public-contract closure. Read the complete JSON
-report. If it returns `findings`, repair all applicable findings in this same workspace without
-deleting scientific inputs, claims, answers, boundaries, or required deliverables, then run the
-same command again. Reserve enough tool calls for at least one repair and one final check. Scoring
-rules are required Stage06A deliverables: a failed report is not a completed constructed task and
-must not be returned as one. Repair every blocking finding, including rule coverage, evidence-map
-shape, numeric target/unit/tolerance, binding paths/fields, and route fidelity. The final receipt
-and all claims must describe the files after the last passing self-check, not an earlier draft.
+After writing the complete {gate_phase_name} artifact, run:
+python inputs/tools/phase_gate.py --phase {gate_phase_name} --root outputs
+Read the complete report, repair every blocking finding in this same workspace, and run the
+check again after the final write. Do not return a constructed/converted result while the
+self-check has blocking findings. The final receipt must describe the files after that check.
 """
-        if recovery_context:
-            (attempt_root / "RECOVERY_CONTEXT.md").write_text(
-                recovery_context, encoding="utf-8"
-            )
-            copy_recovery_artifacts(
-                recovery_workspace,
-                attempt_root,
-                include_evidence_trace=phase == "scientific_review",
-            )
-            if phase == "task_pair_builder":
-                _prepare_task_pair_builder_recovery(attempt_root)
-        prior_review_findings: list[str] | None = None
-        if phase == "scientific_review" and recovery_context:
-            prior_review_findings = _seed_prior_scientific_review_draft(
-                stage_root=stage_root,
-                paper_id=paper_id,
-                checkpoint=checkpoint,
-                attempt_root=attempt_root,
-                output_schema=output_schema,
-                semantic_validator=semantic_validator,
-            )
-        if prior_review_findings is not None:
-            phase_instructions += (
-                "\n\nA complete review contract from an earlier contract version has been "
-                "staged at `outputs/scientific_review.json` together with its public input "
-                "assets. Treat it only as a revision draft, never as source evidence. Inspect "
-                "that file first, repair the current deterministic findings listed in "
-                "`PRIOR_REVIEW_DRAFT_STATUS.json`, recheck the changed fields against canonical "
-                "evidence, and atomically rewrite the same file so its fingerprint changes. "
-                "Do not rebuild the contract from scratch or repeat broad document searches."
-            )
-        phase_tool_calls = int(
-            config.get(
-                f"{phase}_max_tool_calls",
-                config.get("max_tool_calls", 24),
-            )
-        )
-        if recovery_context:
-            recovery_budget = config.get(f"{phase}_recovery_max_tool_calls")
-            if recovery_budget is None:
-                recovery_budget = config.get("recovery_max_tool_calls", 160)
-                if phase == "autonomous_converter":
-                    # Stage06B recovery may need to finish the same recursive
-                    # semantic redaction as a normal conversion.  A small global
-                    # recovery default combined with the converter's finalization
-                    # reserve can otherwise leave only one usable workspace call.
-                    recovery_budget = max(
-                        int(recovery_budget),
-                        int(
-                            config.get(
-                                "autonomous_converter_max_tool_calls",
-                                config.get("max_tool_calls", 24),
-                            )
-                        ),
-                    )
-            phase_tool_calls = int(recovery_budget)
-            phase_instructions += recovery_instructions(
-                phase, max_tool_calls=phase_tool_calls
-            )
-            if phase == "task_pair_builder":
-                phase_instructions += (
-                    "\n\nTASK-PAIR RECOVERY RULE: read TASK_PAIR_RECOVERY_STATUS.json and the existing "
-                    "workflow_review.json. If its decision is candidate_ready, keep that scientific "
-                    "decision unless canonical evidence directly disproves it. Missing task files, "
-                    "bad IDs, stale receipts, or schema/validation findings are construction-repair "
-                    "work, not scientific rejection. Preserve any already refined reproduction files. "
-                    "Run bootstrap_task_pair.py only when the reproduction scaffold is absent; otherwise "
-                    "repair the listed fields in one grouped command. If reproduction is complete and "
-                    "autonomous_research is missing, run copy_reproduction_to_autonomous.py and then "
-                    "rewrite the recursive autonomous public surface through Stage06B. Only write scientific_not_constructible "
-                    "when the source evidence itself proves a required input, route, or scoreable "
-                    "claim cannot be recovered.\n"
-                )
-        if recovery_session_id:
-            phase_instructions = (
-                "Continue the existing phase conversation in the newly staged recovery "
-                "workspace. Read RECOVERY_CONTEXT.md first, inspect the preserved outputs, "
-                "repair only the listed deterministic Gate findings, rerun the phase checks, "
-                "and return the original structured receipt. Do not change the scientific "
-                "scope, answers, tolerances, claim roles, or inputs merely to satisfy the Gate."
-            )
-        artifact_receipt_metadata: dict[str, Any] = {}
-        if phase == "autonomous_task":
-            artifact_receipt_metadata = {
-                "artifact_receipt_path": "task",
-                "artifact_required_files": [
-                    "task.md",
-                    "task_info.json",
-                    "task_spec.json",
-                    "submission_contract.json",
-                    "process_rubric.json",
-                ],
-                "artifact_receipt": {
-                    "status": "ready",
-                    "summary": (
-                        "Recovered from a complete file-first task artifact after the "
-                        "CLI final receipt could not be parsed."
-                    ),
-                    "invalid_reasons": [],
-                },
-            }
-        elif phase == "paper_reproduction":
-            artifact_receipt_metadata = {
-                "artifact_receipt_path": "task",
-                "artifact_required_files": [
-                    "task.md",
-                    "task_info.json",
-                    "task_spec.json",
-                    "submission_contract.json",
-                    "process_rubric.json",
-                    "paper_route.md",
-                    "workflow_spec.json",
-                    "route_evidence_map.json",
-                ],
-                "artifact_required_modified_files": [
-                    "task.md",
-                    "task_info.json",
-                    "task_spec.json",
-                    "process_rubric.json",
-                ],
-                "artifact_receipt": {
-                    "status": "ready",
-                    "modified_files": sorted(
-                        _REPRODUCTION_ALLOWED_DIFFERENCES
-                        - {"derived_from.json", "public_manifest.json"}
-                    ),
-                    "route_disclosure_summary": (
-                        "Recovered from a complete file-first reproduction artifact after "
-                        "the CLI final receipt could not be parsed."
-                    ),
-                    "invalid_reasons": [],
-                },
-            }
-        finalization_reserve_key = (
-            f"{phase}_recovery_finalization_reserve"
-            if recovery_context
-            else f"{phase}_finalization_reserve"
-        )
-        phase_finalization_reserve = int(
-            config.get(
-                finalization_reserve_key,
-                config.get(
-                    f"{phase}_finalization_reserve",
-                    config.get("finalization_reserve", 4),
-                ),
-            )
-        )
-        phase_finalization_reserve = max(
-            0, min(phase_finalization_reserve, max(0, phase_tool_calls - 1))
-        )
-        request = AgentRunRequest(
-            phase=f"stage06_{phase}",
-            record_id=paper_id,
-            workspace=attempt_root,
-            instructions=phase_instructions,
-            output_schema=output_schema,
-            prompt_version=prompt_version,
-            timeout_seconds=int(
-                config.get(
-                    f"{phase}_timeout_seconds",
-                    config.get("timeout_seconds", 3600),
-                )
-            ),
-            metadata={
-                "paper_id": paper_id,
-                "input_fingerprint": fingerprint,
-                "max_tool_calls": phase_tool_calls,
-                "finalization_reserve": phase_finalization_reserve,
-                # Protocol policies are optional phase overrides.  When absent,
-                # the harness resolves them from models.builder (or its model
-                # fallback), keeping gateway quirks out of business logic.
-                "tool_choice_policy": config.get(f"{phase}_tool_choice_policy"),
-                "response_format_policy": config.get(f"{phase}_response_format_policy"),
-                "codex_wire_api": config.get(f"{phase}_codex_wire_api"),
-                "inline_contract": False,
-                "structured_artifact_path": {
-                    "scientific_review": "outputs/scientific_review.json",
-                    "hidden_reference": "outputs/ground_truth_common.json",
-                    "task_pair_builder": "outputs/construction_receipt.json",
-                }.get(phase),
-                "recovery_attempt": bool(recovery_context),
-                "codex_native_resume": native_resume_enabled,
-                "codex_session_home": str(codex_session_home),
-                "codex_resume_session_id": recovery_session_id,
-                **artifact_receipt_metadata,
-            },
-        )
-        requested_resume_session_id = recovery_session_id
-        try:
-            result = harness.run(request)
-            if phase == "scientific_review":
-                result.response = _materialize_scientific_review_response(
-                    result.response or {}, attempt_root
-                )
-            elif phase == "hidden_reference":
-                result.response = _materialize_hidden_response(
-                    result.response or {}, attempt_root
-                )
-            elif phase in {"autonomous_task", "paper_reproduction"}:
-                result.response = _reconcile_task_phase_receipt(
-                    result.response or {},
-                    workspace=attempt_root,
-                    phase=phase,
+    phase_tool_calls = max(
+        4,
+        int(config.get(f"{phase}_max_tool_calls", config.get("max_tool_calls", 24))),
+    )
+    phase_finalization_reserve = max(
+        1,
+        min(
+            phase_tool_calls - 1,
+            int(config.get(f"{phase}_finalization_reserve", config.get("finalization_reserve", 4))),
+        ),
+    )
+    artifact_receipt_metadata: dict[str, Any] = {}
+    if phase == "autonomous_task":
+        artifact_receipt_metadata = {
+            "artifact_receipt_path": "task",
+            "artifact_required_files": [
+                "task.md", "task_info.json", "task_spec.json",
+                "submission_contract.json", "process_rubric.json",
+            ],
+        }
+    elif phase == "paper_reproduction":
+        artifact_receipt_metadata = {
+            "artifact_receipt_path": "task",
+            "artifact_required_files": [
+                "task.md", "task_info.json", "task_spec.json",
+                "submission_contract.json", "process_rubric.json",
+                "paper_route.md", "workflow_spec.json", "route_evidence_map.json",
+            ],
+        }
+    request = AgentRunRequest(
+        phase=f"stage06_{phase}",
+        record_id=paper_id,
+        workspace=attempt_root,
+        instructions=phase_instructions,
+        output_schema=output_schema,
+        prompt_version=prompt_version,
+        timeout_seconds=int(config.get(f"{phase}_timeout_seconds", config.get("timeout_seconds", 3600))),
+        metadata={
+            "paper_id": paper_id,
+            "input_fingerprint": fingerprint,
+            "max_tool_calls": phase_tool_calls,
+            "finalization_reserve": phase_finalization_reserve,
+            "tool_choice_policy": config.get(f"{phase}_tool_choice_policy"),
+            "response_format_policy": config.get(f"{phase}_response_format_policy"),
+            "codex_wire_api": config.get(f"{phase}_codex_wire_api"),
+            "inline_contract": False,
+            "structured_artifact_path": {
+                "task_pair_builder": "outputs/construction_receipt.json",
+                "autonomous_converter": "outputs/conversion_report.json",
+            }.get(phase),
+            **artifact_receipt_metadata,
+        },
+    )
+    try:
+        result = harness.run(request)
+        response = result.response or {}
+        if phase == "scientific_review":
+            response = _materialize_scientific_review_response(response, attempt_root)
+        elif phase in {"autonomous_task", "paper_reproduction"}:
+            response = _reconcile_task_phase_receipt(response, workspace=attempt_root, phase=phase, result=result)
+        elif phase == "autonomous_converter":
+            response = _reconcile_converter_phase_receipt(response, workspace=attempt_root)
+            response = _reconcile_complete_converter_artifact(response, workspace=attempt_root, result=result)
+        result.response = response
+        if semantic_validator is not None:
+            findings = semantic_validator(response, attempt_root)
+            if findings:
+                raise AgentExecutionError(
+                    f"Agent {phase} contract failed: {'; '.join(findings)}",
+                    failure_class="invalid_phase_contract",
+                    retryable=False,
                     result=result,
                 )
-            elif phase == "autonomous_converter":
-                result.response = _reconcile_converter_phase_receipt(
-                    result.response or {}, workspace=attempt_root
-                )
-                result.response = _reconcile_complete_converter_artifact(
-                    result.response or {}, workspace=attempt_root, result=result
-                )
-            if semantic_validator is not None:
-                semantic_findings = semantic_validator(result.response or {}, attempt_root)
-                if semantic_findings:
-                    message = (
-                        f"Agent {phase} contract failed semantic validation: "
-                        + ", ".join(semantic_findings)
-                    )
-                    result.status = "failed"
-                    result.failure_class = "invalid_phase_contract"
-                    result.retryable = True
-                    result.error = {
-                        "error_type": "InvalidPhaseContract",
-                        "message": message[:4000],
-                    }
-                    write_json(attempt_root / "agent_run.json", result.audit_record())
-                    raise AgentExecutionError(
-                        message,
-                        failure_class="invalid_phase_contract",
-                        retryable=True,
-                        result=result,
-                    )
-            _require_claimed_phase_artifact(result.response or {}, attempt_root, result)
-            if gate_enabled:
-                pre_self_report = (
-                    read_json(attempt_root / "agent_self_check_report.json")
-                    if (attempt_root / "agent_self_check_report.json").is_file()
-                    else None
-                )
-                if external_gate_path and phase_gate_prepare is not None:
-                    # Normalize deterministic enum/ID wrappers before the
-                    # independent final check.  The callback is transport-only
-                    # and its findings remain visible in the Gate report.
-                    preparation_findings = phase_gate_prepare(attempt_root)
-                else:
-                    preparation_findings = []
-                gate_checks += 1
-                gate_findings = sorted(
-                    set(preparation_findings)
-                    | set(phase_gate_validator(result.response or {}, attempt_root))
-                )
-                if external_gate_path:
-                    final_self_report = write_final_self_check_report(
-                        phase=gate_phase_name,
-                        outputs=attempt_root / "outputs",
-                        report_root=attempt_root,
-                        pre_normalization=pre_self_report,
-                        findings=gate_findings,
-                        normalization_findings=preparation_findings,
-                    )
-                    gate_report = {
-                        "schema_version": "stage06-07-phase-gate/v3",
-                        "phase": gate_phase_name,
-                        "implementation_phase": phase,
-                        "paper_id": paper_id,
-                        "authority": "orchestrator_external_read_only",
-                        "status": (
-                            "passed"
-                            if not any(is_blocking_finding(item) for item in gate_findings)
-                            else "failed"
-                        ),
-                        "attempt": gate_checks,
-                        "max_checks": 1,
-                        "findings": gate_findings,
-                        "blocking_findings": [
-                            item for item in gate_findings if is_blocking_finding(item)
-                        ],
-                        "warnings": [
-                            item for item in gate_findings if not is_blocking_finding(item)
-                        ],
-                        "agent_self_check_required": agent_self_check,
-                        "snapshot_sha256": phase_gate_snapshot_sha256(
-                            attempt_root / "outputs"
-                        ),
-                        "snapshot_stage": "post_normalization",
-                        "self_check_snapshot_sha256": final_self_report["snapshot_sha256"],
-                        "self_check_snapshot_parity": final_self_report.get("snapshot_parity"),
-                        "self_check_external_snapshot_parity": final_self_report["snapshot_sha256"]
-                        == phase_gate_snapshot_sha256(attempt_root / "outputs"),
-                        "normalization_findings": preparation_findings,
-                        "created_at": now_utc(),
-                    }
-                    write_json(
-                        attempt_root / "external_phase_gate_report.json",
-                        gate_report,
-                    )
-                    result.response = dict(result.response or {})
-                    result.response.update(
-                        {
-                            "phase_gate_status": gate_report["status"],
-                            "phase_gate_attempts": gate_checks,
-                            "phase_gate_findings": gate_findings,
-                            "phase_gate_authority": gate_report["authority"],
-                        }
-                    )
-                    # A final Gate finding is a visible transport result, not a
-                    # hidden Agent retry.  The next phase/final publisher decides
-                    # whether it is blocking after seeing the complete pair.
-                    write_json(attempt_root / "agent_run.json", result.audit_record())
-                    # Continue through normal artifact persistence below.
-                    gate_findings = []
-                if not external_gate_path and gate_findings:
-                    gate_status = (
-                        "bypassed_with_warnings"
-                        if gate_fail_open and gate_checks >= gate_limit
-                        else "failed"
-                    )
-                    gate_report = {
-                        "schema_version": "stage06-07-phase-gate/v1",
-                        "phase": phase,
-                        "paper_id": paper_id,
-                        "status": gate_status,
-                        "attempt": gate_checks,
-                        "max_checks": gate_limit,
-                        "findings": gate_findings,
-                        "fail_open": gate_fail_open,
-                        "created_at": now_utc(),
-                    }
-                    write_json(attempt_root / "phase_gate_report.json", gate_report)
-                    result.response = dict(result.response or {})
-                    result.response.update(
-                        {
-                            "phase_gate_status": gate_status,
-                            "phase_gate_attempts": gate_checks,
-                            "phase_gate_findings": gate_findings,
-                        }
-                    )
-                    if gate_status == "bypassed_with_warnings":
-                        result.status = "succeeded"
-                        result.failure_class = None
-                        result.retryable = False
-                        write_json(attempt_root / "agent_run.json", result.audit_record())
-                        _persist_phase_artifacts(attempt_root, artifact_root)
-                        write_json(
-                            checkpoint,
-                            {
-                                "phase": phase,
-                                "paper_id": paper_id,
-                                "input_fingerprint": fingerprint,
-                                "prompt_version": prompt_version,
-                                "response": result.response,
-                                "agent_run": result.audit_record(),
-                                "phase_gate": gate_report,
-                                "completed_at": now_utc(),
-                            },
-                        )
-                        failure_checkpoint.unlink(missing_ok=True)
-                        return (
-                            result.response,
-                            {**result.audit_record(), "cache_hit": False},
-                            artifact_root if artifact_root.is_dir() else attempt_root,
-                        )
-                    message = _phase_gate_recovery_context(
-                        phase=phase,
-                        findings=gate_findings,
-                        attempt=gate_checks,
-                    )
-                    result.status = "failed"
-                    result.failure_class = "invalid_phase_contract"
-                    result.retryable = True
-                    result.error = {
-                        "error_type": "PhaseGateFinding",
-                        "message": message[:4000],
-                    }
-                    write_json(attempt_root / "agent_run.json", result.audit_record())
-                    raise AgentExecutionError(
-                        message,
-                        failure_class="invalid_phase_contract",
-                        retryable=True,
-                        result=result,
-                    )
-                if not external_gate_path:
-                    gate_report = {
-                        "schema_version": "stage06-07-phase-gate/v1",
-                        "phase": phase,
-                        "paper_id": paper_id,
-                        "status": "passed",
-                        "attempt": gate_checks,
-                        "max_checks": gate_limit,
-                        "findings": [],
-                        "fail_open": gate_fail_open,
-                        "created_at": now_utc(),
-                    }
-                    write_json(attempt_root / "phase_gate_report.json", gate_report)
-                    result.response = dict(result.response or {})
-                    result.response.update(
-                        {
-                            "phase_gate_status": "passed",
-                            "phase_gate_attempts": gate_checks,
-                            "phase_gate_findings": [],
-                        }
-                    )
-        except AgentExecutionError as exc:
-            recovered_response = (
-                _recover_builder_receipt_from_review(
-                    workspace=attempt_root,
-                    output_schema=output_schema,
-                    semantic_validator=semantic_validator,
-                )
-                if phase == "task_pair_builder"
-                and exc.failure_class == "invalid_agent_output"
-                else None
+        _require_claimed_phase_artifact(response, attempt_root, result)
+        if gate_enabled:
+            pre_self_report = read_json(attempt_root / "agent_self_check_report.json") if (attempt_root / "agent_self_check_report.json").is_file() else None
+            preparation_findings = phase_gate_prepare(attempt_root) if phase_gate_prepare is not None else []
+            gate_findings = sorted(set(preparation_findings) | set(phase_gate_validator(response, attempt_root)))
+            final_self_report = write_final_self_check_report(
+                phase=gate_phase_name, outputs=attempt_root / "outputs", report_root=attempt_root,
+                pre_normalization=pre_self_report, findings=gate_findings,
+                normalization_findings=preparation_findings,
             )
-            if recovered_response is not None and exc.result is not None:
-                result = exc.result
-                result.status = "succeeded"
-                result.response = recovered_response
-                result.failure_class = None
-                result.retryable = False
-                result.error = None
-                result.receipt_recovered_from_artifact = True
+            gate_report = {
+                "schema_version": "stage06-07-phase-gate/v3",
+                "phase": gate_phase_name,
+                "implementation_phase": phase,
+                "paper_id": paper_id,
+                "authority": "orchestrator_external_read_only",
+                "status": "passed" if not any(is_blocking_finding(item) for item in gate_findings) else "failed",
+                "attempt": 1,
+                "max_checks": 1,
+                "findings": gate_findings,
+                "blocking_findings": [item for item in gate_findings if is_blocking_finding(item)],
+                "warnings": [item for item in gate_findings if not is_blocking_finding(item)],
+                "agent_self_check_required": agent_self_check,
+                "snapshot_sha256": phase_gate_snapshot_sha256(attempt_root / "outputs"),
+                "snapshot_stage": "post_normalization",
+                "self_check_snapshot_sha256": final_self_report["snapshot_sha256"],
+                "self_check_snapshot_parity": final_self_report.get("snapshot_parity"),
+                "created_at": now_utc(),
+            }
+            if external_gate:
+                write_json(attempt_root / "external_phase_gate_report.json", gate_report)
+            result.response = dict(response)
+            result.response.update({
+                "phase_gate_status": gate_report["status"],
+                "phase_gate_attempts": 1,
+                "phase_gate_findings": gate_findings,
+                "phase_gate_authority": gate_report["authority"],
+            })
+            if gate_report["status"] == "failed":
+                # Preserve the exact failed artifact and Gate diagnostics for Stage07/operators;
+                # a terminal Gate finding must not erase the evidence needed to repair or reject
+                # the candidate.  No retry or conversation recovery is started.
                 write_json(attempt_root / "agent_run.json", result.audit_record())
                 _persist_phase_artifacts(attempt_root, artifact_root)
-                write_json(
-                    checkpoint,
-                    {
-                        "phase": phase,
-                        "paper_id": paper_id,
-                        "input_fingerprint": fingerprint,
-                        "prompt_version": prompt_version,
-                        "response": recovered_response,
-                        "agent_run": result.audit_record(),
-                        "completed_at": now_utc(),
-                    },
+                raise AgentExecutionError(
+                    f"{gate_phase_name} external Gate failed: {'; '.join(gate_report['blocking_findings'])}",
+                    failure_class="invalid_phase_contract",
+                    retryable=False,
+                    result=result,
                 )
-                failure_checkpoint.unlink(missing_ok=True)
-                return (
-                    recovered_response,
-                    {**result.audit_record(), "cache_hit": False},
-                    artifact_root if artifact_root.is_dir() else attempt_root,
-                )
-            last_error = exc
-            is_gate_recovery = bool(
-                exc.failure_class == "invalid_phase_contract"
-                and exc.result is not None
-                and (exc.result.error or {}).get("error_type") == "PhaseGateFinding"
-            )
-            if is_gate_recovery and native_resume_enabled and exc.result is not None:
-                recovery_session_id = str(exc.result.session_id or "").strip() or None
-            elif requested_resume_session_id:
-                # Native resume is an optimization, not a new failure mode.
-                # If the CLI/session store cannot recover the explicit UUID,
-                # retain the file-level Gate context and retry once without it.
-                recovery_session_id = None
-                if attempt < attempts:
-                    recovery_workspace = (
-                        artifact_root if artifact_root.is_dir() else recovery_workspace
-                    )
-                    continue
-            _persist_phase_artifacts(attempt_root, artifact_root)
-            latest_context = agent_recovery_context(exc.result)
-            if exc.failure_class == "invalid_phase_contract" or recovery_context is None:
-                recovery_context = latest_context
-            if not exc.retryable or attempt >= attempts:
-                write_json(
-                    failure_checkpoint,
-                    {
-                        "phase": phase,
-                        "paper_id": paper_id,
-                        "input_fingerprint": fingerprint,
-                        "prompt_version": prompt_version,
-                        "failure_class": exc.failure_class,
-                        "retryable": exc.retryable,
-                        "recovery_context": recovery_context,
-                        "agent_run": exc.result.audit_record() if exc.result else None,
-                        "failed_at": now_utc(),
-                    },
-                )
-                raise
-            failed_workspace = (
-                Path(exc.result.workspace)
-                if exc.result and exc.result.workspace
-                else None
-            )
-            recovery_workspace = (
-                failed_workspace
-                if failed_workspace is not None and failed_workspace.is_dir()
-                else artifact_root
-                if artifact_root.is_dir()
-                else None
-            )
-            delay = min(
-                float(config.get("retry_max_seconds", 30)),
-                float(config.get("retry_backoff_seconds", 2)) * (2 ** (attempt - 1)),
-            )
-            if delay > 0:
-                time.sleep(delay)
-            continue
         _persist_phase_artifacts(attempt_root, artifact_root)
+        write_json(attempt_root / "agent_run.json", result.audit_record())
         write_json(
             checkpoint,
-            {
-                "phase": phase,
-                "paper_id": paper_id,
-                "input_fingerprint": fingerprint,
-                "prompt_version": prompt_version,
-                "response": result.response,
-                "agent_run": result.audit_record(),
-                "completed_at": now_utc(),
-            },
+            {"phase": phase, "paper_id": paper_id, "input_fingerprint": fingerprint,
+             "prompt_version": prompt_version, "response": result.response,
+             "agent_run": result.audit_record(), "completed_at": now_utc()},
         )
-        failure_checkpoint.unlink(missing_ok=True)
-        return (
-            result.response or {},
-            {**result.audit_record(), "cache_hit": False},
-            artifact_root if artifact_root.is_dir() else attempt_root,
-        )
-    if last_error is not None:
-        raise last_error
-    raise RuntimeError(f"Stage06 phase did not execute: {phase}")
+        return result.response or {}, {**result.audit_record(), "cache_hit": False}, artifact_root
+    except AgentExecutionError as exc:
+        if exc.result is not None:
+            write_json(attempt_root / "agent_run.json", exc.result.audit_record())
+        raise
 
-
-def _recover_builder_receipt_from_review(
-    *,
-    workspace: Path,
-    output_schema: dict[str, Any],
-    semantic_validator: Callable[[dict[str, Any], Path], list[str]] | None,
-) -> dict[str, Any] | None:
-    """Recover a derivative receipt when the Agent's final message is malformed.
-
-    The workflow review remains the authority for this small transport receipt.
-    When a semantic validator is supplied (legacy phases), it must accept the
-    artifact.  The provisional single-Agent path deliberately performs only the
-    JSON/artifact recovery here and leaves scientific review to Stage07.
-    """
-
-    review_path = workspace / "outputs" / "workflow_review.json"
-    if not review_path.is_file():
-        return None
-    try:
-        review = read_json(review_path)
-    except (OSError, ValueError, TypeError):
-        return None
-    decision = str(review.get("decision") or "")
-    if decision not in {"candidate_ready", "scientific_not_constructible"}:
-        return None
-    receipt: dict[str, Any] = {
-        "decision": (
-            "constructed"
-            if decision == "candidate_ready"
-            else "scientific_not_constructible"
-        ),
-        "paper_id": str(review.get("paper_id") or ""),
-        "artifact_path": (
-            "outputs"
-            if decision == "candidate_ready"
-            else "outputs/construction_receipt.json"
-        ),
-        "milestones": {},
-        "workflow_scope_kind": str(
-            (review.get("workflow_scope") or {}).get("kind") or "none"
-        ),
-        "complexity_profile": json.loads(
-            json.dumps(review.get("complexity_profile") or {}, ensure_ascii=False)
-        ),
-        "failure_code": str(review.get("failure_code") or ""),
-        "failure_reasons": review.get("failure_reasons") or [],
-        "summary": str(
-            review.get("workflow_summary")
-            or review.get("scientific_question")
-            or "Recovered the construction receipt from validated file artifacts."
-        ),
-    }
-    write_json(workspace / "outputs" / "construction_receipt.json", receipt)
-    if semantic_validator is not None:
-        findings = semantic_validator(receipt, workspace)
-        if findings:
-            return None
-    try:
-        jsonschema.validate(receipt, output_schema)
-    except jsonschema.ValidationError:
-        return None
-    return receipt
-
-
-def _phase_gate_deliverable_findings(
-    parsed: dict[str, Any],
-    *,
-    label: str,
-) -> list[str]:
-    """Compare the public deliverable declaration with the submission contract."""
-
-    info = parsed.get("task_info.json")
-    submission = parsed.get("submission_contract.json")
-    if not isinstance(info, dict) or not isinstance(submission, dict):
-        return []
-    declared = {
-        str(item.get("path") or "")
-        for item in info.get("required_deliverables") or []
-        if isinstance(item, dict) and item.get("path")
-    }
-    required = {
-        str(item)
-        for item in submission.get("required_files") or []
-        if isinstance(item, str) and item
-    }
-    findings: list[str] = []
-    if not required:
-        findings.append(f"{label}_submission_required_files_missing")
-    if declared != required:
-        findings.append(f"{label}_submission_contract_deliverables_mismatch")
-    return findings
-
-
-def _stage06a_legacy_phase_gate_findings(
-    response: dict[str, Any],
-    workspace: Path,
-) -> list[str]:
-    """Check only the Stage06A-owned handoff before autonomous conversion.
-
-    Stage06A owns the reproduction surface, private reference draft, and the
-    small conversion handoff.  It does *not* own the autonomous surface, so this
-    Gate must never reuse the complete-pair validator.  The checks below are
-    deliberately syntactic/transport checks; scientific closure and importance
-    remain Agent decisions.
-    """
-
-    outputs = workspace / "outputs"
-    findings: list[str] = []
-
-    receipt_path = outputs / "construction_receipt.json"
-    receipt: dict[str, Any] = {}
-    if not receipt_path.is_file():
-        findings.append("stage06a_construction_receipt_missing")
-    else:
-        try:
-            raw_receipt = read_json(receipt_path)
-            if isinstance(raw_receipt, dict):
-                receipt = raw_receipt
-            else:
-                findings.append("stage06a_construction_receipt_not_object")
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            findings.append("stage06a_construction_receipt_unreadable")
-
-    decision = str(response.get("decision") or receipt.get("decision") or "")
-    if receipt and receipt.get("decision") != decision:
-        findings.append("stage06a_receipt_decision_mismatch")
-    if decision == "scientific_not_constructible":
-        # A source-backed negative decision has no success-tree obligation.
-        # A half-written public mode tree is ambiguous and must be removed or
-        # completed by the Agent; the Gate does not reinterpret the rejection.
-        # Ignore an empty directory scaffold created by the orchestrator itself.
-        for mode in ("paper_reproduction", "autonomous_research"):
-            mode_root = outputs / mode
-            if mode_root.is_dir() and any(
-                path.is_file() or path.is_symlink() for path in mode_root.rglob("*")
-            ):
-                findings.append(f"stage06a_negative_contains_mode_tree:{mode}")
-        return sorted(set(findings))
-    if decision != "constructed":
-        findings.append(f"stage06a_decision_invalid:{decision or 'missing'}")
-
-    review_path = outputs / "workflow_review.json"
-    if not review_path.is_file():
-        findings.append("stage06a_workflow_review_missing")
-    else:
-        try:
-            review = read_json(review_path)
-            if not isinstance(review, dict):
-                findings.append("stage06a_workflow_review_not_object")
-            elif review.get("decision") != "candidate_ready":
-                findings.append("stage06a_workflow_review_not_candidate_ready")
-            else:
-                try:
-                    jsonschema.validate(review, STAGE06_WORKFLOW_REVIEW_SCHEMA)
-                except jsonschema.ValidationError as exc:
-                    location = "/".join(str(item) for item in exc.absolute_path) or "$"
-                    findings.append(
-                        f"stage06a_workflow_review_schema_invalid:{location}:{exc.validator}"
-                    )
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            findings.append("stage06a_workflow_review_unreadable")
-
-    reproduction = outputs / "paper_reproduction"
-    required_reproduction = (
-        "task.md",
-        "task_info.json",
-        "task_spec.json",
-        "submission_contract.json",
-        "process_rubric.json",
-        "paper_route.md",
-        "workflow_spec.json",
-        "route_evidence_map.json",
-    )
-    parsed: dict[str, Any] = {}
-    if not reproduction.is_dir():
-        findings.append("stage06a_reproduction_directory_missing")
-    else:
-        for name in required_reproduction:
-            path = reproduction / name
-            if not path.is_file():
-                findings.append(f"stage06a_reproduction_file_missing:{name}")
-                continue
-            if name.endswith(".json"):
-                try:
-                    parsed[name] = read_json(path)
-                except (OSError, ValueError, TypeError, json.JSONDecodeError):
-                    findings.append(f"stage06a_reproduction_json_unreadable:{name}")
-        task_path = reproduction / "task.md"
-        if task_path.is_file() and not task_path.read_text(
-            encoding="utf-8", errors="replace"
-        ).strip():
-            findings.append("stage06a_task_instruction_empty")
-
-        findings.extend(
-            _phase_gate_deliverable_findings(parsed, label="stage06a")
-        )
-
-        raw_rubric = parsed.get("process_rubric.json")
-        if raw_rubric is not None:
-            rubric = normalize_process_rubric_contract(raw_rubric)
-            if not isinstance(rubric, list):
-                findings.append("stage06a_process_rubric_container_invalid")
-            elif not rubric:
-                findings.append("stage06a_process_rubric_empty")
-
-        input_root = reproduction / "data" / "inputs"
-        if not input_root.is_dir():
-            findings.append("stage06a_input_directory_missing")
-        task_spec = parsed.get("task_spec.json")
-        if isinstance(task_spec, dict) and input_root.is_dir():
-            for index, asset in enumerate(task_spec.get("input_assets") or []):
-                if not isinstance(asset, dict):
-                    findings.append(f"stage06a_input_asset_invalid:{index}")
-                    continue
-                try:
-                    relative = validate_relative_path(str(asset.get("path") or ""))
-                except ValueError:
-                    findings.append(f"stage06a_input_asset_path_invalid:{index}")
-                    continue
-                relative = relative.removeprefix("data/inputs/").removeprefix(
-                    "inputs/"
-                )
-                if not (input_root / relative).is_file():
-                    findings.append(f"stage06a_input_asset_missing:{relative}")
-
-    for name in (
-        "workflow_completeness_check.json",
-        "public_to_private_asset_map.json",
-        "toolbox_requirements.json",
-    ):
-        path = outputs / name
-        if not path.is_file():
-            findings.append(f"stage06a_handoff_file_missing:{name}")
-            continue
-        try:
-            read_json(path)
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            findings.append(f"stage06a_handoff_json_unreadable:{name}")
-
-    hidden_root = outputs / "hidden_reference"
-    common_path = hidden_root / "ground_truth_common.json"
-    evidence_path = hidden_root / "private_evidence_map.json"
-    hidden: dict[str, Any] | None = None
-    if not common_path.is_file():
-        findings.append("stage06a_hidden_reference_missing")
-    else:
-        try:
-            value = read_json(common_path)
-            if isinstance(value, dict):
-                hidden = value
-            else:
-                findings.append("stage06a_hidden_reference_not_object")
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            findings.append("stage06a_hidden_reference_unreadable")
-    if not evidence_path.is_file():
-        findings.append("stage06a_private_evidence_map_missing")
-    else:
-        try:
-            read_json(evidence_path)
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            findings.append("stage06a_private_evidence_map_unreadable")
-
-    if hidden is not None:
-        if hidden.get("status") != "ready":
-            findings.append("stage06a_hidden_reference_not_ready")
-        findings.extend(
-            hidden_reference_transport_findings(
-                hidden, require_ready_ground_truth=True
-            )
-        )
-        truths = hidden.get("ground_truth_items")
-        if not isinstance(truths, list) or not truths:
-            findings.append("stage06a_ground_truth_items_missing")
-            truths = []
-        # This is intentionally a raw-field existence check.  Never infer a
-        # final claim from `kind`, an acceptance profile, or rubric wording.
-        if not any(
-            isinstance(item, dict) and item.get("claim_role") == "final"
-            for item in truths
-        ):
-            findings.append("stage06a_final_claim_missing")
-        profiles = hidden.get("acceptance_profiles")
-        if not isinstance(profiles, list) or not profiles:
-            findings.append("stage06a_acceptance_profiles_missing")
-        else:
-            submission = parsed.get("submission_contract.json")
-            for profile in profiles:
-                if not isinstance(profile, dict):
-                    findings.append("stage06a_acceptance_profile_not_object")
-                    continue
-                findings.extend(
-                    _acceptance_profile_findings(
-                        profile,
-                        submission_contract=(
-                            submission if isinstance(submission, dict) else None
-                        ),
-                        required_binding_modes={"paper_reproduction"},
-                    )
-                )
-        conclusion_rubric = hidden.get("scientific_conclusion_rubric")
-        if not isinstance(conclusion_rubric, list) or not conclusion_rubric:
-            findings.append("stage06a_conclusion_key_points_missing")
-
-    return sorted(set(findings))
 
 
 def _stage06a_phase_gate_findings(
@@ -3093,7 +1492,7 @@ def _stage06a_phase_gate_findings(
 def _stage06a_phase_gate_prepare(
     workspace: Path,
     *,
-    task_pair_id: str | None = None,
+    paper_id: str | None = None,
 ) -> list[str]:
     """Canonicalize only a positive Stage06A task tree.
 
@@ -3118,201 +1517,7 @@ def _stage06a_phase_gate_prepare(
     return canonicalize_mode_task_contract(
         reproduction,
         expected_mode="paper_reproduction",
-        task_pair_id=task_pair_id,
-    )
-
-
-def _task_pair_builder_phase_findings(
-    receipt: dict[str, Any],
-    workspace: Path,
-    *,
-    evidence_ids: set[str],
-    source_root: Path | None = None,
-) -> list[str]:
-    outputs = workspace / "outputs"
-    make_writable(outputs)
-    review_path = outputs / "workflow_review.json"
-    if not review_path.is_file():
-        return ["workflow_review_artifact_missing"]
-    try:
-        review = read_json(review_path)
-    except (OSError, ValueError, TypeError) as exc:
-        return [f"workflow_review_unreadable:{type(exc).__name__}:{exc}"]
-    frozen_review_path = workspace / "inputs" / "frozen_workflow_review.json"
-    if frozen_review_path.is_file():
-        # Recovery attempts may repair construction files, but they may not
-        # rewrite an already validated scientific selection or hidden targets.
-        review = read_json(frozen_review_path)
-    review = _normalize_workflow_review_aliases(review)
-    review = _normalize_scientific_failure_contract(review)
-    review = _canonicalize_review_evidence_ids(review, evidence_ids)
-    canonical_source_root = (
-        source_root
-        if source_root is not None
-        else workspace / "inputs"
-    )
-    evidence_index_path = canonical_source_root / "evidence_index.json"
-    evidence_index = (
-        read_json(evidence_index_path) if evidence_index_path.is_file() else []
-    )
-    review = _recover_workflow_review_from_pair_artifacts(
-        review,
-        outputs,
-        source_root=canonical_source_root,
-        evidence_index=evidence_index if isinstance(evidence_index, list) else [],
-    )
-    review = _normalize_workflow_review_aliases(review)
-    review = _normalize_scientific_failure_contract(review)
-    review = _canonicalize_review_evidence_ids(review, evidence_ids)
-    review["toolbox_requirements"] = _normalize_toolbox_requirements(
-        review.get("toolbox_requirements") or []
-    )
-    try:
-        jsonschema.validate(review, STAGE06_WORKFLOW_REVIEW_SCHEMA)
-    except jsonschema.ValidationError as exc:
-        write_json(review_path, review)
-        return [f"workflow_review_schema_invalid:{type(exc).__name__}:{exc}"]
-    write_json(review_path, review)
-    validation_review = json.loads(json.dumps(review, ensure_ascii=False))
-    _hydrate_public_input_assets(validation_review, workspace)
-    review_findings = validate_workflow_review(validation_review, evidence_ids)
-    findings = list(review_findings)
-    _synchronize_builder_receipt(receipt, review, outputs=outputs)
-    write_json(outputs / "construction_receipt.json", receipt)
-    if receipt.get("paper_id") != review.get("paper_id"):
-        findings.append("receipt_task_pair_id_mismatch")
-    expected_receipt_decision = (
-        "constructed"
-        if review.get("decision") == "candidate_ready"
-        else "scientific_not_constructible"
-    )
-    if receipt.get("decision") != expected_receipt_decision:
-        findings.append("receipt_workflow_decision_mismatch")
-    if review.get("decision") == "scientific_not_constructible":
-        if receipt.get("failure_code") != review.get("failure_code"):
-            findings.append("receipt_failure_code_mismatch")
-        if receipt.get("failure_reasons") != review.get("failure_reasons"):
-            findings.append("receipt_failure_reasons_mismatch")
-        if any((outputs / name).exists() for name in ("paper_reproduction", "autonomous_research")):
-            findings.append("scientific_failure_created_task_directory")
-        milestones = receipt.get("milestones") or {}
-        if milestones.get("workflow_review_validated") is not True:
-            findings.append("builder_milestone_incomplete:workflow_review_validated")
-        for name in (
-            "reproduction_validated",
-            "autonomous_copy_created",
-            "autonomous_validated",
-            "hidden_reference_validated",
-            "pair_draft_validated",
-        ):
-            if milestones.get(name) is True:
-                findings.append(f"scientific_failure_milestone_unexpected:{name}")
-        return sorted(set(findings))
-
-    # Only freeze and repair the task pair after the source-backed scientific
-    # review itself is valid.  This prevents a formatter from turning missing
-    # structures, parameters, routes, or Ground Truth into a false success.
-    if not review_findings:
-        frozen_output_path = outputs / "frozen_workflow_review.json"
-        if not frozen_output_path.is_file():
-            write_json(frozen_output_path, review)
-        findings.extend(_normalize_task_pair_artifact_contracts(outputs, review))
-
-    if receipt.get("artifact_path") != "outputs":
-        findings.append("constructed_receipt_artifact_path_invalid")
-    milestones = receipt.get("milestones") or {}
-    for name in (
-        "workflow_review_validated",
-        "reproduction_validated",
-        "autonomous_copy_created",
-        "autonomous_validated",
-        "hidden_reference_validated",
-        "pair_draft_validated",
-    ):
-        if milestones.get(name) is not True:
-            findings.append(f"builder_milestone_incomplete:{name}")
-    scope = review.get("workflow_scope") or {}
-    complexity = review.get("complexity_profile") or {}
-    if receipt.get("workflow_scope_kind") != _workflow_scope_kind(scope):
-        findings.append("receipt_workflow_scope_mismatch")
-    receipt_complexity = receipt.get("complexity_profile") or {}
-    if canonicalize_complexity_profile(receipt_complexity) != canonicalize_complexity_profile(complexity):
-        findings.append("receipt_complexity_profile_mismatch")
-    required_paths = (
-        "paper_reproduction",
-        "autonomous_research",
-        "workflow_completeness_check.json",
-        "public_to_private_asset_map.json",
-        "hidden_reference/ground_truth_common.json",
-        "hidden_reference/private_evidence_map.json",
-        "toolbox_requirements.json",
-    )
-    for relative in required_paths:
-        if not (outputs / relative).exists():
-            findings.append(f"builder_output_missing:{relative}")
-    hidden_common_path = outputs / "hidden_reference" / "ground_truth_common.json"
-    if hidden_common_path.is_file():
-        read_json(hidden_common_path)
-    toolbox_path = outputs / "toolbox_requirements.json"
-    if toolbox_path.is_file():
-        toolbox_value = read_json(toolbox_path)
-        if not isinstance(toolbox_value, list):
-            findings.append("toolbox_requirements_artifact_invalid")
-        elif _normalize_toolbox_requirements(toolbox_value) != _normalize_toolbox_requirements(
-            review.get("toolbox_requirements") or []
-        ):
-            findings.append("toolbox_requirements_artifact_mismatch")
-    if (outputs / "paper_reproduction").is_dir() and (
-        outputs / "autonomous_research"
-    ).is_dir():
-        findings.extend(validate_task_pair_draft(outputs, review=review))
-    return sorted(set(findings))
-
-
-def _prepare_task_pair_builder_recovery(attempt_root: Path) -> None:
-    """Make a partial builder artifact safe and unambiguous for the next attempt."""
-
-    outputs = attempt_root / "outputs"
-    outputs.mkdir(parents=True, exist_ok=True)
-    make_writable(outputs)
-    review_path = outputs / "workflow_review.json"
-    if not review_path.is_file():
-        return
-    frozen_output = outputs / "frozen_workflow_review.json"
-    try:
-        review = _normalize_workflow_review_aliases(
-            read_json(frozen_output if frozen_output.is_file() else review_path)
-        )
-    except (OSError, ValueError, TypeError):
-        return
-    write_json(review_path, review)
-    if frozen_output.is_file():
-        frozen_input = attempt_root / "inputs" / "frozen_workflow_review.json"
-        make_writable(frozen_input.parent)
-        write_json(frozen_input, review)
-        make_read_only(frozen_input.parent)
-    # A receipt from the previous attempt describes a tree that is about to be
-    # repaired. Keeping it makes the semantic validator compare stale milestones
-    # with the new tree and encourages the Agent to turn an execution failure into
-    # a false scientific rejection.
-    stale_receipt = outputs / "construction_receipt.json"
-    if stale_receipt.is_file() and review.get("decision") == "candidate_ready":
-        stale_receipt.unlink()
-    write_json(
-        attempt_root / "TASK_PAIR_RECOVERY_STATUS.json",
-        {
-            "review_decision": review.get("decision"),
-            "paper_id": review.get("paper_id"),
-            "frozen_review_hash": (
-                canonical_hash(review) if frozen_output.is_file() else None
-            ),
-            "required_action": (
-                "For candidate_ready, run inputs/scripts/bootstrap_task_pair.py, repair only "
-                "the listed construction findings, run all validators, and write a fresh "
-                "construction_receipt.json. Never change candidate_ready to scientific failure "
-                "because a prior Agent stopped early."
-            ),
-        },
+        task_pair_id=paper_id,
     )
 
 
@@ -3332,39 +1537,6 @@ _SCIENTIFIC_FAILURE_CODE_ALIASES = {
 }
 
 
-def _normalize_scientific_failure_contract(review: dict[str, Any]) -> dict[str, Any]:
-    """Normalize naming variants in a source-backed scientific rejection.
-
-    Construction/runtime failures deliberately have no aliases here: they must
-    remain retryable orchestration failures rather than being laundered into a
-    paper-level scientific rejection.
-    """
-
-    value = json.loads(json.dumps(review, ensure_ascii=False))
-    if value.get("decision") != "scientific_not_constructible":
-        return value
-    failure_code = str(value.get("failure_code") or "").strip()
-    value["failure_code"] = _SCIENTIFIC_FAILURE_CODE_ALIASES.get(
-        failure_code, failure_code
-    )
-    normalized_reasons: list[Any] = []
-    for raw in value.get("failure_reasons") or []:
-        if not isinstance(raw, dict):
-            normalized_reasons.append(raw)
-            continue
-        reason = dict(raw)
-        code = str(reason.get("code") or "").strip()
-        reason["code"] = _SCIENTIFIC_FAILURE_CODE_ALIASES.get(code, code)
-        if not reason.get("scope_attempted") and reason.get("scope"):
-            reason["scope_attempted"] = reason["scope"]
-        if not reason.get("evidence_ids") and reason.get("evidence_id"):
-            reason["evidence_ids"] = [reason["evidence_id"]]
-        checked = reason.get("checked_sources")
-        if isinstance(checked, str) and checked.strip():
-            reason["checked_sources"] = [checked]
-        normalized_reasons.append(reason)
-    value["failure_reasons"] = normalized_reasons
-    return value
 
 
 _BLOCK_EVIDENCE_RE = re.compile(
@@ -3378,175 +1550,10 @@ _LEGACY_DERIVED_EVIDENCE_RE = re.compile(
 )
 
 
-def _canonical_evidence_id(
-    identifier: Any, canonical_ids: set[str]
-) -> str:
-    """Resolve a stale evidence hash only when its structural match is unique."""
-
-    candidate = str(identifier or "")
-    if not candidate or candidate in canonical_ids:
-        return candidate
-    by_document_index: dict[tuple[str, str], list[str]] = {}
-    by_document_digest: dict[tuple[str, str], list[str]] = {}
-    for canonical in canonical_ids:
-        block = _BLOCK_EVIDENCE_RE.fullmatch(canonical)
-        if block:
-            by_document_index.setdefault(
-                (block.group("document"), block.group("index")), []
-            ).append(canonical)
-            by_document_digest.setdefault(
-                (block.group("document"), block.group("digest").casefold()), []
-            ).append(canonical)
-            continue
-        derived = _DERIVED_EVIDENCE_RE.fullmatch(canonical)
-        if derived:
-            by_document_digest.setdefault(
-                (derived.group("document"), derived.group("digest").casefold()), []
-            ).append(canonical)
-
-    block = _BLOCK_EVIDENCE_RE.fullmatch(candidate)
-    if block:
-        matches = by_document_index.get(
-            (block.group("document"), block.group("index")), []
-        )
-        if len(matches) == 1:
-            return matches[0]
-        if block.group("digest") != "*":
-            matches = by_document_digest.get(
-                (block.group("document"), block.group("digest").casefold()), []
-            )
-            if len(matches) == 1:
-                return matches[0]
-        return candidate
-    derived = _DERIVED_EVIDENCE_RE.fullmatch(candidate)
-    if not derived:
-        derived = _LEGACY_DERIVED_EVIDENCE_RE.fullmatch(candidate)
-    if derived:
-        matches = by_document_digest.get(
-            (derived.group("document"), derived.group("digest").casefold()), []
-        )
-        if len(matches) == 1:
-            return matches[0]
-    return candidate
 
 
-def _canonicalize_review_evidence_ids(
-    review: dict[str, Any], canonical_ids: set[str]
-) -> dict[str, Any]:
-    """Canonicalize exact evidence references without guessing ambiguous IDs."""
-
-    def visit(node: Any) -> Any:
-        if isinstance(node, dict):
-            output: dict[str, Any] = {}
-            for key, nested in node.items():
-                normalized_key = (
-                    _canonical_evidence_id(key, canonical_ids)
-                    if str(key).startswith("ev_")
-                    else key
-                )
-                output[str(normalized_key)] = visit(nested)
-            return output
-        if isinstance(node, list):
-            return [visit(item) for item in node]
-        if isinstance(node, str) and node.startswith("ev_"):
-            return _canonical_evidence_id(node, canonical_ids)
-        return node
-
-    value = visit(review)
-    return value if isinstance(value, dict) else {}
 
 
-def _synchronize_builder_receipt(
-    receipt: dict[str, Any], review: dict[str, Any], *, outputs: Path
-) -> None:
-    """Make the small builder receipt a deterministic projection of artifacts."""
-
-    negative = review.get("decision") == "scientific_not_constructible"
-    receipt["decision"] = (
-        "scientific_not_constructible" if negative else "constructed"
-    )
-    receipt["paper_id"] = str(review.get("paper_id") or "")
-    receipt["artifact_path"] = (
-        "outputs/construction_receipt.json" if negative else "outputs"
-    )
-    scope = review.get("workflow_scope") or {}
-    complexity = review.get("complexity_profile") or {}
-    receipt["workflow_scope_kind"] = str(_workflow_scope_kind(scope) or "none")
-    receipt["complexity_profile"] = json.loads(
-        json.dumps(complexity, ensure_ascii=False)
-    )
-    receipt["failure_code"] = str(review.get("failure_code") or "") if negative else ""
-    receipt["failure_reasons"] = (
-        json.loads(json.dumps(review.get("failure_reasons") or [], ensure_ascii=False))
-        if negative
-        else []
-    )
-    if not str(receipt.get("summary") or "").strip():
-        receipt["summary"] = str(
-            review.get("workflow_summary")
-            or review.get("scientific_question")
-            or (
-                "Source evidence does not support a constructible benchmark task."
-                if negative
-                else "Constructed the paired benchmark task artifacts."
-            )
-        )
-    if negative:
-        receipt["milestones"] = {
-            "workflow_review_validated": True,
-            "reproduction_validated": False,
-            "autonomous_copy_created": False,
-            "autonomous_validated": False,
-            "hidden_reference_validated": False,
-            "pair_draft_validated": False,
-        }
-        return
-    milestones = dict(receipt.get("milestones") or {})
-    reproduction = outputs / "paper_reproduction"
-    autonomous = outputs / "autonomous_research"
-    hidden = outputs / "hidden_reference"
-    milestones["workflow_review_validated"] = True
-    milestones["reproduction_validated"] = reproduction.is_dir() and all(
-        (reproduction / name).is_file()
-        for name in (
-            "task.md",
-            "task_info.json",
-            "task_spec.json",
-            "submission_contract.json",
-            "process_rubric.json",
-            "paper_route.md",
-            "workflow_spec.json",
-            "route_evidence_map.json",
-        )
-    )
-    milestones["autonomous_copy_created"] = autonomous.is_dir()
-    milestones["autonomous_validated"] = autonomous.is_dir() and all(
-        (autonomous / name).is_file()
-        for name in (
-            "task.md",
-            "task_info.json",
-            "task_spec.json",
-            "submission_contract.json",
-            "process_rubric.json",
-        )
-    )
-    milestones["hidden_reference_validated"] = hidden.is_dir() and all(
-        (hidden / name).is_file()
-        for name in (
-            "ground_truth_common.json",
-            "private_evidence_map.json",
-        )
-    )
-    milestones["pair_draft_validated"] = all(
-        milestones.get(name) is True
-        for name in (
-            "reproduction_validated",
-            "autonomous_copy_created",
-            "autonomous_validated",
-            "hidden_reference_validated",
-        )
-    )
-    receipt["milestones"] = milestones
 
 
 def _normalize_public_asset_declarations(raw: Any) -> list[dict[str, Any]]:
@@ -3575,316 +1582,8 @@ def _normalize_public_asset_declarations(raw: Any) -> list[dict[str, Any]]:
     return rows
 
 
-def _normalize_workflow_review_aliases(review: dict[str, Any]) -> dict[str, Any]:
-    """Normalize harmless Agent naming variants before scientific validation.
-
-    This is deliberately syntax-only.  It may rename fields and derive counts
-    from already supplied workflow steps, but it never creates missing inputs,
-    route facts, evidence, or Ground Truth values.
-    """
-
-    value = json.loads(json.dumps(review, ensure_ascii=False))
-    public_basis = value.get("public_task_basis")
-    if isinstance(public_basis, dict) and isinstance(
-        public_basis.get("input_assets"), (list, dict)
-    ):
-        public_basis["input_assets"] = _normalize_public_asset_declarations(
-            public_basis.get("input_assets")
-        )
-
-    scope = value.get("workflow_scope")
-    if isinstance(scope, dict):
-        aliases = {
-            "scope_kind": "kind",
-            "rationale": "selection_rationale",
-            "included_workflows": "included_workflow_ids",
-            "excluded_workflows": "excluded_workflow_ids",
-            "included_claims": "included_claim_ids",
-            "excluded_claims": "excluded_claim_ids",
-            "scope_evidence": "scope_evidence_ids",
-        }
-        for source, target in aliases.items():
-            if target not in scope and source in scope:
-                scope[target] = scope[source]
-        if not scope.get("included_claim_ids"):
-            claims: list[str] = []
-            for row in value.get("workflow_inventory") or []:
-                if not isinstance(row, dict):
-                    continue
-                for key in ("claim_ids", "supports_claim_ids"):
-                    rows = row.get(key) or []
-                    claims.extend(rows if isinstance(rows, list) else [rows])
-                if (
-                    str(row.get("workflow_id") or "")
-                    in {str(item) for item in scope.get("included_workflow_ids") or []}
-                    and str(row.get("claim_supported") or "").strip()
-                ):
-                    claims.append(f"claim:{row['workflow_id']}")
-            scope["included_claim_ids"] = [str(item) for item in claims if str(item)]
-        if (
-            scope.get("kind") not in {
-                "full_paper_core_workflow",
-                "full_paper_computational_workflow",
-            }
-            and not scope.get("larger_scope_failure_reasons")
-        ):
-            excluded = {
-                str(row.get("workflow_id") or ""): str(row.get("excluded_reason") or "").strip()
-                for row in value.get("workflow_inventory") or []
-                if isinstance(row, dict) and str(row.get("excluded_reason") or "").strip()
-            }
-            reasons = [
-                f"{workflow_id}: {excluded[workflow_id]}"
-                for workflow_id in scope.get("excluded_workflow_ids") or []
-                if str(workflow_id) in excluded
-            ]
-            if reasons:
-                scope["larger_scope_failure_reasons"] = reasons
-        if not scope.get("scope_evidence_ids"):
-            scope["scope_evidence_ids"] = _workflow_review_evidence_ids(value)
-        # Some harness/model combinations place the paper-level summary fields in
-        # workflow_scope.  Promote them before the public projection below strips
-        # route-bearing convenience fields from the scope copied into both tasks.
-        for field in (
-            "scientific_question",
-            "public_scientific_question",
-            "task_direction",
-            "category",
-            "workflow_summary",
-        ):
-            if not value.get(field) and scope.get(field):
-                value[field] = scope[field]
-        if not scope.get("selection_rationale"):
-            rationale = str(
-                scope.get("workflow_summary")
-                or value.get("workflow_summary")
-                or ""
-            ).strip()
-            if rationale:
-                scope["selection_rationale"] = rationale
-
-    selected_workflow_ids = {
-        str(item)
-        for item in (scope or {}).get("included_workflow_ids") or []
-        if str(item)
-    }
-    selected_inventory = [
-        row
-        for row in value.get("workflow_inventory") or []
-        if isinstance(row, dict)
-        and (
-            not selected_workflow_ids
-            or str(row.get("workflow_id") or "") in selected_workflow_ids
-        )
-    ]
-    if not value.get("workflow_steps"):
-        value["workflow_steps"] = [
-            dict(step)
-            for row in selected_inventory
-            for step in row.get("steps") or []
-            if isinstance(step, dict)
-        ]
-    if not value.get("ground_truth_items"):
-        value["ground_truth_items"] = [
-            dict(truth)
-            for row in selected_inventory
-            for truth in row.get("ground_truth_items") or []
-            if isinstance(truth, dict)
-        ]
-
-    normalized_steps: list[dict[str, Any]] = []
-    for index, raw_step in enumerate(value.get("workflow_steps") or [], start=1):
-        if not isinstance(raw_step, dict):
-            continue
-        step = dict(raw_step)
-        step.setdefault("step_id", f"step-{index}")
-        if not step.get("action"):
-            step["action"] = str(
-                step.get("name") or step.get("description") or step["step_id"]
-            )
-        if not step.get("depends_on") and step.get("dependencies"):
-            dependencies = step.get("dependencies")
-            step["depends_on"] = (
-                list(dependencies) if isinstance(dependencies, list) else [dependencies]
-            )
-        step.setdefault("depends_on", [])
-        if not step.get("output_artifacts"):
-            output = step.get(
-                "output_artifact",
-                step.get("output", step.get("outputs", step.get("generated_output"))),
-            )
-            if output not in (None, ""):
-                step["output_artifacts"] = (
-                    list(output) if isinstance(output, list) else [output]
-                )
-        if not step.get("input_artifacts"):
-            input_value = step.get("input_artifact", step.get("input"))
-            if input_value not in (None, ""):
-                step["input_artifacts"] = (
-                    list(input_value)
-                    if isinstance(input_value, list)
-                    else [input_value]
-                )
-        if not step.get("method_parameters"):
-            if isinstance(step.get("parameters"), dict) and step.get("parameters"):
-                step["method_parameters"] = dict(step["parameters"])
-            elif step.get("method"):
-                step["method_parameters"] = {"method": step["method"]}
-        if not step.get("evidence_ids") and step.get("evidence_id"):
-            step["evidence_ids"] = [step["evidence_id"]]
-        if not step.get("step_type"):
-            action = str(step.get("action") or "").casefold()
-            if any(
-                token in action
-                for token in ("frequency", "verify", "validation", "irc", "convergence")
-            ):
-                step["step_type"] = "validation"
-            elif any(
-                token in action
-                for token in ("analysis", "compare", "profile", "thermochemistry", "gibbs")
-            ):
-                step["step_type"] = "scientific_analysis"
-            else:
-                step["step_type"] = "core_computation"
-        normalized_steps.append(step)
-    if normalized_steps:
-        value["workflow_steps"] = normalized_steps
-
-    complexity = value.get("complexity_profile")
-    if isinstance(complexity, dict):
-        value["complexity_profile"] = canonicalize_complexity_profile(complexity)
-    normalized_truths: list[dict[str, Any]] = []
-    for index, raw in enumerate(value.get("ground_truth_items") or [], start=1):
-        if not isinstance(raw, dict):
-            continue
-        truth = dict(raw)
-        for source, target in (
-            ("item_id", "ground_truth_id"),
-            ("value", "canonical_answer"),
-            ("type", "kind"),
-        ):
-            if target not in truth and source in truth:
-                truth[target] = truth[source]
-        truth.setdefault("ground_truth_id", f"gt-{index}")
-        kind = str(truth.get("kind") or "textual_intermediate_conclusion")
-        claim_role = str(truth.get("claim_role") or "").casefold()
-        item_type = str(truth.get("item_type") or "").casefold()
-        if "numeric" in item_type or "energy_difference" in item_type:
-            kind = (
-                "numeric_final_result"
-                if claim_role == "final"
-                else "numeric_intermediate_result"
-            )
-        elif "ranking" in item_type or "ordering" in item_type:
-            kind = "ranking"
-        elif "trend" in item_type:
-            kind = "trend"
-        truth["kind"] = {
-            "numerical_value": "numeric_final_result",
-            "numeric_value": "numeric_final_result",
-            "numeric": (
-                "numeric_final_result"
-                if claim_role == "final"
-                else "numeric_intermediate_result"
-            ),
-            "numerical": (
-                "numeric_final_result"
-                if claim_role == "final"
-                else "numeric_intermediate_result"
-            ),
-            "conclusion": "textual_final_conclusion",
-            "textual_conclusion": "textual_final_conclusion",
-            "textual": (
-                "textual_final_conclusion"
-                if claim_role == "final"
-                else "textual_intermediate_conclusion"
-            ),
-            "intermediate_conclusion": "textual_intermediate_conclusion",
-        }.get(kind, kind)
-        if not truth.get("evidence_ids") and truth.get("evidence_id"):
-            truth["evidence_ids"] = [truth["evidence_id"]]
-        canonical_answer = truth.get("canonical_answer")
-        numeric_answer = (
-            isinstance(canonical_answer, (int, float))
-            and not isinstance(canonical_answer, bool)
-        ) or (
-            isinstance(canonical_answer, dict)
-            and isinstance(canonical_answer.get("value"), (int, float))
-            and not isinstance(canonical_answer.get("value"), bool)
-        )
-        if not truth.get("acceptance_type") or (
-            numeric_answer
-            and truth["kind"].startswith("numeric_")
-            and truth.get("acceptance_type") == "semantic_propositions"
-        ) or (
-            truth["kind"] in {"ranking", "trend"}
-            and truth.get("acceptance_type") == "semantic_propositions"
-        ):
-            truth["acceptance_type"] = {
-                "numeric_final_result": "numeric_tolerance",
-                "numeric_intermediate_result": "numeric_tolerance",
-                "ranking": "ranking",
-                "trend": "trend",
-            }.get(truth["kind"], "semantic_propositions")
-        if not truth.get("required_propositions") and isinstance(
-            truth.get("canonical_answer"), str
-        ) and truth["kind"].startswith("textual_"):
-            truth["required_propositions"] = [truth["canonical_answer"]]
-        parameters = dict(truth.get("acceptance_parameters") or {})
-        if isinstance(canonical_answer, dict):
-            if canonical_answer.get("unit") not in (None, ""):
-                parameters.setdefault("unit", canonical_answer["unit"])
-            declared_tolerance = canonical_answer.get("tolerance")
-            if isinstance(declared_tolerance, dict):
-                if declared_tolerance.get("absolute") is not None:
-                    parameters.setdefault(
-                        "absolute_tolerance", declared_tolerance["absolute"]
-                    )
-                if declared_tolerance.get("relative") is not None:
-                    parameters.setdefault(
-                        "relative_tolerance", declared_tolerance["relative"]
-                    )
-        if truth.get("unit") not in (None, ""):
-            parameters.setdefault("unit", truth["unit"])
-        tolerance = truth.get("tolerance")
-        if tolerance is not None:
-            tolerance_kind = str(truth.get("tolerance_type") or "absolute").casefold()
-            parameters.setdefault(
-                "relative_tolerance" if tolerance_kind == "relative" else "absolute_tolerance",
-                tolerance,
-            )
-        truth["acceptance_parameters"] = parameters
-        truth.setdefault("required_propositions", [])
-        truth.setdefault("forbidden_contradictions", [])
-        truth.setdefault("evidence_grade", "B")
-        normalized_truths.append(truth)
-    if normalized_truths:
-        value["ground_truth_items"] = normalized_truths
-        if isinstance(scope, dict) and not scope.get("included_claim_ids"):
-            scope["included_claim_ids"] = [
-                str(row.get("ground_truth_id"))
-                for row in normalized_truths
-                if str(row.get("ground_truth_id") or "")
-            ]
-    for reason in value.get("failure_reasons") or []:
-        if isinstance(reason, dict) and not reason.get("evidence_ids") and reason.get(
-            "evidence_id"
-        ):
-            reason["evidence_ids"] = [reason["evidence_id"]]
-    return value
 
 
-def _workflow_review_evidence_ids(review: dict[str, Any]) -> list[str]:
-    ids: list[str] = []
-    for row in review.get("workflow_inventory") or []:
-        if isinstance(row, dict):
-            values = row.get("evidence_ids") or []
-            ids.extend(values if isinstance(values, list) else [values])
-    for row in review.get("workflow_steps") or []:
-        if isinstance(row, dict):
-            values = row.get("evidence_ids") or []
-            ids.extend(values if isinstance(values, list) else [values])
-    return sorted({str(item) for item in ids if str(item)})
 
 
 def _json_object(path: Path) -> dict[str, Any]:
@@ -3897,42 +1596,6 @@ def _json_object(path: Path) -> dict[str, Any]:
     return value if isinstance(value, dict) else {}
 
 
-def _canonical_workflow_scope(scope: Any) -> dict[str, Any]:
-    if not isinstance(scope, dict):
-        return {}
-    allowed = (
-        "kind",
-        "included_workflow_ids",
-        "excluded_workflow_ids",
-        "included_claim_ids",
-        "excluded_claim_ids",
-        "selection_rationale",
-        "larger_scope_failure_reasons",
-        "scope_evidence_ids",
-        "central_scientific_question",
-        "supported_primary_claims",
-        "parent_workflow_position",
-        "why_not_full_workflow",
-        "excluded_workflows_summary",
-        "autonomy_scope",
-        "autonomous_method_policy",
-    )
-    output = {key: json.loads(json.dumps(scope[key])) for key in allowed if key in scope}
-    # Make the Agent's autonomy contract explicit even for legacy reviews that
-    # omitted it.  The default matches the existing public behavior (method
-    # selection is open); this is metadata normalization, not a scientific
-    # judgment.
-    output["autonomy_scope"] = _autonomy_scope(output)
-    for key in (
-        "included_workflow_ids",
-        "excluded_workflow_ids",
-        "included_claim_ids",
-        "excluded_claim_ids",
-        "larger_scope_failure_reasons",
-        "scope_evidence_ids",
-    ):
-        output.setdefault(key, [])
-    return output
 
 
 _AUTONOMY_SCOPES = {
@@ -3953,113 +1616,12 @@ def _autonomy_scope(scope: Any) -> str:
     return value if value in _AUTONOMY_SCOPES else "fixed_input_method_discovery"
 
 
-def _autonomous_method_disclosure(
-    scope: Any, method_constraints: Any = None
-) -> str:
-    """Project the public autonomy contract into evaluator metadata.
-
-    A task-info projection may omit ``workflow_scope`` while retaining the
-    public scientific method constraints.  Those constraints must keep the
-    constrained disclosure label; otherwise the generated task contradicts
-    its own task.md/task_spec instructions.
-    """
-
-    has_public_method_constraints = isinstance(method_constraints, list) and any(
-        str(item).strip() for item in method_constraints
-    )
-    return (
-        "public_scientific_method_constraints"
-        if (
-            _autonomy_scope(scope) == "fixed_input_method_constrained_workflow"
-            or has_public_method_constraints
-        )
-        else "no_paper_method"
-    )
 
 
-def _normalize_boundary_contract(
-    rows: Any, *, evidence_ids: list[str]
-) -> list[dict[str, Any]]:
-    output: list[dict[str, Any]] = []
-    normalized_rows: list[Any]
-    if isinstance(rows, dict):
-        normalized_rows = [
-            {"name": str(name), "value": value}
-            for name, value in rows.items()
-            if value not in (None, "", [], {})
-        ]
-    else:
-        normalized_rows = rows if isinstance(rows, list) else []
-    for index, raw in enumerate(normalized_rows, start=1):
-        if isinstance(raw, dict):
-            row = dict(raw)
-            name = str(
-                row.get("name")
-                or row.get("condition")
-                or row.get("type")
-                or f"condition-{index}"
-            ).strip()
-            value = row.get("value", row.get("description"))
-        else:
-            text = str(raw or "").strip()
-            if not text:
-                continue
-            left, separator, right = text.partition(":")
-            name = left.strip() if separator and left.strip() else f"condition-{index}"
-            value = right.strip() if separator and right.strip() else text
-            row = {}
-        row["name"] = name
-        row["value"] = value
-        if not row.get("evidence_ids") and evidence_ids:
-            row["evidence_ids"] = list(evidence_ids)
-        output.append(row)
-    return output
 
 
-def _public_boundary_projection(rows: Any) -> Any:
-    """Remove paper-route method fields from a reproduction-spec fallback."""
-
-    denied = (
-        "method",
-        "functional",
-        "basis",
-        "pseudopotential",
-        "dispersion",
-        "software",
-        "program",
-        "package",
-        "solvation_model",
-        "entropy",
-        "grid",
-        "kpoint",
-        "k_point",
-        "cutoff",
-        "symmetry",
-    )
-
-    def is_public(name: Any) -> bool:
-        normalized = str(name or "").casefold().replace("-", "_").replace(" ", "_")
-        return not any(token in normalized for token in denied)
-
-    if isinstance(rows, dict):
-        return {key: value for key, value in rows.items() if is_public(key)}
-    if isinstance(rows, list):
-        return [
-            row
-            for row in rows
-            if not isinstance(row, dict)
-            or is_public(row.get("name") or row.get("condition") or row.get("type"))
-        ]
-    return rows
 
 
-def _task_input_relative_path(value: Any) -> str:
-    relative = validate_relative_path(str(value or ""))
-    for prefix in ("task/data/inputs/", "data/inputs/", "task/inputs/"):
-        if relative.startswith(prefix):
-            relative = relative[len(prefix) :]
-            break
-    return _normalize_public_input_path(relative)
 
 
 _UNCERTAIN_ASSET_RE = re.compile(
@@ -4075,740 +1637,24 @@ _XYZ_ROUTE_COMMENT_RE = re.compile(
 _XYZ_COMMENT_REDACTION_ID = "xyz_route_comment_redaction_v1"
 
 
-def _public_xyz_bytes(content: bytes, *, relative: str) -> tuple[bytes, bool]:
-    """Redact route-bearing XYZ comments without changing coordinates."""
-
-    if Path(relative).suffix.casefold() != ".xyz":
-        return content, False
-    try:
-        text = content.decode("utf-8", errors="strict")
-    except UnicodeDecodeError:
-        return content, False
-    lines = text.splitlines()
-    if len(lines) < 2 or not _XYZ_ROUTE_COMMENT_RE.search(lines[1]):
-        return content, False
-    lines[1] = f"Source-provided geometry: {Path(relative).name}"
-    suffix = "\n" if text.endswith(("\n", "\r")) else ""
-    return ("\n".join(lines) + suffix).encode("utf-8"), True
 
 
-def _snapshot_relative_file(source_root: Path, value: Any) -> Path | None:
-    try:
-        relative = validate_relative_path(str(value or ""))
-        candidate = (source_root / relative).resolve()
-        candidate.relative_to(source_root.resolve())
-    except (ValueError, OSError):
-        return None
-    return candidate if candidate.is_file() and not candidate.is_symlink() else None
 
 
-def _source_asset_catalog(
-    *, source_root: Path, evidence_index: list[dict[str, Any]]
-) -> dict[str, list[dict[str, Any]]]:
-    """Index only canonical, evidence-linked source/derived files by byte hash."""
-
-    evidence_by_id = {
-        str(row.get("evidence_id")): row
-        for row in evidence_index
-        if isinstance(row, dict) and row.get("evidence_id")
-    }
-    records: list[dict[str, Any]] = []
-
-    def add(
-        path_value: Any,
-        *,
-        evidence_id: Any,
-        description: Any = "",
-        source_ref: Any = None,
-    ) -> None:
-        path = _snapshot_relative_file(source_root, path_value)
-        identifier = str(evidence_id or "")
-        if path is None or identifier not in evidence_by_id:
-            return
-        relative = path.relative_to(source_root.resolve()).as_posix()
-        reference = source_ref if isinstance(source_ref, dict) else {}
-        records.append(
-            {
-                "path": relative,
-                "sha256": sha256_file(path),
-                "evidence_id": identifier,
-                "description": str(description or evidence_by_id[identifier].get("text") or ""),
-                "source_ref": reference,
-                "deterministic_transform": bool(
-                    reference.get("derivation")
-                    or "/derived_coordinates/" in f"/{relative}"
-                    or "/derived_tables/" in f"/{relative}"
-                ),
-            }
-        )
-
-    path_pattern = re.compile(
-        r"documents/[A-Za-z0-9_.\-/]+\.(?:xyz|mol2?|sdf|smi|csv|tsv|txt|json)",
-        flags=re.IGNORECASE,
-    )
-    for row in evidence_index:
-        if not isinstance(row, dict) or not row.get("evidence_id"):
-            continue
-        for relative in path_pattern.findall(str(row.get("text") or "")):
-            add(
-                relative.rstrip(".,;:)\"]}"),
-                evidence_id=row["evidence_id"],
-                description=row.get("text"),
-                source_ref=row.get("source_ref"),
-            )
-
-    for index_path in sorted(
-        [
-            *source_root.glob("documents/*/derived_coordinates/index.json"),
-            *source_root.glob("documents/*/derived_tables/index.json"),
-        ]
-    ):
-        try:
-            payload = read_json(index_path)
-        except (OSError, ValueError, TypeError):
-            continue
-        if isinstance(payload, dict):
-            rows = next(
-                (
-                    payload.get(key)
-                    for key in ("items", "coordinates", "tables", "records")
-                    if isinstance(payload.get(key), list)
-                ),
-                [],
-            )
-        else:
-            rows = payload if isinstance(payload, list) else []
-        for row in rows:
-            if not isinstance(row, dict):
-                continue
-            add(
-                row.get("path") or row.get("file") or row.get("source_file"),
-                evidence_id=row.get("evidence_id"),
-                description=row.get("label") or row.get("caption"),
-                source_ref=row.get("source_ref"),
-            )
-
-    catalog: dict[str, list[dict[str, Any]]] = {}
-    seen: set[tuple[str, str]] = set()
-    for record in records:
-        key = (record["path"], record["evidence_id"])
-        if key in seen:
-            continue
-        seen.add(key)
-        catalog.setdefault(record["sha256"], []).append(record)
-    return catalog
 
 
-def _asset_source_matches(
-    *,
-    digest: str,
-    asset: dict[str, Any],
-    catalog: dict[str, list[dict[str, Any]]],
-) -> list[dict[str, Any]]:
-    matches = list(catalog.get(digest) or [])
-    source_file = str(
-        asset.get("source_file") or asset.get("source_path") or ""
-    ).strip()
-    if source_file:
-        matches = [row for row in matches if row.get("path") == source_file]
-    cited = {
-        str(item)
-        for item in (
-            asset.get("source_evidence_ids")
-            or ([asset["source_evidence_id"]] if asset.get("source_evidence_id") else [])
-        )
-        if str(item)
-    }
-    if cited:
-        evidence_matches = [row for row in matches if row.get("evidence_id") in cited]
-        if evidence_matches:
-            matches = evidence_matches
-    return matches
 
 
-def _transformed_asset_source_matches(
-    *,
-    content: bytes,
-    relative: str,
-    asset: dict[str, Any],
-    catalog: dict[str, list[dict[str, Any]]],
-    source_root: Path,
-) -> list[dict[str, Any]]:
-    provenance = asset.get("provenance") or {}
-    if provenance.get("transform_id") != _XYZ_COMMENT_REDACTION_ID:
-        return []
-    source_file = str(
-        asset.get("source_file") or asset.get("source_path") or ""
-    ).strip()
-    candidates = [
-        row
-        for rows in catalog.values()
-        for row in rows
-        if not source_file or row.get("path") == source_file
-    ]
-    matches: list[dict[str, Any]] = []
-    for row in candidates:
-        source = _snapshot_relative_file(source_root, row.get("path"))
-        if source is None:
-            continue
-        transformed, changed = _public_xyz_bytes(
-            source.read_bytes(), relative=relative
-        )
-        if changed and transformed == content:
-            matches.append(row)
-    return matches
 
 
-def _recover_public_assets(
-    *,
-    mode_roots: list[Path],
-    rows: Any,
-    source_root: Path,
-    evidence_index: list[dict[str, Any]],
-    discover_source_matched_files: bool = False,
-) -> tuple[list[dict[str, Any]], list[str]]:
-    """Recover public inputs only when bytes match canonical source evidence."""
-
-    catalog = _source_asset_catalog(
-        source_root=source_root, evidence_index=evidence_index
-    )
-    assets: list[dict[str, Any]] = []
-    unresolved: list[str] = []
-    raw_rows = rows if isinstance(rows, list) else []
-    for index, raw in enumerate(raw_rows, start=1):
-        if not isinstance(raw, dict):
-            continue
-        asset = dict(raw)
-        target_value = (
-            asset.get("path")
-            or asset.get("file")
-            or asset.get("target_path")
-            or Path(str(asset.get("source_file") or "")).name
-        )
-        try:
-            relative = _task_input_relative_path(target_value)
-        except ValueError:
-            unresolved.append(f"invalid_asset_path:{index}")
-            continue
-        staged = next(
-            (
-                root / "data" / "inputs" / relative
-                for root in mode_roots
-                if (root / "data" / "inputs" / relative).is_file()
-                and (root / "data" / "inputs" / relative).stat().st_size > 0
-            ),
-            None,
-        )
-        content = asset.get("content")
-        content_bytes: bytes | None = None
-        if staged is not None:
-            content_bytes = staged.read_bytes()
-            try:
-                content = content_bytes.decode("utf-8", errors="strict")
-            except UnicodeDecodeError:
-                content = None
-                unresolved.append(f"non_text_public_asset:{relative}")
-        elif content is not None:
-            content = _asset_content(content)
-            content_bytes = content.encode("utf-8")
-        if content_bytes is None:
-            unresolved.append(f"missing_public_asset:{relative}")
-
-        uncertain_text = " ".join(
-            str(asset.get(field) or "")
-            for field in ("note", "notes", "warning", "provenance_note")
-        )
-        matches = (
-            _asset_source_matches(
-                digest=hashlib.sha256(content_bytes).hexdigest(),
-                asset=asset,
-                catalog=catalog,
-            )
-            if content_bytes is not None
-            else []
-        )
-        if content_bytes is not None and not matches:
-            matches = _transformed_asset_source_matches(
-                content=content_bytes,
-                relative=relative,
-                asset=asset,
-                catalog=catalog,
-                source_root=source_root,
-            )
-        introduced = [
-            value
-            for match in matches
-            for value in (match.get("source_ref") or {}).get("introduced_values") or []
-        ]
-        trusted = bool(matches) and not introduced and not _UNCERTAIN_ASSET_RE.search(
-            uncertain_text
-        )
-
-        asset["path"] = relative
-        asset["content"] = content
-        asset.setdefault("description", str(asset.get("name") or f"Public input {index}"))
-        asset.setdefault("role", "computational_input")
-        provenance = dict(asset.get("provenance") or {})
-        if trusted:
-            transformed_content, route_comment_redacted = _public_xyz_bytes(
-                content_bytes or b"", relative=relative
-            )
-            if route_comment_redacted:
-                content_bytes = transformed_content
-                content = transformed_content.decode("utf-8")
-                for mode_root in mode_roots:
-                    target = mode_root / "data" / "inputs" / relative
-                    if target.is_file():
-                        make_writable(target)
-                        target.write_bytes(transformed_content)
-            asset["content"] = content
-            evidence = list(
-                dict.fromkeys(str(match["evidence_id"]) for match in matches)
-            )
-            asset["source_evidence_ids"] = evidence
-            asset["source_file"] = str(matches[0]["path"])
-            provenance = {
-                "kind": (
-                    "deterministic_transform"
-                    if any(match.get("deterministic_transform") for match in matches)
-                    else "source_copy"
-                ),
-                "derivation": str(
-                    (matches[0].get("source_ref") or {}).get("derivation")
-                    or "Byte-for-byte copy of an evidence-linked source file."
-                ),
-                "introduced_values": [],
-                "source_sha256": str(matches[0]["sha256"]),
-            }
-            if route_comment_redacted or (
-                (asset.get("provenance") or {}).get("transform_id")
-                == _XYZ_COMMENT_REDACTION_ID
-            ):
-                provenance.update(
-                    {
-                        "kind": "deterministic_transform",
-                        "derivation": (
-                            "Evidence-linked XYZ with route-bearing comment metadata "
-                            "replaced by a neutral public label; coordinates are unchanged."
-                        ),
-                        "transform_id": _XYZ_COMMENT_REDACTION_ID,
-                    }
-                )
-        else:
-            unresolved.append(f"unverified_public_asset_provenance:{relative}")
-            provenance.update(
-                {
-                    "kind": "unverified_agent_staging",
-                    "derivation": str(
-                        provenance.get("derivation")
-                        or "The staged bytes could not be matched uniquely to canonical source evidence."
-                    ),
-                    "introduced_values": list(
-                        provenance.get("introduced_values")
-                        or ["source_alignment_unverified"]
-                    ),
-                }
-            )
-        asset["provenance"] = provenance
-        assets.append(asset)
-
-    if discover_source_matched_files and not raw_rows:
-        seen_paths: set[str] = set()
-        for mode_root in mode_roots:
-            data_root = mode_root / "data" / "inputs"
-            if not data_root.is_dir():
-                continue
-            for staged in sorted(path for path in data_root.rglob("*") if path.is_file()):
-                relative = staged.relative_to(data_root).as_posix()
-                if relative in seen_paths:
-                    continue
-                matches = catalog.get(sha256_file(staged)) or []
-                if not matches:
-                    continue
-                try:
-                    content_bytes = staged.read_bytes()
-                    public_bytes, route_comment_redacted = _public_xyz_bytes(
-                        content_bytes, relative=relative
-                    )
-                    if route_comment_redacted:
-                        make_writable(staged)
-                        staged.write_bytes(public_bytes)
-                    content = public_bytes.decode("utf-8", errors="strict")
-                except UnicodeDecodeError:
-                    unresolved.append(f"non_text_public_asset:{relative}")
-                    continue
-                introduced = [
-                    value
-                    for match in matches
-                    for value in (match.get("source_ref") or {}).get("introduced_values") or []
-                ]
-                if introduced:
-                    unresolved.append(f"source_asset_introduces_values:{relative}")
-                    continue
-                seen_paths.add(relative)
-                assets.append(
-                    {
-                        "path": relative,
-                        "description": f"Source-provided computational input: {relative}.",
-                        "role": "computational_input",
-                        "content": content,
-                        "source_evidence_ids": list(
-                            dict.fromkeys(
-                                str(match["evidence_id"]) for match in matches
-                            )
-                        ),
-                        "source_file": str(matches[0]["path"]),
-                        "provenance": {
-                            "kind": (
-                                "deterministic_transform"
-                                if any(
-                                    match.get("deterministic_transform")
-                                    for match in matches
-                                )
-                                else "source_copy"
-                            ),
-                            "derivation": str(
-                                (matches[0].get("source_ref") or {}).get("derivation")
-                                or "Byte-for-byte copy of an evidence-linked source file."
-                            ),
-                            "introduced_values": [],
-                            "source_sha256": str(matches[0]["sha256"]),
-                            **(
-                                {
-                                    "kind": "deterministic_transform",
-                                    "derivation": (
-                                        "Evidence-linked XYZ with route-bearing comment metadata "
-                                        "replaced by a neutral public label; coordinates are unchanged."
-                                    ),
-                                    "transform_id": _XYZ_COMMENT_REDACTION_ID,
-                                }
-                                if route_comment_redacted
-                                else {}
-                            ),
-                        },
-                    }
-                )
-    return assets, sorted(set(unresolved))
 
 
-def _normalize_artifact_workflow_steps(
-    rows: Any, *, evidence_ids: list[str]
-) -> list[dict[str, Any]]:
-    preliminary: list[dict[str, Any]] = []
-    for index, raw in enumerate(rows if isinstance(rows, list) else [], start=1):
-        if not isinstance(raw, dict):
-            continue
-        step = dict(raw)
-        step["step_id"] = str(step.get("step_id") or f"step-{index}")
-        if not step.get("action"):
-            step["action"] = str(
-                step.get("name") or step.get("description") or step["step_id"]
-            )
-        inputs = step.get("input_artifacts", step.get("input_artifact", step.get("input")))
-        outputs = step.get(
-            "output_artifacts",
-            step.get(
-                "output_artifact",
-                step.get("output", step.get("outputs", step.get("generated_output"))),
-            ),
-        )
-        step["input_artifacts"] = (
-            list(inputs) if isinstance(inputs, list) else [inputs] if inputs not in (None, "") else []
-        )
-        step["output_artifacts"] = (
-            list(outputs)
-            if isinstance(outputs, list)
-            else [outputs]
-            if outputs not in (None, "")
-            else []
-        )
-        dependencies = step.get("depends_on", step.get("dependencies")) or []
-        step["depends_on"] = (
-            list(dependencies) if isinstance(dependencies, list) else [dependencies]
-        )
-        if not step.get("method_parameters"):
-            if isinstance(step.get("parameters"), dict) and step.get("parameters"):
-                step["method_parameters"] = dict(step["parameters"])
-            elif step.get("method"):
-                step["method_parameters"] = {"method": step["method"]}
-        action = str(step.get("action") or "").casefold()
-        if not step.get("step_type"):
-            if any(token in action for token in ("frequency", "verify", "irc", "validation")):
-                step["step_type"] = "validation"
-            elif any(token in action for token in ("analysis", "compare", "profile", "gibbs")):
-                step["step_type"] = "scientific_analysis"
-            else:
-                step["step_type"] = "core_computation"
-        if not step.get("evidence_ids") and step.get("evidence_id"):
-            step["evidence_ids"] = [step["evidence_id"]]
-        if not step.get("evidence_ids") and evidence_ids:
-            step["evidence_ids"] = list(evidence_ids)
-        preliminary.append(step)
-
-    producer: dict[str, str] = {}
-    for step in preliminary:
-        for artifact in step.get("output_artifacts") or []:
-            text = str(artifact)
-            producer[text] = step["step_id"]
-            producer[Path(text).name] = step["step_id"]
-    for step in preliminary:
-        dependencies = [str(item) for item in step.get("depends_on") or [] if str(item)]
-        for artifact in step.get("input_artifacts") or []:
-            text = str(artifact)
-            dependency = producer.get(text) or producer.get(Path(text).name)
-            if dependency and dependency != step["step_id"] and dependency not in dependencies:
-                dependencies.append(dependency)
-        step["depends_on"] = dependencies
-    return preliminary
 
 
-def _recover_workflow_review_from_pair_artifacts(
-    review: dict[str, Any],
-    outputs: Path,
-    *,
-    source_root: Path,
-    evidence_index: list[dict[str, Any]],
-) -> dict[str, Any]:
-    """Recover fields already present in Agent artifacts into the review contract.
-
-    No structure, parameter, method, route, or answer is synthesized here. Missing
-    files remain missing and are rejected by the normal scientific validators.
-    """
-
-    value = json.loads(json.dumps(review, ensure_ascii=False))
-    if value.get("decision") != "candidate_ready":
-        return value
-    autonomous_root = outputs / "autonomous_research"
-    reproduction_root = outputs / "paper_reproduction"
-    autonomous_info = _json_object(autonomous_root / "task_info.json")
-    autonomous_spec = _json_object(autonomous_root / "task_spec.json")
-    reproduction_info = _json_object(reproduction_root / "task_info.json")
-    reproduction_spec = _json_object(reproduction_root / "task_spec.json")
-    workflow_spec = _json_object(reproduction_root / "workflow_spec.json")
-
-    scope = value.get("workflow_scope") or {}
-    scope_evidence = [str(item) for item in scope.get("scope_evidence_ids") or []]
-    for field, candidates in {
-        "scientific_question": (
-            scope.get("scientific_question"),
-            reproduction_spec.get("scientific_question"),
-            autonomous_spec.get("scientific_question"),
-        ),
-        "public_scientific_question": (
-            scope.get("public_scientific_question"),
-            autonomous_spec.get("scientific_question"),
-        ),
-        "task_direction": (
-            scope.get("task_direction"),
-            autonomous_info.get("benchmark_family"),
-        ),
-        "category": (
-            scope.get("category"),
-            autonomous_info.get("category"),
-            reproduction_info.get("category"),
-        ),
-        "workflow_summary": (
-            scope.get("workflow_summary"),
-            reproduction_info.get("scientific_mode_description"),
-        ),
-    }.items():
-        if not value.get(field):
-            value[field] = next((item for item in candidates if str(item or "").strip()), "")
-
-    route_rows = (
-        workflow_spec.get("workflow_steps")
-        or workflow_spec.get("steps")
-        or workflow_spec.get("route_steps")
-        or []
-    )
-    recovered_steps = _normalize_artifact_workflow_steps(
-        route_rows, evidence_ids=scope_evidence
-    )
-    if len(recovered_steps) > len(value.get("workflow_steps") or []):
-        value["workflow_steps"] = recovered_steps
-
-    public_basis = dict(value.get("public_task_basis") or {})
-    public_basis.setdefault(
-        "scientific_question",
-        value.get("public_scientific_question") or autonomous_spec.get("scientific_question"),
-    )
-    public_basis.setdefault(
-        "target_definition",
-        autonomous_spec.get("target_definition") or public_basis.get("scientific_question"),
-    )
-    boundaries = public_basis.get("boundary_conditions")
-    if not boundaries:
-        boundaries = _public_boundary_projection(
-            reproduction_spec.get("boundary_conditions")
-            or autonomous_spec.get("boundary_conditions")
-            or []
-        )
-    boundaries = _normalize_boundary_contract(boundaries, evidence_ids=scope_evidence)
-    public_basis["boundary_conditions"] = boundaries
-    declared_assets = _normalize_public_asset_declarations(
-        public_basis.get("input_assets")
-    )
-    raw_assets = declared_assets
-    assets, unresolved = _recover_public_assets(
-        mode_roots=[reproduction_root, autonomous_root],
-        rows=raw_assets,
-        source_root=source_root,
-        evidence_index=evidence_index,
-        discover_source_matched_files=not bool(declared_assets),
-    )
-    if not assets or unresolved:
-        # A partially built reproduction may retain declarations only in its
-        # task spec. They remain untrusted unless the staged bytes match a
-        # canonical source/derived asset.
-        fallback_assets = _normalize_public_asset_declarations(
-            reproduction_spec.get("input_assets")
-            or autonomous_spec.get("input_assets")
-            or []
-        )
-        if fallback_assets:
-            fallback_recovered, fallback_unresolved = _recover_public_assets(
-                mode_roots=[reproduction_root, autonomous_root],
-                rows=fallback_assets,
-                source_root=source_root,
-                evidence_index=evidence_index,
-            )
-            if len(fallback_recovered) > len(assets) or (
-                len(fallback_recovered) == len(assets)
-                and len(fallback_unresolved) < len(unresolved)
-            ):
-                assets, unresolved = fallback_recovered, fallback_unresolved
-    public_basis["input_assets"] = assets
-    completeness = dict(public_basis.get("input_completeness") or {})
-    completeness["status"] = (
-        "confirmed" if assets and boundaries and not unresolved else "incomplete"
-    )
-    completeness["unresolved_fields"] = unresolved
-    completeness["closed_fields"] = [
-        *[f"input_asset:{asset['path']}" for asset in assets if asset.get("content") is not None],
-        *[f"boundary:{row.get('name')}" for row in boundaries if row.get("value") not in (None, "")],
-    ]
-    public_basis["input_completeness"] = completeness
-    value["public_task_basis"] = public_basis
-
-    paper_route = dict(value.get("paper_route") or {})
-    route_steps = recovered_steps or value.get("workflow_steps") or []
-    if not paper_route.get("route_steps") and route_steps:
-        paper_route["route_steps"] = [
-            {
-                "step_id": step.get("step_id"),
-                "mapped_author_step": step.get("action"),
-                "method_parameters": step.get("method_parameters") or {},
-                "evidence_ids": step.get("evidence_ids") or [],
-            }
-            for step in route_steps
-            if isinstance(step, dict)
-        ]
-    software_names: list[str] = []
-    methods: list[str] = []
-    for step in route_steps:
-        if not isinstance(step, dict):
-            continue
-        software = step.get("software")
-        software_rows = software if isinstance(software, list) else [software]
-        for row in software_rows:
-            name = str(row.get("name") if isinstance(row, dict) else row or "").strip()
-            if name and name not in software_names:
-                software_names.append(name)
-        method = (step.get("method_parameters") or {}).get("method") or step.get("method")
-        if str(method or "").strip() and str(method) not in methods:
-            methods.append(str(method))
-    if not paper_route.get("software") and software_names:
-        paper_route["software"] = [
-            {"name": name, "role": "core_compute", "evidence_ids": scope_evidence}
-            for name in software_names
-        ]
-    if not paper_route.get("method") and methods:
-        paper_route["method"] = "; ".join(methods)
-    paper_route.setdefault("method_parameters", {})
-    paper_route.setdefault("sequence", [step.get("step_id") for step in route_steps])
-    paper_route.setdefault(
-        "validation_procedure",
-        "; ".join(
-            str(step.get("action") or step.get("step_id"))
-            for step in route_steps
-            if isinstance(step, dict) and step.get("step_type") == "validation"
-        ),
-    )
-    if not paper_route.get("autonomous_forbidden_disclosures"):
-        paper_route["autonomous_forbidden_disclosures"] = [
-            *software_names,
-            *methods,
-        ]
-    route_unresolved = []
-    if not route_steps:
-        route_unresolved.append("workflow_steps")
-    if not paper_route.get("software"):
-        route_unresolved.append("software")
-    if not paper_route.get("method") and not any(
-        (step.get("method_parameters") or {}) for step in route_steps if isinstance(step, dict)
-    ):
-        route_unresolved.append("method")
-    route_completeness = dict(paper_route.get("route_completeness") or {})
-    route_completeness["status"] = "confirmed" if not route_unresolved else "incomplete"
-    route_completeness["unresolved_fields"] = route_unresolved
-    route_completeness["closed_fields"] = [
-        *[f"route_step:{step.get('step_id')}" for step in route_steps if step.get("step_id")],
-        *[f"software:{name}" for name in software_names],
-        *[f"method:{method}" for method in methods],
-    ]
-    paper_route["route_completeness"] = route_completeness
-    value["paper_route"] = paper_route
-    value["workflow_scope"] = _canonical_workflow_scope(scope)
-    return value
 
 
-def _mode_asset_projection(public_basis: dict[str, Any]) -> list[dict[str, Any]]:
-    output: list[dict[str, Any]] = []
-    for asset in public_basis.get("input_assets") or []:
-        if not isinstance(asset, dict):
-            continue
-        try:
-            relative = _normalize_public_input_path(str(asset.get("path") or ""))
-        except ValueError:
-            continue
-        # ``public_basis.input_assets`` may already carry the task-relative
-        # ``data/inputs/`` prefix (for example after Stage06A canonicalization).
-        # Store one canonical path only; adding the prefix a second time makes
-        # Gate report a false missing input even though the file is present.
-        public_path = (
-            relative if relative.startswith("data/inputs/") else f"data/inputs/{relative}"
-        )
-        output.append(
-            {
-                "path": public_path,
-                "description": asset.get("description") or asset.get("name") or "Public input",
-                "role": asset.get("role") or "computational_input",
-                "source_evidence_ids": asset.get("source_evidence_ids") or [],
-            }
-        )
-    return output
 
 
-def _normalize_required_deliverables(
-    info: dict[str, Any], submission: dict[str, Any]
-) -> list[dict[str, Any]]:
-    descriptions: dict[str, str] = {}
-    for row in info.get("required_deliverables") or []:
-        if not isinstance(row, dict):
-            continue
-        try:
-            path = _normalize_runtime_artifact_path(str(row.get("path") or ""))
-        except ValueError:
-            continue
-        descriptions[path] = str(row.get("description") or "Required task artifact.")
-    return [
-        {
-            "path": path,
-            "description": descriptions.get(path, "Required task artifact."),
-            "allow_empty": False,
-        }
-        for path in submission.get("required_files") or []
-    ]
 
 
 def _ensure_reproduction_route_rubric(
@@ -4884,544 +1730,8 @@ def _ensure_reproduction_route_rubric(
     return output
 
 
-def _ensure_public_boundary_markdown(path: Path, boundaries: Any) -> None:
-    if not path.is_file() or not isinstance(boundaries, list) or not boundaries:
-        return
-    text = path.read_text(encoding="utf-8", errors="replace").rstrip()
-    marker = "## Shared Public Boundary Conditions"
-    if marker in text:
-        return
-    lines = ["", marker, ""]
-    for row in boundaries:
-        if not isinstance(row, dict) or row.get("value") in (None, ""):
-            continue
-        lines.append(f"- {row.get('name') or 'condition'}: {row['value']}")
-    if len(lines) > 3:
-        path.write_text(text + "\n" + "\n".join(lines) + "\n", encoding="utf-8")
 
 
-def _hidden_reference_from_review(
-    *,
-    current: dict[str, Any],
-    review: dict[str, Any],
-    submission: dict[str, Any],
-) -> dict[str, Any]:
-    expected_truths = json.loads(
-        json.dumps(review.get("ground_truth_items") or [], ensure_ascii=False)
-    )
-    current_truths = {
-        str(row.get("ground_truth_id") or row.get("item_id") or ""): row
-        for row in current.get("ground_truth_items") or []
-        if isinstance(row, dict)
-    }
-    for truth in expected_truths:
-        identifier = str(truth.get("ground_truth_id") or "")
-        prior = current_truths.get(identifier) or {}
-        if prior.get("acceptance_profile_id"):
-            truth["acceptance_profile_id"] = prior["acceptance_profile_id"]
-        if not truth.get("description") and prior.get("description"):
-            truth["description"] = prior["description"]
-
-    payload = {
-        **current,
-        "status": "ready",
-        "paper_id": review.get("paper_id"),
-        "ground_truth_items": expected_truths,
-    }
-    hidden = _normalize_hidden_reference_contract(payload)
-    profiles_by_id = {
-        str(row.get("acceptance_profile_id")): row
-        for row in hidden.get("acceptance_profiles") or []
-        if isinstance(row, dict)
-    }
-    truths_by_profile = {
-        str(row.get("acceptance_profile_id")): row
-        for row in hidden.get("ground_truth_items") or []
-        if isinstance(row, dict)
-    }
-    for profile_id, profile in profiles_by_id.items():
-        truth = truths_by_profile.get(profile_id) or {}
-        profile_type = str(profile.get("type") or "")
-        canonical = truth.get("canonical_answer")
-        if profile_type in {"semantic_propositions", "mechanism_claim"}:
-            projection: Any = {
-                "required_propositions": truth.get("required_propositions") or [],
-                "forbidden_contradictions": truth.get("forbidden_contradictions") or [],
-            }
-        else:
-            projection = canonical
-        profile["submission_binding"] = {
-            "artifact_paths": _hidden_binding_artifact_paths(
-                ground_truth_id=str(truth.get("ground_truth_id") or profile_id),
-                submission_contract=submission,
-            ),
-            "observed_fields": ["$.results", "$.conclusions"],
-            "canonical_projection": projection,
-            "comparison": profile_type,
-        }
-
-    truths = hidden.get("ground_truth_items") or []
-    rubric: list[dict[str, Any]] = []
-    count = len(truths)
-    if count:
-        for index, truth in enumerate(truths):
-            ground_truth_id = str(truth.get("ground_truth_id") or f"gt-{index + 1}")
-            profile_id = str(truth.get("acceptance_profile_id") or "")
-            description = str(
-                truth.get("description")
-                or f"Recover the source-supported scientific target {ground_truth_id}."
-            )
-            profile_type = str((profiles_by_id.get(profile_id) or {}).get("type") or "")
-            rubric.append(
-                {
-                    "id": f"conclusion-{safe_component(ground_truth_id)}",
-                    "statement": description,
-                    "acceptance_rule": (
-                        f"Apply the item-specific {profile_type} acceptance profile {profile_id} "
-                        "to the bound submitted artifacts."
-                    ),
-                    "required_evidence": _hidden_binding_artifact_paths(
-                        ground_truth_id=ground_truth_id,
-                        submission_contract=submission,
-                    ),
-                    "ground_truth_ids": [ground_truth_id],
-                    "acceptance_profile_ids": [profile_id],
-                }
-            )
-    hidden["scientific_conclusion_rubric"] = rubric
-    hidden["expected_result"] = {
-        "ground_truth_by_id": {
-            str(row.get("ground_truth_id")): row.get("canonical_answer") for row in truths
-        },
-        "required_propositions_by_id": {
-            str(row.get("ground_truth_id")): row.get("required_propositions") or []
-            for row in truths
-        },
-    }
-    summary = str(hidden.get("summary") or "").strip()
-    if not summary or any(token in summary.casefold() for token in ("agent_required", "replace")):
-        hidden["summary"] = str(
-            review.get("workflow_summary")
-            or review.get("scientific_question")
-            or "Shared evidence-backed scientific scoring contract."
-        )
-    hidden.setdefault(
-        "critical_failures",
-        [
-            "Fabricated computation or provenance.",
-            "No real scientific computation supports the scored conclusions.",
-        ],
-    )
-    hidden.setdefault("invalid_reasons", [])
-    return hidden
-
-
-def _normalize_task_pair_artifact_contracts(
-    outputs: Path, review: dict[str, Any]
-) -> list[str]:
-    """Mechanically freeze pair invariants before strict semantic validation."""
-
-    reproduction = outputs / "paper_reproduction"
-    autonomous = outputs / "autonomous_research"
-    if not reproduction.is_dir() or not autonomous.is_dir():
-        return []
-    try:
-        reproduction_info = read_json(reproduction / "task_info.json")
-        autonomous_info = read_json(autonomous / "task_info.json")
-        reproduction_spec = read_json(reproduction / "task_spec.json")
-        autonomous_spec = read_json(autonomous / "task_spec.json")
-    except (OSError, ValueError, TypeError) as exc:
-        return [f"pair_contract_normalization_unreadable:{type(exc).__name__}"]
-    if not all(
-        isinstance(value, dict)
-        for value in (reproduction_info, autonomous_info, reproduction_spec, autonomous_spec)
-    ):
-        return ["pair_contract_normalization_json_invalid"]
-
-    pair_id = str(review.get("paper_id") or "")
-    scope = _canonical_workflow_scope(review.get("workflow_scope") or {})
-    public_basis = review.get("public_task_basis") or {}
-    # The public task_info/task_spec pair must carry the same answer-free
-    # scientific question.  Prefer the explicit public contract, but recover
-    # the question already emitted by the Agent's task_spec when an older or
-    # partial response omitted public_task_basis.  Do not fall back to private
-    # review metadata here: task_info is part of the evaluator-facing bundle.
-    pair_scientific_question = next(
-        (
-            str(value).strip()
-            for value in (
-                public_basis.get("scientific_question"),
-                review.get("public_scientific_question"),
-                autonomous_spec.get("scientific_question"),
-                reproduction_spec.get("scientific_question"),
-            )
-            if str(value or "").strip()
-        ),
-        "",
-    )
-    common_spec = {
-        "paper_id": pair_id,
-        "scientific_question": pair_scientific_question,
-        "target_definition": public_basis.get("target_definition")
-        or public_basis.get("scientific_question")
-        or review.get("public_scientific_question"),
-        "boundary_conditions": public_basis.get("boundary_conditions") or [],
-        "input_assets": _mode_asset_projection(public_basis),
-        "method_constraints": public_basis.get("method_constraints")
-        or public_basis.get("public_method_constraints")
-        or [],
-    }
-
-    reproduction_submission = _normalize_submission_contract(
-        _json_object(reproduction / "submission_contract.json")
-    )
-    autonomous_submission = _normalize_submission_contract(
-        _json_object(autonomous / "submission_contract.json")
-    )
-    for mode_root, mode_submission in (
-        (reproduction, reproduction_submission),
-        (autonomous, autonomous_submission),
-    ):
-        if mode_submission.get("required_files"):
-            mode_submission["paper_id"] = pair_id
-            write_json(mode_root / "submission_contract.json", mode_submission)
-    # Use one contract only as the initial private scaffold vocabulary.  It is
-    # not copied into either public mode and may be refined to explicit
-    # mode-specific bindings by Stage07.
-    submission = (
-        autonomous_submission
-        if autonomous_submission.get("required_files")
-        else reproduction_submission
-    )
-
-    # Public evaluator metadata uses an anonymous stable key. Full DOI/title
-    # provenance remains in the pair-level paper_info/source_manifest files.
-    source_id = anonymous_source_id(pair_id)
-    common_info = {
-        "paper_id": pair_id,
-        "scientific_question": pair_scientific_question,
-        "source_id": source_id,
-        "category": str(
-            review.get("category")
-            or reproduction_info.get("category")
-            or autonomous_info.get("category")
-            or "computational_chemistry"
-        ),
-        "benchmark_family": str(
-            reproduction_info.get("benchmark_family")
-            or autonomous_info.get("benchmark_family")
-            or review.get("task_direction")
-            or "computational_chemistry"
-        ),
-        "data": reproduction_info.get("data")
-        or autonomous_info.get("data")
-        or [
-            {
-                "name": "ResearchChemBench public inputs",
-                "path": "data/inputs",
-                "type": "directory",
-                "description": "Public scientific inputs shared by both task modes.",
-            }
-        ],
-        "archive_extractions": reproduction_info.get("archive_extractions")
-        or autonomous_info.get("archive_extractions")
-        or [],
-        "method_constraints": public_basis.get("method_constraints")
-        or public_basis.get("public_method_constraints")
-        or [],
-    }
-    for mode, info, spec in (
-        ("paper_reproduction", reproduction_info, reproduction_spec),
-        ("autonomous_research", autonomous_info, autonomous_spec),
-    ):
-        is_reproduction = mode == "paper_reproduction"
-        # Modes are directories, not identities.  Both mode metadata files use
-        # the one paper-level identity so no mode suffix can drift between
-        # Stage06A, Stage06B, Stage07, and publication.
-        task_id = safe_component(pair_id)
-        task_mode = "guided_reproduction" if is_reproduction else "open_discovery"
-        disclosure = (
-            "paper_route_disclosed"
-            if is_reproduction
-            else _autonomous_method_disclosure(
-                scope,
-                public_basis.get("method_constraints")
-                or public_basis.get("public_method_constraints"),
-            )
-        )
-        info.update(common_info)
-        # Workflow selection and complexity are private review evidence, never
-        # part of an evaluated public task surface.
-        info.pop("workflow_scope", None)
-        info.pop("complexity_profile", None)
-        info.update(
-            {
-                "task_id": task_id,
-                "mode": mode,
-                "task_mode": task_mode,
-                "scientific_mode": mode,
-                "method_disclosure": disclosure,
-                "pathway_disclosure": disclosure,
-            }
-        )
-        mode_submission = reproduction_submission if is_reproduction else autonomous_submission
-        if mode_submission.get("required_files"):
-            info["required_deliverables"] = json.loads(
-                json.dumps(
-                    _normalize_required_deliverables(info, mode_submission),
-                    ensure_ascii=False,
-                )
-            )
-        spec.update(common_spec)
-        spec.pop("workflow_scope", None)
-        spec.pop("complexity_profile", None)
-        spec.update(
-            {
-                "task_id": task_id,
-                "mode": mode,
-                "task_mode": task_mode,
-                "scientific_mode": mode,
-                "method_disclosure": disclosure,
-                "pathway_disclosure": disclosure,
-            }
-        )
-        write_json((reproduction if is_reproduction else autonomous) / "task_info.json", info)
-        write_json((reproduction if is_reproduction else autonomous) / "task_spec.json", spec)
-        _ensure_public_boundary_markdown(
-            (reproduction if is_reproduction else autonomous) / "task.md",
-            common_spec["boundary_conditions"],
-        )
-
-    reproduction_data = reproduction / "data"
-    autonomous_data = autonomous / "data"
-    if reproduction_data.is_dir():
-        copytree_exact(reproduction_data, autonomous_data)
-    elif autonomous_data.is_dir():
-        copytree_exact(autonomous_data, reproduction_data)
-    for name in ("paper_route.md", "workflow_spec.json", "route_evidence_map.json"):
-        (autonomous / name).unlink(missing_ok=True)
-
-    reproduction_rubric_path = reproduction / "process_rubric.json"
-    if reproduction_rubric_path.is_file():
-        reproduction_rubric = _normalize_process_rubric(read_json(reproduction_rubric_path))
-        reproduction_rubric = _ensure_reproduction_route_rubric(
-            reproduction_rubric, submission=reproduction_submission
-        )
-        write_json(reproduction_rubric_path, reproduction_rubric)
-    autonomous_rubric_path = autonomous / "process_rubric.json"
-    if autonomous_rubric_path.is_file():
-        write_json(
-            autonomous_rubric_path,
-            _normalize_process_rubric(read_json(autonomous_rubric_path)),
-        )
-
-    base_hash = canonical_hash(
-        [
-            {"path": row["path"], "sha256": row["sha256"]}
-            for row in directory_manifest(reproduction).get("files") or []
-            if row.get("path") != "public_manifest.json"
-        ]
-    )
-    # Derivation/source contracts are internal handoff metadata. Never place them
-    # in either public evaluation mode; retain only the pair-level conversion report.
-    for internal_name in (
-        "derived_from.json",
-        "conversion_contract.json",
-        "conversion_receipt.json",
-        "conversion_manifest.json",
-    ):
-        (autonomous / internal_name).unlink(missing_ok=True)
-        (reproduction / internal_name).unlink(missing_ok=True)
-
-    hidden_root = outputs / "hidden_reference"
-    hidden_path = hidden_root / "ground_truth_common.json"
-    if hidden_path.is_file() and submission.get("required_files"):
-        current_hidden = _json_object(hidden_path)
-        hidden = _hidden_reference_from_review(
-            current=current_hidden,
-            review=review,
-            submission=submission,
-        )
-        write_json(hidden_path, hidden)
-        if not (hidden_root / "private_evidence_map.json").is_file():
-            write_json(hidden_root / "private_evidence_map.json", review.get("evidence_map") or {})
-
-    requirements = _normalize_toolbox_requirements(
-        review.get("toolbox_requirements") or []
-    )
-    review["toolbox_requirements"] = requirements
-    write_json(outputs / "workflow_review.json", review)
-    write_json(
-        outputs / "workflow_completeness_check.json",
-        review.get("workflow_completeness_check") or {},
-    )
-    write_json(
-        outputs / "public_to_private_asset_map.json",
-        review.get("public_to_private_asset_map") or {},
-    )
-    write_json(outputs / "toolbox_requirements.json", requirements)
-    return []
-
-
-def _seed_prior_scientific_review_draft(
-    *,
-    stage_root: Path,
-    paper_id: str,
-    checkpoint: Path,
-    attempt_root: Path,
-    output_schema: dict[str, Any],
-    semantic_validator: Callable[[dict[str, Any], Path], list[str]] | None,
-) -> list[str] | None:
-    """Stage a prior validated-shape review as an explicitly non-authoritative draft."""
-
-    destination_outputs = attempt_root / "outputs"
-    destination_artifact = destination_outputs / "scientific_review.json"
-    source_authority = "previous_recovery_artifact"
-    prior_fingerprint = ""
-    try:
-        response = read_json(destination_artifact)
-        jsonschema.validate(response, output_schema)
-    except (OSError, ValueError, jsonschema.ValidationError):
-        if not checkpoint.is_file():
-            return None
-        try:
-            cached = read_json(checkpoint)
-            response = cached.get("response")
-            if not isinstance(response, dict):
-                return None
-            jsonschema.validate(response, output_schema)
-        except (OSError, ValueError, jsonschema.ValidationError):
-            return None
-        source_authority = "prior_checkpoint_revision_draft"
-        prior_fingerprint = str(cached.get("input_fingerprint") or "")
-
-        prior_artifact_root = (
-            stage_root
-            / "phase_artifacts"
-            / safe_component(paper_id)
-            / "scientific_review"
-            / prior_fingerprint[:16]
-        )
-        source_outputs = prior_artifact_root / "outputs"
-        if source_outputs.is_dir():
-            copytree_exact(source_outputs, destination_outputs)
-        else:
-            destination_outputs.mkdir(parents=True, exist_ok=True)
-    else:
-        prior_artifact_root = attempt_root
-    make_writable(destination_outputs)
-    write_json(destination_artifact, response)
-
-    findings = (
-        semantic_validator(response, attempt_root) if semantic_validator is not None else []
-    )
-    write_json(
-        attempt_root / "PRIOR_REVIEW_DRAFT_STATUS.json",
-        {
-            "authority": source_authority,
-            "source_input_fingerprint": prior_fingerprint,
-            "current_deterministic_findings": findings,
-            "required_action": (
-                "Verify changed fields against canonical inputs and rewrite "
-                "outputs/scientific_review.json."
-            ),
-        },
-    )
-    return sorted(set(findings))
-
-
-def _interrupted_scientific_review_recovery(
-    *, stage_root: Path, paper_id: str, snapshot_hash: str
-) -> tuple[str, Path] | None:
-    """Resume a failed review workspace when its immutable paper snapshot matches."""
-
-    if not snapshot_hash:
-        return None
-    phase_root = (
-        stage_root
-        / "workspaces"
-        / safe_component(paper_id)
-        / "scientific_review"
-    )
-    if not phase_root.is_dir():
-        return None
-    attempts = sorted(
-        (path for path in phase_root.glob("attempt-*") if path.is_dir()),
-        key=lambda path: path.stat().st_mtime,
-        reverse=True,
-    )
-    for attempt in attempts:
-        audit_path = attempt / "agent_run.json"
-        snapshot_path = attempt / "inputs" / "snapshot_complete.json"
-        if not audit_path.is_file() or not snapshot_path.is_file():
-            continue
-        audit = read_json(audit_path)
-        snapshot = read_json(snapshot_path)
-        if (
-            audit.get("status") != "failed"
-            or not audit.get("retryable")
-            or snapshot.get("snapshot_hash") != snapshot_hash
-        ):
-            continue
-        context = agent_recovery_context(SimpleNamespace(**audit))
-        if context:
-            return context, attempt
-    return None
-
-
-def _interrupted_phase_artifact_recovery(
-    *,
-    stage_root: Path,
-    paper_id: str,
-    phase: str,
-    input_fingerprint_value: str,
-) -> tuple[str, Path] | None:
-    """Recover exact-input partial artifacts left by an interrupted Agent process."""
-
-    phase_root = (
-        stage_root
-        / "workspaces"
-        / safe_component(paper_id)
-        / safe_component(phase)
-    )
-    if not phase_root.is_dir():
-        return None
-    attempts = sorted(
-        (path for path in phase_root.glob("attempt-*") if path.is_dir()),
-        key=lambda path: path.stat().st_mtime,
-        reverse=True,
-    )
-    for attempt in attempts:
-        state_path = attempt / "phase_state.json"
-        if not state_path.is_file():
-            continue
-        try:
-            state = read_json(state_path)
-        except (OSError, ValueError):
-            continue
-        if state.get("input_fingerprint") != input_fingerprint_value:
-            continue
-        artifacts = [
-            path.relative_to(attempt).as_posix()
-            for directory_name in ("outputs", "task")
-            for path in (attempt / directory_name).rglob("*")
-            if path.is_file()
-            and not path.relative_to(attempt).as_posix().startswith("task/data/inputs/")
-        ]
-        if not artifacts:
-            continue
-        context = (
-            "# Interrupted Agent Attempt\n\n"
-            "The previous isolated process ended before returning a receipt. Its exact-input "
-            "partial artifacts have been copied into this new isolated workspace. Continue "
-            "from them; do not restart evidence collection.\n\n"
-            "Failure class: interrupted_agent_process\n\n"
-            "## Preserved partial artifacts\n\n"
-            + "\n".join(f"- {path}" for path in artifacts[:80])
-            + "\n"
-        )
-        return context, attempt
-    return None
 
 
 def _materialize_scientific_review_response(
@@ -5463,450 +1773,8 @@ def _materialize_scientific_review_response(
     return contract
 
 
-def _materialize_hidden_response(
-    response: dict[str, Any], workspace: Path
-) -> dict[str, Any]:
-    contract = json.loads(json.dumps(response, ensure_ascii=False))
-    contract["artifact_path"] = "outputs/ground_truth_common.json"
-    write_json(workspace / contract["artifact_path"], contract)
-    return contract
 
 
-def _hidden_reference_phase_findings(
-    response: dict[str, Any],
-    workspace: Path,
-    *,
-    review: dict[str, Any],
-    submission_contract: dict[str, Any],
-) -> list[str]:
-    """Canonicalize syntax while keeping the review's scientific targets frozen."""
-
-    ownership_findings = hidden_reference_transport_findings(
-        response, require_ready_ground_truth=True
-    )
-    if ownership_findings:
-        # Preserve the raw artifact for the bounded retry.  The normalizer is
-        # intentionally not allowed to hide ownership/scope defects.
-        return sorted(set(ownership_findings))
-    normalized = _normalize_hidden_reference_contract(response)
-    response.clear()
-    response.update(normalized)
-    artifact_path = str(response.get("artifact_path") or "outputs/ground_truth_common.json")
-    try:
-        relative = validate_relative_path(artifact_path)
-    except ValueError:
-        relative = "outputs/ground_truth_common.json"
-        response["artifact_path"] = relative
-    write_json(workspace / relative, response)
-    if response.get("status") != "ready":
-        return []
-    return validate_hidden_reference(
-        response,
-        expected_ground_truth_items=review.get("ground_truth_items") or [],
-        submission_contract=submission_contract,
-    )
-
-
-_ACCEPTANCE_TYPE_ALIASES = {
-    "numeric": "numeric_tolerance",
-    "number": "numeric_tolerance",
-    "numeric_value": "numeric_tolerance",
-    "numerical_value": "numeric_tolerance",
-    "numeric_result": "numeric_tolerance",
-    "numeric_intermediate_result": "numeric_tolerance",
-    "numeric_final_result": "numeric_tolerance",
-    "semantic": "semantic_propositions",
-    "text": "semantic_propositions",
-    "textual_intermediate_conclusion": "semantic_propositions",
-    "textual_final_conclusion": "semantic_propositions",
-    "textual_conclusion": "semantic_propositions",
-    "mechanistic_conclusion": "mechanism_claim",
-}
-
-
-def _canonical_acceptance_type(value: Any) -> str:
-    token = str(value or "").strip().casefold()
-    return _ACCEPTANCE_TYPE_ALIASES.get(token, token)
-
-
-def _normalize_acceptance_binding_alias(binding: Any) -> dict[str, Any]:
-    """Project harmless binding aliases without inventing a scientific mapping."""
-
-    if not isinstance(binding, dict):
-        return {}
-    normalized = json.loads(json.dumps(binding, ensure_ascii=False))
-    if "artifact_paths" not in normalized:
-        artifact = (
-            normalized.get("artifact")
-            or normalized.get("artifact_path")
-            or normalized.get("path")
-            or normalized.get("artifacts")
-        )
-        if isinstance(artifact, str) and artifact.strip():
-            normalized["artifact_paths"] = [artifact.strip()]
-        elif isinstance(artifact, list):
-            normalized["artifact_paths"] = artifact
-    if "observed_fields" not in normalized:
-        observed = (
-            normalized.get("observed_field")
-            or normalized.get("field")
-            or normalized.get("fields")
-        )
-        if observed is not None:
-            normalized["observed_fields"] = observed
-        elif str(normalized.get("binding_type") or "").casefold() in {
-            "document",
-            "text",
-            "report",
-        } or normalized.get("document_target") is not None:
-            # A document target is a label interpreted by the downstream judge;
-            # it is not a JSON schema property.  ``document`` is the canonical
-            # transport selector and does not assert a scientific conclusion.
-            normalized["observed_fields"] = ["document"]
-    if str(normalized.get("binding_type") or "").casefold() in {
-        "document",
-        "text",
-        "report",
-    } or normalized.get("document_target") is not None:
-        normalized["document_binding"] = True
-    if "canonical_projection" not in normalized and "projection" in normalized:
-        normalized["canonical_projection"] = normalized.get("projection")
-    if "comparison" not in normalized:
-        comparison = normalized.get("comparison_type")
-        if comparison is not None:
-            normalized["comparison"] = comparison
-    return normalized
-
-
-def _normalize_hidden_reference_contract(response: dict[str, Any]) -> dict[str, Any]:
-    """Normalize common model aliases into the strict evaluator contract.
-
-    This function only changes contract syntax. Canonical answers, propositions,
-    evidence and scientific target identities remain untouched and are checked
-    against the frozen scientific review by ``validate_hidden_reference``.
-    """
-
-    contract = json.loads(json.dumps(response, ensure_ascii=False))
-    truths = [row for row in contract.get("ground_truth_items") or [] if isinstance(row, dict)]
-    raw_profiles = [
-        row for row in contract.get("acceptance_profiles") or [] if isinstance(row, dict)
-    ]
-    profiles_by_id = {
-        str(row.get("acceptance_profile_id") or row.get("profile_id")): row
-        for row in raw_profiles
-        if row.get("acceptance_profile_id") or row.get("profile_id")
-    }
-    raw_references = [
-        str(row.get("acceptance_profile_id") or row.get("acceptance_profile") or "")
-        for row in truths
-    ]
-    reference_counts = {value: raw_references.count(value) for value in set(raw_references)}
-    used_profile_ids: set[str] = set()
-    profile_aliases: dict[str, list[str]] = {}
-    normalized_profiles: list[dict[str, Any]] = []
-
-    for index, truth in enumerate(truths, start=1):
-        ground_truth_id = str(truth.get("ground_truth_id") or f"gt-{index}")
-        raw_reference = str(
-            truth.get("acceptance_profile_id") or truth.get("acceptance_profile") or ""
-        )
-        if raw_reference and reference_counts.get(raw_reference) == 1:
-            profile_id = raw_reference
-        else:
-            profile_id = f"ap-{safe_component(ground_truth_id)}"
-        base_profile_id = profile_id
-        suffix = 2
-        while profile_id in used_profile_ids:
-            profile_id = f"{base_profile_id}-{suffix}"
-            suffix += 1
-        used_profile_ids.add(profile_id)
-        if raw_reference:
-            profile_aliases.setdefault(raw_reference, []).append(profile_id)
-
-        profile = json.loads(
-            json.dumps(profiles_by_id.get(raw_reference) or {}, ensure_ascii=False)
-        )
-        profile.pop("profile_id", None)
-        profile["acceptance_profile_id"] = profile_id
-        profile_type = _canonical_acceptance_type(
-            truth.get("acceptance_type")
-            or truth.get("type")
-            or truth.get("kind")
-            or profile.get("type")
-            or profile.get("kind")
-        )
-        profile["type"] = profile_type
-        parameters: dict[str, Any] = {}
-        for source in (
-            profile.get("default_parameters") or {},
-            profile.get("parameters") or {},
-            truth.get("acceptance_parameters") or {},
-        ):
-            if isinstance(source, dict):
-                parameters.update(source)
-        # Accept the same legacy top-level aliases that the shared Gate and
-        # bootstrap contract accept.  This keeps a model-emitted profile with
-        # ``tolerance`` mechanically equivalent to one using
-        # ``absolute_tolerance``.
-        for key in (
-            "unit",
-            "absolute_tolerance",
-            "relative_tolerance",
-            "tolerance",
-            "numeric_tolerances",
-        ):
-            if profile.get(key) is not None:
-                parameters.setdefault(key, profile[key])
-        # Some legacy drafts keep a prose ``tolerance`` note alongside the
-        # actual numeric absolute/relative tolerance.  Once an explicit
-        # numeric scalar is present, the prose alias is stale transport
-        # metadata and must not remain in the evaluator contract.  Remove
-        # only that non-numeric alias; numeric legacy tolerances remain valid
-        # and continue through the normal alias projection below.
-        if (
-            profile_type == "numeric_tolerance"
-            and any(
-                isinstance(parameters.get(key), (int, float))
-                and not isinstance(parameters.get(key), bool)
-                for key in ("absolute_tolerance", "relative_tolerance")
-            )
-            and "tolerance" in parameters
-            and not isinstance(parameters.get("tolerance"), (int, float))
-        ):
-            parameters.pop("tolerance", None)
-            if not isinstance(profile.get("tolerance"), (int, float)):
-                profile.pop("tolerance", None)
-        truth_parameters = truth.get("acceptance_parameters")
-        if (
-            profile_type == "numeric_tolerance"
-            and isinstance(truth_parameters, dict)
-            and any(
-                isinstance(truth_parameters.get(key), (int, float))
-                and not isinstance(truth_parameters.get(key), bool)
-                for key in ("absolute_tolerance", "relative_tolerance")
-            )
-            and "tolerance" in truth_parameters
-            and not isinstance(truth_parameters.get("tolerance"), (int, float))
-        ):
-            truth["acceptance_parameters"] = {
-                key: value
-                for key, value in truth_parameters.items()
-                if key != "tolerance"
-            }
-        # Some agents express a vector-valued numeric rule as a named tolerance
-        # map.  Preserve that explicit map; never collapse it to one scalar or
-        # invent a unit for quantities that may use different units.
-        numeric_tolerances: dict[str, Any] = {}
-        for source in (
-            profile.get("numeric_tolerances") or {},
-            parameters.get("numeric_tolerances") or {},
-        ):
-            if isinstance(source, dict):
-                numeric_tolerances.update(source)
-        for key, value in parameters.items():
-            if (
-                str(key).casefold().endswith(("_atol", "_rtol"))
-                and isinstance(value, (int, float))
-                and not isinstance(value, bool)
-            ):
-                numeric_tolerances.setdefault(str(key), value)
-        if numeric_tolerances:
-            profile["numeric_tolerances"] = numeric_tolerances
-            parameters["numeric_tolerances"] = numeric_tolerances
-        profile["parameters"] = parameters
-        canonical_answer = truth.get("canonical_answer")
-        propositions = truth.get("required_propositions") or []
-        if not propositions and isinstance(canonical_answer, str) and canonical_answer.strip():
-            propositions = [canonical_answer]
-
-        if profile_type == "numeric_tolerance":
-            profile["target"] = canonical_answer
-            if parameters.get("unit") is not None:
-                profile["unit"] = parameters["unit"]
-            for key in ("absolute_tolerance", "relative_tolerance"):
-                if parameters.get(key) is not None:
-                    profile[key] = parameters[key]
-            if (
-                profile.get("absolute_tolerance") is None
-                and profile.get("relative_tolerance") is None
-            ):
-                tolerance = next(
-                    (
-                        value
-                        for key, value in parameters.items()
-                        if str(key).startswith("tolerance")
-                        and isinstance(value, (int, float))
-                    ),
-                    None,
-                )
-                if tolerance is not None:
-                    profile["absolute_tolerance"] = tolerance
-        elif profile_type == "categorical":
-            profile["target"] = canonical_answer
-        elif profile_type == "ranking":
-            profile["target_order"] = canonical_answer
-        elif profile_type == "trend":
-            profile["required_trends"] = propositions or canonical_answer
-        elif profile_type in {"structure_identity", "geometry_metric"}:
-            profile["target"] = canonical_answer
-        elif profile_type in {"mechanism_claim", "semantic_propositions"}:
-            profile["required_propositions"] = propositions
-            profile["forbidden_contradictions"] = truth.get("forbidden_contradictions") or []
-        elif profile_type == "artifact_validation":
-            profile["required_artifacts"] = (
-                parameters.get("required_artifacts") or canonical_answer
-            )
-
-        truth.pop("acceptance_profile", None)
-        truth["acceptance_profile_id"] = profile_id
-        # Preserve a scientifically deliberate mode scope.  Legacy drafts that
-        # omit the field remain shared; an explicitly invalid scope is left for
-        # the validator to report instead of being silently widened.
-        if "applies_to_modes" not in truth:
-            truth["applies_to_modes"] = ["autonomous_research", "paper_reproduction"]
-        else:
-            normalized_scope = normalize_mode_scope(truth.get("applies_to_modes"))
-            if normalized_scope is not None:
-                truth["applies_to_modes"] = normalized_scope
-        if "applies_to_modes" not in profile and "applies_to_modes" in truth:
-            # A profile owned by a mode-scoped truth item inherits that scope.
-            # Without this projection the evaluator gate would inspect a
-            # reproduction-only profile while checking autonomous mode.
-            profile["applies_to_modes"] = json.loads(
-                json.dumps(truth["applies_to_modes"], ensure_ascii=False)
-            )
-        # Emit one canonical mode-binding spelling while accepting legacy input
-        # aliases.  This is a transport projection and never changes a target.
-        legacy_bindings = profile.get("submission_bindings_by_mode")
-        if "mode_submission_bindings" not in profile and isinstance(legacy_bindings, dict):
-            profile["mode_submission_bindings"] = legacy_bindings
-        profile.pop("submission_bindings_by_mode", None)
-        nested_binding = profile.get("submission_binding")
-        if isinstance(nested_binding, dict) and any(
-            key in nested_binding
-            for key in (
-                "autonomous_research",
-                "paper_reproduction",
-                "autonomous",
-                "reproduction",
-                "open_discovery",
-                "guided_reproduction",
-            )
-        ):
-            profile["mode_submission_bindings"] = nested_binding
-            profile.pop("submission_binding", None)
-        if isinstance(profile.get("mode_submission_bindings"), dict):
-            profile["mode_submission_bindings"] = {
-                str(mode): _normalize_acceptance_binding_alias(binding)
-                for mode, binding in profile["mode_submission_bindings"].items()
-                if isinstance(binding, dict)
-            }
-        elif isinstance(profile.get("submission_binding"), dict):
-            profile["submission_binding"] = _normalize_acceptance_binding_alias(
-                profile["submission_binding"]
-            )
-        if "applies_to_modes" in profile:
-            normalized_profile_scope = normalize_mode_scope(profile.get("applies_to_modes"))
-            if normalized_profile_scope is not None:
-                profile["applies_to_modes"] = normalized_profile_scope
-        # A complete mode matrix may coexist with a stale shared binding after
-        # Stage07 edits.  Remove the shared source only when every applicable
-        # row normalizes to the exact same transport mapping.  Any difference
-        # remains visible to the Gate as a real ambiguity.
-        matrix = profile.get("mode_submission_bindings")
-        shared_binding = profile.get("submission_binding")
-        if isinstance(matrix, dict) and isinstance(shared_binding, dict):
-            scope = normalize_mode_scope(profile.get("applies_to_modes")) or [
-                "autonomous_research",
-                "paper_reproduction",
-            ]
-            normalized_matrix = {
-                {
-                    "autonomous": "autonomous_research",
-                    "open_discovery": "autonomous_research",
-                    "reproduction": "paper_reproduction",
-                    "guided_reproduction": "paper_reproduction",
-                }.get(str(mode), str(mode)): binding
-                for mode, binding in matrix.items()
-                if isinstance(binding, dict)
-            }
-
-            def comparable(binding: dict[str, Any]) -> dict[str, Any]:
-                normalized = normalize_binding_contract(binding, profile=profile)
-                return {
-                    key: normalized.get(key)
-                    for key in (
-                        "artifact_paths",
-                        "observed_fields",
-                        "comparison",
-                        "document_binding",
-                        "canonical_projection",
-                    )
-                    if normalized.get(key) is not None
-                }
-
-            shared_shape = comparable(shared_binding)
-            if set(scope).issubset(normalized_matrix) and all(
-                comparable(normalized_matrix[mode]) == shared_shape for mode in scope
-            ):
-                profile.pop("submission_binding", None)
-        normalized_profiles.append(profile)
-
-    profile_to_truth = {
-        str(row.get("acceptance_profile_id")): str(row.get("ground_truth_id"))
-        for row in truths
-    }
-    normalized_rubric: list[dict[str, Any]] = []
-    for row in contract.get("scientific_conclusion_rubric") or []:
-        if not isinstance(row, dict):
-            normalized_rubric.append(row)
-            continue
-        criterion = json.loads(json.dumps(row, ensure_ascii=False))
-        criterion["id"] = criterion.get("id") or criterion.get("claim_id")
-        if any(
-            key in criterion and criterion.get(key) not in (None, "")
-            for key in ("max_score", "max_points", "points", "weight")
-        ):
-            criterion["max_score"] = criterion.get(
-                "max_score",
-                criterion.get(
-                    "max_points", criterion.get("points", criterion.get("weight"))
-                ),
-            )
-        raw_profile_ids = criterion.get("acceptance_profile_ids") or []
-        if not raw_profile_ids:
-            singular = criterion.get("acceptance_profile_id") or criterion.get(
-                "acceptance_profile"
-            )
-            raw_profile_ids = [singular] if singular else []
-        expanded_profile_ids: list[str] = []
-        for raw_profile_id in raw_profile_ids:
-            expanded_profile_ids.extend(
-                profile_aliases.get(str(raw_profile_id), [str(raw_profile_id)])
-            )
-        criterion["acceptance_profile_ids"] = list(dict.fromkeys(expanded_profile_ids))
-        ground_truth_ids = criterion.get("ground_truth_ids") or []
-        if not ground_truth_ids:
-            singular_truth = criterion.get("ground_truth_id")
-            if singular_truth:
-                ground_truth_ids = [singular_truth]
-            else:
-                ground_truth_ids = [
-                    profile_to_truth[profile_id]
-                    for profile_id in criterion["acceptance_profile_ids"]
-                    if profile_id in profile_to_truth
-                ]
-        criterion["ground_truth_ids"] = list(
-            dict.fromkeys(str(value) for value in ground_truth_ids if str(value))
-        )
-        for alias in ("claim_id", "weight", "acceptance_profile", "acceptance_profile_id"):
-            criterion.pop(alias, None)
-        normalized_rubric.append(criterion)
-
-    contract["ground_truth_items"] = truths
-    contract["acceptance_profiles"] = normalized_profiles
-    contract["scientific_conclusion_rubric"] = normalized_rubric
-    return contract
 
 
 def _reconcile_task_phase_receipt(
@@ -6393,7 +2261,6 @@ def _ensure_objective_handoff_artifacts(pair_root: Path, review: dict[str, Any])
                     "workflow_spec.json",
                     "route_evidence_map.json",
                 ],
-                "hidden_reference_assets": ["hidden_reference/"],
                 "notes": "Generated from Stage06A fields; Stage06B must inspect all nested public files.",
             },
         )
@@ -6434,7 +2301,7 @@ def _converter_contract_gate_findings(
     return list(run_shared_phase_gate("stage06b", workspace / "outputs")["findings"])
 
 
-def _converter_phase_gate_prepare(root: Path, *, task_pair_id: str) -> list[str]:
+def _converter_phase_gate_prepare(root: Path, *, paper_id: str) -> list[str]:
     """Apply only deterministic converter path/ID normalization before Gate."""
 
     autonomous = root / "outputs" / "autonomous_research"
@@ -6443,7 +2310,7 @@ def _converter_phase_gate_prepare(root: Path, *, task_pair_id: str) -> list[str]
     findings = canonicalize_mode_task_contract(
         autonomous,
         expected_mode="autonomous_research",
-        task_pair_id=task_pair_id,
+        task_pair_id=paper_id,
     )
     report_path = root / "outputs" / "conversion_report.json"
     if not report_path.is_file():
@@ -6488,7 +2355,6 @@ def _persist_phase_artifacts(workspace: Path, destination: Path) -> None:
     for name in (
         "agent_self_check_report.json",
         "external_phase_gate_report.json",
-        "phase_gate_report.json",
     ):
         gate_report = workspace / name
         if gate_report.is_file():
@@ -6496,27 +2362,6 @@ def _persist_phase_artifacts(workspace: Path, destination: Path) -> None:
     atomic_commit_tree(staging, destination)
 
 
-def _load_phase_json_artifact(
-    receipt: dict[str, Any],
-    workspace: Path | None,
-    *,
-    fallback: dict[str, Any],
-) -> dict[str, Any]:
-    artifact_value = receipt.get("artifact_path")
-    if not artifact_value:
-        return fallback
-    if workspace is None:
-        raise FileNotFoundError(f"phase artifact workspace missing: {artifact_value}")
-    relative = validate_relative_path(str(artifact_value))
-    path = (workspace / relative).resolve()
-    workspace_root = workspace.resolve()
-    if workspace_root not in path.parents:
-        raise ValueError(f"phase artifact escapes workspace: {relative}")
-    if not path.is_file() and _receipt_is_terminal_negative(receipt):
-        return fallback
-    if not path.is_file():
-        raise FileNotFoundError(f"phase JSON artifact missing: {relative}")
-    return read_json(path)
 
 
 def _receipt_is_terminal_negative(receipt: dict[str, Any]) -> bool:
@@ -6526,322 +2371,20 @@ def _receipt_is_terminal_negative(receipt: dict[str, Any]) -> bool:
     } or receipt.get("status") == "invalid"
 
 
-def _hydrate_public_input_assets(review: dict[str, Any], workspace: Path | None) -> None:
-    assets = (review.get("public_task_basis") or {}).get("input_assets") or []
-    for asset in assets:
-        if not isinstance(asset, dict):
-            continue
-        if asset.get("content") is not None:
-            continue
-        content_path = asset.get("content_path")
-        if not content_path or workspace is None:
-            continue
-        relative = validate_relative_path(str(content_path))
-        path = (workspace / relative).resolve()
-        workspace_root = workspace.resolve()
-        if workspace_root not in path.parents or not path.is_file():
-            continue
-        asset["content"] = path.read_text(encoding="utf-8", errors="strict")
 
 
-def _scientific_review_phase_findings(
-    response: dict[str, Any], workspace: Path, evidence_ids: set[str]
-) -> list[str]:
-    review = json.loads(json.dumps(response, ensure_ascii=False))
-    _hydrate_public_input_assets(review, workspace)
-    return validate_scientific_review(review, evidence_ids)
 
 
-def _autonomous_phase_findings(
-    workspace: Path,
-    *,
-    public_basis: dict[str, Any],
-    review: dict[str, Any],
-) -> list[str]:
-    task_root = workspace / "task"
-    findings = validate_task_boundary_conditions(
-        task_root,
-        expected_conditions=public_basis.get("boundary_conditions"),
-    )
-    findings.extend(
-        validate_autonomous_route_isolation(
-            task_root,
-            paper_route=review.get("paper_route") or {},
-            allowed_boundary_conditions=public_basis.get("boundary_conditions"),
-            allowed_method_constraints=public_basis.get("method_constraints")
-            or public_basis.get("public_method_constraints"),
-        )
-    )
-    return sorted(set(findings))
 
 
-def _setup_autonomous_inputs(
-    root: Path,
-    *,
-    public_basis: dict[str, Any],
-    toolbox_snapshot: dict[str, Any],
-    task_pair_id: str,
-) -> None:
-    inputs = root / "inputs"
-    inputs.mkdir(parents=True, exist_ok=True)
-    write_json(inputs / "public_task_basis.json", _agent_public_basis(public_basis))
-    write_json(
-        inputs / "toolbox_snapshot.json",
-        _compact_toolbox_snapshot(toolbox_snapshot, public_basis=public_basis),
-    )
-    write_json(
-        inputs / "construction_contract.json",
-        {
-            "paper_id": task_pair_id,
-            "mode": "autonomous_research",
-            "hidden_reference_access": False,
-            "paper_route_access": False,
-            "toolbox_access": "read_only_snapshot",
-        },
-    )
-    make_read_only(inputs)
-    task_inputs = root / "task" / "data" / "inputs"
-    task_inputs.mkdir(parents=True, exist_ok=True)
-    for asset in public_basis.get("input_assets") or []:
-        relative = _normalize_public_input_path(str(asset.get("path") or ""))
-        if asset.get("content") is None:
-            raise ValueError(f"public input content is missing: {relative}")
-        write_text_asset(task_inputs, relative, _asset_content(asset.get("content")))
-    make_read_only(task_inputs)
 
 
-def _agent_public_basis(public_basis: dict[str, Any]) -> dict[str, Any]:
-    """Remove large payload bodies after deterministic task input materialization."""
-
-    output = json.loads(json.dumps(public_basis, ensure_ascii=False))
-    for asset in output.get("input_assets") or []:
-        relative = _normalize_public_input_path(str(asset.get("path") or ""))
-        content = asset.pop("content", None)
-        asset.pop("content_path", None)
-        asset["path"] = relative
-        asset["materialized_path"] = f"task/data/inputs/{relative}"
-        if content is not None:
-            encoded = _asset_content(content).encode("utf-8")
-            asset["size_bytes"] = len(encoded)
-    return output
 
 
-def _compact_toolbox_snapshot(
-    snapshot: dict[str, Any], *, public_basis: dict[str, Any]
-) -> dict[str, Any]:
-    """Expose only the installed-software inventory to the Agent."""
-
-    del public_basis  # Software inventory is task-independent and intentionally complete.
-    return installed_software_inventory(snapshot)
 
 
-def _setup_reproduction_inputs(
-    root: Path,
-    *,
-    autonomous_root: Path,
-    review: dict[str, Any],
-    base_manifest: dict[str, Any],
-) -> None:
-    copytree_exact(autonomous_root, root / "task")
-    _write_reproduction_route_scaffold(
-        root / "task",
-        review=review,
-    )
-    private = root / "private_input"
-    private.mkdir(parents=True, exist_ok=True)
-    write_json(private / "paper_route.json", review.get("paper_route") or {})
-    write_json(
-        private / "modification_contract.json",
-        {
-            "base_manifest_hash": base_manifest["content_hash"],
-            "hidden_reference_access": False,
-            "allowed_files": sorted(_REPRODUCTION_ALLOWED_DIFFERENCES),
-            "inputs_must_remain_identical": True,
-            "conclusion_contract_must_remain_identical": True,
-        },
-    )
-    (private / "apply_reproduction_patch.py").write_text(
-        _reproduction_patch_script(), encoding="utf-8"
-    )
-    make_read_only(private)
 
 
-def _reproduction_patch_script() -> str:
-    """Return a task-agnostic helper for the reproduction Agent's mechanical edits."""
-
-    return r'''from __future__ import annotations
-
-import json
-import re
-from pathlib import Path
-
-
-def load(path: Path):
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def dump(path: Path, value) -> None:
-    path.write_text(
-        json.dumps(value, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
-
-
-root = Path("task")
-route = load(Path("private_input/paper_route.json"))
-info = load(root / "task_info.json")
-spec = load(root / "task_spec.json")
-submission = load(root / "submission_contract.json")
-rubric = load(root / "process_rubric.json")
-pair_id = str(info.get("paper_id") or spec.get("paper_id") or "task")
-task_id = pair_id
-software = ", ".join(
-    str(row.get("name") or "").strip()
-    for row in route.get("software") or []
-    if isinstance(row, dict) and str(row.get("name") or "").strip()
-)
-route_label = software or "the author-reported route"
-
-task_path = root / "task.md"
-task_text = task_path.read_text(encoding="utf-8")
-lines = task_text.splitlines()
-if lines and lines[0].startswith("# "):
-    lines[0] = re.sub(
-        r"Autonomous Research Task",
-        "Paper Reproduction Task",
-        lines[0],
-        flags=re.IGNORECASE,
-    )
-task_text = "\n".join(lines).strip()
-task_text = re.sub(
-    r"(?im)^.*(?:open-ended research task|no software route or step order is prescribed).*$",
-    "This is a guided reproduction task. Follow the frozen author route and do not substitute "
-    "another software or method hierarchy for the primary reproduction.",
-    task_text,
-)
-guide = f"""## Mandatory Paper Route
-
-Follow `paper_route.md` and the dependencies in `workflow_spec.json` using {route_label}. Generate every target
-quantity anew; route disclosure is not permission to copy paper results. Cite `route_evidence_map.json` when
-describing author-reported settings, preserve failed attempts, and distinguish reproduced values from validation
-cross-checks.
-"""
-if "## Mandatory Paper Route" not in task_text:
-    first_break = task_text.find("\n")
-    if first_break >= 0:
-        task_text = task_text[:first_break] + "\n\n" + guide + "\n" + task_text[first_break + 1 :]
-    else:
-        task_text = task_text + "\n\n" + guide
-task_path.write_text(task_text.rstrip() + "\n", encoding="utf-8")
-
-info.update(
-    {
-        "task_id": task_id,
-        "paper_id": pair_id,
-        "mode": "paper_reproduction",
-        "task_mode": "guided_reproduction",
-        "scientific_mode": "paper_reproduction",
-        "scientific_mode_description": (
-            "Follow the frozen author-reported route in paper_route.md and workflow_spec.json, "
-            "execute it independently, validate its outputs, and report all failures."
-        ),
-        "method_disclosure": "paper_route_disclosed",
-        "pathway_disclosure": "paper_route_disclosed",
-    }
-)
-if info.get("title"):
-    info["title"] = re.sub(
-        r"^Autonomous\s+",
-        "Paper Reproduction ",
-        str(info["title"]),
-        flags=re.IGNORECASE,
-    )
-dump(root / "task_info.json", info)
-
-spec.update(
-    {
-        "task_id": task_id,
-        "paper_id": pair_id,
-        "task_mode": "guided_reproduction",
-        "mode": "paper_reproduction",
-        "scientific_mode": "paper_reproduction",
-        "method_disclosure": "paper_route_disclosed",
-        "pathway_disclosure": "paper_route_disclosed",
-        "route_files": [
-            "paper_route.md",
-            "workflow_spec.json",
-            "route_evidence_map.json",
-        ],
-    }
-)
-dump(root / "task_spec.json", spec)
-
-if not isinstance(rubric, list) or not rubric:
-    raise ValueError("process_rubric.json must contain a non-empty criterion list")
-criterion = next(
-    (
-        row
-        for row in rubric
-        if isinstance(row, dict)
-        and str(row.get("criterion_type") or "").casefold() == "route_fidelity"
-    ),
-    None,
-)
-if criterion is None:
-    raise ValueError("process_rubric.json lacks an explicit route_fidelity criterion")
-route_id = "paper_route_fidelity"
-if any(
-    row is not criterion
-    and isinstance(row, dict)
-    and str(row.get("id") or "") == route_id
-    for row in rubric
-):
-    route_id = "paper_route_fidelity_transport"
-criterion["id"] = route_id
-criterion["criterion_type"] = "route_fidelity"
-criterion["name"] = "Paper-route fidelity"
-criterion["description"] = (
-    "Follow the disclosed paper route, software, method hierarchy, dependencies, and validation "
-    "sequence; document any unavoidable deviation without using hidden result agreement to select it."
-)
-required_files = [
-    str(path)
-    for path in submission.get("required_files") or []
-    if str(path).strip()
-]
-evidence_paths = [
-    path
-    for path in required_files
-    if any(
-        token in path.casefold()
-        for token in ("research_plan", "provenance", "trace", "report")
-    )
-]
-if not evidence_paths:
-    raise ValueError("submission contract has no plan, provenance, trace, or report artifact")
-criterion["evidence"] = "; ".join(evidence_paths)
-criterion["evidence_artifacts"] = evidence_paths
-dump(root / "process_rubric.json", rubric)
-
-print(
-    json.dumps(
-        {
-            "task_id": task_id,
-            "task_mode": info["task_mode"],
-            "spec_mode": spec["mode"],
-            "route_label": route_label,
-            "key_point_count": len(rubric),
-            "changed_files": [
-                "task/task.md",
-                "task/task_info.json",
-                "task/task_spec.json",
-                "task/process_rubric.json",
-            ],
-        },
-        ensure_ascii=False,
-    )
-)
-'''
 
 
 def _public_reproduction_workflow_steps(review: dict[str, Any]) -> list[dict[str, Any]]:
@@ -6939,463 +2482,16 @@ def _public_reproduction_workflow_steps(review: dict[str, Any]) -> list[dict[str
     return output
 
 
-def _write_reproduction_route_scaffold(
-    task_root: Path,
-    *,
-    review: dict[str, Any],
-) -> None:
-    """Render validated route facts before the Agent performs mode-specific editing."""
-
-    route = review.get("paper_route") or {}
-    task_pair_id = str(review.get("paper_id") or "")
-    workflow_steps = _public_reproduction_workflow_steps(review)
-    public_input_assets = [
-        f"data/inputs/{_normalize_public_input_path(str(asset.get('path') or ''))}"
-        for asset in _normalize_public_asset_declarations(
-            (review.get("public_task_basis") or {}).get("input_assets")
-        )
-        if isinstance(asset, dict) and asset.get("path")
-    ]
-    workflow_spec = {
-        "schema_version": "1.0",
-        "paper_id": task_pair_id,
-        "mode": "paper_reproduction",
-        "route_completeness": route.get("route_completeness") or {},
-        "software": route.get("software") or [],
-        "method": route.get("method") or "",
-        "method_parameters": route.get("method_parameters") or {},
-        "sequence": route.get("sequence") or [],
-        "route_steps": route.get("route_steps") or route.get("steps") or [],
-        "adaptive_execution_controls": route.get("adaptive_execution_controls") or [],
-        "validation_procedure": route.get("validation_procedure")
-        or route.get("validation_notes")
-        or "",
-        "public_input_assets": public_input_assets,
-        "workflow_steps": workflow_steps,
-    }
-    route_evidence = {
-        "schema_version": "1.0",
-        "paper_id": task_pair_id,
-        "route_evidence_ids": sorted(
-            set(_route_evidence_ids(route)) | set(_route_evidence_ids(workflow_steps))
-        ),
-        "software": [
-            {
-                "name": row.get("name"),
-                "role": row.get("role"),
-                "evidence_ids": row.get("evidence_ids") or [],
-            }
-            for row in route.get("software") or []
-            if isinstance(row, dict)
-        ],
-        "workflow_steps": [
-            {
-                "step_id": row.get("step_id"),
-                "evidence_ids": row.get("evidence_ids") or [],
-            }
-            for row in workflow_steps
-            if isinstance(row, dict)
-        ],
-    }
-    write_json(task_root / "workflow_spec.json", workflow_spec)
-    write_json(task_root / "route_evidence_map.json", _safe_route_evidence_map(route_evidence))
-    (task_root / "paper_route.md").write_text(
-        _paper_route_markdown(task_pair_id, route), encoding="utf-8"
-    )
 
 
-def _paper_route_markdown(task_pair_id: str, route: dict[str, Any]) -> str:
-    lines = [
-        "# Paper Reproduction Route",
-        "",
-        f"Task pair: `{task_pair_id}`",
-        "",
-        "Follow this author-reported computational route. Compute all target results anew; "
-        "this route contains no expected result values or conclusions.",
-        "",
-        "## Software",
-        "",
-    ]
-    software = route.get("software") or []
-    if software:
-        for row in software:
-            if isinstance(row, dict):
-                evidence = ", ".join(
-                    f"`{item}`" for item in row.get("evidence_ids") or []
-                )
-                suffix = f" Evidence: {evidence}." if evidence else ""
-                lines.append(
-                    f"- {row.get('name') or 'Unspecified software'}"
-                    f" ({row.get('role') or 'compute'}).{suffix}"
-                )
-            else:
-                lines.append(f"- {row}")
-    else:
-        lines.append("- See `workflow_spec.json` for the validated software contract.")
-    lines.extend(["", "## Method", ""])
-    if route.get("method"):
-        lines.append(str(route["method"]))
-    method_parameters = route.get("method_parameters") or {}
-    if method_parameters:
-        for key, value in method_parameters.items():
-            lines.append(f"- **{key}:** {value}")
-    if not route.get("method") and not method_parameters:
-        lines.append("See `workflow_spec.json` for the structured method contract.")
-    lines.extend(["", "## Workflow", ""])
-    route_steps = route.get("route_steps") or route.get("steps") or route.get("sequence") or []
-    for index, step in enumerate(route_steps, start=1):
-        if isinstance(step, dict):
-            description = (
-                step.get("mapped_author_step")
-                or step.get("action")
-                or step.get("description")
-                or ""
-            )
-        else:
-            description = step
-        lines.append(f"{index}. {description}")
-    controls = route.get("adaptive_execution_controls") or []
-    if controls:
-        lines.extend(["", "## Adaptive Execution Controls", ""])
-        for row in controls:
-            if not isinstance(row, dict):
-                continue
-            lines.append(f"- **{row.get('control') or 'Control'}:** {row.get('procedure') or ''}")
-            if row.get("stopping_rule"):
-                lines.append(f"  Stopping rule: {row['stopping_rule']}")
-    validation = route.get("validation_procedure") or route.get("validation_notes")
-    if validation:
-        lines.extend(["", "## Validation", "", str(validation)])
-    completeness = route.get("route_completeness") or {}
-    if completeness.get("closed_fields"):
-        lines.extend(["", "## Closed Route Facts", ""])
-        lines.extend(f"- {item}" for item in completeness["closed_fields"])
-    return "\n".join(lines).rstrip() + "\n"
 
 
-def _route_evidence_ids(value: Any) -> list[str]:
-    output: list[str] = []
-    if isinstance(value, dict):
-        for key, nested in value.items():
-            if key == "evidence_id" and str(nested).strip():
-                output.append(str(nested))
-                continue
-            if key == "evidence_ids" and isinstance(nested, list):
-                output.extend(str(item) for item in nested if str(item).strip())
-            else:
-                output.extend(_route_evidence_ids(nested))
-    elif isinstance(value, list):
-        for nested in value:
-            output.extend(_route_evidence_ids(nested))
-    return output
 
 
-def _safe_route_evidence_map(value: Any) -> dict[str, Any]:
-    """Project route evidence to a public navigation index.
-
-    This deliberately drops free-form excerpts and provenance fields that can
-    carry answers, DOIs, or source filesystem paths.  Evidence IDs and route
-    step/category indexes remain useful for reproducing the disclosed route.
-    """
-
-    source = value if isinstance(value, dict) else {}
-    evidence_ids = sorted(set(_route_evidence_ids(source)))
-    output: dict[str, Any] = {
-        "schema_version": str(source.get("schema_version") or "1.0"),
-        "route_evidence_ids": evidence_ids,
-    }
-    if source.get("paper_id") not in (None, ""):
-        output["paper_id"] = source.get("paper_id")
-    categories: list[str] = []
-    for key in ("route_category", "route_categories", "category", "categories"):
-        raw = source.get(key)
-        values = raw if isinstance(raw, list) else [raw]
-        for item in values:
-            if isinstance(item, str) and item.strip() and item not in categories:
-                categories.append(item.strip())
-    if categories:
-        output["route_categories"] = categories
-    steps: list[dict[str, Any]] = []
-    raw_steps = source.get("workflow_steps") or source.get("route_steps") or source.get("steps")
-    if isinstance(raw_steps, list):
-        for index, row in enumerate(raw_steps, start=1):
-            if not isinstance(row, dict):
-                continue
-            row_ids = _route_evidence_ids(row)
-            step: dict[str, Any] = {"step_index": index, "evidence_ids": sorted(set(row_ids))}
-            if row.get("step_id") not in (None, ""):
-                step["step_id"] = row.get("step_id")
-            for key in ("route_category", "category", "role", "kind"):
-                if isinstance(row.get(key), str) and row.get(key).strip():
-                    step[key] = row[key].strip()
-            steps.append(step)
-    if steps:
-        output["workflow_steps"] = steps
-    return output
 
 
-def _reproduction_phase_findings(
-    workspace: Path,
-    *,
-    autonomous_root: Path,
-    review: dict[str, Any],
-) -> list[str]:
-    task_root = workspace / "task"
-    findings: list[str] = []
-    for name in ("paper_route.md", "workflow_spec.json", "route_evidence_map.json"):
-        path = task_root / name
-        if not path.is_file() or path.stat().st_size == 0:
-            findings.append(f"reproduction_route_artifact_missing:{name}")
-    try:
-        info = read_json(task_root / "task_info.json")
-        spec = read_json(task_root / "task_spec.json")
-        rubric = read_json(task_root / "process_rubric.json")
-    except (FileNotFoundError, json.JSONDecodeError) as exc:
-        return [*findings, f"reproduction_core_json_invalid:{type(exc).__name__}"]
-    if info.get("task_mode") != "guided_reproduction":
-        findings.append("reproduction_task_mode_not_guided")
-    if info.get("mode") != "paper_reproduction":
-        findings.append("reproduction_info_mode_not_guided")
-    if str(info.get("scientific_mode") or "") not in {
-        "paper_reproduction",
-        "guided_reproduction",
-    }:
-        findings.append("reproduction_scientific_mode_not_guided")
-    if spec.get("mode") != "paper_reproduction":
-        findings.append("reproduction_spec_mode_not_guided")
-    if spec.get("task_mode") != "guided_reproduction":
-        findings.append("reproduction_spec_task_mode_not_guided")
-    if spec.get("scientific_mode") != "paper_reproduction":
-        findings.append("reproduction_spec_scientific_mode_not_guided")
-    if spec.get("task_id") != info.get("task_id"):
-        findings.append("reproduction_mode_task_ids_differ")
-    if spec.get("paper_id") != info.get("paper_id"):
-        findings.append("reproduction_mode_pair_ids_differ")
-    disclosure_text = json.dumps(
-        {"info": info, "spec": spec}, ensure_ascii=False, sort_keys=True
-    ).casefold()
-    if "paper_route" not in disclosure_text and "paper route" not in disclosure_text:
-        findings.append("reproduction_route_reference_missing")
-    task_text = (task_root / "task.md").read_text(encoding="utf-8", errors="replace")
-    if task_text == (autonomous_root / "task.md").read_text(
-        encoding="utf-8", errors="replace"
-    ):
-        findings.append("reproduction_task_instruction_unchanged")
-    if rubric == read_json(autonomous_root / "process_rubric.json"):
-        findings.append("reproduction_process_rubric_unchanged")
-    if not any(
-        isinstance(row, dict)
-        and str(row.get("criterion_type") or "").casefold() == "route_fidelity"
-        for row in rubric
-    ):
-        findings.append("reproduction_route_fidelity_rubric_missing")
-    if (
-        directory_manifest(task_root / "data")["content_hash"]
-        != directory_manifest(autonomous_root / "data")["content_hash"]
-    ):
-        findings.append("reproduction_phase_data_changed")
-    return sorted(set(findings))
 
 
-def _setup_hidden_inputs(
-    root: Path,
-    *,
-    review: dict[str, Any],
-    autonomous_root: Path,
-    reproduction_root: Path,
-    evidence_index: list[dict[str, Any]],
-) -> None:
-    inputs = root / "inputs"
-    inputs.mkdir(parents=True, exist_ok=True)
-    submission_contract = read_json(autonomous_root / "submission_contract.json")
-    scaffold = _hidden_reference_scaffold(
-        review=review,
-        submission_contract=submission_contract,
-    )
-    write_json(inputs / "hidden_reference_scaffold.json", scaffold)
-    write_json(
-        inputs / "hidden_reference_packet.json",
-        {
-            "paper_id": review.get("paper_id"),
-            "scientific_question": review.get("scientific_question"),
-            "frozen_ground_truth_items": review.get("ground_truth_items") or [],
-            "submission_contract": submission_contract,
-            "allowed_modes": ["autonomous_research", "paper_reproduction"],
-            "known_evidence_ids": sorted(
-                {
-                    str(evidence_id)
-                    for item in review.get("ground_truth_items") or []
-                    for evidence_id in item.get("evidence_ids") or []
-                }
-            ),
-            "instructions": (
-                "Replace only AGENT_REQUIRED scoring fields in the scaffold. Keep frozen "
-                "targets, ids, evidence, modes, and public artifact paths unchanged."
-            ),
-        },
-    )
-    (inputs / "initialize_hidden_reference.py").write_text(
-        _hidden_reference_initializer_script(), encoding="utf-8"
-    )
-    make_read_only(inputs)
-
-
-def _hidden_reference_scaffold(
-    *, review: dict[str, Any], submission_contract: dict[str, Any]
-) -> dict[str, Any]:
-    truths = json.loads(
-        json.dumps(review.get("ground_truth_items") or [], ensure_ascii=False)
-    )
-    truth_ids = [str(item.get("ground_truth_id") or "") for item in truths]
-    rubric = []
-    for index, truth in enumerate(truths):
-        ground_truth_id = str(truth.get("ground_truth_id") or f"gt-{index + 1}")
-        profile_id = f"ap-{safe_component(ground_truth_id)}"
-        rubric.append(
-            {
-                "id": f"conclusion-{safe_component(ground_truth_id)}",
-                "statement": f"AGENT_REQUIRED: describe the scored claim {ground_truth_id}",
-                "acceptance_rule": (
-                    f"AGENT_REQUIRED: apply {profile_id} to the bound submitted fields"
-                ),
-                "required_evidence": [
-                    "Artifact-linked output produced by a real scientific computation."
-                ],
-                "ground_truth_ids": [ground_truth_id],
-                "acceptance_profile_ids": [profile_id],
-            }
-        )
-    scaffold = _normalize_hidden_reference_contract(
-        {
-            "status": "ready",
-            "paper_id": review.get("paper_id"),
-            "expected_result": {
-                "ground_truth_by_id": {
-                    str(item.get("ground_truth_id")): item.get("canonical_answer")
-                    for item in truths
-                },
-                "required_propositions_by_id": {
-                    str(item.get("ground_truth_id")): item.get("required_propositions") or []
-                    for item in truths
-                },
-            },
-            "ground_truth_items": truths,
-            "acceptance_profiles": [],
-            "scientific_conclusion_rubric": rubric,
-            "critical_failures": [
-                "Fabricated results or provenance.",
-                "Hidden-answer copying instead of independent computation.",
-                "No real scientific computation supporting the scored conclusions.",
-                "Invalid chemical identity, charge, multiplicity, or electronic state.",
-                "Unsupported scientific claims presented as computed evidence.",
-            ],
-            "summary": "AGENT_REQUIRED: summarize the shared scientific scoring contract",
-            "invalid_reasons": [],
-        }
-    )
-    truths_by_id = {
-        str(item.get("ground_truth_id")): item for item in scaffold["ground_truth_items"]
-    }
-    for profile in scaffold["acceptance_profiles"]:
-        profile_id = str(profile.get("acceptance_profile_id") or "")
-        ground_truth_id = profile_id.removeprefix("ap-")
-        truth = truths_by_id.get(ground_truth_id) or {}
-        if profile.get("type") == "numeric_tolerance" and not profile.get("unit"):
-            canonical = truth.get("canonical_answer")
-            if isinstance(canonical, dict) and canonical.get("unit"):
-                profile["unit"] = canonical["unit"]
-        profile["submission_binding"] = {
-            "artifact_paths": _hidden_binding_artifact_paths(
-                ground_truth_id=ground_truth_id,
-                submission_contract=submission_contract,
-            ),
-            "observed_fields": ["AGENT_REQUIRED: exact submitted field selectors"],
-            "canonical_projection": truth.get("canonical_answer"),
-            "comparison": "AGENT_REQUIRED: deterministic typed comparison",
-        }
-    if not truth_ids:
-        scaffold["status"] = "invalid"
-        scaffold["invalid_reasons"] = ["No frozen Ground Truth items were supplied."]
-    return scaffold
-
-
-def _hidden_binding_artifact_paths(
-    *, ground_truth_id: str, submission_contract: dict[str, Any]
-) -> list[str]:
-    required = [str(path) for path in submission_contract.get("required_files") or []]
-    identifier_tokens = {
-        token
-        for token in re.split(r"[^a-z0-9]+", ground_truth_id.casefold())
-        if len(token) >= 4
-    }
-    ranked: list[tuple[int, int, str]] = []
-    for index, path in enumerate(required):
-        normalized = path.casefold()
-        token_match = any(token in normalized for token in identifier_tokens)
-        if token_match:
-            priority = 0
-        elif normalized.endswith("results.json"):
-            priority = 1
-        elif normalized.endswith((".csv", ".tsv", ".json")):
-            priority = 2
-        elif normalized.endswith((".md", ".txt")):
-            priority = 3
-        else:
-            priority = 4
-        ranked.append((priority, index, path))
-    selected = [path for _, _, path in sorted(ranked)[:3]]
-    return selected or ["AGENT_REQUIRED: select a required public artifact"]
-
-
-def _hidden_reference_initializer_script() -> str:
-    return r'''from __future__ import annotations
-
-import json
-import os
-from pathlib import Path
-
-root = Path(__file__).resolve().parent.parent
-source = root / "inputs" / "hidden_reference_scaffold.json"
-destination = root / "outputs" / "ground_truth_common.json"
-destination.parent.mkdir(parents=True, exist_ok=True)
-value = json.loads(source.read_text(encoding="utf-8"))
-temporary = destination.with_suffix(".json.tmp")
-temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-json.loads(temporary.read_text(encoding="utf-8"))
-os.replace(temporary, destination)
-print(json.dumps({
-    "artifact": "outputs/ground_truth_common.json",
-    "ground_truth_ids": [row["ground_truth_id"] for row in value["ground_truth_items"]],
-    "acceptance_profile_ids": [row["acceptance_profile_id"] for row in value["acceptance_profiles"]],
-    "fields_to_replace": ["submission_binding.observed_fields", "submission_binding.comparison", "rubric statement", "rubric acceptance_rule", "summary"],
-}, ensure_ascii=False))
-'''
-
-
-def _public_basis(
-    review: dict[str, Any], paper_id: str, task_pair_id: str, config: dict[str, Any]
-) -> dict[str, Any]:
-    basis = json.loads(json.dumps(review.get("public_task_basis") or {}, ensure_ascii=False))
-    for asset in basis.get("input_assets") or []:
-        asset["path"] = _normalize_public_input_path(str(asset.get("path") or ""))
-    basis.update(
-        {
-            "paper_id": paper_id,
-            "scientific_question": review.get("public_scientific_question"),
-            "task_direction": review.get("task_direction"),
-            "category": review.get("category") or review.get("task_direction"),
-            "workflow_scope": _canonical_workflow_scope(
-                review.get("workflow_scope") or {}
-            ),
-            "autonomy_scope": _autonomy_scope(review.get("workflow_scope") or {}),
-            "resource_policy": config.get("resource_policy")
-            or review.get("resource_assessment")
-            or {},
-        }
-    )
-    basis.pop("ground_truth", None)
-    basis.pop("paper_route", None)
-    return basis
 
 
 def _public_key_point_aliases(truths: Any) -> dict[str, str]:
@@ -7411,390 +2507,16 @@ def _public_key_point_aliases(truths: Any) -> dict[str, str]:
     return aliases
 
 
-def _neutralize_public_key_point_fields(value: Any, aliases: dict[str, str]) -> Any:
-    """Replace private key-point/profile references in public metadata only.
-
-    Result field names and scientific values are left untouched.  The helper is
-    intentionally identifier-based rather than paper/keyword-based.
-    """
-
-    if not aliases:
-        return value
-    key_point_keys = {
-        "ground_truth_id",
-        "ground_truth_ids",
-        "item_id",
-        "item_ids",
-        "key_point_id",
-        "key_point_ids",
-        "claim_id",
-        "claim_ids",
-    }
-    private_profile_keys = {"acceptance_profile_id", "acceptance_profile_ids"}
-
-    def replace_identifier(item: Any) -> Any:
-        if isinstance(item, str):
-            output = item
-            for source, target in aliases.items():
-                output = re.sub(
-                    rf"(?<![A-Za-z0-9_-]){re.escape(source)}(?![A-Za-z0-9_-])",
-                    target,
-                    output,
-                )
-            return output
-        if isinstance(item, list):
-            return [replace_identifier(nested) for nested in item]
-        return item
-
-    if isinstance(value, dict):
-        output: dict[str, Any] = {}
-        for key, nested in value.items():
-            key_text = str(key)
-            if key_text in private_profile_keys:
-                # Profile IDs are private evaluator handles, never public task
-                # instructions or process Key Point identifiers.
-                continue
-            if key_text in key_point_keys:
-                output[key] = replace_identifier(nested)
-            else:
-                output[key] = _neutralize_public_key_point_fields(nested, aliases)
-        return output
-    if isinstance(value, list):
-        return [_neutralize_public_key_point_fields(nested, aliases) for nested in value]
-    return replace_identifier(value)
 
 
-def _neutralize_submission_contract(value: Any, aliases: dict[str, str]) -> Any:
-    """Neutralize private Key Point identifiers used as result-schema keys.
-
-    A submission schema is public metadata.  Renaming an exact private Ground
-    Truth key under ``properties``/``required`` is a transport projection; it
-    does not alter the scientific value or decide which fields are scored.
-    Other scientific field names are left untouched.
-    """
-
-    projected = _neutralize_public_key_point_fields(value, aliases)
-    if not aliases:
-        return projected
-
-    def walk(node: Any) -> Any:
-        if isinstance(node, dict):
-            output: dict[str, Any] = {}
-            for key, nested in node.items():
-                if key == "properties" and isinstance(nested, dict):
-                    output[key] = {
-                        aliases.get(str(field), str(field)): walk(schema)
-                        for field, schema in nested.items()
-                    }
-                elif key == "required" and isinstance(nested, list):
-                    output[key] = [
-                        aliases.get(str(field), str(field)) for field in nested
-                    ]
-                else:
-                    output[key] = walk(nested)
-            return output
-        if isinstance(node, list):
-            return [walk(item) for item in node]
-        return node
-
-    return walk(projected)
 
 
-def _materialize_autonomous(
-    root: Path,
-    response: dict[str, Any],
-    *,
-    public_basis: dict[str, Any],
-    paper_id: str,
-    task_pair_id: str,
-    key_point_aliases: dict[str, str] | None = None,
-    agent_workspace: Path | None = None,
-) -> None:
-    response = _load_task_artifacts(response, agent_workspace, reproduction=False)
-    prepare_clean_directory(root)
-    aliases = key_point_aliases or {}
-    task_markdown = str(
-        _neutralize_public_key_point_fields(
-            _normalize_evaluation_references(str(response.get("task_markdown") or "")),
-            aliases,
-        )
-    )
-    submission_contract = _normalize_submission_contract(
-        _neutralize_submission_contract(
-            response.get("submission_contract") or {}, aliases
-        )
-    )
-    task_info = _normalized_task_info(
-        _neutralize_public_key_point_fields(response.get("task_info") or {}, aliases),
-        public_basis=public_basis,
-        paper_id=paper_id,
-        task_pair_id=task_pair_id,
-        mode="autonomous_research",
-        task_markdown=task_markdown,
-        submission_contract=submission_contract,
-    )
-    task_spec = _normalized_task_spec(
-        _neutralize_public_key_point_fields(response.get("task_spec") or {}, aliases),
-        public_basis=public_basis,
-        task_pair_id=task_pair_id,
-        mode="autonomous_research",
-    )
-    # Older Agent responses may put the answer-free scientific question only in
-    # task_spec.  Keep task_info and task_spec as one public contract without
-    # copying private review fields into the evaluator-facing bundle.
-    if not str(task_info.get("scientific_question") or "").strip():
-        task_info["scientific_question"] = task_spec.get("scientific_question") or ""
-    if not str(task_info.get("target_definition") or "").strip():
-        task_info["target_definition"] = task_spec.get("target_definition") or ""
-    write_json(root / "task_info.json", task_info)
-    write_json(root / "task_spec.json", task_spec)
-    write_json(root / "submission_contract.json", submission_contract)
-    write_json(
-        root / "process_rubric.json",
-        _normalize_process_rubric(
-            _neutralize_public_key_point_fields(
-                _normalize_evaluation_references(response.get("process_rubric") or []),
-                aliases,
-            )
-        ),
-    )
-    (root / "task.md").write_text(task_markdown, encoding="utf-8")
-    inputs = root / "data" / "inputs"
-    inputs.mkdir(parents=True, exist_ok=True)
-    for asset in public_basis.get("input_assets") or []:
-        relative = _normalize_public_input_path(str(asset.get("path") or ""))
-        write_text_asset(inputs, relative, _asset_content(asset.get("content")))
-    if aliases:
-        # Pair-level provenance is private and is never copied into a mode
-        # publication.  It lets Stage07 reconcile neutral aliases without
-        # exposing the original hidden identifiers to Stage06B/evaluated Agents.
-        write_json(
-            root.parent / "key_point_alias_map.json",
-            {
-                "schema_version": "stage06-key-point-alias-map/v1",
-                "public_aliases": aliases,
-            },
-        )
-    manifest = directory_manifest(root)
-    write_json(root / "public_manifest.json", manifest)
 
 
-def _materialize_reproduction(
-    root: Path,
-    response: dict[str, Any],
-    *,
-    autonomous_root: Path,
-    paper_id: str,
-    task_pair_id: str,
-    base_manifest_hash: str,
-    agent_workspace: Path | None = None,
-) -> None:
-    response = _load_task_artifacts(response, agent_workspace, reproduction=True)
-    autonomous_info = read_json(autonomous_root / "task_info.json")
-    autonomous_spec = read_json(autonomous_root / "task_spec.json")
-    proposed_info = _normalize_evaluation_references(
-        dict(response.get("task_info") or {})
-    )
-    proposed_spec = _normalize_evaluation_references(
-        dict(response.get("task_spec") or {})
-    )
-    info = dict(autonomous_info)
-    for field in ("scientific_mode_description", "scientific_requirements"):
-        if field in proposed_info:
-            info[field] = proposed_info[field]
-    info.update(
-        {
-        "task_id": safe_component(task_pair_id),
-            "paper_id": task_pair_id,
-            "mode": "paper_reproduction",
-            "task_mode": "guided_reproduction",
-            "scientific_mode": "paper_reproduction",
-            "method_disclosure": "paper_route_disclosed",
-            "pathway_disclosure": "paper_route_disclosed",
-        }
-    )
-    frozen_spec_fields = {
-        "paper_id",
-        "scientific_question",
-        "target_definition",
-        "input_assets",
-        "boundary_conditions",
-    }
-    spec = dict(autonomous_spec)
-    spec.update(
-        {
-            key: value
-            for key, value in proposed_spec.items()
-            if key not in frozen_spec_fields
-        }
-    )
-    spec.update(
-        {
-        "task_id": safe_component(task_pair_id),
-            "paper_id": task_pair_id,
-            "mode": "paper_reproduction",
-            "task_mode": "guided_reproduction",
-            "scientific_mode": "paper_reproduction",
-            "method_disclosure": "paper_route_disclosed",
-            "pathway_disclosure": "paper_route_disclosed",
-        }
-    )
-    write_json(root / "task_info.json", info)
-    write_json(root / "task_spec.json", spec)
-    proposed_submission = _normalize_submission_contract(
-        dict(response.get("submission_contract") or {})
-    )
-    if not proposed_submission.get("required_files"):
-        proposed_submission = _normalize_submission_contract(
-            read_json(autonomous_root / "submission_contract.json")
-        )
-    proposed_submission["paper_id"] = task_pair_id
-    write_json(root / "submission_contract.json", proposed_submission)
-    write_json(
-        root / "process_rubric.json",
-        _normalize_process_rubric(
-            _normalize_evaluation_references(response.get("process_rubric") or [])
-        ),
-    )
-    (root / "task.md").write_text(
-        str(_normalize_evaluation_references(response.get("task_markdown") or "")),
-        encoding="utf-8",
-    )
-    (root / "paper_route.md").write_text(
-        str(_normalize_evaluation_references(response.get("paper_route_markdown") or "")),
-        encoding="utf-8",
-    )
-    write_json(
-        root / "workflow_spec.json",
-        _normalize_evaluation_references(response.get("workflow_spec") or {}),
-    )
-    write_json(
-        root / "route_evidence_map.json",
-        _safe_route_evidence_map(
-            _normalize_evaluation_references(response.get("route_evidence_map") or {})
-        ),
-    )
-    # The mode directory is a public evaluation surface. Source/derivation
-    # provenance belongs to the pair-level audit record, never in the task.
-    for internal_name in (
-        "derived_from.json",
-        "conversion_contract.json",
-        "conversion_receipt.json",
-        "conversion_manifest.json",
-    ):
-        (root / internal_name).unlink(missing_ok=True)
-    manifest = directory_manifest(root)
-    write_json(root / "public_manifest.json", manifest)
 
 
-def _load_task_artifacts(
-    receipt: dict[str, Any], workspace: Path | None, *, reproduction: bool
-) -> dict[str, Any]:
-    if not receipt.get("artifact_path"):
-        return receipt
-    if workspace is None:
-        raise FileNotFoundError("task artifact workspace missing")
-    relative = validate_relative_path(str(receipt["artifact_path"]))
-    task_root = (workspace / relative).resolve()
-    workspace_root = workspace.resolve()
-    if workspace_root not in task_root.parents or not task_root.is_dir():
-        raise FileNotFoundError(f"task artifact directory missing: {relative}")
-    required = {
-        "task_info": "task_info.json",
-        "task_markdown": "task.md",
-        "task_spec": "task_spec.json",
-        "submission_contract": "submission_contract.json",
-        "process_rubric": "process_rubric.json",
-    }
-    if reproduction:
-        required.update(
-            {
-                "paper_route_markdown": "paper_route.md",
-                "workflow_spec": "workflow_spec.json",
-                "route_evidence_map": "route_evidence_map.json",
-            }
-        )
-    output = dict(receipt)
-    for key, name in required.items():
-        path = task_root / name
-        if not path.is_file():
-            raise FileNotFoundError(f"task artifact file missing: {relative}/{name}")
-        output[key] = (
-            path.read_text(encoding="utf-8", errors="strict")
-            if path.suffix == ".md"
-            else read_json(path)
-        )
-    return output
 
 
-def _normalized_task_info(
-    value: dict[str, Any],
-    *,
-    public_basis: dict[str, Any],
-    paper_id: str,
-    task_pair_id: str,
-    mode: str,
-    task_markdown: str,
-    submission_contract: dict[str, Any],
-) -> dict[str, Any]:
-    output = _normalize_evaluation_references(dict(value))
-    deliverable_descriptions: dict[str, str] = {}
-    raw_deliverables = output.get("required_deliverables") or output.get("deliverables") or []
-    if isinstance(raw_deliverables, list):
-        for row in raw_deliverables:
-            if not isinstance(row, dict):
-                continue
-            try:
-                path = _normalize_runtime_artifact_path(str(row.get("path") or ""))
-            except ValueError:
-                continue
-            deliverable_descriptions[path] = str(
-                row.get("description") or row.get("kind") or row.get("role") or ""
-            )
-    required_files = submission_contract.get("required_files") or []
-    output.update(
-        {
-        "task_id": safe_component(task_pair_id),
-            "paper_id": task_pair_id,
-            "source_id": anonymous_source_id(task_pair_id),
-            "category": str(public_basis.get("category") or "computational_chemistry"),
-            "mode": mode,
-            "task_mode": "open_discovery",
-            "scientific_mode": "autonomous_research",
-            "method_disclosure": _autonomous_method_disclosure(
-                public_basis.get("workflow_scope")
-                or public_basis.get("scope")
-                or {},
-                public_basis.get("method_constraints")
-                or public_basis.get("public_method_constraints"),
-            ),
-            "pathway_disclosure": "public_problem_only",
-            "method_constraints": public_basis.get("method_constraints") or [],
-            "required_deliverables": [
-                {
-                    "path": path,
-                    "description": deliverable_descriptions.get(path, "Required task artifact."),
-                    "allow_empty": False,
-                }
-                for path in required_files
-            ],
-        }
-    )
-    for private_key in ("workflow_scope", "complexity_profile", "ground_truth_items", "canonical_answer", "evidence_ids"):
-        output.pop(private_key, None)
-    output.setdefault("benchmark_family", str(public_basis.get("task_direction") or ""))
-    output.setdefault("scientific_requirements", [])
-    output.pop("deliverables", None)
-    output["data"] = [
-        {
-            "name": "ResearchChemBench public inputs",
-            "path": "data/inputs",
-            "type": "directory",
-            "description": "Public structures, raw data, observations, and boundary conditions.",
-        }
-    ]
-    output.setdefault("archive_extractions", [])
-    return output
 
 
 def _normalize_submission_contract(value: Any) -> dict[str, Any]:
@@ -7841,77 +2563,8 @@ def _normalize_submission_contract(value: Any) -> dict[str, Any]:
     return output
 
 
-def _normalize_process_rubric(value: Any) -> list[dict[str, Any]]:
-    rows = normalize_process_rubric_contract(value)
-    if not isinstance(rows, list):
-        return []
-    output: list[dict[str, Any]] = []
-    for index, row in enumerate(rows, start=1):
-        if not isinstance(row, dict):
-            continue
-        normalized = dict(row)
-        normalized["id"] = str(
-            row.get("id") or row.get("criterion_id") or f"criterion_{index}"
-        )
-        if any(key in row for key in ("max_score", "max_points", "points")):
-            normalized["max_score"] = row.get(
-                "max_score", row.get("max_points", row.get("points"))
-            )
-        normalized["description"] = str(
-            row.get("description") or row.get("criterion") or row.get("statement") or ""
-        )
-        if "evidence_artifacts" not in normalized:
-            evidence = row.get("required_evidence") or row.get("required_artifact")
-            if evidence:
-                normalized["evidence_artifacts"] = evidence
-        if "required_evidence" not in normalized and normalized.get("evidence_artifacts"):
-            normalized["required_evidence"] = normalized["evidence_artifacts"]
-        output.append(normalized)
-    return output
 
 
-def _normalized_task_spec(
-    value: dict[str, Any],
-    *,
-    public_basis: dict[str, Any],
-    task_pair_id: str,
-    mode: str,
-) -> dict[str, Any]:
-    output = _normalize_evaluation_references(dict(value))
-    output.update(
-        {
-        "task_id": safe_component(task_pair_id),
-            "paper_id": task_pair_id,
-            "mode": mode,
-            "task_mode": "open_discovery",
-            "scientific_mode": "autonomous_research",
-            "method_disclosure": _autonomous_method_disclosure(
-                public_basis.get("workflow_scope") or {},
-                public_basis.get("method_constraints")
-                or public_basis.get("public_method_constraints"),
-            ),
-            "pathway_disclosure": "public_problem_only",
-            "scientific_question": public_basis.get("scientific_question"),
-            "target_definition": public_basis.get("target_definition")
-            or public_basis.get("scientific_question"),
-            "boundary_conditions": public_basis.get("boundary_conditions") or [],
-            "method_constraints": public_basis.get("method_constraints") or [],
-            "input_assets": [
-                {
-                    key: (
-                        f"data/inputs/{_normalize_public_input_path(str(asset.get('path') or ''))}"
-                        if key == "path"
-                        else asset.get(key)
-                    )
-                    for key in ("path", "description", "role", "source_evidence_ids")
-                }
-                for asset in public_basis.get("input_assets") or []
-            ],
-        }
-    )
-    for private_key in ("workflow_scope", "complexity_profile", "ground_truth_items", "canonical_answer", "evidence_ids"):
-        output.pop(private_key, None)
-    return output
 
 
 def _normalize_runtime_artifact_path(value: str) -> str:
@@ -7972,45 +2625,6 @@ _REPRODUCTION_ALLOWED_DIFFERENCES = {
 }
 
 
-def _reproduction_copy_findings(
-    autonomous_root: Path,
-    reproduction_root: Path,
-    declared_modified_files: list[str],
-) -> list[str]:
-    findings: list[str] = []
-    autonomous = directory_manifest(autonomous_root)
-    reproduction = directory_manifest(reproduction_root)
-    before = {row["path"]: row["sha256"] for row in autonomous["files"]}
-    after = {row["path"]: row["sha256"] for row in reproduction["files"]}
-    differences = {path for path in set(before) | set(after) if before.get(path) != after.get(path)}
-    unauthorized = differences - _REPRODUCTION_ALLOWED_DIFFERENCES
-    if unauthorized:
-        findings.extend(f"reproduction_unauthorized_change:{path}" for path in sorted(unauthorized))
-    if (
-        directory_manifest(autonomous_root / "data")["content_hash"]
-        != directory_manifest(reproduction_root / "data")["content_hash"]
-    ):
-        findings.append("reproduction_inputs_changed")
-    normalized_declared = {
-        str(path).removeprefix("task/") for path in declared_modified_files if str(path).strip()
-    }
-    if normalized_declared - _REPRODUCTION_ALLOWED_DIFFERENCES:
-        findings.append("reproduction_declared_unauthorized_files")
-    orchestrator_generated = {
-        "derived_from.json",
-        "public_manifest.json",
-        "paper_route.md",
-        "workflow_spec.json",
-        "route_evidence_map.json",
-    }
-    undeclared = differences - normalized_declared - orchestrator_generated
-    if undeclared:
-        findings.extend(f"reproduction_undeclared_change:{path}" for path in sorted(undeclared))
-    # Autonomous conversion may use neutral filenames/field names or a
-    # different result representation.  Mode-aware bindings and Stage07's
-    # transport gate validate each contract separately; literal equality is not
-    # a valid pair invariant.
-    return findings
 
 
 def _materialize_pair_metadata(
@@ -8022,7 +2636,6 @@ def _materialize_pair_metadata(
     stage04: dict[str, Any],
     candidates: list[dict[str, Any]],
     review: dict[str, Any],
-    hidden: dict[str, Any],
     evidence_index: list[dict[str, Any]],
     snapshot: dict[str, Any],
     autonomous_root: Path,
@@ -8031,7 +2644,7 @@ def _materialize_pair_metadata(
     review_harness,
     phase_audits: dict[str, Any],
     mode_generation_order: list[str] | None = None,
-    mode_generation_strategy: str = "legacy_multi_phase",
+    mode_generation_strategy: str = "two_agent_objective_centered",
 ) -> None:
     write_json(
         root / "paper_info.json",
@@ -8077,43 +2690,11 @@ def _materialize_pair_metadata(
             toolbox_requirements_path,
             _normalize_toolbox_requirements(review.get("toolbox_requirements") or []),
         )
-    hidden_root = root / "hidden_reference"
-    hidden_root.mkdir(parents=True, exist_ok=True)
-    # The split files are the authored authority.  Never overwrite them from
-    # the legacy compatibility envelope after Stage06A has completed its
-    # self-check.  Only bootstrap split files for old artifacts that lack them.
     split_reference = read_split_reference(root)
     if split_reference is None:
-        write_json(hidden_root / "ground_truth_common.json", hidden)
-        materialize_split_reference(root, hidden)
-    else:
-        write_json(
-            hidden_root / "ground_truth_common.json",
-            legacy_reference_from_split(split_reference),
+        raise ValueError(
+            "evaluator_reference_missing: Stage06A must author all split evaluator files"
         )
-    write_json(
-        hidden_root / "disclosure_contract.json",
-        {
-            "schema_version": "1.0",
-            "authority": "validated_stage06_scientific_review",
-            "autonomous_allowed": {
-                "public_scientific_question": review.get("public_scientific_question"),
-                "public_task_basis": review.get("public_task_basis") or {},
-            },
-            "reproduction_additional_allowed": {
-                "paper_route": review.get("paper_route") or {},
-                "workflow_steps": _public_reproduction_workflow_steps(review),
-            },
-        },
-    )
-    write_json(
-        hidden_root / "process_rubric_autonomous.json",
-        read_json(autonomous_root / "process_rubric.json"),
-    )
-    write_json(
-        hidden_root / "process_rubric_reproduction.json",
-        read_json(reproduction_root / "process_rubric.json"),
-    )
     write_json(
         root / "construction_record.json",
         {
@@ -9538,7 +4119,7 @@ def _publish_provisional_not_constructible(
     snapshot: dict[str, Any],
     documents: list[dict[str, Any]],
 ) -> dict[str, Any]:
-    task_pair_id = canonical_task_pair_id(paper_id)
+    task_pair_id = canonical_paper_id(paper_id)
     staging = prepare_clean_directory(
         stage_root
         / "staging"
@@ -9596,67 +4177,8 @@ def _publish_provisional_not_constructible(
     }
 
 
-def _scientific_not_constructible(
-    *,
-    run_id: str,
-    paper_id: str,
-    candidate_id: str,
-    review: dict[str, Any],
-    agent_audit: dict[str, Any],
-) -> dict[str, Any]:
-    scope = review.get("workflow_scope") or {}
-    complexity = review.get("complexity_profile") or {}
-    return {
-        **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
-        "candidate_id": candidate_id,
-        "paper_id": review.get("paper_id") or None,
-        "processing_status": "completed",
-        "decision": "scientific_not_constructible",
-        "passed": False,
-        "retryable": False,
-        "failure_code": review.get("failure_code"),
-        "failure_reasons": review.get("failure_reasons") or [],
-        "paper_workflow_inventory_complete": review.get(
-            "paper_workflow_inventory_complete"
-        ),
-        "full_paper_workflow_checked": review.get("full_paper_workflow_checked"),
-        "alternative_scope_search_complete": review.get(
-            "alternative_scope_search_complete"
-        ),
-        "workflow_scope_kind": _workflow_scope_kind(scope) or "none",
-        "complexity_profile": json.loads(
-            json.dumps(complexity, ensure_ascii=False)
-        ),
-        "toolbox_gap_present": any(
-            _toolbox_requirement_status(row) in {"missing", "unknown", "incompatible"}
-            for row in review.get("toolbox_requirements") or []
-        ),
-        "stage05_candidate_disposition": review.get("stage05_candidate_disposition"),
-        "agent_runs": {"task_pair_builder": agent_audit},
-    }
 
 
-def _scientific_reject(
-    *,
-    run_id: str,
-    paper_id: str,
-    candidate_id: str,
-    task_pair_id: str,
-    reasons: list[str],
-    review_audit: dict[str, Any],
-    stage05_disposition: Any,
-) -> dict[str, Any]:
-    return {
-        **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
-        "candidate_id": candidate_id,
-        "paper_id": task_pair_id or None,
-        "processing_status": "completed",
-        "decision": "scientific_reject",
-        "passed": False,
-        "reject_reasons": reasons,
-        "stage05_candidate_disposition": stage05_disposition,
-        "agent_runs": {"scientific_review": review_audit},
-    }
 
 
 def _objective_failure(
@@ -9705,25 +4227,4 @@ def _artifact_delivery_failure(
         "failure_class": failure_class,
         "error": {"error_type": failure_class, "message": message[:4000]},
         "agent_run": agent_run,
-    }
-
-
-def _construction_invalid(
-    run_id: str,
-    paper_id: str,
-    candidate_id: str,
-    task_pair_id: str | None,
-    findings: list[str],
-    agent_runs: dict[str, Any],
-) -> dict[str, Any]:
-    return {
-        **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
-        "candidate_id": candidate_id,
-        "paper_id": task_pair_id,
-        "processing_status": "completed",
-        "decision": "construction_invalid",
-        "passed": False,
-        "retryable": True,
-        "validation_findings": findings,
-        "agent_runs": agent_runs,
     }

@@ -69,7 +69,6 @@ def test_stage_prompts_require_scope_comparison_and_do_not_treat_software_gap_as
     builder = task_pair_builder_instructions(paper_id="paper-x", snapshot_hash="hash")
     judge = audit_instructions(
         paper_id="paper-x",
-        task_pair_id="paper-x_task_pair",
         manifest_hash="hash",
         max_tool_calls=20,
         finalization_reserve=4,
@@ -98,7 +97,6 @@ def test_stage_prompts_use_model_neutral_execution_order() -> None:
     )
     judge = audit_instructions(
         paper_id="paper-x",
-        task_pair_id="paper-x_task_pair",
         manifest_hash="hash",
         max_tool_calls=20,
         finalization_reserve=4,
@@ -118,7 +116,6 @@ def test_stage_prompts_reject_trivial_builder_scope_and_bound_stage07_repairs() 
     builder = task_pair_builder_instructions(paper_id="paper-x", snapshot_hash="hash")
     judge = audit_instructions(
         paper_id="paper-x",
-        task_pair_id="paper-x_task_pair",
         manifest_hash="hash",
         max_tool_calls=20,
         finalization_reserve=4,

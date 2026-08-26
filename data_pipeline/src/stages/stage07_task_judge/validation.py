@@ -12,15 +12,8 @@ _REPOSITORY_ROOT = Path(__file__).resolve().parents[4]
 if str(_REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPOSITORY_ROOT))
 from researchchembench_contracts import schema_path_status
-from src.stages.stage06_task_builder.validation import (
-    acceptance_profile_type_findings,
-    canonicalize_mode_task_contract,
-    hidden_reference_transport_findings,
-    normalize_submission_contract,
-    normalize_process_rubric_contract,
-)
 from researchchembench_contracts import process_rubric_container_findings
-from src.stages.evaluator_reference import minimal_evaluator_findings
+from src.stages.evaluator_reference import minimal_evaluator_findings, read_split_reference
 
 OUTCOME_TYPES = {
     "needs_software",
@@ -46,520 +39,137 @@ _MODE_ALIASES = {
 }
 
 
-def _mode_scope(value: Any) -> list[str] | None:
-    """Normalize an optional mode scope without interpreting scientific content.
-
-    ``None`` means a legacy/shared item and therefore applies to both public modes.
-    An invalid non-empty value returns ``None`` as well; callers distinguish that
-    case by checking whether the original field was present.
-    """
-
-    if value is None:
-        return list(_TASK_MODES)
-    raw = [value] if isinstance(value, str) else value
-    if not isinstance(raw, (list, tuple, set)):
-        return None
-    normalized: list[str] = []
-    for item in raw:
-        key = str(item or "").strip().casefold()
-        mapped = _MODE_ALIASES.get(key)
-        if mapped and mapped not in normalized:
-            normalized.append(mapped)
-        elif key:
-            return None
-    if not normalized:
-        return None
-    return [mode for mode in _TASK_MODES if mode in normalized]
-
-
-def _profile_applies_to_mode(profile: dict[str, Any], mode: str) -> tuple[bool, bool]:
-    """Return ``(applies, scope_valid)`` for a Ground Truth/profile item."""
-
-    raw = profile.get("applies_to_modes")
-    if raw is None:
-        return True, True
-    scope = _mode_scope(raw)
-    if scope is None:
-        return False, False
-    return mode in scope, True
-
-
-def _normalize_hidden_reference_for_transport(value: dict[str, Any]) -> dict[str, Any]:
-    """Use the Stage06 syntax normalizer at the Stage07 artifact boundary.
-
-    The import is intentionally lazy: Stage07 validation must remain usable by
-    lightweight evaluator/gate callers without importing the Stage06 orchestrator
-    during module initialization.  The normalizer only projects aliases and keeps
-    scientific target fields frozen; unsafe omissions remain visible to the typed
-    contract checks below.
-    """
-
-    from src.stages.stage06_task_builder.stage import (
-        _normalize_hidden_reference_contract,
-    )
-
-    normalized = _normalize_hidden_reference_contract(value)
-    return normalized if isinstance(normalized, dict) else value
-
-
-def _normalization_records(pair_root: Path) -> tuple[list[dict[str, Any]], list[str]]:
-    """Load prior transport-normalization provenance without changing the pair."""
-
-    path = pair_root / "orchestrator_normalizations.json"
-    if not path.is_file():
-        return [], []
-    try:
-        value = read_json(path)
-    except (OSError, ValueError, TypeError, json.JSONDecodeError):
-        return [], ["normalization_provenance_unreadable"]
-    if not isinstance(value, dict) or not isinstance(value.get("records"), list):
-        return [], ["normalization_provenance_unreadable"]
-    return [row for row in value["records"] if isinstance(row, dict)], []
-
-
-def normalize_stage07_transport_contract(
-    pair_root: Path, *, task_pair_id: str | None = None
+def validate_stage07_transport_contract(
+    pair_root: Path, *, paper_id: str | None = None
 ) -> dict[str, Any]:
-    """Apply deterministic transport projections before the read-only Gate.
-
-    This function owns the small compatibility surface (mode enums/IDs,
-    submission/rubric wrappers, hidden binding aliases).  It records every
-    changed file by hash and never changes target values, tolerances, claim
-    roles, scientific scope, or public input payloads.
-    """
-
-    records, findings = _normalization_records(pair_root)
-    new_records: list[dict[str, Any]] = []
-    common_path = pair_root / "hidden_reference" / "ground_truth_common.json"
-    if task_pair_id and common_path.is_file():
-        try:
-            common = read_json(common_path)
-            if isinstance(common, dict) and common.get("paper_id") != task_pair_id:
-                before_hash = _file_digest(common_path)
-                updated = dict(common)
-                updated["paper_id"] = task_pair_id
-                write_json(common_path, updated)
-                new_records.append(
-                    {
-                        "kind": "hidden_reference_identity_normalization",
-                        "file": "hidden_reference/ground_truth_common.json",
-                        "before_sha256": before_hash,
-                        "after_sha256": _file_digest(common_path),
-                    }
-                )
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            # The read-only Gate reports malformed hidden content.
-            pass
-
-    mode_schemas: dict[str, Any] = {}
+    """Validate the canonical pair without mutating or projecting any file."""
+    findings: list[str] = []
+    if paper_id:
+        info_path = pair_root / "paper_info.json"
+        if info_path.is_file():
+            info = read_json(info_path)
+            if isinstance(info, dict) and str(info.get("paper_id") or "") != paper_id:
+                findings.append("paper_id_mismatch:paper_info")
+    if read_split_reference(pair_root) is None:
+        findings.append("evaluator_reference_missing")
     for mode in _TASK_MODES:
         root = pair_root / mode
         if not root.is_dir():
+            findings.append(f"missing_mode_directory:{mode}")
             continue
-        tracked = (
-            "task_info.json",
-            "task_spec.json",
-            "submission_contract.json",
-            "process_rubric.json",
-        )
-        before_hashes = {name: _file_digest(root / name) for name in tracked}
-        mode_findings = canonicalize_mode_task_contract(
-            root,
-            expected_mode=mode,
-            task_pair_id=task_pair_id,
-        )
-        findings.extend(mode_findings)
-
-        submission_path = root / "submission_contract.json"
-        if submission_path.is_file():
+        for filename in ("task_info.json", "task_spec.json", "submission_contract.json"):
+            path = root / filename
+            if not path.is_file():
+                findings.append(f"missing_required_file:{mode}/{filename}")
+                continue
             try:
-                raw_submission = read_json(submission_path)
-                normalized_submission = normalize_submission_contract(raw_submission)
-                if normalized_submission != raw_submission:
-                    write_json(submission_path, normalized_submission)
-                if isinstance(normalized_submission, dict):
-                    mode_schemas[mode] = normalized_submission.get("results_schema")
+                value = read_json(path)
             except (OSError, ValueError, TypeError, json.JSONDecodeError):
-                pass
-
-        rubric_path = root / "process_rubric.json"
-        if rubric_path.is_file():
-            try:
-                raw_rubric = read_json(rubric_path)
-                normalized_rubric = normalize_process_rubric_contract(raw_rubric)
-                if isinstance(normalized_rubric, list) and normalized_rubric != raw_rubric:
-                    write_json(rubric_path, normalized_rubric)
-            except (OSError, ValueError, TypeError, json.JSONDecodeError):
-                pass
-
-        after_hashes = {name: _file_digest(root / name) for name in tracked}
-        changed = [
-            name
-            for name in tracked
-            if before_hashes.get(name) != after_hashes.get(name)
-        ]
-        if changed:
-            new_records.append(
-                {
-                    "mode": mode,
-                    "kind": "transport_normalization",
-                    "files": changed,
-                    "before_sha256": {
-                        name: before_hashes.get(name) for name in changed
-                    },
-                    "after_sha256": {
-                        name: after_hashes.get(name) for name in changed
-                    },
-                    "findings": mode_findings,
-                }
-            )
-
-    if common_path.is_file():
-        try:
-            common = read_json(common_path)
-            ownership_findings = hidden_reference_transport_findings(
-                common, require_ready_ground_truth=True
-            ) if isinstance(common, dict) else ["hidden_reference_transport_not_object"]
-            has_owned_truth_contract = bool(
-                isinstance(common, dict)
-                and isinstance(common.get("ground_truth_items"), list)
-                and common.get("ground_truth_items")
-            )
-            if isinstance(common, dict) and not ownership_findings and has_owned_truth_contract:
-                normalized = _normalize_hidden_reference_for_transport(common)
-                if normalized != common:
-                    before_hash = _file_digest(common_path)
-                    write_json(common_path, normalized)
-                    common = normalized
-                    new_records.append(
-                        {
-                            "kind": "hidden_reference_contract_normalization",
-                            "file": "hidden_reference/ground_truth_common.json",
-                            "before_sha256": before_hash,
-                            "after_sha256": _file_digest(common_path),
-                        }
-                    )
-            if isinstance(common, dict) and not ownership_findings:
-                before_hash = _file_digest(common_path)
-                changed_profiles = _normalize_hidden_binding_paths(
-                    common, mode_schemas=mode_schemas
-                )
-                if changed_profiles:
-                    write_json(common_path, common)
-                    new_records.append(
-                        {
-                            "kind": "evaluator_binding_path_normalization",
-                            "file": "hidden_reference/ground_truth_common.json",
-                            "profiles": changed_profiles,
-                            "before_sha256": before_hash,
-                            "after_sha256": _file_digest(common_path),
-                        }
-                    )
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            pass
-
-    if new_records:
-        records.extend(new_records)
-        try:
-            write_json(
-                pair_root / "orchestrator_normalizations.json",
-                {
-                    "schema_version": "stage07-normalization-provenance/v1",
-                    "records": records,
-                },
-            )
-        except OSError:
-            findings.append("normalization_provenance_write_failed")
-    return {
-        "status": "passed" if not findings else "findings",
-        "findings": sorted(set(findings)),
-        "records": records,
-        "new_records": new_records,
-    }
-
+                findings.append(f"unreadable_mode_json:{mode}/{filename}")
+                continue
+            if filename in {"task_info.json", "task_spec.json"} and isinstance(value, dict):
+                if paper_id and value.get("paper_id") != paper_id:
+                    findings.append(f"paper_id_mismatch:{mode}")
+                expected_mode = mode
+                if value.get("mode") != expected_mode or value.get("scientific_mode") != expected_mode:
+                    findings.append(f"mode_contract_mismatch:{mode}")
+    return {"records": [], "new_records": [], "findings": sorted(set(findings))}
 
 def stage07_mechanical_pre_publish_check(
-    pair_root: Path, *, task_pair_id: str | None = None
+    pair_root: Path, *, paper_id: str | None = None
 ) -> dict[str, Any]:
-    """Check only transport/evaluator contracts before an Agent-approved pair is published.
-
-    This gate deliberately does not call the Stage06 scientific validator and never emits a
-    scientific approve/reject decision.  Its result is a list of mechanical findings that can
-    block publication or trigger an Agent retry when the delivered files cannot be loaded.
-    """
+    """Validate the canonical Stage07 transport and split evaluator contract."""
     findings: list[str] = []
+    diagnostics: list[str] = []
     required_modes = ("paper_reproduction", "autonomous_research")
     mode_values: dict[str, dict[str, Any]] = {}
-    pair_diagnostics: list[str] = []
-    normalization_records, provenance_findings = _normalization_records(pair_root)
-    findings.extend(provenance_findings)
     for mode in required_modes:
         root = pair_root / mode
         if not root.is_dir():
             findings.append(f"missing_mode_directory:{mode}")
             continue
-        for name in ("task.md", "task_info.json", "task_spec.json", "submission_contract.json", "process_rubric.json"):
-            path = root / name
-            if not path.is_file():
-                findings.append(f"missing_required_file:{mode}/{name}")
+        required_files = (
+            "task.md", "task_info.json", "task_spec.json",
+            "submission_contract.json", "process_rubric.json",
+        )
+        missing = [name for name in required_files if not (root / name).is_file()]
+        findings.extend(f"missing_required_file:{mode}/{name}" for name in missing)
+        if missing:
+            continue
         try:
             info = read_json(root / "task_info.json")
             spec = read_json(root / "task_spec.json")
             submission = read_json(root / "submission_contract.json")
-            raw_rubric = read_json(root / "process_rubric.json")
-            rubric_container_findings = process_rubric_container_findings(raw_rubric)
-            findings.extend(
-                f"{finding}:{mode}"
-                for finding in rubric_container_findings
-                if finding != "process_rubric_empty"
-            )
-            rubric = normalize_process_rubric_contract(raw_rubric)
+            rubric = read_json(root / "process_rubric.json")
         except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
             findings.append(f"unreadable_mode_json:{mode}:{type(exc).__name__}")
             continue
-        mode_values[mode] = {"info": info, "spec": spec, "submission": submission, "rubric": rubric}
+        mode_values[mode] = {"info": info, "spec": spec, "submission": submission}
         expected_task_mode = "guided_reproduction" if mode == "paper_reproduction" else "open_discovery"
+        if paper_id and info.get("paper_id") != paper_id:
+            findings.append(f"paper_id_mismatch:{mode}")
+        if info.get("task_id") not in (None, "", info.get("paper_id")):
+            findings.append(f"task_id_not_equal_paper_id:{mode}")
         if info.get("mode") != mode or info.get("scientific_mode") != mode:
             findings.append(f"mode_contract_mismatch:{mode}")
         if info.get("task_mode") != expected_task_mode:
             findings.append(f"task_mode_contract_mismatch:{mode}")
-        if not str(info.get("paper_id") or "").strip():
-            findings.append(f"paper_id_missing:{mode}")
-        if info.get("task_id") not in (None, "", info.get("paper_id")):
-            findings.append(f"task_id_not_equal_paper_id:{mode}")
         if spec.get("mode") != mode or spec.get("scientific_mode") != mode:
             findings.append(f"task_spec_mode_mismatch:{mode}")
-        if not isinstance(submission.get("required_files"), list) or not submission.get("required_files"):
+        required = submission.get("required_files")
+        if not isinstance(required, list) or not required:
             findings.append(f"submission_required_files_missing:{mode}")
         else:
-            for rel in submission.get("required_files"):
+            for rel in required:
                 if not isinstance(rel, str) or not rel or Path(rel).is_absolute() or ".." in Path(rel).parts or "\\" in rel:
                     findings.append(f"unsafe_required_path:{mode}:{rel}")
         if not isinstance(submission.get("results_schema"), dict):
             findings.append(f"submission_results_schema_missing:{mode}")
-        if not isinstance(rubric, list):
-            findings.append(f"process_rubric_not_array:{mode}")
-        elif mode == "paper_reproduction":
+        rubric_findings = process_rubric_container_findings(rubric)
+        findings.extend(f"{item}:{mode}" for item in rubric_findings if item != "process_rubric_empty")
+        if mode == "paper_reproduction":
             route = [
-                row
-                for row in rubric
-                if isinstance(row, dict)
-                and str(row.get("criterion_type") or "").casefold()
-                == "route_fidelity"
+                row for row in (rubric if isinstance(rubric, list) else [])
+                if isinstance(row, dict) and str(row.get("criterion_type") or "").casefold() == "route_fidelity"
             ]
             if len(route) != 1:
                 findings.append("reproduction_route_fidelity_criterion_missing")
-            else:
-                criterion = route[0]
-                if criterion.get("criterion_type") != "route_fidelity":
-                    findings.append("reproduction_route_fidelity_criterion_invalid")
-                evidence = criterion.get("evidence_artifacts") or []
-                if isinstance(evidence, str):
-                    evidence = [evidence]
-                required_files = {
-                    str(path) for path in submission.get("required_files") or []
-                }
-                safe_declared = [
-                    str(path)
-                    for path in evidence
-                    if isinstance(path, str)
-                    and path
-                    and not Path(path).is_absolute()
-                    and ".." not in Path(path).parts
-                    and "\\" not in path
-                    and path in required_files
-                ]
-                if not safe_declared:
-                    findings.append("reproduction_route_fidelity_evidence_missing")
-        complexity = spec.get("complexity_profile") or info.get("complexity_profile") or {}
-        if isinstance(complexity, dict):
-            for alias in (
-                "core_operation_count",
-                "core_computation_count",
-                "tool_call_count",
-                "dependency_count",
-                "branch_count",
-                "system_state_count",
-            ):
-                if alias in complexity:
-                    findings.append(f"legacy_complexity_alias_present:{mode}:{alias}")
-
-    if set(mode_values) == set(required_modes):
-        a, r = mode_values["autonomous_research"], mode_values["paper_reproduction"]
-        for key in ("paper_id",):
-            if a["info"].get(key) != r["info"].get(key):
-                findings.append(f"mode_pair_identity_mismatch:{key}")
-        if _submission_contract_shape(a["submission"]) != _submission_contract_shape(
-            r["submission"]
-        ):
-            pair_diagnostics.append("mode_pair_submission_contract_shape_diff")
-
-        def data_fingerprints(root: Path) -> list[str]:
-            """Summarize input payloads for observation, not scientific verdicts."""
-            import hashlib
-            fingerprints: list[str] = []
-            for path in sorted((root / "data").rglob("*") if (root / "data").is_dir() else []):
-                if not path.is_file():
-                    continue
-                content = path.read_bytes()
-                if path.suffix.casefold() == ".xyz":
-                    try:
-                        lines = content.decode("utf-8").splitlines()
-                        if len(lines) >= 2:
-                            # The second XYZ line is a presentation comment that Stage06B may
-                            # neutralize; atom rows remain the immutable scientific payload.
-                            content = (lines[0].strip() + "\n" + "\n".join(" ".join(line.split()) for line in lines[2:])).encode()
-                    except UnicodeDecodeError:
-                        pass
-                fingerprints.append(hashlib.sha256(content).hexdigest())
-            return sorted(fingerprints)
-        if data_fingerprints(pair_root / "paper_reproduction") != data_fingerprints(pair_root / "autonomous_research"):
-            pair_diagnostics.append("mode_pair_input_assets_observation_diff")
-
-    hidden = pair_root / "hidden_reference"
-    if not hidden.is_dir():
-        findings.append("hidden_reference_directory_missing")
-    elif task_pair_id:
-        common_path = hidden / "ground_truth_common.json"
-        if not common_path.is_file():
-            findings.append("hidden_ground_truth_common_missing")
-        else:
-            try:
-                common = read_json(common_path)
-            except (OSError, ValueError, TypeError, json.JSONDecodeError):
-                common = None
-            if not isinstance(common, dict):
-                findings.append("hidden_ground_truth_common_not_object")
-            elif common.get("paper_id") != task_pair_id:
-                findings.append("hidden_ground_truth_task_pair_id_mismatch")
-    for forbidden in (
-        "workspace",
-        "source_materials",
-        "handoff",
-        "stage06_candidate",
-        "conversion_packet",
-        "staging",
-    ):
-        # Only public mode trees are scanned.  Pair-level handoff/workspace
-        # directories are expected implementation artifacts and are not leaked
-        # merely because they exist beside the modes.
-        if any(
-            any(path.name == forbidden for path in (pair_root / mode).rglob("*"))
-            for mode in required_modes
-            if (pair_root / mode).is_dir()
-        ):
-            findings.append(f"internal_artifact_in_public_mode:{forbidden}")
-    for mode in required_modes:
-        if (pair_root / mode / "hidden_reference").exists():
+        # Stage07 audits the exact files delivered by Stage06.  It must not
+        # rewrite aliases or project a compatibility contract before checking.
+        if (root / "hidden_reference").exists():
             findings.append(f"hidden_reference_in_public_mode:{mode}")
-
-    # Detect compatibility projections without applying them.  The explicit
-    # normalization phase runs before this Gate in the production pipeline;
-    # direct callers receive a visible finding instead of a mutated input.
-    common_path = pair_root / "hidden_reference" / "ground_truth_common.json"
-    # v14 split evaluator files are authoritative.  The legacy hidden envelope
-    # is only a generated compatibility view and may be incomplete (especially
-    # acceptance_profiles); never let that view create a publication blocker.
-    split_reference_present = (pair_root / "evaluator_reference").is_dir()
-    if common_path.is_file() and not split_reference_present:
-        try:
-            common_before = read_json(common_path)
-            if isinstance(common_before, dict):
-                ownership_findings = hidden_reference_transport_findings(
-                    common_before, require_ready_ground_truth=True
-                )
-                findings.extend(ownership_findings)
-                has_profile_contract = bool(
-                    isinstance(common_before.get("ground_truth_items"), list)
-                    and common_before.get("ground_truth_items")
-                )
-                if has_profile_contract and not ownership_findings:
-                    normalized_common = _normalize_hidden_reference_for_transport(
-                        common_before
-                    )
-                    if normalized_common != common_before:
-                        findings.append("normalization_required:hidden_reference_contract")
-                        common_for_paths = normalized_common
-                    else:
-                        common_for_paths = json.loads(
-                            json.dumps(common_before, ensure_ascii=False)
-                        )
-                else:
-                    common_for_paths = json.loads(
-                        json.dumps(common_before, ensure_ascii=False)
-                    )
-                if not ownership_findings:
-                    mode_schemas = {
-                        mode: values["submission"].get("results_schema")
-                        for mode, values in mode_values.items()
-                    }
-                    changed_profiles = _normalize_hidden_binding_paths(
-                        common_for_paths, mode_schemas=mode_schemas
-                    )
-                    if changed_profiles:
-                        findings.append(
-                            "normalization_required:hidden_binding_paths:"
-                            + ",".join(changed_profiles)
-                        )
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            # The normal evaluator checks below report malformed hidden
-            # content.  A best-effort transport repair must not hide that
-            # diagnostic or create a new verdict.
-            pass
-    evaluator = _evaluator_dry_run(pair_root, mode_values)
-    evaluator_findings = list(evaluator.get("findings") or [])
-    # v13 makes the split evaluator files authoritative.  The old typed
-    # ``reference.json`` projection is retained for Task Package v1 consumers,
-    # but incomplete policy fields (tolerance, binding, selector, comparison,
-    # or acceptance-profile details) are warning-only and must not block the
-    # Stage07 publication path.  Scientific/key-point/evidence closure is
-    # checked by the shared phase Gate above and remains blocking.
-    if split_reference_present:
-        # v15 makes evaluator completeness part of the same blocking contract
-        # used by Stage06A self-check.  Scientific tolerance choices remain
-        # data for later review; they are not validated here.
-        policy_prefixes = (
-            "evaluator_formal_reference_invalid:",
-            "evaluator_acceptance_profile_",
-            "evaluator_submission_binding_",
-            "evaluator_binding_",
-            "evaluator_document_binding_",
-            "evaluator_result_schema_",
-            "evaluator_artifact_path_",
-        )
-        evaluator_findings = [
-            finding for finding in evaluator_findings
-            if not str(finding).startswith(policy_prefixes)
-        ]
-        evaluator_findings.extend(minimal_evaluator_findings(pair_root))
-        evaluator["findings"] = sorted(set(evaluator_findings))
-        evaluator["status"] = "passed" if not evaluator_findings else "failed"
-    findings.extend(evaluator_findings)
+    if set(mode_values) == set(required_modes):
+        ids = {str(mode_values[mode]["info"].get("paper_id") or "") for mode in required_modes}
+        if len(ids) != 1:
+            findings.append("mode_pair_identity_mismatch:paper_id")
+    split_dir = pair_root / "evaluator_reference"
+    required_split_files = (
+        "reference_key_points.json", "reference_conclusions.json", "scoring_rules.json",
+        "evidence_map.json", "critical_failures.json",
+    )
+    split_reference = read_split_reference(pair_root)
+    missing_split = [name for name in required_split_files if not (split_dir / name).is_file()]
+    if split_reference is None or missing_split:
+        findings.append("evaluator_reference_missing")
+        findings.extend(f"evaluator_reference_file_missing:{name}" for name in missing_split)
+        evaluator = {"status": "failed", "findings": ["evaluator_reference_missing"], "diagnostics": []}
+    else:
+        evaluator_findings = minimal_evaluator_findings(pair_root)
+        evaluator = {
+            "status": "passed" if not evaluator_findings else "failed",
+            "findings": sorted(set(evaluator_findings)),
+            "diagnostics": [],
+        }
+        findings.extend(evaluator_findings)
     return {
         "mechanical_pre_publish_status": "passed" if not findings else "failed",
-        # This check currently validates schemas and safe artifact bindings; it
-        # is intentionally not called a full scoring dry-run.
         "schema_load_diagnostic": evaluator["status"],
         "findings": sorted(set(findings)),
-        "diagnostics": sorted(
-            set(pair_diagnostics + (evaluator.get("diagnostics", []) or []))
-        ),
+        "diagnostics": diagnostics,
         "evaluator": evaluator,
-        "normalization_records": normalization_records,
+        "normalization_records": [],
     }
 
-
-def _file_digest(path: Path) -> str | None:
-    """Return a stable content digest for normalization provenance."""
-
-    if not path.is_file():
-        return None
-    try:
-        import hashlib
-
-        return hashlib.sha256(path.read_bytes()).hexdigest()
-    except OSError:
-        return None
 
 
 def _submission_contract_shape(value: Any) -> Any:
@@ -613,171 +223,6 @@ def _result_schema_shape(value: Any) -> Any:
     if items is not None:
         result["items"] = _result_schema_shape(items)
     return result
-
-
-def _binding_for_mode(profile: dict[str, Any], mode: str) -> dict[str, Any]:
-    """Select a mode-specific binding without interpreting scientific claims."""
-
-    # ``mode_submission_bindings`` is the canonical spelling.  The older
-    # ``submission_bindings_by_mode`` spelling and a nested mode map under
-    # ``submission_binding`` are read for compatibility only.  Once a mode map
-    # is present, a missing mode is *not* silently served by another mode or by
-    # a shared fallback: that would bind an acceptance profile to the wrong
-    # public result representation.
-    for key in ("mode_submission_bindings", "submission_bindings_by_mode"):
-        by_mode = profile.get(key)
-        if not isinstance(by_mode, dict):
-            continue
-        candidate = by_mode.get(mode)
-        if candidate is None:
-            candidate = by_mode.get(
-                "autonomous" if mode == "autonomous_research" else "reproduction"
-            )
-        return candidate if isinstance(candidate, dict) else {}
-
-    binding = profile.get("submission_binding")
-    if not isinstance(binding, dict):
-        return {}
-    nested_keys = {
-        "autonomous_research",
-        "paper_reproduction",
-        "autonomous",
-        "reproduction",
-        "open_discovery",
-        "guided_reproduction",
-    }
-    if any(key in binding for key in nested_keys):
-        candidate = binding.get(mode)
-        if candidate is None:
-            candidate = binding.get(
-                "autonomous" if mode == "autonomous_research" else "reproduction"
-            )
-        return candidate if isinstance(candidate, dict) else {}
-    return binding
-
-
-def _critical_failure_strings(value: Any) -> list[str]:
-    """Project rich private failure records into the evaluator's string contract.
-
-    Stage06 may keep an id plus a human-readable message so that the scientific
-    audit remains traceable.  The downstream evaluator schema intentionally has
-    a smaller transport type (``list[str]``).  This projection is lossless for
-    the evaluator-facing text and does not alter any scientific decision.
-    """
-
-    output: list[str] = []
-    raw_items = value if isinstance(value, list) else []
-    for item in raw_items:
-        if isinstance(item, str):
-            text = item.strip()
-        elif isinstance(item, dict):
-            identifier = str(item.get("id") or item.get("failure_id") or "").strip()
-            message = str(
-                item.get("message")
-                or item.get("description")
-                or item.get("statement")
-                or item.get("rule")
-                or ""
-            ).strip()
-            text = f"{identifier}: {message}" if identifier and message else (message or identifier)
-        else:
-            text = str(item).strip()
-        if text:
-            output.append(text)
-    return output
-
-
-def _normalize_hidden_binding_paths(
-    hidden: dict[str, Any], *, mode_schemas: dict[str, Any] | None = None
-) -> list[str]:
-    """Repair the bounded legacy ``$..field`` spelling in private bindings.
-
-    The evaluator transport parser supports the explicit child-selector form
-    ``$.group.field`` (and bracket-quoted keys), not JSONPath recursive descent.
-    Some otherwise valid Agent outputs add one extra dot after ``$``.  When the
-    remainder is valid in the supported subset, normalize only that leading
-    typo.  We do not rewrite arbitrary JSONPath or infer semantic fields.
-    """
-
-    changed: list[str] = []
-
-    def normalize_selector(value: str) -> str:
-        """Quote dotted object keys that are not JSONPath identifiers.
-
-        A field such as ``$.relative_free_energies.3Ph`` is unambiguous as a
-        Python/JSON object path but is not valid dot notation because the key
-        starts with a digit.  Convert only that bounded spelling to the
-        standard bracket form; selectors with filters, wildcards, or other
-        syntax remain untouched for the normal validator to diagnose.
-        """
-
-        if not value.startswith("$") or "[" in value or "?" in value:
-            return value
-        parts = value.split(".")
-        if len(parts) <= 1:
-            return value
-        output = [parts[0]]
-        for part in parts[1:]:
-            if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_-]*", part):
-                output.append("." + part)
-            elif re.fullmatch(r"[A-Za-z0-9_-]+", part):
-                output.append("[" + repr(part) + "]")
-            else:
-                return value
-        return "".join(output)
-
-    def visit(value: Any, profile_id: str, allowed_modes: list[str]) -> None:
-        if isinstance(value, dict):
-            fields = value.get("observed_fields")
-            if isinstance(fields, str):
-                fields = [fields]
-                scalar = True
-            else:
-                scalar = False
-            if isinstance(fields, list):
-                updated: list[Any] = []
-                did_change = False
-                for field in fields:
-                    replacement = field
-                    if isinstance(field, str):
-                        normalized = normalize_selector(field)
-                        if normalized != field and _jsonpath_tokens(normalized) is not None:
-                            replacement = normalized
-                            did_change = True
-                            changed.append(profile_id)
-                    if isinstance(field, str) and field.startswith("$.."):
-                        candidate = "$" + field[2:]
-                        candidate_tokens = _jsonpath_tokens(candidate)
-                        schema_declared = True
-                        if mode_schemas is not None:
-                            schema_declared = False
-                            if candidate_tokens is not None:
-                                for mode in allowed_modes:
-                                    schema = mode_schemas.get(mode)
-                                    status = _schema_path_status(schema, candidate_tokens)
-                                    if status in {"present", "open"}:
-                                        schema_declared = True
-                                        break
-                        if candidate_tokens is not None and schema_declared:
-                            replacement = candidate
-                            did_change = True
-                            changed.append(profile_id)
-                    updated.append(replacement)
-                if did_change:
-                    value["observed_fields"] = updated[0] if scalar and len(updated) == 1 else updated
-            for key, nested in list(value.items()):
-                if key != "observed_fields":
-                    visit(nested, profile_id, allowed_modes)
-        elif isinstance(value, list):
-            for nested in value:
-                visit(nested, profile_id, allowed_modes)
-
-    for profile in hidden.get("acceptance_profiles") or []:
-        if isinstance(profile, dict):
-            profile_id = str(profile.get("acceptance_profile_id") or "unknown")
-            scope = _mode_scope(profile.get("applies_to_modes")) or list(_TASK_MODES)
-            visit(profile, profile_id, scope)
-    return sorted(set(changed))
 
 
 def _string_list(value: Any) -> list[str]:
@@ -876,348 +321,6 @@ def published_bundle_mechanical_check(bundle_root: Path) -> dict[str, Any]:
         if not (bundle_root / name).is_file():
             findings.append(f"published_required_file_missing:{name}")
     return {"status": "passed" if not findings else "failed", "findings": sorted(set(findings))}
-
-
-def _project_hidden_for_mode(hidden: dict[str, Any], mode: str) -> dict[str, Any]:
-    """Project the single private truth source to one evaluator mode.
-
-    The projection only removes items explicitly outside ``applies_to_modes``;
-    it never changes a target, proposition, tolerance, or scientific statement.
-    A missing scope remains the legacy shared scope.
-    """
-
-    projected = json.loads(json.dumps(hidden, ensure_ascii=False))
-    truths = [
-        item
-        for item in projected.get("ground_truth_items") or []
-        if isinstance(item, dict) and _profile_applies_to_mode(item, mode)[0]
-    ]
-    truth_ids = {str(item.get("ground_truth_id")) for item in truths}
-    profiles = []
-    for profile in projected.get("acceptance_profiles") or []:
-        if not isinstance(profile, dict):
-            continue
-        applies, _ = _profile_applies_to_mode(profile, mode)
-        owner_ids = {
-            str(item.get("acceptance_profile_id"))
-            for item in truths
-            if item.get("acceptance_profile_id")
-        }
-        if applies and (
-            not profile.get("acceptance_profile_id")
-            or str(profile.get("acceptance_profile_id")) in owner_ids
-        ):
-            profile = json.loads(json.dumps(profile, ensure_ascii=False))
-            # The private source may use a mode matrix.  A mode-specific
-            # evaluator projection receives only the selected binding; the
-            # matrix itself is an internal contract detail.
-            mode_binding = _binding_for_mode(profile, mode)
-            if mode_binding:
-                profile["submission_binding"] = mode_binding
-            profile.pop("mode_submission_bindings", None)
-            profile.pop("submission_bindings_by_mode", None)
-            if isinstance(profile.get("submission_binding"), dict) and any(
-                key in profile["submission_binding"]
-                for key in (
-                    "autonomous_research",
-                    "paper_reproduction",
-                    "autonomous",
-                    "reproduction",
-                    "open_discovery",
-                    "guided_reproduction",
-                )
-            ):
-                profile["submission_binding"] = mode_binding
-            profiles.append(profile)
-    rubric = []
-    for criterion in projected.get("scientific_conclusion_rubric") or []:
-        if not isinstance(criterion, dict):
-            continue
-        criterion_modes = criterion.get("applies_to_modes")
-        if criterion_modes is not None and not _profile_applies_to_mode(
-            {"applies_to_modes": criterion_modes}, mode
-        )[0]:
-            continue
-        refs = {
-            str(value)
-            for value in criterion.get("ground_truth_ids") or []
-            if str(value)
-        }
-        if refs and not refs & truth_ids:
-            continue
-        rubric.append(criterion)
-    projected["ground_truth_items"] = truths
-    projected["acceptance_profiles"] = profiles
-    projected["scientific_conclusion_rubric"] = rubric
-    projected["critical_failures"] = _critical_failure_strings(
-        projected.get("critical_failures")
-    )
-
-    # Keep the mode projection self-contained when expected results or
-    # reference evidence are keyed by Ground Truth ID.  Unknown/non-ID fields
-    # are preserved verbatim because this helper is a transport projection,
-    # not a scientific interpretation.
-    expected = projected.get("expected_result")
-    if isinstance(expected, dict):
-        expected = json.loads(json.dumps(expected, ensure_ascii=False))
-        for key, value in list(expected.items()):
-            if isinstance(value, dict) and (
-                key.endswith("_by_id") or key in {"ground_truth", "answers", "targets"}
-            ):
-                expected[key] = {
-                    item_key: item_value
-                    for item_key, item_value in value.items()
-                    if str(item_key) in truth_ids
-                }
-        projected["expected_result"] = expected
-    evidence = projected.get("reference_evidence")
-    if isinstance(evidence, dict):
-        evidence = json.loads(json.dumps(evidence, ensure_ascii=False))
-        if isinstance(evidence.get("ground_truth_items"), list):
-            evidence["ground_truth_items"] = truths
-        if isinstance(evidence.get("acceptance_profiles"), list):
-            evidence["acceptance_profiles"] = profiles
-        projected["reference_evidence"] = evidence
-    return projected
-
-
-def _evaluator_dry_run(pair_root: Path, mode_values: dict[str, dict[str, Any]]) -> dict[str, Any]:
-    """Perform schema loading plus a minimal, answer-free binding diagnostic.
-
-    This deliberately stops short of running the scoring service: no submission
-    exists at publication time.  The caller reports the result as
-    ``schema_load_diagnostic`` and never runs real scoring before a submission exists.
-    """
-    findings: list[str] = []
-    diagnostics: list[str] = []
-    try:
-        import sys
-        repo_root = Path(__file__).resolve().parents[4]
-        if str(repo_root) not in sys.path:
-            sys.path.insert(0, str(repo_root))
-        from researchchembench_contracts import (
-            ComputationalScienceReferenceV1,
-            is_document_binding_selector,
-            is_safe_jsonpath_filter,
-            normalize_binding_artifact_paths,
-            normalize_binding_contract,
-            normalize_binding_observed_fields,
-        )
-        from src.stages.stage07_task_judge.package import (
-            canonical_mode_task_id,
-            project_computational_reference,
-        )
-        import tempfile
-        with tempfile.TemporaryDirectory(prefix="stage07-evaluator-") as tmp:
-            root = Path(tmp)
-            for mode, values in mode_values.items():
-                info = values["info"]
-                submission = values["submission"]
-                gt_path = pair_root / "hidden_reference" / "ground_truth_common.json"
-                if not gt_path.is_file():
-                    findings.append(f"evaluator_ground_truth_missing:{mode}")
-                    continue
-                hidden = json.loads(gt_path.read_text(encoding="utf-8"))
-                typed_contract_available = bool(
-                    isinstance(hidden.get("ground_truth_items"), list)
-                    and hidden.get("ground_truth_items")
-                )
-                if typed_contract_available:
-                    family_id = str(info.get("paper_id") or "task_pair")
-                    try:
-                        formal_reference = project_computational_reference(
-                            hidden=hidden,
-                            task_type=mode,
-                            task_id=canonical_mode_task_id(family_id, mode),
-                            process_rubric=read_json(
-                                pair_root / mode / "process_rubric.json"
-                            ),
-                        )
-                        ComputationalScienceReferenceV1.model_validate(
-                            formal_reference
-                        )
-                    except Exception as exc:
-                        findings.append(
-                            "evaluator_formal_reference_invalid:"
-                            f"{mode}:{type(exc).__name__}:{str(exc)[:500]}"
-                        )
-                profiles = hidden.get("acceptance_profiles") or []
-                if not isinstance(profiles, list):
-                    findings.append(f"evaluator_acceptance_profiles_not_array:{mode}")
-                    profiles = []
-                truth_by_profile = {
-                    str(item.get("acceptance_profile_id") or item.get("acceptance_profile") or ""): item
-                    for item in hidden.get("ground_truth_items") or []
-                    if isinstance(item, dict)
-                }
-                for profile in profiles:
-                    if not isinstance(profile, dict):
-                        diagnostics.append(f"evaluator_acceptance_profile_invalid:{mode}")
-                        continue
-                    profile_id = str(
-                        profile.get("acceptance_profile_id")
-                        or profile.get("profile_id")
-                        or "unknown"
-                    )
-                    applies, scope_valid = _profile_applies_to_mode(profile, mode)
-                    if not scope_valid:
-                        findings.append(
-                            f"evaluator_acceptance_profile_mode_scope_invalid:{mode}:{profile_id}"
-                        )
-                        continue
-                    if not applies:
-                        diagnostics.append(
-                            f"evaluator_acceptance_profile_not_applicable:{mode}:{profile_id}"
-                        )
-                        continue
-                    if typed_contract_available:
-                        typed_findings = acceptance_profile_type_findings(
-                            profile, identifier=profile_id
-                        )
-                        for finding in typed_findings:
-                            findings.append(
-                                f"evaluator_acceptance_profile_contract_invalid:{mode}:{finding}"
-                            )
-                    raw_binding = _binding_for_mode(profile, mode)
-                    if not raw_binding:
-                        if typed_contract_available:
-                            findings.append(
-                                f"evaluator_submission_binding_missing:{mode}:{profile_id}"
-                            )
-                        diagnostics.append(
-                            f"evaluator_submission_binding_missing:{mode}:{profile_id}"
-                        )
-                        continue
-                    binding = normalize_binding_contract(
-                        raw_binding,
-                        profile=profile,
-                        answer=truth_by_profile.get(profile_id),
-                    )
-                    if typed_contract_available:
-                        # SubmissionBindingV1 intentionally makes
-                        # canonical_projection optional.  The package compiler
-                        # supplies bounded structured identity projections.
-                        # Semantic document bindings need no projection;
-                        # non-semantic document extraction still needs an
-                        # authored mapping to avoid guessing a numeric field.
-                        profile_type = str(
-                            profile.get("type")
-                            or profile.get("acceptance_type")
-                            or ""
-                        )
-                        if (
-                            binding.get("document_binding") is True
-                            and profile_type
-                            not in {
-                                "semantic_propositions",
-                                "mechanism_claim",
-                                "artifact_validation",
-                            }
-                            and binding.get("canonical_projection") is None
-                        ):
-                            findings.append(
-                                f"evaluator_binding_projection_missing:{mode}:{profile_id}"
-                            )
-                        if not str(binding.get("comparison") or "").strip():
-                            findings.append(
-                                f"evaluator_binding_comparison_missing:{mode}:{profile_id}"
-                            )
-                    fields = normalize_binding_observed_fields(binding)
-                    artifacts = normalize_binding_artifact_paths(binding)
-                    if not fields:
-                        diagnostics.append(
-                            f"evaluator_binding_fields_missing:{mode}:{profile_id}"
-                        )
-                    schema = submission.get("results_schema")
-                    # A document binding validates its report artifact, while
-                    # structured selectors in the same binding still undergo
-                    # the ordinary schema checks below.
-                    if binding.get("document_binding") is True:
-                        safe_document_artifacts = [
-                            artifact
-                            for artifact in artifacts
-                            if isinstance(artifact, str)
-                            and artifact
-                            and not Path(artifact).is_absolute()
-                            and ".." not in Path(artifact).parts
-                            and "\\" not in artifact
-                            and Path(artifact).suffix.casefold()
-                            in {".md", ".txt", ".json", ".jsonl"}
-                        ]
-                        if not safe_document_artifacts:
-                            findings.append(
-                                f"evaluator_document_binding_artifact_missing:{mode}:{profile_id}"
-                            )
-                    for field in fields:
-                        if is_document_binding_selector(
-                            field,
-                            artifacts,
-                            document_binding=bool(binding.get("document_binding")),
-                        ):
-                            diagnostic_kind = (
-                                "evaluator_document_binding_path_compat"
-                                if field in artifacts
-                                else "evaluator_document_binding_selector_unchecked"
-                            )
-                            diagnostics.append(f"{diagnostic_kind}:{mode}:{profile_id}:{field}")
-                            continue
-                        # Use the same bounded filter grammar as the package
-                        # validator.  A malformed or broader expression is a
-                        # real contract finding, not an unchecked diagnostic.
-                        if isinstance(field, str) and "[?" in field:
-                            if not is_safe_jsonpath_filter(field):
-                                findings.append(
-                                    f"evaluator_binding_path_invalid:{mode}:{profile_id}:{field}"
-                                )
-                                continue
-                            diagnostics.append(
-                                f"evaluator_binding_filter_unchecked:{mode}:{profile_id}:{field}"
-                            )
-                            continue
-                        tokens = _jsonpath_tokens(field)
-                        if tokens is None:
-                            findings.append(
-                                f"evaluator_binding_path_invalid:{mode}:{profile_id}:{field}"
-                            )
-                            continue
-                        status = _schema_path_status(schema, tokens)
-                        if status == "missing":
-                            findings.append(
-                                f"evaluator_binding_field_missing:{mode}:{profile_id}:{field}"
-                            )
-                        elif status == "open":
-                            diagnostics.append(
-                                f"evaluator_binding_schema_open:{mode}:{profile_id}:{field}"
-                            )
-                    if fields and isinstance(schema, dict):
-                        properties = schema.get("properties")
-                        if not isinstance(properties, dict) and schema.get(
-                            "additionalProperties"
-                        ) is not True:
-                            findings.append(
-                                f"evaluator_result_schema_unbound:{mode}:{profile_id}"
-                            )
-                    for artifact in artifacts:
-                        if (
-                            not isinstance(artifact, str)
-                            or not artifact
-                            or Path(artifact).is_absolute()
-                            or ".." in Path(artifact).parts
-                            or "\\" in artifact
-                        ):
-                            findings.append(f"evaluator_artifact_path_invalid:{mode}:{artifact}")
-                for rel in submission.get("required_files") or []:
-                    if not (pair_root / mode / "data" / rel).exists() and not (pair_root / mode / rel).exists():
-                        # Required deliverables are written at run time; only path binding is checked here.
-                        if Path(rel).is_absolute() or ".." in Path(rel).parts:
-                            findings.append(f"evaluator_artifact_path_invalid:{mode}:{rel}")
-    except Exception as exc:
-        findings.append(f"evaluator_load_failed:{type(exc).__name__}:{exc}")
-    return {
-        "status": "passed" if not findings else "failed",
-        "findings": sorted(set(findings)),
-        "diagnostics": sorted(set(diagnostics)),
-    }
 
 
 def _normalize_software_token(value: Any) -> str:

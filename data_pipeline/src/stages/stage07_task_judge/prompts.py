@@ -7,7 +7,6 @@ STAGE07_AUDIT_VERSION = "v12-bounded-existing-candidate-audit-20260826"
 def audit_instructions(
     *,
     paper_id: str,
-    task_pair_id: str,
     manifest_hash: str,
     max_tool_calls: int,
     finalization_reserve: int,
@@ -169,17 +168,17 @@ DECISION SEMANTICS
   unchanged.
 - `rejected_scientific_unrepairable`: the existing candidate cannot become a valid task without
   guessing or changing objective/workflow/system set.
-- `objective_failure_retryable`: only for a concrete API, harness, source-access or filesystem
-  failure. Never use it merely because the audit took many calls or because a repair was difficult.
+- `technical_blocked`: only for a concrete API, harness, source-access or filesystem failure.
+  It is terminal for this run; never use it to request another audit conversation.
 
 For every approved decision, leave under `outputs/task_pair/` the two public modes, their real inputs,
-`paper_info.json`, `hidden_reference/`, the three split evaluator core files and
-`toolbox_requirements.json`. The orchestrator may normalize transport IDs and hashes, but it will not
-rewrite scientific content, rename answer-bearing inputs, or repair evaluator semantics.
+`paper_info.json`, the five split evaluator files under `evaluator_reference/`, and
+`toolbox_requirements.json`. The orchestrator will not rewrite scientific content, rename
+answer-bearing inputs, or repair evaluator semantics.
 
 Return one JSON object and write the same object to `outputs/stage07_audit.json`:
 {{
-  "audit_decision": "approved | approved_with_repairs | rejected_scientific_unrepairable | objective_failure_retryable",
+  "audit_decision": "approved | approved_with_repairs | rejected_scientific_unrepairable | technical_blocked",
   "source_stage06_decision": "{source_stage06_decision}",
   "paper_id": "{paper_id}",
   "artifact_path": "outputs/task_pair",

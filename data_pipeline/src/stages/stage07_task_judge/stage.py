@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import shutil
-import time
 import uuid
 from pathlib import Path
 from typing import Any
@@ -13,16 +12,13 @@ from src.agents import AgentExecutionError, AgentRunRequest, create_agent_harnes
 from src.agents.schemas import STAGE07_AUDIT_SCHEMA
 from src.agents.workspace import (
     IGNORED_MANIFEST_NAMES,
-    agent_recovery_context,
     atomic_commit_tree,
-    copy_recovery_artifacts,
     copytree_exact,
     directory_manifest,
     input_fingerprint,
     make_read_only,
     make_writable,
     prepare_clean_directory,
-    recovery_instructions,
     validate_relative_path,
     write_manifest,
 )
@@ -43,17 +39,13 @@ from src.stages.stage07_task_judge.prompts import (
     audit_instructions,
 )
 from src.stages.stage07_task_judge.validation import (
-    normalize_stage07_transport_contract,
+    validate_stage07_transport_contract,
     stage07_mechanical_pre_publish_check,
     validate_agent_audit,
 )
 from src.stages.stage07_task_judge.package import assemble_task_packages
-from src.stages.stage07_contract_repair import (
-    classify_technical_findings,
-    run_stage07b_repair,
-)
 from src.stages.stage06_task_builder.validation import (
-    canonical_task_pair_id,
+    canonical_paper_id,
 )
 from src.stages.phase_gate import (
     install_phase_gate_tool,
@@ -61,11 +53,7 @@ from src.stages.phase_gate import (
     snapshot_sha256 as phase_gate_snapshot_sha256,
     write_final_self_check_report,
 )
-from src.stages.evaluator_reference import (
-    is_blocking_finding,
-    legacy_reference_from_split,
-    read_split_reference,
-)
+from src.stages.evaluator_reference import read_split_reference
 
 STAGE07_IMPLEMENTATION_VERSION = "v20-bounded-audit-repair-20260826"
 STAGE07_DIRECTORY = "stage_07_task_audit"
@@ -195,7 +183,7 @@ def _write_stage07_audit_index(root: Path) -> None:
                 item["json_status"] = "object" if isinstance(value, dict) else type(value).__name__
                 if isinstance(value, dict):
                     item["top_level_keys"] = sorted(str(key) for key in value.keys())
-                    for key in ("input_assets", "workflow_steps", "ground_truth_items", "acceptance_profiles"):
+                    for key in ("input_assets", "workflow_steps", "items", "rules", "evidence"):
                         if isinstance(value.get(key), list):
                             item[f"{key}_count"] = len(value[key])
         entries.append(item)
@@ -234,14 +222,14 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
 
     def audit(record: dict[str, Any]) -> dict[str, Any]:
         paper_id = str(record["paper_id"])
-        task_pair_id = canonical_task_pair_id(paper_id)
+        paper_id = canonical_paper_id(paper_id)
         handoff_value = record.get("handoff_path") or record.get("task_pair_path")
         try:
             if not handoff_value:
                 return _audit_failure(
                     run_id,
                     paper_id,
-                    task_pair_id,
+                    paper_id,
                     "stage06_handoff_missing",
                     "Stage06 did not provide a handoff path.",
                 )
@@ -250,7 +238,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 return _audit_failure(
                     run_id,
                     paper_id,
-                    task_pair_id,
+                    paper_id,
                     "stage06_handoff_missing",
                     f"Stage06 handoff directory is missing: {handoff_root}",
                 )
@@ -270,7 +258,6 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 harness=harness,
                 stage_root=stage_root,
                 paper_id=paper_id,
-                task_pair_id=task_pair_id,
                 source_stage06_decision=source_stage06_decision,
                 handoff_root=handoff_root,
                 source_root=source_root,
@@ -278,17 +265,16 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 config=config,
             )
             decision = str(response["audit_decision"])
-            if decision == "objective_failure_retryable":
+            if decision == "technical_blocked":
                 return _audit_failure(
                     run_id,
                     paper_id,
-                    task_pair_id,
+                    paper_id,
                     "agent_reported_objective_failure",
                     str(response.get("summary") or "Stage07 could not complete the audit."),
                     agent_run=agent_run,
                 )
-            final_task_pair_id = canonical_task_pair_id(paper_id)
-            response["paper_id"] = final_task_pair_id
+            response["paper_id"] = paper_id
             final_path: str | None = None
             final_task_paths: dict[str, str] = {}
             task_package_reports: dict[str, dict[str, Any]] = {}
@@ -300,9 +286,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 # Normalize it through the same provenance-recorded boundary as
                 # a fresh Stage07A result; never perform a hidden identity write
                 # outside that record.
-                final_normalization = normalize_stage07_transport_contract(
-                    target, task_pair_id=canonical_task_pair_id(paper_id)
-                )
+                final_normalization = validate_stage07_transport_contract(target, paper_id=paper_id)
                 if final_normalization.get("records"):
                     response["orchestrator_normalization_records"] = (
                         final_normalization["records"]
@@ -316,47 +300,8 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 write_manifest(target, target / "task_pair_manifest.json")
                 write_json(target / "stage07_audit.json", response)
                 write_json(target / "stage06_handoff_record.json", record)
-                mechanical_report = stage07_mechanical_pre_publish_check(
-                    target, task_pair_id=canonical_task_pair_id(paper_id)
-                )
+                mechanical_report = stage07_mechanical_pre_publish_check(target, paper_id=paper_id)
                 write_json(target / "mechanical_pre_publish_report.json", mechanical_report)
-                stage07b_report: dict[str, Any] = {"status": "not_run"}
-
-                # Stage07B is a single bounded attempt.  It may be needed
-                # either for the ordinary mechanical gate or for a later
-                # Task Package v1 validator finding; both are transport-only
-                # paths and never reopen the Stage07A scientific audit.
-                stage07b_attempted = False
-
-                def _try_stage07b(findings: list[str]) -> None:
-                    nonlocal mechanical_report, stage07b_report, stage07b_attempted
-                    if stage07b_attempted:
-                        return
-                    stage07b_attempted = True
-                    stage07b_report = run_stage07b_repair(
-                        harness=harness,
-                        stage_root=stage_root,
-                        paper_id=paper_id,
-                        task_pair_id=canonical_task_pair_id(paper_id),
-                        audited_root=target,
-                        findings=findings,
-                        config=config,
-                    )
-                    response["stage07b_status"] = stage07b_report.get(
-                        "status", "unknown"
-                    )
-                    response["stage07b_report"] = stage07b_report
-                    if stage07b_report.get("status") == "repaired":
-                        mechanical_report = stage07b_report.get(
-                            "mechanical_after", mechanical_report
-                        )
-                        write_json(
-                            target / "mechanical_pre_publish_report.json",
-                            mechanical_report,
-                        )
-
-                if mechanical_report.get("mechanical_pre_publish_status") != "passed":
-                    _try_stage07b(mechanical_report.get("findings", []))
                 write_manifest(target, target / "audit_manifest.json")
                 response["orchestrator_mechanical_status"] = (
                     "passed"
@@ -382,7 +327,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                     task_package_reports = _assemble_task_packages_atomically(
                         pair_root=target,
                         stage_root=stage_root,
-                        task_family_id=final_task_pair_id or task_pair_id,
+                        task_family_id=paper_id,
                         runtime_readiness=runtime_readiness,
                         paper_id=paper_id,
                     )
@@ -392,46 +337,6 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                         if report.get("status") == "passed" and report.get("path")
                     }
                     package_findings = _task_package_findings(task_package_reports)
-
-                    # A package-only contract mismatch (for example an
-                    # existing binding walking through an open object schema)
-                    # is discovered after the pre-publish evaluator dry run.
-                    # Give the same narrow Stage07B one chance to repair it,
-                    # then rerun both validators.  Unknown findings remain a
-                    # visible technical block.
-                    if (
-                        not _task_packages_passed(task_package_reports)
-                        and not stage07b_attempted
-                    ):
-                        package_classification = classify_technical_findings(
-                            package_findings
-                        )
-                        if package_classification.get("eligible"):
-                            _try_stage07b(package_findings)
-                            if (
-                                stage07b_report.get("status") == "repaired"
-                                and mechanical_report.get(
-                                    "mechanical_pre_publish_status"
-                                )
-                                == "passed"
-                            ):
-                                write_manifest(target, target / "audit_manifest.json")
-                                task_package_reports = _assemble_task_packages_atomically(
-                                    pair_root=target,
-                                    stage_root=stage_root,
-                                    task_family_id=final_task_pair_id or task_pair_id,
-                                    runtime_readiness=runtime_readiness,
-                                    paper_id=paper_id,
-                                )
-                                final_task_paths = {
-                                    mode: str(report["path"])
-                                    for mode, report in task_package_reports.items()
-                                    if report.get("status") == "passed"
-                                    and report.get("path")
-                                }
-                                package_findings = _task_package_findings(
-                                    task_package_reports
-                                )
 
                     if len(final_task_paths) == len(task_package_reports) == 2:
                         response["publication_state"] = (
@@ -448,24 +353,13 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 else:
                     # A transport failure blocks publication, but does not
                     # reopen the scientific audit or silently turn it into a
-                    # scientific rejection.  The finding is recorded for a
-                    # bounded technical recovery path.
+                    # scientific rejection.
                     response["orchestrator_mechanical_status"] = "blocked"
                     response["orchestrator_mechanical_findings"] = mechanical_report.get(
                         "findings", []
                     )
-                    if stage07b_report.get("status") in {
-                        "technical_blocked",
-                        "unresolved",
-                        "agent_failure",
-                    }:
-                        response["publication_state"] = "technical_blocked"
-                        response["blocking_phase"] = "stage07b"
-                    else:
-                        response["publication_state"] = "mechanical_blocked"
-                        response["blocking_phase"] = "prepublish_mechanical"
-                response["stage07b_status"] = stage07b_report.get("status", "not_run")
-                response["stage07b_report"] = stage07b_report
+                    response["publication_state"] = "technical_blocked"
+                    response["blocking_phase"] = "prepublish_mechanical"
                 write_json(target / "stage07_audit.json", response)
                 write_manifest(target, target / "audit_manifest.json")
                 final_path = str(target)
@@ -479,7 +373,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 )
             return {
                 **record_header(run_id=run_id, stage="stage07", paper_id=paper_id),
-                "paper_id": final_task_pair_id or task_pair_id,
+                "paper_id": paper_id,
                 "processing_status": "completed",
                 "decision": decision,
                 "audit_decision": decision,
@@ -526,8 +420,6 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 "orchestrator_normalization_records": response.get(
                     "orchestrator_normalization_records", []
                 ),
-                "stage07b_status": response.get("stage07b_status", "not_run"),
-                "stage07b_report": response.get("stage07b_report", {}),
                 "stage07a_gate_status": response.get("stage07a_gate_status", "not_run"),
                 "stage07a_gate_attempts": response.get("stage07a_gate_attempts", 0),
                 "stage07a_gate_findings": response.get("stage07a_gate_findings", []),
@@ -542,7 +434,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
             return _audit_failure(
                 run_id,
                 paper_id,
-                task_pair_id,
+                paper_id,
                 exc.failure_class,
                 str(exc),
                 agent_run=exc.result.audit_record() if exc.result else None,
@@ -552,7 +444,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
             return _audit_failure(
                 run_id,
                 paper_id,
-                task_pair_id,
+                paper_id,
                 "audit_input_unavailable",
                 f"{type(exc).__name__}: {exc}",
             )
@@ -560,7 +452,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
             return _audit_failure(
                 run_id,
                 paper_id,
-                task_pair_id,
+                paper_id,
                 "audit_processing_error",
                 f"{type(exc).__name__}: {exc}",
             )
@@ -583,8 +475,8 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
             row.get("audit_decision") == "rejected_scientific_unrepairable"
             for row in records
         ),
-        "objective_failure_retryable": sum(
-            row.get("audit_decision") == "objective_failure_retryable" for row in records
+        "technical_blocked": sum(
+            row.get("audit_decision") == "technical_blocked" for row in records
         ),
         "mechanical_publish_blocked": sum(
             row.get("orchestrator_mechanical_status") == "blocked" for row in records
@@ -608,19 +500,6 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
         ),
         "mechanical_contract_passed": sum(
             bool(row.get("mechanical_contract_passed")) for row in records
-        ),
-        "stage07b_invoked": sum(
-            row.get("stage07b_status")
-            not in {None, "not_run", "not_eligible", "disabled"}
-            for row in records
-        ),
-        "stage07b_repaired": sum(
-            row.get("stage07b_status") == "repaired" for row in records
-        ),
-        "stage07b_blocked": sum(
-            row.get("stage07b_status")
-            in {"technical_blocked", "unresolved", "agent_failure"}
-            for row in records
         ),
         "stage07a_gate_bypassed": sum(
             row.get("stage07a_gate_status") == "bypassed_with_warnings"
@@ -649,7 +528,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
         },
         "blocking_phases": {
             phase: sum(row.get("blocking_phase") == phase for row in records)
-            for phase in ("prepublish_mechanical", "stage07b", "task_package")
+            for phase in ("prepublish_mechanical", "task_package")
         },
         "final_tasks": sum(len(row.get("final_task_paths") or {}) for row in records),
         "paper_ids": sorted({str(row.get("paper_id")) for row in records if row.get("paper_id")}),
@@ -671,7 +550,6 @@ def _run_audit_repair_agent(
     harness,
     stage_root: Path,
     paper_id: str,
-    task_pair_id: str,
     source_stage06_decision: str,
     handoff_root: Path,
     source_root: Path,
@@ -705,8 +583,7 @@ def _run_audit_repair_agent(
     checkpoint = (
         stage_root / "checkpoints" / safe_component(paper_id) / "audit_repair.json"
     )
-    failure_checkpoint = checkpoint.with_suffix(".failure.json")
-    if bool(config.get("resume", True)) and checkpoint.is_file() and artifact_root.is_dir():
+    if bool(config.get("checkpoint_cache_enabled", True)) and checkpoint.is_file() and artifact_root.is_dir():
         cached = read_json(checkpoint)
         if cached.get("input_fingerprint") == fingerprint:
             response = cached.get("response") or {}
@@ -780,11 +657,10 @@ def _run_audit_repair_agent(
     )
     request = AgentRunRequest(
             phase="stage07_audit_repair",
-            record_id=task_pair_id,
+            record_id=paper_id,
             workspace=root,
             instructions=audit_instructions(
                 paper_id=paper_id,
-                task_pair_id=task_pair_id,
                 manifest_hash=fingerprint,
                 max_tool_calls=max_tool_calls,
                 finalization_reserve=finalization_reserve,
@@ -805,8 +681,6 @@ def _run_audit_repair_agent(
                 # recover it if the CLI final message is truncated or non-JSON.
                 "inline_contract": True,
                 "structured_artifact_path": "outputs/stage07_audit.json",
-                "recovery_attempt": False,
-                "codex_native_resume": False,
             },
         )
     try:
@@ -835,7 +709,7 @@ def _run_audit_repair_agent(
             response=response,
             task_root=outputs / "task_pair",
             toolbox=toolbox,
-            task_pair_id=task_pair_id,
+            paper_id=paper_id,
         )
         write_json(outputs / "stage07_audit.json", response)
         _require_stage07_artifact_delivery(response, root, result)
@@ -846,7 +720,7 @@ def _run_audit_repair_agent(
         )
         gate_applicable = response.get("audit_decision") in STAGE07_APPROVED_DECISIONS
         gate_findings = (
-            _stage07a_phase_gate_findings(response, root, task_pair_id=task_pair_id)
+            _stage07a_phase_gate_findings(response, root, paper_id=paper_id)
             if gate_applicable
             else []
         )
@@ -893,18 +767,7 @@ def _run_audit_repair_agent(
             }
         )
         write_json(outputs / "stage07_audit.json", response)
-    except AgentExecutionError as exc:
-        write_json(
-            failure_checkpoint,
-            {
-                "paper_id": paper_id,
-                "input_fingerprint": fingerprint,
-                "failure_class": exc.failure_class,
-                "retryable": exc.retryable,
-                "agent_run": exc.result.audit_record() if exc.result else None,
-                "failed_at": now_utc(),
-            },
-        )
+    except AgentExecutionError:
         raise
     staging = prepare_clean_directory(
         artifact_root.parent / f".{artifact_root.name}-{uuid.uuid4().hex[:8]}"
@@ -936,7 +799,6 @@ def _run_audit_repair_agent(
             "completed_at": now_utc(),
         },
     )
-    failure_checkpoint.unlink(missing_ok=True)
     return response, {**result.audit_record(), "cache_hit": False}, artifact_root
 
 
@@ -945,7 +807,7 @@ def _finalize_stage07_response(
     response: dict[str, Any],
     task_root: Path,
     toolbox: dict[str, Any],
-    task_pair_id: str | None = None,
+    paper_id: str | None = None,
 ) -> dict[str, Any]:
     """Normalize transport contracts before the read-only publication Gate."""
 
@@ -953,58 +815,11 @@ def _finalize_stage07_response(
     if decision not in STAGE07_APPROVED_DECISIONS:
         return response
 
-    normalization = normalize_stage07_transport_contract(
-        task_root, task_pair_id=task_pair_id
-    )
-    if normalization.get("records"):
-        response["orchestrator_normalization_records"] = normalization["records"]
-    if normalization.get("new_records") and normalization.get("findings"):
-        response["orchestrator_normalization_findings"] = normalization["findings"]
+    validation = validate_stage07_transport_contract(task_root, paper_id=paper_id)
+    if validation.get("findings"):
+        response["orchestrator_transport_findings"] = validation["findings"]
     write_manifest(task_root, task_root / "task_pair_manifest.json")
     return response
-
-
-def _publish_private_evaluator_registry(
-    pair_root: Path, registry_root: Path, *, task_pair_id: str
-) -> dict[str, str]:
-    """Install public metadata plus private truth for evaluator loading tests."""
-
-    exported: dict[str, str] = {}
-    hidden_root = pair_root / "hidden_reference"
-    common_path = hidden_root / "ground_truth_common.json"
-    if not common_path.is_file():
-        return exported
-    common = read_json(common_path)
-    for mode in ("paper_reproduction", "autonomous_research"):
-        source_mode = pair_root / mode
-        if not source_mode.is_dir():
-            continue
-        destination = prepare_clean_directory(
-            registry_root / f"{safe_component(task_pair_id)}_{mode}"
-        )
-        copy2_source = source_mode / "task_info.json"
-        if not copy2_source.is_file():
-            # The registry is a convenience export, not a publication verdict.  Stage07 Agent
-            # remains authoritative and the audited pair is preserved even if this optional
-            # evaluator projection cannot be built.
-            shutil.rmtree(destination)
-            continue
-        shutil.copy2(copy2_source, destination / "task_info.json")
-        target_study = destination / "target_study"
-        target_study.mkdir(parents=True, exist_ok=True)
-        projected = {
-            **_project_hidden_for_mode(common, mode),
-            "evaluation_profile": (
-                "paper_reproduction"
-                if mode == "paper_reproduction"
-                else "autonomous_discovery"
-            ),
-            "scoring_rubric": read_json(source_mode / "process_rubric.json"),
-        }
-        write_json(target_study / "ground_truth.json", projected)
-        write_manifest(destination, destination / "published_manifest.json")
-        exported[mode] = str(destination)
-    return exported
 
 
 def _approved_receipt_contract_findings(response: dict[str, Any]) -> list[str]:
@@ -1115,97 +930,22 @@ def _require_stage07_artifact_delivery(
         message = f"Stage07 approved a task but did not deliver its task tree: {exc}"
         result.status = "failed"
         result.failure_class = "missing_agent_artifact"
-        result.retryable = True
+        result.retryable = False
         result.error = {"error_type": "MissingAgentArtifact", "message": message}
         write_json(workspace / "agent_run.json", result.audit_record())
         raise AgentExecutionError(
             message,
             failure_class="missing_agent_artifact",
-            retryable=True,
+            retryable=False,
             result=result,
         ) from exc
-
-
-def _stage07a_legacy_phase_gate_findings(
-    response: dict[str, Any],
-    workspace: Path,
-    *,
-    task_pair_id: str | None = None,
-) -> list[str]:
-    """Check Stage07A's delivered audit artifact before the final publish Gate.
-
-    This is deliberately structural.  Scientific approval, representativeness,
-    software suitability and answer correctness remain Agent responsibilities;
-    the final mechanical Gate remains the publication authority.
-    """
-
-    if str(response.get("audit_decision") or "") not in STAGE07_APPROVED_DECISIONS:
-        return []
-    task_root = workspace / "outputs" / "task_pair"
-    findings: list[str] = []
-    if not task_root.is_dir():
-        return ["stage07a_task_pair_missing"]
-    required = (
-        "task.md",
-        "task_info.json",
-        "task_spec.json",
-        "submission_contract.json",
-        "process_rubric.json",
-    )
-    for mode in ("paper_reproduction", "autonomous_research"):
-        mode_root = task_root / mode
-        if not mode_root.is_dir():
-            findings.append(f"stage07a_mode_missing:{mode}")
-            continue
-        for name in required:
-            if not (mode_root / name).is_file():
-                findings.append(f"stage07a_required_file_missing:{mode}/{name}")
-        if mode == "paper_reproduction":
-            for name in ("paper_route.md", "workflow_spec.json", "route_evidence_map.json"):
-                if not (mode_root / name).is_file():
-                    findings.append(f"stage07a_reproduction_file_missing:{name}")
-    hidden = task_root / "hidden_reference" / "ground_truth_common.json"
-    if not hidden.is_file():
-        findings.append("stage07a_hidden_reference_missing")
-    else:
-        try:
-            value = read_json(hidden)
-            if not isinstance(value, dict):
-                findings.append("stage07a_hidden_reference_not_object")
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            findings.append("stage07a_hidden_reference_unreadable")
-    # Once the minimum tree exists, reuse the final read-only contract Gate so
-    # Stage07A gets one bounded opportunity to repair evaluator bindings and
-    # schema/rubric closure before publication.  This remains a mechanical
-    # check and does not reconsider the Agent's scientific approval.
-    if not any(
-        finding.startswith(
-            (
-                "stage07a_task_pair_missing",
-                "stage07a_mode_missing:",
-                "stage07a_required_file_missing:",
-                "stage07a_hidden_reference_missing",
-                "stage07a_hidden_reference_unreadable",
-            )
-        )
-        for finding in findings
-    ):
-        # The orchestrator owns pair identity.  Agent-proposed receipt IDs are
-        # only a legacy fallback for direct helper calls and must never redirect
-        # evaluator lookup in the active Stage07A path.
-        pair_id = str(task_pair_id or response.get("paper_id") or "").strip()
-        mechanical = stage07_mechanical_pre_publish_check(
-            task_root, task_pair_id=pair_id or None
-        )
-        findings.extend(mechanical.get("findings") or [])
-    return sorted(set(findings))
 
 
 def _stage07a_phase_gate_findings(
     response: dict[str, Any],
     workspace: Path,
     *,
-    task_pair_id: str | None = None,
+    paper_id: str | None = None,
 ) -> list[str]:
     """Run exactly the shared Gate exposed to the Agent self-check."""
 
@@ -1312,37 +1052,6 @@ def _publish_stage07_rejection(
     return target
 
 
-def _publish_mode_bundles(
-    pair_root: Path,
-    published_root: Path,
-    *,
-    task_pair_id: str,
-) -> dict[str, str]:
-    """Export each approved mode as an isolated benchmark task directory.
-
-    The Agent owns the contents of each mode directory.  The orchestrator only isolates and copies
-    that directory; it does not apply an allowlist or run a semantic validator.  Sibling mode,
-    hidden reference and pair-level provenance are never copied into a public task.
-    """
-
-    published_root.mkdir(parents=True, exist_ok=True)
-    exported: dict[str, str] = {}
-    for mode in ("paper_reproduction", "autonomous_research"):
-        source = pair_root / mode
-        if not source.is_dir():
-            continue
-        destination = published_root / f"{safe_component(task_pair_id)}_{mode}"
-        staging = prepare_clean_directory(
-            published_root / f".{safe_component(task_pair_id)}_{mode}-{uuid.uuid4().hex[:8]}"
-        )
-        copytree_exact(source, staging)
-        # This hash cache is useful only inside Stage06/07 and is not part of the benchmark task.
-        (staging / "public_manifest.json").unlink(missing_ok=True)
-        atomic_commit_tree(staging, destination)
-        make_writable(staging)
-        shutil.rmtree(staging, ignore_errors=True)
-        exported[mode] = str(destination)
-    return exported
 
 
 def _resolve_stage07_source_root(
@@ -1481,693 +1190,42 @@ def _stage07_resource_policy(source_root: Path, config: dict[str, Any]) -> dict[
     return dict(config.get("resource_policy") or {})
 
 
-def _run_audit_agent(
-    *,
-    harness,
-    stage_root: Path,
-    paper_id: str,
-    task_pair_id: str,
-    pair_root: Path,
-    pair_manifest: dict[str, Any],
-    deterministic: dict[str, Any],
-    config: dict[str, Any],
-) -> tuple[dict[str, Any], dict[str, Any]]:
-    raise RuntimeError(
-        "The legacy objective-audit path is disabled: only the Stage07 audit-repair "
-        "Agent may make scientific decisions"
-    )
-
-    # Retained temporarily for checkpoint migration reference. This code is
-    # unreachable and must not be reconnected to the publication path.
-    toolbox = _toolbox_snapshot_from_pair(pair_root, config)
-    resource_policy = config.get("resource_policy") or {}
-    fingerprint = input_fingerprint(
-        {
-            "pair_manifest_hash": pair_manifest["content_hash"],
-            "deterministic": deterministic,
-            "toolbox": toolbox,
-            "resource_policy": resource_policy,
-            "prompt_version": STAGE07_AUDIT_VERSION,
-            "harness": harness.name,
-            "model": harness.model,
-        }
-    )
-    checkpoint = stage_root / "checkpoints" / safe_component(paper_id) / "objective_audit.json"
-    if bool(config.get("resume", True)) and checkpoint.is_file():
-        cached = read_json(checkpoint)
-        cached_fingerprint = cached.get("input_fingerprint")
-        legacy_fingerprint = input_fingerprint(
-            {
-                "pair_manifest_hash": directory_manifest(pair_root)["content_hash"],
-                "deterministic": deterministic,
-                "prompt_version": STAGE07_AUDIT_VERSION,
-                "harness": harness.name,
-                "model": harness.model,
-            }
-        )
-        stable_input_match = _cached_audit_inputs_match(
-            cached,
-            stage_root=stage_root,
-            pair_manifest_hash=str(pair_manifest["content_hash"]),
-            toolbox=toolbox,
-            resource_policy=resource_policy,
-            harness_name=harness.name,
-            model_name=harness.model,
-        )
-        if cached_fingerprint in {fingerprint, legacy_fingerprint} or stable_input_match:
-            response = cached.get("response")
-            jsonschema.validate(response, STAGE07_AUDIT_SCHEMA)
-            if cached_fingerprint != fingerprint:
-                cached["input_fingerprint"] = fingerprint
-                write_json(checkpoint, cached)
-            return response, {**(cached.get("agent_run") or {}), "cache_hit": True}
-
-    attempts = max(1, int(config.get("max_attempts", 3)))
-    last_error: AgentExecutionError | None = None
-    recovery_context: str | None = None
-    recovery_workspace: Path | None = None
-    for attempt in range(1, attempts + 1):
-        root = prepare_clean_directory(
-            stage_root
-            / "workspaces"
-            / safe_component(paper_id)
-            / "objective_audit"
-            / f"attempt-{attempt:02d}-{uuid.uuid4().hex[:8]}"
-        )
-        inputs = root / "inputs"
-        inputs.mkdir(parents=True, exist_ok=True)
-        copytree_exact(pair_root, inputs / "task_pair")
-        audit_packet = _stage07_audit_packet(
-            pair_root=pair_root,
-            pair_manifest=pair_manifest,
-            deterministic=deterministic,
-            toolbox=toolbox,
-            resource_policy=resource_policy,
-        )
-        write_json(inputs / "toolbox_snapshot.json", toolbox)
-        write_json(inputs / "resource_policy.json", resource_policy)
-        write_json(inputs / "deterministic_audit.json", deterministic)
-        write_json(inputs / "audit_packet.json", audit_packet)
-        write_json(
-            inputs / "objective_audit_scaffold.json",
-            _stage07_audit_scaffold(deterministic, audit_packet),
-        )
-        (inputs / "initialize_objective_audit.py").write_text(
-            _stage07_audit_initializer_script(), encoding="utf-8"
-        )
-        make_read_only(inputs)
-        max_tool_calls = int(
-            config.get("audit_max_tool_calls", config.get("max_tool_calls", 120))
-        )
-        if recovery_context:
-            max_tool_calls = int(
-                config.get(
-                    "audit_recovery_max_tool_calls",
-                    config.get("recovery_max_tool_calls", 160),
-                )
-            )
-        max_tool_calls = max(2, max_tool_calls)
-        finalization_reserve = min(
-            max_tool_calls - 1,
-            max(
-                1,
-                int(config.get("audit_finalization_reserve", 12)),
-            ),
-        )
-        instructions = audit_instructions(
-            paper_id=paper_id,
-            task_pair_id=task_pair_id,
-            manifest_hash=pair_manifest["content_hash"],
-            max_tool_calls=max_tool_calls,
-            finalization_reserve=finalization_reserve,
-        )
-        if recovery_context:
-            (root / "RECOVERY_CONTEXT.md").write_text(recovery_context, encoding="utf-8")
-            copy_recovery_artifacts(recovery_workspace, root)
-            instructions += recovery_instructions(
-                "stage07_objective_audit", max_tool_calls=max_tool_calls
-            )
-        request = AgentRunRequest(
-            phase="stage07_objective_audit",
-            record_id=task_pair_id,
-            workspace=root,
-            instructions=instructions,
-            output_schema=STAGE07_AUDIT_SCHEMA,
-            prompt_version=STAGE07_AUDIT_VERSION,
-            timeout_seconds=int(config.get("timeout_seconds", 3600)),
-            metadata={
-                "paper_id": paper_id,
-                "max_tool_calls": max_tool_calls,
-                "finalization_reserve": finalization_reserve,
-                "tool_choice_policy": config.get("objective_audit_tool_choice_policy", config.get("tool_choice_policy")),
-                "response_format_policy": config.get("objective_audit_response_format_policy", config.get("response_format_policy")),
-                "codex_wire_api": config.get("objective_audit_codex_wire_api"),
-                "inline_contract": False,
-                "structured_artifact_path": "outputs/objective_audit.json",
-                "recovery_attempt": bool(recovery_context),
-            },
-        )
-        try:
-            result = harness.run(request)
-            semantic_findings = validate_agent_audit(result.response or {})
-            if semantic_findings:
-                message = (
-                    "Stage07 Agent contract failed semantic validation: "
-                    + ", ".join(semantic_findings)
-                )
-                result.status = "failed"
-                result.failure_class = "invalid_phase_contract"
-                result.retryable = True
-                result.error = {
-                    "error_type": "InvalidPhaseContract",
-                    "message": message[:4000],
-                }
-                write_json(root / "agent_run.json", result.audit_record())
-                raise AgentExecutionError(
-                    message,
-                    failure_class="invalid_phase_contract",
-                    retryable=True,
-                    result=result,
-                )
-        except AgentExecutionError as exc:
-            last_error = exc
-            if not exc.retryable or attempt >= attempts:
-                raise
-            recovery_context = agent_recovery_context(exc.result)
-            recovery_workspace = (
-                Path(exc.result.workspace) if exc.result and exc.result.workspace else None
-            )
-            delay = min(
-                float(config.get("retry_max_seconds", 30)),
-                float(config.get("retry_backoff_seconds", 2)) * (2 ** (attempt - 1)),
-            )
-            if delay > 0:
-                time.sleep(delay)
-            continue
-        write_json(
-            checkpoint,
-            {
-                "paper_id": paper_id,
-                "input_fingerprint": fingerprint,
-                "prompt_version": STAGE07_AUDIT_VERSION,
-                "response": result.response,
-                "agent_run": result.audit_record(),
-                "completed_at": now_utc(),
-            },
-        )
-        return result.response or {}, {**result.audit_record(), "cache_hit": False}
-    if last_error is not None:
-        raise last_error
-    raise RuntimeError("Stage07 Agent audit did not execute")
 
 
-def _audit_pair_manifest(pair_root: Path) -> dict[str, Any]:
-    """Hash task semantics without volatile Stage06 execution provenance."""
-
-    manifest = directory_manifest(
-        pair_root,
-        ignored_names=STAGE07_IGNORED_PAIR_FILES,
-    )
-    semantic_files: list[dict[str, str]] = []
-    for row in manifest["files"]:
-        semantic_hash = str(row["sha256"])
-        if row["path"] == "paper_info.json":
-            paper_info = read_json(pair_root / "paper_info.json")
-            paper_info.pop("constructed_at", None)
-            semantic_hash = canonical_hash(paper_info)
-        semantic_files.append({"path": str(row["path"]), "semantic_hash": semantic_hash})
-    manifest["format"] = "researchchembench.audit-input-manifest.v1"
-    manifest["content_hash"] = canonical_hash(semantic_files)
-    manifest["normalizations"] = {
-        "ignored_files": ["construction_record.json"],
-        "ignored_fields": ["paper_info.json#/constructed_at"],
-    }
-    return manifest
 
 
-def _cached_audit_inputs_match(
-    cached: dict[str, Any],
-    *,
-    stage_root: Path,
-    pair_manifest_hash: str,
-    toolbox: dict[str, Any],
-    resource_policy: dict[str, Any],
-    harness_name: str,
-    model_name: str,
-) -> bool:
-    """Safely migrate a pre-stable-fingerprint Stage07 checkpoint."""
-
-    if cached.get("prompt_version") != STAGE07_AUDIT_VERSION:
-        return False
-    agent_run = cached.get("agent_run") or {}
-    if agent_run.get("harness") != harness_name or agent_run.get("model") != model_name:
-        return False
-    try:
-        previous_workspace = Path(str(agent_run["workspace"])).expanduser().resolve()
-        previous_workspace.relative_to((stage_root / "workspaces").resolve())
-        previous_pair = previous_workspace / "inputs" / "task_pair"
-        if _audit_pair_manifest(previous_pair)["content_hash"] != pair_manifest_hash:
-            return False
-        if read_json(previous_workspace / "inputs" / "toolbox_snapshot.json") != toolbox:
-            return False
-        if read_json(previous_workspace / "inputs" / "resource_policy.json") != resource_policy:
-            return False
-    except (KeyError, FileNotFoundError, OSError, ValueError, json.JSONDecodeError):
-        return False
-    return True
 
 
-def deterministic_judge_audit(pair: Any) -> dict[str, Any]:
-    """Reject use of the former code-side scientific judge."""
-
-    raise RuntimeError(
-        "deterministic_judge_audit is disabled; Stage07 Agent decisions are authoritative"
-    )
 
 
-def run_gold(record, config, stage_root):
-    """Deprecated boundary marker: Stage07 no longer executes Gold Runs."""
-
-    return {"status": "not_run", "reason": "gold_run_moved_outside_stage07"}
 
 
-def _toolbox_snapshot_from_pair(pair_root: Path, config: dict[str, Any]) -> dict[str, Any]:
-    path_value = config.get("toolbox_capabilities")
-    if path_value:
-        path = Path(str(path_value)).expanduser().resolve()
-        if path.is_file():
-            return installed_software_inventory(read_json(path))
-    requirements = pair_root / "toolbox_requirements.json"
-    return installed_software_inventory(
-        {
-            "snapshot_status": "unavailable",
-            "requirements": read_json(requirements) if requirements.is_file() else [],
-        }
-    )
 
 
-def _stage07_audit_packet(
-    *,
-    pair_root: Path,
-    pair_manifest: dict[str, Any],
-    deterministic: dict[str, Any],
-    toolbox: dict[str, Any],
-    resource_policy: dict[str, Any],
-) -> dict[str, Any]:
-    autonomous_info = read_json(pair_root / "autonomous_research" / "task_info.json")
-    autonomous_spec = read_json(pair_root / "autonomous_research" / "task_spec.json")
-    reproduction_info = read_json(pair_root / "paper_reproduction" / "task_info.json")
-    reproduction_spec = read_json(pair_root / "paper_reproduction" / "task_spec.json")
-    workflow = read_json(pair_root / "paper_reproduction" / "workflow_spec.json")
-    submission = read_json(pair_root / "autonomous_research" / "submission_contract.json")
-    split_reference = read_split_reference(pair_root)
-    hidden = (
-        read_json(pair_root / "hidden_reference" / "ground_truth_common.json")
-        if split_reference is None
-        else legacy_reference_from_split(split_reference)
-    )
-    paper_info = read_json(pair_root / "paper_info.json")
-    workflow_review_path = pair_root / "workflow_review.json"
-    workflow_review = read_json(workflow_review_path) if workflow_review_path.is_file() else {}
-    requirements_path = pair_root / "toolbox_requirements.json"
-    requirements = read_json(requirements_path) if requirements_path.is_file() else []
-    mode_fields = (
-        "task_id",
-        "paper_id",
-        "task_mode",
-        "scientific_mode",
-        "method_disclosure",
-        "pathway_disclosure",
-        "category",
-        "benchmark_family",
-    )
-    shared_spec_fields = (
-        "scientific_question",
-        "target_definition",
-        "boundary_conditions",
-        "input_assets",
-        "workflow_scope",
-        "complexity_profile",
-        "resources",
-        "resource_policy",
-        "required_outputs",
-    )
-    profiles = hidden.get("acceptance_profiles") or []
-    rubric = hidden.get("scientific_conclusion_rubric") or []
-    workflow_steps = next(
-        (
-            workflow.get(key)
-            for key in ("workflow_steps", "steps", "route_steps")
-            if workflow.get(key)
-        ),
-        [],
-    )
-    workflow_summary = {
-        key: workflow.get(key)
-        for key in ("software", "method", "method_parameters", "validation_procedure")
-        if workflow.get(key) not in (None, [], {}, "")
-    }
-    workflow_summary["steps"] = workflow_steps
-    return {
-        "pair_manifest_hash": pair_manifest["content_hash"],
-        "deterministic_audit": deterministic,
-        "mode_summaries": {
-            "shared_task_spec": {
-                key: autonomous_spec.get(key)
-                for key in shared_spec_fields
-                if key in autonomous_spec
-            },
-            "autonomous_research": {
-                "task_info": {
-                    key: autonomous_info.get(key) for key in mode_fields if key in autonomous_info
-                },
-                "task_spec": {"mode": autonomous_spec.get("mode")},
-            },
-            "paper_reproduction": {
-                "task_info": {
-                    key: reproduction_info.get(key)
-                    for key in mode_fields
-                    if key in reproduction_info
-                },
-                "task_spec": {"mode": reproduction_spec.get("mode")},
-            },
-        },
-        "workflow_summary": workflow_summary,
-        "workflow_selection": {
-            "workflow_scope": workflow_review.get("workflow_scope")
-            or paper_info.get("workflow_scope")
-            or autonomous_spec.get("workflow_scope")
-            or {},
-            "complexity_profile": workflow_review.get("complexity_profile")
-            or paper_info.get("complexity_profile")
-            or autonomous_spec.get("complexity_profile")
-            or {},
-            "paper_workflow_inventory_complete": workflow_review.get(
-                "paper_workflow_inventory_complete"
-            ),
-            "full_paper_workflow_checked": workflow_review.get(
-                "full_paper_workflow_checked"
-            ),
-            "alternative_scope_search_complete": workflow_review.get(
-                "alternative_scope_search_complete"
-            ),
-            "workflow_inventory": workflow_review.get("workflow_inventory") or [],
-            "stage05_candidate_disposition": workflow_review.get(
-                "stage05_candidate_disposition"
-            ),
-        },
-        "submission_contract": {
-            "required_files": submission.get("required_files") or [],
-            "artifact_paths": submission.get("artifact_paths") or {},
-            "result_schema_names": sorted(
-                key for key in submission if "schema" in str(key).casefold()
-            ),
-        },
-        "hidden_scoring_summary": {
-            "ground_truth_items": [
-                {
-                    key: item.get(key)
-                    for key in (
-                        "ground_truth_id",
-                        "kind",
-                        "acceptance_type",
-                        "acceptance_profile_id",
-                        "evidence_grade",
-                        "evidence_ids",
-                        "claim_role",
-                        "applies_to_modes",
-                    )
-                }
-                for item in hidden.get("ground_truth_items") or []
-            ],
-            "split_reference_files": {
-                "reference_key_points": len(
-                    (split_reference or {}).get("reference_key_points", {}).get("items") or []
-                ),
-                "reference_conclusions": len(
-                    (split_reference or {}).get("reference_conclusions", {}).get("items") or []
-                ),
-                "scoring_rules": len(
-                    (split_reference or {}).get("scoring_rules", {}).get("rules") or []
-                ),
-            },
-            "acceptance_profiles": [
-                {
-                    "acceptance_profile_id": profile.get("acceptance_profile_id"),
-                    "type": profile.get("type"),
-                    "submission_binding": {
-                        key: (profile.get("submission_binding") or {}).get(key)
-                        for key in ("artifact_paths", "observed_fields")
-                        if key in (profile.get("submission_binding") or {})
-                    },
-                    "comparison_rule_present": bool(
-                        (profile.get("submission_binding") or {}).get("comparison")
-                    ),
-                }
-                for profile in profiles
-            ],
-            "scientific_conclusion_rubric": [
-                {
-                    key: criterion.get(key)
-                    for key in (
-                        "id",
-                        "max_score",
-                        "ground_truth_ids",
-                        "acceptance_profile_ids",
-                        "required_evidence",
-                    )
-                }
-                for criterion in rubric
-            ],
-        },
-        "provenance_summary": {
-            **{
-                key: paper_info.get(key)
-                for key in ("paper_id", "paper_id", "doi", "title", "journal")
-                if key in paper_info
-            },
-            "documents": [
-                {
-                    key: document.get(key)
-                    for key in (
-                        "document_id",
-                        "document_role",
-                        "file_name",
-                        "sha256",
-                        "size_bytes",
-                        "source_remote_uri",
-                        "selected_parser",
-                    )
-                    if key in document
-                }
-                for document in paper_info.get("documents") or []
-                if isinstance(document, dict)
-            ],
-        },
-        "source_evidence_bundle": _stage07_source_evidence_bundle(
-            pair_root, workflow_review=workflow_review, hidden=hidden
-        ),
-        "toolbox_requirements": requirements,
-        "toolbox_focus": _focused_toolbox_view(toolbox, requirements),
-        "resource_policy": resource_policy,
-        "unresolved_questions": [
-            "Was a larger complete computational scope available but not selected?",
-            "Does the task provide genuine medium/high scientific complexity rather than split non-core steps?",
-            "Are requirements marked unknown actually unsupported, or only unverified?",
-            "Is the requested workflow obviously infeasible under the stated resource policy?",
-        ],
-        "targeted_fallback_paths": [
-            "inputs/task_pair/paper_reproduction/workflow_spec.json",
-            "inputs/task_pair/workflow_review.json",
-            "inputs/task_pair/toolbox_requirements.json",
-            "inputs/task_pair/evaluator_reference/reference_key_points.json",
-            "inputs/task_pair/evaluator_reference/reference_conclusions.json",
-            "inputs/task_pair/evaluator_reference/scoring_rules.json",
-            "inputs/task_pair/hidden_reference/ground_truth_common.json",
-            "inputs/task_pair/paper_info.json",
-        ],
-    }
 
 
-def _focused_toolbox_view(
-    toolbox: dict[str, Any], requirements: list[dict[str, Any]]
-) -> dict[str, Any]:
-    del requirements
-    return installed_software_inventory(toolbox)
 
 
-def _stage07_source_evidence_bundle(
-    pair_root: Path,
-    *,
-    workflow_review: dict[str, Any],
-    hidden: dict[str, Any],
-    limit: int = 80,
-) -> dict[str, Any]:
-    evidence_path = pair_root / "evidence_index.json"
-    if not evidence_path.is_file():
-        return {"status": "missing", "records": []}
-    records = read_json(evidence_path)
-    by_id = {
-        str(row.get("evidence_id")): row
-        for row in records
-        if isinstance(row, dict) and row.get("evidence_id")
-    }
-    requested: list[str] = []
-
-    def collect(value: Any) -> None:
-        if isinstance(value, dict):
-            singular = value.get("evidence_id")
-            if singular not in (None, ""):
-                requested.append(str(singular))
-            plural = value.get("evidence_ids")
-            if isinstance(plural, list):
-                requested.extend(str(item) for item in plural if item not in (None, ""))
-            for key, nested in value.items():
-                if key not in {"evidence_id", "evidence_ids"}:
-                    collect(nested)
-        elif isinstance(value, list):
-            for nested in value:
-                collect(nested)
-
-    collect(
-        {
-            "workflow_scope": workflow_review.get("workflow_scope") or {},
-            "workflow_inventory": workflow_review.get("workflow_inventory") or [],
-            "workflow_steps": workflow_review.get("workflow_steps") or [],
-            "paper_route": workflow_review.get("paper_route") or {},
-            "ground_truth_items": hidden.get("ground_truth_items") or [],
-        }
-    )
-    unique = list(dict.fromkeys(requested))
-    selected = []
-    for evidence_id in unique[:limit]:
-        row = by_id.get(evidence_id)
-        if row is None:
-            selected.append({"evidence_id": evidence_id, "status": "unresolved"})
-            continue
-        selected.append(
-            {
-                "evidence_id": evidence_id,
-                "document_id": row.get("document_id"),
-                "document_role": row.get("document_role"),
-                "page": row.get("page"),
-                "section_path": row.get("section_path") or [],
-                "block_type": row.get("block_type"),
-                "text": str(row.get("text") or "")[:4000],
-                "source_ref": row.get("source_ref"),
-            }
-        )
-    return {
-        "status": "complete" if len(unique) <= limit else "truncated",
-        "requested_count": len(unique),
-        "included_count": len(selected),
-        "records": selected,
-    }
 
 
-def _stage07_audit_scaffold(
-    deterministic: dict[str, Any], packet: dict[str, Any]
-) -> dict[str, Any]:
-    outcomes = json.loads(json.dumps(deterministic.get("outcomes") or []))
-    pair_audit = deterministic.get("pair_audit") or {}
-    return {
-        "audit_summary": "issues_found" if outcomes else "passed_audit",
-        "outcomes": outcomes,
-        "checks": [
-            {
-                "check": "deterministic_task_pair_validation",
-                "status": "passed" if pair_audit.get("passed") else "failed",
-                "evidence_refs": ["inputs/audit_packet.json#/deterministic_audit"],
-            },
-            {
-                "check": "mode_input_hash_equality",
-                "status": (
-                    "passed"
-                    if pair_audit.get("autonomous_input_hash")
-                    == pair_audit.get("reproduction_input_hash")
-                    else "failed"
-                ),
-                "evidence_refs": ["inputs/audit_packet.json#/deterministic_audit/pair_audit"],
-            },
-        ],
-        "toolbox_assessment": {
-            "status": "AGENT_REQUIRED: assess required capabilities",
-            "requirements": packet.get("toolbox_requirements") or [],
-        },
-        "cost_assessment": {
-            "status": "AGENT_REQUIRED: assess obvious feasibility",
-            "resource_policy": packet.get("resource_policy") or {},
-        },
-        "rationale": "AGENT_REQUIRED: concise objective audit rationale",
-    }
-
-
-def _stage07_audit_initializer_script() -> str:
-    return r'''from __future__ import annotations
-
-import json
-import os
-from pathlib import Path
-
-root = Path(__file__).resolve().parent.parent
-source = root / "inputs" / "objective_audit_scaffold.json"
-destination = root / "outputs" / "objective_audit.json"
-destination.parent.mkdir(parents=True, exist_ok=True)
-value = json.loads(source.read_text(encoding="utf-8"))
-temporary = destination.with_suffix(".json.tmp")
-temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-json.loads(temporary.read_text(encoding="utf-8"))
-os.replace(temporary, destination)
-print(json.dumps({
-    "artifact": "outputs/objective_audit.json",
-    "deterministic_outcome_count": len(value["outcomes"]),
-    "fields_to_replace": ["toolbox_assessment.status", "cost_assessment.status", "rationale"],
-}))
-'''
-
-
-def _public_audit_report(task_pair_id: str, summary: str, outcomes: list[dict[str, Any]]) -> str:
-    lines = [f"# Stage07 audit: {task_pair_id}", "", f"Result: `{summary}`", ""]
-    if not outcomes:
-        lines.append("No objective task-integrity, toolbox, or cost issue was identified.")
-    else:
-        lines.append("Observed outcomes:")
-        lines.append("")
-        for outcome in outcomes:
-            lines.append(
-                f"- `{outcome.get('type')}` ({outcome.get('severity')}, "
-                f"{outcome.get('scope')})"
-            )
-    lines.append("")
-    return "\n".join(lines)
-
-
-def _outcome_counts(records: list[dict[str, Any]]) -> dict[str, int]:
-    counts: dict[str, int] = {}
-    for record in records:
-        for outcome in record.get("outcomes") or []:
-            name = str(outcome.get("type") or "missing")
-            counts[name] = counts.get(name, 0) + 1
-    return dict(sorted(counts.items()))
 
 
 def _audit_failure(
     run_id: str,
     paper_id: str,
-    task_pair_id: str,
     failure_class: str,
     message: str,
     *,
     agent_run: dict[str, Any] | None = None,
-    retryable: bool = True,
+    retryable: bool = False,
 ) -> dict[str, Any]:
     return {
         **record_header(run_id=run_id, stage="stage07", paper_id=paper_id),
-        "paper_id": task_pair_id,
+        "paper_id": paper_id,
         "processing_status": "failed",
-        "decision": "objective_failure_retryable",
-        "audit_decision": "objective_failure_retryable",
-        "audit_summary": "objective_failure_retryable",
+        "decision": "technical_blocked",
+        "audit_decision": "technical_blocked",
+        "audit_summary": "technical_blocked",
         "passed": False,
         "publication_state": "not_applicable",
         "blocking_phase": "",

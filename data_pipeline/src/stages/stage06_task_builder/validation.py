@@ -393,12 +393,8 @@ def anonymous_source_id(task_pair_id: str) -> str:
     return f"rcb-source-{digest}"
 
 
-def canonical_task_pair_id(paper_id: str) -> str:
-    """Return the single canonical paper identity used by every task artifact.
-
-    The historical function name is retained for internal call-site stability;
-    it no longer creates a second ``*_task_pair`` identity.
-    """
+def canonical_paper_id(paper_id: str) -> str:
+    """Return the sanitized paper identity used by every task artifact."""
 
     value = re.sub(r"[^A-Za-z0-9._-]+", "_", str(paper_id).strip()).strip("._-")
     if not value:

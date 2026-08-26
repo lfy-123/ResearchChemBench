@@ -126,7 +126,6 @@ def test_stage07_schema_has_no_workflow_redesign_success() -> None:
 def test_stage07_prompt_is_bounded_and_audits_inputs_and_evaluator() -> None:
     prompt = audit_instructions(
         paper_id="paper-v17",
-        task_pair_id="paper-v17",
         manifest_hash="hash",
         max_tool_calls=80,
         finalization_reserve=12,

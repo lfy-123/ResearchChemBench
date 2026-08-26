@@ -171,8 +171,6 @@ def _is_identity_key(key: str) -> bool:
         "task_id",
         "objective_id",
         "task_family_id",
-        "original_task_pair_id",
-        "final_task_pair_id",
     }
 
 
@@ -460,6 +458,23 @@ def _v13_evaluator_reference_findings(root: Path, findings: list[str]) -> None:
         reference_id = str(row.get("reference_id") or "").strip()
         if reference_id and reference_id not in key_ids and reference_id not in conclusion_ids:
             findings.append(f"scoring_rule_orphan:{rule_id}")
+
+
+def _split_evaluator_findings(root: Path, findings: list[str]) -> None:
+    """Validate the sole evaluator contract used by every late-stage Gate."""
+
+    directory = root / _V13_REFERENCE_DIR
+    if not directory.is_dir():
+        findings.append("evaluator_reference_missing")
+        return
+    required = (*_V13_PRIMARY_REFERENCE_FILES, "evidence_map.json", "critical_failures.json")
+    for filename in required:
+        if not (directory / filename).is_file():
+            findings.append(f"evaluator_reference_file_missing:{filename}")
+    if _shared_minimal_evaluator_findings is None:
+        findings.append("evaluator_reference_validator_unavailable")
+        return
+    findings.extend(_shared_minimal_evaluator_findings(root))
 
 
 def _json(path: Path, findings: list[str]) -> Any:
@@ -1202,46 +1217,9 @@ def _stage06a(root: Path, findings: list[str]) -> None:
             findings.append(f"handoff_file_missing:{name}")
         else:
             _json(path, findings)
-    split_reference = root / _V13_REFERENCE_DIR
-    if split_reference.is_dir():
-        # v13 makes the split reference files authoritative.  Keep the legacy
-        # envelope optional for compatibility, and do not re-run its stricter
-        # acceptance-profile policy checks here.
-        _v13_evaluator_reference_findings(root, findings)
-        evidence = split_reference / "evidence_map.json"
-        if evidence.is_file():
-            _json(evidence, findings)
-    else:
-        hidden = root / "hidden_reference" / "ground_truth_common.json"
-        evidence = root / "hidden_reference" / "private_evidence_map.json"
-        value = _json(hidden, findings) if hidden.is_file() else None
-        if not hidden.is_file():
-            findings.append("hidden_reference_missing")
-        elif not isinstance(value, dict):
-            findings.append("hidden_reference_not_object")
-        elif value.get("status") != "ready":
-            findings.append("hidden_reference_not_ready")
-        elif not any(isinstance(item, dict) and item.get("claim_role") == "final" for item in value.get("ground_truth_items") or []):
-            findings.append("final_claim_missing")
-            findings.append("stage06a_final_claim_missing")
-        if isinstance(value, dict) and not isinstance(value.get("acceptance_profiles"), list):
-            findings.append("acceptance_profiles_missing")
-        if isinstance(value, dict) and not isinstance(value.get("scientific_conclusion_rubric"), list):
-            findings.append("conclusion_key_points_missing")
-        if not evidence.is_file():
-            findings.append("private_evidence_map_missing")
-        else:
-            _json(evidence, findings)
-        if isinstance(value, dict):
-            submission = parsed.get("submission_contract.json")
-            required = _paths(submission.get("required_files")) if isinstance(submission, dict) else set()
-            findings.extend(
-                _hidden_contract_findings(
-                    value,
-                    required_paths_by_mode={"paper_reproduction": required},
-                    required_modes={"paper_reproduction"},
-                )
-            )
+    _split_evaluator_findings(root, findings)
+    if (root / "hidden_reference").exists():
+        findings.append("legacy_hidden_reference_forbidden")
 
 
 def _autonomous_leaks(root: Path, findings: list[str]) -> None:
@@ -1292,38 +1270,9 @@ def _stage07a(root: Path, findings: list[str]) -> None:
             findings.append(f"stage07a_mode_missing:{mode}")
             continue
         parsed_by_mode[mode] = _mode_contract(mode_root, mode, findings)
-    split_reference = pair / _V13_REFERENCE_DIR
-    if split_reference.is_dir():
-        # The split files carry the v13 scientific reference.  Their scoring
-        # policy findings are warnings; public mode closure above remains
-        # blocking.
-        _v13_evaluator_reference_findings(pair, findings)
-    else:
-        hidden = pair / "hidden_reference" / "ground_truth_common.json"
-        value = _json(hidden, findings) if hidden.is_file() else None
-        if not hidden.is_file():
-            findings.append("hidden_reference_missing")
-            findings.append("stage07a_hidden_reference_missing")
-        elif not isinstance(value, dict):
-            findings.append("hidden_reference_not_object")
-        elif value.get("status") != "ready":
-            findings.append("hidden_reference_not_ready")
-        elif not isinstance(value.get("ground_truth_items"), list) or not value.get("ground_truth_items"):
-            findings.append("ground_truth_items_missing")
-        if isinstance(value, dict):
-            required_paths = {
-                mode: _paths(parsed.get("submission_contract.json", {}).get("required_files"))
-                if isinstance(parsed.get("submission_contract.json"), dict)
-                else set()
-                for mode, parsed in parsed_by_mode.items()
-            }
-            findings.extend(
-                _hidden_contract_findings(
-                    value,
-                    required_paths_by_mode=required_paths,
-                    required_modes=set(MODES),
-                )
-            )
+    _split_evaluator_findings(pair, findings)
+    if (pair / "hidden_reference").exists():
+        findings.append("legacy_hidden_reference_forbidden")
 
 
 def snapshot_sha256(root: Path) -> str:
@@ -1334,7 +1283,6 @@ def snapshot_sha256(root: Path) -> str:
         if not path.is_file() or path.name in {
             "agent_self_check_report.json",
             "external_phase_gate_report.json",
-            "phase_gate_report.json",
         }:
             continue
         digest.update(path.relative_to(root).as_posix().encode("utf-8"))
