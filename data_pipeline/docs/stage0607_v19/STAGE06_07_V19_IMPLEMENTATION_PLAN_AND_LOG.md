@@ -187,6 +187,14 @@
 4. receipt 必须包含 schema 要求的 `decision`、`paper_id`、`artifact_path`、`summary`；
 5. 不为此恢复 Stage06B、retry 或新的编排器修复循环。
 
+### 5.2 公开输入论文材料边界修正
+
+第二轮运行发现 Agent 将规范化正文/SI Markdown 复制到两个模式的 `data/inputs/`。仅在
+Prompt 中禁止 PDF 不足以覆盖这种等价泄漏。统一 Gate 现对 Agent-visible `data/` 下带有
+通用论文来源标识（paper、article、manuscript、supplement、SI、source 等）的文件名
+阻断；该检查不依赖具体论文内容、化学方法或目标数值，也不改变合法计算输入的科学
+判断。回归 fixture 已验证 Stage06 自查和 external Gate 都能发现该问题。
+
 ## 6. 方案一致性复核
 
 ### 6.1 Stage06

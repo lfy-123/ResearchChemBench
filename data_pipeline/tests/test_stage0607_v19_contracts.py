@@ -160,6 +160,13 @@ def test_gate_rejects_obsolete_paper_scoped_id(tmp_path: Path) -> None:
     assert "autonomous_research:obsolete_identity_field:task_id" in report["findings"]
 
 
+def test_gate_rejects_source_paper_material_in_public_inputs(tmp_path: Path) -> None:
+    root = candidate(tmp_path)
+    _write(root / "paper_reproduction/data/inputs/paper_excerpt.md", "article text")
+    report = run_gate("synthesis", root, mode="paper_reproduction")
+    assert "paper_reproduction:paper_source_material_exposed:data/inputs/paper_excerpt.md" in report["findings"]
+
+
 def test_audit_receipt_allows_only_the_fixed_approved_snapshot(tmp_path: Path) -> None:
     artifact = candidate(tmp_path / "outputs/audited_task")
     receipt = {

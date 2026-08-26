@@ -22,6 +22,10 @@ EVALUATION_FILES = (
 )
 RULE_TYPES = {"numeric", "ordering", "condition", "semantic"}
 _PLACEHOLDERS = {"todo", "tbd", "placeholder", "fill me", "fill_me", "fill-me"}
+_PAPER_INPUT_MARKERS = {
+    "paper", "article", "manuscript", "supplement", "supplementary", "source",
+    "si", "supporting_information", "supporting-information",
+}
 
 
 def _read_object(path: Path) -> dict[str, Any]:
@@ -48,6 +52,33 @@ def _safe_path(value: Any) -> str | None:
     if path.is_absolute() or any(part in {"", ".", ".."} for part in path.parts):
         return None
     return path.as_posix()
+
+
+def _public_input_findings(directory: Path, mode: str) -> list[str]:
+    """Reject source-paper material copied into the Agent-visible input tree.
+
+    The synthesis workspace already contains the paper snapshot outside the output tree. A
+    task input whose filename advertises that it is the paper/SI is therefore a provenance
+    leak, not a legitimate scientific input. This deliberately checks only the generic
+    source-material boundary; it does not blacklist chemistry or method vocabulary.
+    """
+
+    findings: list[str] = []
+    data_directory = directory / "data"
+    if not data_directory.is_dir():
+        return findings
+    for path in data_directory.rglob("*"):
+        if not path.is_file():
+            continue
+        relative = path.relative_to(directory)
+        stem_tokens = {
+            token
+            for token in re.split(r"[^a-z0-9]+", path.stem.casefold())
+            if token
+        }
+        if stem_tokens & _PAPER_INPUT_MARKERS:
+            findings.append(f"{mode}:paper_source_material_exposed:{relative}")
+    return findings
 
 
 def _schema_selector_status(schema: Any, selector: str) -> bool:
@@ -316,6 +347,7 @@ def _mode_findings(root: Path, mode: str, paper_id: str) -> tuple[list[str], lis
             findings.append(f"{mode}:symlink_forbidden:{path.relative_to(directory)}")
         if path.is_file() and path.suffix.casefold() == ".pdf":
             findings.append(f"{mode}:paper_pdf_exposed_to_agent:{path.relative_to(directory)}")
+    findings.extend(_public_input_findings(directory, mode))
     evaluation = root / "evaluator_reference" / mode
     eval_findings, eval_diagnostics = _evaluation_findings(
         evaluation, paper_id=paper_id, submission=submission, mode=mode
