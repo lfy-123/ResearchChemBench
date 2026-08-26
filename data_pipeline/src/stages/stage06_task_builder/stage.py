@@ -45,7 +45,7 @@ from src.stages.stage06_task_builder.prompts import (
 )
 
 
-STAGE06_IMPLEMENTATION_VERSION = "v20-model-driven-input-closure"
+STAGE06_IMPLEMENTATION_VERSION = "v22-dual-mode-scientific-route"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 
 
@@ -62,7 +62,7 @@ def run_stage06(
     workspace: Path,
     run_id: str,
 ):
-    """Synthesize a complete reproduction-first task pair in one Agent call."""
+    """Synthesize a paired task with author-route disclosure only in reproduction."""
 
     config = dict(config)
     paper_metadata_by_paper = dict(paper_metadata_by_paper or {})
@@ -215,7 +215,7 @@ def run_stage06(
                 "gate_diagnostics": gate_report["diagnostics"],
                 "agent_harness": harness.name,
                 "agent_model": harness.model,
-                "mode_generation_strategy": "reproduction_first_same_agent",
+                "mode_generation_strategy": "shared_objective_author_route_disclosure",
             }
         except AgentExecutionError as exc:
             return _technical_block(
@@ -247,7 +247,7 @@ def run_stage06(
     summary = {
         **record_header(run_id=run_id, stage="stage06"),
         "implementation_version": STAGE06_IMPLEMENTATION_VERSION,
-        "mode_generation_strategy": "reproduction_first_same_agent",
+        "mode_generation_strategy": "shared_objective_author_route_disclosure",
         "papers": len(records),
         "provisional_constructed": sum(
             row.get("decision") == "provisional_constructed" for row in records

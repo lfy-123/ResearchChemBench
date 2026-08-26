@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-STAGE07_AUDIT_PROMPT_VERSION = "v20-independent-input-and-evaluator-audit-20260827"
+STAGE07_AUDIT_PROMPT_VERSION = "v22-dual-mode-scientific-route-audit-20260827"
 
 
 def final_task_audit_instructions(
@@ -14,72 +14,73 @@ defects, and decide whether the pair is fit for release. You are not a fallback 
 PAPER ID: {paper_id}
 TOOL BUDGET: {max_tool_calls}
 
-Read:
+Read `inputs/candidate/`, the complete pair and private synthesis review; read `inputs/source/`, the
+immutable paper/SI evidence; and read `inputs/tools/phase_gate.py`, the same mechanical checker used
+after your work. Use `python inputs/tools/document_query.py --root inputs/source --list` plus its
+`--document`, `--page`, `--contains` and `--context` options when layout evidence is needed.
 
-- `inputs/candidate/`: the complete reproduction-first task pair and its private synthesis review;
-- `inputs/source/`: the immutable paper/SI evidence used for synthesis;
-- `inputs/tools/phase_gate.py`: the same mechanical contract checker used after your work.
+The intended mode boundary is:
 
-Use `python inputs/tools/document_query.py --root inputs/source --list` and its `--document`,
-`--page`, `--contains` and `--context` options when layout evidence is needed.
+- `paper_reproduction`: public scientific objective plus the authors' hypothesis, candidate
+  direction or qualitative mechanism. The evaluated Agent independently designs the computational
+  approach to test and reproduce that claim.
+- `autonomous_research`: the same scientific objective and research-before-discovery inputs, but no
+  author hypothesis, candidate direction or mechanism. If genuine hypothesis space exists, the
+  evaluated Agent formulates and compares a scientific route; for a direct computation, do not
+  demand invented discovery.
 
-First copy the candidate exactly to `outputs/audited_task/`. Perform all repairs only in that copy.
-Do not create a task from an empty directory and do not replace the selected scientific objective.
+Both modes must hide the paper's software, model chemistry, ordered computational protocol,
+result-bearing structures, reference values, ordering, complete answer, evaluator and tolerance.
 
-Audit the following scientific questions by reading the actual files, not only manifests:
+First copy the candidate exactly to `outputs/audited_task/`. Perform repairs only in that copy. Do
+not create a task from an empty directory, change the scientific objective, or reconstruct a failed
+mode.
 
-1. Is the scientific objective central, non-trivial, source-supported and honestly classified as
-   discovery, validation, comparison, or another appropriate task kind?
+Audit the actual files, not only manifests:
+
+1. Is the scientific objective central, non-trivial, source-supported and identical at the pair level?
 2. Are all public inputs sufficient and scientifically consistent with the objective, physical
-   boundaries and requested results? If a synthesis review claims an input is missing or
-   unrecoverable, verify that against layout/source-PDF evidence rather than trusting a damaged
-   Markdown, OCR or HTML representation. Allow only unique transcription from clear source
-   evidence; do not guess through genuine source ambiguity. Do not demand that code standardize
-   paper-specific inputs.
-3. For every task-defining scientific object, do the actual public input contents, task claims,
-   submission schema, evaluator reference and paper evidence identify the same molecule, state,
-   structure and boundary conditions? Format validity alone is not scientific identity.
-4. Does `paper_reproduction/task.md` disclose the source-supported computational route completely
-   enough to execute without the paper, while withholding reference results and conclusions?
-5. Does `autonomous_research` preserve the same scientific problem while leaving method, search
-   strategy and analysis choices to the evaluated Agent? Inspect task.md, task_info, submission
-   schema, public filenames, input comments and other visible data for paper-route or answer leaks.
-6. Are both evaluators scientifically specific, evidence-supported and aligned with their public
-   task and submission schema? Every key point and conclusion must have a usable scoring rule.
-   Numeric rules must contain an authored target, unit and tolerance. Judge scientific coherence;
-   do not reject merely because another reasonable tolerance or equivalent format could be chosen.
-7. Are the two modes genuinely paired: same objective and physical problem, with differences only
-   where route disclosure changes the public contract or appropriate evaluation?
+   boundaries and requested results? Verify suspected missing data against layout/source-PDF evidence;
+   do not guess through genuine ambiguity. Format validity alone is not scientific identity.
+3. Are problem-defining inputs separated from result-bearing artifacts? An optimized TS, intermediate,
+   selected conformer or final product structure that the evaluated Agent is expected to reproduce
+   must not be public in either mode.
+4. Does reproduction disclose only the authors' scientific route, while hiding paper software,
+   model chemistry, ordered protocol, result structures, numerical results, ordering and tolerance?
+5. Does autonomous hide the authors' scientific route across task.md, task_info, schema, filenames,
+   comments and data? When hypothesis space exists, does it require the Agent to formulate and compare
+   a route? When none exists, does it avoid fake discovery requirements?
+6. Do both tasks require the evaluated Agent to choose and justify a computational approach and meet
+   outcome-based scientific validation requirements without prescribing the paper protocol?
+7. Are both evaluators concrete, evidence-supported and aligned with their task and submission
+   schema? Shared result rules are allowed. Discovery rules are required only when discovery is real.
+8. Do schema const/enum/default/example fields avoid encoding a reference number, ordering, result
+   structure or final answer? Legitimate units and state categories may remain constrained.
 
 Allowed repairs are local and source-determined: clarify wording or boundaries, remove a leaked
-answer or route detail from the autonomous public surface, restore a missing source-supported route
-detail in reproduction, correct an ID/reference/binding/path mismatch, or make a small evaluator
-entry concrete using evidence already selected for this objective.
+protocol/answer/result artifact, correct a filename/comment, fix a schema binding or make a small
+evaluator entry concrete using evidence already selected for this objective.
 
-Reject as `rejected_scientific_unrepairable` when approval would require changing the scientific
-objective, selecting a different workflow, inventing missing essential inputs or source facts,
-reconstructing a failed mode, or rewriting a substantial part of the evaluator. Do not disguise an
-unrepairable scientific defect as a technical error. Use `technical_blocked` only when files or the
-execution environment prevent you from completing the audit.
+Reject as `rejected_scientific_unrepairable` when approval would require changing the objective,
+inventing essential inputs or source facts, rebuilding a mode, or rewriting a substantial evaluator.
+Use `technical_blocked` only when files or execution environment prevent the audit.
 
 After the last repair run:
 
 python inputs/tools/phase_gate.py --phase audit --root outputs/audited_task
 
-Read `outputs/audited_task/agent_self_check_report.json`. Repair blocking contract findings and
-rerun the command. A mechanical pass is necessary but not sufficient for scientific approval.
+Read `outputs/audited_task/agent_self_check_report.json`, repair blocking contract findings and
+rerun. Then write `outputs/audit_receipt.json` containing:
 
-Write `outputs/audit_receipt.json` and return the same object. It must contain:
-
-- `audit_decision`: `approved`, `approved_with_repairs`,
-  `rejected_scientific_unrepairable`, or `technical_blocked`;
+- `audit_decision`: `approved`, `approved_with_repairs`, `rejected_scientific_unrepairable`, or
+  `technical_blocked`;
 - `paper_id`: `{paper_id}`;
 - `artifact_path`: `outputs/audited_task` for approvals, otherwise an empty string;
 - `selected_workflow_preserved`: true for approvals;
-- `repairs`: a concrete list of changed files and reasons;
-- `remaining_issues`: an empty list for approvals and concrete issues otherwise;
-- `scientific_audit`: findings for objective, inputs, reproduction route, autonomous independence,
-  evaluator quality and pair consistency;
+- `repairs`: concrete changed files and reasons;
+- `remaining_issues`: empty for approvals and concrete issues otherwise;
+- `scientific_audit`: findings for objective, inputs, author-route disclosure, computational-route
+  autonomy, scientific validation, evaluator quality and pair consistency;
 - `summary`.
 
 Do not add lifecycle labels, compatibility fields, retry instructions or new paper-scoped IDs.

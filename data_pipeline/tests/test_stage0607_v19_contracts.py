@@ -101,14 +101,18 @@ def candidate(root: Path, *, both_modes: bool = True) -> Path:
     return root
 
 
-def test_prompt_is_reproduction_first_then_same_agent_derivation() -> None:
+def test_prompt_defines_scientific_route_disclosure_and_independent_computation() -> None:
     prompt = final_task_synthesis_instructions(paper_id=PAPER_ID, snapshot_hash="abc")
-    reproduction = prompt.index("complete paper-reproduction task first")
+    reproduction = prompt.index("Build a complete paper-reproduction task first")
     intermediate_gate = prompt.index("paper-reproduction-only mode")
-    autonomous = prompt.index("copy the stable reproduction task")
+    autonomous = prompt.index("Build autonomous research from the same objective")
     final_gate = prompt.index("full-pair Gate")
     assert reproduction < intermediate_gate < autonomous < final_gate
-    assert "converter" not in prompt.casefold()
+    assert "copy the reproduction task" in prompt
+    assert "Do not disclose paper software" in prompt
+    assert "independently plan" in prompt
+    assert "genuine hypothesis space" in prompt
+    assert "computational protocol" in prompt
     assert prompt.index("construction_receipt.json` last") > final_gate
 
 
