@@ -87,16 +87,6 @@ def run_stage06_07_from_history(
         config=config["models"]["builder"],
         cache_root=output_root / "llm_cache",
     )
-    review_role = str(config["stage06"].get("scientific_review_model_role") or "builder")
-    review_model = (
-        builder_model
-        if review_role == "builder"
-        else RoleModelClient(
-            role=review_role,
-            config=config["models"][review_role],
-            cache_root=output_root / "llm_cache",
-        )
-    )
     stage06 = run_stage06(
         candidates=inputs["candidates"],
         stage02_records=inputs["stage02"],
@@ -108,7 +98,6 @@ def run_stage06_07_from_history(
             "toolbox_capabilities": config["stage03"]["toolbox_capabilities"],
         },
         model=builder_model,
-        review_model=review_model,
         workspace=output_root,
         run_id=run_id,
     )

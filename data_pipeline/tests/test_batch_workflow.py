@@ -41,7 +41,10 @@ def test_late_stage_batch_treats_scientific_rejection_as_terminal_success(tmp_pa
         '{"stage06":{"provisional_not_constructible":1,"decisions":{"provisional_not_constructible":1}},"stage07":{"status":"not_run"}}',
         encoding="utf-8",
     )
-    assert workflow._late_stage_pipeline_failure(summary) is None
+    assert workflow._late_stage_outcome(summary) == {
+        "state": "COMPLETED",
+        "outcome": "scientific_rejection",
+    }
 
 
 def test_late_stage_batch_still_flags_unexplained_stage07_not_run(tmp_path) -> None:
@@ -51,7 +54,11 @@ def test_late_stage_batch_still_flags_unexplained_stage07_not_run(tmp_path) -> N
         '{"stage06":{"provisional_constructed":1,"decisions":{"provisional_constructed":1}},"stage07":{"status":"not_run"}}',
         encoding="utf-8",
     )
-    assert workflow._late_stage_pipeline_failure(summary) == "stage07_not_run"
+    assert workflow._late_stage_outcome(summary) == {
+        "state": "FAILED",
+        "outcome": "technical_blocked",
+        "failure_class": "stage07_not_run",
+    }
 
 
 def test_batch_sandbox_prewarm_uses_default_image_and_configured_timeout(

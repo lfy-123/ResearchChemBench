@@ -88,6 +88,10 @@ Stage07A 一次审计/修复后只执行一次代码 Gate 和 package assembly�
 | 2026-08-26 | Step 2 | completed | Removed Stage07B and old retry/resume/recovery paths; Stage07 transport validation is read-only; failed Gate artifacts retain diagnostics. |
 | 2026-08-26 | Step 3 | completed | Replaced obsolete tests that imported deleted compatibility APIs with canonical split-evaluator fixtures; 452 relevant tests pass. |
 | 2026-08-26 | Audit | completed | Confirmed deleted Stage07B/legacy projection helpers have no production callers. Retained source parsing, input snapshot, Stage06B conversion, Stage07A audit, package assembly, and shared evaluator validation. |
+| 2026-08-26 | Final cleanup | completed | Removed the Stage07B source package, stale Stage06 review/task Agent prompts, hidden-reference validators, dual-ID call signatures, and retryable Stage06/07 terminal labels. Fixed Stage07 exception paths to use the single-paper-ID signature. |
+| 2026-08-26 | Batch terminal contract | completed | Batch runner now writes only `completed/published`, `completed/scientific_rejection`, or `failed/technical_blocked`; it does not inspect or schedule late-stage retries. |
+| 2026-08-26 | Prompt alignment | completed | Stage06A now builds only the reproduction surface and five split evaluator files; Stage06B alone derives the autonomous surface. Removed the contradictory instruction to build autonomous content twice. |
+| 2026-08-26 | Final regression | completed | Canonical Stage06/07 and batch tests: 70 passed. Pipeline integration tests: 241 passed. |
 
 ## 4. 验收标准
 
@@ -112,6 +116,10 @@ Stage06A/06B 一次 Agent 调用与共享 Gate、autonomous public-surface 转�
 科学审计和白名单修复、五文件 evaluator 校验、Task Package v1 装配与 manifest/hash
 校验。bootstrap 仍负责公共文件语法和真实输入复制，但不再生成任何答案或 evaluator
 占位内容，避免模型把模板误认为科学结果。
+
+最终删除复核还发现并修复了两个旧接口残留：Stage07 异常处理仍向单 `paper_id`
+函数传入两个身份参数；Stage06 技术失败仍写成 `*_retryable`。二者均已改为单身份、
+一次执行后的 `technical_blocked` 终态。Stage00–05 的断点续跑没有被修改。
 
 旧测试中直接依赖已删除 API 的文件已移除或改写为 canonical fixture；Stage00–05
 测试保持不变。定向 Stage06/07 测试 47 passed；排除明确旧契约测试后的相关全量测试

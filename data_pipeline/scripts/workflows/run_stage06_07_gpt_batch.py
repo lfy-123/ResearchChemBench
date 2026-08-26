@@ -147,7 +147,12 @@ def _run_one(
     log_path = paper_root / "runner.log"
     paper_root.mkdir(parents=True, exist_ok=True)
     if (paper_root / "late_stage_run_summary.json").is_file() and not args.force:
-        result = {"paper_id": paper, "state": "COMPLETED", "skipped": True, "exit_code": 0}
+        result = {
+            "paper_id": paper,
+            **_late_stage_outcome(paper_root / "late_stage_run_summary.json"),
+            "skipped": True,
+            "exit_code": 0,
+        }
         _write_json(status_path, {**result, "updated_at": _now()})
         return result
 
@@ -196,87 +201,87 @@ def _run_one(
         _write_json(status_path, result)
         return result
     finished = _now()
-    pipeline_failure = None
     summary_path = paper_root / "late_stage_run_summary.json"
     if completed.returncode == 0:
-        pipeline_failure = _late_stage_pipeline_failure(summary_path)
-    state = "COMPLETED" if completed.returncode == 0 and pipeline_failure is None else "FAILED"
+        outcome = _late_stage_outcome(summary_path)
+    else:
+        outcome = {
+            "state": "FAILED",
+            "outcome": "technical_blocked",
+            "failure_class": "child_process_failed",
+        }
     result = {
         "paper_id": paper,
-        "state": state,
+        **outcome,
         "started_at": started,
         "finished_at": finished,
         "exit_code": completed.returncode,
         "skipped": False,
     }
-    if pipeline_failure:
-        result["failure_class"] = pipeline_failure
+    if result["state"] == "FAILED":
         result["late_stage_summary"] = str(summary_path)
     _write_json(status_path, result)
     return result
 
 
-def _late_stage_pipeline_failure(summary_path: Path) -> str | None:
-    """Map a successful CLI process to the actual late-stage outcome.
+def _late_stage_outcome(summary_path: Path) -> dict[str, str]:
+    """Classify one paper into the canonical late-stage terminal outcome."""
 
-    ``src.cli run-stage06-07`` returns a JSON summary and intentionally keeps a
-    zero process exit code for scientific rejection.  Batch orchestration must
-    distinguish that valid result from retryable artifact/agent failures and
-    from a stage that never reached Stage07.  This helper reads only the generic
-    summary contract; it does not judge the paper's science.
-    """
+    def blocked(failure_class: str) -> dict[str, str]:
+        return {
+            "state": "FAILED",
+            "outcome": "technical_blocked",
+            "failure_class": failure_class,
+        }
 
     if not summary_path.is_file():
-        return "late_stage_summary_missing"
+        return blocked("late_stage_summary_missing")
     try:
         summary = json.loads(summary_path.read_text(encoding="utf-8"))
     except (OSError, ValueError, TypeError, json.JSONDecodeError):
-        return "late_stage_summary_invalid"
+        return blocked("late_stage_summary_invalid")
     if not isinstance(summary, dict):
-        return "late_stage_summary_invalid"
+        return blocked("late_stage_summary_invalid")
     stage06 = summary.get("stage06") or {}
     if not isinstance(stage06, dict):
-        return "stage06_summary_invalid"
-    for key, failure_class in (
-        ("artifact_delivery_failures", "stage06_artifact_delivery_failure_retryable"),
-        ("retryable_failures", "stage06_retryable_failure"),
-    ):
-        try:
-            if int(stage06.get(key) or 0) > 0:
-                return failure_class
-        except (TypeError, ValueError):
-            return "stage06_summary_invalid"
+        return blocked("stage06_summary_invalid")
     decisions = stage06.get("decisions") or {}
-    if isinstance(decisions, dict):
-        for key, value in decisions.items():
-            if not str(key).endswith("_retryable"):
-                continue
-            try:
-                if int(value or 0) > 0:
-                    return "stage06_retryable_failure"
-            except (TypeError, ValueError):
-                return "stage06_summary_invalid"
+    if not isinstance(decisions, dict):
+        return blocked("stage06_summary_invalid")
     try:
+        stage06_blocked = int(
+            stage06.get("technical_blocked") or decisions.get("technical_blocked") or 0
+        )
         scientific_rejections = int(
             stage06.get("provisional_not_constructible")
-            or (decisions.get("provisional_not_constructible") if isinstance(decisions, dict) else 0)
+            or decisions.get("provisional_not_constructible")
             or 0
         )
     except (TypeError, ValueError):
-        return "stage06_summary_invalid"
+        return blocked("stage06_summary_invalid")
+    if stage06_blocked:
+        return blocked("stage06_technical_blocked")
     stage07 = summary.get("stage07") or {}
     if not isinstance(stage07, dict):
-        return "stage07_summary_invalid"
+        return blocked("stage07_summary_invalid")
     if str(stage07.get("status") or "").casefold() == "not_run":
         if scientific_rejections > 0:
-            return None
-        return "stage07_not_run"
+            return {"state": "COMPLETED", "outcome": "scientific_rejection"}
+        return blocked("stage07_not_run")
     try:
-        if int(stage07.get("objective_failure_retryable") or 0) > 0:
-            return "stage07_objective_failure_retryable"
+        stage07_blocked = int(stage07.get("technical_blocked") or 0)
+        mechanical_blocked = int(stage07.get("mechanical_publish_blocked") or 0)
+        scientific_rejected = int(stage07.get("rejected_scientific_unrepairable") or 0)
+        publish_ready = int(stage07.get("publish_ready") or 0)
     except (TypeError, ValueError):
-        return "stage07_summary_invalid"
-    return None
+        return blocked("stage07_summary_invalid")
+    if stage07_blocked or mechanical_blocked:
+        return blocked("stage07_technical_blocked")
+    if scientific_rejected:
+        return {"state": "COMPLETED", "outcome": "scientific_rejection"}
+    if publish_ready:
+        return {"state": "COMPLETED", "outcome": "published"}
+    return blocked("late_stage_outcome_unknown")
 
 
 def build_parser() -> argparse.ArgumentParser:

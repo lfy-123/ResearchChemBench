@@ -95,7 +95,6 @@ def run_stage06(
     stage03_records=None,
     config,
     model,
-    review_model=None,
     workspace: Path,
     run_id: str,
 ):
@@ -171,7 +170,7 @@ def _run_stage06_single_agent(
         candidate_id = str(paper_candidates[0].get("candidate_id") or paper_id)
         try:
             if paper_id not in coverage:
-                return _objective_failure(
+                return _technical_block(
                     run_id,
                     paper_id,
                     candidate_id,
@@ -180,7 +179,7 @@ def _run_stage06_single_agent(
                 )
             paper_documents = documents_by_paper.get(paper_id, [])
             if not paper_documents:
-                return _objective_failure(
+                return _technical_block(
                     run_id,
                     paper_id,
                     candidate_id,
@@ -254,7 +253,6 @@ def _run_stage06_single_agent(
                 ),
                 phase_gate_validator=_stage06a_phase_gate_findings,
                 phase_gate_max_checks=1,
-                phase_gate_fail_open=True,
                 phase_gate_mode="agent_and_external",
                 phase_gate_prepare=lambda root: _stage06a_phase_gate_prepare(
                     root,
@@ -285,7 +283,7 @@ def _run_stage06_single_agent(
                     receipt.get("failure_code") or review.get("failure_code") or ""
                 ).strip()
                 if failure_code == "execution_artifact_incomplete":
-                    return _artifact_delivery_failure(
+                    return _technical_block(
                         run_id,
                         paper_id,
                         candidate_id,
@@ -320,19 +318,18 @@ def _run_stage06_single_agent(
 
             # Transport identity is deterministic and owned by the orchestrator;
             # preserve any Agent proposal only as non-authoritative review metadata.
-            task_pair_id = canonical_paper_id(paper_id)
-            review["paper_id"] = task_pair_id
+            paper_id = canonical_paper_id(paper_id)
+            review["paper_id"] = paper_id
             staging_root = prepare_clean_directory(
                 stage_root
                 / "staging"
                 / safe_component(paper_id)
-                / f"{safe_component(task_pair_id)}-{uuid.uuid4().hex[:8]}"
+                / f"{safe_component(paper_id)}-{uuid.uuid4().hex[:8]}"
             )
             copytree_exact(outputs, staging_root)
             make_writable(staging_root)
             write_json(staging_root / "workflow_review.json", review)
             write_json(staging_root / "construction_receipt.json", receipt)
-            _ensure_objective_handoff_artifacts(staging_root, review)
             handoff_warnings: list[str] = []
             if receipt.get("phase_gate_status") == "bypassed_with_warnings":
                 handoff_warnings.append("stage06a_gate_bypassed_with_warnings")
@@ -346,7 +343,6 @@ def _run_stage06_single_agent(
                     prompt_version=STAGE06_AUTONOMOUS_CONVERTER_VERSION,
                     instructions=autonomous_converter_instructions(
                         paper_id=paper_id,
-                        task_pair_id=task_pair_id,
                         max_tool_calls=int(
                             config.get(
                                 "autonomous_converter_max_tool_calls",
@@ -356,7 +352,7 @@ def _run_stage06_single_agent(
                     ),
                     output_schema=STAGE06_AUTONOMOUS_CONVERTER_SCHEMA,
                     fingerprint_value={
-                        "paper_id": task_pair_id,
+                        "paper_id": paper_id,
                         "paper_reproduction_hash": directory_manifest(
                             staging_root / "paper_reproduction"
                         )["content_hash"],
@@ -383,10 +379,9 @@ def _run_stage06_single_agent(
                     semantic_validator=None,
                     phase_gate_validator=_converter_contract_gate_findings,
                     phase_gate_max_checks=1,
-                    phase_gate_fail_open=True,
                     phase_gate_mode="agent_and_external",
                     phase_gate_prepare=lambda root: _converter_phase_gate_prepare(
-                        root, paper_id=task_pair_id
+                        root, paper_id=paper_id
                     ),
             )
             # conversion_report.json is optional handoff metadata.  It is read
@@ -404,7 +399,7 @@ def _run_stage06_single_agent(
                 # constructed-candidate status.
                 handoff_warnings.append("stage06b_conversion_uncertain")
             if converter_response.get("status") not in {"converted", "conversion_uncertain"}:
-                return _artifact_delivery_failure(
+                return _technical_block(
                     run_id,
                     paper_id,
                     candidate_id,
@@ -443,7 +438,7 @@ def _run_stage06_single_agent(
                         _json_object(submission_path)
                     )
                     mode_submission.pop("task_id", None)
-                    mode_submission["paper_id"] = task_pair_id
+                    mode_submission["paper_id"] = paper_id
                     write_json(submission_path, mode_submission)
                 rubric_path = reproduction_root / "process_rubric.json"
                 if rubric_path.is_file():
@@ -477,7 +472,6 @@ def _run_stage06_single_agent(
                     _materialize_pair_metadata(
                         staging_root,
                         paper_id=paper_id,
-                        task_pair_id=task_pair_id,
                         documents=paper_documents,
                         stage04=coverage[paper_id],
                         candidates=paper_candidates,
@@ -530,7 +524,6 @@ def _run_stage06_single_agent(
             _write_provisional_handoff_metadata(
                 staging_root,
                 paper_id=paper_id,
-                task_pair_id=task_pair_id,
                 decision="provisional_constructed",
                 documents=paper_documents,
                 candidates=paper_candidates,
@@ -555,7 +548,7 @@ def _run_stage06_single_agent(
                 "input_candidate_ids": [
                     str(row.get("candidate_id") or "") for row in paper_candidates
                 ],
-                "paper_id": task_pair_id,
+                "paper_id": paper_id,
                 "processing_status": "completed",
                 "decision": "provisional_constructed",
                 "scientific_status": (
@@ -617,7 +610,7 @@ def _run_stage06_single_agent(
             }
         except AgentExecutionError as exc:
             if exc.failure_class in {"partial_agent_artifact", "missing_agent_artifact"}:
-                return _artifact_delivery_failure(
+                return _technical_block(
                     run_id,
                     paper_id,
                     candidate_id,
@@ -625,17 +618,16 @@ def _run_stage06_single_agent(
                     str(exc),
                     agent_run=exc.result.audit_record() if exc.result else None,
                 )
-            return _objective_failure(
+            return _technical_block(
                 run_id,
                 paper_id,
                 candidate_id,
                 exc.failure_class,
                 str(exc),
                 agent_run=exc.result.audit_record() if exc.result else None,
-                retryable=exc.retryable,
             )
         except (FileNotFoundError, OSError) as exc:
-            return _objective_failure(
+            return _technical_block(
                 run_id,
                 paper_id,
                 candidate_id,
@@ -643,7 +635,7 @@ def _run_stage06_single_agent(
                 f"{type(exc).__name__}: {exc}",
             )
         except Exception as exc:
-            return _objective_failure(
+            return _technical_block(
                 run_id,
                 paper_id,
                 candidate_id,
@@ -671,12 +663,8 @@ def _run_stage06_single_agent(
         "contract_incomplete": sum(
             row.get("contract_status") == "contract_incomplete" for row in records
         ),
-        "retryable_failures": sum(
-            row.get("decision") == "objective_failure_retryable" for row in records
-        ),
-        "artifact_delivery_failures": sum(
-            row.get("decision") == "artifact_delivery_failure_retryable"
-            for row in records
+        "technical_blocked": sum(
+            row.get("decision") == "technical_blocked" for row in records
         ),
         "stage06a_gate_bypassed": sum(
             row.get("stage06a_gate_status") == "bypassed_with_warnings"
@@ -1270,9 +1258,7 @@ def _run_phase(
     semantic_validator: Callable[[dict[str, Any], Path], list[str]] | None = None,
     phase_gate_validator: Callable[[dict[str, Any], Path], list[str]] | None = None,
     phase_gate_max_checks: int | None = None,
-    phase_gate_fail_open: bool | None = None,
     phase_gate_mode: str | None = None,
-    phase_gate_agent_self_check: bool | None = None,
     phase_gate_prepare: Callable[[Path], list[str]] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any], Path | None]:
     """Run one late-stage Agent invocation and one shared post-write Gate."""
@@ -1351,24 +1337,6 @@ self-check has blocking findings. The final receipt must describe the files afte
             int(config.get(f"{phase}_finalization_reserve", config.get("finalization_reserve", 4))),
         ),
     )
-    artifact_receipt_metadata: dict[str, Any] = {}
-    if phase == "autonomous_task":
-        artifact_receipt_metadata = {
-            "artifact_receipt_path": "task",
-            "artifact_required_files": [
-                "task.md", "task_info.json", "task_spec.json",
-                "submission_contract.json", "process_rubric.json",
-            ],
-        }
-    elif phase == "paper_reproduction":
-        artifact_receipt_metadata = {
-            "artifact_receipt_path": "task",
-            "artifact_required_files": [
-                "task.md", "task_info.json", "task_spec.json",
-                "submission_contract.json", "process_rubric.json",
-                "paper_route.md", "workflow_spec.json", "route_evidence_map.json",
-            ],
-        }
     request = AgentRunRequest(
         phase=f"stage06_{phase}",
         record_id=paper_id,
@@ -1390,17 +1358,12 @@ self-check has blocking findings. The final receipt must describe the files afte
                 "task_pair_builder": "outputs/construction_receipt.json",
                 "autonomous_converter": "outputs/conversion_report.json",
             }.get(phase),
-            **artifact_receipt_metadata,
         },
     )
     try:
         result = harness.run(request)
         response = result.response or {}
-        if phase == "scientific_review":
-            response = _materialize_scientific_review_response(response, attempt_root)
-        elif phase in {"autonomous_task", "paper_reproduction"}:
-            response = _reconcile_task_phase_receipt(response, workspace=attempt_root, phase=phase, result=result)
-        elif phase == "autonomous_converter":
+        if phase == "autonomous_converter":
             response = _reconcile_converter_phase_receipt(response, workspace=attempt_root)
             response = _reconcile_complete_converter_artifact(response, workspace=attempt_root, result=result)
         result.response = response
@@ -1517,7 +1480,7 @@ def _stage06a_phase_gate_prepare(
     return canonicalize_mode_task_contract(
         reproduction,
         expected_mode="paper_reproduction",
-        task_pair_id=paper_id,
+        paper_id=paper_id,
     )
 
 
@@ -1734,112 +1697,12 @@ def _ensure_reproduction_route_rubric(
 
 
 
-def _materialize_scientific_review_response(
-    response: dict[str, Any], workspace: Path
-) -> dict[str, Any]:
-    """Persist the model's review contract and stage its referenced public assets."""
-
-    contract = json.loads(json.dumps(response, ensure_ascii=False))
-    public_root = workspace / "outputs" / "public_inputs"
-    for asset in (contract.get("public_task_basis") or {}).get("input_assets") or []:
-        try:
-            logical = _normalize_public_input_path(str(asset.get("path") or ""))
-        except ValueError:
-            continue
-        destination = public_root / logical
-        content = asset.get("content")
-        source_value = asset.get("content_path")
-        if content is not None:
-            write_text_asset(public_root, logical, _asset_content(content))
-        elif source_value:
-            try:
-                source_relative = validate_relative_path(str(source_value))
-                source = (workspace / source_relative).resolve()
-                source.relative_to(workspace.resolve())
-            except (ValueError, OSError):
-                continue
-            if not source.is_file():
-                continue
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            if source != destination.resolve():
-                shutil.copy2(source, destination)
-        else:
-            continue
-        asset.pop("content", None)
-        asset["path"] = logical
-        asset["content_path"] = destination.relative_to(workspace).as_posix()
-    contract["artifact_path"] = "outputs/scientific_review.json"
-    write_json(workspace / contract["artifact_path"], contract)
-    return contract
 
 
 
 
 
 
-def _reconcile_task_phase_receipt(
-    receipt: dict[str, Any],
-    *,
-    workspace: Path,
-    phase: str,
-    result: Any,
-) -> dict[str, Any]:
-    """Reconcile a file-first builder receipt with the files actually written.
-
-    Agent model state can lag behind a successful shell call. Complete artifacts are
-    accepted and later undergo deterministic semantic validation. Partial artifacts
-    are retryable so the next isolated workspace can finish them.
-    """
-
-    if not receipt.get("artifact_path"):
-        # Mock and legacy direct-API adapters may return the task members inline;
-        # _materialize_autonomous/_materialize_reproduction normalize that form.
-        return receipt
-
-    required = {
-        "task.md",
-        "task_info.json",
-        "task_spec.json",
-        "submission_contract.json",
-        "process_rubric.json",
-    }
-    if phase == "paper_reproduction":
-        required.update({"paper_route.md", "workflow_spec.json", "route_evidence_map.json"})
-    task_root = workspace / "task"
-    present = {
-        path.relative_to(task_root).as_posix()
-        for path in task_root.rglob("*")
-        if task_root.is_dir() and path.is_file()
-    }
-    missing = sorted(required - present)
-    if not missing:
-        output = dict(receipt)
-        if output.get("status") != "ready":
-            output["receipt_reconciled_from_artifact"] = True
-            output["summary"] = (
-                "The complete task artifact superseded a stale terminal receipt; "
-                "deterministic package validation remains mandatory."
-            )
-        output.update({"status": "ready", "artifact_path": "task", "invalid_reasons": []})
-        return output
-
-    phase_specific_present = present
-    if phase == "paper_reproduction":
-        phase_specific_present &= {"paper_route.md", "workflow_spec.json", "route_evidence_map.json"}
-    if receipt.get("artifact_path") or phase_specific_present:
-        message = f"Agent task artifact is partial; missing files: {', '.join(missing)}"
-        result.status = "failed"
-        result.failure_class = "partial_agent_artifact"
-        result.retryable = True
-        result.error = {"error_type": "PartialAgentArtifact", "message": message}
-        write_json(workspace / "agent_run.json", result.audit_record())
-        raise AgentExecutionError(
-            message,
-            failure_class="partial_agent_artifact",
-            retryable=True,
-            result=result,
-        )
-    return receipt
 
 
 def _reconcile_converter_phase_receipt(
@@ -1929,7 +1792,7 @@ def _reconcile_complete_converter_artifact(
 def _require_claimed_phase_artifact(
     receipt: dict[str, Any], workspace: Path, result: Any
 ) -> None:
-    """Turn a positive receipt with no referenced artifact into a retryable Agent failure."""
+    """Reject a positive receipt that does not point to a delivered artifact."""
 
     artifact_value = receipt.get("artifact_path")
     if not artifact_value or _receipt_is_terminal_negative(receipt):
@@ -1947,13 +1810,13 @@ def _require_claimed_phase_artifact(
 
     result.status = "failed"
     result.failure_class = "missing_agent_artifact"
-    result.retryable = True
+    result.retryable = False
     result.error = {"error_type": "MissingAgentArtifact", "message": message}
     write_json(workspace / "agent_run.json", result.audit_record())
     raise AgentExecutionError(
         message,
         failure_class="missing_agent_artifact",
-        retryable=True,
+        retryable=False,
         result=result,
     )
 
@@ -2204,86 +2067,10 @@ def _setup_converter_inputs(
     canonicalize_mode_task_contract(
         autonomous,
         expected_mode="autonomous_research",
-        task_pair_id=str(review.get("paper_id") or "").strip() or None,
+        paper_id=str(review.get("paper_id") or "").strip() or None,
     )
 
 
-def _ensure_objective_handoff_artifacts(pair_root: Path, review: dict[str, Any]) -> None:
-    """Materialize lightweight objective contracts from the Agent review when omitted.
-
-    This is a lossless transport fallback: it only projects fields already supplied by Stage06A
-    and never invents a structure, parameter, result, or conclusion.
-    """
-
-    objective_path = pair_root / "objective_card.json"
-    if not objective_path.is_file():
-        objective = review.get("objective_card")
-        if not isinstance(objective, dict):
-            objective = {
-                "paper_id": review.get("paper_id"),
-                "task_family": str(
-                    review.get("task_family") or review.get("category") or "computational_chemistry"
-                ),
-                "scientific_question": review.get("scientific_question") or "",
-                "public_question": review.get("public_scientific_question") or "",
-                "problem_inputs": (review.get("public_task_basis") or {}).get(
-                    "input_assets"
-                ) or [],
-                "unknowns": [],
-                "selected_scope": review.get("workflow_scope") or {},
-                "workflow_steps": review.get("workflow_steps") or [],
-                "key_points": review.get("key_points") or review.get("ground_truth_items") or [],
-                "final_claim": review.get("final_claim") or {},
-                "evidence_ids": [],
-            }
-        else:
-            objective = dict(objective)
-            objective.pop("objective_id", None)
-            objective.setdefault("paper_id", review.get("paper_id"))
-        write_json(objective_path, objective)
-    key_points_path = pair_root / "key_points.json"
-    if not key_points_path.is_file():
-        points = review.get("key_points") or review.get("ground_truth_items") or []
-        write_json(key_points_path, points if isinstance(points, list) else [])
-    manifest_path = pair_root / "conversion_manifest.json"
-    if not manifest_path.is_file():
-        write_json(
-            manifest_path,
-            {
-                "schema_version": "stage06-conversion-manifest-v1",
-                "common_problem_inputs": [
-                    row.get("path")
-                    for row in ((review.get("public_task_basis") or {}).get("input_assets") or [])
-                    if isinstance(row, dict) and row.get("path")
-                ],
-                "reproduction_route_assets": [
-                    "paper_route.md",
-                    "workflow_spec.json",
-                    "route_evidence_map.json",
-                ],
-                "notes": "Generated from Stage06A fields; Stage06B must inspect all nested public files.",
-            },
-        )
-    else:
-        # Older builder prompts advertised a four-file autonomous allowlist.  That is
-        # incompatible with recursive filename/XYZ/JSON disclosure cleanup, so normalize
-        # only this transport field while preserving the Agent's scientific manifest fields.
-        try:
-            manifest = read_json(manifest_path)
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            manifest = {}
-        if isinstance(manifest, dict):
-            manifest["autonomous_editable_files"] = "recursive_autonomous_public_surface"
-            manifest["conversion_scope"] = [
-                "task.md",
-                "task_info.json",
-                "task_spec.json",
-                "process_rubric.json",
-                "submission_contract.json",
-                "data/",
-                "all nested filenames and metadata",
-            ]
-            write_json(manifest_path, manifest)
 
 
 def _converter_contract_gate_findings(
@@ -2310,7 +2097,7 @@ def _converter_phase_gate_prepare(root: Path, *, paper_id: str) -> list[str]:
     findings = canonicalize_mode_task_contract(
         autonomous,
         expected_mode="autonomous_research",
-        task_pair_id=paper_id,
+        paper_id=paper_id,
     )
     report_path = root / "outputs" / "conversion_report.json"
     if not report_path.is_file():
@@ -2631,7 +2418,6 @@ def _materialize_pair_metadata(
     root: Path,
     *,
     paper_id: str,
-    task_pair_id: str,
     documents: list[dict[str, Any]],
     stage04: dict[str, Any],
     candidates: list[dict[str, Any]],
@@ -4032,7 +3818,6 @@ def _write_provisional_handoff_metadata(
     root: Path,
     *,
     paper_id: str,
-    task_pair_id: str,
     decision: str,
     documents: list[dict[str, Any]],
     candidates: list[dict[str, Any]],
@@ -4119,7 +3904,7 @@ def _publish_provisional_not_constructible(
     snapshot: dict[str, Any],
     documents: list[dict[str, Any]],
 ) -> dict[str, Any]:
-    task_pair_id = canonical_paper_id(paper_id)
+    paper_id = canonical_paper_id(paper_id)
     staging = prepare_clean_directory(
         stage_root
         / "staging"
@@ -4133,7 +3918,6 @@ def _publish_provisional_not_constructible(
     _write_provisional_handoff_metadata(
         staging,
         paper_id=paper_id,
-        task_pair_id=task_pair_id,
         decision="provisional_not_constructible",
         documents=documents,
         candidates=[{"candidate_id": candidate_id}],
@@ -4152,7 +3936,7 @@ def _publish_provisional_not_constructible(
     return {
         **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
         "candidate_id": candidate_id,
-        "paper_id": task_pair_id,
+        "paper_id": paper_id,
         "processing_status": "completed",
         "decision": "provisional_not_constructible",
         "scientific_status": "scientific_not_constructible",
@@ -4181,32 +3965,7 @@ def _publish_provisional_not_constructible(
 
 
 
-def _objective_failure(
-    run_id: str,
-    paper_id: str,
-    candidate_id: str,
-    failure_class: str,
-    message: str,
-    *,
-    task_pair_id: str | None = None,
-    agent_run: dict[str, Any] | None = None,
-    retryable: bool = True,
-) -> dict[str, Any]:
-    return {
-        **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
-        "candidate_id": candidate_id,
-        "paper_id": task_pair_id,
-        "processing_status": "failed",
-        "decision": "objective_failure_retryable" if retryable else "objective_failure",
-        "passed": False,
-        "retryable": retryable,
-        "failure_class": failure_class,
-        "error": {"error_type": failure_class, "message": message[:4000]},
-        "agent_run": agent_run,
-    }
-
-
-def _artifact_delivery_failure(
+def _technical_block(
     run_id: str,
     paper_id: str,
     candidate_id: str,
@@ -4218,12 +3977,12 @@ def _artifact_delivery_failure(
     return {
         **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
         "candidate_id": candidate_id,
-        "paper_id": None,
+        "paper_id": paper_id,
         "processing_status": "failed",
-        "decision": "artifact_delivery_failure_retryable",
+        "decision": "technical_blocked",
         "handoff_ready": False,
         "passed": False,
-        "retryable": True,
+        "retryable": False,
         "failure_class": failure_class,
         "error": {"error_type": failure_class, "message": message[:4000]},
         "agent_run": agent_run,

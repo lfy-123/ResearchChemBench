@@ -61,9 +61,7 @@ def _pair(tmp_path: Path) -> Path:
 
 def test_model_prompts_hide_internal_stage_roles_and_order_input_closure() -> None:
     synthesis = task_pair_builder_instructions(paper_id="paper-v16", snapshot_hash="hash")
-    converter = autonomous_converter_instructions(
-        paper_id="paper-v16", task_pair_id="paper-v16"
-    )
+    converter = autonomous_converter_instructions(paper_id="paper-v16")
     for prompt in (synthesis, converter):
         assert "Stage06A" not in prompt
         assert "Stage06B" not in prompt

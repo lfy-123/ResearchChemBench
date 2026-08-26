@@ -92,9 +92,7 @@ def test_stage_prompts_require_scope_comparison_and_do_not_treat_software_gap_as
 
 def test_stage_prompts_use_model_neutral_execution_order() -> None:
     builder = task_pair_builder_instructions(paper_id="paper-x", snapshot_hash="hash")
-    converter = autonomous_converter_instructions(
-        paper_id="paper-x", task_pair_id="paper-x_task_pair"
-    )
+    converter = autonomous_converter_instructions(paper_id="paper-x")
     judge = audit_instructions(
         paper_id="paper-x",
         manifest_hash="hash",
@@ -143,9 +141,7 @@ def test_stage_prompts_reject_trivial_builder_scope_and_bound_stage07_repairs() 
 
 
 def test_converter_keeps_private_handoff_out_of_public_task_and_has_uncertain_status() -> None:
-    prompt = autonomous_converter_instructions(
-        paper_id="paper-x", task_pair_id="paper-x_task_pair"
-    )
+    prompt = autonomous_converter_instructions(paper_id="paper-x")
     normalized = " ".join(prompt.split()).casefold()
     assert "private handoff" in normalized
     assert "never copy, quote, serialize" in normalized
@@ -274,7 +270,7 @@ def test_batch_worker_does_not_call_internal_stage_failure_completed(
         output = tmp_path / "batch/papers/paper-x"
         output.mkdir(parents=True, exist_ok=True)
         (output / "late_stage_run_summary.json").write_text(
-            '{"stage06": {"artifact_delivery_failures": 1}, '
+            '{"stage06": {"technical_blocked": 1, "decisions": {"technical_blocked": 1}}, '
             '"stage07": {"status": "not_run"}}',
             encoding="utf-8",
         )
@@ -288,7 +284,8 @@ def test_batch_worker_does_not_call_internal_stage_failure_completed(
         environment={},
     )
     assert result["state"] == "FAILED"
-    assert result["failure_class"] == "stage06_artifact_delivery_failure_retryable"
+    assert result["failure_class"] == "stage06_technical_blocked"
+    assert result["outcome"] == "technical_blocked"
 
 
 def test_batch_parser_exposes_reproducible_random_sampling() -> None:

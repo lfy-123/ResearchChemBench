@@ -226,18 +226,16 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
         handoff_value = record.get("handoff_path") or record.get("task_pair_path")
         try:
             if not handoff_value:
-                return _audit_failure(
+                return _audit_technical_block(
                     run_id,
-                    paper_id,
                     paper_id,
                     "stage06_handoff_missing",
                     "Stage06 did not provide a handoff path.",
                 )
             handoff_root = Path(str(handoff_value)).expanduser().resolve()
             if not handoff_root.is_dir():
-                return _audit_failure(
+                return _audit_technical_block(
                     run_id,
-                    paper_id,
                     paper_id,
                     "stage06_handoff_missing",
                     f"Stage06 handoff directory is missing: {handoff_root}",
@@ -266,9 +264,8 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
             )
             decision = str(response["audit_decision"])
             if decision == "technical_blocked":
-                return _audit_failure(
+                return _audit_technical_block(
                     run_id,
-                    paper_id,
                     paper_id,
                     "agent_reported_objective_failure",
                     str(response.get("summary") or "Stage07 could not complete the audit."),
@@ -431,27 +428,23 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
                 "agent_model": harness.model,
             }
         except AgentExecutionError as exc:
-            return _audit_failure(
+            return _audit_technical_block(
                 run_id,
-                paper_id,
                 paper_id,
                 exc.failure_class,
                 str(exc),
                 agent_run=exc.result.audit_record() if exc.result else None,
-                retryable=exc.retryable,
             )
         except (FileNotFoundError, OSError) as exc:
-            return _audit_failure(
+            return _audit_technical_block(
                 run_id,
-                paper_id,
                 paper_id,
                 "audit_input_unavailable",
                 f"{type(exc).__name__}: {exc}",
             )
         except Exception as exc:
-            return _audit_failure(
+            return _audit_technical_block(
                 run_id,
-                paper_id,
                 paper_id,
                 "audit_processing_error",
                 f"{type(exc).__name__}: {exc}",
@@ -958,8 +951,8 @@ def _copy_stage07_source_packet(source_root: Path, destination: Path) -> None:
     """Copy a compact, text-first source packet for Stage07.
 
     The full Stage04 snapshot remains available to the pipeline for provenance, but repeatedly
-    handing PDFs, raster images and parser internals to an audit Agent wastes context and makes
-    recovery attempts needlessly expensive.  Keep canonical text/layout/table/coordinate files
+    handing PDFs, raster images and parser internals to an audit Agent wastes context. Keep canonical
+    text/layout/table/coordinate files
     and metadata; retain PDFs only when explicitly requested by configuration at the caller level
     in a future extension.
     """
@@ -1210,14 +1203,13 @@ def _stage07_resource_policy(source_root: Path, config: dict[str, Any]) -> dict[
 
 
 
-def _audit_failure(
+def _audit_technical_block(
     run_id: str,
     paper_id: str,
     failure_class: str,
     message: str,
     *,
     agent_run: dict[str, Any] | None = None,
-    retryable: bool = False,
 ) -> dict[str, Any]:
     return {
         **record_header(run_id=run_id, stage="stage07", paper_id=paper_id),
@@ -1229,7 +1221,6 @@ def _audit_failure(
         "passed": False,
         "publication_state": "not_applicable",
         "blocking_phase": "",
-        "retryable": retryable,
         "failure_class": failure_class,
         "outcomes": [],
         "error": {"error_type": failure_class, "message": message[:4000]},

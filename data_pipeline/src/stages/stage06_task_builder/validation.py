@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from src.agents.workspace import directory_manifest, validate_relative_path
+from src.agents.workspace import validate_relative_path
 from src.contracts import canonical_hash, read_json, write_json
 from src.stages.phase_gate import (
     acceptance_profile_type_findings as shared_acceptance_profile_type_findings,
@@ -37,13 +37,7 @@ ACCEPTANCE_TYPES = {
 WORKFLOW_SCOPE_KINDS = {
     "full_paper_core_workflow",
     "core_scientific_subworkflow",
-    # Legacy spellings remain readable during migration. New prompts emit only
-    # the two objective-centered kinds above.
-    "full_paper_computational_workflow",
-    "major_paper_workflow",
-    "partial_computational_subworkflow",
 }
-TASK_PAIR_CONTRACT_VERSION = "researchchembench.task-pair-contract.v2"
 DEFAULT_RESULT_SCHEMA = {
     "type": "object",
     "description": "Structured report/results.json submitted by the evaluated agent.",
@@ -62,12 +56,8 @@ SCIENTIFIC_FAILURE_CODES = {
 
 TASK_MODES = ("autonomous_research", "paper_reproduction")
 MODE_ALIASES = {
-    "autonomous": "autonomous_research",
     "autonomous_research": "autonomous_research",
-    "open_discovery": "autonomous_research",
-    "reproduction": "paper_reproduction",
     "paper_reproduction": "paper_reproduction",
-    "guided_reproduction": "paper_reproduction",
 }
 
 
@@ -242,7 +232,7 @@ def canonicalize_mode_task_contract(
     task_root: Path,
     *,
     expected_mode: str,
-    task_pair_id: str | None = None,
+    paper_id: str | None = None,
 ) -> list[str]:
     """Apply the non-scientific mode/ID contract to an Agent-delivered task tree.
 
@@ -295,16 +285,16 @@ def canonicalize_mode_task_contract(
         if not isinstance(value, dict):
             findings.append(f"public_file_not_object:{name}")
             continue
-        pair_id = str(task_pair_id or value.get("paper_id") or "").strip()
-        if not pair_id:
+        canonical_id = str(paper_id or value.get("paper_id") or "").strip()
+        if not canonical_id:
             findings.append(f"paper_id_missing:{name}")
             continue
         # Evaluator metadata needs a stable provenance key, but the public task
         # must not expose a DOI/title.  Derive the same anonymous key for both
         # modes from the pair identity and keep full provenance in paper_info.
-        value["source_id"] = anonymous_source_id(pair_id)
-        value["paper_id"] = pair_id
-        value["task_id"] = pair_id
+        value["source_id"] = anonymous_source_id(canonical_id)
+        value["paper_id"] = canonical_id
+        value["task_id"] = canonical_id
         value["mode"] = expected_mode
         value["scientific_mode"] = expected_mode
         value["task_mode"] = expected_task_mode
@@ -386,10 +376,10 @@ def canonicalize_mode_task_contract(
     return sorted(set(findings))
 
 
-def anonymous_source_id(task_pair_id: str) -> str:
+def anonymous_source_id(paper_id: str) -> str:
     """Return a stable public provenance key without publishing paper identity."""
 
-    digest = hashlib.sha256(str(task_pair_id).encode("utf-8")).hexdigest()[:20]
+    digest = hashlib.sha256(str(paper_id).encode("utf-8")).hexdigest()[:20]
     return f"rcb-source-{digest}"
 
 
@@ -805,67 +795,8 @@ def validate_workflow_scope(scope: Any, evidence_ids: set[str]) -> list[str]:
     return sorted(set(findings))
 
 
-def classify_task_pair_findings(findings: Any) -> dict[str, list[str]]:
-    """Classify findings without turning the orchestrator into a scientific judge."""
-
-    categories: dict[str, list[str]] = {
-        "hard_mechanical": [],
-        "disclosure_semantic": [],
-        "agent_scientific": [],
-        "resource_advisory": [],
-    }
-    disclosure_prefixes = (
-        "hidden_answer_leakage",
-        "hidden_conclusion_leakage",
-        "autonomous_route_disclosure",
-        "review_public_route_disclosure",
-        "review_public_answer_leakage",
-        "review_public_conclusion_leakage",
-        "review_paper_route_answer_leakage",
-        "review_paper_route_conclusion_leakage",
-        "review_reproduction_route_uses_hidden_result",
-    )
-    scientific_prefixes = (
-        "task_not_challenging",
-        "scope_underselected",
-        "resource_infeasible",
-        "benchmark_not_challenging",
-    )
-    resource_prefixes = ("toolbox_", "software_", "resource_", "cost_")
-    for raw in findings if isinstance(findings, list) else []:
-        finding = str(raw)
-        code = finding.split(":", 1)[0]
-        if code.startswith(disclosure_prefixes):
-            categories["disclosure_semantic"].append(finding)
-        elif code.startswith(scientific_prefixes):
-            categories["agent_scientific"].append(finding)
-        elif code.startswith(resource_prefixes):
-            categories["resource_advisory"].append(finding)
-        else:
-            categories["hard_mechanical"].append(finding)
-    return {key: sorted(set(value)) for key, value in categories.items()}
 
 
-def task_pair_contract_report(pair_root: Path) -> dict[str, Any]:
-    """Return the versioned prepublish report shared by Stage06 and Stage07."""
-
-    audit = validate_task_pair(pair_root)
-    categories = classify_task_pair_findings(audit.get("findings") or [])
-    evaluator_findings = [
-        finding
-        for finding in categories["hard_mechanical"]
-        if finding.startswith(("evaluation_task_info_invalid", "evaluation_ground_truth_invalid"))
-    ]
-    return {
-        "schema_version": TASK_PAIR_CONTRACT_VERSION,
-        "pair_root_name": pair_root.name,
-        "contract_status": "passed" if not categories["hard_mechanical"] else "findings",
-        "disclosure_status": "passed" if not categories["disclosure_semantic"] else "needs_review",
-        "schema_load_diagnostic": "failed" if evaluator_findings else "passed",
-        "finding_counts": {key: len(value) for key, value in categories.items()},
-        "findings": categories,
-        "validator": audit,
-    }
 
 
 def validate_complexity_profile(
@@ -1416,138 +1347,6 @@ def validate_mode_task(task_root: Path, *, expected_mode: str) -> list[str]:
     return findings
 
 
-def validate_hidden_reference(
-    hidden: dict[str, Any],
-    *,
-    expected_ground_truth_items: list[dict[str, Any]] | None = None,
-    submission_contract: dict[str, Any] | None = None,
-) -> list[str]:
-    findings: list[str] = []
-    if hidden.get("status") != "ready":
-        return ["hidden_reference_not_ready"]
-    profiles = hidden.get("acceptance_profiles") or []
-    profile_ids = [row.get("acceptance_profile_id") for row in profiles]
-    if not profiles or None in profile_ids or len(profile_ids) != len(set(profile_ids)):
-        findings.append("acceptance_profile_ids_invalid")
-    for profile in profiles:
-        if profile.get("type") not in ACCEPTANCE_TYPES:
-            findings.append(f"invalid_acceptance_profile:{profile.get('acceptance_profile_id')}")
-        findings.extend(
-            _acceptance_profile_findings(
-                profile,
-                submission_contract=submission_contract,
-            )
-        )
-    truths = hidden.get("ground_truth_items") or []
-    if not truths:
-        findings.append("hidden_ground_truth_empty")
-    truth_ids = [row.get("ground_truth_id") for row in truths]
-    if None in truth_ids or len(truth_ids) != len(set(truth_ids)):
-        findings.append("ground_truth_ids_invalid")
-    profile_owners: dict[str, list[str]] = {}
-    profiles_by_id = {
-        str(row.get("acceptance_profile_id")): row
-        for row in profiles
-        if isinstance(row, dict) and row.get("acceptance_profile_id")
-    }
-    for truth in truths:
-        ground_truth_id = str(truth.get("ground_truth_id") or "missing")
-        profile_id = truth.get("acceptance_profile_id")
-        if profile_id not in profile_ids:
-            findings.append(f"ground_truth_profile_missing:{truth.get('ground_truth_id')}")
-        else:
-            profile_owners.setdefault(str(profile_id), []).append(ground_truth_id)
-        if truth.get("evidence_grade") not in {"A", "B", "C", "D"}:
-            findings.append(f"hidden_evidence_grade_invalid:{truth.get('ground_truth_id')}")
-        if truth.get("claim_role") not in {"intermediate", "final"}:
-            findings.append(f"hidden_claim_role_invalid:{truth.get('ground_truth_id')}")
-        if _contains_scoring_placeholder(
-            {
-                "canonical_answer": truth.get("canonical_answer"),
-                "required_propositions": truth.get("required_propositions"),
-            }
-        ):
-            findings.append(f"ground_truth_answer_placeholder:{ground_truth_id}")
-        raw_truth_scope = truth.get("applies_to_modes")
-        truth_scope = normalize_mode_scope(raw_truth_scope)
-        if truth_scope is None:
-            findings.append(f"ground_truth_mode_scope_invalid:{truth.get('ground_truth_id')}")
-        profile = profiles_by_id.get(str(profile_id))
-        if profile is not None:
-            raw_profile_scope = profile.get("applies_to_modes")
-            profile_scope = normalize_mode_scope(raw_profile_scope)
-            if profile_scope is None:
-                findings.append(
-                    f"acceptance_profile_mode_scope_invalid:{profile.get('acceptance_profile_id')}"
-                )
-            elif (
-                truth_scope is not None
-                and "applies_to_modes" in profile
-                and set(truth_scope) != set(profile_scope)
-            ):
-                findings.append(
-                    f"ground_truth_profile_mode_scope_mismatch:{ground_truth_id}"
-                )
-            findings.extend(_ground_truth_profile_consistency_findings(truth, profile))
-    findings.extend(validate_ground_truth_consistency(truths))
-    for profile_id in profile_ids:
-        if len(profile_owners.get(str(profile_id), [])) != 1:
-            findings.append(f"acceptance_profile_not_item_specific:{profile_id}")
-    if expected_ground_truth_items is not None:
-        findings.extend(_frozen_ground_truth_findings(truths, expected_ground_truth_items))
-
-    rubric = hidden.get("scientific_conclusion_rubric") or []
-    covered_truth_ids: set[str] = set()
-    for criterion in rubric:
-        if not isinstance(criterion, dict):
-            continue
-        criterion_id = str(criterion.get("id") or "missing")
-        if _contains_scoring_placeholder(
-            {
-                "statement": criterion.get("statement"),
-                "acceptance_rule": criterion.get("acceptance_rule"),
-            }
-        ):
-            findings.append(f"conclusion_rubric_placeholder:{criterion_id}")
-        criterion_truth_ids = criterion.get("ground_truth_ids") or []
-        criterion_profile_ids = criterion.get("acceptance_profile_ids") or []
-        if not criterion_truth_ids:
-            findings.append(f"conclusion_rubric_ground_truth_refs_missing:{criterion_id}")
-        if not criterion_profile_ids:
-            findings.append(f"conclusion_rubric_profile_refs_missing:{criterion_id}")
-        for ground_truth_id in criterion_truth_ids:
-            if ground_truth_id not in truth_ids:
-                findings.append(
-                    f"conclusion_rubric_ground_truth_ref_unknown:{criterion_id}:{ground_truth_id}"
-                )
-            else:
-                covered_truth_ids.add(str(ground_truth_id))
-        for profile_id in criterion_profile_ids:
-            if profile_id not in profile_ids:
-                findings.append(
-                    f"conclusion_rubric_profile_ref_unknown:{criterion_id}:{profile_id}"
-                )
-        expected_profiles = {
-            str(truth.get("acceptance_profile_id"))
-            for truth in truths
-            if truth.get("ground_truth_id") in criterion_truth_ids
-        }
-        if expected_profiles and not expected_profiles.issubset(set(criterion_profile_ids)):
-            findings.append(f"conclusion_rubric_profile_ref_mismatch:{criterion_id}")
-    for ground_truth_id in set(str(value) for value in truth_ids if value):
-        if ground_truth_id not in covered_truth_ids:
-            findings.append(f"ground_truth_not_scored:{ground_truth_id}")
-    findings.extend(
-        validate_rubric(
-            rubric,
-            expected_total=None,
-            label="conclusion",
-            require_conclusion_fields=True,
-        )
-    )
-    if _contains_scoring_placeholder(hidden.get("summary")):
-        findings.append("hidden_summary_placeholder")
-    return sorted(set(findings))
 
 
 def validate_ground_truth_consistency(truths: Any) -> list[str]:
@@ -1728,185 +1527,8 @@ def _frozen_ground_truth_findings(
     return findings
 
 
-def validate_task_pair(pair_root: Path) -> dict[str, Any]:
-    findings: list[str] = []
-    autonomous = pair_root / "autonomous_research"
-    reproduction = pair_root / "paper_reproduction"
-    hidden_root = pair_root / "hidden_reference"
-    construction_path = pair_root / "construction_record.json"
-    construction = read_json(construction_path) if construction_path.is_file() else {}
-    single_agent_pair = construction.get("mode_generation_strategy") == "single_agent"
-    findings.extend(validate_mode_task(autonomous, expected_mode="autonomous_research"))
-    findings.extend(validate_mode_task(reproduction, expected_mode="paper_reproduction"))
-    for name in ("paper_info.json", "evidence_index.json", "source_manifest.json"):
-        if not (pair_root / name).is_file():
-            findings.append(f"missing_pair_metadata:{name}")
-    workflow_review_path = pair_root / "workflow_review.json"
-    if single_agent_pair and not workflow_review_path.is_file():
-        findings.append("missing_pair_metadata:workflow_review.json")
-    if workflow_review_path.is_file():
-        workflow_review = read_json(workflow_review_path)
-        evidence_path = pair_root / "evidence_index.json"
-        evidence_ids = {
-            str(row.get("evidence_id"))
-            for row in (read_json(evidence_path) if evidence_path.is_file() else [])
-            if isinstance(row, dict) and row.get("evidence_id")
-        }
-        findings.extend(
-            validate_workflow_scope(
-                workflow_review.get("workflow_scope") or {}, evidence_ids
-            )
-        )
-        findings.extend(
-            validate_complexity_profile(
-                workflow_review.get("complexity_profile") or {},
-                workflow_steps=workflow_review.get("workflow_steps") or [],
-            )
-        )
-        for field in (
-            "paper_workflow_inventory_complete",
-            "full_paper_workflow_checked",
-            "alternative_scope_search_complete",
-        ):
-            if workflow_review.get(field) is not True:
-                findings.append(f"workflow_review_{field}_false")
-    common_path = hidden_root / "ground_truth_common.json"
-    if not common_path.is_file():
-        findings.append("missing_ground_truth_common")
-    else:
-        hidden = read_json(common_path)
-        submission_path = autonomous / "submission_contract.json"
-        findings.extend(
-            validate_hidden_reference(
-                hidden,
-                submission_contract=(
-                    read_json(submission_path) if submission_path.is_file() else None
-                ),
-            )
-        )
-        findings.extend(_evaluation_ground_truth_findings(pair_root, hidden))
-    autonomous_inputs = directory_manifest(autonomous / "data")
-    reproduction_inputs = directory_manifest(reproduction / "data")
-    if autonomous_inputs["content_hash"] != reproduction_inputs["content_hash"]:
-        findings.append("mode_input_assets_differ")
-    # Mode-specific result paths/field names are allowed.  Each mode's
-    # contract is checked independently and hidden bindings are checked against
-    # the mode they apply to; literal cross-mode equality would reject valid
-    # autonomous neutralization.
-    findings.extend(_pair_identity_findings(autonomous, reproduction))
-    findings.extend(_derived_copy_findings(autonomous, reproduction))
-    findings.extend(_autonomous_copy_integrity_findings(autonomous, reproduction))
-    disclosure_path = hidden_root / "disclosure_contract.json"
-    if disclosure_path.is_file():
-        disclosure = read_json(disclosure_path)
-        autonomous_allowed = disclosure.get("autonomous_allowed") or {}
-        public_basis = autonomous_allowed.get("public_task_basis") or {}
-        expected_boundaries = public_basis.get("boundary_conditions")
-        findings.extend(
-            validate_task_boundary_conditions(
-                autonomous,
-                expected_conditions=expected_boundaries,
-            )
-        )
-        findings.extend(
-            validate_task_boundary_conditions(
-                reproduction,
-                expected_conditions=expected_boundaries,
-            )
-        )
-        reproduction_allowed = disclosure.get("reproduction_additional_allowed") or {}
-        findings.extend(
-            validate_autonomous_route_isolation(
-                autonomous,
-                paper_route=reproduction_allowed.get("paper_route") or {},
-                allowed_boundary_conditions=expected_boundaries,
-                allowed_method_constraints=public_basis.get("method_constraints")
-                or public_basis.get("public_method_constraints"),
-            )
-        )
-    if common_path.is_file():
-        findings.extend(_leakage_findings(pair_root, read_json(common_path)))
-    return {
-        "passed": not findings,
-        "findings": sorted(set(findings)),
-        "autonomous_input_hash": autonomous_inputs["content_hash"],
-        "reproduction_input_hash": reproduction_inputs["content_hash"],
-    }
 
 
-def validate_task_pair_draft(
-    pair_root: Path,
-    *,
-    review: dict[str, Any],
-) -> list[str]:
-    """Validate Agent staging output before orchestrator metadata is materialized."""
-
-    findings: list[str] = []
-    autonomous = pair_root / "autonomous_research"
-    reproduction = pair_root / "paper_reproduction"
-    hidden_root = pair_root / "hidden_reference"
-    findings.extend(validate_mode_task(autonomous, expected_mode="autonomous_research"))
-    findings.extend(validate_mode_task(reproduction, expected_mode="paper_reproduction"))
-    hidden_path = hidden_root / "ground_truth_common.json"
-    if not hidden_path.is_file():
-        findings.append("missing_ground_truth_common")
-    elif (autonomous / "submission_contract.json").is_file():
-        findings.extend(
-            validate_hidden_reference(
-                read_json(hidden_path),
-                expected_ground_truth_items=review.get("ground_truth_items") or [],
-                submission_contract=read_json(autonomous / "submission_contract.json"),
-            )
-        )
-    if (autonomous / "data").is_dir() and (reproduction / "data").is_dir():
-        if directory_manifest(autonomous / "data")["content_hash"] != directory_manifest(
-            reproduction / "data"
-        )["content_hash"]:
-            findings.append("mode_input_assets_differ")
-    # Do not require literal submission-contract equality between modes.
-    # Autonomous conversion may legitimately rename artifacts and fields.
-    findings.extend(_pair_identity_findings(autonomous, reproduction))
-    findings.extend(_derived_copy_findings(autonomous, reproduction))
-    findings.extend(_autonomous_copy_integrity_findings(autonomous, reproduction))
-    public_basis = review.get("public_task_basis") or {}
-    boundary_conditions = public_basis.get("boundary_conditions")
-    findings.extend(
-        validate_task_boundary_conditions(
-            autonomous, expected_conditions=boundary_conditions
-        )
-    )
-    findings.extend(
-        validate_task_boundary_conditions(
-            reproduction, expected_conditions=boundary_conditions
-        )
-    )
-    findings.extend(
-        validate_autonomous_route_isolation(
-            autonomous,
-            paper_route=review.get("paper_route") or {},
-            allowed_boundary_conditions=boundary_conditions,
-            allowed_method_constraints=(review.get("public_task_basis") or {}).get(
-                "method_constraints"
-            )
-            or (review.get("public_task_basis") or {}).get("public_method_constraints"),
-        )
-    )
-    # Workflow selection and complexity are private review evidence.  Public
-    # mode metadata must not mirror them, because doing so leaks answer-bearing
-    # claim coverage and route-selection rationale into the evaluated task.
-    for mode_root in (autonomous, reproduction):
-        for file_name in ("task_info.json", "task_spec.json"):
-            path = mode_root / file_name
-            if not path.is_file():
-                continue
-            value = read_json(path)
-            for private_key in ("workflow_scope", "complexity_profile", "ground_truth_items"):
-                if private_key in value:
-                    findings.append(f"public_private_field_present:{mode_root.name}:{file_name}:{private_key}")
-    for name in ("paper_route.md", "workflow_spec.json", "route_evidence_map.json"):
-        if (autonomous / name).exists():
-            findings.append(f"autonomous_reproduction_file_present:{name}")
-    return sorted(set(findings))
 
 
 def validate_rubric(
@@ -2127,443 +1749,20 @@ def _review_sensitive_values(value: Any) -> list[str]:
     return output
 
 
-def _pair_identity_findings(autonomous: Path, reproduction: Path) -> list[str]:
-    findings: list[str] = []
-    try:
-        a_info = read_json(autonomous / "task_info.json")
-        r_info = read_json(reproduction / "task_info.json")
-        a_spec = read_json(autonomous / "task_spec.json")
-        r_spec = read_json(reproduction / "task_spec.json")
-    except (OSError, json.JSONDecodeError):
-        return ["mode_pair_json_unreadable"]
-    for field in (
-        "source_id",
-        "category",
-        "benchmark_family",
-        "data",
-        "archive_extractions",
-    ):
-        if a_info.get(field) != r_info.get(field):
-            findings.append(f"mode_pair_task_info_differs:{field}")
-    for field in (
-        "paper_id",
-        "scientific_question",
-        "target_definition",
-        "input_assets",
-        "boundary_conditions",
-    ):
-        if a_spec.get(field) != r_spec.get(field):
-            findings.append(f"mode_pair_task_spec_differs:{field}")
-    return findings
 
 
-def _autonomous_copy_integrity_findings(
-    autonomous: Path, reproduction: Path
-) -> list[str]:
-    if not (autonomous / "derived_from.json").is_file():
-        return []
-    editable = {
-        "task.md",
-        "task_info.json",
-        "task_spec.json",
-        "process_rubric.json",
-    }
-    generated = {"derived_from.json", "conversion_contract.json", "public_manifest.json"}
-    reproduction_only = {"paper_route.md", "workflow_spec.json", "route_evidence_map.json"}
-    before = {
-        row["path"]: row["sha256"]
-        for row in directory_manifest(reproduction).get("files") or []
-        if row["path"] != "public_manifest.json"
-    }
-    after = {
-        row["path"]: row["sha256"]
-        for row in directory_manifest(autonomous).get("files") or []
-        if row["path"] != "public_manifest.json"
-    }
-    findings: list[str] = []
-    for path, digest in before.items():
-        if path in editable or path in reproduction_only:
-            continue
-        if after.get(path) != digest:
-            findings.append(f"autonomous_immutable_file_changed:{path}")
-    allowed_after = (set(before) - reproduction_only) | editable | generated
-    for path in sorted(set(after) - allowed_after):
-        findings.append(f"autonomous_unauthorized_file_added:{path}")
-    return findings
 
 
-def _derived_copy_findings(autonomous: Path, reproduction: Path) -> list[str]:
-    autonomous_path = autonomous / "derived_from.json"
-    if autonomous_path.is_file():
-        value = read_json(autonomous_path)
-        findings: list[str] = []
-        if value.get("derived_from_mode") != "paper_reproduction":
-            findings.append("autonomous_copy_source_invalid")
-        expected_hash = _stable_mode_tree_hash(
-            reproduction, excluded={"public_manifest.json"}
-        )
-        if value.get("base_manifest_hash") != expected_hash:
-            findings.append("autonomous_base_manifest_hash_mismatch")
-        allowed = {
-            "task.md",
-            "task_info.json",
-            "task_spec.json",
-            "process_rubric.json",
-        }
-        if set(value.get("editable_files") or []) != allowed:
-            findings.append("autonomous_copy_edit_allowlist_invalid")
-        return findings
-
-    # Current task bundles intentionally contain no source/derivation contract: those
-    # files disclose construction history and are not evaluation inputs.  Pair-level
-    # ``conversion_report.json`` is optional audit metadata, so absence of a mode-local
-    # provenance file is not a validation failure.  Keep the old compatibility branch
-    # only when a legacy file is actually present.
-    reproduction_path = reproduction / "derived_from.json"
-    if not reproduction_path.is_file():
-        return []
-    value = read_json(reproduction_path)
-    findings = []
-    if value.get("derived_from_mode") != "autonomous_research":
-        findings.append("reproduction_copy_source_invalid")
-    if value.get("base_manifest_hash") != directory_manifest(autonomous)["content_hash"]:
-        findings.append("reproduction_base_manifest_hash_mismatch")
-    return findings
 
 
-def _stable_mode_tree_hash(root: Path, *, excluded: set[str]) -> str:
-    manifest = directory_manifest(root)
-    files = [
-        {"path": row["path"], "sha256": row["sha256"]}
-        for row in manifest.get("files") or []
-        if row.get("path") not in excluded
-    ]
-    return canonical_hash(files)
 
 
-def _acceptance_profile_findings(
-    profile: dict[str, Any],
-    *,
-    submission_contract: dict[str, Any] | None = None,
-    required_binding_modes: set[str] | None = None,
-) -> list[str]:
-    identifier = str(profile.get("acceptance_profile_id") or "missing")
-    profile_type = profile.get("type")
-    findings = acceptance_profile_type_findings(profile, identifier=identifier)
-    if submission_contract is not None:
-        findings.extend(
-            _submission_binding_findings(
-                profile,
-                submission_contract=submission_contract,
-                identifier=identifier,
-                required_binding_modes=required_binding_modes,
-            )
-        )
-    return findings
 
 
-def hidden_reference_transport_findings(
-    hidden: Any,
-    *,
-    require_ready_ground_truth: bool = False,
-) -> list[str]:
-    """Check hidden-contract ownership and mode scope before syntax projection.
-
-    This is deliberately a transport check.  It does not inspect a target value,
-    scientific proposition, unit, or comparison semantics.  It exists before the
-    alias normalizer so malformed ownership cannot be hidden by a lossy projection.
-    ``require_ready_ground_truth`` is used at Stage06/07 production boundaries;
-    older lightweight fixtures without a ready status remain compatible.
-    """
-
-    if not isinstance(hidden, dict):
-        return ["hidden_reference_transport_not_object"]
-    # A few evaluator/gate callers intentionally use a minimal legacy envelope
-    # while constructing a task (for example ``expected_result`` only).  The
-    # ownership contract becomes authoritative only once the hidden artifact
-    # explicitly declares ``status=ready``.  Keep those draft/legacy envelopes
-    # observationally compatible; the production Stage06/07 paths invoke this
-    # function with ``require_ready_ground_truth=True`` and therefore still
-    # enforce every finding on a ready contract.
-    if require_ready_ground_truth and hidden.get("status") != "ready":
-        return []
-    raw_truths = hidden.get("ground_truth_items")
-    raw_profiles = hidden.get("acceptance_profiles")
-    findings: list[str] = []
-    if not isinstance(raw_truths, list):
-        findings.append("hidden_ground_truth_items_not_array")
-        raw_truths = []
-    if not isinstance(raw_profiles, list):
-        findings.append("hidden_reference_profiles_not_array")
-        raw_profiles = []
-    truths = [row for row in raw_truths if isinstance(row, dict)]
-    profiles = [row for row in raw_profiles if isinstance(row, dict)]
-    if any(not isinstance(row, dict) for row in raw_truths):
-        findings.append("hidden_ground_truth_item_not_object")
-    if any(not isinstance(row, dict) for row in raw_profiles):
-        findings.append("hidden_reference_profile_not_object")
-    authoritative_ownership = bool(truths) or (
-        require_ready_ground_truth and hidden.get("status") == "ready"
-    )
-    if require_ready_ground_truth and hidden.get("status") == "ready" and not truths:
-        findings.append("hidden_ground_truth_empty")
-
-    truth_refs: dict[str, list[str]] = {}
-    truth_scopes: dict[str, list[str]] = {}
-    for index, truth in enumerate(truths, start=1):
-        truth_id = str(truth.get("ground_truth_id") or f"missing-{index}")
-        raw_reference = str(
-            truth.get("acceptance_profile_id")
-            or truth.get("acceptance_profile")
-            or ""
-        ).strip()
-        if authoritative_ownership and not raw_reference:
-            findings.append(f"ground_truth_profile_missing:{truth_id}")
-        if raw_reference:
-            truth_refs.setdefault(raw_reference, []).append(truth_id)
-        scope = normalize_mode_scope(truth.get("applies_to_modes"))
-        if scope is None and "applies_to_modes" in truth:
-            findings.append(f"ground_truth_mode_scope_invalid:{truth_id}")
-        elif scope is not None:
-            truth_scopes[truth_id] = scope
-
-    profile_ids: dict[str, list[dict[str, Any]]] = {}
-    for profile in profiles:
-        profile_id = str(
-            profile.get("acceptance_profile_id") or profile.get("profile_id") or ""
-        ).strip()
-        if not profile_id:
-            findings.append("acceptance_profile_id_missing")
-            continue
-        profile_ids.setdefault(profile_id, []).append(profile)
-        scope = normalize_mode_scope(profile.get("applies_to_modes"))
-        if scope is None and "applies_to_modes" in profile:
-            findings.append(f"acceptance_profile_mode_scope_invalid:{profile_id}")
-        shared = profile.get("submission_binding")
-        matrix = next(
-            (
-                profile.get(key)
-                for key in ("mode_submission_bindings", "submission_bindings_by_mode")
-                if isinstance(profile.get(key), dict)
-            ),
-            None,
-        )
-        has_mode_matrix = isinstance(matrix, dict)
-        # A profile must have exactly one binding source.  Even a legacy
-        # nested mode map under ``submission_binding`` is ambiguous when a
-        # canonical mode matrix is also present: the two maps can disagree and
-        # the normalizer would otherwise silently choose one.
-        if has_mode_matrix and isinstance(shared, dict):
-            scope = normalize_mode_scope(profile.get("applies_to_modes")) or list(
-                TASK_MODES
-            )
-
-            def comparable(binding: dict[str, Any]) -> dict[str, Any]:
-                normalized = normalize_binding_contract(binding, profile=profile)
-                return {
-                    key: normalized.get(key)
-                    for key in (
-                        "artifact_paths",
-                        "observed_fields",
-                        "comparison",
-                        "document_binding",
-                        "canonical_projection",
-                    )
-                    if normalized.get(key) is not None
-                }
-
-            matrix_by_mode = {
-                mode: binding
-                for raw_mode, binding in matrix.items()
-                if (mode := MODE_ALIASES.get(str(raw_mode).casefold()))
-                and isinstance(binding, dict)
-            }
-            shared_shape = comparable(shared)
-            equivalent = set(scope).issubset(matrix_by_mode) and all(
-                comparable(matrix_by_mode[mode]) == shared_shape for mode in scope
-            )
-            if not equivalent:
-                findings.append(
-                    f"acceptance_submission_binding_ambiguous:{profile_id}"
-                )
-
-    if authoritative_ownership:
-        for profile_id, rows in profile_ids.items():
-            if len(rows) != 1:
-                findings.append(f"acceptance_profile_not_item_specific:{profile_id}")
-            if profile_id not in truth_refs:
-                findings.append(f"acceptance_profile_orphan:{profile_id}")
-        for profile_id, owners in truth_refs.items():
-            if len(owners) != 1:
-                findings.append(f"acceptance_profile_not_item_specific:{profile_id}")
-            if profile_id not in profile_ids:
-                for truth_id in owners:
-                    findings.append(f"ground_truth_profile_missing:{truth_id}")
-                continue
-            profile = profile_ids[profile_id][0]
-            profile_scope = normalize_mode_scope(profile.get("applies_to_modes"))
-            if profile_scope is None:
-                continue
-            # A profile without an explicit scope inherits its owner's scope
-            # during the normalizer.  Once both sides explicitly declare a
-            # scope, they must describe the same public modes; allowing a
-            # profile to cover extra modes would make the evaluator inspect a
-            # binding for which no Ground Truth exists.
-            if "applies_to_modes" not in profile:
-                continue
-            for truth_id in owners:
-                truth_scope = truth_scopes.get(truth_id)
-                if truth_scope is not None and set(truth_scope) != set(profile_scope):
-                    findings.append(f"ground_truth_profile_mode_scope_mismatch:{truth_id}")
-    return sorted(set(findings))
 
 
-def _submission_binding_findings(
-    profile: dict[str, Any],
-    *,
-    submission_contract: dict[str, Any],
-    identifier: str,
-    required_binding_modes: set[str] | None = None,
-) -> list[str]:
-    findings: list[str] = []
-
-    def prepared(binding: dict[str, Any]) -> dict[str, Any]:
-        normalized = normalize_binding_contract(binding, profile=profile)
-        fields = normalized.get("observed_fields") or []
-        if isinstance(fields, str):
-            fields = [fields]
-        document_binding = bool(
-            normalized.get("document_binding")
-            or any(str(field).casefold() in {"document", "report", "text"} for field in fields)
-        )
-        if document_binding and str(profile.get("type") or "") not in {
-            "semantic_propositions",
-            "mechanism_claim",
-            "artifact_validation",
-        }:
-            normalized["projection_required"] = True
-        return normalized
-    required_paths = {
-        str(value)
-        for value in submission_contract.get("required_files") or []
-        if str(value)
-    }
-    mode_bindings: dict[str, dict[str, Any]] = {}
-    for key in ("mode_submission_bindings", "submission_bindings_by_mode"):
-        candidate = profile.get(key)
-        if isinstance(candidate, dict):
-            mode_bindings.update(
-                {
-                    mode: value
-                    for raw_mode, value in candidate.items()
-                    if (mode := MODE_ALIASES.get(str(raw_mode).casefold()))
-                    and isinstance(value, dict)
-                }
-            )
-            break
-    shared = profile.get("submission_binding")
-    if isinstance(shared, dict) and any(
-        key in shared
-        for key in (
-            "autonomous_research",
-            "paper_reproduction",
-            "autonomous",
-            "reproduction",
-            "open_discovery",
-            "guided_reproduction",
-        )
-    ):
-        mode_bindings.update(
-            {
-                mode: value
-                for raw_mode, value in shared.items()
-                if (mode := MODE_ALIASES.get(str(raw_mode).casefold()))
-                and isinstance(value, dict)
-            }
-        )
-        shared = None
-
-    if mode_bindings:
-        scope = normalize_mode_scope(profile.get("applies_to_modes"))
-        if scope is None:
-            findings.append(f"acceptance_profile_mode_scope_invalid:{identifier}")
-            scope = list(TASK_MODES)
-        for mode in scope:
-            binding = mode_bindings.get(mode)
-            if not isinstance(binding, dict) or not binding:
-                if required_binding_modes is None or mode in required_binding_modes:
-                    findings.append(f"acceptance_submission_binding_missing:{identifier}:{mode}")
-                continue
-            # A mode matrix may legitimately point at a different required
-            # artifact in the other public mode.  Validate path safety here;
-            # Stage07's mode-aware gate checks the actual mode contract.
-            findings.extend(
-                _binding_shape_findings(
-                    prepared(binding),
-                    identifier=f"{identifier}:{mode}",
-                    required_paths=None,
-                )
-            )
-        return findings
-
-    if not isinstance(shared, dict) or not shared:
-        return [f"acceptance_submission_binding_missing:{identifier}"]
-    findings.extend(
-        _binding_shape_findings(
-            prepared(shared),
-            identifier=identifier,
-            required_paths=required_paths,
-        )
-    )
-    return findings
 
 
-def _binding_shape_findings(
-    binding: dict[str, Any],
-    *,
-    identifier: str,
-    required_paths: set[str] | None,
-) -> list[str]:
-    findings: list[str] = []
-    if _contains_scoring_placeholder(binding):
-        findings.append(f"acceptance_submission_binding_placeholder:{identifier}")
-    artifact_paths = binding.get("artifact_paths") or []
-    if isinstance(artifact_paths, str):
-        artifact_paths = [artifact_paths]
-    if not artifact_paths:
-        findings.append(f"acceptance_submission_artifacts_missing:{identifier}")
-    for artifact_path in artifact_paths:
-        try:
-            normalized = validate_relative_path(str(artifact_path))
-        except ValueError:
-            findings.append(f"acceptance_submission_artifact_invalid:{identifier}")
-            continue
-        if required_paths is not None and normalized not in required_paths:
-            findings.append(
-                f"acceptance_submission_artifact_not_required:{identifier}:{normalized}"
-            )
-    observed_fields = binding.get("observed_fields") or []
-    if isinstance(observed_fields, str):
-        observed_fields = [observed_fields]
-    if not observed_fields or not all(str(value).strip() for value in observed_fields):
-        findings.append(f"acceptance_submission_fields_missing:{identifier}")
-    mapping_type = str(
-        binding.get("mapping_type")
-        or binding.get("mapping_kind")
-        or binding.get("transformation")
-        or ""
-    ).strip().casefold()
-    projection_required = binding.get("projection_required") is True or bool(
-        mapping_type and mapping_type not in {"identity", "direct", "none"}
-    )
-    if projection_required and (
-        "canonical_projection" not in binding
-        or binding.get("canonical_projection") is None
-    ):
-        findings.append(f"acceptance_submission_projection_missing:{identifier}")
-    if not str(binding.get("comparison") or "").strip():
-        findings.append(f"acceptance_submission_comparison_missing:{identifier}")
-    return findings
 
 
 def _contains_scoring_placeholder(value: Any) -> bool:
@@ -2661,77 +1860,10 @@ def _evaluation_task_info_findings(task_info: dict[str, Any]) -> list[str]:
     return []
 
 
-def _evaluation_ground_truth_findings(
-    pair_root: Path, hidden: dict[str, Any]
-) -> list[str]:
-    try:
-        _, GroundTruth = _evaluation_models()
-        common = {
-            "expected_tool_calls": [],
-            "expected_result": hidden.get("expected_result") or {},
-            "scientific_conclusion_rubric": hidden.get("scientific_conclusion_rubric") or [],
-            "critical_failures": evaluation_critical_failures(hidden),
-            "reference_evidence": evaluation_reference_evidence(hidden),
-            "evidence_gate_policy": hidden.get("evidence_gate_policy") or {},
-            "managed_computation_policy": hidden.get("managed_computation_policy") or {},
-        }
-        # Scoring policy belongs to the downstream evaluator.  Preserve an
-        # explicitly supplied policy for backward-compatible packages, but do
-        # not invent ``dual_axis_100`` (or any other scale) during synthesis.
-        for key in ("evaluation_mode", "score_max", "dual_axis_scoring_policy"):
-            if key in hidden:
-                common[key] = hidden[key]
-        for mode, profile in (
-            ("autonomous_research", "autonomous_discovery"),
-            ("paper_reproduction", "paper_reproduction"),
-        ):
-            GroundTruth.model_validate(
-                {
-                    **common,
-                    "evaluation_profile": profile,
-                    "scoring_rubric": read_json(pair_root / mode / "process_rubric.json"),
-                }
-            )
-    except Exception as exc:
-        return [f"evaluation_ground_truth_invalid:{type(exc).__name__}:{str(exc)[:500]}"]
-    return []
 
 
-def evaluation_critical_failures(hidden: dict[str, Any]) -> list[str]:
-    """Project rich private failure records into the current evaluator schema."""
-
-    output: list[str] = []
-    for item in hidden.get("critical_failures") or []:
-        if isinstance(item, str):
-            value = item.strip()
-        elif isinstance(item, dict):
-            identifier = str(item.get("id") or item.get("failure_id") or "").strip()
-            description = str(
-                item.get("description") or item.get("statement") or item.get("rule") or ""
-            ).strip()
-            value = f"{identifier}: {description}" if identifier and description else (
-                description or identifier
-            )
-        else:
-            value = str(item).strip()
-        if value:
-            output.append(value)
-    return output
 
 
-def evaluation_reference_evidence(hidden: dict[str, Any]) -> dict[str, Any]:
-    """Expose typed Ground Truth to the evaluator without moving it into public tasks."""
-
-    existing = hidden.get("reference_evidence")
-    if isinstance(existing, dict):
-        output = dict(existing)
-    elif existing in (None, "", [], {}):
-        output = {}
-    else:
-        output = {"legacy_reference_evidence": existing}
-    output["ground_truth_items"] = hidden.get("ground_truth_items") or []
-    output["acceptance_profiles"] = hidden.get("acceptance_profiles") or []
-    return output
 
 
 def _evaluation_models():
@@ -2743,74 +1875,8 @@ def _evaluation_models():
     return TaskInfo, GroundTruth
 
 
-def _leakage_findings(pair_root: Path, hidden: dict[str, Any]) -> list[str]:
-    findings: list[str] = []
-    public_by_mode = {
-        mode: _normalize_text(
-            "\n".join(
-                path.read_text(encoding="utf-8", errors="replace")
-                for path in (pair_root / mode).rglob("*")
-                if path.is_file()
-                and path.suffix.casefold() in {".md", ".json", ".txt", ".csv", ".tsv"}
-            )
-        )
-        for mode in ("autonomous_research", "paper_reproduction")
-    }
-    disclosure_path = pair_root / "hidden_reference" / "disclosure_contract.json"
-    disclosure = read_json(disclosure_path) if disclosure_path.is_file() else {}
-    allowed_public = _normalize_text(
-        json.dumps(disclosure.get("autonomous_allowed") or {}, ensure_ascii=False)
-    )
-    allowed_reproduction = _normalize_text(
-        json.dumps(
-            disclosure.get("reproduction_additional_allowed") or {}, ensure_ascii=False
-        )
-    )
-    for truth in hidden.get("ground_truth_items") or []:
-        identifier = truth.get("ground_truth_id") or "unknown"
-        canonical = truth.get("canonical_answer")
-        for token in _sensitive_values(canonical):
-            if not token or _sensitive_value_present(token, allowed_public):
-                continue
-            if _sensitive_value_present(token, public_by_mode["autonomous_research"]):
-                findings.append(f"hidden_answer_leakage:autonomous_research:{identifier}")
-                break
-            if _sensitive_value_present(token, allowed_reproduction):
-                continue
-            if _sensitive_value_present(token, public_by_mode["paper_reproduction"]):
-                findings.append(f"hidden_answer_leakage:paper_reproduction:{identifier}")
-                break
-        for proposition in truth.get("required_propositions") or []:
-            text = proposition.get("statement") if isinstance(proposition, dict) else proposition
-            normalized = _normalize_text(str(text or ""))
-            if len(normalized) < 48:
-                continue
-            for mode, public_text in public_by_mode.items():
-                if normalized in public_text:
-                    findings.append(f"hidden_conclusion_leakage:{mode}:{identifier}")
-                    break
-    return findings
 
 
-def _sensitive_values(value: Any) -> list[str]:
-    output: list[str] = []
-    if isinstance(value, dict):
-        for item in value.values():
-            output.extend(_sensitive_values(item))
-    elif isinstance(value, list):
-        for item in value:
-            output.extend(_sensitive_values(item))
-    elif isinstance(value, (int, float)):
-        token = str(value)
-        # Very short integers occur throughout chemical inputs and identifiers;
-        # they are not distinctive enough for a deterministic leakage verdict.
-        if isinstance(value, float) or len(token.lstrip("+-")) >= 3:
-            output.append(token)
-    elif isinstance(value, str):
-        normalized = value.strip()
-        if len(normalized) >= 20 or re.search(r"\d", normalized):
-            output.append(normalized)
-    return output
 
 
 def _normalize_text(value: str) -> str:

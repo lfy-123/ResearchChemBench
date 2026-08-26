@@ -421,7 +421,6 @@ def _run_loaded_pipeline(
     late_clients = _clients(
         config, workspace, model_callers or {}, config["models"]["screening"], stop_index
     )
-    review_role = str(config["stage06"].get("scientific_review_model_role") or "builder")
     builder = run_stage06(
         candidates=aggregated["stage05"]["candidates"],
         stage02_records=aggregated["stage02"]["records"],
@@ -433,7 +432,6 @@ def _run_loaded_pipeline(
             "toolbox_capabilities": config["stage03"]["toolbox_capabilities"],
         },
         model=late_clients["builder"],
-        review_model=late_clients[review_role],
         workspace=workspace,
         run_id=run_id,
     )

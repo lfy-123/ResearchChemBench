@@ -5,13 +5,18 @@ import subprocess
 import sys
 from pathlib import Path
 
-from src.agents import AgentRunRequest, create_agent_harness
+import pytest
+
+from src.agents import AgentExecutionError, AgentRunRequest, create_agent_harness
 from src.agents.schemas import STAGE06_AUTONOMOUS_CONVERTER_SCHEMA
 from src.stages.stage06_task_builder.prompts import (
     autonomous_converter_instructions,
     task_pair_builder_instructions,
 )
-from src.stages.stage06_task_builder.stage import _run_phase
+from src.stages.stage06_task_builder.stage import (
+    _reconcile_complete_converter_artifact,
+    _run_phase,
+)
 from src.stages.phase_gate import run
 
 
@@ -22,6 +27,39 @@ def test_phase_gate_tool_reports_all_findings_in_one_result(tmp_path: Path) -> N
     assert report["status"] == "failed"
     assert "autonomous_directory_missing" in report["findings"]
     assert len(report["findings"]) == len(set(report["findings"]))
+
+
+def test_complete_converter_tree_overrides_negative_prose_without_retry(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "outputs" / "autonomous_research"
+    (root / "data" / "inputs").mkdir(parents=True)
+    for name, content in {
+        "task.md": "task\n",
+        "task_info.json": "{}\n",
+        "task_spec.json": "{}\n",
+        "submission_contract.json": "{}\n",
+        "process_rubric.json": "[]\n",
+    }.items():
+        (root / name).write_text(content, encoding="utf-8")
+
+    class Result:
+        status = "succeeded"
+        exit_code = 0
+
+    receipt = _reconcile_complete_converter_artifact(
+        {
+            "status": "objective_consistency_error",
+            "artifact_path": "outputs/autonomous_research",
+            "summary": "tool calls were rejected",
+            "invalid_reasons": ["model prose"],
+        },
+        workspace=tmp_path,
+        result=Result(),
+    )
+    assert receipt["status"] == "conversion_uncertain"
+    assert receipt["agent_reported_status"] == "objective_consistency_error"
+    assert "agent_reported_status:objective_consistency_error" in receipt["invalid_reasons"]
 
 
 def test_phase_gate_tool_detects_autonomous_protocol_and_route_leaks(tmp_path: Path) -> None:
@@ -74,7 +112,8 @@ def test_external_gate_is_one_read_only_check_without_model_recovery(tmp_path: P
     harness = create_agent_harness(
         "mock", config={"mock_responder": responder}, model_config={"model": "mock"}
     )
-    response, _, workspace = _run_phase(
+    with pytest.raises(AgentExecutionError):
+        _run_phase(
         harness=harness,
         stage_root=tmp_path / "stage",
         paper_id="paper-self-check",
@@ -83,22 +122,15 @@ def test_external_gate_is_one_read_only_check_without_model_recovery(tmp_path: P
         instructions="convert",
         output_schema=STAGE06_AUTONOMOUS_CONVERTER_SCHEMA,
         fingerprint_value={"paper": "paper-self-check"},
-        config={"max_attempts": 1, "resume": False, "max_tool_calls": 4},
+        config={"max_tool_calls": 4},
         setup=lambda root: (root / "inputs" / "task_pair" / "paper_reproduction").mkdir(parents=True),
         phase_gate_validator=lambda _response, _workspace: ["synthetic_external_finding"],
-        phase_gate_agent_self_check=True,
+        phase_gate_mode="agent_and_external",
     )
     assert calls == 1
-    assert response["phase_gate_status"] == "failed"
-    assert response["phase_gate_authority"] == "orchestrator_external_read_only"
-    assert response["phase_gate_findings"] == ["synthetic_external_finding"]
-    assert workspace is not None
-    report = json.loads((workspace / "phase_gate_report.json").read_text(encoding="utf-8"))
-    assert report["authority"] == "orchestrator_external_read_only"
-    assert report["status"] == "failed"
 
 
-def test_stage06b_external_only_does_not_inject_self_check_or_retry(tmp_path: Path) -> None:
+def test_stage06b_one_shot_injects_self_check_without_retry(tmp_path: Path) -> None:
     calls = 0
     instructions_seen: list[str] = []
 
@@ -118,18 +150,17 @@ def test_stage06b_external_only_does_not_inject_self_check_or_retry(tmp_path: Pa
     harness = create_agent_harness(
         "mock", config={"mock_responder": responder}, model_config={"model": "mock"}
     )
-    response, _, workspace = _run_phase(
+    with pytest.raises(AgentExecutionError):
+        _run_phase(
         harness=harness,
         stage_root=tmp_path / "stage",
         paper_id="paper-external-only",
         phase="autonomous_converter",
         prompt_version="v10-test",
-        instructions=autonomous_converter_instructions(
-            paper_id="paper-external-only", task_pair_id="paper-external-only_task_pair"
-        ),
+        instructions=autonomous_converter_instructions(paper_id="paper-external-only"),
         output_schema=STAGE06_AUTONOMOUS_CONVERTER_SCHEMA,
         fingerprint_value={"paper": "paper-external-only"},
-        config={"max_attempts": 1, "resume": False, "max_tool_calls": 4},
+        config={"max_tool_calls": 4},
         setup=lambda root: (root / "inputs" / "task_pair" / "paper_reproduction").mkdir(
             parents=True
         ),
@@ -140,14 +171,7 @@ def test_stage06b_external_only_does_not_inject_self_check_or_retry(tmp_path: Pa
     assert calls == 1
     assert len(instructions_seen) == 1
     assert "phase_gate.py --phase autonomous_conversion" in instructions_seen[0]
-    assert response["phase_gate_status"] == "failed"
-    assert workspace is not None
-    report = json.loads(
-        (workspace / "external_phase_gate_report.json").read_text(encoding="utf-8")
-    )
-    assert report["agent_self_check_required"] is True
-    assert report["authority"] == "orchestrator_external_read_only"
-    assert not (workspace / "phase_gate_report.json").exists()
+    assert calls == 1
 
 
 def test_stage06a_agent_and_external_mode_injects_self_check() -> None:
@@ -157,9 +181,7 @@ def test_stage06a_agent_and_external_mode_injects_self_check() -> None:
 
 
 def test_stage06b_prompt_runs_self_check_and_defers_external_gate() -> None:
-    prompt = autonomous_converter_instructions(
-        paper_id="paper-b", task_pair_id="paper-b_task_pair"
-    )
+    prompt = autonomous_converter_instructions(paper_id="paper-b")
     assert "phase_gate.py --phase autonomous_conversion" in prompt
     assert "external check" in prompt
 

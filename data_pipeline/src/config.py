@@ -134,9 +134,6 @@ def load_config(path: str | Path) -> dict[str, Any]:
     stage06["harness"] = os.environ.get("RCB_STAGE06_HARNESS") or stage06.get(
         "harness", "codex"
     )
-    stage06["scientific_review_model_role"] = os.environ.get(
-        "RCB_STAGE06_REVIEW_MODEL_ROLE"
-    ) or stage06.get("scientific_review_model_role", "builder")
     stage06["mode_generation_strategy"] = os.environ.get(
         "RCB_STAGE06_MODE_GENERATION_STRATEGY"
     ) or stage06.get("mode_generation_strategy", "two_agent_objective_centered")
@@ -146,6 +143,8 @@ def load_config(path: str | Path) -> dict[str, Any]:
     stage06.setdefault("preferred_scope", "objective_centered_core_workflow")
     stage06.setdefault("minimum_complexity", "medium")
     stage06.setdefault("reject_trivial_single_call", True)
+    # Stage06A's final self-check is prompt-driven, but it must have an
+    # explicit budget reserved for writing, validation, and one repair pass.
     stage06.setdefault("task_pair_builder_max_tool_calls", 120)
     stage06.setdefault("task_pair_builder_timeout_seconds", 7200)
     stage06.setdefault("task_pair_builder_search_max_tool_calls", 72)
@@ -153,8 +152,10 @@ def load_config(path: str | Path) -> dict[str, Any]:
     stage06.setdefault("autonomous_converter_max_tool_calls", 60)
     stage06.setdefault("autonomous_converter_finalization_reserve", 8)
     stage06.setdefault("autonomous_converter_timeout_seconds", 3600)
-    stage06.setdefault("task_pair_builder_recovery_max_tool_calls", 160)
-    stage06.setdefault("task_pair_builder_recovery_finalization_reserve", 12)
+    stage06.setdefault("stage06a_max_tool_calls", stage06["task_pair_builder_max_tool_calls"])
+    stage06.setdefault(
+        "stage06a_finalization_reserve", stage06["task_pair_builder_finalization_reserve"]
+    )
     stage06.setdefault("model_context_window", 1_000_000)
     stage06.setdefault("model_auto_compact_token_limit", 750_000)
     stage06.setdefault("model_auto_compact_token_limit_scope", "total")
@@ -167,10 +168,6 @@ def load_config(path: str | Path) -> dict[str, Any]:
     )
     stage07.setdefault("audit_repair_max_tool_calls", 120)
     stage07.setdefault("audit_repair_finalization_reserve", 16)
-    stage07.setdefault("audit_repair_recovery_max_tool_calls", 160)
-    stage07.setdefault("stage07b_enabled", True)
-    stage07.setdefault("stage07b_max_tool_calls", 40)
-    stage07.setdefault("stage07b_timeout_seconds", 1800)
     stage07.setdefault("model_context_window", 1_000_000)
     stage07.setdefault("model_auto_compact_token_limit", 750_000)
     stage07.setdefault("model_auto_compact_token_limit_scope", "total")
@@ -183,10 +180,7 @@ def load_config(path: str | Path) -> dict[str, Any]:
             )
         stage.setdefault("workers", 1)
         stage.setdefault("timeout_seconds", 3600)
-        stage.setdefault("max_attempts", 3)
-        stage.setdefault("retry_backoff_seconds", 2)
-        stage.setdefault("retry_max_seconds", 30)
-        stage.setdefault("resume", True)
+        stage.setdefault("checkpoint_cache_enabled", True)
     config.setdefault("microbatch", {})
     execution = config.setdefault("execution", {})
     sandbox = execution.setdefault("sandbox", {})
@@ -415,15 +409,6 @@ def _validate(config: dict[str, Any]) -> None:
             raise ValueError(f"{stage}.workers must be at least 1")
         if int(config[stage].get("timeout_seconds", 1)) < 1:
             raise ValueError(f"{stage}.timeout_seconds must be positive")
-        if int(config[stage].get("max_attempts", 1)) < 1:
-            raise ValueError(f"{stage}.max_attempts must be at least 1")
-        if not isinstance(config[stage].get("resume"), bool):
-            raise ValueError(f"{stage}.resume must be true or false")
-    if not isinstance(config["stage07"].get("stage07b_enabled"), bool):
-        raise ValueError("stage07.stage07b_enabled must be true or false")
-    for key in ("stage07b_max_tool_calls", "stage07b_timeout_seconds"):
-        if int(config["stage07"].get(key, 1)) < 1:
-            raise ValueError(f"stage07.{key} must be positive")
     for role in MODEL_ROLES:
         model = models[role]
         if model.get("enabled", True) and (not model.get("base_url") or not model.get("model")):
@@ -455,9 +440,9 @@ def _validate(config: dict[str, Any]) -> None:
             if stage.get(key) is not None and str(stage[key]) not in allowed:
                 raise ValueError(f"{stage_name}.{key} must be one of {sorted(allowed)}")
         suffixes = (
-            ("task_pair_builder", "autonomous_converter", "scientific_review")
+            ("task_pair_builder", "autonomous_converter")
             if stage_name == "stage06"
-            else ("audit_repair", "objective_audit", "contract_repair")
+            else ("audit_repair",)
         )
         for suffix in suffixes:
             for key, allowed in (
@@ -488,23 +473,9 @@ def _validate(config: dict[str, Any]) -> None:
         if role != expected:
             raise ValueError(f"{stage}.model_role must be {expected}")
         config[stage]["model_role"] = expected
-    review_role = str(config["stage06"].get("scientific_review_model_role") or "builder")
-    if review_role not in {"builder", "suitability"}:
-        raise ValueError(
-            "stage06.scientific_review_model_role must be builder or suitability"
-        )
-    config["stage06"]["scientific_review_model_role"] = review_role
-    strategy = str(config["stage06"].get("mode_generation_strategy") or "single_agent")
-    if strategy not in {
-        "single_agent",
-        "two_agent_objective_centered",
-        "isolated_converter",
-        "legacy_multi_phase",
-    }:
-        raise ValueError(
-            "stage06.mode_generation_strategy must be single_agent, two_agent_objective_centered, "
-            "isolated_converter, or legacy_multi_phase"
-        )
+    strategy = str(config["stage06"].get("mode_generation_strategy") or "two_agent_objective_centered")
+    if strategy != "two_agent_objective_centered":
+        raise ValueError("stage06.mode_generation_strategy must be two_agent_objective_centered")
     config["stage06"]["mode_generation_strategy"] = strategy
     if config["stage06"].get("preferred_scope") not in {
         "full_paper_computational_workflow",

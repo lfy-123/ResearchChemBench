@@ -9,7 +9,7 @@ import pytest
 from src.agents.schemas import STAGE07_AUDIT_SCHEMA
 from src.stages.evaluator_reference import minimal_evaluator_findings
 from src.stages.stage06_task_builder.prompts import task_pair_builder_instructions
-from src.stages.stage06_task_builder.stage import _artifact_delivery_failure
+from src.stages.stage06_task_builder.stage import _technical_block
 from src.stages.stage07_task_judge.prompts import audit_instructions
 from src.stages.stage07_task_judge.stage import (
     STAGE07_ELIGIBLE_STAGE06_DECISIONS,
@@ -182,17 +182,18 @@ def test_direct_numeric_target_must_match_reference(tmp_path: Path) -> None:
     )
 
 
-def test_execution_incomplete_is_delivery_failure_not_science_rejection() -> None:
-    record = _artifact_delivery_failure(
+def test_execution_incomplete_is_terminal_technical_block() -> None:
+    record = _technical_block(
         "run-v17",
         "paper-v17",
         "candidate-v17",
         "execution_artifact_incomplete",
         "task files were not completed",
     )
-    assert record["decision"] == "artifact_delivery_failure_retryable"
+    assert record["decision"] == "technical_blocked"
     assert record["handoff_ready"] is False
     assert record["processing_status"] == "failed"
+    assert record["retryable"] is False
 
 
 def test_stage07_receipt_does_not_require_alternative_workflow_inventory() -> None:
