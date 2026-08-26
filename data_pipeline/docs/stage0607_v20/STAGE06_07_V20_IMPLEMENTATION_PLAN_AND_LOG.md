@@ -131,12 +131,18 @@ Stage07 package 直接保留 canonical metadata，不再重新推断字段。
 | P4 Stage07 | 完成 | 安装相同文档查询能力；Prompt 增加解析来源、实际输入身份和 evaluator 独立审计；仍只允许有限修复、不重建。 |
 | P5 Gate 边界 | 完成 | 未加入科学输入规则。仅把旧 `closed` 枚举统一为 v20 `passed`，Agent self-check 与 external Gate 仍调用同一代码。 |
 | P6 测试 | 完成 | 新增 10 项 v20 定向测试；v19/v20/late-stage 定向测试 22 passed；全量测试 409 passed。 |
-| P7 一致性审计与五篇回归 | 进行中 | 代码一致性审计完成；待提交并运行五篇真实 Agent 回归。 |
+| P7 一致性审计与五篇回归 | 完成 | 固定五篇以 `gpt-5.6-sol`、`high`、并发 5 完成：4 published、1 scientific rejection、0 technical/mechanical block。逐文件质量审查见 `STAGE06_07_V20_FIVE_PAPER_REGRESSION_AND_QUALITY_ANALYSIS.md`。核心证据恢复和 Gate 对齐目标达到；另发现 public schema 答案泄露、Stage07 repair receipt 不真实、部分 autonomous evaluator 与方法自由度不完全匹配等后续问题。 |
 
 ## 5. 变更与提交记录
 
 本节随实施更新。任何提交都只包含本轮明确列出的文件，不纳入工作区已有的 Stage00–05、
 chemistry toolbox 或其他文档修改。
+
+- `b0bbf81 feat(stage0607): add model-driven evidence closure`：v20 代码、测试、设计与实施日志；
+- 五篇真实回归 run：
+  `runs/stage0607-v20-gpt-5.6-sol-20260827-model-driven-input-closure-5`；
+- 回归和任务质量分析：
+  `STAGE06_07_V20_FIVE_PAPER_REGRESSION_AND_QUALITY_ANALYSIS.md`。
 
 ## 6. 方案一致性审计
 
@@ -154,8 +160,8 @@ chemistry toolbox 或其他文档修改。
 | 10. authors 只来自可靠 header metadata | 通过。TEI 为主；完整 PDF 列表只在可交叉核对时清除 TEI 尾部污染。 |
 | 11. metadata 不暴露给被评测 Agent | 通过。metadata 写在任务包根部；release runner 的 `agent_input/` 不含论文 metadata/PDF。 |
 | 12. self/external Gate 语义一致 | 通过。两者继续使用共享 `phase_gate.py`。 |
-| 13. 单元、定向、真实回归有报告 | 单元与定向完成；真实五篇报告待运行后补充。 |
-| 14. 完成后逐条回看方案 | 已完成本表；真实回归后再做最终结果审计。 |
+| 13. 单元、定向、真实回归有报告 | 通过。单元与定向记录见下节；五篇真实回归和逐任务质量审查已有独立报告。 |
+| 14. 完成后逐条回看方案 | 通过。代码边界与方案一致；真实运行另暴露了语义泄露审计和审计回执真实性问题，未把这些问题错误归入机械 Gate。 |
 
 ## 7. 验证记录
 
@@ -167,3 +173,9 @@ chemistry toolbox 或其他文档修改。
   `R-EDY 15`，第 26 页保留原始分列坐标；
 - 真实 metadata smoke：五篇均有 normalized publication date；此前为空的 `2aca` 标题已从
   GROBID header 补回；`76ae` 的 GROBID 机构污染由一致的完整 PDF 作者列表纠正。
+- 五篇真实回归：4 published、1 scientific rejection、0 technical block、0 mechanical
+  publish block；四篇发布任务的 Stage06 self-check 和 external Gate 一致通过；
+- 回归质量结论：`2aca` 的解析误拒绝根因已经解决，`a556` 的科学拒绝合理，`9455` 的
+  Stage07 evaluator 修复有效；`611` 改为 coordinate-defined model 后内部闭合，但需人工
+  重点复核其代表性；另有 public schema 答案泄露、repair receipt 与真实 diff 不一致和
+  metadata 字符归一化等非阻塞问题，详见独立报告。
