@@ -11,6 +11,8 @@ from src.stages.stage07_task_judge.validation import (
     external_audit_gate,
     validate_audit_receipt,
 )
+from src.agents.workspace import copytree_exact, make_read_only, make_writable
+from src.stages.phase_gate import install_phase_gate_tool
 
 
 PAPER_ID = "paper_fixture19"
@@ -104,6 +106,17 @@ def test_prompt_is_reproduction_first_then_same_agent_derivation() -> None:
     final_gate = prompt.index("full-pair Gate")
     assert reproduction < intermediate_gate < autonomous < final_gate
     assert "converter" not in prompt.casefold()
+
+
+def test_gate_can_be_installed_into_a_copied_immutable_snapshot(tmp_path: Path) -> None:
+    snapshot = tmp_path / "snapshot"
+    _write(snapshot / "source.json", {})
+    make_read_only(snapshot)
+    inputs = copytree_exact(snapshot, tmp_path / "workspace/inputs")
+    make_writable(inputs)
+    tool = install_phase_gate_tool(inputs / "tools")
+    make_read_only(inputs)
+    assert tool.is_file()
 
 
 def test_reproduction_gate_can_pass_before_autonomous_exists(tmp_path: Path) -> None:

@@ -235,3 +235,14 @@
 
 三个主仓库提交均使用显式路径暂存，未纳入 Stage00-05、chemistry toolbox、本地配置和
 其他既有工作区修改。
+
+## 8. 五篇运行前工程烟测
+
+首次五并发启动在 Agent 调用前约 25 秒统一停止。五篇均为同一工程错误：不可变 Stage06
+snapshot 复制后仍保留只读权限，workspace setup 随后尝试创建 `inputs/tools/`，因此触发
+`PermissionError`。这批运行没有调用合成 Agent，不属于模型或新逻辑质量结果。
+
+修复方式不是增加重试或错误标签，而是纠正 workspace 构造顺序：复制 snapshot → 仅将
+workspace 副本临时改为可写 → 安装共享 Gate → 再冻结完整 inputs。新增不可变 snapshot
+fixture 后，Stage06/07 + late runner + Task Package 组合 29 项通过。修复后使用新 run
+目录重新提交五篇，旧失败 run 保留为工程诊断证据但不参与科学对比。

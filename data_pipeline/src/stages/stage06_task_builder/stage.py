@@ -271,9 +271,14 @@ def _run_synthesis_agent(
         / "final_task_synthesis"
         / f"attempt-01-{uuid.uuid4().hex[:8]}"
     )
-    copytree_exact(snapshot["root"], workspace / "inputs")
+    inputs = copytree_exact(snapshot["root"], workspace / "inputs")
+    # Immutable snapshots retain their read-only mode through copytree. The
+    # Gate is part of workspace setup, so add it to the copy before freezing
+    # the complete Agent input tree again.
+    make_writable(inputs)
+    install_phase_gate_tool(inputs / "tools")
+    make_read_only(inputs)
     (workspace / "outputs").mkdir(parents=True)
-    install_phase_gate_tool(workspace / "inputs" / "tools")
     request = AgentRunRequest(
         phase="stage06_final_task_synthesis",
         record_id=paper_id,
