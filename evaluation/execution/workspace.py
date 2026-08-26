@@ -84,10 +84,8 @@ class WorkspaceLifecycleMixin:
     def _build_instructions(self) -> str:
         data_parts = []
         for item in self.task_info.get("data", []):
-            type_text = f" [{item.get('type')}]" if item.get("type") else ""
             data_parts.append(
-                f"- **{item.get('name', '')}**{type_text} "
-                f"(`{item.get('path', '')}`): {item.get('description', '')}"
+                f"- `{item.get('path', '')}`: {item.get('description', '')}"
             )
         data_text = "\n".join(data_parts) if data_parts else "No additional input files."
         scientific_requirements = self.task_info.get("scientific_requirements") or []
@@ -268,11 +266,14 @@ class WorkspaceLifecycleMixin:
 
     def setup_workspace(self) -> None:
         if not self.task_dir.is_dir():
-            raise FileNotFoundError(f"Task not found: {self.task_id}")
+            raise FileNotFoundError(
+                f"Task not found: {self.task_type}/{self.paper_id}"
+            )
         self.workspace.mkdir(parents=True, exist_ok=False)
         self.public_task_files = materialize_agent_files(
-            self.task_id,
-            self.workspace,
+            paper_id=self.paper_id,
+            task_type=self.task_type,
+            destination=self.workspace,
             repository=self.task_repository,
         )
         (self.workspace / "data").mkdir(exist_ok=True)
@@ -318,9 +319,7 @@ class WorkspaceLifecycleMixin:
                 "instruction_bytes": self.instructions_path.stat().st_size,
                 "catalog_snapshot_bytes": catalog_path.stat().st_size,
                 "mcp_public_tool_count": len(self._mcp_server_specs()[0].get("tools", [])),
-                "task_package_format": self.task_package.package_format,
                 "task_type": self.task_package.task_type,
-                "reference_schema": self.task_package.reference_schema,
                 "task_package_content_sha256": self.task_package.package_content_sha256,
                 "public_task_files": self.public_task_files,
             },

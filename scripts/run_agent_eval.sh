@@ -44,22 +44,19 @@ usage() {
 ResearchChemBench Agent evaluation
 
 Single-task mode:
-  bash scripts/run_agent_eval.sh --agent AGENT --task TASK [OPTIONS]
+  bash scripts/run_agent_eval.sh --agent AGENT --paper-id PAPER_ID --task-type TYPE [OPTIONS]
 
 Batch-config mode:
   bash scripts/run_agent_eval.sh --config FILE [OPTIONS]
 
-Backward-compatible positional mode:
-  bash scripts/run_agent_eval.sh AGENT TASK [--no-score|--dry-run]
-
 Main options:
   -a, --agent NAME              Agent preset: mock, codex, claude, opencode.
                                 Default: mock.
-  -t, --task TASK_ID           Task to run, for example
-                               Electron_Isodensity_Reproduction_01_Method_Selection.
-                                Default: Electron_Isodensity_Reproduction_01_Method_Selection.
+      --paper-id PAPER_ID      Paper identity, for example paper_2aca1dd116799b28.
+      --task-type TYPE         autonomous_research, paper_reproduction, or
+                               experiment_validation.
   -c, --config FILE            Run all Agent/task combinations from a YAML file.
-                                Cannot be combined with --agent or --task.
+                                Cannot be combined with single-task options.
       --no-score               Do not call the LLM judge after the Agent finishes.
       --dry-run                Validate and print planned runs without executing them.
 
@@ -116,24 +113,10 @@ Detailed progress is appended to <run-workspace>/_live_progress.log. The default
 is file-only; use --progress-console only when an interactive mirror is desired.
 
 Examples:
-  # Local no-API harness smoke test
-  bash scripts/run_agent_eval.sh --agent mock \
-    --task Electron_Isodensity_Reproduction_01_Method_Selection --no-score
-
-  # Real OpenCode/DeepSeek lookup task
+  # Real OpenCode/DeepSeek task
   export OPENAI_API_KEY=...
   bash scripts/run_agent_eval.sh --agent opencode \
-    --task Electron_Isodensity_Reproduction_04_Blind_Prediction --no-score
-
-  # Validate selected backend runtimes; the Agent still sees the full toolbox
-  bash scripts/run_agent_eval.sh --agent opencode \
-    --task Electron_Isodensity_Reproduction_04_Blind_Prediction \
-    --mcp-profiles core,services --no-score
-
-  # Codex task with a 30-minute timeout
-  bash scripts/run_agent_eval.sh --agent codex \
-    --task GEOM_Hierarchical_Conformer_Reranking_Reproduction \
-    --timeout-seconds 1800 --no-score
+    --paper-id paper_2aca1dd116799b28 --task-type autonomous_research --no-score
 
   # Preview a batch without running it
   bash scripts/run_agent_eval.sh --config eval_configs/examples/quick_opencode.yaml \
@@ -168,7 +151,8 @@ log_info() {
 }
 
 AGENT=""
-TASK=""
+PAPER_ID=""
+TASK_TYPE=""
 CONFIG=""
 DRY_RUN=0
 NO_SCORE=0
@@ -192,8 +176,6 @@ DISTRIBUTED_TRANSPORT_VALUE="${RCB_DISTRIBUTED_TRANSPORT:-ssh}"
 LIVE_PROGRESS_VALUE="${RESEARCHCHEMBENCH_LIVE_PROGRESS:-1}"
 PROGRESS_CONSOLE_VALUE="${RESEARCHCHEMBENCH_PROGRESS_CONSOLE:-0}"
 PROGRESS_MAX_CHARS_VALUE="${RESEARCHCHEMBENCH_PROGRESS_MAX_CHARS:-600}"
-POSITIONAL=()
-
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -a|--agent)
@@ -201,9 +183,14 @@ while [[ $# -gt 0 ]]; do
       AGENT="$2"
       shift 2
       ;;
-    -t|--task)
+    --paper-id)
       require_value "$1" "${2:-}"
-      TASK="$2"
+      PAPER_ID="$2"
+      shift 2
+      ;;
+    --task-type)
+      require_value "$1" "${2:-}"
+      TASK_TYPE="$2"
       shift 2
       ;;
     -c|--config)
@@ -315,37 +302,29 @@ while [[ $# -gt 0 ]]; do
       usage
       exit 0
       ;;
-    --)
-      shift
-      while [[ $# -gt 0 ]]; do
-        POSITIONAL+=("$1")
-        shift
-      done
-      ;;
     -*)
       echo "Error: unknown option '$1'." >&2
       usage >&2
       exit 2
       ;;
     *)
-      POSITIONAL+=("$1")
-      shift
+      echo "Error: unexpected positional argument '$1'." >&2
+      exit 2
       ;;
   esac
 done
 
-if [[ ${#POSITIONAL[@]} -gt 2 ]]; then
-  echo "Error: at most two positional arguments are allowed: AGENT TASK." >&2
-  exit 2
-fi
-if [[ -n "$CONFIG" && ( -n "$AGENT" || -n "$TASK" || ${#POSITIONAL[@]} -gt 0 ) ]]; then
-  echo "Error: --config cannot be combined with --agent, --task, or positional arguments." >&2
+if [[ -n "$CONFIG" && ( -n "$AGENT" || -n "$PAPER_ID" || -n "$TASK_TYPE" ) ]]; then
+  echo "Error: --config cannot be combined with single-task options." >&2
   exit 2
 fi
 
 if [[ -z "$CONFIG" ]]; then
-  AGENT="${AGENT:-${POSITIONAL[0]:-mock}}"
-  TASK="${TASK:-${POSITIONAL[1]:-Electron_Isodensity_Reproduction_01_Method_Selection}}"
+  AGENT="${AGENT:-mock}"
+  if [[ -z "$PAPER_ID" || -z "$TASK_TYPE" ]]; then
+    echo "Error: single-task mode requires --paper-id and --task-type." >&2
+    exit 2
+  fi
 fi
 
 if [[ -z "$CONFIG" && "$AGENT" == "opencode" ]] && ! command -v opencode >/dev/null 2>&1; then
@@ -463,10 +442,10 @@ fi
 if [[ "$LIST_TASKS" -eq 1 ]]; then
   python - <<'PY'
 from evaluation.repository import list_tasks_grouped
-for category, task_ids in list_tasks_grouped().items():
+for category, tasks in list_tasks_grouped().items():
     print(f"[{category}]")
-    for task_id in task_ids:
-        print(f"  {task_id}")
+    for task in tasks:
+        print(f"  {task['task_type']}/{task['paper_id']}")
 PY
   exit 0
 fi
@@ -495,7 +474,7 @@ fi
 
 log_info "ResearchChemBench single-task evaluation"
 log_info "Agent=$AGENT"
-log_info "Task=$TASK"
+log_info "Task=$TASK_TYPE/$PAPER_ID"
 log_info "MCP Python=$(command -v python)"
 log_info "MCP tools=$MCP_TOOLS_VALUE"
 log_info "Tool discovery=$TOOL_DISCOVERY_MODE_VALUE"
@@ -509,5 +488,6 @@ log_info "Live progress=$LIVE_PROGRESS_VALUE console=$PROGRESS_CONSOLE_VALUE max
 
 exec python -m evaluation.cli \
   --agent "$AGENT" \
-  --task "$TASK" \
+  --paper-id "$PAPER_ID" \
+  --task-type "$TASK_TYPE" \
   "${CLI_ARGS[@]}"

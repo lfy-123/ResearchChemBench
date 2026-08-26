@@ -28,7 +28,7 @@ usage() {
 ResearchChemBench persistent evaluation submission
 
 Usage:
-  bash scripts/submit_evaluation.sh submit [OPTIONS] TASK [TASK ...]
+  bash scripts/submit_evaluation.sh submit [OPTIONS] TASK_TYPE/PAPER_ID [TASK_TYPE/PAPER_ID ...]
   bash scripts/submit_evaluation.sh status  --run-root PATH
   bash scripts/submit_evaluation.sh follow  --run-root PATH [--interval SECONDS]
   bash scripts/submit_evaluation.sh summary --run-root PATH
@@ -70,7 +70,7 @@ Status/follow/summary options:
   --interval N                  Follow refresh interval. Default: 10 seconds.
 
 Examples:
-  bash scripts/submit_evaluation.sh submit Electron_Isodensity_Reproduction_01_Method_Selection
+  bash scripts/submit_evaluation.sh submit autonomous_research/paper_2aca1dd116799b28
 
   bash scripts/submit_evaluation.sh submit \
     --model deepseek-v4-flash \
@@ -78,7 +78,7 @@ Examples:
     --timeout-seconds 10800 \
     --max-turns 600 \
     --follow \
-    Task_A Task_B Task_C
+    autonomous_research/paper_A paper_reproduction/paper_A
 
   bash scripts/submit_evaluation.sh status --run-root workspaces/submissions/20260727_120000
   bash scripts/submit_evaluation.sh attach --session rcb_20260727_120000
@@ -147,7 +147,7 @@ if batch_dir and batch_dir.is_dir():
         if not meta_path.is_file():
             continue
         meta = json.loads(meta_path.read_text(encoding="utf-8"))
-        task_id = str(meta.get("task_id") or workspace.name)
+        task_key = f"{meta.get('task_type', '')}/{meta.get('paper_id', '')}"
         score = {}
         if (workspace / "_score.json").is_file():
             score = json.loads((workspace / "_score.json").read_text(encoding="utf-8"))
@@ -155,7 +155,7 @@ if batch_dir and batch_dir.is_dir():
             tokens = workspace_token_usage(workspace)["tokens"]
         except Exception:
             tokens = {}
-        records.setdefault(task_id, []).append(
+        records.setdefault(task_key, []).append(
             {
                 "status": meta.get("status", "unknown"),
                 "duration": meta.get("duration_seconds"),
@@ -166,7 +166,10 @@ if batch_dir and batch_dir.is_dir():
                 "tokens": int(tokens.get("total") or 0),
             }
         )
-ordered = tasks or sorted(records)
+ordered = [
+    f"{task['task_type']}/{task['paper_id']}" if isinstance(task, dict) else str(task)
+    for task in tasks
+] or sorted(records)
 print(f"Run root: {run_root}")
 print(f"Batch: {batch_dir if batch_dir else 'not created yet'}")
 print("Task                                                   Status       Duration     Score       Tools  Failed       Tokens")
@@ -304,7 +307,7 @@ case "$command" in
       esac
     done
     if [[ ${#tasks[@]} -eq 0 ]]; then
-      echo "Error: provide at least one task name." >&2
+      echo "Error: provide at least one TASK_TYPE/PAPER_ID." >&2
       exit 2
     fi
     if [[ "$discovery_mode" != "progressive" && "$discovery_mode" != "full" ]]; then
@@ -376,8 +379,10 @@ case "$command" in
       exit 2
     fi
     for task in "${tasks[@]}"; do
-      if [[ ! -f "$ROOT_DIR/tasks/$task/task_info.json" ]]; then
-        echo "Error: unknown task '$task'." >&2
+      task_type="${task%%/*}"
+      paper_id="${task#*/}"
+      if [[ "$task_type" == "$task" || "$paper_id" == *"/"* || ! -f "$ROOT_DIR/tasks/$task_type/$paper_id/task_info.json" ]]; then
+        echo "Error: unknown task '$task'; expected TASK_TYPE/PAPER_ID." >&2
         exit 2
       fi
     done
@@ -426,7 +431,10 @@ def flag(value):
 config = {
     "name": f"submission_{Path(run_root).name}",
     "agents": [agent],
-    "tasks": tasks,
+    "tasks": [
+        {"task_type": value.split("/", 1)[0], "paper_id": value.split("/", 1)[1]}
+        for value in tasks
+    ],
     "repeats": int(repeats),
     "max_concurrent_runs": int(max_concurrent_runs),
     "timeout_seconds": int(timeout_seconds),
@@ -482,7 +490,10 @@ submission = {
     "agent": agent,
     "agent_model": model,
     "judge_model": judge_model,
-    "tasks": tasks,
+    "tasks": [
+        {"task_type": value.split("/", 1)[0], "paper_id": value.split("/", 1)[1]}
+        for value in tasks
+    ],
     "repeats": int(repeats),
     "max_concurrent_runs": int(max_concurrent_runs),
     "timeout_seconds": int(timeout_seconds),

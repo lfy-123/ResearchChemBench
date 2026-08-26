@@ -1,5 +1,5 @@
 """Validated benchmark task and evaluation data models."""
 
-from .task import GroundTruth, TaskInfo
+from .task import GroundTruth
 
-__all__ = ["GroundTruth", "TaskInfo"]
+__all__ = ["GroundTruth"]

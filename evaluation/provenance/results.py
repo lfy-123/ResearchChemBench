@@ -130,7 +130,8 @@ def build_workspace_results(workspace: str | Path) -> dict[str, Any]:
         "result_type": "researchchembench_run",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "task": {
-            "id": meta.get("task_id", score.get("task_id", "")),
+            "paper_id": meta.get("paper_id", score.get("paper_id", "")),
+            "task_type": meta.get("task_type", score.get("task_type", "")),
             "category": meta.get("category", ""),
             "type": score.get("task_type") or meta.get("task_type", ""),
             "package_format": score.get("task_package_format")

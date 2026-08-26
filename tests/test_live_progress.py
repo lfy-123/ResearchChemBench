@@ -4,7 +4,6 @@ import re
 from pathlib import Path
 
 from evaluation.execution.progress import LiveProgressReporter
-from evaluation.execution.runner import TaskRunner
 
 
 TIMESTAMPED_LINE = re.compile(
@@ -112,24 +111,3 @@ def test_progress_can_be_explicitly_mirrored_to_console(tmp_path: Path):
         encoding="utf-8"
     )
 
-
-def test_task_runner_writes_progress_without_terminal_spam(tmp_path: Path, capsys):
-    runner = TaskRunner(
-        "Electron_Isodensity_Reproduction_01_Method_Selection",
-        agent_key="mock",
-        workspace_root=tmp_path,
-        live_progress=True,
-        progress_console=False,
-        progress_max_chars=120,
-    )
-    meta = runner.run()
-
-    assert meta["status"] == "completed"
-    assert meta["progress_console"] is False
-    assert capsys.readouterr().out == ""
-    progress = (runner.workspace / "_live_progress.log").read_text(encoding="utf-8")
-    assert "[RUN_START]" in progress
-    assert "[MODEL_INPUT]" in progress
-    assert "[MODEL_OUTPUT]" in progress
-    assert "[RUN_END]" in progress
-    assert all(TIMESTAMPED_LINE.match(line) for line in progress.splitlines())

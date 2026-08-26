@@ -93,7 +93,8 @@ def workspace_token_usage(workspace: str | Path) -> dict[str, Any]:
             meta = {}
     return {
         "workspace": str(root),
-        "task_id": meta.get("task_id"),
+        "paper_id": meta.get("paper_id"),
+        "task_type": meta.get("task_type"),
         "run_id": meta.get("run_id"),
         "model": meta.get("model"),
         "tool_discovery_mode": meta.get("tool_discovery_mode", "legacy_full"),

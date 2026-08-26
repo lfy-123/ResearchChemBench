@@ -23,10 +23,13 @@ async function jsonFetch(url, options = {}) {
 async function loadConfig() {
   const [tasks, config] = await Promise.all([jsonFetch('/api/tasks'), jsonFetch('/api/config')]);
   taskSelect.innerHTML = '';
-  for (const [category, ids] of Object.entries(tasks)) {
+  for (const [category, records] of Object.entries(tasks)) {
     const group = document.createElement('optgroup');
     group.label = category;
-    ids.forEach(id => group.append(new Option(id, id)));
+    records.forEach(record => {
+      const value = `${record.task_type}/${record.paper_id}`;
+      group.append(new Option(`${record.paper_id} [${record.task_type}]`, value));
+    });
     taskSelect.append(group);
   }
   agentSelect.innerHTML = '';
@@ -76,7 +79,11 @@ async function startRun() {
   const run = await jsonFetch('/api/runs', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({task_id: taskSelect.value, agent: agentSelect.value})
+    body: JSON.stringify({
+      task_type: taskSelect.value.split('/')[0],
+      paper_id: taskSelect.value.split('/')[1],
+      agent: agentSelect.value
+    })
   });
   currentRun = run.run_id;
   statusLabel.textContent = `running: ${currentRun}`;
@@ -127,7 +134,7 @@ async function loadRuns() {
   runs.slice(0, 50).forEach(run => {
     const row = document.createElement('tr');
     row.dataset.run = run.run_id;
-    row.innerHTML = `<td>${run.run_id}</td><td>${run.task_id}</td><td>${run.agent_name}</td><td>${run.status}</td><td>${run.duration_seconds ?? ''}</td>`;
+    row.innerHTML = `<td>${run.run_id}</td><td>${run.task_type}/${run.paper_id}</td><td>${run.agent_name}</td><td>${run.status}</td><td>${run.duration_seconds ?? ''}</td>`;
     row.onclick = async () => {
       currentRun = run.run_id;
       statusLabel.textContent = run.status;

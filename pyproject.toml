@@ -44,7 +44,7 @@ researchchem-software = "chemistry_toolbox.software_management.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["evaluation*", "chemistry_toolbox*", "researchchembench_contracts*"]
+include = ["evaluation*", "chemistry_toolbox*"]
 exclude = [
     "chemistry_toolbox.build*",
     "chemistry_toolbox.mcp.build*",

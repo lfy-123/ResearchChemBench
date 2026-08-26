@@ -15,7 +15,6 @@ from chemistry_toolbox.src.catalog import (
 from chemistry_toolbox.src.distributed_pool import pool_snapshot
 
 from ..repository import (
-    TaskNotRunnableError,
     TaskRepository,
     load_task_info,
     load_task_package,
@@ -56,8 +55,9 @@ class TaskRunner(
 
     def __init__(
         self,
-        task_id: str,
+        paper_id: str,
         *,
+        task_type: str,
         agent_key: str = "mock",
         workspace_root: Path | None = None,
         timeout_seconds: int = DEFAULT_AGENT_TIMEOUT_SECONDS,
@@ -81,19 +81,25 @@ class TaskRunner(
     ):
         if agent_key not in AGENT_PRESETS:
             raise ValueError(f"Unknown agent preset: {agent_key}")
-        self.task_id = task_id
+        self.paper_id = paper_id
+        self.task_type = task_type
         self.task_repository = TaskRepository()
         self.task_package = load_task_package(
-            task_id, repository=self.task_repository
+            paper_id=paper_id,
+            task_type=task_type,
+            repository=self.task_repository,
         )
-        if self.task_package.is_v1 and not self.task_package.runnable:
-            raise TaskNotRunnableError(
-                f"Task is catalogued but not runnable: {task_id}: "
-                + ",".join(self.task_package.unavailable_reasons)
-            )
         self.task_dir = self.task_package.directory
-        self.task_info = load_task_info(task_id, repository=self.task_repository)
-        self.task_text = load_task_text(task_id, repository=self.task_repository)
+        self.task_info = load_task_info(
+            paper_id=paper_id,
+            task_type=task_type,
+            repository=self.task_repository,
+        )
+        self.task_text = load_task_text(
+            paper_id=paper_id,
+            task_type=task_type,
+            repository=self.task_repository,
+        )
         self.agent_key = agent_key
         self.agent = AGENT_PRESETS[agent_key]
         self.agent_name = self.agent["label"]
@@ -147,7 +153,9 @@ class TaskRunner(
         self.progress_console = bool(progress_console)
         self.progress_max_chars = max(80, int(progress_max_chars))
         self.timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
-        self.run_id = f"{task_id}_{agent_key}_{self.timestamp}_{uuid.uuid4().hex[:6]}"
+        self.run_id = (
+            f"{task_type}-{paper_id}-{agent_key}-{self.timestamp}-{uuid.uuid4().hex[:6]}"
+        )
         root = Path(workspace_root) if workspace_root else WORKSPACES_DIR
         self.workspace = root / self.run_id
         self.meta_path = self.workspace / "_meta.json"

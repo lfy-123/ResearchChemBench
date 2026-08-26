@@ -71,22 +71,6 @@ class RequiredDeliverable(BaseModel):
         return value
 
 
-class TaskInfo(BaseModel):
-    task_id: str
-    source_id: str
-    category: str
-    scientific_mode: str = "standard_autonomous_investigation"
-    scientific_mode_description: str = ""
-    scientific_requirements: list[str] = Field(default_factory=list)
-    required_deliverables: list[RequiredDeliverable] = Field(default_factory=list)
-    data: list[DataFile] = Field(default_factory=list)
-    archive_extractions: list[ArchiveExtraction] = Field(default_factory=list)
-    benchmark_family: str = ""
-    task_mode: Literal["", "open_discovery", "guided_reproduction"] = ""
-    method_disclosure: str = ""
-    pathway_disclosure: str = ""
-
-
 class GroundTruth(BaseModel):
     expected_tool_calls: list[dict[str, Any]] = Field(default_factory=list)
     expected_result: Any = ""

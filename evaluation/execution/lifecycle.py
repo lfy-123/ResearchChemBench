@@ -32,7 +32,8 @@ class RunLifecycleMixin:
                 previous = {}
         meta = {
             **previous,
-            "task_id": self.task_id,
+            "paper_id": self.paper_id,
+            "task_type": self.task_type,
             "run_id": self.run_id,
             "timestamp": self.timestamp,
             "status": status,
@@ -48,9 +49,7 @@ class RunLifecycleMixin:
             "tool_discovery_mode": self.tool_discovery_mode,
             "query": self.task_text,
             "category": self.task_info.get("category", ""),
-            "task_package_format": self.task_package.package_format,
             "task_type": self.task_package.task_type,
-            "reference_schema": self.task_package.reference_schema,
             "task_package_content_sha256": self.task_package.package_content_sha256,
             "scientific_mode": self.task_info.get("scientific_mode", ""),
             "scientific_mode_description": self.task_info.get(
@@ -412,7 +411,7 @@ class RunLifecycleMixin:
         )
         reporter.emit(
             "RUN_START",
-            task=self.task_id,
+            task=f"{self.task_type}/{self.paper_id}",
             agent=self.agent_key,
             model=OPENCODE_MODEL if self.agent.get("kind") == "opencode" else self.agent_name,
             timeout_seconds=self.timeout_seconds,

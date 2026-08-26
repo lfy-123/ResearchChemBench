@@ -18,7 +18,8 @@ class EvalConfigError(ValueError):
 
 @dataclass(frozen=True)
 class RunSpec:
-    task_id: str
+    paper_id: str
+    task_type: str
     agent_key: str
     repeat: int
 
@@ -50,9 +51,25 @@ def resolve_specs(config: dict[str, Any]) -> list[RunSpec]:
             )
 
     raw_tasks = config.get("tasks", "all")
-    tasks = list_tasks() if raw_tasks == "all" else _normalize_list(raw_tasks, name="tasks")
-    known_tasks = set(list_tasks())
-    unknown = [task for task in tasks if task not in known_tasks]
+    if raw_tasks == "all":
+        tasks = [
+            {"paper_id": row["paper_id"], "task_type": row["task_type"]}
+            for row in list_tasks()
+        ]
+    elif isinstance(raw_tasks, list) and all(
+        isinstance(item, dict)
+        and isinstance(item.get("paper_id"), str)
+        and isinstance(item.get("task_type"), str)
+        for item in raw_tasks
+    ):
+        tasks = raw_tasks
+    else:
+        raise EvalConfigError("tasks must be 'all' or a list of paper_id/task_type mappings")
+    known_tasks = {(row["task_type"], row["paper_id"]) for row in list_tasks()}
+    unknown = [
+        task for task in tasks
+        if (task["task_type"], task["paper_id"]) not in known_tasks
+    ]
     if unknown:
         raise EvalConfigError(f"Unknown tasks: {unknown}")
 
@@ -60,7 +77,7 @@ def resolve_specs(config: dict[str, Any]) -> list[RunSpec]:
     if repeats < 1:
         raise EvalConfigError("repeats must be >= 1")
     return [
-        RunSpec(task, agent, repeat)
+        RunSpec(task["paper_id"], task["task_type"], agent, repeat)
         for task in tasks
         for agent in agents
         for repeat in range(1, repeats + 1)

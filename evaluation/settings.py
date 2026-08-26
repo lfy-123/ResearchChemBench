@@ -10,8 +10,6 @@ from dotenv import load_dotenv
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(PROJECT_ROOT / "config.local.env", override=False)
-# Backward compatibility for the original ResearchClawBench-style location.
-load_dotenv(Path(__file__).parent / ".env", override=False)
 
 TASKS_DIR = Path(os.environ.get("RESEARCHCHEMBENCH_TASKS_DIR", PROJECT_ROOT / "tasks")).resolve()
 
@@ -22,9 +20,8 @@ def _configured_task_roots() -> tuple[Path, ...]:
     ``RESEARCHCHEMBENCH_TASK_ROOTS`` is the v2 multi-producer interface.  It
     accepts the platform path separator, commas, or newlines so shell and
     service configuration can use whichever representation is most natural.
-    The original single ``TASKS_DIR`` remains the default and the legacy API
-    surface, but an explicit roots setting replaces rather than silently
-    appends it.
+    The repository task directory is the default. An explicit roots setting
+    replaces rather than silently appends it.
     """
 
     raw = os.environ.get("RESEARCHCHEMBENCH_TASK_ROOTS", "").strip()

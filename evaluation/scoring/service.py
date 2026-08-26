@@ -17,7 +17,7 @@ from ..provenance.trace import (
     normalized_tool_calls,
     process_metrics,
 )
-from ..repository import get_run_workspace, load_ground_truth, load_task_package
+from ..repository import get_run_workspace, load_task_package
 from ..settings import JUDGE_API_BASE, JUDGE_API_KEY, JUDGE_MODEL_NAME
 from .policies import (
     _apply_criterion_score_limit,
@@ -203,42 +203,31 @@ def score_workspace(
     if not meta_path.is_file():
         return {"error": "Run metadata not found"}
     meta = json.loads(meta_path.read_text(encoding="utf-8"))
-    task_id = meta.get("task_id", "")
-    if not task_id:
-        return {"error": "Run metadata missing task_id"}
+    paper_id = str(meta.get("paper_id") or "")
+    task_type = str(meta.get("task_type") or "")
+    if not paper_id or not task_type:
+        return {"error": "Run metadata missing paper_id or task_type"}
     report_path = workspace / "report" / "report.md"
     if not report_path.is_file() or not report_path.read_text(encoding="utf-8").strip():
         return {"error": "No non-empty report/report.md found"}
 
     try:
-        package = load_task_package(task_id)
-        if package.is_v1:
-            runtime_evaluation = load_runtime_evaluation(task_id)
-        else:
-            legacy_truth = load_ground_truth(task_id)
-            runtime_evaluation = RuntimeEvaluation(
-                ground_truth=legacy_truth,
-                adapter_id="legacy-ground-truth-adapter.v1",
-                policy_id=str(
-                    legacy_truth.get("dual_axis_scoring_policy", {}).get("policy_id")
-                    or "legacy"
-                ),
-                task_type=package.task_type,
-                reference_schema=package.reference_schema,
-                package_content_sha256="",
-                package_format=package.package_format,
-            )
+        package = load_task_package(paper_id=paper_id, task_type=task_type)
+        runtime_evaluation = load_runtime_evaluation(
+            paper_id=paper_id, task_type=task_type
+        )
     except (EvaluatorAdapterError, FileNotFoundError, ValueError) as exc:
         return {
             "error": f"Evaluator contract unavailable: {type(exc).__name__}: {exc}",
-            "task_id": task_id,
+            "paper_id": paper_id,
+            "task_type": task_type,
         }
     truth = runtime_evaluation.ground_truth
     report = report_path.read_text(encoding="utf-8", errors="replace")
     try:
         events = load_tool_trace(workspace, strict=True)
     except ValueError as exc:
-        return {"error": str(exc), "task_id": task_id}
+        return {"error": str(exc), "paper_id": paper_id, "task_type": task_type}
     canonical_trace = canonical_tool_trace_metadata(workspace)
     native_events = load_native_agent_trace(workspace)
     actual_calls = normalized_tool_calls(events)
@@ -271,7 +260,7 @@ def score_workspace(
     if evaluation_mode in {"rubric_100", "dual_axis_100"}:
         evaluation_profile = str(truth.get("evaluation_profile") or "").strip()
         prompt = RUBRIC_JUDGE_USER_TEMPLATE.format(
-            query=meta.get("query") or meta.get("task") or task_id,
+            query=meta.get("query") or meta.get("task") or f"{task_type}/{paper_id}",
             agent_visible_protocol=json.dumps(
                 {
                     "scientific_mode": meta.get("scientific_mode", ""),
@@ -359,7 +348,7 @@ def score_workspace(
             system_prompt += PAPER_REPRODUCTION_JUDGE_PROMPT
     else:
         prompt = JUDGE_USER_TEMPLATE.format(
-            query=meta.get("query") or meta.get("task") or task_id,
+            query=meta.get("query") or meta.get("task") or f"{task_type}/{paper_id}",
             expected_tool_calls=json.dumps(
                 truth.get("expected_tool_calls", []), indent=2, ensure_ascii=False
             ),
@@ -627,7 +616,7 @@ def score_workspace(
 
     result = {
         "run_id": meta.get("run_id", workspace.name),
-        "task_id": task_id,
+        "paper_id": paper_id,
         "agent_key": meta.get("agent_key", ""),
         "agent_name": meta.get("agent_name", ""),
         "tool_discovery_mode": meta.get("tool_discovery_mode", "legacy_full"),
@@ -637,9 +626,7 @@ def score_workspace(
         "evaluation_mode": evaluation_mode,
         "evaluation_profile": truth.get("evaluation_profile", ""),
         "task_type": runtime_evaluation.task_type,
-        "task_package_format": runtime_evaluation.package_format,
         "task_package_content_sha256": runtime_evaluation.package_content_sha256,
-        "reference_schema": runtime_evaluation.reference_schema,
         "evaluator_adapter_id": runtime_evaluation.adapter_id,
         "evaluation_policy_id": runtime_evaluation.policy_id,
         "score": verdict["score"],
@@ -690,8 +677,6 @@ def score_workspace(
         "judge_usage": raw_verdict.get("_judge_usage"),
         "scored_at": datetime.now(timezone.utc).isoformat(),
     }
-    if runtime_evaluation.package_format == "legacy":
-        result["expected_result"] = truth.get("expected_result", "")
     if verdict["parse_error"]:
         result["error"] = verdict["parse_error"]
     score_path = workspace / "_score.json"

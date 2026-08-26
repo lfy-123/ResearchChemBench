@@ -146,7 +146,7 @@ def _write_batch_report(batch_dir: Path, rows: list[dict[str, Any]], config: dic
             else f"{row['score']}/{row.get('score_max', 1)}"
         )
         lines.append(
-            f"| {row['task_id']} | {row['agent_key']} | {row['repeat']} | "
+        f"| {row['task_type']}/{row['paper_id']} | {row['agent_key']} | {row['repeat']} | "
             f"{row['status']} | {score_text} | "
             f"{row.get('duration_seconds', '')} | {row['run_id']} |"
         )
@@ -303,7 +303,10 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             )
         )
         for spec in specs:
-            _log(f"run={spec.task_id} agent={spec.agent_key} repeat={spec.repeat}")
+            _log(
+                f"run={spec.task_type}/{spec.paper_id} "
+                f"agent={spec.agent_key} repeat={spec.repeat}"
+            )
         return 0
 
     batch_id = (
@@ -326,7 +329,8 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
 
     def run_one(spec: RunSpec) -> dict[str, Any]:
         runner = TaskRunner(
-            spec.task_id,
+            spec.paper_id,
+            task_type=spec.task_type,
             agent_key=spec.agent_key,
             workspace_root=batch_dir,
             timeout_seconds=agent_timeout_seconds,
@@ -374,7 +378,8 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                         "judge_consistency_warnings", []
                     )
             return {
-                "task_id": spec.task_id,
+                "paper_id": spec.paper_id,
+                "task_type": spec.task_type,
                 "agent_key": spec.agent_key,
                 "repeat": spec.repeat,
                 "run_id": runner.run_id,
@@ -391,7 +396,8 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
             }
         except Exception as exc:
             return {
-                "task_id": spec.task_id,
+                "paper_id": spec.paper_id,
+                "task_type": spec.task_type,
                 "agent_key": spec.agent_key,
                 "repeat": spec.repeat,
                 "run_id": runner.run_id,
@@ -433,7 +439,8 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                 row = future.result()
                 rows.append(row)
                 _log(
-                    f"[{len(rows)}/{len(specs)}] {row['task_id']} {row['agent_key']} "
+                    f"[{len(rows)}/{len(specs)}] {row['task_type']}/{row['paper_id']} "
+                    f"{row['agent_key']} "
                     f"status={row['status']} score={row.get('score')} run={row['run_id']}"
                 )
                 _log(
@@ -449,7 +456,8 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                 for spec in specs[next_spec_index:]:
                     rows.append(
                         {
-                            "task_id": spec.task_id,
+                            "paper_id": spec.paper_id,
+                            "task_type": spec.task_type,
                             "agent_key": spec.agent_key,
                             "repeat": spec.repeat,
                             "run_id": None,
@@ -466,13 +474,18 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
                         }
                     )
                     _log(
-                        f"skipped={spec.task_id} agent={spec.agent_key} repeat={spec.repeat} "
+                        f"skipped={spec.task_type}/{spec.paper_id} "
+                        f"agent={spec.agent_key} repeat={spec.repeat} "
                         "reason=batch_stop_requested"
                     )
     finally:
         signal.signal(signal.SIGINT, previous_sigint)
 
-    rows.sort(key=lambda row: (row["task_id"], row["agent_key"], row["repeat"]))
+    rows.sort(
+        key=lambda row: (
+            row["task_type"], row["paper_id"], row["agent_key"], row["repeat"]
+        )
+    )
     report = _write_batch_report(batch_dir, rows, config)
     write_batch_results(batch_dir, config=config)
     _log(f"Batch directory: {batch_dir}")
@@ -484,7 +497,8 @@ def run_eval(config_path: Path, *, dry_run: bool = False, no_score: bool = False
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("config", type=Path, nargs="?")
-    parser.add_argument("--task")
+    parser.add_argument("--paper-id")
+    parser.add_argument("--task-type")
     parser.add_argument("--agent", choices=sorted(AGENT_PRESETS))
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--no-score", action="store_true")
@@ -493,14 +507,16 @@ def main(argv: list[str] | None = None) -> int:
     temporary: Path | None = None
     if args.config:
         config_path = args.config.resolve()
-    elif args.task and args.agent:
+    elif args.paper_id and args.task_type and args.agent:
         temporary = WORKSPACES_DIR / f".single_run_config_{uuid.uuid4().hex[:8]}.yaml"
         temporary.write_text(
             yaml.safe_dump(
                 {
                     "name": "single_run",
                     "agents": [args.agent],
-                    "tasks": [args.task],
+                    "tasks": [
+                        {"paper_id": args.paper_id, "task_type": args.task_type}
+                    ],
                     "repeats": 1,
                     "max_concurrent_runs": 1,
                     "judge": {"enabled": not args.no_score},
@@ -510,7 +526,9 @@ def main(argv: list[str] | None = None) -> int:
         )
         config_path = temporary
     else:
-        parser.error("provide CONFIG or both --task and --agent")
+        parser.error(
+            "provide CONFIG or --paper-id, --task-type and --agent"
+        )
 
     try:
         return run_eval(config_path, dry_run=args.dry_run, no_score=args.no_score)

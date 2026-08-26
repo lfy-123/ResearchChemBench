@@ -60,18 +60,20 @@ def api_tasks():
     return jsonify(list_tasks_grouped())
 
 
-@app.route("/api/tasks/<task_id>/info")
-def api_task_info(task_id: str):
+@app.route("/api/tasks/<task_type>/<paper_id>/info")
+def api_task_info(task_type: str, paper_id: str):
     try:
-        return jsonify(load_task_info(task_id))
+        return jsonify(load_task_info(paper_id=paper_id, task_type=task_type))
     except (FileNotFoundError, ValueError, TaskRepositoryError):
         return jsonify({"error": "Task not found"}), 404
 
 
-@app.route("/api/tasks/<task_id>/files")
-def api_task_files(task_id: str):
+@app.route("/api/tasks/<task_type>/<paper_id>/files")
+def api_task_files(task_type: str, paper_id: str):
     try:
-        data_dir = get_task_directory(task_id) / "data"
+        data_dir = get_task_directory(
+            paper_id=paper_id, task_type=task_type
+        ) / "agent_input" / "data"
     except (FileNotFoundError, TaskRepositoryError):
         return jsonify([])
     if not data_dir.is_dir():
@@ -79,10 +81,12 @@ def api_task_files(task_id: str):
     return jsonify(build_file_tree(data_dir, "data"))
 
 
-@app.route("/api/tasks/<task_id>/file")
-def api_task_file(task_id: str):
+@app.route("/api/tasks/<task_type>/<paper_id>/file")
+def api_task_file(task_type: str, paper_id: str):
     try:
-        data_dir = get_task_directory(task_id) / "data"
+        data_dir = get_task_directory(
+            paper_id=paper_id, task_type=task_type
+        ) / "agent_input" / "data"
     except (FileNotFoundError, TaskRepositoryError):
         return jsonify({"error": "File not found"}), 404
     user_path = request.args.get("path", "")
@@ -97,28 +101,27 @@ def api_task_file(task_id: str):
 
 @app.route("/api/runs", methods=["GET"])
 def api_list_runs():
-    return jsonify(list_runs(request.args.get("task_id")))
+    return jsonify(
+        list_runs(
+            paper_id=request.args.get("paper_id"),
+            task_type=request.args.get("task_type"),
+        )
+    )
 
 
 @app.route("/api/runs", methods=["POST"])
 def api_start_run():
     data = request.get_json(silent=True) or {}
-    task_id = data.get("task_id", "")
+    paper_id = data.get("paper_id", "")
+    task_type = data.get("task_type", "")
     agent_key = data.get("agent", "")
     try:
-        package = load_task_package(task_id)
+        load_task_package(paper_id=paper_id, task_type=task_type)
     except (FileNotFoundError, TaskRepositoryError):
         return jsonify({"error": "Unknown task"}), 404
-    if not package.runnable:
-        return jsonify(
-            {
-                "error": "Task is not runnable",
-                "reasons": list(package.unavailable_reasons),
-            }
-        ), 409
     if agent_key not in AGENT_PRESETS:
         return jsonify({"error": "Unknown agent preset"}), 400
-    runner = TaskRunner(task_id, agent_key=agent_key)
+    runner = TaskRunner(paper_id, task_type=task_type, agent_key=agent_key)
     run_id = runner.run_async()
     with _ACTIVE_LOCK:
         _ACTIVE_RUNNERS[run_id] = runner
@@ -132,7 +135,8 @@ def api_start_run():
     return jsonify(
         {
             "run_id": run_id,
-            "task_id": task_id,
+            "paper_id": paper_id,
+            "task_type": task_type,
             "agent": agent_key,
             "status": "running",
             "workspace": str(runner.workspace),
