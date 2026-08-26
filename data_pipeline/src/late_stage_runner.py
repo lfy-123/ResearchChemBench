@@ -49,7 +49,6 @@ def run_stage06_07_from_history(
     )
     config = load_config(config_path)
     config["stage06"]["harness"] = harness
-    config["stage06"]["converter_harness"] = harness
     config["stage07"]["harness"] = harness
     output_root.mkdir(parents=True, exist_ok=True)
     # Include a monotonic nanosecond nonce and output identity so parallel

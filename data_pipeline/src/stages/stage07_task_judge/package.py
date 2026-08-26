@@ -1,7 +1,8 @@
-"""Assemble audited Stage07 modes into clean ResearchChemBench Task Package v1 trees."""
+"""Assemble an audited pair into the current isolated release layout."""
 
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 import sys
@@ -10,447 +11,239 @@ from pathlib import Path
 from typing import Any
 
 from src.agents.workspace import atomic_commit_tree, make_writable, prepare_clean_directory
-from src.contracts import read_json, safe_component, write_json
-from src.stages.evaluator_reference import read_split_reference
+from src.contracts import read_json, write_json
 
 
-_REPOSITORY_ROOT = Path(__file__).resolve().parents[4]
-if str(_REPOSITORY_ROOT) not in sys.path:
-    sys.path.insert(0, str(_REPOSITORY_ROOT))
+REPOSITORY_ROOT = Path(__file__).resolve().parents[4]
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
 
-from researchchembench_contracts import (  # noqa: E402
-    PACKAGE_MANIFEST_SCHEMA_V1,
-    SUBMISSION_SCHEMA_V1,
-    TASK_INFO_SCHEMA_V1,
-    TASK_PACKAGE_SCHEMA_V1,
-    PackageManifestV1,
-    SubmissionSchemaV1,
-    TaskInfoV1,
-    is_document_binding_selector,
-    materialize_result_schema_path,
+from evaluation.contracts import (  # noqa: E402
+    EVALUATION_FILES,
+    PackageManifest,
     package_content_hash,
     package_payload_entries,
     validate_task_package,
 )
 
 
-TASK_PACKAGE_ASSEMBLER_VERSION = "stage07-task-package-v1-unified-gate-20260824"
-COMPUTATIONAL_TASK_TYPES = ("paper_reproduction", "autonomous_research")
-_MODE_ALIASES = {
-    "paper_reproduction": "paper_reproduction",
-    "reproduction": "paper_reproduction",
-    "guided_reproduction": "paper_reproduction",
-    "autonomous_research": "autonomous_research",
-    "autonomous": "autonomous_research",
-    "open_discovery": "autonomous_research",
-}
+TASK_TYPES = ("autonomous_research", "paper_reproduction")
 
 
-def canonical_mode_task_id(task_family_id: str, task_type: str) -> str:
-    if task_type not in COMPUTATIONAL_TASK_TYPES:
-        raise ValueError(f"unsupported computational task type: {task_type}")
-    # Mode is encoded by the directory, so a mode-specific suffix would create
-    # a second paper identity.  Both mode packages carry the same paper_id.
-    return safe_component(task_family_id)
-
-
-def _as_string_list(value: Any) -> list[str]:
-    if isinstance(value, str) and value.strip():
-        return [value.strip()]
-    if isinstance(value, list):
-        return [str(item).strip() for item in value if str(item).strip()]
-    return []
-
-
-def _task_title(task_text: str, info: dict[str, Any], task_id: str) -> str:
-    for value in (info.get("title"), info.get("task_title")):
-        if str(value or "").strip():
-            return str(value).strip()
-    for line in task_text.splitlines():
-        if line.startswith("# ") and line[2:].strip():
-            return line[2:].strip()
-    return task_id
-
-
-def _required_capabilities(value: Any) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    if isinstance(value, list):
-        for item in value:
-            if isinstance(item, dict):
-                rows.append(item)
-    elif isinstance(value, dict):
-        for software in value.get("required_software") or []:
-            rows.append(
-                {
-                    "software_id": software,
-                    "reason": "Required by the audited scientific workflow.",
-                }
-            )
-        for item in value.get("required_additions") or []:
-            if isinstance(item, dict):
-                rows.append(item)
-    capabilities: list[dict[str, Any]] = []
-    seen: set[str] = set()
-    for row in rows:
-        software = str(
-            row.get("software_id")
-            or row.get("display_name")
-            or row.get("family")
-            or row.get("name")
-            or ""
-        ).strip()
-        capability = str(row.get("capability") or (f"software:{software}" if software else "")).strip()
-        if not capability or capability in seen:
-            continue
-        seen.add(capability)
-        preferred = _as_string_list(row.get("preferred_software"))
-        if software and software not in preferred:
-            preferred.append(software)
-        capabilities.append(
-            {
-                "capability": capability,
-                "preferred_software": preferred,
-                "required": bool(row.get("required", not row.get("non_blocking", False))),
-                "purpose": str(
-                    row.get("purpose")
-                    or row.get("reason")
-                    or row.get("required_by")
-                    or ""
-                ),
-            }
-        )
-    return capabilities
-
-
-def _normalize_required_deliverables(value: Any) -> tuple[list[dict[str, Any]], list[str]]:
-    """Project the historical deliverable envelope onto TaskInfoV1.
-
-    ``type: workspace_artifact`` was emitted by an older Stage07 prompt but
-    is not part of the shared TaskInfoV1 contract.  It carries no information
-    needed by the benchmark package, so it is removed at this explicit
-    projection boundary and reported as a diagnostic.  Other unknown fields
-    are retained so a genuinely divergent contract still fails loudly.
-    """
-
-    if not isinstance(value, list):
-        return [], []
-    normalized: list[dict[str, Any]] = []
-    diagnostics: list[str] = []
-    for index, item in enumerate(value):
-        if isinstance(item, str):
-            path = item.strip()
-            if path:
-                normalized.append(
-                    {
-                        "path": path,
-                        "description": "Required task artifact.",
-                        "allow_empty": False,
-                    }
-                )
-            continue
-        if not isinstance(item, dict):
-            normalized.append(item)
-            continue
-        row = dict(item)
-        if "type" in row and row.get("type") == "workspace_artifact":
-            row.pop("type", None)
-            diagnostics.append(
-                f"required_deliverables_type_projected:{index}:workspace_artifact"
-            )
-        normalized.append(row)
-    return normalized, diagnostics
-
-
-def _task_info(
-    *,
-    source_info: dict[str, Any],
-    task_text: str,
-    task_id: str,
-    task_family_id: str,
-    task_type: str,
-    runtime_readiness: str,
-    toolbox_requirements: Any,
-    required_deliverables: Any | None = None,
-) -> dict[str, Any]:
-    related_type = (
-        "autonomous_research"
-        if task_type == "paper_reproduction"
-        else "paper_reproduction"
-    )
-    raw_data = source_info.get("data") if isinstance(source_info.get("data"), list) else []
-    # TaskInfoV1 exposes only transport fields for public data assets.  Stage06
-    # may retain private/provenance annotations such as ``role`` or
-    # ``source_evidence_ids`` in its candidate metadata; discard those at this
-    # package boundary rather than letting a scientifically approved task fail
-    # during Pydantic serialization.
-    data = []
-    for item in raw_data:
-        if not isinstance(item, dict):
-            continue
-        data.append(
-            {
-                key: item[key]
-                for key in ("name", "path", "type", "description")
-                if key in item
-            }
-        )
-    deliverables = required_deliverables
-    if deliverables is None:
-        deliverables, _ = _normalize_required_deliverables(
-            source_info.get("required_deliverables")
-        )
-    value = {
-        "schema_version": TASK_INFO_SCHEMA_V1,
-        "task_id": task_id,
-        "task_family_id": task_family_id,
-        "task_type": task_type,
-        "source_id": str(
-            source_info.get("source_id")
-            or source_info.get("paper_id")
-            or task_family_id
-        ),
-        "title": _task_title(task_text, source_info, task_id),
-        "category": str(source_info.get("category") or "uncategorized"),
-        "tags": _as_string_list(source_info.get("tags")),
-        "runtime_readiness": runtime_readiness,
-        "required_capabilities": _required_capabilities(toolbox_requirements),
-        "data": data,
-        "required_deliverables": deliverables,
-        "related_task_ids": [canonical_mode_task_id(task_family_id, related_type)],
-        "reference_schema": "researchchembench.split-evaluator.v1",
+def _paper_summary(paper_info: dict[str, Any]) -> dict[str, str]:
+    return {
+        key: str(paper_info.get(key) or "")
+        for key in ("title", "doi", "journal", "publication_date")
     }
-    return TaskInfoV1.model_validate(value).model_dump(mode="json")
 
 
-def _submission_schema(
-    *,
-    source: dict[str, Any],
-    task_info: dict[str, Any],
-    task_id: str,
-    bindings: list[dict[str, Any]] | None = None,
-) -> dict[str, Any]:
-    required_files = _as_string_list(source.get("required_files"))
-    if not required_files:
-        required_files = [
-            str(item.get("path") or "")
-            for item in task_info.get("required_deliverables") or []
-            if str(item.get("path") or "")
-        ]
-    primary = str(
-        source.get("submission_path")
-        or source.get("primary_result_file")
-        or (required_files[0] if required_files else "")
-    ).strip()
-    result_schema = (
-        json.loads(json.dumps(source.get("result_schema"), ensure_ascii=False))
-        if isinstance(source.get("result_schema"), dict)
-        else json.loads(json.dumps(source.get("results_schema"), ensure_ascii=False))
-        if isinstance(source.get("results_schema"), dict)
-        else {}
-    )
-    # Make already-declared open paths explicit at the package boundary.  This
-    # is deterministic transport projection; it does not invent values or
-    # alter the hidden reference.  Filter selectors and document selectors are
-    # intentionally left to their dedicated validators.
-    for binding in bindings or []:
-        if not isinstance(binding, dict):
-            continue
-        projection = binding.get("canonical_projection")
-        for field in _as_string_list(binding.get("observed_fields")):
-            if is_document_binding_selector(
-                field,
-                _as_string_list(binding.get("artifact_paths")),
-                document_binding=bool(binding.get("document_binding")),
-            ):
-                continue
-            materialize_result_schema_path(result_schema, field, projection)
-    value = {
-        "schema_version": SUBMISSION_SCHEMA_V1,
-        "task_id": task_id,
-        "required_files": required_files,
-        "primary_result_file": primary or None,
-        "result_schema": result_schema,
-        "allowed_extra_fields": bool(source.get("allowed_extra_fields", True)),
-    }
-    return SubmissionSchemaV1.model_validate(value).model_dump(mode="json")
-
-
-def assemble_task_package(
-    *,
-    pair_root: Path,
-    final_tasks_root: Path,
-    task_family_id: str,
-    task_type: str,
-    runtime_readiness: str,
-) -> dict[str, Any]:
-    """Build, validate, and atomically publish one clean mode package."""
-
-    pair_root = pair_root.expanduser().resolve()
-    source = pair_root / task_type
-    split_reference = read_split_reference(pair_root)
-    task_id = canonical_mode_task_id(task_family_id, task_type)
-    destination = final_tasks_root / task_type / task_id
-    if not source.is_dir():
-        return {
-            "status": "failed",
-            "task_id": task_id,
-            "task_type": task_type,
-            "path": "",
-            "findings": ["source_mode_missing"],
-        }
-    required = [
-        source / "task.md",
-        source / "task_info.json",
-        source / "submission_contract.json",
-        source / "process_rubric.json",
-    ]
-    required.extend(
-        pair_root / "evaluator_reference" / filename
-        for filename in (
-            "reference_key_points.json",
-            "reference_conclusions.json",
-            "scoring_rules.json",
-            "evidence_map.json",
-            "critical_failures.json",
-        )
-    )
-    missing = [path.relative_to(pair_root).as_posix() for path in required if not path.is_file()]
-    if missing:
-        return {
-            "status": "failed",
-            "task_id": task_id,
-            "task_type": task_type,
-            "path": "",
-            "findings": [f"source_file_missing:{path}" for path in missing],
-        }
-    staging_container = prepare_clean_directory(
-        destination.parent
-        / f".{task_id}.staging-{uuid.uuid4().hex[:8]}"
-    )
-    staging = staging_container / task_id
-    staging.mkdir()
-    try:
-        task_text = (source / "task.md").read_text(encoding="utf-8")
-        (staging / "task.md").write_text(task_text, encoding="utf-8")
-        source_info = read_json(source / "task_info.json")
-        toolbox_path = pair_root / "toolbox_requirements.json"
-        toolbox_requirements = read_json(toolbox_path) if toolbox_path.is_file() else []
-        deliverables, deliverable_diagnostics = _normalize_required_deliverables(
-            source_info.get("required_deliverables")
-        )
-        task_info = _task_info(
-            source_info=source_info,
-            task_text=task_text,
-            task_id=task_id,
-            task_family_id=task_family_id,
+def _write_manifest(root: Path, *, paper_id: str, task_type: str) -> None:
+    entries = package_payload_entries(root)
+    write_json(
+        root / "package_manifest.json",
+        PackageManifest(
+            paper_id=paper_id,
             task_type=task_type,
-            runtime_readiness=runtime_readiness,
-            toolbox_requirements=toolbox_requirements,
-            required_deliverables=deliverables,
-        )
-        write_json(staging / "task_info.json", task_info)
-        source_data = source / "data"
-        if source_data.is_dir():
-            shutil.copytree(source_data, staging / "data")
-        else:
-            (staging / "data").mkdir()
-        evaluation = staging / "evaluation"
-        evaluation.mkdir()
-        if split_reference is None:
-            raise ValueError(
-                "evaluator_reference_missing: split evaluator files are required"
-            )
-        submission = _submission_schema(
-            source=read_json(source / "submission_contract.json"),
-            task_info=task_info,
-            task_id=task_id,
-            bindings=None,
-        )
-        write_json(staging / "submission_schema.json", submission)
-        for key, filename in {
-            "reference_key_points": "reference_key_points.json",
-            "reference_conclusions": "reference_conclusions.json",
-            "scoring_rules": "scoring_rules.json",
-            "evidence_map": "evidence_map.json",
-            "critical_failures": "critical_failures.json",
-        }.items():
-            write_json(evaluation / filename, split_reference[key])
-        entries = package_payload_entries(staging)
-        public_allowlist = ["task.md", "submission_schema.json"]
-        if any(entry.path.startswith("data/") for entry in entries):
-            public_allowlist.append("data/**")
-        manifest = PackageManifestV1(
-            schema_version=PACKAGE_MANIFEST_SCHEMA_V1,
-            package_schema=TASK_PACKAGE_SCHEMA_V1,
-            task_id=task_id,
-            task_family_id=task_family_id,
-            task_type=task_type,
-            reference_schema="researchchembench.split-evaluator.v1",
-            assembler_version=TASK_PACKAGE_ASSEMBLER_VERSION,
             package_content_sha256=package_content_hash(entries),
             entries=entries,
-            public_to_agent=public_allowlist,
-            manifest_self_excluded=True,
-        )
-        write_json(staging / "package_manifest.json", manifest.model_dump(mode="json"))
-        validation = validate_task_package(staging)
-        if validation.status != "passed":
-            return {
-                "status": "failed",
-                "task_id": task_id,
-                "task_type": task_type,
-                "path": "",
-                "findings": validation.findings,
-                "diagnostics": sorted(
-                    set(
-                        validation.diagnostics
-                        + deliverable_diagnostics
-                    )
-                ),
+        ).model_dump(mode="json"),
+    )
+
+
+def _assemble_mode(
+    *, pair_root: Path, staging_root: Path, paper_id: str, task_type: str,
+    paper_info: dict[str, Any]
+) -> dict[str, Any]:
+    source = pair_root / task_type
+    destination = staging_root / "tasks" / task_type / paper_id
+    agent_input = destination / "agent_input"
+    evaluation = destination / "evaluation"
+    agent_input.mkdir(parents=True)
+    evaluation.mkdir()
+
+    for name in ("task.md", "submission_schema.json"):
+        shutil.copy2(source / name, agent_input / name)
+    source_data = source / "data"
+    if source_data.is_dir():
+        shutil.copytree(source_data, agent_input / "data")
+    else:
+        (agent_input / "data").mkdir()
+    task_info = read_json(source / "task_info.json")
+    task_info["paper_id"] = paper_id
+    task_info["task_type"] = task_type
+    task_info["paper"] = _paper_summary(paper_info)
+    write_json(destination / "task_info.json", task_info)
+
+    evaluator = pair_root / "evaluator_reference" / task_type
+    for name in EVALUATION_FILES:
+        shutil.copy2(evaluator / name, evaluation / name)
+    _write_manifest(destination, paper_id=paper_id, task_type=task_type)
+    report = validate_task_package(destination)
+    return {
+        "paper_id": paper_id,
+        "task_type": task_type,
+        "status": report.status,
+        "findings": report.findings,
+        "diagnostics": report.diagnostics,
+        "path": str(destination),
+        "package_sha256": (
+            read_json(destination / "package_manifest.json")["package_content_sha256"]
+            if report.status == "passed"
+            else ""
+        ),
+    }
+
+
+def _copy_paper(*, pair_root: Path, destination: Path, paper_id: str) -> dict[str, Any]:
+    source_info = read_json(pair_root / "paper_info.json")
+    documents: list[dict[str, Any]] = []
+    document_root = destination / "documents"
+    document_root.mkdir(parents=True)
+    supplement_index = 0
+    source_documents = [
+        row for row in source_info.get("documents") or [] if isinstance(row, dict)
+    ]
+    has_explicit_main = any(
+        str(row.get("document_type") or "")
+        in {"main_paper", "main_article", "paper", "article"}
+        for row in source_documents
+    )
+    for index, row in enumerate(source_documents):
+        if not isinstance(row, dict) or not row.get("source_path"):
+            continue
+        source = Path(str(row["source_path"])).expanduser().resolve()
+        if not source.is_file() or source.suffix.casefold() != ".pdf":
+            continue
+        role = str(row.get("document_type") or "")
+        if (
+            role in {"main_paper", "main_article", "paper", "article"}
+            or (index == 0 and not has_explicit_main)
+        ) and not (document_root / "main.pdf").exists():
+            name = "main.pdf"
+            document_type = "main_article"
+        else:
+            supplement_index += 1
+            name = f"supplementary_{supplement_index:03d}.pdf"
+            document_type = "supplementary_information"
+        target = document_root / name
+        shutil.copy2(source, target)
+        documents.append(
+            {
+                "document_type": document_type,
+                "path": f"documents/{name}",
+                "original_filename": row.get("original_filename") or source.name,
+                "sha256": hashlib.sha256(target.read_bytes()).hexdigest(),
             }
-        atomic_commit_tree(staging, destination)
+        )
+    if not documents or not (document_root / "main.pdf").is_file():
+        raise FileNotFoundError("release requires one readable main-article PDF")
+    paper_info = {
+        "paper_id": paper_id,
+        **_paper_summary(source_info),
+        "publication_year": (
+            int(str(source_info.get("publication_date"))[:4])
+            if str(source_info.get("publication_date") or "")[:4].isdigit()
+            else None
+        ),
+        "authors": source_info.get("authors") or [],
+        "documents": documents,
+    }
+    write_json(destination / "paper_info.json", paper_info)
+    return paper_info
+
+
+def assemble_release_pair(
+    *, pair_root: Path, release_root: Path, paper_id: str
+) -> dict[str, Any]:
+    """Validate both task packages privately, then publish the complete paper pair."""
+
+    pair_root = pair_root.resolve()
+    release_root = release_root.resolve()
+    staging = prepare_clean_directory(
+        release_root.parent / f".{release_root.name}-{paper_id}-{uuid.uuid4().hex[:8]}"
+    )
+    try:
+        paper_destination = staging / "papers" / paper_id
+        paper_info = _copy_paper(
+            pair_root=pair_root, destination=paper_destination, paper_id=paper_id
+        )
+        reports = {
+            task_type: _assemble_mode(
+                pair_root=pair_root,
+                staging_root=staging,
+                paper_id=paper_id,
+                task_type=task_type,
+                paper_info=paper_info,
+            )
+            for task_type in TASK_TYPES
+        }
+        findings = sorted(
+            {
+                finding
+                for report in reports.values()
+                for finding in report["findings"]
+            }
+        )
+        if findings:
+            return {"status": "failed", "findings": findings, "tasks": reports}
+
+        destinations = [
+            (paper_destination, release_root / "papers" / paper_id),
+            *[
+                (
+                    staging / "tasks" / task_type / paper_id,
+                    release_root / "tasks" / task_type / paper_id,
+                )
+                for task_type in TASK_TYPES
+            ],
+        ]
+        for source, destination in destinations:
+            atomic_commit_tree(source, destination)
+        for report in reports.values():
+            report["path"] = str(
+                release_root / "tasks" / report["task_type"] / paper_id
+            )
         return {
             "status": "passed",
-            "task_id": task_id,
-            "task_type": task_type,
-            "path": str(destination),
-            "package_content_sha256": manifest.package_content_sha256,
             "findings": [],
-            "diagnostics": sorted(
-                set(
-                    validation.diagnostics
-                    + deliverable_diagnostics
-                )
-            ),
-        }
-    except Exception as exc:
-        return {
-            "status": "failed",
-            "task_id": task_id,
-            "task_type": task_type,
-            "path": "",
-            "findings": [f"task_package_assembly_error:{type(exc).__name__}:{exc}"],
+            "paper_path": str(release_root / "papers" / paper_id),
+            "tasks": reports,
         }
     finally:
-        if staging_container.exists():
-            make_writable(staging_container)
-            shutil.rmtree(staging_container, ignore_errors=True)
+        if staging.exists():
+            make_writable(staging)
+            shutil.rmtree(staging)
 
 
-def assemble_task_packages(
-    *,
-    pair_root: Path,
-    final_tasks_root: Path,
-    task_family_id: str,
-    runtime_readiness: str,
-) -> dict[str, dict[str, Any]]:
-    return {
-        task_type: assemble_task_package(
-            pair_root=pair_root,
-            final_tasks_root=final_tasks_root,
-            task_family_id=task_family_id,
-            task_type=task_type,
-            runtime_readiness=runtime_readiness,
-        )
-        for task_type in COMPUTATIONAL_TASK_TYPES
-    }
+def write_release_manifest(
+    *, release_root: Path, run_id: str, records: list[dict[str, Any]]
+) -> None:
+    published = [row for row in records if row.get("publish_ready")]
+    papers = [
+        {"paper_id": row["paper_id"], "path": f"papers/{row['paper_id']}"}
+        for row in published
+    ]
+    tasks = []
+    for row in published:
+        for task_type in TASK_TYPES:
+            report = (row.get("release_report") or {}).get("tasks", {}).get(task_type, {})
+            tasks.append(
+                {
+                    "paper_id": row["paper_id"],
+                    "task_type": task_type,
+                    "path": f"tasks/{task_type}/{row['paper_id']}",
+                    "package_sha256": report.get("package_sha256", ""),
+                }
+            )
+    write_json(
+        release_root / "release_manifest.json",
+        {
+            "release_id": run_id,
+            "source_run_id": run_id,
+            "papers": papers,
+            "tasks": tasks,
+        },
+    )
+
+
+__all__ = ["TASK_TYPES", "assemble_release_pair", "write_release_manifest"]

@@ -13,6 +13,7 @@ import argparse
 import json
 import os
 import random
+import shutil
 import subprocess
 import sys
 import urllib.error
@@ -73,6 +74,55 @@ def _write_json(path: Path, payload: dict[str, Any]) -> None:
     temporary = path.with_name(f".{path.name}.{os.getpid()}.tmp")
     temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     os.replace(temporary, path)
+
+
+def _consolidate_release(output_root: Path, results: list[dict[str, Any]]) -> None:
+    """Collect per-process releases into one batch release without changing packages."""
+
+    staging = output_root / f".release-staging-{os.getpid()}"
+    if staging.exists():
+        shutil.rmtree(staging)
+    staging.mkdir()
+    papers: list[dict[str, str]] = []
+    tasks: list[dict[str, str]] = []
+    for result in results:
+        if result.get("outcome") != "published":
+            continue
+        paper_id = str(result["paper_id"])
+        source = output_root / "papers" / paper_id / "release"
+        manifest_path = source / "release_manifest.json"
+        if not manifest_path.is_file():
+            continue
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        shutil.copytree(source / "papers" / paper_id, staging / "papers" / paper_id)
+        papers.append({"paper_id": paper_id, "path": f"papers/{paper_id}"})
+        for item in manifest.get("tasks") or []:
+            task_type = str(item["task_type"])
+            shutil.copytree(
+                source / "tasks" / task_type / paper_id,
+                staging / "tasks" / task_type / paper_id,
+            )
+            tasks.append(
+                {
+                    "paper_id": paper_id,
+                    "task_type": task_type,
+                    "path": f"tasks/{task_type}/{paper_id}",
+                    "package_sha256": str(item.get("package_sha256") or ""),
+                }
+            )
+    _write_json(
+        staging / "release_manifest.json",
+        {
+            "release_id": output_root.name,
+            "source_run_id": output_root.name,
+            "papers": papers,
+            "tasks": tasks,
+        },
+    )
+    destination = output_root / "release"
+    if destination.exists():
+        shutil.rmtree(destination)
+    os.replace(staging, destination)
 
 
 def _stage05_paths(source_root: Path, filename: str) -> list[Path]:
@@ -316,7 +366,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--api-key-env", default="RCB_GPT_API_KEY")
     parser.add_argument(
         "--stage06-model",
-        help="Model used by Stage06A/06B; defaults to --model",
+        help="Model used by final reproduction-first synthesis; defaults to --model",
     )
     parser.add_argument(
         "--stage07-model",
@@ -403,7 +453,6 @@ def main(argv: list[str] | None = None) -> int:
         {
             "RCB_STAGE06_HARNESS": args.harness,
             "RCB_STAGE07_HARNESS": args.harness,
-            "RCB_STAGE06_CONVERTER_HARNESS": args.harness,
             "RCB_BUILDER_BASE_URL": stage06_base_url,
             "RCB_JUDGE_BASE_URL": stage07_base_url,
             "RCB_BUILDER_MODEL": stage06_model,
@@ -413,6 +462,8 @@ def main(argv: list[str] | None = None) -> int:
             "RCB_BUILDER_API_KEY": stage06_api_key,
             "RCB_JUDGE_API_KEY": stage07_api_key,
             "PYTHONPATH": str(args.pipeline_root)
+            + os.pathsep
+            + str(args.pipeline_root.parent)
             + (os.pathsep + environment["PYTHONPATH"] if environment.get("PYTHONPATH") else ""),
         }
     )
@@ -521,6 +572,7 @@ def main(argv: list[str] | None = None) -> int:
             )
             _write_json(args.output_root / "batch_status.json", batch)
     results.sort(key=lambda row: selected.index(row["paper_id"]))
+    _consolidate_release(args.output_root, results)
     failed = [row for row in results if row["state"] != "COMPLETED"]
     batch.update(
         {

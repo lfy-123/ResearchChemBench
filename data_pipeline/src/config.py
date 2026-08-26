@@ -134,28 +134,9 @@ def load_config(path: str | Path) -> dict[str, Any]:
     stage06["harness"] = os.environ.get("RCB_STAGE06_HARNESS") or stage06.get(
         "harness", "codex"
     )
-    stage06["mode_generation_strategy"] = os.environ.get(
-        "RCB_STAGE06_MODE_GENERATION_STRATEGY"
-    ) or stage06.get("mode_generation_strategy", "two_agent_objective_centered")
-    stage06["converter_harness"] = os.environ.get("RCB_STAGE06_CONVERTER_HARNESS") or stage06.get(
-        "converter_harness", stage06["harness"]
-    )
-    stage06.setdefault("preferred_scope", "objective_centered_core_workflow")
-    stage06.setdefault("minimum_complexity", "medium")
-    stage06.setdefault("reject_trivial_single_call", True)
-    # Stage06A's final self-check is prompt-driven, but it must have an
-    # explicit budget reserved for writing, validation, and one repair pass.
-    stage06.setdefault("task_pair_builder_max_tool_calls", 120)
-    stage06.setdefault("task_pair_builder_timeout_seconds", 7200)
-    stage06.setdefault("task_pair_builder_search_max_tool_calls", 72)
-    stage06.setdefault("task_pair_builder_finalization_reserve", 12)
-    stage06.setdefault("autonomous_converter_max_tool_calls", 60)
-    stage06.setdefault("autonomous_converter_finalization_reserve", 8)
-    stage06.setdefault("autonomous_converter_timeout_seconds", 3600)
-    stage06.setdefault("stage06a_max_tool_calls", stage06["task_pair_builder_max_tool_calls"])
-    stage06.setdefault(
-        "stage06a_finalization_reserve", stage06["task_pair_builder_finalization_reserve"]
-    )
+    stage06.setdefault("synthesis_max_tool_calls", 180)
+    stage06.setdefault("synthesis_finalization_reserve", 28)
+    stage06.setdefault("synthesis_timeout_seconds", 5400)
     stage06.setdefault("model_context_window", 1_000_000)
     stage06.setdefault("model_auto_compact_token_limit", 750_000)
     stage06.setdefault("model_auto_compact_token_limit_scope", "total")
@@ -325,6 +306,18 @@ def _normalize_model_roles(
         base_url_env = str(value.get("base_url_env") or f"{env_prefix}_BASE_URL")
         model_env = str(value.get("model_env") or f"{env_prefix}_MODEL")
         value["base_url"] = os.environ.get(base_url_env) or value.get("base_url")
+        use_proxy_env = str(value.get("use_proxy_env") or f"{env_prefix}_USE_PROXY")
+        raw_use_proxy = os.environ.get(use_proxy_env)
+        if raw_use_proxy is not None:
+            normalized_use_proxy = raw_use_proxy.strip().casefold()
+            if normalized_use_proxy in {"1", "true", "yes", "on"}:
+                value["use_proxy"] = True
+            elif normalized_use_proxy in {"0", "false", "no", "off"}:
+                value["use_proxy"] = False
+            else:
+                raise ValueError(
+                    f"{use_proxy_env} must be a boolean (true/false), got {raw_use_proxy!r}"
+                )
         # Explicit loopback endpoints are local services.  Do not route them through
         # the cluster's outbound proxy even when the shared remote-model defaults
         # enable proxying for this role.
@@ -332,7 +325,7 @@ def _normalize_model_roles(
             hostname = urlparse(str(value.get("base_url") or "")).hostname
         except ValueError:
             hostname = None
-        if hostname in {"127.0.0.1", "localhost", "::1"}:
+        if hostname in {"127.0.0.1", "localhost", "::1"} and raw_use_proxy is None:
             value["use_proxy"] = False
         model_override = os.environ.get(model_env)
         if model_override:
@@ -439,11 +432,7 @@ def _validate(config: dict[str, Any]) -> None:
         ):
             if stage.get(key) is not None and str(stage[key]) not in allowed:
                 raise ValueError(f"{stage_name}.{key} must be one of {sorted(allowed)}")
-        suffixes = (
-            ("task_pair_builder", "autonomous_converter")
-            if stage_name == "stage06"
-            else ("audit_repair",)
-        )
+        suffixes = ("synthesis",) if stage_name == "stage06" else ("audit_repair",)
         for suffix in suffixes:
             for key, allowed in (
                 ("tool_choice_policy", TOOL_CHOICE_POLICIES),
@@ -473,23 +462,6 @@ def _validate(config: dict[str, Any]) -> None:
         if role != expected:
             raise ValueError(f"{stage}.model_role must be {expected}")
         config[stage]["model_role"] = expected
-    strategy = str(config["stage06"].get("mode_generation_strategy") or "two_agent_objective_centered")
-    if strategy != "two_agent_objective_centered":
-        raise ValueError("stage06.mode_generation_strategy must be two_agent_objective_centered")
-    config["stage06"]["mode_generation_strategy"] = strategy
-    if config["stage06"].get("preferred_scope") not in {
-        "full_paper_computational_workflow",
-        "objective_centered_workflow",
-        "objective_centered_core_workflow",
-    }:
-        raise ValueError(
-            "stage06.preferred_scope must be full_paper_computational_workflow, "
-            "objective_centered_workflow, or objective_centered_core_workflow"
-        )
-    if config["stage06"].get("minimum_complexity") not in {"medium", "high"}:
-        raise ValueError("stage06.minimum_complexity must be medium or high")
-    if not isinstance(config["stage06"].get("reject_trivial_single_call"), bool):
-        raise ValueError("stage06.reject_trivial_single_call must be true or false")
     router_role = config["stage05"].get("router_model_role", "stage05_router")
     if router_role != "stage05_router":
         raise ValueError("stage05.router_model_role must be stage05_router")
