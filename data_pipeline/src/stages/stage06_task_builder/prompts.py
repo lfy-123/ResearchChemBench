@@ -328,7 +328,11 @@ SUCCESSFUL CONSTRUCTION ORDER
    `task_id` field is required by the runner, it must equal the common paper_id with no mode suffix.
    Process rubric entries should describe the
    route-execution Key Points and their evidence; do not choose a score scale, total, or weighting
-   policy. Submission paths are evaluation-workspace relative (for example `report/results.json`).
+   policy. `process_rubric.json` is a top-level JSON array. In reproduction mode it contains exactly
+   one route-fidelity row using the transport shape
+   `{{"id":"paper_route_fidelity","criterion_type":"route_fidelity","description":"...","evidence_artifacts":["report/results.json"]}}`,
+   where every evidence artifact is an evaluated-Agent required submission file. Submission paths
+   are evaluation-workspace relative (for example `report/results.json`).
 5. Run `python inputs/scripts/validate_reproduction.py`.
 6. Create both public mode surfaces from the same closed scientific objective. The autonomous surface
    is answer-blind: remove author route details, hidden values, private labels, evidence-bearing prose,

@@ -1450,8 +1450,12 @@ spec = json.loads((root / "task_spec.json").read_text(encoding="utf-8"))
 for value, label in ((info, "task_info"), (spec, "task_spec")):
     if value.get("mode") != "paper_reproduction":
         raise SystemExit(label + " mode must be paper_reproduction")
-    if not value.get("workflow_scope") or not value.get("complexity_profile"):
-        raise SystemExit(label + " lacks workflow_scope or complexity_profile")
+    for private_key in ("workflow_scope", "complexity_profile", "ground_truth_items"):
+        if private_key in value:
+            raise SystemExit(
+                "public_private_field_present:paper_reproduction:"
+                + label + ".json:" + private_key
+            )
 print("paper reproduction shape: OK")
 '''
 

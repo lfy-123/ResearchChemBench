@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 from src.stages.phase_gate import _input_findings, run
@@ -9,6 +11,7 @@ from src.stages.stage06_task_builder.prompts import (
     autonomous_converter_instructions,
     task_pair_builder_instructions,
 )
+from src.stages.stage06_task_builder.stage import _write_stage06_helper_scripts
 from src.stages.stage06_task_builder.validation import _input_closure_findings
 from src.stages.stage07_task_judge.prompts import audit_instructions
 
@@ -83,6 +86,8 @@ def test_synthesis_prompt_closes_gate_feedback_before_success() -> None:
     assert '"fields":["$.result_name"]' in prompt
     assert '"comparison":"absolute_difference"' in prompt
     assert "Every JSON selector must exist in the declared `results_schema`" in prompt
+    assert "`process_rubric.json` is a top-level JSON array" in prompt
+    assert '"criterion_type":"route_fidelity"' in prompt
 
 
 def test_stage07_requires_complete_rules_but_not_optimal_tolerance() -> None:
@@ -104,6 +109,30 @@ def test_stage07_requires_complete_rules_but_not_optimal_tolerance() -> None:
 def test_agent_facing_phase_alias_uses_same_gate_contract(tmp_path: Path) -> None:
     pair = _pair(tmp_path)
     assert run("synthesis", pair)["findings"] == run("stage06a", pair)["findings"]
+
+
+def test_reproduction_helper_accepts_public_projection_and_rejects_private_fields(
+    tmp_path: Path,
+) -> None:
+    pair = _pair(tmp_path)
+    scripts = tmp_path / "scripts"
+    _write_stage06_helper_scripts(scripts)
+    command = [
+        sys.executable,
+        str(scripts / "validate_reproduction.py"),
+        str(pair / "paper_reproduction"),
+    ]
+
+    clean = subprocess.run(command, text=True, capture_output=True, check=False)
+    assert clean.returncode == 0, clean.stderr
+
+    info_path = pair / "paper_reproduction/task_info.json"
+    info = json.loads(info_path.read_text(encoding="utf-8"))
+    info["workflow_scope"] = {"private": True}
+    _write(info_path, info)
+    leaked = subprocess.run(command, text=True, capture_output=True, check=False)
+    assert leaked.returncode != 0
+    assert "public_private_field_present" in leaked.stderr
 
 
 def test_public_bootstrap_projection_drops_private_scope() -> None:

@@ -172,6 +172,25 @@ v16.1 对此只修改 Agent 工作说明，不新增 orchestrator retry/replay �
 
 新增 prompt 回归后，v9/v14/v15/v16 定向集合共 31 项通过，另有 5 项 Stage06/Stage07 工作流 prompt 回归通过。
 
+### 6.5 Reproduction helper 与 Gate 的 public/private 冲突
+
+v16.1 第三轮的 `paper_308bbee002d4560c` 证明 self-check/external Gate finding 已一致，但又暴露出更早的 helper
+validator 冲突：`validate_reproduction.py` 要求 public `task_info.json`/`task_spec.json` 含有 private
+`workflow_scope` 和 `complexity_profile`，而 shared Gate 正确地以 `public_private_field_present` 阻断它们。Agent 先删掉
+private 字段，helper 报错后又将其加回，最终不可能同时满足两个合同。该冲突也解释了为什么仅强化 self-check prompt 仍不能
+稳定闭环。
+
+修复保持单一 public/private 语义：
+
+- reproduction helper 不再要求 private review 字段，并在发现这三个 private key 时直接给出与 Gate 同类的泄露错误；
+- public complexity/scope 仍保留在 private `workflow_review.json` 和 receipt，不回填 public metadata；
+- 合成 prompt 明确 `process_rubric.json` 是顶层数组，并给出通用 `route_fidelity` row，证据只能引用 required submission
+  artifact；这解决 transport shape，不引入论文科学关键词或固定评分值；
+- 新增 helper 行为测试：干净 public projection 通过，加入 private field 后失败。
+
+修复后 v9/v14/v15/v16 定向集合共 32 项通过，5 项工作流 prompt 回归继续通过。第三轮已停止以避免继续产生受矛盾
+validator 污染的输出；下一轮必须使用新 workspace 重新运行同十篇。
+
 ## 4. 最终一致性标准
 
 只有同时满足以下条件才进入十篇论文测试：
