@@ -161,10 +161,20 @@ def test_gate_rejects_obsolete_paper_scoped_id(tmp_path: Path) -> None:
 
 
 def test_gate_rejects_source_paper_material_in_public_inputs(tmp_path: Path) -> None:
-    root = candidate(tmp_path)
-    _write(root / "paper_reproduction/data/inputs/paper_excerpt.md", "article text")
+    root = candidate(tmp_path / "workspace/outputs")
+    source = tmp_path / "workspace/inputs/documents/doc_main/document.md"
+    _write(source, "article text")
+    _write(root / "paper_reproduction/data/inputs/notes.md", source.read_text())
     report = run_gate("synthesis", root, mode="paper_reproduction")
-    assert "paper_reproduction:paper_source_material_exposed:data/inputs/paper_excerpt.md" in report["findings"]
+    assert "paper_reproduction:paper_source_material_exposed:data/inputs/notes.md" in report["findings"]
+
+
+def test_gate_allows_legitimate_input_filename_with_source_word(tmp_path: Path) -> None:
+    root = candidate(tmp_path / "workspace/outputs")
+    _write(tmp_path / "workspace/inputs/documents/doc_main/document.md", "article text")
+    _write(root / "paper_reproduction/data/inputs/source_data.json", {"temperature": 298.15})
+    report = run_gate("synthesis", root, mode="paper_reproduction")
+    assert report["status"] == "passed"
 
 
 def test_audit_receipt_allows_only_the_fixed_approved_snapshot(tmp_path: Path) -> None:

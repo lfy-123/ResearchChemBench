@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import re
 import shutil
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -22,10 +21,6 @@ EVALUATION_FILES = (
 )
 RULE_TYPES = {"numeric", "ordering", "condition", "semantic"}
 _PLACEHOLDERS = {"todo", "tbd", "placeholder", "fill me", "fill_me", "fill-me"}
-_PAPER_INPUT_MARKERS = {
-    "paper", "article", "manuscript", "supplement", "supplementary", "source",
-    "si", "supporting_information", "supporting-information",
-}
 
 
 def _read_object(path: Path) -> dict[str, Any]:
@@ -54,31 +49,37 @@ def _safe_path(value: Any) -> str | None:
     return path.as_posix()
 
 
-def _public_input_findings(directory: Path, mode: str) -> list[str]:
-    """Reject source-paper material copied into the Agent-visible input tree.
+def _source_document_hashes(root: Path) -> set[str]:
+    """Return hashes of source-paper assets visible from this Agent workspace."""
 
-    The synthesis workspace already contains the paper snapshot outside the output tree. A
-    task input whose filename advertises that it is the paper/SI is therefore a provenance
-    leak, not a legitimate scientific input. This deliberately checks only the generic
-    source-material boundary; it does not blacklist chemistry or method vocabulary.
-    """
+    for ancestor in (root, *root.parents):
+        candidates = (
+            ancestor / "inputs" / "documents",
+            ancestor / "inputs" / "source" / "documents",
+        )
+        existing = [path for path in candidates if path.is_dir()]
+        if existing:
+            return {
+                hashlib.sha256(path.read_bytes()).hexdigest()
+                for directory in existing
+                for path in directory.rglob("*")
+                if path.is_file()
+            }
+    return set()
 
-    findings: list[str] = []
+
+def _public_input_findings(root: Path, directory: Path, mode: str) -> list[str]:
+    """Reject exact copies of source-paper assets in the Agent-visible input tree."""
+
+    source_hashes = _source_document_hashes(root)
     data_directory = directory / "data"
-    if not data_directory.is_dir():
-        return findings
-    for path in data_directory.rglob("*"):
-        if not path.is_file():
-            continue
-        relative = path.relative_to(directory)
-        stem_tokens = {
-            token
-            for token in re.split(r"[^a-z0-9]+", path.stem.casefold())
-            if token
-        }
-        if stem_tokens & _PAPER_INPUT_MARKERS:
-            findings.append(f"{mode}:paper_source_material_exposed:{relative}")
-    return findings
+    if not source_hashes or not data_directory.is_dir():
+        return []
+    return [
+        f"{mode}:paper_source_material_exposed:{path.relative_to(directory)}"
+        for path in data_directory.rglob("*")
+        if path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() in source_hashes
+    ]
 
 
 def _schema_selector_status(schema: Any, selector: str) -> bool:
@@ -347,7 +348,7 @@ def _mode_findings(root: Path, mode: str, paper_id: str) -> tuple[list[str], lis
             findings.append(f"{mode}:symlink_forbidden:{path.relative_to(directory)}")
         if path.is_file() and path.suffix.casefold() == ".pdf":
             findings.append(f"{mode}:paper_pdf_exposed_to_agent:{path.relative_to(directory)}")
-    findings.extend(_public_input_findings(directory, mode))
+    findings.extend(_public_input_findings(root, directory, mode))
     evaluation = root / "evaluator_reference" / mode
     eval_findings, eval_diagnostics = _evaluation_findings(
         evaluation, paper_id=paper_id, submission=submission, mode=mode

@@ -191,9 +191,47 @@
 
 第二轮运行发现 Agent 将规范化正文/SI Markdown 复制到两个模式的 `data/inputs/`。仅在
 Prompt 中禁止 PDF 不足以覆盖这种等价泄漏。统一 Gate 现对 Agent-visible `data/` 下带有
-通用论文来源标识（paper、article、manuscript、supplement、SI、source 等）的文件名
-阻断；该检查不依赖具体论文内容、化学方法或目标数值，也不改变合法计算输入的科学
-判断。回归 fixture 已验证 Stage06 自查和 external Gate 都能发现该问题。
+与 workspace source snapshot 中论文/SI 资产内容哈希完全相同的文件阻断。该检查不根据
+文件名、具体论文内容、化学方法或目标数值判断，因此不会误伤名称中含 `source` 或
+`paper` 的合法科学数据。回归 fixture 已验证 Stage06 自查和 external Gate 都能发现完整
+来源文件复制，同时允许普通 `source_data.json`。
+
+### 5.3 v19.1 五篇最终运行与质量审计
+
+最终批次：
+
+`runs/stage0607-v19.1-gpt-5.6-sol-20260826-reproduction-first-5-rerun3`
+
+配置为 `gpt-5.6-sol`、reasoning `high`、并发 5。五篇全部得到正常终态，
+`failed_count=0`：
+
+| paper_id | 结果 | 归因 |
+|---|---|---|
+| `paper_2aca1dd116799b28` | scientific rejection | 三个 enediyne 的 reactant/QST3 endpoint 坐标存在合并或缺失，不能无猜测恢复 |
+| `paper_611000e1de080f6f` | Stage07 scientific rejection | 坐标组成与化合物身份不一致；evaluator 漏评多个必交科学字段；reproduction 添加了来源未披露的频率要求 |
+| `paper_76ae2dc25f0a5aeb` | published | 两模式、自查、外部 Gate、Stage07 科学审计和 release 均通过 |
+| `paper_9455a82229de2427` | published | 两模式、自查、外部 Gate、Stage07 科学审计和 release 均通过 |
+| `paper_a5564360a31f760b` | scientific rejection | 缺少两个 methyl-truncated 分子的明确原子模型和振动比较 atom mapping |
+
+两篇发布任务均观察到真实顺序：完整 reproduction → reproduction self-check passed →
+autonomous 派生 → pair self-check passed → schema-valid terminal receipt → external Gate →
+Stage07。Agent self-check 与 external Gate 的 blocking findings 均为空，没有出现
+self-check 通过后被外部 Gate 机械阻断。
+
+发布质量复核：
+
+1. 四个 task package 均通过 benchmark v19 validator；
+2. 两种模式的 Agent 输入均无 PDF/SI，仅有 task、schema 和问题所需结构/系统数据；
+3. `paper_76ae...` evaluator 覆盖两个一阶鞍点、1.9±0.5 kcal/mol 相对自由能、排序和
+   S/R 结论；
+4. `paper_9455...` evaluator 覆盖端点 E0、两个反应能、排序、实验区间和最终结论；
+5. autonomous 均未泄漏 reproduction 软件、模型化学、参考数值、排序或结论；
+6. Stage07 对 `paper_611...` 的拒绝证明其能够发现 Gate 不应硬编码的分子身份和科学
+   evaluator 覆盖问题。
+
+残余问题：发布论文元数据中的 title、publication_date、authors 在本批两篇均为空；DOI、
+journal、PDF/SI 角色和 SHA-256 正常。这来自历史 Stage04 文档记录缺少稳定书目字段，不影响
+任务执行和评分，但正式安装前应从可信书目元数据补齐，而不是让合成 Agent从正文猜测。
 
 ## 6. 方案一致性复核
 
