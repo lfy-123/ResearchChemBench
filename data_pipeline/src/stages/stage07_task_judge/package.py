@@ -11,6 +11,11 @@ from typing import Any
 
 from src.agents.workspace import atomic_commit_tree, make_writable, prepare_clean_directory
 from src.contracts import read_json, safe_component, write_json
+from src.stages.evaluator_reference import (
+    legacy_reference_from_split,
+    read_split_reference,
+    split_legacy_reference,
+)
 
 
 _REPOSITORY_ROOT = Path(__file__).resolve().parents[4]
@@ -38,7 +43,7 @@ from researchchembench_contracts import (  # noqa: E402
 )
 
 
-TASK_PACKAGE_ASSEMBLER_VERSION = "stage07-task-package-v1-20260823"
+TASK_PACKAGE_ASSEMBLER_VERSION = "stage07-task-package-v1-unified-gate-20260824"
 COMPUTATIONAL_TASK_TYPES = ("paper_reproduction", "autonomous_research")
 _MODE_ALIASES = {
     "paper_reproduction": "paper_reproduction",
@@ -53,7 +58,9 @@ _MODE_ALIASES = {
 def canonical_mode_task_id(task_family_id: str, task_type: str) -> str:
     if task_type not in COMPUTATIONAL_TASK_TYPES:
         raise ValueError(f"unsupported computational task type: {task_type}")
-    return f"{safe_component(task_family_id)}_{task_type}"
+    # Mode is encoded by the directory, so a mode-specific suffix would create
+    # a second paper identity.  Both mode packages carry the same paper_id.
+    return safe_component(task_family_id)
 
 
 def _scope(value: Any) -> set[str] | None:
@@ -99,6 +106,7 @@ def _normalize_binding_transport(binding: dict[str, Any]) -> dict[str, Any]:
 def _selected_binding(profile: dict[str, Any], task_type: str) -> dict[str, Any]:
     """Select one already-authored mode binding without inventing a mapping."""
 
+    selected_matrix_binding: dict[str, Any] | None = None
     for key in ("mode_submission_bindings", "submission_bindings_by_mode"):
         matrix = profile.get(key)
         if isinstance(matrix, dict):
@@ -107,8 +115,53 @@ def _selected_binding(profile: dict[str, Any], task_type: str) -> dict[str, Any]
                     _MODE_ALIASES.get(str(raw_mode).strip().casefold()) == task_type
                     and isinstance(binding, dict)
                 ):
-                    return _normalize_binding_transport(binding)
+                    selected_matrix_binding = binding
+                    break
+            if selected_matrix_binding is not None:
+                break
     shared = profile.get("submission_binding")
+    shared_is_binding = isinstance(shared, dict) and any(
+        key in shared
+        for key in (
+            "artifact_paths",
+            "artifact_path",
+            "artifact",
+            "artifacts",
+            "observed_fields",
+            "observed_field",
+            "target_fields",
+            "field",
+            "document_target",
+        )
+    )
+    if selected_matrix_binding is not None:
+        selected = normalize_binding_contract(selected_matrix_binding, profile=profile)
+        if shared_is_binding:
+            shared_normalized = normalize_binding_contract(shared, profile=profile)
+
+            def comparable(value: dict[str, Any]) -> dict[str, Any]:
+                return {
+                    key: value.get(key)
+                    for key in (
+                        "artifact_paths",
+                        "observed_fields",
+                        "comparison",
+                        "document_binding",
+                        "canonical_projection",
+                    )
+                    if value.get(key) is not None
+                }
+
+            if comparable(selected) != comparable(shared_normalized):
+                raise ValueError(
+                    "conflicting shared and mode submission bindings: "
+                    + str(
+                        profile.get("acceptance_profile_id")
+                        or profile.get("profile_id")
+                        or "unknown"
+                    )
+                )
+        return _normalize_binding_transport(selected_matrix_binding)
     if not isinstance(shared, dict):
         return {}
     for key in ("mode_submission_bindings", "submission_bindings_by_mode"):
@@ -149,14 +202,17 @@ def _selected_binding(profile: dict[str, Any], task_type: str) -> dict[str, Any]
 def _profile_parameters(
     profile: dict[str, Any], answer: dict[str, Any]
 ) -> dict[str, Any]:
-    for candidate in (
-        profile.get("parameters"),
-        profile.get("tolerance"),
-        answer.get("acceptance_parameters"),
-    ):
-        if isinstance(candidate, dict) and candidate:
-            return json.loads(json.dumps(candidate, ensure_ascii=False))
     values: dict[str, Any] = {}
+    # Merge already-authored sources from least to most specific.  Returning
+    # only the first non-empty container can discard a unit from the answer
+    # when the profile carries only a tolerance (or vice versa).
+    for candidate in (
+        answer.get("acceptance_parameters"),
+        profile.get("tolerance"),
+        profile.get("parameters"),
+    ):
+        if isinstance(candidate, dict):
+            values.update(json.loads(json.dumps(candidate, ensure_ascii=False)))
     for key in (
         "unit",
         "absolute_tolerance",
@@ -250,13 +306,13 @@ def project_computational_reference(
     ]
     raw_profiles = [
         row
-        for row in hidden.get("acceptance_profiles") or []
+        for row in hidden.get("scoring_rules") or hidden.get("acceptance_profiles") or []
         if isinstance(row, dict) and _applies(row, task_type)
     ]
     profiles_by_id = {
-        str(row.get("acceptance_profile_id") or row.get("profile_id") or "").strip(): row
+        str(row.get("rule_id") or row.get("acceptance_profile_id") or row.get("profile_id") or "").strip(): row
         for row in raw_profiles
-        if str(row.get("acceptance_profile_id") or row.get("profile_id") or "").strip()
+        if str(row.get("rule_id") or row.get("acceptance_profile_id") or row.get("profile_id") or "").strip()
     }
     answers: list[dict[str, Any]] = []
     profiles: list[dict[str, Any]] = []
@@ -264,9 +320,10 @@ def project_computational_reference(
     answer_to_profile: dict[str, str] = {}
     final_answer_ids: set[str] = set()
     for answer in raw_answers:
-        answer_id = str(answer.get("ground_truth_id") or answer.get("answer_id") or "").strip()
+        answer_id = str(answer.get("key_point_id") or answer.get("ground_truth_id") or answer.get("answer_id") or "").strip()
         profile_id = str(
-            answer.get("acceptance_profile_id")
+            answer.get("rule_id")
+            or answer.get("acceptance_profile_id")
             or answer.get("acceptance_profile")
             or ""
         ).strip()
@@ -305,7 +362,7 @@ def project_computational_reference(
         ).strip()
         profiles.append(
             {
-                "acceptance_profile_id": profile_id,
+            "acceptance_profile_id": profile_id,
                 "answer_id": answer_id,
                 "acceptance_type": acceptance_type,
                 "parameters": _profile_parameters(profile, answer),
@@ -343,6 +400,20 @@ def project_computational_reference(
                 for field in observed_fields
             )
         )
+        if (
+            document_binding
+            and acceptance_type
+            not in {
+                "semantic_propositions",
+                "mechanism_claim",
+                "artifact_validation",
+            }
+            and binding.get("canonical_projection") is None
+        ):
+            raise ValueError(
+                "non-semantic document binding requires canonical projection: "
+                f"{profile_id}"
+            )
         bindings.append(
             {
                 "binding_id": f"binding_{safe_component(profile_id)}",
@@ -449,6 +520,44 @@ def project_computational_reference(
     return ComputationalScienceReferenceV1.model_validate(reference).model_dump(
         mode="json"
     )
+
+
+def _compatibility_reference_stub(
+    *,
+    task_id: str,
+    task_type: str,
+    hidden: dict[str, Any],
+    process_rubric: Any,
+) -> dict[str, Any]:
+    """Return a non-authoritative v1 envelope when split policy is incomplete.
+
+    v13's split files are the evaluator source of truth.  A human may leave a
+    scoring-rule draft without a binding or tolerance, so the legacy compiled
+    view must not turn that editable policy state into a publication failure.
+    The stub is deliberately answer-free; consumers that need evaluator data
+    must read the split private files.
+    """
+
+    return {
+        "schema_version": COMPUTATIONAL_REFERENCE_SCHEMA_V1,
+        "task_id": task_id,
+        "task_type": task_type,
+        "answer_items": [],
+        "acceptance_profiles": [],
+        "submission_bindings": [],
+        "process_key_points": _process_key_points(process_rubric),
+        "final_conclusions": [],
+        "critical_failures": _critical_failures(hidden.get("critical_failures")),
+        "private_evidence": (
+            hidden.get("reference_evidence")
+            if isinstance(hidden.get("reference_evidence"), dict)
+            else {}
+        ),
+        "evaluation_constraints": {
+            "v13_split_reference_authoritative": True,
+            "compatibility_projection_only": True,
+        },
+    }
 
 
 def _task_title(task_text: str, info: dict[str, Any], task_id: str) -> str:
@@ -566,7 +675,23 @@ def _task_info(
         if task_type == "paper_reproduction"
         else "paper_reproduction"
     )
-    data = source_info.get("data") if isinstance(source_info.get("data"), list) else []
+    raw_data = source_info.get("data") if isinstance(source_info.get("data"), list) else []
+    # TaskInfoV1 exposes only transport fields for public data assets.  Stage06
+    # may retain private/provenance annotations such as ``role`` or
+    # ``source_evidence_ids`` in its candidate metadata; discard those at this
+    # package boundary rather than letting a scientifically approved task fail
+    # during Pydantic serialization.
+    data = []
+    for item in raw_data:
+        if not isinstance(item, dict):
+            continue
+        data.append(
+            {
+                key: item[key]
+                for key in ("name", "path", "type", "description")
+                if key in item
+            }
+        )
     deliverables = required_deliverables
     if deliverables is None:
         deliverables, _ = _normalize_required_deliverables(
@@ -661,6 +786,7 @@ def assemble_task_package(
     pair_root = pair_root.expanduser().resolve()
     source = pair_root / task_type
     hidden_path = pair_root / "hidden_reference" / "ground_truth_common.json"
+    split_reference = read_split_reference(pair_root)
     task_id = canonical_mode_task_id(task_family_id, task_type)
     destination = final_tasks_root / task_type / task_id
     if not source.is_dir():
@@ -676,8 +802,9 @@ def assemble_task_package(
         source / "task_info.json",
         source / "submission_contract.json",
         source / "process_rubric.json",
-        hidden_path,
     ]
+    if split_reference is None:
+        required.append(hidden_path)
     missing = [path.relative_to(pair_root).as_posix() for path in required if not path.is_file()]
     if missing:
         return {
@@ -720,12 +847,36 @@ def assemble_task_package(
             (staging / "data").mkdir()
         evaluation = staging / "evaluation"
         evaluation.mkdir()
-        reference = project_computational_reference(
-            hidden=read_json(hidden_path),
-            task_type=task_type,
-            task_id=task_id,
-            process_rubric=read_json(source / "process_rubric.json"),
+        hidden_value = (
+            legacy_reference_from_split(split_reference)
+            if split_reference is not None
+            else read_json(hidden_path)
         )
+        process_rubric = read_json(source / "process_rubric.json")
+        try:
+            reference = project_computational_reference(
+                hidden=hidden_value,
+                task_type=task_type,
+                task_id=task_id,
+                process_rubric=process_rubric,
+            )
+        except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError) as exc:
+            if split_reference is None:
+                raise
+            # The split evaluator is authoritative in v13.  Keep package
+            # assembly available for a policy draft that still needs human
+            # edits, while preserving a diagnostic for the compatibility view.
+            reference = _compatibility_reference_stub(
+                task_id=task_id,
+                task_type=task_type,
+                hidden=hidden_value,
+                process_rubric=process_rubric,
+            )
+            compatibility_projection_diagnostic = (
+                f"split_reference_compatibility_projection_warning:{type(exc).__name__}"
+            )
+        else:
+            compatibility_projection_diagnostic = ""
         submission = _submission_schema(
             source=read_json(source / "submission_contract.json"),
             task_info=task_info,
@@ -734,6 +885,20 @@ def assemble_task_package(
         )
         write_json(staging / "submission_schema.json", submission)
         write_json(evaluation / "reference.json", reference)
+        # v13 exposes the evaluator reference as independently editable files.
+        # Keep the compiled reference.json as a Task Package v1 compatibility
+        # view; it is generated from these same private inputs and is never
+        # public to the evaluated Agent.
+        package_split_reference = (
+            split_reference
+            if split_reference is not None
+            else split_legacy_reference(hidden_value)
+        )
+        write_json(evaluation / "reference_key_points.json", package_split_reference["reference_key_points"])
+        write_json(evaluation / "reference_conclusions.json", package_split_reference["reference_conclusions"])
+        write_json(evaluation / "scoring_rules.json", package_split_reference["scoring_rules"])
+        write_json(evaluation / "evidence_map.json", package_split_reference["evidence_map"])
+        write_json(evaluation / "critical_failures.json", package_split_reference["critical_failures"])
         entries = package_payload_entries(staging)
         public_allowlist = ["task.md", "submission_schema.json"]
         if any(entry.path.startswith("data/") for entry in entries):
@@ -761,7 +926,11 @@ def assemble_task_package(
                 "path": "",
                 "findings": validation.findings,
                 "diagnostics": sorted(
-                    set(validation.diagnostics + deliverable_diagnostics)
+                    set(
+                        validation.diagnostics
+                        + deliverable_diagnostics
+                        + ([compatibility_projection_diagnostic] if compatibility_projection_diagnostic else [])
+                    )
                 ),
             }
         atomic_commit_tree(staging, destination)
@@ -773,7 +942,11 @@ def assemble_task_package(
             "package_content_sha256": manifest.package_content_sha256,
             "findings": [],
             "diagnostics": sorted(
-                set(validation.diagnostics + deliverable_diagnostics)
+                set(
+                    validation.diagnostics
+                    + deliverable_diagnostics
+                    + ([compatibility_projection_diagnostic] if compatibility_projection_diagnostic else [])
+                )
             ),
         }
     except Exception as exc:

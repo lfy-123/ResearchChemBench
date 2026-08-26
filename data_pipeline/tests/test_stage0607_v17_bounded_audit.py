@@ -15,6 +15,7 @@ from src.stages.stage07_task_judge.stage import (
     STAGE07_ELIGIBLE_STAGE06_DECISIONS,
     _approved_receipt_contract_findings,
 )
+from src.stages.stage07_task_judge.package import _task_info
 
 
 def _write(path: Path, value: object) -> None:
@@ -245,3 +246,35 @@ def test_synthesis_prioritizes_deliverable_before_optional_review_detail() -> No
     assert "task pair is the primary deliverable" in prompt
     assert "Do not expand this review into a long narrative" in prompt
     assert "do not repeat `pwd`, broad `ls`/`find`" in prompt
+
+
+def test_task_package_projects_private_data_annotations_to_taskinfo_fields() -> None:
+    value = _task_info(
+        source_info={
+            "paper_id": "paper-v17",
+            "category": "chemistry",
+            "data": [
+                {
+                    "name": "input.xyz",
+                    "path": "data/inputs/input.xyz",
+                    "role": "input_geometry",
+                    "source_evidence_ids": ["ev-1"],
+                }
+            ],
+        },
+        task_text="Compute the requested result.",
+        task_id="paper-v17",
+        task_family_id="paper-v17",
+        task_type="autonomous_research",
+        runtime_readiness="ready",
+        toolbox_requirements=[],
+        required_deliverables=[{"path": "report/results.json"}],
+    )
+    assert value["data"] == [
+        {
+            "name": "input.xyz",
+            "path": "data/inputs/input.xyz",
+            "type": "",
+            "description": "",
+        }
+    ]
