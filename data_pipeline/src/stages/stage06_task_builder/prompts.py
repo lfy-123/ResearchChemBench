@@ -4,7 +4,7 @@ STAGE06_REVIEW_VERSION = "v7-stage06-review-round2-ensemble-coverage-20260823"
 STAGE06_AUTONOMOUS_VERSION = "v4-stage06-autonomous-sixth-round-20260819"
 STAGE06_REPRODUCTION_VERSION = "v4-stage06-reproduction-sixth-round-20260819"
 STAGE06_HIDDEN_VERSION = "v5-stage06-hidden-reference-round4-20260823"
-STAGE06_TASK_PAIR_BUILDER_VERSION = "v16-final-synthesis-input-closure-20260826"
+STAGE06_TASK_PAIR_BUILDER_VERSION = "v16.1-final-synthesis-gate-repair-loop-20260826"
 STAGE06_AUTONOMOUS_CONVERTER_VERSION = "v16-answer-blind-converter-20260826"
 
 
@@ -345,6 +345,14 @@ SUCCESSFUL CONSTRUCTION ORDER
    ordering, condition, and semantic rules must contain their concrete `expected` result. The rule
    must be executable from the submitted artifact, not just a keyword list or a request to report a
    result. Human review may later refine the scientific choice, but it is not a reason to omit fields.
+   Use the shared minimal transport shape directly: each rule has one `reference_id` naming exactly
+   one key point or conclusion, and a binding such as
+   `{{"artifact_paths":["report/results.json"],"fields":["$.result_name"],"comparison":"absolute_difference"}}`.
+   If a key point and a conclusion are both retained as separately scored references, give each its
+   own rule. Every JSON selector must exist in the declared `results_schema`. A reproduction
+   route-fidelity rubric must cite an actual evaluated-Agent submission artifact listed in
+   `submission_contract.json.required_files`, not package files such as `paper_route.md` or
+   `workflow_spec.json`.
    Do not create a second paper identity or a legacy evaluator identity. The split files are the
    authoritative editable evaluator surface. The key-point and conclusion lists
    must be identical in scientific scope across modes unless an explicit item scope excludes a
@@ -420,7 +428,10 @@ completeness contract as the final Gate: all five files, non-placeholder referen
 rule coverage, one of the four rule types, type-specific expected fields, and usable submission
 bindings. It does not judge whether a tolerance is scientifically optimal, whether it is an integer,
 or whether the prose has a particular style. Do not stop at diagnostics or delete scientific content
-to make the check pass.
+to make the check pass. A Gate command that exits with code 1 and returns JSON findings is normal
+validation feedback, not an execution failure and not permission to return `constructed`. The next
+workspace call must repair those findings, followed by a new Gate call. Never return a successful
+receipt when the last self-check status is `failed` or when any blocking finding remains.
 """
 
 

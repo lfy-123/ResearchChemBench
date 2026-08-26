@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STAGE07_AUDIT_VERSION = "v10-stage07-audit-unified-gate-20260824"
+STAGE07_AUDIT_VERSION = "v11-stage07-terminal-audit-complete-evaluator-20260826"
 
 
 def audit_instructions(
@@ -417,9 +417,12 @@ FINAL APPROVAL CHECKLIST
   Before approving, reopen the split evaluator files under `evaluator_reference/` and inspect
   their parsed types, not just the text you intended to write. The scientific reference files
   `reference_key_points.json` and `reference_conclusions.json` are required and their missing
-  evidence, IDs, or final conclusions are blocking. `scoring_rules.json` is an independently
-  editable policy draft: inspect its JSON shape and cross-file references, but do not block an
-  otherwise valid task because a tolerance, binding, proposition, or weight needs later editing.
+  evidence, IDs, or final conclusions are blocking. `scoring_rules.json` is also a required,
+  concrete evaluator contract: every retained key point and conclusion needs an executable rule,
+  target/expected result, valid submission binding and comparison; numeric rules also need a unit
+  and an initial tolerance. Repair missing or unusable rule fields before approval. Do not reject
+  merely because the authored tolerance's scientific value, numeric formatting, precision, or prose
+  might later be refined; those quality choices are diagnostic once the rule is complete and usable.
   The legacy `hidden_reference/ground_truth_common.json` may remain as a compatibility view. If the
   source handoff supplied a sentence, preserve its meaning under an object such as
   `{{"description": "...", "required": true}}` (using only applicable neutral flags), rather

@@ -125,7 +125,7 @@
 | 2026-08-26 | P4 | Gate/evaluator | 已完成；加入格式读取、private-field/placeholder、binding field/comparison 检查；tolerance 质量为 diagnostic | 本轮提交 |
 | 2026-08-26 | P5 | 定向回归 | v9/v10/v13/v14/v15/v16 共 57 项通过；更大历史集合 219 项通过、19 项为既有 paper-id/resume/legacy fixture 不兼容 | 本轮提交 |
 | 2026-08-26 | P6 | 一致性审计 | 已完成代码级审计；未新增 Agent、retry、论文特例或 human-review 标签 | 本轮提交 |
-| 待执行 | P7 | 十篇论文测试 | 等待代码提交后启动并持续监控 | 待提交 |
+| 2026-08-26 | P7 | 十篇论文测试 | 前两轮用于发现终局审计和 Gate 反馈闭环缺陷；v16.1 修复后启动干净重跑 | 进行中 |
 
 ## 6. P7 前置回归：Stage07 终局写入缺陷
 
@@ -153,6 +153,24 @@
 异常等同于 source absence。该现象不是 Gate 误阻断，而是 input-closure 工作流执行不足；后续十篇重跑需单独统计并对比
 `derived_coordinates/index.json`、layout fallback 和 Stage07 修复证据。代码不应猜测原子或化学结构，改进重点应是 prompt 中的
 恢复顺序/预算和 Agent 是否真正完成恢复后的闭合检查。
+
+### 6.4 Stage06 合成自查未闭环
+
+第二轮 `paper_308bbee002d4560c` 的 self-check 与 external Gate 都返回同一组 18 个 blocking findings，说明两套
+Gate 语义已经一致。主要问题是 scoring rule 使用了非合同形状（一个 rule 同时列出多个 key point/conclusion、field 不是
+JSONPath、缺少 comparison），并把 package 内的 `paper_route.md`/`workflow_spec.json` 当成 evaluated-Agent 必交的
+route-fidelity evidence。Agent 只使用 31/120 次工具调用，收到 exit code 1 和完整 JSON findings 后没有执行修复，而直接写了
+`constructed` receipt。因此根因不是额度不足、external Gate 覆盖 self-check 或 validator 死规则，而是 prompt 没有把
+“Gate 的非零校验返回是可修复反馈，最后一次失败不得成功退出”说成明确的终局工作流。
+
+v16.1 对此只修改 Agent 工作说明，不新增 orchestrator retry/replay 或强制修复：
+
+- 给出 minimal rule 的 `reference_id`、JSONPath field、comparison 和 required submission artifact 约束；
+- 明确 Gate exit code 1 是正常验证反馈，必须在下一次 workspace call 修复并重跑；
+- 明确最后一次 self-check 为 failed 或仍有 blocking finding 时不得返回 `constructed`；
+- Stage07 同样把完整、具体、可执行的 scoring rules 作为批准前条件，但 tolerance 的科学取值和格式质量仍只做诊断。
+
+新增 prompt 回归后，v9/v14/v15/v16 定向集合共 31 项通过，另有 5 项 Stage06/Stage07 工作流 prompt 回归通过。
 
 ## 4. 最终一致性标准
 

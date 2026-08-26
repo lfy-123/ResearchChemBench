@@ -10,6 +10,7 @@ from src.stages.stage06_task_builder.prompts import (
     task_pair_builder_instructions,
 )
 from src.stages.stage06_task_builder.validation import _input_closure_findings
+from src.stages.stage07_task_judge.prompts import audit_instructions
 
 
 def _write(path: Path, value) -> None:
@@ -69,6 +70,35 @@ def test_model_prompts_hide_internal_stage_roles_and_order_input_closure() -> No
         assert "stage07" not in prompt.casefold()
     assert synthesis.index("minimum inputs") < synthesis.index("Generate the complete public task pair")
     assert "workflow_completeness_check.input_closure" in synthesis
+
+
+def test_synthesis_prompt_closes_gate_feedback_before_success() -> None:
+    prompt = task_pair_builder_instructions(paper_id="paper-v16", snapshot_hash="hash")
+
+    assert "exits with code 1 and returns JSON findings is normal" in prompt
+    assert "next\nworkspace call must repair those findings" in prompt
+    assert "last self-check status is `failed`" in prompt
+    assert "one `reference_id` naming exactly" in prompt
+    assert "one key point or conclusion" in prompt
+    assert '"fields":["$.result_name"]' in prompt
+    assert '"comparison":"absolute_difference"' in prompt
+    assert "Every JSON selector must exist in the declared `results_schema`" in prompt
+
+
+def test_stage07_requires_complete_rules_but_not_optimal_tolerance() -> None:
+    prompt = audit_instructions(
+        paper_id="paper-v16",
+        task_pair_id="paper-v16",
+        manifest_hash="hash",
+        max_tool_calls=48,
+        finalization_reserve=8,
+    )
+
+    assert "every retained key point and conclusion needs an executable rule" in prompt
+    assert "valid submission binding and comparison" in prompt
+    assert "numeric rules also need a unit\n  and an initial tolerance" in prompt
+    assert "Repair missing or unusable rule fields before approval" in prompt
+    assert "authored tolerance's scientific value" in prompt
 
 
 def test_agent_facing_phase_alias_uses_same_gate_contract(tmp_path: Path) -> None:
