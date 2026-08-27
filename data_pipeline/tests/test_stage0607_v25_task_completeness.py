@@ -153,6 +153,14 @@ def test_explicit_atom_count_description_matches_xyz(tmp_path: Path) -> None:
     assert any("data_description_atom_count_mismatch" in item for item in report["findings"])
 
 
+def test_public_json_reference_answer_field_is_blocking(tmp_path: Path) -> None:
+    root = tmp_path / "outputs"
+    _review(root, modes=("paper_reproduction",))
+    _write(root / "paper_reproduction/data/inputs/system.json", {"experimental_constraints": {"reaction_energy_kJ_mol": -162.0}, "conditions": {"temperature_K": 298.15}})
+    report = run_gate("synthesis", root)
+    assert any("public_answer_field" in item for item in report["findings"])
+
+
 def test_approved_audit_requires_all_scientific_dimensions(tmp_path: Path) -> None:
     artifact = tmp_path / "outputs" / "audited_task"
     _review(artifact, modes=("paper_reproduction",))

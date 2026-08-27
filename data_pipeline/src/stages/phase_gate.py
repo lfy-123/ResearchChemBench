@@ -51,6 +51,11 @@ _STOPPING_TERMS = re.compile(
     re.I,
 )
 _EXPLICIT_ATOM_COUNT = re.compile(r"\b(\d+)\s*[- ]\s*atom(?:s)?\b", re.I)
+_PUBLIC_ANSWER_FIELD = re.compile(
+    r"(?:^|_)(?:reference(?:_value|_interval)?|expected|target(?:_value)?|tolerance|"
+    r"winning(?:_candidate)?|ordering)(?:$|_)|(?:^|_)reaction_energy(?:_|$)",
+    re.I,
+)
 
 
 def _read_object(path: Path) -> dict[str, Any]:
@@ -230,6 +235,40 @@ def _declared_data_findings(
                 findings.append(
                     f"{mode}:data_description_atom_count_mismatch:{xyz.relative_to(directory)}:{expected}!={actual}"
                 )
+    return findings
+
+
+def _public_json_answer_findings(directory: Path, *, mode: str) -> list[str]:
+    """Reject explicit answer-like scalar fields in Agent-visible JSON inputs.
+
+    This is a narrow anti-leak guard, not a scientific validator: ordinary
+    physical conditions (temperature, collision energy, observed channel) are
+    allowed, while fields named as references, targets, tolerances, rankings,
+    winners, or reaction-energy results are not public inputs.
+    """
+
+    data_directory = directory / "data"
+    if not data_directory.is_dir():
+        return []
+    findings: list[str] = []
+
+    def visit(value: Any, path: str) -> None:
+        if isinstance(value, dict):
+            for key, child in value.items():
+                child_path = f"{path}.{key}" if path else str(key)
+                if _PUBLIC_ANSWER_FIELD.search(str(key)) and not isinstance(child, (dict, list)):
+                    findings.append(f"{mode}:public_answer_field:{child_path}")
+                visit(child, child_path)
+        elif isinstance(value, list):
+            for index, child in enumerate(value):
+                visit(child, f"{path}[{index}]")
+
+    for path in data_directory.rglob("*.json"):
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, ValueError, json.JSONDecodeError):
+            continue
+        visit(value, path.relative_to(directory).as_posix())
     return findings
 
 
@@ -567,6 +606,7 @@ def _mode_findings(root: Path, mode: str, paper_id: str) -> tuple[list[str], lis
                 )
             )
     findings.extend(_public_input_findings(root, directory, mode))
+    findings.extend(_public_json_answer_findings(directory, mode=mode))
     evaluation = root / "evaluator_reference" / mode
     eval_findings, eval_diagnostics = _evaluation_findings(
         evaluation, paper_id=paper_id, submission=submission, mode=mode

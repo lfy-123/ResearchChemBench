@@ -144,7 +144,10 @@ author route nor an equivalent hint.
 Public inputs define the problem, not its solution. Known reactants, a known product when product
 identity is not scored, and a starting catalyst may be public. A TS, lowest intermediate, selected
 conformer, product ordering or mechanism identity being evaluated must remain hidden. Never copy the
-paper, SI, source-derived full text or evaluator into public data.
+paper, SI, source-derived full text or evaluator into public data. Do not put reference values,
+reference intervals, expected/target values, tolerances, winning candidates, rankings, or scored
+reaction-energy results in any public JSON input; qualitative experimental boundaries such as an
+observed channel may remain when they define the problem rather than its answer.
 
 Both `task.md` files use exactly four logical sections:
 

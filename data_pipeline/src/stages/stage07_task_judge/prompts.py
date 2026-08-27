@@ -46,6 +46,9 @@ Audit the actual files, not only manifests:
 3. Are problem-defining inputs separated from result-bearing artifacts? An optimized TS, intermediate,
    selected conformer or final product structure that the evaluated Agent is expected to reproduce
    must not be public in either mode.
+   Inspect every JSON input as well as task prose: remove any reference value/interval, target,
+   tolerance, winning candidate, ordering, or scored reaction-energy field. Qualitative conditions
+   such as temperature or an observed channel are allowed when they define the physical boundary.
 4. Does reproduction disclose only the authors' scientific route, while hiding paper software,
    model chemistry, ordered protocol, result structures, numerical results, ordering and tolerance?
 5. Does autonomous hide the authors' scientific route across task.md, task_info, schema, filenames,
