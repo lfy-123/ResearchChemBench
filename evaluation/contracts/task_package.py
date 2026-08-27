@@ -195,7 +195,10 @@ def _visibility(relative: str) -> Literal["agent", "metadata", "evaluator"]:
         return "agent"
     if relative.startswith("evaluation/"):
         return "evaluator"
-    if relative == "task_info.json":
+    # The author route is a human/audit reference.  It is deliberately kept
+    # at the task-package root, outside agent_input, while remaining part of
+    # the immutable package manifest as metadata.
+    if relative in {"task_info.json", "paper_route.md"}:
         return "metadata"
     raise ValueError(f"file is outside the task package payload: {relative}")
 

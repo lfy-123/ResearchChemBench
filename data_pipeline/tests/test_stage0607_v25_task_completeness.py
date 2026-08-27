@@ -172,7 +172,7 @@ def test_approved_audit_requires_all_scientific_dimensions(tmp_path: Path) -> No
     assert validate_audit_receipt(receipt, paper_id=PAPER_ID, workspace=tmp_path) == artifact
 
 
-def test_private_paper_route_is_not_public_release_input(tmp_path: Path) -> None:
+def test_paper_route_is_released_as_non_agent_metadata(tmp_path: Path) -> None:
     root = tmp_path / "pair"
     _review(root, modes=("paper_reproduction",))
     _write(root / "paper_info.json", {"paper_id": PAPER_ID, "title": "Source", "doi": "", "journal": "", "publication_date": "", "documents": [{"document_type": "main_paper", "source_path": str(tmp_path / "source.pdf")}]})
@@ -180,5 +180,8 @@ def test_private_paper_route_is_not_public_release_input(tmp_path: Path) -> None
     release = assemble_release_pair(pair_root=root, release_root=tmp_path / "release", paper_id=PAPER_ID, release_modes=["paper_reproduction"])
     assert release["status"] == "passed", release
     task = tmp_path / "release/tasks/paper_reproduction" / PAPER_ID
-    assert not (task / "paper_route.md").exists()
-    assert not list(task.rglob("paper_route.md"))
+    assert (task / "paper_route.md").is_file()
+    assert not (task / "agent_input/paper_route.md").exists()
+    manifest = json.loads((task / "package_manifest.json").read_text())
+    route_entries = [entry for entry in manifest["entries"] if entry["path"] == "paper_route.md"]
+    assert route_entries and route_entries[0]["visibility"] == "metadata"

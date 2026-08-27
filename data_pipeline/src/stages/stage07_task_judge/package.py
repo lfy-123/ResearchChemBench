@@ -74,6 +74,13 @@ def _assemble_mode(
     task_info["paper"] = _paper_summary(paper_info)
     write_json(destination / "task_info.json", task_info)
 
+    # Keep the source-supported computational route available for human
+    # comparison and later task curation, but outside agent_input.  It is
+    # copied once per released mode so each task directory is self-contained.
+    route_source = pair_root / "paper_route.md"
+    if route_source.is_file():
+        shutil.copy2(route_source, destination / "paper_route.md")
+
     evaluator = pair_root / "evaluator_reference" / task_type
     for name in EVALUATION_FILES:
         shutil.copy2(evaluator / name, evaluation / name)
