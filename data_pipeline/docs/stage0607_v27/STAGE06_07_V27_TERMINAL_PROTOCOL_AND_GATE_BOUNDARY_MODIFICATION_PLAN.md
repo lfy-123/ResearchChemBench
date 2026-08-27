@@ -133,7 +133,9 @@ Stage07 负责最终科学审计：
 
 编排器不得根据自己的科学判断重建任务。
 
-## 5. Gate 边界
+## 5. Gate 边界（已确认）
+
+本版本明确采用以下职责边界：`feasibility` 和 `task_quality` 的科学判断交给 Stage06/Stage07 Agent；Common Gate 不根据它们决定科学拒绝。Common Gate 只负责机械包完整性、安全隔离和 runtime 可读取性。科学拒绝必须通过 Stage06/Stage07 的合法 receipt 产生，而不是由 Gate 推断。
 
 ### 5.1 Common Mechanical Gate 负责
 

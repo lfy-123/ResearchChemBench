@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-STAGE07_AUDIT_PROMPT_VERSION = "v26-scientific-contract-closure-audit-20260827"
+STAGE07_AUDIT_PROMPT_VERSION = "v27-terminal-protocol-and-gate-boundary-20260827"
 
 
 def final_task_audit_instructions(
@@ -37,10 +37,12 @@ The intended mode boundary is:
 Both modes must hide the paper's software, model chemistry, ordered computational protocol,
 result-bearing structures, reference values, ordering, complete answer, evaluator and tolerance.
 
-First copy the candidate exactly to `outputs/audited_task/`. Perform repairs only in that copy. Do
-not create a task from an empty directory, change the scientific objective, or reconstruct a failed
-or missing mode. A mode may be removed from the final release if it is scientifically unrepairable;
-the other existing mode can still be approved. Do not require a complete pair.
+The orchestrator has already copied the candidate exactly to
+`outputs/audited_task/` before this run. Perform repairs only in that writable copy. Do not delete
+or recreate the directory, run `rm -rf`, or copy the candidate again. Do not create a task from an
+empty directory, change the scientific objective, or reconstruct a failed or missing mode. A mode
+may be removed from the final release if it is scientifically unrepairable; the other existing mode
+can still be approved. Do not require a complete pair.
 
 For each existing mode, first extract its public contract from the actual files: scientific object
 and identity, requested calculations/search/comparisons/explanations, process validation,
@@ -110,8 +112,11 @@ Perform the following scientific-contract closure audit for every retained mode:
    when its public problem independently asks for and supplies the problem-defining information
    needed to infer it.
 
-Before the final Gate, update `outputs/audited_task/workflow_review.json` so its
-`feasibility.release_modes` exactly lists the existing modes you are approving. Remove an
+Before the final Gate, update `outputs/audited_task/workflow_review.json` so its `decision` remains
+the Stage06 value (`candidate_ready` for a constructed candidate) and its `feasibility.release_modes`
+exactly lists the existing modes you are approving. Never invent a workflow decision such as
+`audited_with_repairs`; put the repair outcome only in `audit_receipt.audit_decision` and `repairs`.
+Remove an
 unrepairable mode's task and evaluator directories; do not leave a mode in `release_modes` when its
 files are absent. Also update its `task_quality` entries with concrete evidence for any repaired
 instruction, input, process-keypoint or conclusion issue; every retained mode must be rechecked

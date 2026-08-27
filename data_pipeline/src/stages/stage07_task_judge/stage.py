@@ -47,7 +47,7 @@ from src.stages.stage07_task_judge.validation import (
 )
 
 
-STAGE07_IMPLEMENTATION_VERSION = "v26-scientific-contract-closure-audit"
+STAGE07_IMPLEMENTATION_VERSION = "v27-terminal-protocol-and-gate-boundary"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 ELIGIBLE_STAGE06_DECISIONS = {"provisional_constructed", "constructed"}
 
@@ -245,6 +245,11 @@ def _run_audit_agent(
     install_phase_gate_tool(workspace / "inputs" / "tools")
     install_document_query_tool(workspace / "inputs" / "tools")
     (workspace / "outputs").mkdir()
+    # Seed the writable audit tree before the Agent starts.  The Agent edits
+    # this copy in place; it never needs broad deletion permissions or a
+    # destructive re-copy command.
+    copytree_exact(candidate, workspace / "outputs" / "audited_task")
+    make_writable(workspace / "outputs" / "audited_task")
     make_read_only(workspace / "inputs")
     request = AgentRunRequest(
         phase="final_task_scientific_audit",

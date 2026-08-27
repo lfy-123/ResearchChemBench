@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-STAGE06_SYNTHESIS_PROMPT_VERSION = "v26-scientific-contract-closure-20260827"
+STAGE06_SYNTHESIS_PROMPT_VERSION = "v27-terminal-protocol-and-gate-boundary-20260827"
 
 
 def final_task_synthesis_instructions(
@@ -310,8 +310,9 @@ Read the generated report and repair actual blocking findings. The Gate checks f
 contracts, not scientific centrality, input identity, mode leakage or tolerance optimality; you must
 self-audit those scientific properties before finalizing.
 
-**D. Write the terminal receipt last.** Only after the common Gate passes, write
-`outputs/construction_receipt.json` as the final file operation and return the identical object:
+**D. Write the terminal receipt last.** Every terminal outcome, including a scientific rejection,
+must write `outputs/construction_receipt.json` as the final file operation and return the identical
+object. For a constructed outcome, write it only after the common Gate passes:
 
 {{
   "decision": "constructed",
@@ -322,7 +323,8 @@ self-audit those scientific properties before finalizing.
   "summary": "Concise description of the feasible, complete tasks."
 }}
 
-If neither mode is feasible, create no task/evaluator mode directories and write:
+If neither mode is feasible, create no task/evaluator mode directories and write the following
+scientific-rejection object to BOTH `outputs/construction_receipt.json` and the final response:
 
 {{
   "decision": "scientific_not_constructible",

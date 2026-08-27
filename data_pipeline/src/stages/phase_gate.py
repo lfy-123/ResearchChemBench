@@ -720,7 +720,10 @@ def validate(root: str | Path, *, mode: str | None = None) -> dict[str, Any]:
             "snapshot_sha256": snapshot_sha256(root),
         }
     if decision != "candidate_ready":
-        findings.append("workflow_review_decision_invalid")
+        # This is a malformed workflow protocol, not a scientific judgment.
+        # Scientific quality labels below remain non-blocking, but the package
+        # must use one of the two legal workflow terminal states.
+        findings.append(f"workflow_review_decision_invalid:{decision}")
     route_path = root / "paper_route.md"
     if not route_path.is_file():
         findings.append("paper_route_missing")
@@ -740,14 +743,14 @@ def validate(root: str | Path, *, mode: str | None = None) -> dict[str, Any]:
     ):
         value = feasibility.get(closure)
         if not isinstance(value, dict) or value.get("status") != "passed":
-            findings.append(f"feasibility_{closure}_not_passed")
+            diagnostics.append(f"feasibility_{closure}_not_passed")
     public_inputs = feasibility.get("public_inputs")
     if isinstance(public_inputs, dict):
         unresolved = public_inputs.get("unresolved_essential_inputs")
         if not isinstance(unresolved, list):
             findings.append("feasibility_public_inputs_unresolved_invalid")
         elif unresolved:
-            findings.append("feasibility_public_inputs_unresolved")
+            diagnostics.append("feasibility_public_inputs_unresolved")
 
     declared = feasibility.get("release_modes")
     release_modes = (
@@ -771,13 +774,13 @@ def validate(root: str | Path, *, mode: str | None = None) -> dict[str, Any]:
         }:
             findings.append(f"feasibility_mode_invalid:{selected_mode}")
         elif (selected_mode in release_modes) != (value.get("status") == "feasible"):
-            findings.append(f"feasibility_mode_release_mismatch:{selected_mode}")
+            diagnostics.append(f"feasibility_mode_release_mismatch:{selected_mode}")
 
     # The constructor's quality receipt is deliberately small and generic. It
     # records that the Agent checked the semantic properties which a mechanical
     # Gate cannot infer from JSON alone; the actual task files are still checked
     # below. Scientific method quality and tolerance choice remain non-blocking.
-    findings.extend(_task_quality_findings(review))
+    diagnostics.extend(_task_quality_findings(review))
 
     modes = (mode,) if mode else tuple(release_modes)
     if mode and mode not in MODES:

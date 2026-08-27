@@ -57,11 +57,11 @@ def _branched_result_schema(keyword: str = "oneOf") -> dict:
     }
 
 
-def test_v26_stage06_prompt_requires_truthful_outcomes_and_object_identity() -> None:
+def test_current_stage06_prompt_requires_truthful_outcomes_and_object_identity() -> None:
     prompt = final_task_synthesis_instructions(
         paper_id=PAPER_ID, snapshot_hash="fixture"
     )
-    assert STAGE06_SYNTHESIS_PROMPT_VERSION.startswith("v26-")
+    assert STAGE06_SYNTHESIS_PROMPT_VERSION.startswith("v27-")
     assert "Every outcome explicitly allowed by `task.md` must be representable" in prompt
     assert "bounded failure, partial discovery or an alternative validation method" in prompt
     assert "fixed known set" in prompt
@@ -70,9 +70,9 @@ def test_v26_stage06_prompt_requires_truthful_outcomes_and_object_identity() -> 
     assert "reproduction evaluator into autonomous research unchanged" in prompt
 
 
-def test_v26_stage07_prompt_defines_final_contract_closure_audit() -> None:
+def test_current_stage07_prompt_defines_final_contract_closure_audit() -> None:
     prompt = final_task_audit_instructions(paper_id=PAPER_ID)
-    assert STAGE07_AUDIT_PROMPT_VERSION.startswith("v26-")
+    assert STAGE07_AUDIT_PROMPT_VERSION.startswith("v27-")
     assert "final scientific-quality and evaluation-contract auditor" in prompt
     assert "Task to schema" in prompt
     assert "Schema to evaluator" in prompt

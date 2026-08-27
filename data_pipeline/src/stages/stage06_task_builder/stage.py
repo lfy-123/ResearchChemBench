@@ -45,7 +45,7 @@ from src.stages.stage06_task_builder.prompts import (
 )
 
 
-STAGE06_IMPLEMENTATION_VERSION = "v25-task-completeness-first"
+STAGE06_IMPLEMENTATION_VERSION = "v27-terminal-protocol-and-gate-boundary"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 
 
@@ -331,7 +331,49 @@ def _run_synthesis_agent(
             retryable=False,
             result=result,
         )
+    review = read_json(workspace / "outputs" / "workflow_review.json")
     receipt_path = workspace / "outputs" / "construction_receipt.json"
+    if not receipt_path.is_file():
+        # A scientific rejection is a complete terminal outcome even though it
+        # intentionally has no task/evaluator directories.  Recover the
+        # terminal envelope from the Agent's validated workflow review rather
+        # than misclassifying it as a missing-artifact technical failure.
+        if review.get("decision") == "scientific_not_constructible":
+            recovered = response
+            if recovered.get("decision") != "scientific_not_constructible":
+                raw_reasons = review.get("reasons") or review.get("failure_reasons") or []
+                failure_reasons = (
+                    [
+                        reason if isinstance(reason, dict) else {"reason": str(reason)}
+                        for reason in raw_reasons
+                    ]
+                    if isinstance(raw_reasons, list)
+                    else []
+                )
+                recovered = {
+                    "decision": "scientific_not_constructible",
+                    "paper_id": paper_id,
+                    "artifact_path": "outputs/workflow_review.json",
+                    "release_modes": [],
+                    "milestones": {"feasibility": "failed"},
+                    "failure_code": "scientific_not_constructible",
+                    "failure_reasons": failure_reasons,
+                    "summary": "Scientific construction was not feasible for any mode.",
+                }
+            jsonschema.validate(recovered, STAGE06_SYNTHESIS_SCHEMA)
+            write_json(receipt_path, recovered)
+            receipt = read_json(receipt_path)
+            if receipt != response:
+                # The Agent's structured response is authoritative when it is
+                # already a valid scientific rejection envelope.
+                response = receipt
+        else:
+            raise AgentExecutionError(
+                "Synthesis Agent did not write outputs/construction_receipt.json",
+                failure_class="missing_agent_artifact",
+                retryable=False,
+                result=result,
+            )
     if not receipt_path.is_file():
         raise AgentExecutionError(
             "Synthesis Agent did not write outputs/construction_receipt.json",

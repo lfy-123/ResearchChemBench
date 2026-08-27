@@ -79,6 +79,10 @@ def validate_audit_receipt(
     if not artifact.is_dir():
         raise FileNotFoundError(f"approved audit artifact is missing: {artifact}")
     review = read_json(artifact / "workflow_review.json")
+    if review.get("decision") != "candidate_ready":
+        raise ValueError(
+            "approved audit must preserve workflow_review decision candidate_ready"
+        )
     review_modes = list((review.get("feasibility") or {}).get("release_modes") or [])
     if modes != review_modes:
         raise ValueError("audit receipt release_modes do not match audited workflow review")
