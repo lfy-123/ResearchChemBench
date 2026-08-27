@@ -117,44 +117,107 @@ def _public_input_findings(root: Path, directory: Path, mode: str) -> list[str]:
     ]
 
 
+def _merge_schema_nodes(base: dict[str, Any], branch: dict[str, Any]) -> dict[str, Any]:
+    """Merge one local JSON-Schema choice with its surrounding constraints."""
+
+    merged = dict(base)
+    for key, value in branch.items():
+        if key == "required" and isinstance(value, list):
+            inherited = merged.get(key)
+            values = [*(inherited if isinstance(inherited, list) else []), *value]
+            merged[key] = list(dict.fromkeys(values))
+        elif key == "properties" and isinstance(value, dict):
+            properties = dict(merged.get(key) or {})
+            for name, child in value.items():
+                prior = properties.get(name)
+                properties[name] = (
+                    _merge_schema_nodes(prior, child)
+                    if isinstance(prior, dict) and isinstance(child, dict)
+                    else child
+                )
+            merged[key] = properties
+        elif key == "items" and isinstance(value, dict) and isinstance(merged.get(key), dict):
+            merged[key] = _merge_schema_nodes(merged[key], value)
+        else:
+            merged[key] = value
+    return merged
+
+
+def _schema_choice_variants(schema: Any) -> list[dict[str, Any]]:
+    """Expand local ``oneOf``/``anyOf`` choices while retaining shared constraints."""
+
+    if not isinstance(schema, dict):
+        return []
+    for keyword in ("oneOf", "anyOf"):
+        branches = schema.get(keyword)
+        if isinstance(branches, list) and branches:
+            base = {key: value for key, value in schema.items() if key != keyword}
+            variants: list[dict[str, Any]] = []
+            for branch in branches:
+                if isinstance(branch, dict):
+                    variants.extend(
+                        _schema_choice_variants(_merge_schema_nodes(base, branch))
+                    )
+            return variants
+    return [schema]
+
+
 def _schema_selector_target(
     schema: Any, selector: str
 ) -> tuple[bool, dict[str, Any] | None, bool]:
-    """Resolve a simple JSONPath selector and its required-property chain."""
+    """Resolve a simple JSONPath across ordinary and branch-based schemas."""
 
     if selector == "$":
         return True, schema if isinstance(schema, dict) else None, True
     if not selector.startswith("$."):
         return False, None, False
-    current = schema
-    required_chain = True
+
+    states: list[tuple[dict[str, Any], bool]] = [
+        (schema, True) for schema in _schema_choice_variants(schema)
+    ]
     for raw_token in selector[2:].split("."):
         token = raw_token.split("[", 1)[0]
         if not token:
             return False, None, False
-        if not isinstance(current, dict):
+        next_states: list[tuple[dict[str, Any], bool]] = []
+        for current, required_chain in states:
+            object_variants: list[dict[str, Any]] = []
+            for variant in _schema_choice_variants(current):
+                if variant.get("type") == "array":
+                    object_variants.extend(
+                        _schema_choice_variants(variant.get("items"))
+                    )
+                else:
+                    object_variants.append(variant)
+            for object_schema in object_variants:
+                properties = object_schema.get("properties")
+                if not isinstance(properties, dict) or token not in properties:
+                    continue
+                required = object_schema.get("required")
+                child_required = isinstance(required, list) and token in required
+                child = properties[token]
+                if not isinstance(child, dict):
+                    continue
+                if "[" in raw_token:
+                    for array_schema in _schema_choice_variants(child):
+                        if array_schema.get("type") != "array":
+                            continue
+                        next_states.extend(
+                            (item, required_chain and child_required)
+                            for item in _schema_choice_variants(array_schema.get("items"))
+                        )
+                else:
+                    next_states.extend(
+                        (variant, required_chain and child_required)
+                        for variant in _schema_choice_variants(child)
+                    )
+        if not next_states:
             return False, None, False
-        if current.get("type") == "array":
-            items = current.get("items")
-            if not isinstance(items, dict):
-                return False, None, False
-            current = items
-        properties = current.get("properties") if isinstance(current, dict) else None
-        if not isinstance(properties, dict) or token not in properties:
-            return False, None, False
-        required = current.get("required")
-        required_chain = required_chain and isinstance(required, list) and token in required
-        current = properties[token]
-        if "[" in raw_token:
-            if not isinstance(current, dict):
-                return False, None, False
-            if current.get("type") != "array":
-                return False, None, False
-            items = current.get("items")
-            if not isinstance(items, dict):
-                return False, None, False
-            current = items
-    return True, current if isinstance(current, dict) else None, required_chain
+        states = next_states
+
+    targets = [target for target, _required in states]
+    target = targets[0] if len(targets) == 1 else {"anyOf": targets}
+    return True, target, any(required for _target, required in states)
 
 
 def _xyz_findings(path: Path, *, mode: str, relative: str) -> list[str]:
