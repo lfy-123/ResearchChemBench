@@ -142,6 +142,17 @@ def test_missing_stopping_condition_is_blocking(tmp_path: Path) -> None:
     assert "paper_reproduction:task_stopping_condition_missing" in report["findings"]
 
 
+def test_explicit_atom_count_description_matches_xyz(tmp_path: Path) -> None:
+    root = tmp_path / "outputs"
+    _review(root, modes=("paper_reproduction",))
+    info_path = root / "paper_reproduction/task_info.json"
+    info = json.loads(info_path.read_text())
+    info["data"][0]["description"] = "A complete 2-atom XYZ input."
+    _write(info_path, info)
+    report = run_gate("synthesis", root)
+    assert any("data_description_atom_count_mismatch" in item for item in report["findings"])
+
+
 def test_approved_audit_requires_all_scientific_dimensions(tmp_path: Path) -> None:
     artifact = tmp_path / "outputs" / "audited_task"
     _review(artifact, modes=("paper_reproduction",))

@@ -50,6 +50,7 @@ _STOPPING_TERMS = re.compile(
     r"\b(?:stop|stopping|terminate|termination|bounded|finite|until|no\s+further|exhaust(?:ed|ion)?|coverage\s+limit)\b",
     re.I,
 )
+_EXPLICIT_ATOM_COUNT = re.compile(r"\b(\d+)\s*[- ]\s*atom(?:s)?\b", re.I)
 
 
 def _read_object(path: Path) -> dict[str, Any]:
@@ -196,6 +197,39 @@ def _task_instruction_findings(path: Path, *, mode: str) -> list[str]:
         findings.append(f"{mode}:task_completion_criterion_missing")
     if not _STOPPING_TERMS.search(text):
         findings.append(f"{mode}:task_stopping_condition_missing")
+    return findings
+
+
+def _declared_data_findings(
+    directory: Path, data_rows: list[Any], *, mode: str
+) -> list[str]:
+    """Cross-check explicit ``N-atom`` descriptions against XYZ headers.
+
+    This is intentionally limited to an explicit count in the task metadata;
+    it does not infer molecular identity or impose a chemistry-specific format.
+    """
+
+    findings: list[str] = []
+    for row in data_rows:
+        if not isinstance(row, dict):
+            continue
+        match = _EXPLICIT_ATOM_COUNT.search(str(row.get("description") or ""))
+        if not match:
+            continue
+        expected = int(match.group(1))
+        path = _safe_path(row.get("path"))
+        if path is None:
+            continue
+        for xyz in (directory / path).rglob("*.xyz") if (directory / path).is_dir() else []:
+            try:
+                first_line = xyz.read_text(encoding="utf-8", errors="strict").splitlines()[0]
+                actual = int(first_line.strip())
+            except (OSError, UnicodeError, IndexError, ValueError):
+                continue
+            if actual != expected:
+                findings.append(
+                    f"{mode}:data_description_atom_count_mismatch:{xyz.relative_to(directory)}:{expected}!={actual}"
+                )
     return findings
 
 
@@ -486,6 +520,7 @@ def _mode_findings(root: Path, mode: str, paper_id: str) -> tuple[list[str], lis
                 or not (directory / path).exists()
             ):
                 findings.append(f"{mode}:task_info_data_invalid:{index}")
+        findings.extend(_declared_data_findings(directory, data_rows, mode=mode))
     try:
         submission = _read_object(directory / "submission_schema.json")
     except (OSError, ValueError, json.JSONDecodeError) as exc:
