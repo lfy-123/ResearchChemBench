@@ -222,5 +222,5 @@ tree；如果 Agent 仍未完成，Bridge 会继续允许有限的写入，exter
 | 2026-08-27 | P3 Stage07 审计 | completed | answer-inversion、route/answer 边界和 evaluator 可判断性 |
 | 2026-08-27 | P4/P5 Gate 与测试 | completed | numeric leaf 检查；定向测试与 pipeline/batch 回归通过 |
 | 2026-08-27 | 一致性审查 | completed | 已逐项核对 v23 方案；真实回归尚待执行 |
-| 2026-08-27 | 五篇真实回归 | pending | |
-| 2026-08-27 | 结果分析 | pending | |
+| 2026-08-27 | 五篇真实回归 | completed | 固定五篇均完成并机械发布；Stage06 总 token 约 8.35M |
+| 2026-08-27 | 结果分析 | completed | 详见 `STAGE06_07_V23_FIVE_PAPER_REGRESSION_AND_QUALITY_ANALYSIS.md`；机械发布 5/5，但严格直接可用 0/5 |
