@@ -47,7 +47,7 @@ from src.stages.stage07_task_judge.validation import (
 )
 
 
-STAGE07_IMPLEMENTATION_VERSION = "v23-answer-inversion-and-evaluator-audit"
+STAGE07_IMPLEMENTATION_VERSION = "v24-per-mode-scientific-audit"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 ELIGIBLE_STAGE06_DECISIONS = {"provisional_constructed", "constructed"}
 
@@ -145,7 +145,10 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
             audited = stage_root / "audited_tasks" / safe_component(paper_id)
             atomic_commit_tree(audited_staging, audited)
             release = assemble_release_pair(
-                pair_root=audited, release_root=release_root, paper_id=paper_id
+                pair_root=audited,
+                release_root=release_root,
+                paper_id=paper_id,
+                release_modes=list(response.get("release_modes") or []),
             )
             publish_ready = release["status"] == "passed"
             return {

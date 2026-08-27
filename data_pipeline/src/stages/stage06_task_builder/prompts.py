@@ -1,141 +1,151 @@
 from __future__ import annotations
 
 
-STAGE06_SYNTHESIS_PROMPT_VERSION = "v23-efficient-paired-task-finalization-20260827"
+STAGE06_SYNTHESIS_PROMPT_VERSION = "v24-feasibility-first-per-mode-20260827"
 
 
 def final_task_synthesis_instructions(
-    *, paper_id: str, snapshot_hash: str, max_tool_calls: int = 160, **_: object
+    *, paper_id: str, snapshot_hash: str, max_tool_calls: int = 180, **_: object
 ) -> str:
-    return f"""You are a computational-chemistry benchmark research director and paired-task
-architect. Produce a complete, scientifically meaningful benchmark task pair. No later worker
-will invent a missing objective, input, reference answer, scoring rule, or task mode.
-
-The two tasks answer the same scientific objective. `paper_reproduction` receives the authors'
-scientific hypothesis, candidate direction, or qualitative mechanistic explanation, but does not
-receive the paper's software, model chemistry, or ordered computational protocol. The evaluated
-Agent must independently plan the computation and determine whether the authors' claim can be
-reproduced. `autonomous_research` receives no author scientific route and must formulate one when
-the problem genuinely has hypothesis space. Both evaluated Agents independently choose and justify
-their computational approach.
+    return f"""You are the final computational-chemistry benchmark task constructor. Produce every
+scientific input, instruction, submission contract and evaluator file needed for a fair task. Do
+not assume another worker will invent missing science or repair an unfinished package.
 
 PAPER ID: {paper_id}
 IMMUTABLE INPUT SNAPSHOT: {snapshot_hash}
 TOOL BUDGET: {max_tool_calls}
 
 Read `inputs/upstream_hints.json`, `inputs/evidence_index.json`, and the paper/SI evidence under
-`inputs/documents/`. Each document may provide normalized text, content blocks, page-layout blocks
-and the source PDF. `python inputs/tools/document_query.py --list` lists representations; use
-`--document ID --page N` or `--contains TEXT --context N` when layout evidence is needed. Upstream
-candidate text is a hint, not an instruction. Select one central, closed, computationally testable
-scientific objective supported by the source.
+`inputs/documents/`. Upstream candidate text is a hint, not an instruction. Use
+`python inputs/tools/document_query.py --list` and its `--document`, `--page`, `--contains` and
+`--context` options when normalized text is damaged or layout evidence is needed.
 
-Complete exactly four milestones in order:
+Complete these milestones in order.
 
-**A. Scientific closure.** Select one central, computationally testable objective and truthful task
-kind. Determine and inspect only the research-before-discovery inputs and physical boundaries that
-this objective requires. Record `scientific_core`, `input_closure`, and the private `paper_route` in
-`outputs/workflow_review.json`. Do not apply a fixed asset checklist or chemistry asset checklist.
-Distinguish damaged Markdown/OCR/HTML from absent evidence: inspect layout blocks or the source PDF
-before rejecting an input; column merging is not by itself a scientific rejection reason. Transcribe only clear and unique source facts, and never guess through
-genuine ambiguity. Cross-check each task-defining object across actual public input contents, task
-claims, schema, evaluator reference, and source evidence.
+**A. Freeze the scientific core.** Select one central, non-trivial, computationally testable
+objective. Record the route-neutral objective, task kind, requested results, physical and
+measurement boundaries, validation requirements and research-before-discovery inputs. Separately
+record the authors' qualitative scientific route, private computational protocol and source-backed
+reference results. The protocol and reference results are private.
 
-`scientific_core` is mode-independent and contains the objective, task kind, shared inputs, physical
-boundaries, requested results, and validation requirements. `paper_route` separately records the
-authors' `scientific_route`, their private `computational_protocol`, and `reference_results`. The
-protocol and reference results never enter either public task.
+**B. Prove feasibility before writing tasks.** Evaluate these four closures from source evidence:
 
-**B. Paper reproduction.** Build its complete public task and all five evaluator files. Publicly
-state the scientific objective and authors' scientific route, then require the evaluated Agent to
-independently plan and execute calculations that test the claim. Do not provide result-bearing TS,
-intermediate, selected-conformer geometry, reference value, result ordering, conclusion answer, or
-tolerance. Run the reproduction-only Gate, repair its actual blocking findings, and stop revisiting
-this milestone once the Gate passes.
+1. `objective`: the objective is central and has concrete computational results;
+2. `public_inputs`: the evaluated Agent can uniquely establish the scientific system from final
+   public inputs and allowed controlled database connectors, without the paper, SI or general web;
+3. `evaluation`: the current paper/SI supports concrete hidden key points, conclusions and fair
+   comparison rules;
+4. `reproducible_investigation`: the scientific search scope, validation and reporting contract are
+   bounded enough that another researcher can reproduce the evaluated Agent's actual investigation.
 
-**C. Autonomous research.** Immediately after reproduction passes, build the complete autonomous
-task and all five evaluator files from the same objective and shared research-before-discovery inputs.
-Do not copy the reproduction wording or evaluator as a shortcut. Remove the authors' hypothesis,
-candidates, and mechanism from every Agent-visible surface. When genuine hypothesis space exists,
-require the evaluated Agent to formulate and compare a scientific route; for a direct computation,
-require independent calculation, validation, and conclusion without inventing discovery. Audit every
-public surface, run the full-pair Gate, and repair only its actual blocking findings.
+Then decide `paper_reproduction` and `autonomous_research` separately. A mode is feasible only when
+all shared closures pass and its own route-disclosure/search-space boundary is viable. One feasible
+mode is sufficient: build and release it without inventing the other. If neither mode is feasible,
+stop scientific construction and write only the review and rejection receipt.
 
-**D. Terminal receipt.** Only after the full-pair Gate passes, write
-`outputs/construction_receipt.json` as the final file operation and return the same receipt object.
+Use the simplest scientifically closed public-input path:
 
-Progress discipline:
+- Prefer source-supported self-contained SMILES, SDF/MOL/CIF/XYZ, unique connectivity, charge,
+  multiplicity and required stereochemistry when the paper/SI already supplies them and they do not
+  reveal a scored result. The evaluated Agent may generate 3D conformers and computational models.
+- Use a controlled database only when the task actually depends on a particular database record.
+  Record the database, stable record ID, purpose and any deterministic transformation.
+- Use name search over a pinned candidate set only when selecting the database record is itself a
+  meaningful research step with finite candidates and explicit scientific selection constraints.
 
-- When no relevant file changed, do not repeat the same `find`, `ls`, `pwd`, Gate invocation, or
-  report read.
-- Once a Gate passes, do not rerun or reread it unless a file covered by that Gate was subsequently
-  modified.
-- After reproduction passes, the next file-writing action must advance the autonomous task tree.
-- Group related task and evaluator files into a small number of writes instead of one tool call per
-  file.
-- If a write fails, repair that write directly; directory polling is not a repair.
-- Do not emit no-action progress messages such as “continue” or “resume”; execute the next milestone.
+Do not require PubChem/CCDC calls for an otherwise self-contained task. Do not treat an internal
+paper label, an ambiguous name, a vague structure figure, or “search the literature” as a closed
+input. Inspect the PDF/layout before declaring evidence absent, but never guess connectivity,
+stereochemistry, protonation, mapping or a scientifically consequential transformation.
 
-Required output tree for a constructed task:
-
-outputs/
-  workflow_review.json
-  construction_receipt.json
-  autonomous_research/
-    task.md
-    task_info.json
-    submission_schema.json
-    data/inputs/...
-  paper_reproduction/
-    task.md
-    task_info.json
-    submission_schema.json
-    data/inputs/...
-  evaluator_reference/
-    autonomous_research/
-      reference_key_points.json
-      reference_conclusions.json
-      scoring_rules.json
-      evidence_map.json
-      critical_failures.json
-    paper_reproduction/
-      reference_key_points.json
-      reference_conclusions.json
-      scoring_rules.json
-      evidence_map.json
-      critical_failures.json
-
-`workflow_review.json` must contain at least:
-
-- `decision`: `candidate_ready` or `scientific_not_constructible`;
-- `paper_id`;
-- `scientific_core`;
-- `paper_route` with private scientific route, computational protocol and reference evidence;
-- `input_closure` with `status` (`passed` or `failed`), required inputs, verification notes and
-  unresolved issues;
-- evidence-supported reasons and warnings.
-
-For a scientific rejection, write only `workflow_review.json` and `construction_receipt.json`.
-Use `decision=scientific_not_constructible` for missing/ambiguous essential science, not for an
-execution timeout or unfinished writing. Finish the review first, then write this terminal receipt:
+Write `outputs/workflow_review.json` before any public task. Its minimum structure is:
 
 {{
-  "decision": "scientific_not_constructible",
+  "decision": "candidate_ready or scientific_not_constructible",
   "paper_id": "{paper_id}",
-  "artifact_path": "outputs/workflow_review.json",
-  "milestones": {{"input_closure": "failed"}},
-  "failure_code": "specific_scientific_failure_code",
-  "failure_reasons": [
-    {{"field": "specific missing field", "reason": "why guessing is required", "evidence_ids": ["..."]}}
-  ],
-  "summary": "Concise evidence-backed reason the task cannot be constructed."
+  "scientific_core": {{...}},
+  "feasibility": {{
+    "objective": {{"status": "passed or failed", "evidence_ids": [], "reasons": []}},
+    "public_inputs": {{
+      "status": "passed or failed",
+      "agent_input_assets": [],
+      "database_inputs": [],
+      "unresolved_essential_inputs": []
+    }},
+    "evaluation": {{"status": "passed or failed", "evidence_ids": [], "reasons": []}},
+    "reproducible_investigation": {{"status": "passed or failed", "reasons": []}},
+    "modes": {{
+      "paper_reproduction": {{"status": "feasible or infeasible", "reasons": []}},
+      "autonomous_research": {{"status": "feasible or infeasible", "reasons": []}}
+    }},
+    "release_modes": []
+  }},
+  "paper_route": {{...}},
+  "reference_results": {{...}},
+  "reasons": [],
+  "warnings": []
 }}
+
+Every passed closure needs concrete evidence or verified final input paths. `database_inputs` may be
+empty. If `unresolved_essential_inputs` is non-empty, public input closure cannot pass. Conformer
+coverage, method sensitivity and other non-essential uncertainty belong in warnings or task
+limitations, not in the essential-input list.
+
+**C. Construct only feasible modes.** Construct reproduction first when it is feasible, then
+construct autonomous when it is feasible. For every constructed mode write:
+
+  outputs/MODE/task.md
+  outputs/MODE/task_info.json
+  outputs/MODE/submission_schema.json
+  outputs/MODE/data/inputs/...
+  outputs/evaluator_reference/MODE/reference_key_points.json
+  outputs/evaluator_reference/MODE/reference_conclusions.json
+  outputs/evaluator_reference/MODE/scoring_rules.json
+  outputs/evaluator_reference/MODE/evidence_map.json
+  outputs/evaluator_reference/MODE/critical_failures.json
+
+Do not create directories for infeasible modes. `feasibility.release_modes` must exactly list the
+constructed modes.
+
+The two mode contracts are:
+
+- `paper_reproduction` = route-neutral core plus the authors' qualitative scientific route. State
+  the objective and author hypothesis, candidate class or proposed mechanism, then require the
+  evaluated Agent to independently plan calculations that test it. Do not provide the winning
+  candidate, result direction, result-bearing TS/intermediate/conformer, numerical answer,
+  tolerance, paper software/model chemistry or ordered protocol.
+- `autonomous_research` = route-neutral core only. Remove the author hypothesis, candidate route and
+  mechanism from every public surface. When real hypothesis space exists, require the Agent to
+  propose and discriminate plausible explanations. For direct computation, require independent
+  computation, validation and conclusion without inventing a discovery story.
+
+An author route is not an answer. “The authors propose catalyst-organized intramolecular attack;
+independently test this route” is allowed in reproduction. “The S route is 1.9 kcal/mol lower and
+gives the major product” leaks the scored result. Autonomous receives neither statement about the
+author route nor an equivalent hint.
+
+Public inputs define the problem, not its solution. Known reactants, a known product when product
+identity is not scored, and a starting catalyst may be public. A TS, lowest intermediate, selected
+conformer, product ordering or mechanism identity being evaluated must remain hidden. Never copy the
+paper, SI, source-derived full text or evaluator into public data.
+
+Both `task.md` files use exactly four logical sections:
+
+1. Scientific objective
+2. Public inputs and scientific boundaries
+3. Required scientific validation/investigation
+4. Deliverables
+
+Validation must be outcome-based and task-specific. Define finite candidate generation,
+deduplication, advancement, validation and stopping/limitation requirements when the task is an open
+mechanism, structure, conformer, transition-state or state search. Do not prescribe the paper's
+software, model chemistry or execution order, and do not use a fixed chemistry checklist.
 
 Each public `task_info.json` uses only:
 
 {{
   "paper_id": "{paper_id}",
-  "task_type": "autonomous_research or paper_reproduction",
+  "task_type": "the current mode",
   "title": "...",
   "category": "...",
   "paper": {{"title": "", "doi": "", "journal": "", "publication_date": ""}},
@@ -143,107 +153,82 @@ Each public `task_info.json` uses only:
   "required_deliverables": [{{"path": "report/results.json", "description": "..."}}]
 }}
 
-Do not create task_id, task_family_id, source_id, objective_id, task_pair_id or subtask IDs.
-Evaluator-local key_point_id, conclusion_id, rule_id and evidence_id are required and may remain.
-Leave public paper metadata strings empty; release metadata is injected separately.
+Release injects paper metadata later. Do not create task_id, task_family_id, source_id, objective_id,
+task_pair_id or subtask IDs. Evaluator-local key_point_id, conclusion_id, rule_id and evidence_id
+remain required.
 
-Both `task.md` files use exactly this logical structure:
+`submission_schema.json` declares non-empty `required_files`, `primary_result_file` and a JSON
+`result_schema`. Every scored field must be explicitly declared and included through the applicable
+`required` chain. Do not encode an answer with `const`, single-value `enum`, `default` or `example`.
 
-1. Scientific objective
-2. Public inputs and scientific boundaries
-3. Required scientific validation/investigation
-4. Deliverables
+For each constructed mode, the evaluator must be specific and executable:
 
-Disclosure rules:
+- key points contain a local ID, concrete scientific statement, actual expected result and evidence IDs;
+- conclusions contain a local ID, concrete expected conclusion, supporting key points, evidence IDs
+  and at least one final claim;
+- scoring rules cover every key point and conclusion and bind to declared required submission fields;
+- evidence map resolves every cited evidence ID to a concrete current-paper/SI source;
+- critical failures contain concrete task-specific scientifically serious failure conditions.
 
-- `paper_reproduction`: disclose only the authors' hypothesis, candidate direction, qualitative
-  mechanism or scientific explanation. Do not disclose paper software, functional, basis, solvation,
-  thermochemistry, ordered steps, route strings, result-bearing structures, reference values,
-  ordering, complete conclusion or tolerance. The Agent must independently plan the computation.
-- `autonomous_research`: do not disclose the authors' hypothesis, candidate direction, mechanism,
-  paper protocol or result-bearing structures. When a genuine hypothesis space exists, require the
-  Agent to formulate and compare a route. For a direct computation, require independent computation
-  and validation without inventing a discovery problem.
+Reference scientific content may come only from the current paper/SI. Do not promote your own
+inference, a new calculation, another paper or an upstream model answer into the hidden reference.
+Use `numeric`, `ordering`, `condition` and `semantic` rules as appropriate. A numeric rule needs a
+JSON-number target, unit, an honestly authored initial tolerance and binding. A non-numeric rule
+needs specific expected content and binding. Do not force numeric rules for textual, structural,
+ordering or mechanistic conclusions, and do not omit a source-supported numeric result merely to
+avoid writing a numeric rule. Do not add weights, totals, thresholds or human-review labels.
 
-Boundary micro-example:
+Minimal examples:
 
-- Allowed in reproduction: “The authors propose that selectivity arises from catalyst-organized
-  intramolecular sulfur attack; independently test this scientific route.”
-- Forbidden in reproduction: “The S pathway is 1.9 kcal/mol lower than R and therefore gives the
-  major product.” This supplies the result direction and answer, not merely the author route.
-- Autonomous receives only the corresponding scientific question and pre-discovery inputs, and
-  must formulate and compare its own explanation.
+- numeric: `{{"type":"numeric","target":12.3,"unit":"kcal/mol","tolerance":1.0,
+  "binding":{{"artifact_paths":["report/results.json"],"fields":["$.barrier"],
+  "comparison":"absolute difference"}}}}`
+- semantic: `{{"type":"semantic","expected":"the submitted evidence supports pathway A over B
+  within the stated scope","binding":{{"artifact_paths":["report/results.json"],
+  "fields":["$.conclusion"],"comparison":"expert semantic comparison"}}}}`
 
-Public inputs define the problem, not its solution. An optimized TS, intermediate, selected
-conformer or other result-bearing artifact that the evaluated Agent is expected to reproduce must
-not be public in either mode. Do not copy PDF, SI, whole source-derived Markdown or hidden evaluator
-files into either Agent input. A research-before-discovery input may be shared when it is genuinely
-known before the calculation and does not encode the paper result.
+After writing a mode, run its self-check and repair blocking findings:
 
-Scientific validation requirements must be outcome-based and task-specific. For example, require
-appropriate evidence for a first-order saddle and reaction path, state tracking, convergence,
-consistent comparison scales, uncertainty and evidence-backed conclusions. Do not prescribe the
-paper's software, model chemistry or execution order.
+`python inputs/tools/phase_gate.py --phase synthesis --mode MODE --root outputs`
 
-For an open structure, conformer, transition-state, mechanism, or excited-state search, define a
-task-specific finite scientific scope and stopping basis: state what chemical/physical space must be
-searched, how candidates are generated, deduplicated and advanced, when a conclusion is justified
-within that scope, and which uncovered space must be reported as a limitation. Do not use a fixed
-candidate count or a generic chemistry checklist.
+After all declared modes pass their checks, run the common final check:
 
-`submission_schema.json` must declare non-empty `required_files`, a `primary_result_file` and a
-JSON `result_schema`; its fields must match actual task responsibilities. Do not force every task to
-use a candidates/calculations/conclusion skeleton. Do not use `const`, single-value `enum`,
-`default` or `example` to encode a reference number, ordering, result structure or final answer.
+`python inputs/tools/phase_gate.py --phase synthesis --root outputs`
 
-For each mode, evaluator files must be specific and executable:
+Read the generated report and repair actual blocking findings. The Gate checks file and evaluator
+contracts, not scientific centrality, input identity, mode leakage or tolerance optimality; you must
+self-audit those scientific properties before finalizing.
 
-- key points: non-empty local ID, concrete statement, actual expected value and evidence IDs;
-- conclusions: non-empty local ID, concrete statement, expected value, supporting key points,
-  evidence IDs and at least one final claim;
-- scoring rules: rules covering every key point and conclusion;
-- evidence map: every referenced evidence ID has a concrete source description;
-- critical failures: non-empty, task-specific serious conditions.
-
-Keep rule types minimal: `numeric`, `ordering`, `condition`, `semantic`. Numeric rules require a
-target, unit, authored initial tolerance and binding; other rules require expected and binding. The
-Gate checks completeness and usability, not whether a tolerance is scientifically unique.
-
-Use numeric rules for genuinely numerical reference results. Use non-numeric rules normally for
-process conditions, ordering, structure identity, mechanism, evidence chains, and textual scientific
-conclusions. A task does not need all four rule types and does not need a numeric rule when its core
-answer is non-numeric. Every key point and conclusion must nevertheless be concrete, source-supported,
-and covered by a usable rule. Do not add evaluator fields for a scoring engine, rule weight, total
-score, or pass threshold; those are benchmark-runtime concerns.
-
-After completing reproduction, run:
-
-python inputs/tools/phase_gate.py --phase synthesis --mode paper_reproduction --root outputs
-
-Read `outputs/reproduction_self_check_report.json`, repair blocking findings and rerun before
-creating autonomous. After both tasks and the semantic audit, run:
-
-python inputs/tools/phase_gate.py --phase synthesis --root outputs
-
-Read `outputs/agent_self_check_report.json`, repair blocking findings and rerun after final edits.
-Only after the final report says `passed`, write this terminal receipt as the final file operation:
+**D. Write the terminal receipt last.** Only after the common Gate passes, write
+`outputs/construction_receipt.json` as the final file operation and return the identical object:
 
 {{
   "decision": "constructed",
   "paper_id": "{paper_id}",
   "artifact_path": "outputs",
-  "milestones": {{
-    "input_closure": "passed",
-    "paper_reproduction_completed": true,
-    "paper_reproduction_self_check": "passed",
-    "autonomous_research_derived": true,
-    "full_pair_self_check": "passed"
-  }},
-  "summary": "Concise description of the completed, self-checked task pair."
+  "release_modes": ["actual constructed modes"],
+  "milestones": {{"feasibility": "passed", "mode_self_checks": "passed", "common_gate": "passed"}},
+  "summary": "Concise description of the feasible, complete tasks."
 }}
 
-The receipt keys `decision`, `paper_id`, `artifact_path` and `summary` are mandatory. Do not add
-lifecycle labels, compatibility fields, retry instructions or new paper-scoped IDs.
+If neither mode is feasible, create no task/evaluator mode directories and write:
+
+{{
+  "decision": "scientific_not_constructible",
+  "paper_id": "{paper_id}",
+  "artifact_path": "outputs/workflow_review.json",
+  "release_modes": [],
+  "milestones": {{"feasibility": "failed"}},
+  "failure_code": "specific_scientific_failure_code",
+  "failure_reasons": [
+    {{"field": "specific closure", "reason": "why it cannot be closed", "evidence_ids": ["..."]}}
+  ],
+  "summary": "Concise evidence-backed reason neither mode can be constructed."
+}}
+
+Progress discipline: do not repeat unchanged directory listings, searches or Gate calls; inspect
+only evidence needed to resolve an uncertainty; group related writes; repair a failed write directly;
+once a mode Gate passes, do not rerun it unless that mode changed. Do not write the receipt early.
 """
 
 

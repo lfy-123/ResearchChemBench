@@ -82,46 +82,73 @@ def _public_input_findings(root: Path, directory: Path, mode: str) -> list[str]:
     ]
 
 
-def _schema_selector_target(schema: Any, selector: str) -> tuple[bool, dict[str, Any] | None]:
-    """Resolve a simple JSONPath selector without prescribing a result schema.
-
-    The returned target is ``None`` when an intentionally open object/array
-    prevents static type resolution. Such selectors remain mechanically valid;
-    only explicitly declared incompatible targets are rejected for numeric rules.
-    """
+def _schema_selector_target(
+    schema: Any, selector: str
+) -> tuple[bool, dict[str, Any] | None, bool]:
+    """Resolve a simple JSONPath selector and its required-property chain."""
 
     if selector == "$":
-        return True, schema if isinstance(schema, dict) else None
+        return True, schema if isinstance(schema, dict) else None, True
     if not selector.startswith("$."):
-        return False, None
+        return False, None, False
     current = schema
+    required_chain = True
     for raw_token in selector[2:].split("."):
         token = raw_token.split("[", 1)[0]
         if not token:
-            return False, None
+            return False, None, False
         if not isinstance(current, dict):
-            return True, None
+            return False, None, False
         if current.get("type") == "array":
             items = current.get("items")
             if not isinstance(items, dict):
-                return True, None
+                return False, None, False
             current = items
         properties = current.get("properties") if isinstance(current, dict) else None
-        if isinstance(properties, dict) and token in properties:
-            current = properties[token]
-        else:
-            additional = current.get("additionalProperties", True)
-            if additional is False:
-                return False, None
-            current = additional if isinstance(additional, dict) else None
+        if not isinstance(properties, dict) or token not in properties:
+            return False, None, False
+        required = current.get("required")
+        required_chain = required_chain and isinstance(required, list) and token in required
+        current = properties[token]
         if "[" in raw_token:
             if not isinstance(current, dict):
-                return True, None
+                return False, None, False
             if current.get("type") != "array":
-                return False, None
+                return False, None, False
             items = current.get("items")
-            current = items if isinstance(items, dict) else None
-    return True, current if isinstance(current, dict) else None
+            if not isinstance(items, dict):
+                return False, None, False
+            current = items
+    return True, current if isinstance(current, dict) else None, required_chain
+
+
+def _xyz_findings(path: Path, *, mode: str, relative: str) -> list[str]:
+    """Validate the minimal syntax needed to use an XYZ public input."""
+
+    label = f"{mode}:xyz_invalid:{relative}"
+    try:
+        lines = path.read_text(encoding="utf-8", errors="strict").splitlines()
+    except (OSError, UnicodeError):
+        return [f"{label}:unreadable"]
+    if len(lines) < 2:
+        return [f"{label}:header"]
+    try:
+        atom_count = int(lines[0].strip())
+    except ValueError:
+        return [f"{label}:atom_count"]
+    if atom_count <= 0 or len(lines) != atom_count + 2:
+        return [f"{label}:coordinate_line_count"]
+    findings: list[str] = []
+    for index, line in enumerate(lines[2:], start=1):
+        columns = line.split()
+        if len(columns) < 4 or not columns[0]:
+            findings.append(f"{label}:coordinate:{index}")
+            continue
+        try:
+            tuple(float(value) for value in columns[1:4])
+        except ValueError:
+            findings.append(f"{label}:coordinate:{index}")
+    return findings
 
 
 def _numeric_target_usable(target: dict[str, Any] | None) -> bool | None:
@@ -265,7 +292,10 @@ def _evaluation_findings(
         if rule_type not in RULE_TYPES:
             findings.append(f"{mode}:scoring_rule_type_invalid:{rule_id or 'missing'}")
         elif rule_type == "numeric":
-            for field_name in ("target", "unit", "tolerance"):
+            target = row.get("target")
+            if isinstance(target, bool) or not isinstance(target, (int, float)):
+                findings.append(f"{mode}:numeric_rule_target_not_number:{rule_id or 'missing'}")
+            for field_name in ("unit", "tolerance"):
                 if not _has_value(row.get(field_name)):
                     findings.append(f"{mode}:numeric_rule_{field_name}_missing:{rule_id or 'missing'}")
             diagnostics.append(f"{mode}:tolerance_requires_scientific_review:{rule_id or 'missing'}")
@@ -292,10 +322,16 @@ def _evaluation_findings(
                 if not isinstance(selector, str):
                     findings.append(f"{mode}:binding_field_not_in_schema:{rule_id or 'missing'}:{selector}")
                     continue
-                represented, target = _schema_selector_target(result_schema, selector)
+                represented, target, required_chain = _schema_selector_target(
+                    result_schema, selector
+                )
                 if not represented:
                     findings.append(f"{mode}:binding_field_not_in_schema:{rule_id or 'missing'}:{selector}")
                     continue
+                if not required_chain:
+                    findings.append(
+                        f"{mode}:binding_field_not_required:{rule_id or 'missing'}:{selector}"
+                    )
                 if rule_type == "numeric":
                     numeric_targets.append(_numeric_target_usable(target))
             if (
@@ -404,6 +440,14 @@ def _mode_findings(root: Path, mode: str, paper_id: str) -> tuple[list[str], lis
             findings.append(f"{mode}:symlink_forbidden:{path.relative_to(directory)}")
         if path.is_file() and path.suffix.casefold() == ".pdf":
             findings.append(f"{mode}:paper_pdf_exposed_to_agent:{path.relative_to(directory)}")
+        if path.is_file() and path.suffix.casefold() == ".xyz":
+            findings.extend(
+                _xyz_findings(
+                    path,
+                    mode=mode,
+                    relative=path.relative_to(directory).as_posix(),
+                )
+            )
     findings.extend(_public_input_findings(root, directory, mode))
     evaluation = root / "evaluator_reference" / mode
     eval_findings, eval_diagnostics = _evaluation_findings(
@@ -427,24 +471,87 @@ def validate(root: str | Path, *, mode: str | None = None) -> dict[str, Any]:
     paper_id = str(review.get("paper_id") or "")
     decision = review.get("decision")
     if decision == "scientific_not_constructible":
+        residual_modes = [
+            selected_mode
+            for selected_mode in MODES
+            if (root / selected_mode).exists()
+            or (root / "evaluator_reference" / selected_mode).exists()
+        ]
+        rejection_findings = [] if paper_id else ["paper_id_missing"]
+        rejection_findings.extend(
+            f"scientific_rejection_contains_mode:{selected_mode}"
+            for selected_mode in residual_modes
+        )
         return {
-            "status": "passed" if paper_id else "failed",
+            "status": "failed" if rejection_findings else "passed",
             "paper_id": paper_id,
-            "findings": [] if paper_id else ["paper_id_missing"],
+            "findings": rejection_findings,
             "diagnostics": [],
             "snapshot_sha256": snapshot_sha256(root),
         }
     if decision != "candidate_ready":
         findings.append("workflow_review_decision_invalid")
-    for field in ("scientific_core", "paper_route", "input_closure"):
+    for field in ("scientific_core", "paper_route", "reference_results", "feasibility"):
         if not isinstance(review.get(field), dict) or not review[field]:
             findings.append(f"workflow_review_{field}_missing")
-    if isinstance(review.get("input_closure"), dict) and review["input_closure"].get("status") != "passed":
-        findings.append("input_closure_not_passed")
-    modes = (mode,) if mode else MODES
+
+    feasibility = review.get("feasibility")
+    feasibility = feasibility if isinstance(feasibility, dict) else {}
+    for closure in (
+        "objective",
+        "public_inputs",
+        "evaluation",
+        "reproducible_investigation",
+    ):
+        value = feasibility.get(closure)
+        if not isinstance(value, dict) or value.get("status") != "passed":
+            findings.append(f"feasibility_{closure}_not_passed")
+    public_inputs = feasibility.get("public_inputs")
+    if isinstance(public_inputs, dict):
+        unresolved = public_inputs.get("unresolved_essential_inputs")
+        if not isinstance(unresolved, list):
+            findings.append("feasibility_public_inputs_unresolved_invalid")
+        elif unresolved:
+            findings.append("feasibility_public_inputs_unresolved")
+
+    declared = feasibility.get("release_modes")
+    release_modes = (
+        [str(value) for value in declared]
+        if isinstance(declared, list)
+        else []
+    )
+    if (
+        not release_modes
+        or len(release_modes) != len(set(release_modes))
+        or any(value not in MODES for value in release_modes)
+    ):
+        findings.append("feasibility_release_modes_invalid")
+        release_modes = [value for value in release_modes if value in MODES]
+    mode_reviews = feasibility.get("modes")
+    mode_reviews = mode_reviews if isinstance(mode_reviews, dict) else {}
+    for selected_mode in MODES:
+        value = mode_reviews.get(selected_mode)
+        if not isinstance(value, dict) or value.get("status") not in {
+            "feasible", "infeasible"
+        }:
+            findings.append(f"feasibility_mode_invalid:{selected_mode}")
+        elif (selected_mode in release_modes) != (value.get("status") == "feasible"):
+            findings.append(f"feasibility_mode_release_mismatch:{selected_mode}")
+
+    modes = (mode,) if mode else tuple(release_modes)
     if mode and mode not in MODES:
         findings.append(f"unsupported_mode:{mode}")
         modes = ()
+    elif mode and mode not in release_modes:
+        findings.append(f"mode_not_declared_for_release:{mode}")
+        modes = ()
+    if mode is None:
+        for selected_mode in MODES:
+            present = (root / selected_mode).exists() or (
+                root / "evaluator_reference" / selected_mode
+            ).exists()
+            if present and selected_mode not in release_modes:
+                findings.append(f"undeclared_mode_present:{selected_mode}")
     for selected_mode in modes:
         mode_findings, mode_diagnostics = _mode_findings(
             root, selected_mode, paper_id

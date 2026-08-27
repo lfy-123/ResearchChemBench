@@ -17,12 +17,16 @@ STRING = {"type": "string"}
 OBJECT_ARRAY = {"type": "array", "items": {"type": "object"}}
 
 
+TASK_MODES = {"enum": ["autonomous_research", "paper_reproduction"]}
+
+
 STAGE06_SYNTHESIS_SCHEMA = object_schema(
-    ["decision", "paper_id", "artifact_path", "summary"],
+    ["decision", "paper_id", "artifact_path", "release_modes", "summary"],
     {
         "decision": {"enum": ["constructed", "scientific_not_constructible"]},
         "paper_id": STRING,
         "artifact_path": STRING,
+        "release_modes": {"type": "array", "items": TASK_MODES, "uniqueItems": True},
         "milestones": {"type": "object"},
         "failure_code": STRING,
         "failure_reasons": OBJECT_ARRAY,
@@ -36,6 +40,7 @@ STAGE07_AUDIT_SCHEMA = object_schema(
         "audit_decision",
         "paper_id",
         "artifact_path",
+        "release_modes",
         "selected_workflow_preserved",
         "repairs",
         "remaining_issues",
@@ -53,6 +58,7 @@ STAGE07_AUDIT_SCHEMA = object_schema(
         },
         "paper_id": STRING,
         "artifact_path": STRING,
+        "release_modes": {"type": "array", "items": TASK_MODES, "uniqueItems": True},
         "selected_workflow_preserved": {"type": "boolean"},
         "repairs": OBJECT_ARRAY,
         "remaining_issues": OBJECT_ARRAY,

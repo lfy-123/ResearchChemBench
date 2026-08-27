@@ -45,7 +45,7 @@ from src.stages.stage06_task_builder.prompts import (
 )
 
 
-STAGE06_IMPLEMENTATION_VERSION = "v23-efficient-paired-task-finalization"
+STAGE06_IMPLEMENTATION_VERSION = "v24-feasibility-first-per-mode"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 
 
@@ -205,7 +205,7 @@ def run_stage06(
                 "handoff_ready": True,
                 "passed": False,
                 "provisional": True,
-                "task_pair_path": str(target),
+                "constructed_path": str(target),
                 "handoff_path": str(target),
                 "source_snapshot_path": str(snapshot["root"]),
                 "gate_status": "passed",
@@ -213,7 +213,8 @@ def run_stage06(
                 "gate_diagnostics": gate_report["diagnostics"],
                 "agent_harness": harness.name,
                 "agent_model": harness.model,
-                "mode_generation_strategy": "shared_objective_author_route_disclosure",
+                "mode_generation_strategy": "feasibility_first_per_mode",
+                "release_modes": list(review.get("feasibility", {}).get("release_modes") or []),
             }
         except AgentExecutionError as exc:
             return _technical_block(
@@ -245,7 +246,7 @@ def run_stage06(
     summary = {
         **record_header(run_id=run_id, stage="stage06"),
         "implementation_version": STAGE06_IMPLEMENTATION_VERSION,
-        "mode_generation_strategy": "shared_objective_author_route_disclosure",
+        "mode_generation_strategy": "feasibility_first_per_mode",
         "papers": len(records),
         "provisional_constructed": sum(
             row.get("decision") == "provisional_constructed" for row in records
@@ -311,22 +312,8 @@ def _run_synthesis_agent(
             "finalization_reserve": int(config.get("synthesis_finalization_reserve", 6)),
             "structured_artifact_path": "outputs/construction_receipt.json",
             "structured_artifact_required_files": [
-                "paper_reproduction/task.md",
-                "paper_reproduction/task_info.json",
-                "paper_reproduction/submission_schema.json",
-                "autonomous_research/task.md",
-                "autonomous_research/task_info.json",
-                "autonomous_research/submission_schema.json",
-                "evaluator_reference/paper_reproduction/reference_key_points.json",
-                "evaluator_reference/paper_reproduction/reference_conclusions.json",
-                "evaluator_reference/paper_reproduction/scoring_rules.json",
-                "evaluator_reference/paper_reproduction/evidence_map.json",
-                "evaluator_reference/paper_reproduction/critical_failures.json",
-                "evaluator_reference/autonomous_research/reference_key_points.json",
-                "evaluator_reference/autonomous_research/reference_conclusions.json",
-                "evaluator_reference/autonomous_research/scoring_rules.json",
-                "evaluator_reference/autonomous_research/evidence_map.json",
-                "evaluator_reference/autonomous_research/critical_failures.json",
+                "workflow_review.json",
+                "construction_receipt.json",
             ],
             "inline_contract": False,
         },

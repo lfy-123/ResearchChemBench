@@ -5,6 +5,8 @@ from typing import Any
 
 from src.stages.phase_gate import run as run_shared_phase_gate
 
+MODES = {"autonomous_research", "paper_reproduction"}
+
 
 APPROVED_AUDIT_DECISIONS = {"approved", "approved_with_repairs"}
 
@@ -24,6 +26,13 @@ def validate_audit_receipt(
         raise ValueError(f"unsupported audit_decision: {decision!r}")
     if receipt.get("paper_id") != paper_id:
         raise ValueError("audit receipt paper_id mismatch")
+    modes = receipt.get("release_modes")
+    if decision in APPROVED_AUDIT_DECISIONS and (
+        not isinstance(modes, list) or not modes or any(
+            not isinstance(mode, str) or mode not in MODES for mode in modes
+        ) or len(modes) != len(set(modes))
+    ):
+        raise ValueError("approved audit must declare one or more valid release_modes")
     if decision not in APPROVED_AUDIT_DECISIONS:
         return None
     if receipt.get("selected_workflow_preserved") is not True:

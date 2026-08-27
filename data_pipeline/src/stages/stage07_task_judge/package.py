@@ -153,9 +153,10 @@ def _copy_paper(*, pair_root: Path, destination: Path, paper_id: str) -> dict[st
 
 
 def assemble_release_pair(
-    *, pair_root: Path, release_root: Path, paper_id: str
+    *, pair_root: Path, release_root: Path, paper_id: str,
+    release_modes: list[str] | None = None,
 ) -> dict[str, Any]:
-    """Validate both task packages privately, then publish the complete paper pair."""
+    """Validate and publish the modes selected by the final scientific audit."""
 
     pair_root = pair_root.resolve()
     release_root = release_root.resolve()
@@ -167,6 +168,21 @@ def assemble_release_pair(
         paper_info = _copy_paper(
             pair_root=pair_root, destination=paper_destination, paper_id=paper_id
         )
+        selected_modes = release_modes
+        if selected_modes is None:
+            review = read_json(pair_root / "workflow_review.json")
+            feasibility = review.get("feasibility") or {}
+            selected_modes = feasibility.get("release_modes")
+        selected_modes = [
+            mode for mode in (selected_modes or []) if mode in TASK_TYPES
+        ]
+        if not selected_modes:
+            return {
+                "status": "failed",
+                "findings": ["no_release_modes_selected"],
+                "tasks": {},
+                "release_modes": [],
+            }
         reports = {
             task_type: _assemble_mode(
                 pair_root=pair_root,
@@ -175,7 +191,7 @@ def assemble_release_pair(
                 task_type=task_type,
                 paper_info=paper_info,
             )
-            for task_type in TASK_TYPES
+            for task_type in selected_modes
         }
         findings = sorted(
             {
@@ -194,7 +210,7 @@ def assemble_release_pair(
                     staging / "tasks" / task_type / paper_id,
                     release_root / "tasks" / task_type / paper_id,
                 )
-                for task_type in TASK_TYPES
+                for task_type in selected_modes
             ],
         ]
         for source, destination in destinations:
@@ -208,6 +224,7 @@ def assemble_release_pair(
             "findings": [],
             "paper_path": str(release_root / "papers" / paper_id),
             "tasks": reports,
+            "release_modes": selected_modes,
         }
     finally:
         if staging.exists():
@@ -225,7 +242,11 @@ def write_release_manifest(
     ]
     tasks = []
     for row in published:
-        for task_type in TASK_TYPES:
+        release_modes = (row.get("release_report") or {}).get("release_modes") or [
+            mode for mode in TASK_TYPES
+            if mode in (row.get("release_report") or {}).get("tasks", {})
+        ]
+        for task_type in release_modes:
             report = (row.get("release_report") or {}).get("tasks", {}).get(task_type, {})
             tasks.append(
                 {
