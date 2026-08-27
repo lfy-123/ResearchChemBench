@@ -133,6 +133,9 @@ def run_stage06(
             )
             outputs = agent_workspace / "outputs"
             review = read_json(outputs / "workflow_review.json")
+            review_modes = list((review.get("feasibility") or {}).get("release_modes") or [])
+            if list(receipt.get("release_modes") or []) != review_modes:
+                raise ValueError("construction receipt release_modes do not match workflow review")
             if review.get("decision") == "scientific_not_constructible" or receipt.get(
                 "decision"
             ) == "scientific_not_constructible":

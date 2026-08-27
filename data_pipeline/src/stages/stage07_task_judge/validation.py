@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from src.contracts import read_json
 from src.stages.phase_gate import run as run_shared_phase_gate
 
 MODES = {"autonomous_research", "paper_reproduction"}
@@ -47,6 +48,10 @@ def validate_audit_receipt(
     artifact.relative_to(root)
     if not artifact.is_dir():
         raise FileNotFoundError(f"approved audit artifact is missing: {artifact}")
+    review = read_json(artifact / "workflow_review.json")
+    review_modes = list((review.get("feasibility") or {}).get("release_modes") or [])
+    if modes != review_modes:
+        raise ValueError("audit receipt release_modes do not match audited workflow review")
     return artifact
 
 
