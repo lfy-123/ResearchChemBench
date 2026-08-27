@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-STAGE06_SYNTHESIS_PROMPT_VERSION = "v25-task-completeness-and-difficulty-20260827"
+STAGE06_SYNTHESIS_PROMPT_VERSION = "v26-scientific-contract-closure-20260827"
 
 
 def final_task_synthesis_instructions(
@@ -241,6 +241,11 @@ remain required.
 `submission_schema.json` declares non-empty `required_files`, `primary_result_file` and a JSON
 `result_schema`. Every scored field must be explicitly declared and included through the applicable
 `required` chain. Do not encode an answer with `const`, single-value `enum`, `default` or `example`.
+Every outcome explicitly allowed by `task.md` must be representable without fabricated values. If
+the task permits bounded failure, partial discovery or an alternative validation method, provide a
+truthful schema branch for it rather than unconditionally requiring success-only numeric, ordering
+or structure fields. A completion-status string by itself is insufficient when the required fields
+do not actually differ between successful and bounded-failure outcomes.
 
 For each constructed mode, the evaluator must be specific and executable:
 
@@ -252,6 +257,19 @@ For each constructed mode, the evaluator must be specific and executable:
 - scoring rules cover every key point and conclusion and bind to declared required submission fields;
 - evidence map resolves every cited evidence ID to a concrete current-paper/SI source;
 - critical failures contain concrete task-specific scientifically serious failure conditions.
+
+Bind each system-specific or candidate-specific rule to an unambiguous scientific object. For a
+fixed known set, prefer explicit named object fields or an equally unique selector. For an open
+candidate array, retain candidate identity and per-candidate validation context. Wildcards are
+valid for aggregate comparisons but must not erase object identity for item-specific targets. A
+process rule about multiple candidates must bind their individual validation evidence, not only a
+global statement that validation occurred.
+
+Derive evaluator conclusions separately from each mode's public problem. Do not copy the
+reproduction evaluator into autonomous research unchanged. A shared source result may be reused,
+but an author-route interpretation is fair in autonomous research only when its public task
+independently asks for, and supplies the problem-defining information needed to infer, that
+interpretation.
 
 Reference scientific content may come only from the current paper/SI. Do not promote your own
 inference, a new calculation, another paper or an upstream model answer into the hidden reference.
