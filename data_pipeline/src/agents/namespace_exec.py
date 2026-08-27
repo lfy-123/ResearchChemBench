@@ -14,6 +14,7 @@ def main() -> None:
     parser.add_argument("--workspace", type=Path, required=True)
     parser.add_argument("--rootfs", type=Path, required=True)
     parser.add_argument("--executable", type=Path, required=True)
+    parser.add_argument("--code-mode-host", type=Path)
     parser.add_argument("--codex-home", type=Path)
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
@@ -32,6 +33,14 @@ def main() -> None:
     _run(["mount", "--make-rprivate", "/"])
     _bind_read_only(Path("/usr"), root / "usr", recursive=True)
     _bind_read_only(executable, root / "agent-executable")
+    if args.code_mode_host is not None:
+        code_mode_host = args.code_mode_host.resolve()
+        if not code_mode_host.is_file():
+            raise SystemExit("Codex code-mode host executable is unavailable")
+        # Codex resolves the helper next to argv[0].  The Agent executable is
+        # mounted as /agent-executable, so its sibling must be available at the
+        # root path Codex reports in startup diagnostics.
+        _bind_read_only(code_mode_host, root / "codex-code-mode-host")
     _bind(workspace, root / "workspace")
     for path in _read_only_workspace_paths(workspace):
         _bind_read_only(
@@ -48,7 +57,11 @@ def main() -> None:
         _bind(codex_home, codex_target)
     else:
         codex_target.mkdir(parents=True)
-    _run(["mount", "-t", "proc", "proc", str(root / "proc")])
+    # Some hosts deny proc mounts inside an unprivileged user namespace. Keep
+    # the historical behavior by default, but allow that host-specific
+    # limitation to be opted into without weakening other isolation mounts.
+    if os.environ.get("RCB_AGENT_SKIP_PROC_MOUNT") != "1":
+        _run(["mount", "-t", "proc", "proc", str(root / "proc")])
     for name in ("null", "zero", "random", "urandom"):
         source = Path("/dev") / name
         target = root / "dev" / name
