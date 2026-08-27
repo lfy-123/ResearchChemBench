@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-STAGE07_AUDIT_PROMPT_VERSION = "v25-task-completeness-scientific-audit-20260827"
+STAGE07_AUDIT_PROMPT_VERSION = "v25-task-completeness-difficulty-audit-20260827"
 
 
 def final_task_audit_instructions(
@@ -63,6 +63,10 @@ Audit the actual files, not only manifests:
    Discovery rules are required only when discovery is real.
 8. Do schema const/enum/default/example fields avoid encoding a reference number, ordering, result
    structure or final answer? Legitimate units and state categories may remain constrained.
+9. Does each mode's `task_info.json` contain `difficulty` (`easy`, `medium` or `hard`) and concrete
+   `difficulty_reasons` consistent with its actual exploration space? Repair this metadata when the
+   existing task makes the correct classification source-determined. A large search space is a
+   reason for `hard`, not by itself a reason to remove an otherwise complete mode.
 
 Before the final Gate, update `outputs/audited_task/workflow_review.json` so its
 `feasibility.release_modes` exactly lists the existing modes you are approving. Remove an

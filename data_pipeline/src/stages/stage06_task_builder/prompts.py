@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-STAGE06_SYNTHESIS_PROMPT_VERSION = "v25-task-completeness-first-20260827"
+STAGE06_SYNTHESIS_PROMPT_VERSION = "v25-task-completeness-and-difficulty-20260827"
 
 
 def final_task_synthesis_instructions(
@@ -73,6 +73,14 @@ Then decide `paper_reproduction` and `autonomous_research` separately. A mode is
 all shared closures pass and its own route-disclosure/search-space boundary is viable. One feasible
 mode is sufficient: build and release it without inventing the other. If neither mode is feasible,
 stop scientific construction and write only the review and rejection receipt.
+
+Do not mark a mode infeasible merely because its scientific search space is large. If the objective,
+essential inputs, hidden references, deliverables and outcome-based completion/stopping contract can
+all be defined without leaking the paper answer, construct the mode and classify it `hard`. A mode is
+infeasible only when an essential scientific identity/input is unresolved, a fair evaluator cannot
+be sourced, the objective cannot be stated without giving away its answer, or no scientifically
+meaningful completion/limitation contract can be defined. Difficulty describes exploration burden;
+it does not waive task completeness, input closure, validation or answer isolation.
 
 Use the simplest scientifically closed public-input path:
 
@@ -202,10 +210,29 @@ Each public `task_info.json` uses only:
   "task_type": "the current mode",
   "title": "...",
   "category": "...",
+  "difficulty": "easy or medium or hard",
+  "difficulty_reasons": ["one or more concrete, mode-specific reasons"],
   "paper": {{"title": "", "doi": "", "journal": "", "publication_date": ""}},
   "data": [{{"path": "data/inputs", "description": "..."}}],
   "required_deliverables": [{{"path": "report/results.json", "description": "..."}}]
 }}
+
+Assign difficulty independently for each mode from the scientific exploration required after all
+public inputs and boundaries are fixed:
+
+- `easy`: the scientific object and requested observables are fixed. The evaluated Agent mainly
+  plans a defensible computational route, executes the calculation, validates it and reports the
+  result; there is little or no hypothesis/candidate discovery.
+- `medium`: the Agent must formulate or compare hypotheses, conformers, states, pathways or models
+  inside a small, clearly bounded search space, then validate the selected conclusion.
+- `hard`: the Agent must plan and prioritize a substantially larger mechanism, structure,
+  conformer, state or hypothesis space, generate and discriminate candidates, and justify search
+  coverage and stopping. The scientific objective and essential inputs must still be complete.
+
+`difficulty_reasons` must explain the actual source of difficulty, such as fixed direct calculation,
+small bounded conformer comparison, or broad mechanism/transition-state discovery. Do not infer
+difficulty from task type alone: reproduction may be hard and autonomous research may be easy.
+Do not use difficulty as a quality, feasibility, compute-cost or acceptance label.
 
 Release injects paper metadata later. Do not create task_id, task_family_id, source_id, objective_id,
 task_pair_id or subtask IDs. Evaluator-local key_point_id, conclusion_id, rule_id and evidence_id

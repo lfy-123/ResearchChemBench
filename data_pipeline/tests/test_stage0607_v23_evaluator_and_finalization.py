@@ -36,6 +36,8 @@ def _semantic_mode(root: Path, mode: str) -> None:
             "task_type": mode,
             "title": "Mechanism study",
             "category": "reaction_mechanism",
+            "difficulty": "medium",
+            "difficulty_reasons": ["A small bounded set of pathways must be compared."],
             "paper": {"title": "", "doi": "", "journal": "", "publication_date": ""},
             "data": [{"path": "data/inputs", "description": "Reactant"}],
             "required_deliverables": [

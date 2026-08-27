@@ -34,6 +34,8 @@ def _mode(root: Path, mode: str) -> None:
             "task_type": mode,
             "title": "Barrier task",
             "category": "reaction",
+            "difficulty": "easy",
+            "difficulty_reasons": ["The target barrier is fixed and directly computed."],
             "paper": {"title": "", "doi": "", "journal": "", "publication_date": ""},
             "data": [{"path": "data/inputs", "description": "Reactant input"}],
             "required_deliverables": [

@@ -526,7 +526,7 @@ def _mode_findings(root: Path, mode: str, paper_id: str) -> tuple[list[str], lis
         findings.append(f"{mode}:task_info_type_mismatch")
     allowed_info = {
         "paper_id", "task_type", "title", "category", "paper", "data",
-        "required_deliverables",
+        "required_deliverables", "difficulty", "difficulty_reasons",
     }
     for field in sorted(set(info) - allowed_info):
         findings.append(f"{mode}:task_info_field_unknown:{field}")
@@ -536,6 +536,15 @@ def _mode_findings(root: Path, mode: str, paper_id: str) -> tuple[list[str], lis
     for field in ("title", "category"):
         if not _has_value(info.get(field)):
             findings.append(f"{mode}:task_info_{field}_missing")
+    if info.get("difficulty") not in {"easy", "medium", "hard"}:
+        findings.append(f"{mode}:task_info_difficulty_invalid")
+    difficulty_reasons = info.get("difficulty_reasons")
+    if (
+        not isinstance(difficulty_reasons, list)
+        or not difficulty_reasons
+        or any(not isinstance(reason, str) or not reason.strip() for reason in difficulty_reasons)
+    ):
+        findings.append(f"{mode}:task_info_difficulty_reasons_invalid")
     paper = info.get("paper")
     if paper is not None and (
         not isinstance(paper, dict)

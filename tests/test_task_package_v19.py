@@ -51,6 +51,8 @@ def package(root: Path, *, paper_id: str = "paper_fixture", task_type: str = "au
             "task_type": task_type,
             "title": "Fixture",
             "category": "reaction_mechanism",
+            "difficulty": "easy",
+            "difficulty_reasons": ["The fixture is a fixed direct calculation."],
             "paper": {"title": "Paper", "doi": "10.test/x", "journal": "J", "publication_date": "2026-01-01"},
             "data": [{"path": "data/inputs", "description": "Starting structure"}],
             "required_deliverables": [

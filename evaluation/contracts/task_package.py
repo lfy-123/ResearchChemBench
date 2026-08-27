@@ -101,6 +101,8 @@ class TaskInfo(StrictModel):
     ]
     title: str
     category: str
+    difficulty: Literal["easy", "medium", "hard"]
+    difficulty_reasons: list[str]
     paper: PaperSummary = Field(default_factory=PaperSummary)
     data: list[DataDescription]
     required_deliverables: list[RequiredDeliverable]
@@ -118,6 +120,14 @@ class TaskInfo(StrictModel):
         if not value.strip():
             raise ValueError("value must be non-empty")
         return value.strip()
+
+    @field_validator("difficulty_reasons")
+    @classmethod
+    def concrete_difficulty_reasons(cls, value: list[str]) -> list[str]:
+        reasons = [reason.strip() for reason in value if isinstance(reason, str) and reason.strip()]
+        if not reasons or len(reasons) != len(value):
+            raise ValueError("difficulty_reasons must contain non-empty strings")
+        return reasons
 
     @model_validator(mode="after")
     def unique_paths(self) -> "TaskInfo":

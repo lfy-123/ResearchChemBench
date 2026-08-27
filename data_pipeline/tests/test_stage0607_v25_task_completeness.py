@@ -53,6 +53,8 @@ def _mode(root: Path, mode: str, *, process: bool = True, stopping: bool = True)
             "task_type": mode,
             "title": "Barrier task",
             "category": "reaction",
+            "difficulty": "easy",
+            "difficulty_reasons": ["The target barrier is fixed and requires direct calculation."],
             "paper": {"title": "Source", "doi": "", "journal": "", "publication_date": ""},
             "data": [{"path": "data/inputs", "description": "Reactant input"}],
             "required_deliverables": [{"path": "report/results.json", "description": "Results"}],
@@ -141,6 +143,25 @@ def test_stage06_prompt_defines_private_route_structure(tmp_path: Path) -> None:
         assert heading in prompt
     assert "must never be copied into" in prompt
     assert "agent_input/" in prompt
+
+
+def test_stage06_prompt_defines_difficulty_without_weakening_feasibility() -> None:
+    prompt = final_task_synthesis_instructions(paper_id=PAPER_ID, snapshot_hash="fixture")
+    for level in ("`easy`", "`medium`", "`hard`"):
+        assert level in prompt
+    assert "Do not mark a mode infeasible merely because" in prompt
+    assert '"difficulty_reasons"' in prompt
+
+
+def test_task_info_requires_valid_difficulty_metadata(tmp_path: Path) -> None:
+    root = tmp_path / "outputs"
+    _review(root, modes=("paper_reproduction",))
+    info_path = root / "paper_reproduction/task_info.json"
+    info = json.loads(info_path.read_text())
+    info.pop("difficulty_reasons")
+    _write(info_path, info)
+    report = run_gate("synthesis", root)
+    assert "paper_reproduction:task_info_difficulty_reasons_invalid" in report["findings"]
 
 
 def test_missing_process_key_point_is_blocking(tmp_path: Path) -> None:
