@@ -173,6 +173,46 @@ paper_a5564360a31f760b
 - 已确认 v26 不改变 release layout、receipt 八维结构和单模式发布逻辑；
 - 下一步：按步骤 1–5 修改代码和测试。
 
-## 5. 一致性审计与回归结果
+### 2026-08-27：代码与定向测试完成
 
-待代码修改和测试完成后填写。
+- `src/stages/stage06_task_builder/prompts.py` 已升级为 v26，并加入 truthful-outcome、对象身份和分模式
+  evaluator 约束；未增加新的 Stage06 阶段、工具或输出；
+- `src/stages/stage07_task_judge/prompts.py` 已升级为 v26，加入最终合同审计角色、逐模式合同提取、
+  task→schema、schema→evaluator、对象身份、公开标签、模式公平性和双向反演检查；
+- `src/stages/stage07_task_judge/stage.py` 仅更新 implementation version，单次审计、单模式保留和动态
+  release 流程不变；
+- `src/stages/phase_gate.py` 的 schema selector 已支持标准 `oneOf`/`anyOf` 分支，并保留不存在字段、未
+  required 字段和非数值 leaf 的机械阻断；未加入 wildcard 禁止、论文特例或科学语义判断；
+- 新增 `tests/test_stage0607_v26_contract_closure.py`，覆盖 Prompt 合同、分支 schema、required chain、
+  numeric leaf 和原有简单 schema 行为。
+
+定向结果：
+
+```text
+python -m pytest -q tests/test_stage0607_v25_task_completeness.py \
+  tests/test_stage0607_v26_contract_closure.py
+17 passed
+```
+
+静态结果：`python -m compileall -q src` 通过，`git diff --check` 通过。
+
+## 5. 方案一致性审计与回归结果
+
+| v26 方案要求 | 代码/测试证据 | 状态 |
+|---|---|---|
+| Stage07 为最终科学质量与评估合同审计员 | `stage07_task_judge/prompts.py` v26 角色段；Prompt 定向测试 | 通过 |
+| Task → schema 合法结果审计 | Stage07 Prompt 的 Task to schema 段；Stage06 truthful-outcome 约束 | 通过 |
+| Schema → evaluator 可追溯性审计 | Stage07 Prompt 的 Schema to evaluator 段 | 通过 |
+| 固定体系/开放候选身份原则 | 两个 Prompt 的对象身份段；不禁止 wildcard | 通过 |
+| 论文内部标签答案中性映射 | Stage07 Prompt Public labels 段 | 通过 |
+| reproduction/autonomous evaluator 分开审计 | 两个 Prompt 的 mode-specific fairness 段 | 通过 |
+| 答案泄露与隐藏要求双向审计 | Stage07 Prompt reverse fairness check | 通过 |
+| Stage06 不增加新职责 | Stage06 仅追加三类约束；无新阶段/文件/调用 | 通过 |
+| Gate 只做机械合同 | branch-aware selector helper；无科学关键词特例 | 通过 |
+| `oneOf`/`anyOf` 分支 schema 可解析 | `tests/test_stage0607_v26_contract_closure.py` | 通过 |
+| 保留八个 receipt 维度、单模式和 release layout | 未修改 `schemas.py`、`validation.py`、`package.py` | 通过 |
+| 不恢复 Stage07B、旧 ID、兼容投影和额外 retry | 代码 diff 与现有模块检查 | 通过 |
+
+已知测试边界：部分 v19–v24 历史测试仍断言已删除的旧 Prompt 标题、旧版本号或旧 receipt fixture，因此
+不能通过恢复旧兼容代码来解决；v26 定向测试和 v25 当前合同测试通过即可作为现行契约依据。完整 v26 回归和
+十篇昂贵模型测试在下一步执行。
