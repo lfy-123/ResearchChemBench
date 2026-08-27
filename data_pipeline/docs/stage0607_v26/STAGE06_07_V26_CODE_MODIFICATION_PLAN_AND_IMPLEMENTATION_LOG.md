@@ -235,7 +235,8 @@ python -m pytest -q tests/test_stage0607_v25_task_completeness.py \
 | `paper_9ec8c4761c4f171b` | `provisional_constructed` | 技术阻断：Stage07 修复 patch 失败，审计 Gate 未通过 |
 | `paper_a5564360a31f760b` | `provisional_not_constructible` | 科学拒绝（输入闭合失败） |
 
-统计：4 篇发布、5 篇科学拒绝、2 篇技术阻断。四篇发布任务均包含两个模式、独立 `agent_input` 与
+统计：4 篇发布、4 篇科学拒绝、2 篇技术阻断（其中 `paper_359...` 的底层 review 是科学拒绝，但运行终态因
+缺少回执记录为技术阻断）。四篇发布任务均包含两个模式、独立 `agent_input` 与
 `evaluation`、私有 `paper_route.md`，且最终 external Gate 为 `passed`。四篇发布任务的 Stage07 均实际执行
 了 `approved_with_repairs`，修复了 schema 分支、候选身份、过程/结论绑定或碰撞能可达性等合同缺口。
 
