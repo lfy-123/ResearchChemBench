@@ -135,7 +135,7 @@ def load_config(path: str | Path) -> dict[str, Any]:
         "harness", "codex"
     )
     stage06.setdefault("synthesis_max_tool_calls", 180)
-    stage06.setdefault("synthesis_finalization_reserve", 28)
+    stage06.setdefault("synthesis_finalization_reserve", 6)
     stage06.setdefault("synthesis_timeout_seconds", 5400)
     stage06.setdefault("model_context_window", 1_000_000)
     stage06.setdefault("model_auto_compact_token_limit", 750_000)

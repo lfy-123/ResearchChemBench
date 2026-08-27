@@ -87,7 +87,9 @@ PYTHONPATH=.:data_pipeline .envs/researchchembench/bin/pytest -q \
 
 修改：
 
-- Stage06 request 不再把 `outputs/construction_receipt.json` 配成 Bridge 的 structured artifact；
+- Stage06 request 继续使用受信任的 `outputs/construction_receipt.json` structured artifact，
+  但同时声明完整双模式 task tree 的 required paths；Bridge 只有在 receipt 和 required paths
+  全部完成时才接受 artifact completion；
 - receipt 仍由 Agent 在 full-pair Gate passed 后最后写入，并继续作为 Stage06 response schema；
 - Stage06 代码显式要求 receipt 文件存在并校验其 schema；
 - external Gate 仍在 Agent 单次退出后对实际 task tree 做权威只读检查；
@@ -95,8 +97,9 @@ PYTHONPATH=.:data_pipeline .envs/researchchembench/bin/pytest -q \
 - 升级 implementation version；
 - 不修改通用 Bridge，不新增 conditional completion、retry 或恢复分支。
 
-这样保持实现简单：Bridge 不再把 receipt 当成完整 task tree；如果 Agent 仍未完成，external Gate
-会如实阻断，但编排器不会主动制造一个“constructed 半成品”。
+这样保持实现简单：Bridge 仍只接收一个固定 receipt，但不会把 receipt 单文件当成完整 task
+tree；如果 Agent 仍未完成，Bridge 会继续允许有限的写入，external Gate 最终如实阻断，编排器
+不会主动制造一个“constructed 半成品”。
 
 ### P3. Stage07：答案反推和 evaluator 科学可用性审计
 
@@ -192,20 +195,20 @@ PYTHONPATH=.:data_pipeline .envs/researchchembench/bin/pytest -q \
 
 | 检查项 | 状态 | 证据 |
 |---|---|---|
-| 双模式 v22 科学定义保持不变 | pending | |
-| Stage06 四里程碑和非进展约束落地 | pending | |
-| reproduction 不公开结果排序/完整答案 | pending | |
-| autonomous 不公开 author route | pending | |
-| evaluator 正常支持数值与文本关键点/结论 | pending | |
-| Gate 不强制 numeric rule | pending | |
-| numeric rule 完整且 binding 定位数值 leaf | pending | |
-| tolerance 科学选择不阻断 | pending | |
-| receipt 不触发 Bridge 提前完成 | pending | |
-| finalization reserve 已缩小 | pending | |
-| Stage07 答案反推测试落地 | pending | |
-| 未新增 retry/resume/Stage06B/Stage07B/兼容投影 | pending | |
-| 无论文或化学类型特例 | pending | |
-| 定向回归通过 | pending | |
+| 双模式 v22 科学定义保持不变 | completed | Stage06/07 Prompt 保留 objective/author-route/autonomous 边界 |
+| Stage06 四里程碑和非进展约束落地 | completed | v23 Prompt 的 A–D milestones 与 progress discipline |
+| reproduction 不公开结果排序/完整答案 | completed | Prompt 明确禁止结果方向、结构和完整结论；Stage07 增加答案反推 |
+| autonomous 不公开 author route | completed | Prompt 要求从每个 Agent-visible surface 移除 |
+| evaluator 正常支持数值与文本关键点/结论 | completed | semantic/ordering/condition 不要求 numeric 或特定评分执行器 |
+| Gate 不强制 numeric rule | completed | semantic/condition-only fixture passed |
+| numeric rule 完整且 binding 定位数值 leaf | completed | object/array binding 阻断，明确 numeric leaf 通过 |
+| tolerance 科学选择不阻断 | completed | 仅保留 tolerance diagnostic |
+| receipt 只有与完整 task tree 一起才触发 Bridge 完成 | completed | structured artifact required files；receipt 单独出现不会完成 |
+| finalization reserve 已缩小 | completed | Stage06 默认从 28 改为 6 |
+| Stage07 答案反推测试落地 | completed | v23 Prompt 与审计 fixture 已覆盖 |
+| 未新增 retry/resume/Stage06B/Stage07B/兼容投影 | completed | 本轮未改入这些流程 |
+| 无论文或化学类型特例 | completed | 仅通用 schema、Prompt 和 Gate 逻辑 |
+| 定向回归通过 | completed | 31 Stage06/07 tests + 247 pipeline/batch tests passed |
 
 ## 7. 实施记录
 
@@ -214,10 +217,10 @@ PYTHONPATH=.:data_pipeline .envs/researchchembench/bin/pytest -q \
 | 2026-08-27 | 现状审计 | completed | Gate 已支持 semantic-only；定位 Prompt、receipt、reserve、Stage07 和 numeric leaf 缺口 |
 | 2026-08-27 | 修改前基线 | completed | `tests/test_stage0607_v19_contracts.py`: 10 passed |
 | 2026-08-27 | 代码修改计划 | completed | 本文档 |
-| 2026-08-27 | P1 Stage06 Prompt | pending | |
-| 2026-08-27 | P2 Stage06 终态 | pending | |
-| 2026-08-27 | P3 Stage07 审计 | pending | |
-| 2026-08-27 | P4/P5 Gate 与测试 | pending | |
-| 2026-08-27 | 一致性审查 | pending | |
+| 2026-08-27 | P1 Stage06 Prompt | completed | 四个里程碑、非进展规则、semantic evaluator 说明和抽象示例 |
+| 2026-08-27 | P2 Stage06 终态 | completed | receipt + required task tree gating；reserve=6 |
+| 2026-08-27 | P3 Stage07 审计 | completed | answer-inversion、route/answer 边界和 evaluator 可判断性 |
+| 2026-08-27 | P4/P5 Gate 与测试 | completed | numeric leaf 检查；定向测试与 pipeline/batch 回归通过 |
+| 2026-08-27 | 一致性审查 | completed | 已逐项核对 v23 方案；真实回归尚待执行 |
 | 2026-08-27 | 五篇真实回归 | pending | |
 | 2026-08-27 | 结果分析 | pending | |

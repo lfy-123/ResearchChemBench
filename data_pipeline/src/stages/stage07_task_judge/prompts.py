@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-STAGE07_AUDIT_PROMPT_VERSION = "v22-dual-mode-scientific-route-audit-20260827"
+STAGE07_AUDIT_PROMPT_VERSION = "v23-answer-inversion-and-evaluator-audit-20260827"
 
 
 def final_task_audit_instructions(
@@ -53,9 +53,35 @@ Audit the actual files, not only manifests:
 6. Do both tasks require the evaluated Agent to choose and justify a computational approach and meet
    outcome-based scientific validation requirements without prescribing the paper protocol?
 7. Are both evaluators concrete, evidence-supported and aligned with their task and submission
-   schema? Shared result rules are allowed. Discovery rules are required only when discovery is real.
+   schema? Treat numerical results, ordering, conditions, structure identity, process key points,
+   mechanisms, evidence chains and textual scientific conclusions as normal evaluation content.
+   Do not require a numeric rule when the core answer is non-numeric. Shared result rules are allowed.
+   Discovery rules are required only when discovery is real.
 8. Do schema const/enum/default/example fields avoid encoding a reference number, ordering, result
    structure or final answer? Legitimate units and state categories may remain constrained.
+
+Perform an explicit answer-inversion audit before approval:
+
+1. Extract from the hidden evaluator the reference values, expected ordering, winning candidate or
+   result-structure identity, final conclusions and tolerance.
+2. Inspect every Agent-visible surface: `task.md`, `task_info.json`, `submission_schema.json`, public
+   filenames, and public-input contents and comments.
+3. Ask whether an evaluated Agent that performs no calculation could fill in a scored ordering,
+   winning candidate, result structure, or main conclusion from those public surfaces. If yes, the
+   answer is leaked and must be removed by a bounded repair or the task rejected if that would change
+   its scientific objective.
+
+An author route is not an answer. Reproduction may state an author hypothesis, candidate direction,
+or qualitative mechanism that still requires independent computational testing. It may not state
+which candidate wins, the direction of the scored result ordering, a result-bearing TS/intermediate/
+conformer, the complete reference conclusion, a reference value, or tolerance. For example,
+“selectivity may arise from catalyst-organized intramolecular attack” is a route; “S is 1.9 kcal/mol
+lower than R and is the major product” is an answer.
+
+Evaluator files describe the scientific reference and usable comparison rules only. Do not add or
+require scoring-executor labels, rule weights, total scores, or pass thresholds. A semantic rule is
+valid when its expected scientific content and submission binding are specific enough to judge; it
+need not be reducible to a scalar comparison.
 
 Allowed repairs are local and source-determined: clarify wording or boundaries, remove a leaked
 protocol/answer/result artifact, correct a filename/comment, fix a schema binding or make a small

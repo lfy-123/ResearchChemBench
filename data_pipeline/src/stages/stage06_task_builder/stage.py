@@ -45,7 +45,7 @@ from src.stages.stage06_task_builder.prompts import (
 )
 
 
-STAGE06_IMPLEMENTATION_VERSION = "v22-dual-mode-scientific-route"
+STAGE06_IMPLEMENTATION_VERSION = "v23-efficient-paired-task-finalization"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 
 
@@ -124,7 +124,7 @@ def run_stage06(
                 config=config,
                 run_id=run_id,
             )
-            response, audit, agent_workspace = _run_synthesis_agent(
+            receipt, audit, agent_workspace = _run_synthesis_agent(
                 harness=harness,
                 stage_root=stage_root,
                 paper_id=paper_id,
@@ -133,9 +133,7 @@ def run_stage06(
             )
             outputs = agent_workspace / "outputs"
             review = read_json(outputs / "workflow_review.json")
-            receipt_path = outputs / "construction_receipt.json"
-            receipt = read_json(receipt_path) if receipt_path.is_file() else response
-            if review.get("decision") == "scientific_not_constructible" or response.get(
+            if review.get("decision") == "scientific_not_constructible" or receipt.get(
                 "decision"
             ) == "scientific_not_constructible":
                 return _publish_scientific_rejection(
@@ -310,8 +308,26 @@ def _run_synthesis_agent(
             "paper_id": paper_id,
             "input_fingerprint": fingerprint,
             "max_tool_calls": int(config.get("synthesis_max_tool_calls", 180)),
-            "finalization_reserve": int(config.get("synthesis_finalization_reserve", 28)),
+            "finalization_reserve": int(config.get("synthesis_finalization_reserve", 6)),
             "structured_artifact_path": "outputs/construction_receipt.json",
+            "structured_artifact_required_files": [
+                "paper_reproduction/task.md",
+                "paper_reproduction/task_info.json",
+                "paper_reproduction/submission_schema.json",
+                "autonomous_research/task.md",
+                "autonomous_research/task_info.json",
+                "autonomous_research/submission_schema.json",
+                "evaluator_reference/paper_reproduction/reference_key_points.json",
+                "evaluator_reference/paper_reproduction/reference_conclusions.json",
+                "evaluator_reference/paper_reproduction/scoring_rules.json",
+                "evaluator_reference/paper_reproduction/evidence_map.json",
+                "evaluator_reference/paper_reproduction/critical_failures.json",
+                "evaluator_reference/autonomous_research/reference_key_points.json",
+                "evaluator_reference/autonomous_research/reference_conclusions.json",
+                "evaluator_reference/autonomous_research/scoring_rules.json",
+                "evaluator_reference/autonomous_research/evidence_map.json",
+                "evaluator_reference/autonomous_research/critical_failures.json",
+            ],
             "inline_contract": False,
         },
     )
@@ -325,7 +341,24 @@ def _run_synthesis_agent(
             retryable=False,
             result=result,
         )
-    return response, result.audit_record(), workspace
+    receipt_path = workspace / "outputs" / "construction_receipt.json"
+    if not receipt_path.is_file():
+        raise AgentExecutionError(
+            "Synthesis Agent did not write outputs/construction_receipt.json",
+            failure_class="missing_agent_artifact",
+            retryable=False,
+            result=result,
+        )
+    receipt = read_json(receipt_path)
+    jsonschema.validate(receipt, STAGE06_SYNTHESIS_SCHEMA)
+    if receipt != response:
+        raise AgentExecutionError(
+            "Synthesis Agent final response does not match construction_receipt.json",
+            failure_class="agent_receipt_mismatch",
+            retryable=False,
+            result=result,
+        )
+    return receipt, result.audit_record(), workspace
 
 
 def _prepare_input_snapshot(

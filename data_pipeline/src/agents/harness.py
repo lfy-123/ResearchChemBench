@@ -665,6 +665,15 @@ class CodexHarness(CliAgentHarness):
                     failure_class="invalid_agent_configuration",
                     retryable=False,
                 ) from exc
+            for value in request.metadata.get("structured_artifact_required_files") or []:
+                relative = Path(str(value))
+                if relative.is_absolute() or ".." in relative.parts:
+                    raise AgentExecutionError(
+                        "structured artifact required file must be workspace-relative",
+                        failure_class="invalid_agent_configuration",
+                        retryable=False,
+                    )
+                artifact_required_files.append(relative.as_posix())
         file_first_value = request.metadata.get("artifact_receipt_path")
         file_first_path: Path | None = None
         file_first_required_files: list[str] = []
@@ -753,6 +762,7 @@ class CodexHarness(CliAgentHarness):
                 request.metadata.get("inline_contract", False)
             ),
             structured_artifact_path=artifact_path,
+            structured_artifact_required_files=artifact_required_files,
             file_first_artifact_path=file_first_path,
             file_first_required_files=file_first_required_files,
             file_first_required_modified_files=file_first_required_modified_files,

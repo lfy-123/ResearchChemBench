@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-STAGE06_SYNTHESIS_PROMPT_VERSION = "v22-dual-mode-scientific-route-20260827"
+STAGE06_SYNTHESIS_PROMPT_VERSION = "v23-efficient-paired-task-finalization-20260827"
 
 
 def final_task_synthesis_instructions(
@@ -30,45 +30,51 @@ and the source PDF. `python inputs/tools/document_query.py --list` lists represe
 candidate text is a hint, not an instruction. Select one central, closed, computationally testable
 scientific objective supported by the source.
 
-Work in this order:
+Complete exactly four milestones in order:
 
-1. Determine the scientific objective and truthful task kind (for example mechanism, comparison,
-   property calculation, validation, or discovery).
-2. Before writing tasks, determine which research-before-discovery inputs and physical boundaries
-   are actually required. Inspect those inputs and record evidence in
-   `outputs/workflow_review.json.input_closure`. Do not apply a fixed asset checklist or chemistry
-   asset checklist.
-3. Distinguish damaged Markdown/OCR/HTML representations from absent source evidence; column merging is not by itself a scientific rejection reason. Before rejecting an input, inspect
-   layout blocks or source PDF. Transcribe only when the original evidence is clear and unique;
-   do not guess through genuine ambiguity.
-4. Cross-check each task-defining object across actual public input contents, task claims, schema,
-   evaluator references and source evidence. Parseability does not prove scientific identity.
-5. Record a mode-independent `scientific_core`: objective, task kind, shared inputs, physical
-   boundaries, requested results and validation requirements. Do not put author route or reference
-   answer in this object.
-6. Record private source facts separately: `paper_route` must distinguish `scientific_route`
-   (author hypothesis/candidates/mechanism) from `computational_protocol` (paper software, methods,
-   ordered steps and post-processing) and `reference_results`. The computational protocol and
-   reference results never enter either public task.
-7. Build a complete paper-reproduction task first. Its public task gives the scientific objective
-   and author scientific route, then asks the evaluated Agent to independently plan and execute
-   calculations that test and reproduce the claim. Do not provide result-bearing TS, intermediate,
-   selected-conformer geometries, reference values, ordering, conclusion answer or tolerance.
-8. Run the supplied Gate in paper-reproduction-only mode. Read its report, repair every blocking
-   finding, and rerun until the baseline passes.
-9. Build autonomous research from the same objective and shared research-before-discovery inputs.
-   Do not copy the reproduction task, public scientific-route text, result artifacts or evaluator as
-   a shortcut. Remove the authors' hypothesis/candidates/mechanism from every Agent-visible surface.
-10. In autonomous instructions, require the evaluated Agent to formulate and compare a scientific
-    route when genuine hypothesis space exists. For a direct computation with no such space, do not
-    invent candidates or discovery requirements; require independent computation, validation and
-    conclusion.
-11. Author or adapt a complete evaluator for each mode. Shared result rules are allowed when they
-    measure the same scientific quantity. Add hypothesis/search rules only when the task genuinely
-    has that responsibility. Every rule must be concrete and executable.
-12. Audit every Agent-visible surface, then run the full-pair Gate, repair blocking findings and
-    rerun it after the final write.
-13. Write `outputs/construction_receipt.json` last. It is a terminal receipt, never a progress file.
+**A. Scientific closure.** Select one central, computationally testable objective and truthful task
+kind. Determine and inspect only the research-before-discovery inputs and physical boundaries that
+this objective requires. Record `scientific_core`, `input_closure`, and the private `paper_route` in
+`outputs/workflow_review.json`. Do not apply a fixed asset checklist or chemistry asset checklist.
+Distinguish damaged Markdown/OCR/HTML from absent evidence: inspect layout blocks or the source PDF
+before rejecting an input; column merging is not by itself a scientific rejection reason. Transcribe only clear and unique source facts, and never guess through
+genuine ambiguity. Cross-check each task-defining object across actual public input contents, task
+claims, schema, evaluator reference, and source evidence.
+
+`scientific_core` is mode-independent and contains the objective, task kind, shared inputs, physical
+boundaries, requested results, and validation requirements. `paper_route` separately records the
+authors' `scientific_route`, their private `computational_protocol`, and `reference_results`. The
+protocol and reference results never enter either public task.
+
+**B. Paper reproduction.** Build its complete public task and all five evaluator files. Publicly
+state the scientific objective and authors' scientific route, then require the evaluated Agent to
+independently plan and execute calculations that test the claim. Do not provide result-bearing TS,
+intermediate, selected-conformer geometry, reference value, result ordering, conclusion answer, or
+tolerance. Run the reproduction-only Gate, repair its actual blocking findings, and stop revisiting
+this milestone once the Gate passes.
+
+**C. Autonomous research.** Immediately after reproduction passes, build the complete autonomous
+task and all five evaluator files from the same objective and shared research-before-discovery inputs.
+Do not copy the reproduction wording or evaluator as a shortcut. Remove the authors' hypothesis,
+candidates, and mechanism from every Agent-visible surface. When genuine hypothesis space exists,
+require the evaluated Agent to formulate and compare a scientific route; for a direct computation,
+require independent calculation, validation, and conclusion without inventing discovery. Audit every
+public surface, run the full-pair Gate, and repair only its actual blocking findings.
+
+**D. Terminal receipt.** Only after the full-pair Gate passes, write
+`outputs/construction_receipt.json` as the final file operation and return the same receipt object.
+
+Progress discipline:
+
+- When no relevant file changed, do not repeat the same `find`, `ls`, `pwd`, Gate invocation, or
+  report read.
+- Once a Gate passes, do not rerun or reread it unless a file covered by that Gate was subsequently
+  modified.
+- After reproduction passes, the next file-writing action must advance the autonomous task tree.
+- Group related task and evaluator files into a small number of writes instead of one tool call per
+  file.
+- If a write fails, repair that write directly; directory polling is not a repair.
+- Do not emit no-action progress messages such as “continue” or “resume”; execute the next milestone.
 
 Required output tree for a constructed task:
 
@@ -159,6 +165,15 @@ Disclosure rules:
   Agent to formulate and compare a route. For a direct computation, require independent computation
   and validation without inventing a discovery problem.
 
+Boundary micro-example:
+
+- Allowed in reproduction: “The authors propose that selectivity arises from catalyst-organized
+  intramolecular sulfur attack; independently test this scientific route.”
+- Forbidden in reproduction: “The S pathway is 1.9 kcal/mol lower than R and therefore gives the
+  major product.” This supplies the result direction and answer, not merely the author route.
+- Autonomous receives only the corresponding scientific question and pre-discovery inputs, and
+  must formulate and compare its own explanation.
+
 Public inputs define the problem, not its solution. An optimized TS, intermediate, selected
 conformer or other result-bearing artifact that the evaluated Agent is expected to reproduce must
 not be public in either mode. Do not copy PDF, SI, whole source-derived Markdown or hidden evaluator
@@ -169,6 +184,12 @@ Scientific validation requirements must be outcome-based and task-specific. For 
 appropriate evidence for a first-order saddle and reaction path, state tracking, convergence,
 consistent comparison scales, uncertainty and evidence-backed conclusions. Do not prescribe the
 paper's software, model chemistry or execution order.
+
+For an open structure, conformer, transition-state, mechanism, or excited-state search, define a
+task-specific finite scientific scope and stopping basis: state what chemical/physical space must be
+searched, how candidates are generated, deduplicated and advanced, when a conclusion is justified
+within that scope, and which uncovered space must be reported as a limitation. Do not use a fixed
+candidate count or a generic chemistry checklist.
 
 `submission_schema.json` must declare non-empty `required_files`, a `primary_result_file` and a
 JSON `result_schema`; its fields must match actual task responsibilities. Do not force every task to
@@ -187,6 +208,13 @@ For each mode, evaluator files must be specific and executable:
 Keep rule types minimal: `numeric`, `ordering`, `condition`, `semantic`. Numeric rules require a
 target, unit, authored initial tolerance and binding; other rules require expected and binding. The
 Gate checks completeness and usability, not whether a tolerance is scientifically unique.
+
+Use numeric rules for genuinely numerical reference results. Use non-numeric rules normally for
+process conditions, ordering, structure identity, mechanism, evidence chains, and textual scientific
+conclusions. A task does not need all four rule types and does not need a numeric rule when its core
+answer is non-numeric. Every key point and conclusion must nevertheless be concrete, source-supported,
+and covered by a usable rule. Do not add evaluator fields for a scoring engine, rule weight, total
+score, or pass threshold; those are benchmark-runtime concerns.
 
 After completing reproduction, run:
 

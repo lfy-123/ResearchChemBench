@@ -82,32 +82,71 @@ def _public_input_findings(root: Path, directory: Path, mode: str) -> list[str]:
     ]
 
 
-def _schema_selector_status(schema: Any, selector: str) -> bool:
-    """Return whether a simple JSONPath selector is represented by a schema.
+def _schema_selector_target(schema: Any, selector: str) -> tuple[bool, dict[str, Any] | None]:
+    """Resolve a simple JSONPath selector without prescribing a result schema.
 
-    Dynamic object or array portions are accepted when the schema deliberately
-    leaves them open.  This checks declared bindings without prescribing one
-    paper-specific result shape.
+    The returned target is ``None`` when an intentionally open object/array
+    prevents static type resolution. Such selectors remain mechanically valid;
+    only explicitly declared incompatible targets are rejected for numeric rules.
     """
 
     if selector == "$":
-        return True
+        return True, schema if isinstance(schema, dict) else None
     if not selector.startswith("$."):
-        return False
+        return False, None
     current = schema
-    for token in selector[2:].split("."):
-        token = token.split("[")[0]
+    for raw_token in selector[2:].split("."):
+        token = raw_token.split("[", 1)[0]
         if not token:
-            return False
+            return False, None
         if not isinstance(current, dict):
-            return True
-        properties = current.get("properties")
+            return True, None
+        if current.get("type") == "array":
+            items = current.get("items")
+            if not isinstance(items, dict):
+                return True, None
+            current = items
+        properties = current.get("properties") if isinstance(current, dict) else None
         if isinstance(properties, dict) and token in properties:
             current = properties[token]
-            continue
-        additional = current.get("additionalProperties", True)
-        return additional is not False
-    return True
+        else:
+            additional = current.get("additionalProperties", True)
+            if additional is False:
+                return False, None
+            current = additional if isinstance(additional, dict) else None
+        if "[" in raw_token:
+            if not isinstance(current, dict):
+                return True, None
+            if current.get("type") != "array":
+                return False, None
+            items = current.get("items")
+            current = items if isinstance(items, dict) else None
+    return True, current if isinstance(current, dict) else None
+
+
+def _numeric_target_usable(target: dict[str, Any] | None) -> bool | None:
+    """Classify an explicitly resolved target for a numeric scoring binding."""
+
+    if target is None:
+        return None
+    declared = target.get("type")
+    types = set(declared) if isinstance(declared, list) else {declared}
+    types.discard(None)
+    if types & {"number", "integer"}:
+        return True
+    if types:
+        return False
+    alternatives = target.get("anyOf") or target.get("oneOf")
+    if isinstance(alternatives, list):
+        classified = [
+            _numeric_target_usable(row if isinstance(row, dict) else None)
+            for row in alternatives
+        ]
+        if True in classified:
+            return True
+        if classified and all(value is False for value in classified):
+            return False
+    return None
 
 
 def _evaluation_findings(
@@ -248,9 +287,26 @@ def _evaluation_findings(
                 findings.append(f"{mode}:binding_artifact_undeclared:{rule_id or 'missing'}:{value}")
         primary = str(submission.get("primary_result_file") or "")
         if primary in paths:
+            numeric_targets: list[bool | None] = []
             for selector in fields:
-                if not isinstance(selector, str) or not _schema_selector_status(result_schema, selector):
+                if not isinstance(selector, str):
                     findings.append(f"{mode}:binding_field_not_in_schema:{rule_id or 'missing'}:{selector}")
+                    continue
+                represented, target = _schema_selector_target(result_schema, selector)
+                if not represented:
+                    findings.append(f"{mode}:binding_field_not_in_schema:{rule_id or 'missing'}:{selector}")
+                    continue
+                if rule_type == "numeric":
+                    numeric_targets.append(_numeric_target_usable(target))
+            if (
+                rule_type == "numeric"
+                and numeric_targets
+                and True not in numeric_targets
+                and None not in numeric_targets
+            ):
+                findings.append(
+                    f"{mode}:numeric_rule_binding_not_numeric_leaf:{rule_id or 'missing'}"
+                )
     for reference_id in sorted(valid_references - covered):
         findings.append(f"{mode}:reference_without_scoring_rule:{reference_id}")
     return findings, diagnostics

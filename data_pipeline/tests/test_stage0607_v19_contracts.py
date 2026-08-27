@@ -103,17 +103,18 @@ def candidate(root: Path, *, both_modes: bool = True) -> Path:
 
 def test_prompt_defines_scientific_route_disclosure_and_independent_computation() -> None:
     prompt = final_task_synthesis_instructions(paper_id=PAPER_ID, snapshot_hash="abc")
-    reproduction = prompt.index("Build a complete paper-reproduction task first")
-    intermediate_gate = prompt.index("paper-reproduction-only mode")
-    autonomous = prompt.index("Build autonomous research from the same objective")
-    final_gate = prompt.index("full-pair Gate")
+    reproduction = prompt.index("**B. Paper reproduction.**")
+    intermediate_gate = prompt.index("reproduction-only Gate")
+    autonomous = prompt.index("**C. Autonomous research.**")
+    final_gate = prompt.index("run the full-pair Gate")
     assert reproduction < intermediate_gate < autonomous < final_gate
-    assert "copy the reproduction task" in prompt
+    assert "Do not copy the reproduction wording" in prompt
     assert "Do not disclose paper software" in prompt
     assert "independently plan" in prompt
     assert "genuine hypothesis space" in prompt
     assert "computational protocol" in prompt
-    assert prompt.index("construction_receipt.json` last") > final_gate
+    assert prompt.index("**D. Terminal receipt.**") > final_gate
+    assert "do not repeat the same `find`, `ls`, `pwd`" in prompt
 
 
 def test_prompt_terminal_receipt_examples_match_stage06_schema() -> None:

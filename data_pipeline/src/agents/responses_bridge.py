@@ -1233,6 +1233,7 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
         finalization_reserve: int = 4,
         artifact_finalization_required: bool = True,
         structured_artifact_path: str | Path | None = None,
+        structured_artifact_required_files: Iterable[str] | None = None,
         file_first_artifact_path: str | Path | None = None,
         file_first_required_files: Iterable[str] | None = None,
         file_first_required_modified_files: Iterable[str] | None = None,
@@ -1277,6 +1278,9 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
             Path(structured_artifact_path).resolve()
             if structured_artifact_path is not None
             else None
+        )
+        self.structured_artifact_required_files = tuple(
+            str(Path(value).as_posix()) for value in (structured_artifact_required_files or ())
         )
         self.structured_artifact_baseline_fingerprint = _artifact_fingerprint(
             self.structured_artifact_path
@@ -1481,6 +1485,10 @@ class ResponsesBridge(AbstractContextManager["ResponsesBridge"]):
             and not _artifact_contains_completion_placeholder(completed_artifact)
             and _artifact_fingerprint(self.structured_artifact_path)
             != self.structured_artifact_baseline_fingerprint
+            and all(
+                (self.structured_artifact_path.parent / relative).is_file()
+                for relative in self.structured_artifact_required_files
+            )
         )
         self.final_artifact_written = artifact_changed
         if artifact_changed:

@@ -14,7 +14,7 @@ def test_stage06_uses_author_scientific_route_not_paper_protocol() -> None:
     prompt = final_task_synthesis_instructions(
         paper_id="paper_fixture22", snapshot_hash="snapshot"
     )
-    assert STAGE06_SYNTHESIS_PROMPT_VERSION.startswith("v22-")
+    assert STAGE06_SYNTHESIS_PROMPT_VERSION.startswith("v23-")
     assert "scientific hypothesis" in prompt
     assert "paper's software" in prompt
     assert "ordered computational protocol" in prompt
@@ -34,7 +34,7 @@ def test_stage06_autonomous_route_is_not_forced_for_direct_computation() -> None
 
 def test_stage07_audits_result_artifacts_and_allows_pure_computation_similarity() -> None:
     prompt = final_task_audit_instructions(paper_id="paper_fixture22")
-    assert STAGE07_AUDIT_PROMPT_VERSION.startswith("v22-")
+    assert STAGE07_AUDIT_PROMPT_VERSION.startswith("v23-")
     assert "result-bearing artifacts" in prompt
     assert "computational protocol" in prompt
     assert "direct computation" in prompt
