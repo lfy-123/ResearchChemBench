@@ -138,3 +138,31 @@ Common Gate、结构化 receipt 和定向测试。
 
 历史 v19/v23 测试 fixture 使用的是已废弃的 v24/旧 workflow review 合同，未作为 v25 兼容目标；后续真实回归
 前将只以 v25 fixture 和当前包合同测试作为验收依据。
+
+### 4.3 私有论文路线补充（2026-08-27）
+
+按补充需求，Stage06 Prompt 现在要求写出非空 `outputs/paper_route.md`。Gate 对 candidate-ready 根目录检查其
+存在且非空；Stage07 可读取并用于审计，`assemble_release_pair()` 不复制它，因此发布包和两种
+Agent-visible `agent_input` 均不含该路线文件。
+
+### 4.4 五篇真实回归（2026-08-27）
+
+运行目录：
+`runs/stage0607-v25-gpt-5.6-sol-20260827-five`；模型和两个阶段均为 `gpt-5.6-sol`，reasoning effort
+`high`，并发 5。五篇均一次完成，`technical_blocked=0`：
+
+| paper | Stage06 | Stage07 / 发布 |
+|---|---|---|
+| `paper_2aca1dd116799b28` | scientific rejection：精确计算结构/映射无法闭合 | 未运行 |
+| `paper_611000e1de080f6f` | constructed | `approved_with_repairs`，双模式发布 |
+| `paper_76ae2dc25f0a5aeb` | scientific rejection：R-EDY 17 几何无法可靠恢复 | 未运行 |
+| `paper_9455a82229de2427` | constructed | `approved_with_repairs`，双模式发布 |
+| `paper_a5564360a31f760b` | scientific rejection：三套关键结构/坐标输入不闭合 | 未运行 |
+
+两个发布任务都具备四个逻辑指令段、非空过程关键点和最终结论，Agent-visible 输入无 PDF/SI 或
+`paper_route.md`。Stage07 对 `paper_611...` 修复 5 项、对 `paper_945...` 修复 4 项，八个审计维度均有结构化
+收据且最终 self-check/external Gate 均通过。两篇自主科研任务去除了作者路线，论文复现任务只保留定性作者路线。
+
+发现的剩余质量问题：`paper_611...` 的 `task_info.json` 数据描述仍写“30-atom”，而实际 XYZ 为 31 原子；Stage07
+只修复了 task.md，未同步该自由文本描述。这不构成技术 Gate 失败，但会造成输入说明歧义，后续应让 Stage07
+审计同步修正 task_info 描述，或由生成 Prompt 要求所有输入数量描述与文件一致。

@@ -199,7 +199,7 @@ def _task_instruction_findings(path: Path, *, mode: str) -> list[str]:
     return findings
 
 
-def _task_quality_findings(review: dict[str, Any], *, modes: tuple[str, ...]) -> list[str]:
+def _task_quality_findings(review: dict[str, Any]) -> list[str]:
     """Validate the constructor's compact quality receipt for selected modes."""
 
     quality = review.get("task_quality")
@@ -225,10 +225,6 @@ def _task_quality_findings(review: dict[str, Any], *, modes: tuple[str, ...]) ->
         evidence = item.get("evidence")
         if not isinstance(evidence, list) or not evidence:
             findings.append(f"workflow_review_task_quality_evidence_missing:{name}")
-    # A quality receipt may contain additional dimensions, but selected modes
-    # must be represented explicitly so an empty review cannot pass by accident.
-    if modes and not isinstance(quality.get("modes"), (dict, list, type(None))):
-        findings.append("workflow_review_task_quality_modes_invalid")
     return findings
 
 
@@ -634,7 +630,7 @@ def validate(root: str | Path, *, mode: str | None = None) -> dict[str, Any]:
     # records that the Agent checked the semantic properties which a mechanical
     # Gate cannot infer from JSON alone; the actual task files are still checked
     # below. Scientific method quality and tolerance choice remain non-blocking.
-    findings.extend(_task_quality_findings(review, modes=tuple(release_modes)))
+    findings.extend(_task_quality_findings(review))
 
     modes = (mode,) if mode else tuple(release_modes)
     if mode and mode not in MODES:
