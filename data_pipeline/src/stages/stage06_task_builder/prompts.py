@@ -30,8 +30,9 @@ measurement boundaries, validation requirements and research-before-discovery in
 record the authors' qualitative scientific route, private computational protocol and source-backed
 reference results. The protocol and reference results are private. Write the authors' implemented
 computational route (assumptions, model choices, ordered protocol and source locations) to
-`outputs/paper_route.md`; this is a human/Stage07 reference and must never be placed under a mode
-or copied into Agent-visible input.
+`outputs/paper_route.md`; this is a human/Stage07 reference and must never be copied into
+`agent_input/` (or any other Agent-visible subtree). The release assembler may place a copy at the
+released task root as metadata for human comparison.
 
 **B. Prove feasibility before writing tasks.** Evaluate these four closures from source evidence:
 
@@ -119,7 +120,9 @@ construct autonomous when it is feasible. For every constructed mode write:
   outputs/evaluator_reference/MODE/critical_failures.json
 
 Also write the non-empty private `outputs/paper_route.md` once per paper. It is parallel to the mode
-directories, is not a task deliverable, and must not be copied into `data/` or any public package.
+directories, is not a task deliverable, and must not be copied into `agent_input/`, `data/`, or
+`evaluation/`. The release assembler may copy it to the task-package root as metadata; it must remain
+outside the Agent input manifest.
 
 Do not create directories for infeasible modes. `feasibility.release_modes` must exactly list the
 constructed modes.
