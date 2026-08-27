@@ -133,12 +133,19 @@ def run_stage06(
             )
             outputs = agent_workspace / "outputs"
             review = read_json(outputs / "workflow_review.json")
-            review_modes = list((review.get("feasibility") or {}).get("release_modes") or [])
-            if list(receipt.get("release_modes") or []) != review_modes:
-                raise ValueError("construction receipt release_modes do not match workflow review")
-            if review.get("decision") == "scientific_not_constructible" or receipt.get(
-                "decision"
-            ) == "scientific_not_constructible":
+            receipt_decision = receipt.get("decision")
+            review_decision = review.get("decision")
+
+            # A scientific rejection is a terminal outcome, not a task pair.
+            # Do not apply the constructed-pair mode consistency check to it:
+            # an Agent may leave a candidate_ready review envelope alongside
+            # the authoritative rejection receipt.  The rejection publisher
+            # validates the terminal envelope and keeps the inconsistency
+            # out of the release path.
+            if (
+                review_decision == "scientific_not_constructible"
+                or receipt_decision == "scientific_not_constructible"
+            ):
                 return _publish_scientific_rejection(
                     stage_root=stage_root,
                     run_id=run_id,
@@ -148,7 +155,12 @@ def run_stage06(
                     snapshot=snapshot,
                     audit=audit,
                     paper_info=paper_info,
+                    receipt=receipt,
                 )
+
+            review_modes = list((review.get("feasibility") or {}).get("release_modes") or [])
+            if list(receipt.get("release_modes") or []) != review_modes:
+                raise ValueError("construction receipt release_modes do not match workflow review")
 
             gate_report = run_shared_phase_gate("synthesis", outputs)
             external_report = {
@@ -562,7 +574,7 @@ def _paper_info(
 def _publish_scientific_rejection(
     *, stage_root: Path, run_id: str, paper_id: str, candidate_id: str,
     outputs: Path, snapshot: dict[str, Any],
-    audit: dict[str, Any], paper_info: dict[str, Any],
+    audit: dict[str, Any], paper_info: dict[str, Any], receipt: dict[str, Any],
 ) -> dict[str, Any]:
     staging = prepare_clean_directory(
         stage_root / "staging" / safe_component(paper_id) / f"rejected-{uuid.uuid4().hex[:8]}"
@@ -573,6 +585,7 @@ def _publish_scientific_rejection(
     target = stage_root / "provisional_rejections" / safe_component(paper_id)
     atomic_commit_tree(staging, target)
     review = read_json(target / "workflow_review.json")
+    terminal = receipt if receipt.get("decision") == "scientific_not_constructible" else review
     return {
         **record_header(run_id=run_id, stage="stage06", paper_id=paper_id),
         "candidate_id": candidate_id,
@@ -584,8 +597,8 @@ def _publish_scientific_rejection(
         "handoff_ready": False,
         "passed": False,
         "retryable": False,
-        "failure_code": review.get("failure_code"),
-        "failure_reasons": review.get("failure_reasons") or [],
+        "failure_code": terminal.get("failure_code"),
+        "failure_reasons": terminal.get("failure_reasons") or [],
         "constructed_path": str(target),
         "source_snapshot_path": str(snapshot["root"]),
         "agent_run": audit,
