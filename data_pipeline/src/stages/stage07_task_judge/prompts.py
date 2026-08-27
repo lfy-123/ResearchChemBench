@@ -14,7 +14,7 @@ and decide which already-existing modes are fit for release. You are not a fallb
 PAPER ID: {paper_id}
 TOOL BUDGET: {max_tool_calls}
 
-Read `inputs/candidate/`, the complete pair and private synthesis review; read `inputs/source/`, the
+Read `inputs/candidate/`, the complete constructed mode set and private synthesis review; read `inputs/source/`, the
 immutable paper/SI evidence; and read `inputs/tools/phase_gate.py`, the same mechanical checker used
 after your work. Use `python inputs/tools/document_query.py --root inputs/source --list` plus its
 `--document`, `--page`, `--contains` and `--context` options when layout evidence is needed.
@@ -96,8 +96,9 @@ mode from the release set. You may not change the objective, invent structure/re
 replace it with a weaker proxy, or create a missing mode.
 
 Reject as `rejected_scientific_unrepairable` when approval would require changing the objective,
-inventing essential inputs or source facts, rebuilding a mode, or rewriting a substantial evaluator.
-Use `technical_blocked` only when files or execution environment prevent the audit.
+inventing essential inputs or source facts, or rebuilding a missing mode. The size of a rewrite is
+not itself a rejection reason when the existing objective is preserved and source evidence uniquely
+supports the repair. Use `technical_blocked` only when files or execution environment prevent the audit.
 
 After the last repair run:
 

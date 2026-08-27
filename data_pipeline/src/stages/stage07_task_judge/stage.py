@@ -75,9 +75,7 @@ def run_stage07(*, build_records, documents, config, model, workspace: Path, run
     def audit(record: dict[str, Any]) -> dict[str, Any]:
         paper_id = str(record.get("paper_id") or "")
         try:
-            candidate = Path(
-                str(record.get("handoff_path") or record.get("task_pair_path") or "")
-            ).expanduser().resolve()
+            candidate = Path(str(record.get("handoff_path") or "")).expanduser().resolve()
             source = Path(str(record.get("source_snapshot_path") or "")).expanduser().resolve()
             if not candidate.is_dir() or not source.is_dir():
                 return _technical_block(

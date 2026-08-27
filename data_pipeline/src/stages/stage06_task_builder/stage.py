@@ -541,7 +541,7 @@ def _publish_scientific_rejection(
         "retryable": False,
         "failure_code": review.get("failure_code"),
         "failure_reasons": review.get("failure_reasons") or [],
-        "task_pair_path": str(target),
+        "constructed_path": str(target),
         "source_snapshot_path": str(snapshot["root"]),
         "agent_run": audit,
     }
