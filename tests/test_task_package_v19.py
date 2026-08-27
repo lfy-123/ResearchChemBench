@@ -14,6 +14,7 @@ from evaluation.contracts import (
 from evaluation.repository import (
     DuplicateTaskError,
     TaskRepository,
+    list_tasks,
     load_private_reference,
     materialize_agent_files,
 )
@@ -98,6 +99,15 @@ def test_v19_round_trip_and_diagnostic_tolerance(tmp_path: Path):
     assert report.status == "passed"
     assert report.findings == []
     assert report.diagnostics == ["tolerance_requires_scientific_review:rule1"]
+
+
+def test_task_listing_exposes_difficulty_metadata(tmp_path: Path):
+    package(tmp_path)
+    rows = list_tasks(repository=TaskRepository(roots=[tmp_path]))
+    assert rows[0]["difficulty"] == "easy"
+    assert rows[0]["difficulty_reasons"] == [
+        "The fixture is a fixed direct calculation."
+    ]
 
 
 def test_v19_rejects_empty_evaluator_and_bad_binding(tmp_path: Path):

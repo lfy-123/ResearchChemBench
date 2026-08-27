@@ -30,6 +30,8 @@ class TaskPackage:
     task_type: str
     directory: Path
     category: str
+    difficulty: str
+    difficulty_reasons: tuple[str, ...]
     package_content_sha256: str
 
     @property
@@ -87,6 +89,8 @@ class TaskRepository:
                 task_type=info.task_type,
                 directory=directory,
                 category=info.category,
+                difficulty=info.difficulty,
+                difficulty_reasons=tuple(info.difficulty_reasons),
                 package_content_sha256=str(manifest["package_content_sha256"]),
             )
             if package.key in index:
@@ -121,7 +125,7 @@ def _repository(repository: TaskRepository | None = None) -> TaskRepository:
     return repository or TaskRepository()
 
 
-def list_tasks(task_type: str | None = None, *, repository: TaskRepository | None = None) -> list[dict[str, str]]:
+def list_tasks(task_type: str | None = None, *, repository: TaskRepository | None = None) -> list[dict[str, Any]]:
     return [
         {
             "paper_id": item.paper_id,
@@ -130,6 +134,8 @@ def list_tasks(task_type: str | None = None, *, repository: TaskRepository | Non
                 paper_id=item.paper_id, task_type=item.task_type, repository=repository
             )["title"],
             "category": item.category,
+            "difficulty": item.difficulty,
+            "difficulty_reasons": list(item.difficulty_reasons),
         }
         for item in _repository(repository).list(task_type=task_type)
     ]
