@@ -74,7 +74,7 @@ Perform an explicit answer-inversion audit before approval:
    filenames, and public-input contents and comments.
 3. Ask whether an evaluated Agent that performs no calculation could fill in a scored ordering,
    winning candidate, result structure, or main conclusion from those public surfaces. If yes, the
-   answer is leaked and must be removed by a bounded repair or the task rejected if that would change
+   answer is leaked and must be removed by a source-supported repair or the task rejected if that would change
    its scientific objective.
 
 An author route is not an answer. Reproduction may state an author hypothesis, candidate direction,

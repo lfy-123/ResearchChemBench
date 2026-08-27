@@ -569,7 +569,7 @@ def validate(root: str | Path, *, mode: str | None = None) -> dict[str, Any]:
 
 def run(phase: str, root: str | Path, *, mode: str | None = None) -> dict[str, Any]:
     report = validate(root, mode=mode)
-    return {"phase": phase, "mode": mode or "task_pair", **report}
+    return {"phase": phase, "mode": mode or "declared_modes", **report}
 
 
 def snapshot_sha256(root: str | Path) -> str:
