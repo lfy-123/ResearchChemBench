@@ -210,4 +210,64 @@ Stage06/07 v24 直接涉及的文件和本记录，不覆盖或清理用户既�
 
 ## 9. 五篇回归与质量结论
 
-待真实运行和逐文件审查后填写。
+### 9.1 运行事实
+
+五篇首轮回归目录为 `runs/stage0607-v24-gpt-5.6-sol-20260827-five`，五篇均正常结束：
+
+- `paper_2aca1dd116799b28`、`paper_611000e1de080f6f`、`paper_9455a82229de2427` 发布；
+- `paper_76ae2dc25f0a5aeb`、`paper_a5564360a31f760b` 以 `scientific_rejection` 结束；
+- 没有 `technical_blocked` 或进程失败。
+
+首轮中三个已发布论文的 Stage07 prompt 仍含一条 v23 的旧矛盾表述，因此没有把首轮三个任务作为最终
+质量基线。修正 prompt 后，对这三个论文重新运行，目录为
+`runs/stage0607-v24-gpt-5.6-sol-20260827-corrected-audit-three`：
+
+- 3/3 完成并发布，0 `technical_blocked`；
+- `paper_2aca...` 和 `paper_611...` 各发布两个模式；
+- `paper_945...` 只发布 `paper_reproduction`，没有为不可行的 autonomous 模式强行凑 pair。
+
+### 9.2 方案一致性审计
+
+对修正版三个发布目录逐文件核验结果如下：
+
+| 检查项 | 结果 |
+|---|---|
+| 实际 `release_modes` 与 manifest、任务目录一致 | 通过；5 个任务包（2+2+1） |
+| task、schema、task_info、package manifest 和五个 evaluator 文件齐全且 JSON 可解析 | 通过 |
+| package manifest 中每个文件的 SHA-256 | 通过 |
+| Agent 可见输入中含论文/SI PDF | 未发现 |
+| Agent 可见输入中出现 evaluator numeric target | 未发现 |
+| evaluator 的 key point → evidence、conclusion → key point/evidence、rule → reference/binding | 全部闭合 |
+| numeric target 类型、required schema 链和 numeric leaf | 通过；定向测试 `4 passed` |
+| self-check 与 external Gate | 三篇均报告 `passed`、无 findings |
+| Stage07 是否只修复已有模式、不从零创建缺失模式 | 符合；9455 仅保留 reproduction |
+| 论文正文/SI 的发布位置 | 仅在 `release/papers/<paper_id>/documents/`，未进入 `agent_input` |
+
+`paper_611...` 的唯一公开输入事实错误（任务文字将 31 个原子写成 30 个）已由 Stage07 修复；
+`paper_945...` 的氢原子能量记账和产品连接性要求已补齐。两项修复均未改变科学目标或隐藏答案。
+
+### 9.3 与 v23 对比
+
+v23 五篇虽然全部机械发布，但五篇 Stage07 都需要修复（修复项数分别为 1、4、1、2、5），说明
+“发布”并不等于可直接用于 benchmark。v24 的发布数量较少不是质量下降：两个首轮科学拒绝是因为
+缺少不泄露答案的闭合输入/有限发现空间；这正是 v24 的 feasibility-first 预期。修正版保留的三个论文
+均达到 3/3 发布、0 技术阻断，且发布模式与科学可行性一致。
+
+### 9.4 输出质量结论与剩余风险
+
+当前任务已达到 v24 的主要目标：复现模式只公开作者的定性假设，autonomous 模式隐藏作者路线并要求
+独立选择方法；评估参考来自论文/SI，包含数值、排序/条件和 semantic 结论，且 claim–rule–binding
+可执行。任务包不暴露论文或答案文件。
+
+仍有两个输出层面的改进建议，但不构成本轮 Gate 失败：
+
+1. `paper_945...` 的 `product_a/product_b` 是中性槽位，任务没有明确槽位与两个作者命名异构体的映射。
+   科学上正确但交换两个候选顺序的提交可能被 numeric rule 错配。后续应在公开 submission contract 中
+   要求提交稳定的候选标签/结构标识，并让规则按该标识绑定，而不是依赖槽位顺序。
+2. `paper_2aca...` reproduction 指令使用了 `C15/C16/C17/C32` 论文原子标签，但公开 XYZ 只含元素和坐标，
+   没有显式标签映射。后续应改为“末端炔碳/形成的新键”等结构描述，或随 agent_input 提供不含答案的原子
+   映射文件，以保证删除论文后的可执行性。
+
+此外，Stage07 轨迹中出现了数次被运行环境拒绝的 `rm -rf` 复制命令，以及一次无法匹配上下文的
+`apply_patch`；Agent 随后完成了任务，未造成技术阻断，但会浪费工具调用和 token。后续 prompt 可明确要求
+使用不具破坏性的复制/覆盖方式，减少这类无效调用。
