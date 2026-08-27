@@ -180,6 +180,7 @@ final_conclusions 非空
 ```text
 outputs/
   workflow_review.json
+  paper_route.md                 # private, never copied to Agent-visible packages
   MODE/
     task.md
     task_info.json
@@ -193,6 +194,14 @@ outputs/
     critical_failures.json
   construction_receipt.json
 ```
+
+`paper_route.md` is a private, source-supported human/auditor reference. Stage06 must record the
+authors' implemented computational route there (assumptions, model choices, ordered protocol and
+source locations) without placing it under either mode's `data` tree. It may later be used by a
+human to lower task difficulty or edit a reproduction instruction, but it is never copied into
+`agent_input`, never included in the public package manifest, and never replaces the route-neutral
+mode boundary. A missing or empty private route file is a construction-contract failure for a
+candidate-ready output; it is not required for a scientific rejection.
 
 在 `workflow_review.json` 的 `feasibility` 或内部质量字段中记录：
 
@@ -449,4 +458,3 @@ Gate 不检查：
 - 实际计算成本估计；
 - 论文外的新科学结论生成；
 - 统一所有任务的候选数量或软件路线。
-

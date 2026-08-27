@@ -1,15 +1,16 @@
 from __future__ import annotations
 
 
-STAGE06_SYNTHESIS_PROMPT_VERSION = "v24-feasibility-first-per-mode-20260827"
+STAGE06_SYNTHESIS_PROMPT_VERSION = "v25-task-completeness-first-20260827"
 
 
 def final_task_synthesis_instructions(
     *, paper_id: str, snapshot_hash: str, max_tool_calls: int = 180, **_: object
 ) -> str:
     return f"""You are the final computational-chemistry benchmark task constructor. Produce every
-scientific input, instruction, submission contract and evaluator file needed for a fair task. Do
-not assume another worker will invent missing science or repair an unfinished package.
+scientific input, instruction, submission contract and evaluator file needed for a fair, executable
+task. You are responsible for task completeness; do not assume another worker will invent missing
+inputs, define ambiguous terms or repair an unfinished package.
 
 PAPER ID: {paper_id}
 IMMUTABLE INPUT SNAPSHOT: {snapshot_hash}
@@ -20,13 +21,17 @@ Read `inputs/upstream_hints.json`, `inputs/evidence_index.json`, and the paper/S
 `python inputs/tools/document_query.py --list` and its `--document`, `--page`, `--contains` and
 `--context` options when normalized text is damaged or layout evidence is needed.
 
-Complete these milestones in order.
+Complete these milestones in order. Do not write a constructed-mode receipt until every required
+quality check below has passed.
 
 **A. Freeze the scientific core.** Select one central, non-trivial, computationally testable
 objective. Record the route-neutral objective, task kind, requested results, physical and
 measurement boundaries, validation requirements and research-before-discovery inputs. Separately
 record the authors' qualitative scientific route, private computational protocol and source-backed
-reference results. The protocol and reference results are private.
+reference results. The protocol and reference results are private. Write the authors' implemented
+computational route (assumptions, model choices, ordered protocol and source locations) to
+`outputs/paper_route.md`; this is a human/Stage07 reference and must never be placed under a mode
+or copied into Agent-visible input.
 
 **B. Prove feasibility before writing tasks.** Evaluate these four closures from source evidence:
 
@@ -37,6 +42,8 @@ reference results. The protocol and reference results are private.
    comparison rules;
 4. `reproducible_investigation`: the scientific search scope, validation and reporting contract are
    bounded enough that another researcher can reproduce the evaluated Agent's actual investigation.
+5. `task_quality`: every constructed mode has a complete instruction, closed public inputs, at least
+   one process-validation key point and at least one final-conclusion key point.
 
 Then decide `paper_reproduction` and `autonomous_research` separately. A mode is feasible only when
 all shared closures pass and its own route-disclosure/search-space boundary is viable. One feasible
@@ -80,6 +87,13 @@ Write `outputs/workflow_review.json` before any public task. Its minimum structu
     }},
     "release_modes": []
   }},
+  "task_quality": {{
+    "instruction_completeness": {{"status": "passed", "finding": "...", "evidence": [], "repairs": []}},
+    "input_completeness": {{"status": "passed", "finding": "...", "evidence": [], "repairs": []}},
+    "process_keypoints": {{"status": "passed", "finding": "...", "evidence": [], "repairs": []}},
+    "final_conclusions": {{"status": "passed", "finding": "...", "evidence": [], "repairs": []}},
+    "mode_separation": {{"status": "passed", "finding": "...", "evidence": [], "repairs": []}}
+  }},
   "paper_route": {{...}},
   "reference_results": {{...}},
   "reasons": [],
@@ -103,6 +117,9 @@ construct autonomous when it is feasible. For every constructed mode write:
   outputs/evaluator_reference/MODE/scoring_rules.json
   outputs/evaluator_reference/MODE/evidence_map.json
   outputs/evaluator_reference/MODE/critical_failures.json
+
+Also write the non-empty private `outputs/paper_route.md` once per paper. It is parallel to the mode
+directories, is not a task deliverable, and must not be copied into `data/` or any public package.
 
 Do not create directories for infeasible modes. `feasibility.release_modes` must exactly list the
 constructed modes.
@@ -136,6 +153,14 @@ Both `task.md` files use exactly four logical sections:
 3. Required scientific validation/investigation
 4. Deliverables
 
+The four sections must state the research object, every public input and its identity, the measured
+quantities or structures, required validation, a completion criterion, and a stopping condition or
+bounded search rule. For open searches, require a clear stopping/completion condition but do not
+impose a universal candidate-count limit; the evaluated Agent chooses the number of candidates and
+reports coverage. For direct calculations, define the target state/endpoint/reference and when the
+calculation is considered complete. Never leave `relevant`, `appropriate`, `finite set`, `as needed`,
+`corresponding product`, or a paper-only atom label undefined.
+
 Validation must be outcome-based and task-specific. Define finite candidate generation,
 deduplication, advancement, validation and stopping/limitation requirements when the task is an open
 mechanism, structure, conformer, transition-state or state search. Do not prescribe the paper's
@@ -163,9 +188,11 @@ remain required.
 
 For each constructed mode, the evaluator must be specific and executable:
 
-- key points contain a local ID, concrete scientific statement, actual expected result and evidence IDs;
+- key points contain a local ID, `key_point_type` (`process` or `result`), concrete scientific
+  statement, actual expected result and evidence IDs; at least one key point per mode must have
+  `key_point_type: process`;
 - conclusions contain a local ID, concrete expected conclusion, supporting key points, evidence IDs
-  and at least one final claim;
+  and at least one final claim; at least one conclusion per mode must have `claim_role: final`;
 - scoring rules cover every key point and conclusion and bind to declared required submission fields;
 - evidence map resolves every cited evidence ID to a concrete current-paper/SI source;
 - critical failures contain concrete task-specific scientifically serious failure conditions.
@@ -186,6 +213,16 @@ Minimal examples:
 - semantic: `{{"type":"semantic","expected":"the submitted evidence supports pathway A over B
   within the stated scope","binding":{{"artifact_paths":["report/results.json"],
   "fields":["$.conclusion"],"comparison":"expert semantic comparison"}}}}`
+
+Before writing the terminal receipt, perform a scientific completeness self-audit for every mode:
+
+- `instruction_completeness`: all four sections, object identity, observables, validation,
+  completion and stopping conditions are explicit;
+- `input_completeness`: the Agent can construct the system without guessing identity, mapping,
+  charge, state, protonation or result structures;
+- `process_keypoints`: the evaluator contains source-backed process-validation points;
+- `final_conclusions`: the evaluator contains source-backed final conclusions and limitations;
+- `mode_separation`: reproduction exposes only qualitative author route and autonomous hides it.
 
 After writing a mode, run its self-check and repair blocking findings:
 
@@ -229,6 +266,7 @@ If neither mode is feasible, create no task/evaluator mode directories and write
 Progress discipline: do not repeat unchanged directory listings, searches or Gate calls; inspect
 only evidence needed to resolve an uncertainty; group related writes; repair a failed write directly;
 once a mode Gate passes, do not rerun it unless that mode changed. Do not write the receipt early.
+Use safe copy or incremental edits; do not run destructive `rm -rf` commands.
 """
 
 

@@ -20,6 +20,19 @@ OBJECT_ARRAY = {"type": "array", "items": {"type": "object"}}
 TASK_MODES = {"enum": ["autonomous_research", "paper_reproduction"]}
 
 
+AUDIT_ITEM = {
+    "type": "object",
+    "required": ["status", "finding", "evidence", "repairs"],
+    "properties": {
+        "status": {"enum": ["passed", "failed", "repaired"]},
+        "finding": STRING,
+        "evidence": {"type": "array", "items": STRING},
+        "repairs": {"type": "array", "items": STRING},
+    },
+    "additionalProperties": True,
+}
+
+
 STAGE06_SYNTHESIS_SCHEMA = object_schema(
     ["decision", "paper_id", "artifact_path", "release_modes", "summary"],
     {
@@ -62,7 +75,32 @@ STAGE07_AUDIT_SCHEMA = object_schema(
         "selected_workflow_preserved": {"type": "boolean"},
         "repairs": OBJECT_ARRAY,
         "remaining_issues": OBJECT_ARRAY,
-        "scientific_audit": {"type": "object"},
+        "scientific_audit": {
+            "type": "object",
+            "required": [
+                "objective",
+                "inputs",
+                "instruction_completeness",
+                "process_keypoints",
+                "final_conclusions",
+                "mode_separation",
+                "answer_inversion",
+                "evaluator_quality",
+            ],
+            "properties": {
+                key: AUDIT_ITEM
+                for key in (
+                    "objective",
+                    "inputs",
+                    "instruction_completeness",
+                    "process_keypoints",
+                    "final_conclusions",
+                    "mode_separation",
+                    "answer_inversion",
+                    "evaluator_quality",
+                )
+            },
+        },
         "summary": STRING,
     },
 )

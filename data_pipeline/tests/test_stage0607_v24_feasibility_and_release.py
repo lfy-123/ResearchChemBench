@@ -25,7 +25,7 @@ def _write(path: Path, value) -> None:
 
 def _mode(root: Path, mode: str) -> None:
     base = root / mode
-    _write(base / "task.md", "# Task\n\n## Scientific objective\n\nDetermine the barrier.\n")
+    _write(base / "task.md", "# Task\n\n## Scientific objective\n\nDetermine the barrier.\n\n## Public inputs and scientific boundaries\n\nUse the explicit reactant input and state.\n\n## Required scientific validation/investigation\n\nValidate the stationary point and compare pathways. The calculation is complete when both checks pass; stop when coverage is exhausted.\n\n## Deliverables\n\nSubmit report/results.json.\n")
     _write(base / "data/inputs/reactant.xyz", "1\nreactant\nH 0.0 0.0 0.0\n")
     _write(
         base / "task_info.json",
@@ -60,7 +60,7 @@ def _mode(root: Path, mode: str) -> None:
     common = {"paper_id": PAPER_ID}
     _write(
         ev / "reference_key_points.json",
-        {**common, "items": [{"key_point_id": "kp1", "statement": "Barrier", "expected": 12.3, "evidence_ids": ["ev1"]}]},
+        {**common, "items": [{"key_point_id": "kp1", "key_point_type": "process", "statement": "Barrier", "expected": 12.3, "evidence_ids": ["ev1"]}]},
     )
     _write(
         ev / "reference_conclusions.json",
@@ -97,8 +97,13 @@ def _candidate(root: Path, modes: list[str]) -> Path:
                 },
                 "release_modes": modes,
             },
+            "task_quality": {
+                name: {"status": "passed", "finding": "checked", "evidence": ["task.md"], "repairs": []}
+                for name in ("instruction_completeness", "input_completeness", "process_keypoints", "final_conclusions", "mode_separation")
+            },
         },
     )
+    _write(root / "paper_route.md", "Private author route reference.\n")
     for mode in modes:
         _mode(root, mode)
     return root
@@ -106,11 +111,11 @@ def _candidate(root: Path, modes: list[str]) -> Path:
 
 def test_v24_prompt_and_versions_express_per_mode_database_boundary() -> None:
     prompt = final_task_synthesis_instructions(paper_id=PAPER_ID, snapshot_hash="hash")
-    assert STAGE06_SYNTHESIS_PROMPT_VERSION.startswith("v24-")
+    assert STAGE06_SYNTHESIS_PROMPT_VERSION.startswith("v25-")
     assert "separately" in prompt and "One feasible" in prompt
     assert "Do not require PubChem/CCDC calls" in prompt
     assert "stable record ID" in prompt
-    assert STAGE07_AUDIT_PROMPT_VERSION.startswith("v24-")
+    assert STAGE07_AUDIT_PROMPT_VERSION.startswith("v25-")
 
 
 def test_single_mode_gate_and_release_are_supported(tmp_path: Path) -> None:

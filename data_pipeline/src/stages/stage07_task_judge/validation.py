@@ -7,6 +7,16 @@ from src.contracts import read_json
 from src.stages.phase_gate import run as run_shared_phase_gate
 
 MODES = {"autonomous_research", "paper_reproduction"}
+AUDIT_DIMENSIONS = (
+    "objective",
+    "inputs",
+    "instruction_completeness",
+    "process_keypoints",
+    "final_conclusions",
+    "mode_separation",
+    "answer_inversion",
+    "evaluator_quality",
+)
 
 
 APPROVED_AUDIT_DECISIONS = {"approved", "approved_with_repairs"}
@@ -40,6 +50,26 @@ def validate_audit_receipt(
         raise ValueError("approved audit did not preserve the selected workflow")
     if receipt.get("remaining_issues"):
         raise ValueError("approved audit contains remaining issues")
+    scientific_audit = receipt.get("scientific_audit")
+    if not isinstance(scientific_audit, dict):
+        raise ValueError("audit receipt scientific_audit must be an object")
+    missing = [name for name in AUDIT_DIMENSIONS if not isinstance(scientific_audit.get(name), dict)]
+    if missing:
+        raise ValueError(f"audit receipt missing scientific audit dimensions: {', '.join(missing)}")
+    unresolved = [
+        name for name in AUDIT_DIMENSIONS
+        if scientific_audit[name].get("status") not in {"passed", "repaired"}
+    ]
+    if unresolved:
+        raise ValueError(
+            "approved audit has unresolved scientific findings: " + ", ".join(unresolved)
+        )
+    for name in AUDIT_DIMENSIONS:
+        item = scientific_audit[name]
+        if not isinstance(item.get("finding"), str) or not item["finding"].strip():
+            raise ValueError(f"audit receipt finding missing: {name}")
+        if not isinstance(item.get("evidence"), list) or not item["evidence"]:
+            raise ValueError(f"audit receipt evidence missing: {name}")
     relative = str(receipt.get("artifact_path") or "")
     if relative != "outputs/audited_task":
         raise ValueError("approved artifact_path must be outputs/audited_task")

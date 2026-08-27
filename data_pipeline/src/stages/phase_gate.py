@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import shutil
+import re
 from pathlib import Path, PurePosixPath
 from typing import Any
 
@@ -21,6 +22,34 @@ EVALUATION_FILES = (
 )
 RULE_TYPES = {"numeric", "ordering", "condition", "semantic"}
 _PLACEHOLDERS = {"todo", "tbd", "placeholder", "fill me", "fill_me", "fill-me"}
+
+
+_TASK_SECTION_PATTERNS = {
+    "objective": re.compile(
+        r"^\s{0,3}#{1,6}\s*(?:scientific\s+objective|research\s+objective|scientific\s+question)\b",
+        re.I | re.M,
+    ),
+    "inputs": re.compile(
+        r"^\s{0,3}#{1,6}\s*(?:public\s+inputs?(?:\s+and\s+scientific\s+boundaries)?|inputs?(?:\s+and\s+boundaries)?)\b",
+        re.I | re.M,
+    ),
+    "validation": re.compile(
+        r"^\s{0,3}#{1,6}\s*(?:required\s+scientific\s+)?(?:validation|investigation)(?:\s*/\s*investigation)?\b",
+        re.I | re.M,
+    ),
+    "deliverables": re.compile(
+        r"^\s{0,3}#{1,6}\s*(?:deliverables?|submission|results?|report)\b",
+        re.I | re.M,
+    ),
+}
+_COMPLETION_TERMS = re.compile(
+    r"\b(?:complete|completion|finished?|done|success(?:ful)?|acceptance|pass(?:ed)?|criterion|criteria)\b",
+    re.I,
+)
+_STOPPING_TERMS = re.compile(
+    r"\b(?:stop|stopping|terminate|termination|bounded|finite|until|no\s+further|exhaust(?:ed|ion)?|coverage\s+limit)\b",
+    re.I,
+)
 
 
 def _read_object(path: Path) -> dict[str, Any]:
@@ -151,6 +180,58 @@ def _xyz_findings(path: Path, *, mode: str, relative: str) -> list[str]:
     return findings
 
 
+def _task_instruction_findings(path: Path, *, mode: str) -> list[str]:
+    """Check the small, mode-agnostic instruction contract without judging science."""
+
+    try:
+        text = path.read_text(encoding="utf-8", errors="strict")
+    except (OSError, UnicodeError):
+        return [f"{mode}:task_instruction_unreadable"]
+    findings = [
+        f"{mode}:task_section_missing:{name}"
+        for name, pattern in _TASK_SECTION_PATTERNS.items()
+        if not pattern.search(text)
+    ]
+    if not _COMPLETION_TERMS.search(text):
+        findings.append(f"{mode}:task_completion_criterion_missing")
+    if not _STOPPING_TERMS.search(text):
+        findings.append(f"{mode}:task_stopping_condition_missing")
+    return findings
+
+
+def _task_quality_findings(review: dict[str, Any], *, modes: tuple[str, ...]) -> list[str]:
+    """Validate the constructor's compact quality receipt for selected modes."""
+
+    quality = review.get("task_quality")
+    if not isinstance(quality, dict):
+        return ["workflow_review_task_quality_missing"]
+    required = (
+        "instruction_completeness",
+        "input_completeness",
+        "process_keypoints",
+        "final_conclusions",
+        "mode_separation",
+    )
+    findings: list[str] = []
+    for name in required:
+        item = quality.get(name)
+        if not isinstance(item, dict):
+            findings.append(f"workflow_review_task_quality_missing:{name}")
+            continue
+        if item.get("status") != "passed":
+            findings.append(f"workflow_review_task_quality_not_passed:{name}")
+        if not _has_value(item.get("finding")):
+            findings.append(f"workflow_review_task_quality_finding_missing:{name}")
+        evidence = item.get("evidence")
+        if not isinstance(evidence, list) or not evidence:
+            findings.append(f"workflow_review_task_quality_evidence_missing:{name}")
+    # A quality receipt may contain additional dimensions, but selected modes
+    # must be represented explicitly so an empty review cannot pass by accident.
+    if modes and not isinstance(quality.get("modes"), (dict, list, type(None))):
+        findings.append("workflow_review_task_quality_modes_invalid")
+    return findings
+
+
 def _numeric_target_usable(target: dict[str, Any] | None) -> bool | None:
     """Classify an explicitly resolved target for a numeric scoring binding."""
 
@@ -255,6 +336,10 @@ def _evaluation_findings(
         isinstance(row, dict) and row.get("claim_role") == "final" for row in conclusions
     ):
         findings.append(f"{mode}:final_conclusion_missing")
+    if key_points and not any(
+        isinstance(row, dict) and row.get("key_point_type") == "process" for row in key_points
+    ):
+        findings.append(f"{mode}:process_key_point_missing")
 
     evidence_ids = {
         str(row.get("evidence_id"))
@@ -359,6 +444,8 @@ def _mode_findings(root: Path, mode: str, paper_id: str) -> tuple[list[str], lis
     task_path = directory / "task.md"
     if task_path.is_file() and not task_path.read_text(encoding="utf-8", errors="replace").strip():
         findings.append(f"{mode}:task_instruction_empty")
+    elif task_path.is_file():
+        findings.extend(_task_instruction_findings(task_path, mode=mode))
     try:
         info = _read_object(directory / "task_info.json")
     except (OSError, ValueError, json.JSONDecodeError) as exc:
@@ -491,6 +578,11 @@ def validate(root: str | Path, *, mode: str | None = None) -> dict[str, Any]:
         }
     if decision != "candidate_ready":
         findings.append("workflow_review_decision_invalid")
+    route_path = root / "paper_route.md"
+    if not route_path.is_file():
+        findings.append("paper_route_missing")
+    elif not route_path.read_text(encoding="utf-8", errors="replace").strip():
+        findings.append("paper_route_empty")
     for field in ("scientific_core", "paper_route", "reference_results", "feasibility"):
         if not isinstance(review.get(field), dict) or not review[field]:
             findings.append(f"workflow_review_{field}_missing")
@@ -537,6 +629,12 @@ def validate(root: str | Path, *, mode: str | None = None) -> dict[str, Any]:
             findings.append(f"feasibility_mode_invalid:{selected_mode}")
         elif (selected_mode in release_modes) != (value.get("status") == "feasible"):
             findings.append(f"feasibility_mode_release_mismatch:{selected_mode}")
+
+    # The constructor's quality receipt is deliberately small and generic. It
+    # records that the Agent checked the semantic properties which a mechanical
+    # Gate cannot infer from JSON alone; the actual task files are still checked
+    # below. Scientific method quality and tolerance choice remain non-blocking.
+    findings.extend(_task_quality_findings(review, modes=tuple(release_modes)))
 
     modes = (mode,) if mode else tuple(release_modes)
     if mode and mode not in MODES:

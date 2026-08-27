@@ -47,7 +47,7 @@ from src.stages.stage07_task_judge.validation import (
 )
 
 
-STAGE07_IMPLEMENTATION_VERSION = "v24-per-mode-scientific-audit"
+STAGE07_IMPLEMENTATION_VERSION = "v25-task-completeness-scientific-audit"
 STAGE07_DIRECTORY = "stage_07_task_audit"
 ELIGIBLE_STAGE06_DECISIONS = {"provisional_constructed", "constructed"}
 

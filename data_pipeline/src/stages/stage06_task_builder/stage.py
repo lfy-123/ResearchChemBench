@@ -45,7 +45,7 @@ from src.stages.stage06_task_builder.prompts import (
 )
 
 
-STAGE06_IMPLEMENTATION_VERSION = "v24-feasibility-first-per-mode"
+STAGE06_IMPLEMENTATION_VERSION = "v25-task-completeness-first"
 STAGE06_DIRECTORY = "stage_06_task_construction"
 
 

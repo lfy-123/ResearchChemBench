@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-STAGE07_AUDIT_PROMPT_VERSION = "v24-per-mode-scientific-audit-20260827"
+STAGE07_AUDIT_PROMPT_VERSION = "v25-task-completeness-scientific-audit-20260827"
 
 
 def final_task_audit_instructions(
@@ -64,7 +64,9 @@ Audit the actual files, not only manifests:
 Before the final Gate, update `outputs/audited_task/workflow_review.json` so its
 `feasibility.release_modes` exactly lists the existing modes you are approving. Remove an
 unrepairable mode's task and evaluator directories; do not leave a mode in `release_modes` when its
-files are absent.
+files are absent. Also update its `task_quality` entries with concrete evidence for any repaired
+instruction, input, process-keypoint or conclusion issue; every retained mode must be rechecked
+after repairs rather than relying on the constructor's earlier receipt.
 
 Perform an explicit answer-inversion audit before approval:
 
@@ -116,7 +118,12 @@ rerun. Then write `outputs/audit_receipt.json` containing:
 - `repairs`: concrete changed files and reasons;
 - `remaining_issues`: empty for approvals and concrete issues otherwise;
 - `scientific_audit`: findings for objective, inputs, author-route disclosure, computational-route
-  autonomy, scientific validation, evaluator quality and pair consistency;
+  autonomy, scientific validation, evaluator quality and pair consistency. Use exactly these eight
+  keys: `objective`, `inputs`, `instruction_completeness`, `process_keypoints`,
+  `final_conclusions`, `mode_separation`, `answer_inversion`, `evaluator_quality`. Every key must
+  contain `status` (`passed`, `failed` or `repaired`), a non-empty `finding`, at least one concrete
+  `evidence` item, and a `repairs` array (which may be empty). An approval may not leave any key
+  with status `failed`.
 - `summary`.
 
 Do not add lifecycle labels, compatibility fields, retry instructions or new paper-scoped IDs.
