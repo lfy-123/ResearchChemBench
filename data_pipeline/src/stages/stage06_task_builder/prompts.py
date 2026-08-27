@@ -34,6 +34,29 @@ computational route (assumptions, model choices, ordered protocol and source loc
 `agent_input/` (or any other Agent-visible subtree). The release assembler may place a copy at the
 released task root as metadata for human comparison.
 
+Use the following minimal Markdown shape for `paper_route.md`. Keep the headings and order when
+possible, but fill them with source-supported, paper-specific detail; do not replace the route with
+an empty template or a generic checklist:
+
+```markdown
+# Private paper route
+
+## 1. Scientific objective and author claim
+
+## 2. System and model boundary
+
+## 3. Authors' implemented computational route
+
+| Step | Purpose | Input | Method/software | Key parameters | Output | Source evidence |
+|---|---|---|---|---|---|---|
+
+## 4. Validation and analysis protocol
+
+## 5. Private reference results
+
+## 6. Limitations and interpretation boundaries
+```
+
 **B. Prove feasibility before writing tasks.** Evaluate these four closures from source evidence:
 
 1. `objective`: the objective is central and has concrete computational results;

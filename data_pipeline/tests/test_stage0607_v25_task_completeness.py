@@ -6,6 +6,7 @@ from pathlib import Path
 from src.stages.phase_gate import run as run_gate
 from src.stages.stage07_task_judge.package import assemble_release_pair
 from src.stages.stage07_task_judge.validation import validate_audit_receipt
+from src.stages.stage06_task_builder.prompts import final_task_synthesis_instructions
 
 
 PAPER_ID = "paper_v25fixture"
@@ -124,6 +125,22 @@ def test_complete_task_contract_passes(tmp_path: Path) -> None:
     _review(root, modes=("paper_reproduction",))
     report = run_gate("synthesis", root)
     assert report["status"] == "passed", report
+
+
+def test_stage06_prompt_defines_private_route_structure(tmp_path: Path) -> None:
+    prompt = final_task_synthesis_instructions(paper_id=PAPER_ID, snapshot_hash="fixture")
+    for heading in (
+        "# Private paper route",
+        "## 1. Scientific objective and author claim",
+        "## 2. System and model boundary",
+        "## 3. Authors' implemented computational route",
+        "## 4. Validation and analysis protocol",
+        "## 5. Private reference results",
+        "## 6. Limitations and interpretation boundaries",
+    ):
+        assert heading in prompt
+    assert "must never be copied into" in prompt
+    assert "agent_input/" in prompt
 
 
 def test_missing_process_key_point_is_blocking(tmp_path: Path) -> None:
