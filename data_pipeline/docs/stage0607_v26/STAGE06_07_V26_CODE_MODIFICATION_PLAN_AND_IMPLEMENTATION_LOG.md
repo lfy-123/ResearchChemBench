@@ -216,3 +216,29 @@ python -m pytest -q tests/test_stage0607_v25_task_completeness.py \
 已知测试边界：部分 v19–v24 历史测试仍断言已删除的旧 Prompt 标题、旧版本号或旧 receipt fixture，因此
 不能通过恢复旧兼容代码来解决；v26 定向测试和 v25 当前合同测试通过即可作为现行契约依据。完整 v26 回归和
 十篇昂贵模型测试在下一步执行。
+
+### 2026-08-27：十篇 gpt-5.6-sol 回归完成
+
+运行目录：`runs/stage0607-v26-gpt-5.6-sol-20260827-ten`；模型为 `gpt-5.6-sol`，Stage06/07 推理强度均为
+`high`，并发数为 10。
+
+| paper_id | Stage06 | Stage07/终态 |
+|---|---|---|
+| `paper_2aca1dd116799b28` | `provisional_not_constructible` | 科学拒绝（输入闭合失败） |
+| `paper_308bbee002d4560c` | `provisional_constructed` | 发布（`approved_with_repairs`） |
+| `paper_30cec9ecf4782412` | `provisional_not_constructible` | 科学拒绝（输入闭合失败） |
+| `paper_3590deded767345e` | 已写出科学拒绝 review | 技术阻断：缺少终态 `construction_receipt.json`，进程后续被停止 |
+| `paper_611000e1de080f6f` | `provisional_constructed` | 发布（`approved_with_repairs`） |
+| `paper_76ae2dc25f0a5aeb` | `provisional_not_constructible` | 科学拒绝（输入闭合失败） |
+| `paper_8b7bf002cc6a4ba9` | `provisional_constructed` | 发布（`approved_with_repairs`） |
+| `paper_9455a82229de2427` | `provisional_constructed` | 发布（`approved_with_repairs`） |
+| `paper_9ec8c4761c4f171b` | `provisional_constructed` | 技术阻断：Stage07 修复 patch 失败，审计 Gate 未通过 |
+| `paper_a5564360a31f760b` | `provisional_not_constructible` | 科学拒绝（输入闭合失败） |
+
+统计：4 篇发布、5 篇科学拒绝、2 篇技术阻断。四篇发布任务均包含两个模式、独立 `agent_input` 与
+`evaluation`、私有 `paper_route.md`，且最终 external Gate 为 `passed`。四篇发布任务的 Stage07 均实际执行
+了 `approved_with_repairs`，修复了 schema 分支、候选身份、过程/结论绑定或碰撞能可达性等合同缺口。
+
+回归暴露的工程问题：科学拒绝分支的 Prompt 没有足够明确地要求始终写入终态 construction receipt，导致
+`paper_359...` 在 review 已完成后仍被编排器视为运行中；Stage07 Agent 使用受限的 `rm -rf` 和脆弱的文本
+patch，导致 `paper_9ec...` 无法完成本可修复的审计。两者均不应归因于科学质量或 API。
