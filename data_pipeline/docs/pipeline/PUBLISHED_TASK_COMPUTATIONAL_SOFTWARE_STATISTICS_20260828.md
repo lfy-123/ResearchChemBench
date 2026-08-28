@@ -227,3 +227,96 @@ Gaussian 使用了比简单关键词更严格的识别：
 - 258 篇论文均有可解析到月份的 `publication_date`；没有出现空日期或无法解析日期。
 - 同一论文的两个模式使用同一篇论文元数据；本节只按论文去重一次。
 - 期刊名称按 `task_info.json` 原文保留，不主动合并缩写、出版社品牌或期刊改名前后的名称。
+
+
+## 9. 按指定期刊梯队统计
+
+本节沿用上一节的 **258 篇唯一论文** 作为分母，并按用户指定的期刊梯队进行归类。期刊名称已做两处等价归一化：`Journal of the American Chemical Society` 计为 `JACS`，`Chemistry - An Asian Journal` 计为 `Chemistry—An Asian Journal`。
+
+| 梯队 | 论文数 | 占全部已发布论文比例 |
+|---|---:|---:|
+| 第一梯队：国际顶级或顶级专业期刊 | 57 | 22.1% |
+| 第二梯队：强势一区或领域顶级专业期刊 | 61 | 23.6% |
+| 第三梯队：主流二区和专业强刊 | 84 | 32.6% |
+| 第四梯队：普通专业 SCI 期刊 | 56 | 21.7% |
+| **合计** | **258** | **100.0%** |
+
+### 9.1 各梯队的期刊组成与数量
+
+下表列出每个梯队中各期刊的论文数，便于核对汇总结果。
+
+**第一梯队（57 篇）**
+
+| 期刊 | 论文数 |
+|---|---:|
+| JACS | 35 |
+| Angewandte Chemie International Edition | 2 |
+| Nature Chemistry | 1 |
+| Chem | 1 |
+| Nature Communications | 8 |
+| Energy & Environmental Science | 2 |
+| ACS Nano | 2 |
+| ACS Catalysis | 2 |
+| Analytical Chemistry | 1 |
+| Journal of Medicinal Chemistry | 2 |
+| Macromolecules | 1 |
+
+**第二梯队（61 篇）**
+
+| 期刊 | 论文数 |
+|---|---:|
+| Organic Letters | 12 |
+| Chemical Engineering Journal | 9 |
+| Chemical Science | 5 |
+| Green Chemistry | 8 |
+| Chinese Chemical Letters | 8 |
+| Green Synthesis and Catalysis | 1 |
+| JACS Au | 1 |
+| ACS Applied Materials & Interfaces | 7 |
+| Inorganic Chemistry | 8 |
+| Advanced Synthesis & Catalysis | 2 |
+
+**第三梯队（84 篇）**
+
+| 期刊 | 论文数 |
+|---|---:|
+| The Journal of Organic Chemistry | 13 |
+| Dyes and Pigments | 23 |
+| Journal of Molecular Structure | 23 |
+| Dalton Transactions | 12 |
+| Journal of Natural Products | 3 |
+| Chemical Communications | 5 |
+| Organometallics | 1 |
+| Bioorganic Chemistry | 1 |
+| Journal of Materials Chemistry B | 3 |
+
+**第四梯队（56 篇）**
+
+| 期刊 | 论文数 |
+|---|---:|
+| Physical Chemistry Chemical Physics | 12 |
+| RSC Advances | 13 |
+| New Journal of Chemistry | 8 |
+| The Journal of Physical Chemistry C | 7 |
+| Organic & Biomolecular Chemistry | 3 |
+| Inorganica Chimica Acta | 4 |
+| Catalysis Science & Technology | 1 |
+| ChemCatChem | 1 |
+| Polyhedron | 1 |
+| Tetrahedron | 1 |
+| Journal of Organometallic Chemistry | 2 |
+| Chemistry—An Asian Journal | 1 |
+| ChemistrySelect | 2 |
+
+### 9.2 关于 *Advanced Synthesis & Catalysis* 的重复归类
+
+输入的梯队列表将 *Advanced Synthesis & Catalysis* 同时列入第二梯队和第三梯队。为避免一篇论文被重复计数，本统计采用“**前面梯队优先**”规则，将其归入第二梯队（2 篇），因此本节四个梯队之和为 258 篇。
+
+如果后续希望把该期刊归入第三梯队，则只需将 2 篇从第二梯队移至第三梯队，结果会变为：第二梯队 59 篇、第三梯队 86 篇；第一、第四梯队及总数不变。
+
+### 9.3 梯队统计的解释边界
+
+- 梯队是按照本次提供的人工分类名单执行的统计，不代表对期刊分区、影响因子或学术质量的独立判断。
+- 统计单位是论文而不是任务模式；同一论文同时生成两个模式时仍只计 1 篇。
+- 当前 258 篇中，第一、第二梯队合计 118 篇，占 45.7%；第三、第四梯队合计 140 篇，占 54.3%。
+- 期刊梯队统计与前面的软件统计相互独立；一篇论文可以属于某个期刊梯队，同时使用多个计算软件。
