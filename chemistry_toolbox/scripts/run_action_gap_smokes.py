@@ -473,7 +473,6 @@ def main() -> int:
                     "hessian_init": "calc",
                 },
                 "resource_limits": {
-                    "walltime_seconds": 600,
                     "memory_mb": 2048,
                     "cpu_cores": 2,
                     "gpu_count": 0,
@@ -502,7 +501,6 @@ def main() -> int:
                     "hessian_init": "calc",
                 },
                 "resource_limits": {
-                    "walltime_seconds": 600,
                     "memory_mb": 2048,
                     "cpu_cores": 2,
                     "gpu_count": 0,
@@ -553,7 +551,6 @@ def main() -> int:
                     "pressure_bar": 1.0,
                 },
                 "resource_limits": {
-                    "walltime_seconds": 300,
                     "memory_mb": 2048,
                     "cpu_cores": 2,
                     "gpu_count": 0,
@@ -596,7 +593,7 @@ def main() -> int:
                     "trajectory": str(h2_xyz),
                     "topology": str(h2_pdb),
                     "collective_variables": [
-                        {"label": "distance", "type": "DISTANCE", "atoms": [1, 2]}
+                        {"label": "distance", "type": "DISTANCE", "ATOMS": [1, 2]}
                     ],
                 },
                 "method_spec": {},
@@ -606,7 +603,7 @@ def main() -> int:
                     "timestep_ps": 1.0,
                     "trajectory_stride": 1,
                 },
-                "resource_limits": {"walltime_seconds": 120},
+                "resource_limits": {},
             },
         )
 

@@ -209,6 +209,50 @@ def test_role_model_client_falls_back_after_primary_failure(monkeypatch, tmp_pat
     assert audit["model_failures"][0]["model"] == "primary"
 
 
+def test_role_model_client_random_one_uses_only_one_stable_fallback(
+    monkeypatch, tmp_path: Path
+) -> None:
+    monkeypatch.setenv("FIXTURE_KEY", "secret")
+    calls = []
+
+    def caller(**kwargs):
+        calls.append(kwargs["model"])
+        if kwargs["model"] == "primary":
+            raise RuntimeError("LLM HTTP 504: upstream unavailable")
+        return {"decision": "pass"}, {"model_requested": kwargs["model"]}
+
+    fallback_models = [
+        {"model": "fallback-a", "api_key_env": "FIXTURE_KEY"},
+        {"model": "fallback-b", "api_key_env": "FIXTURE_KEY"},
+        {"model": "fallback-c", "api_key_env": "FIXTURE_KEY"},
+    ]
+    config = {
+        "model": "primary",
+        "base_url": "http://fixture/v1",
+        "api_key_env": "FIXTURE_KEY",
+        "cache": False,
+        "fallback_strategy": "random_one",
+        "fallback_models": fallback_models,
+    }
+    client = RoleModelClient(role="stage05_router", config=config, cache_root=tmp_path, caller=caller)
+
+    _response, audit = client.call_json(
+        namespace="test",
+        record_id="paper-1",
+        prompt_version="v1",
+        system_prompt="system",
+        user_content="user",
+    )
+
+    assert calls[0] == "primary"
+    assert len(calls) == 2
+    assert calls[1] in {"fallback-a", "fallback-b", "fallback-c"}
+    assert audit["fallback_selection"]["strategy"] == "random_one"
+    assert audit["fallback_selection"]["pool_size"] == 3
+    assert audit["fallback_selection"]["selected_model"] == calls[1]
+    assert audit["fallback_index"] == 1
+
+
 def test_late_stage_connection_error_aborts_batch() -> None:
     with pytest.raises(runtime.ManagedScreeningServiceError, match="stage05 lost its model"):
         pipeline._raise_on_model_infrastructure_error(

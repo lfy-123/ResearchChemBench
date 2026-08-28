@@ -351,6 +351,11 @@ def test_gamess_relocation_uses_runtime_profile_paths_and_is_idempotent(tmp_path
     assert "$RESEARCHCHEMBENCH_SOFTWARE_ROOT" in (source / "rungms").read_text(
         encoding="utf-8"
     )
+    rungms = (source / "rungms").read_text(encoding="utf-8")
+    assert "if ( $?GMS_SCRATCH ) set SCR=$GMS_SCRATCH" in rungms
+    assert "if ( $?GMS_RESTART ) set USERSCR=$GMS_RESTART" in rungms
+    assert "/validation/gamess/2024-r2-p1/scratch" not in rungms
+    assert "/installations/gamess/2024-r2-p1/restart" not in rungms
     assert "$(shell tcsh -fc" in (source / "Makefile").read_text(
         encoding="utf-8"
     )
@@ -365,6 +370,105 @@ def test_gamess_relocation_uses_runtime_profile_paths_and_is_idempotent(tmp_path
         "already_portable",
         "portable_link",
     }
+
+
+def test_aiida_repository_path_is_rewritten_to_project_relative(tmp_path: Path):
+    root = tmp_path / "managed-cache"
+    repository = root / "state/aiida/.aiida/repository/old-repository"
+    repository.mkdir(parents=True)
+    (repository / "database.sqlite").write_bytes(b"sqlite")
+    config_path = root / "state/aiida/.aiida/config.json"
+    config_path.write_text(
+        json.dumps(
+            {
+                "profiles": {
+                    "researchchembench": {
+                        "storage": {
+                            "backend": "core.sqlite_dos",
+                            "config": {
+                                "filepath": "/legacy/server/ResearchChemBench/.software_cache/"
+                                "state/aiida/.aiida/repository/old-repository"
+                            },
+                        }
+                    }
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    first = relocate_v2(root)
+    assert first["aiida_config"]["status"] == "rewritten"
+    rewritten = json.loads(config_path.read_text(encoding="utf-8"))
+    assert rewritten["profiles"]["researchchembench"]["storage"]["config"]["filepath"] == (
+        "repository/old-repository"
+    )
+    second = relocate_v2(root)
+    assert second["aiida_config"]["status"] == "already_portable"
+
+
+def test_vasp_makefile_path_is_rewritten_to_relative_environment(tmp_path: Path):
+    root = tmp_path / "managed-cache"
+    makefile = root / "installations/vasp/6.3.2/makefile.include"
+    makefile.parent.mkdir(parents=True)
+    makefile.write_text(
+        "VASP_ENV = /inspire/hdd/global_user/example/ResearchChemBench/.tool_envs/vasp\n"
+        "BLASPACK = -L$(VASP_ENV)/lib -lblas\n",
+        encoding="utf-8",
+    )
+
+    first = relocate_v2(root)
+    rewritten = makefile.read_text(encoding="utf-8")
+    assert first["vasp_makefile"]["status"] == "rewritten"
+    assert "/inspire/" not in rewritten
+    assert "RESEARCHCHEMBENCH_ENV_ROOT" in rewritten
+    assert "general-modern-openmpi5" in rewritten
+
+    second = relocate_v2(root)
+    assert second["vasp_makefile"]["status"] == "already_portable"
+
+
+def test_acpype_relocation_uses_bundled_python_and_is_idempotent(tmp_path: Path):
+    root = tmp_path / "managed-cache"
+    launcher = root / "installations/acpype/2023.10.27/python/bin/acpype"
+    launcher.parent.mkdir(parents=True)
+    launcher.write_text(
+        "#!/bin/sh\n'''exec' /legacy/server/.envs/openff/bin/python \"$0\" \"$@\"\n' '''\n",
+        encoding="utf-8",
+    )
+    launcher.chmod(0o755)
+
+    first = relocate_v2(root)
+    text = launcher.read_text(encoding="utf-8")
+    assert first["portable_acpype_launcher"]["status"] == "rewritten"
+    assert "${install_root}/deps/bin/python" in text
+    assert "BABEL_LIBDIR" in text
+    assert "BABEL_DATADIR" in text
+    assert "/legacy/server" not in text
+
+    second = relocate_v2(root)
+    assert second["portable_acpype_launcher"]["status"] == "already_portable"
+
+
+def test_kinbot_nwchem_reaction_family_patch_is_idempotent(tmp_path: Path):
+    root = tmp_path / "managed-cache"
+    source = root / "installations/kinbot/source-2.2.2/kinbot/reac_family.py"
+    source.parent.mkdir(parents=True)
+    source.write_text(
+        "    elif rxn.qc.qc == 'nn_pes' and step >= rxn.max_step:\n"
+        "        code = 'nn_pes'\n",
+        encoding="utf-8",
+    )
+
+    first = relocate_v2(root)
+    assert first["kinbot_nwchem_reaction_family"]["status"] == "rewritten"
+    text = source.read_text(encoding="utf-8")
+    assert "elif rxn.qc.qc == 'nwchem':" in text
+    assert "Code = 'NWChem'" in text
+
+    second = relocate_v2(root)
+    assert second["kinbot_nwchem_reaction_family"]["status"] == "already_portable"
+    assert source.read_text(encoding="utf-8") == text
 
 
 def test_repository_path_rewrite_is_idempotent_and_preserves_punctuation():

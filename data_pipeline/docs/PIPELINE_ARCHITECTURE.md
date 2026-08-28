@@ -8,7 +8,9 @@
 
 所有阶段以稳定 `paper_id` 关联。每篇论文在 Stage00 中是一个目录，正文、远端已有 SI 和
 `paper.json` 放在一起。每个阶段必须先写 registry 再允许删除 Stage00-03 明确淘汰论文的原始
-目录；`uncertain` 和 `processing_failed` 属于 Hold，不删除原始资产。
+目录。Stage01 是文档完整性终止门：未通过、解析失败、等待重试或 `uncertain` 都先完整记录，
+随后删除正文和 SI，只保留通过论文。Stage02/03 的 `uncertain` 和客观执行失败仍属于 Hold，
+不删除原始资产。
 
 ## 阶段输入输出
 
@@ -33,6 +35,12 @@ Stage04 的 `mineru.api_concurrency` 控制同时进行的 MinerU API 请求数�
 `mineru.request_batch_size` 控制单次请求包含的 PDF 数量。两者可组合使用；结果始终按输入顺序
 写回，单篇失败隔离，已有有效结果在断点续跑时直接复用。GPU worker 主存不足时应降低并发或
 增大单次请求批量，不能仅依据 GPU 显存设置并发。
+
+Stage04 在单篇 MinerU 解析和质量门均成功后，将 Markdown、内容块、结构化 JSON 和引用图片
+迁移到稳定的 `deep_normalization/normalized/<document_id>/`，保留 Stage00 原始 PDF，然后删除
+该文档的 MinerU raw 目录（重复的 origin/layout/span PDF、临时模型产物和日志）。解析失败的
+raw 目录保留给 resume 重试和故障诊断。可用
+`stage04.mineru.cleanup_successful_intermediates=false` 显式关闭成功产物清理。
 
 沙箱在整个 `run_pipeline` 外层创建一次并在 `finally` 中清理。GROBID、Softcite、screening LLM
 和 MinerU 均由上下文管理器负责启动、复用和异常清理。单篇模型或解析错误必须记录为该论文的

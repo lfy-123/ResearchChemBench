@@ -8,6 +8,7 @@ import subprocess
 import tempfile
 import time
 import uuid
+from urllib.parse import urlparse
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -589,6 +590,16 @@ class CliAgentHarness(AgentHarness):
                 session_home = Path(raw_session_home).expanduser().resolve()
                 session_home.mkdir(parents=True, exist_ok=True)
                 isolated.extend(["--codex-home", str(session_home)])
+        executable_path = Path(executable).resolve()
+        code_mode_host = executable_path.with_name("codex-code-mode-host")
+        if executable_path.name == "codex" and code_mode_host.is_file():
+            # Codex starts its stable host component even when the optional
+            # code_mode tool is disabled.  The minimal namespace previously
+            # mounted only the main binary, causing a non-fatal generic error
+            # event before every Agent turn.  Mount the matching sibling helper
+            # so startup is clean; the feature flag below still controls whether
+            # the model receives the Code Mode tool.
+            isolated.extend(["--code-mode-host", str(code_mode_host)])
         isolated.extend(["--", *command])
         return isolated, root
 
@@ -639,7 +650,11 @@ class CodexHarness(CliAgentHarness):
         if wire_api == "responses":
             return None
         key_name = str(self.model_config.get("api_key_env") or "")
-        api_key = os.environ.get(key_name, "")
+        api_key = (
+            os.environ.get(key_name, "")
+            or os.environ.get("OPENAI_API_KEY", "")
+            or os.environ.get("CODEX_API_KEY", "")
+        )
         if not api_key:
             raise AgentExecutionError(
                 f"missing API key environment variable: {key_name}",
@@ -648,6 +663,7 @@ class CodexHarness(CliAgentHarness):
             )
         artifact_value = request.metadata.get("structured_artifact_path")
         artifact_path: Path | None = None
+        artifact_required_files: list[str] = []
         if artifact_value:
             artifact_relative = Path(str(artifact_value))
             if artifact_relative.is_absolute() or ".." in artifact_relative.parts:
@@ -800,6 +816,12 @@ class CodexHarness(CliAgentHarness):
             api_key = os.environ.get(key_name, "")
             if api_key:
                 environment["OPENAI_API_KEY"] = api_key
+                # Codex uses CODEX_API_KEY in the isolated executable path
+                # even when the provider is configured with
+                # requires_openai_auth=true.  Export both aliases so the
+                # namespace boundary cannot silently turn a valid key into a
+                # 401 (the value is never persisted in run artifacts).
+                environment["CODEX_API_KEY"] = api_key
         request_metadata = request.metadata if request is not None else {}
         native_resume = bool(
             request_metadata.get(
@@ -928,14 +950,11 @@ class CodexHarness(CliAgentHarness):
                 command.insert(5, "--ephemeral")
             command.extend(["-C", str(request.workspace.resolve()), "--sandbox", "danger-full-access"])
         if bool(self.config.get("codex_disable_code_mode", False)):
-            command.extend(
-                [
-                    "--disable",
-                    "code_mode",
-                    "--disable",
-                    "code_mode_host",
-                ]
-            )
+            # Disable the optional model-facing Code Mode tool.  The stable host
+            # helper remains enabled and is mounted by the namespace wrapper;
+            # disabling or omitting that helper makes Codex emit a generic error
+            # event even though ordinary shell execution is healthy.
+            command.extend(["--disable", "code_mode"])
         reasoning_effort = (
             request.metadata.get("reasoning_effort")
             or self.model_config.get("reasoning_effort")
@@ -1193,6 +1212,20 @@ def create_agent_harness(
 
 def classify_cli_failure(text: str) -> tuple[str, bool]:
     normalized = text.casefold()
+    # A model that is absent from the upstream account/model allow-list cannot
+    # be repaired by another Agent attempt.  Treat this as a terminal
+    # configuration failure so a batch does not spend its retry budget replaying
+    # the same request (the upstream often wraps its 404 as a 502).
+    if any(
+        marker in normalized
+        for marker in (
+            "model_not_available",
+            "model not available",
+            "not in the current api key",
+            "不在当前 api key 的可用模型范围",
+        )
+    ):
+        return "model_not_available", False
     if any(value in normalized for value in ("timed out", "timeout", "deadline exceeded")):
         return "agent_timeout", True
     if any(
@@ -1213,8 +1246,10 @@ def classify_cli_failure(text: str) -> tuple[str, bool]:
         name in normalized for name in ("codex", "claude", "opencode")
     ):
         return "harness_unavailable", True
-    if any(value in normalized for value in ("unauthorized", "forbidden", "invalid api key")):
-        return "authentication_failed", True
+    if any(value in normalized for value in ("unauthorized", "forbidden", "invalid api key", "missing or invalid api key")):
+        # Credentials/model-account mismatches are deterministic configuration
+        # errors. Replaying the identical prompt cannot repair them.
+        return "authentication_failed", False
     return "agent_process_failed", True
 
 

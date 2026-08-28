@@ -16,6 +16,20 @@ from chemistry_toolbox.src.paths import PROJECT_ROOT
 from chemistry_toolbox.src.runtime import runtime_names
 
 
+CENSO_VCS_REQUIREMENT = (
+    "censo @ git+https://github.com/grimme-lab/CENSO.git"
+    "@1f23ec6fb1a990215f11f07379a298b542681c20"
+)
+PMX_CACHE_REQUIREMENT = (
+    "pmx @ file://${RESEARCHCHEMBENCH_SOFTWARE_ROOT}/packages/pmx/packages/"
+    "pmx-0+untagged.1.g0dd5f0a-cp312-cp312-linux_x86_64.whl"
+)
+FUTURE_CACHE_REQUIREMENT = (
+    "future @ file://${RESEARCHCHEMBENCH_SOFTWARE_ROOT}/packages/pmx/packages/"
+    "future-1.0.0-py3-none-any.whl"
+)
+
+
 def _pip_dependencies(environment_name: str) -> set[str]:
     environment_file = (
         PROJECT_ROOT
@@ -36,6 +50,20 @@ def _requirements(environment_name: str) -> set[str]:
         / "chemistry_toolbox/environment"
         / environment_name
         / "requirements.txt"
+    )
+    return {
+        line.strip()
+        for line in requirements_file.read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    }
+
+
+def _no_deps_requirements(environment_name: str) -> set[str]:
+    requirements_file = (
+        PROJECT_ROOT
+        / "chemistry_toolbox/environment"
+        / environment_name
+        / "requirements-no-deps.txt"
     )
     return {
         line.strip()
@@ -122,7 +150,7 @@ def test_every_runtime_has_one_consolidated_environment_mapping():
 
 def test_repaired_runtime_dependencies_are_portable_build_inputs():
     reaction_dependencies = {
-        "censo==2.1.2",
+        CENSO_VCS_REQUIREMENT,
         "CoolProp==8.0.0",
         "numdifftools==0.9.42",
     }
@@ -138,3 +166,49 @@ def test_repaired_runtime_dependencies_are_portable_build_inputs():
     assert reaction_dependencies <= _requirements("reaction-kinetics")
     assert sharc_dependencies <= _pip_dependencies("general-modern-openmpi5")
     assert sharc_dependencies <= _requirements("general-modern-openmpi5")
+
+
+def test_censo_vcs_install_has_a_reproducible_command_shim():
+    shim = PROJECT_ROOT / "chemistry_toolbox/environment/shims/censo"
+    build_script = PROJECT_ROOT / "chemistry_toolbox/scripts/build_environments.sh"
+
+    assert shim.is_file()
+    assert "python\" -m censo" in shim.read_text(encoding="utf-8")
+    assert "environment/shims/censo" in build_script.read_text(encoding="utf-8")
+
+    configure_script = (
+        PROJECT_ROOT / "chemistry_toolbox/scripts/configure_censo_runtime.py"
+    ).read_text(encoding="utf-8")
+    assert 'ORCA_SOLVENT_SECTIONS = ("screening", "optimization", "refinement")' in (
+        configure_script
+    )
+
+
+def test_isolated_acpype_and_cached_pmx_have_portable_build_inputs():
+    molecular_pip_dependencies = _pip_dependencies("molecular-simulation-openff")
+    molecular_requirements = _requirements("molecular-simulation-openff")
+    build_script = (
+        PROJECT_ROOT / "chemistry_toolbox/scripts/build_environments.sh"
+    ).read_text(encoding="utf-8")
+
+    assert not any("acpype" in item.casefold() for item in molecular_pip_dependencies)
+    no_deps_requirements = _no_deps_requirements("molecular-simulation-openff")
+    assert "future==1.0.0" not in molecular_requirements
+    assert {FUTURE_CACHE_REQUIREMENT, PMX_CACHE_REQUIREMENT} <= no_deps_requirements
+    assert "pip install --no-deps --no-index" in build_script
+    assert 'RESEARCHCHEMBENCH_SOFTWARE_ROOT="${SOFTWARE_ROOT}"' in build_script
+
+
+def test_gnina_cuda_runtime_is_pinned_in_the_docking_environment():
+    requirements = _requirements("molecular-simulation-openff")
+    expected = {
+        "nvidia-cuda-runtime-cu12==12.8.90",
+        "nvidia-cublas-cu12==12.8.4.1",
+        "nvidia-cufft-cu12==11.3.3.83",
+        "nvidia-cusparse-cu12==12.5.8.93",
+        "nvidia-cusolver-cu12==11.7.3.90",
+        "nvidia-cudnn-cu12==9.8.0.87",
+        "nvidia-nvjitlink-cu12==12.8.93",
+    }
+
+    assert expected <= requirements

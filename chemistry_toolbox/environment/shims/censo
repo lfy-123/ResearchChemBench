@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SHIM_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd -- "${SHIM_DIR}/../../.." && pwd)"
+ENV_BIN="${PROJECT_ROOT}/.envs/kinetics-legacy/bin"
+CONFIG_HOME="${HOME:-${PROJECT_ROOT}/.software_cache/state/censo/home}"
+CONFIG_FILE="${CONFIG_HOME}/.censo2rc"
+
+# CENSO resolves paths relative to the process directory.  Expand the portable
+# project-relative config into a private temporary HOME for this invocation;
+# the persisted config remains independent of the checkout location.
+if [[ -f "${CONFIG_FILE}" ]] && grep -Eq '^((orcapath|xtbpath)[[:space:]]*=)' "${CONFIG_FILE}"; then
+    TEMP_HOME="$(mktemp -d "${TMPDIR:-/tmp}/censo-home.XXXXXX")"
+    trap 'rm -rf "${TEMP_HOME}"' EXIT
+    sed -e "s#^orcapath[[:space:]]*=.*#orcapath = ${PROJECT_ROOT}/.software_cache/installations/orca/6.1.1/orca#" \
+        -e "s#^xtbpath[[:space:]]*=.*#xtbpath = ${PROJECT_ROOT}/.envs/kinetics-legacy/bin/xtb#" \
+        "${CONFIG_FILE}" > "${TEMP_HOME}/.censo2rc"
+    export HOME="${TEMP_HOME}"
+fi
+exec "${ENV_BIN}/python" -m censo "$@"

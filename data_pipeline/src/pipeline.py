@@ -18,8 +18,9 @@ from src.contracts import (
 from src.core.concurrency import ordered_pipeline_map
 from src.core.io import sha256_file
 from src.core.resume import (
-    document_input_fingerprint,
+    FINAL_STATUSES,
     ResumeStateStore,
+    document_input_fingerprint,
     input_fingerprint,
     paper_input_fingerprint,
     result_artifacts,
@@ -97,8 +98,6 @@ def run_pipeline(
                 model_callers=model_callers,
                 resume_options=resume_options,
             )
-        from src.sandbox.runtime import SandboxPipelineRuntime
-
         options = sandbox_options or _sandbox_options_from_config(config)
         screening = config["models"]["screening"]
         prewarm = _uses_managed_screening_model(config) and bool(
@@ -109,7 +108,7 @@ def run_pipeline(
                 executor.submit(ensure_managed_screening_worker, screening) if prewarm else None
             )
             try:
-                with SandboxPipelineRuntime(options) as runtime:
+                with _sandbox_runtime_from_config(config, options=options) as runtime:
                     if future is not None:
                         future.result()
                     _apply_sandbox(config, runtime)
@@ -496,11 +495,21 @@ def _run_phase1_stage01(
     ]
     hashes = _microbatch_stage_hashes(papers, documents, config)
     output = {"batch_id": f"batch-{index + 1:06d}"}
-    stage01 = (
-        None
-        if resume is not None
-        else _load_cached_microbatch_stage(root, "stage01", hashes["stage01"])
-    )
+    if (
+        resume is not None
+        and not _resume_stage_active(resume, "stage01")
+        and not _resume_stage_has_unfinished(resume, "stage01")
+    ):
+        # The caller deliberately resumes after Stage01.  Re-read its stable
+        # projection instead of replaying one plan_work transaction per paper
+        # and document.
+        stage01 = _load_existing_stage01(root)
+    else:
+        stage01 = (
+            None
+            if resume is not None
+            else _load_cached_microbatch_stage(root, "stage01", hashes["stage01"])
+        )
     cache_hit = stage01 is not None
     if stage01 is None and resume is not None:
         reused_documents = []
@@ -721,6 +730,11 @@ def _run_phase1_stage02(
             cacheable=not _has_processing_errors(stage02),
         )
         cache_hit = not pending
+        # A resume attempt must not turn an endpoint outage into a scientific
+        # rejection and then let downstream stages observe an empty input.  The
+        # records have already been journaled as retryable failures; abort this
+        # microbatch so the next resume generation can retry Stage02.
+        _raise_on_screening_infrastructure_error(stage02, "stage02")
     elif stage02 is None:
         stage02 = run_stage02(
             papers=state["stage01"]["papers"],
@@ -817,6 +831,7 @@ def _run_phase1_stage03(
             cacheable=not _has_processing_errors(stage03),
         )
         cache_hit = not pending
+        _raise_on_screening_infrastructure_error(stage03, "stage03")
     elif stage03 is None:
         stage03 = run_stage03(
             stage02_records=state["stage02"]["records"],
@@ -1255,6 +1270,17 @@ def _aggregate_phase2(batch_results, workspace, run_id, stop_index):
             summary["deep_parse_failed_papers"] = sum(
                 row.get("decision") == "deep_parse_failed" for row in records
             )
+            summary["mineru_intermediate_bytes_removed"] = sum(
+                int(
+                    (
+                        (row.get("deep_normalization") or {}).get(
+                            "intermediate_cleanup"
+                        )
+                        or {}
+                    ).get("bytes_removed", 0)
+                )
+                for row in documents
+            )
             write_jsonl(root / "deep_normalization" / "documents.jsonl", documents)
             write_jsonl(root / "deep_normalization" / "parser_attempts.jsonl", attempts)
         if key == "stage05":
@@ -1315,9 +1341,13 @@ def _aggregate_stage_timings(batch_results, stage):
 def _load_or_run_package(config, corpus_root, workspace, run_id, *, resume=None):
     root = workspace / "stage_01_document_preparation" / "package"
     if resume is not None:
+        if (
+            resume["start_index"] > 1
+            and not _resume_stage_has_unfinished(resume, "stage01_package")
+        ):
+            return _load_existing_package(root)
         manifest_path = workspace / "stage_00_remote_corpus" / "source_manifest.jsonl"
         source_rows = read_jsonl(manifest_path)
-        existing_papers = read_jsonl(root / "papers.jsonl") if (root / "papers.jsonl").is_file() else []
         existing_documents = (
             read_jsonl(root / "documents.jsonl") if (root / "documents.jsonl").is_file() else []
         )
@@ -1496,6 +1526,15 @@ def _resume_stage_active(resume, stage):
     )
     index = int(parent.removeprefix("stage"))
     return resume["start_index"] <= index <= resume["stop_index"]
+
+
+def _resume_stage_has_unfinished(resume, stage):
+    """Return whether an inactive stage still needs recovery work."""
+
+    items = resume["store"].current_work_items(
+        outer_batch_id=resume["outer_batch_id"], stage=stage
+    )
+    return any(str(item.get("status")) not in FINAL_STATUSES for item in items)
 
 
 def _resume_record(resume, stage, row, fingerprint, *, artifacts=None):
@@ -1826,6 +1865,28 @@ def _load_cached_microbatch_stage(root, stage, expected_hash):
         return None
 
 
+def _load_existing_stage01(root):
+    """Load a completed Stage01 microbatch without invoking resume planning."""
+
+    stage_root = root / STAGE_DIRS["stage01"]
+    return {
+        "documents": read_jsonl(stage_root / "documents.jsonl"),
+        "papers": read_jsonl(stage_root / "paper_bundles.jsonl"),
+        "attempts": read_jsonl(stage_root / "parser_attempts.jsonl"),
+        "summary": read_json(stage_root / "stage_summary.json"),
+    }
+
+
+def _load_existing_package(root):
+    """Load an unchanged Stage01 package for a later-stage resume."""
+
+    return {
+        "papers": read_jsonl(root / "papers.jsonl"),
+        "documents": read_jsonl(root / "documents.jsonl"),
+        "summary": read_json(root / "stage_summary.json"),
+    }
+
+
 def _write_microbatch_stage_cache(root, stage, stage_hash, run_id, *, cacheable):
     stage_root = root / STAGE_DIRS[stage]
     write_json(
@@ -1849,19 +1910,28 @@ def _raise_on_screening_infrastructure_error(output, stage):
 
 
 def _raise_on_model_infrastructure_error(output, stage):
-    errors = [
-        row.get("error") or {}
-        for row in (output.get("records") or [])
-        if row.get("processing_status") == "failed"
-    ]
-    infrastructure = [
-        error
-        for error in errors
-        if error.get("error_type") == "ManagedScreeningServiceError"
-        or is_transient_connection_error(
-            RuntimeError(f"{error.get('error_type', '')}: {error.get('message', '')}")
+    infrastructure = []
+    for row in output.get("records") or []:
+        if row.get("processing_status") != "failed":
+            continue
+        error = row.get("error") or {}
+        error_type = str(error.get("error_type") or "")
+        message = str(error.get("message") or "")
+        audit = row.get("model_audit") or {}
+        successful_requests = int(audit.get("successful_http_requests") or 0)
+        failed_call = audit.get("failed_call")
+        all_models_failed = (
+            stage in {"stage02", "stage03"}
+            and error_type in {"Stage02ModelCallError", "Stage03ModelCallError"}
+            and successful_requests == 0
+            and (failed_call or "all configured models failed" in message.lower())
         )
-    ]
+        if (
+            error_type == "ManagedScreeningServiceError"
+            or is_transient_connection_error(RuntimeError(f"{error_type}: {message}"))
+            or all_models_failed
+        ):
+            infrastructure.append(error)
     if infrastructure:
         first = infrastructure[0]
         raise ManagedScreeningServiceError(
@@ -1982,6 +2052,48 @@ def _sandbox_options_from_config(config):
         api_key_env=str(value.get("api_key_env", "RCB_SANDBOX_API_KEY")),
     )
 
+
+def _sandbox_runtime_from_config(config, *, options=None):
+    from src.sandbox.runtime import PooledMineruPipelineRuntime, SandboxPipelineRuntime
+
+    service_options = options or _sandbox_options_from_config(config)
+    pool = ((config.get("execution") or {}).get("mineru_sandbox_pool") or {})
+    if not pool.get("enabled", False):
+        return SandboxPipelineRuntime(service_options)
+    run_root = Path(
+        str(
+            pool.get("state_root")
+            or Path(str(config["workspace"])).expanduser().resolve().parents[1]
+            / ".mineru_pool"
+        )
+    ).expanduser().resolve()
+    pool_options = type(service_options)(
+        cpu=int(pool.get("cpu", 16)),
+        memory=str(pool.get("memory", "32Gi")),
+        lifecycle_minutes=int(pool.get("lifecycle_minutes", 1440)),
+        startup_timeout_seconds=int(
+            pool.get("startup_timeout_seconds", service_options.startup_timeout_seconds)
+        ),
+        cleanup=str(pool.get("cleanup", "stop")),
+        source=run_root / "unused.yaml",
+        inventory=run_root / "unused.json",
+        base_url=service_options.base_url,
+        project=service_options.project,
+        image=service_options.image,
+        api_key_env=service_options.api_key_env,
+    )
+    return PooledMineruPipelineRuntime(
+        service_options=service_options,
+        mineru_options=pool_options,
+        pool_count=int(pool.get("count", 1)),
+        state_root=run_root,
+        startup_concurrency=int(pool.get("startup_concurrency", 8)),
+        supervisor_interval_seconds=float(
+            pool.get("supervisor_interval_seconds", 15)
+        ),
+        max_attempts=int(pool.get("max_attempts", 2)),
+        retry_delay_seconds=float(pool.get("retry_delay_seconds", 5)),
+    )
 
 def _apply_sandbox(config, runtime):
     stage04 = config.setdefault("stage04", {})

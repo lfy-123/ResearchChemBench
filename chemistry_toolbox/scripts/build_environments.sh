@@ -85,8 +85,18 @@ for name in "${selected[@]}"; do
     PIP_TRUSTED_HOST="${RCB_PIP_TRUSTED_HOST:-pypi.org}" \
       "${prefix}/bin/python" -m pip install -r "${spec_dir}/requirements.txt"
   fi
+  if [[ -s "${spec_dir}/requirements-no-deps.txt" ]]; then
+    PIP_CONFIG_FILE=/dev/null \
+    RESEARCHCHEMBENCH_SOFTWARE_ROOT="${SOFTWARE_ROOT}" \
+      "${prefix}/bin/python" -m pip install --no-deps --no-index \
+        -r "${spec_dir}/requirements-no-deps.txt"
+  fi
   if [[ "${name}" == "reaction-kinetics" ]]; then
     "${SCRIPT_DIR}/install_patched_kinbot.sh" "${prefix}"
+    install -m 0755 "${TOOLBOX_ROOT}/environment/shims/censo" "${prefix}/bin/censo"
+    "${prefix}/bin/python" "${SCRIPT_DIR}/configure_censo_runtime.py" \
+      --project-root "${PROJECT_ROOT}" \
+      --environment-root "${TARGET_ROOT}"
   fi
   check_output="$(mktemp)"
   if ! "${prefix}/bin/python" -m pip check >"${check_output}" 2>&1; then

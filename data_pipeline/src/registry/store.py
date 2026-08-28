@@ -192,7 +192,12 @@ class ScreeningRegistry:
                 self._replace_software_mentions(
                     connection, run_id=run_id, stage=stage, row=row, now=now
                 )
-                if prune and self.prune_enabled and stage in PRUNABLE_STAGES and _should_prune(row):
+                if (
+                    prune
+                    and self.prune_enabled
+                    and stage in PRUNABLE_STAGES
+                    and _should_prune(stage, row)
+                ):
                     rejected_ids.add(paper_id)
             for paper_id in rejected_ids:
                 connection.execute(
@@ -204,12 +209,30 @@ class ScreeningRegistry:
                     (now, run_id, paper_id),
                 )
 
-        deletion = {"deleted": 0, "bytes_freed": 0, "delete_failed": 0}
+        deletion = {
+            "deleted": 0,
+            "bytes_freed": 0,
+            "delete_failed": 0,
+            "auxiliary_deleted": 0,
+            "auxiliary_bytes_freed": 0,
+            "auxiliary_delete_failed": 0,
+        }
         deleted_paper_ids: list[str] = []
         for paper_id in sorted(rejected_ids):
             result = self._prune_paper(run_id=run_id, paper_id=paper_id, stage=stage)
-            for key in deletion:
+            for key in ("deleted", "bytes_freed", "delete_failed"):
                 deletion[key] += int(result.get(key, 0))
+            auxiliary = self._prune_stage01_acquisition(
+                run_id=run_id,
+                paper_id=paper_id,
+                stage=stage,
+            )
+            for key in (
+                "auxiliary_deleted",
+                "auxiliary_bytes_freed",
+                "auxiliary_delete_failed",
+            ):
+                deletion[key] += int(auxiliary.get(key, 0))
             if int(result.get("deleted", 0)) > 0 and int(result.get("delete_failed", 0)) == 0:
                 deleted_paper_ids.append(paper_id)
         return {
@@ -375,6 +398,86 @@ class ScreeningRegistry:
                         stage,
                         status,
                         str(local_dir),
+                        bytes_freed,
+                        error,
+                        _now(),
+                    ),
+                )
+        return result
+
+    def _prune_stage01_acquisition(
+        self,
+        *,
+        run_id: str,
+        paper_id: str,
+        stage: str,
+    ) -> dict[str, int]:
+        """Remove redundant downloaded SI after a terminal Stage01-03 reject.
+
+        Publisher attachments are written below the Stage01 attempt tree rather
+        than the Stage00 paper bundle. The main bundle deletion therefore does
+        not reclaim them automatically. Only exact paper-scoped acquisition
+        directories below the registered run workspace are eligible here.
+        """
+
+        result = {
+            "auxiliary_deleted": 0,
+            "auxiliary_bytes_freed": 0,
+            "auxiliary_delete_failed": 0,
+        }
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT workspace FROM runs WHERE run_id=?",
+                (run_id,),
+            ).fetchone()
+        if row is None:
+            return result
+        workspace = Path(str(row["workspace"])).expanduser().resolve()
+        candidates = [
+            workspace
+            / "stage_01_document_preparation"
+            / "package"
+            / "acquisition"
+            / "files"
+            / paper_id,
+            *(
+                workspace / "resume_attempts"
+            ).glob(
+                "generation-*/stage01_package/stage_01_document_preparation/"
+                f"package/acquisition/files/{paper_id}"
+            ),
+        ]
+        for candidate in dict.fromkeys(path.resolve() for path in candidates):
+            if not candidate.exists():
+                continue
+            try:
+                relative = candidate.relative_to(workspace)
+                if candidate.name != paper_id or "acquisition" not in relative.parts:
+                    raise ValueError("refusing to delete a non-acquisition path")
+                bytes_freed = _directory_size(candidate)
+                shutil.rmtree(candidate)
+                status, error = "deleted", None
+                result["auxiliary_deleted"] += 1
+                result["auxiliary_bytes_freed"] += bytes_freed
+            except Exception as exc:
+                status, bytes_freed = "delete_failed", 0
+                error = f"{type(exc).__name__}: {exc}"
+                result["auxiliary_delete_failed"] += 1
+            with self._transaction() as connection:
+                connection.execute(
+                    """
+                    INSERT INTO artifact_events(
+                        run_id, paper_id, source_paper_id, stage, action, status,
+                        local_dir, bytes_freed, error, created_at
+                    ) VALUES (?, ?, ?, ?, 'delete_stage01_acquisition_bundle', ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        run_id,
+                        paper_id,
+                        paper_id,
+                        stage,
+                        status,
+                        str(candidate),
                         bytes_freed,
                         error,
                         _now(),
@@ -601,9 +704,14 @@ def _passed(row: dict[str, Any]) -> bool:
     return str(row.get("decision") or "").casefold() in {"pass", "passed", "copied"}
 
 
-def _should_prune(row: dict[str, Any]) -> bool:
+def _should_prune(stage: str, row: dict[str, Any]) -> bool:
     if _passed(row):
         return False
+    # Stage01 is the document-completeness boundary. A paper that cannot
+    # produce a complete, readable main/SI bundle must not occupy local storage
+    # or be retried; its audit record remains in the registry.
+    if stage == "stage01":
+        return True
     if str(row.get("processing_status") or "").casefold() in {
         "failed",
         "pending",

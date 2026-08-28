@@ -88,6 +88,48 @@ def test_gaussian_renderer_exposes_typed_smd_solvent():
     assert "SCRF=(SMD,Solvent=Ethanol)" in text
 
 
+def test_gaussian_uses_action_local_scratch(tmp_path, monkeypatch):
+    directory = tmp_path / "gaussian-action"
+    directory.mkdir()
+    monkeypatch.setenv("RESEARCHCHEM_MCP_WORKSPACE", str(tmp_path))
+    observed = {}
+
+    def fake_run_external(**kwargs):
+        observed.update(kwargs)
+        return {
+            "available": True,
+            "returncode": 0,
+            "stdout": (
+                " Gaussian 16, Revision C.01,\n"
+                " SCF Done:  E(RHF) =  -75.0000000000     A.U.\n"
+                " Normal termination of Gaussian 16\n"
+            ),
+            "stderr": "",
+            "command": ["g16"],
+        }
+
+    monkeypatch.setattr(quantum_legacy, "output_directory", lambda *_args: directory)
+    monkeypatch.setattr(quantum_legacy, "run_external", fake_run_external)
+    monkeypatch.setattr(
+        quantum_legacy, "relative_workspace_path", lambda path: str(path)
+    )
+
+    response = quantum_legacy.gaussian(
+        "calculate_energy",
+        {
+            "inputs": {"structure": WATER},
+            "method_spec": {"method": "HF", "basis": "STO-3G"},
+            "action_settings": {"scf_convergence": "Tight"},
+            "resource_limits": {"memory_mb": 512, "cpu_cores": 1},
+        },
+    )
+
+    scratch = directory / "scratch"
+    assert response["status"] == "success"
+    assert observed["environment_overrides"] == {"GAUSS_SCRDIR": str(scratch)}
+    assert scratch.is_dir()
+
+
 def test_gamess_renderer_preserves_explicit_basis_and_convergence():
     text = quantum_legacy._render_gamess(
         "calculate_energy",

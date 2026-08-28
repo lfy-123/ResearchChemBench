@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import copy
+import os
+import shutil
 from pathlib import Path
 from typing import Any
 
@@ -52,6 +54,14 @@ def run_stage04(
         ),
         "deep_parse_failed_papers": sum(
             row.get("decision") == "deep_parse_failed" for row in records
+        ),
+        "mineru_intermediate_bytes_removed": sum(
+            int(
+                ((row.get("deep_normalization") or {}).get("intermediate_cleanup") or {}).get(
+                    "bytes_removed", 0
+                )
+            )
+            for row in deep_documents
         ),
     }
     write_json(stage_root / "stage_summary.json", summary)
@@ -142,7 +152,7 @@ def _deep_normalize_passed_papers(
         command=str(mineru.get("command", "mineru")),
         method=str(mineru.get("method", "auto")),
         backend=mineru.get("backend", "pipeline"),
-        timeout_seconds=int(mineru.get("timeout_seconds", 3600)),
+        timeout_seconds=int(mineru.get("timeout_seconds", 3000)),
         working_directory=mineru.get("working_directory"),
         environment=mineru.get("environment"),
         extra_args=mineru.get("extra_args") or ["--formula", "true", "--table", "true"],
@@ -154,9 +164,12 @@ def _deep_normalize_passed_papers(
     )
     by_id = {row["document_id"]: row for row in results}
     deep_root = stage_root / "deep_normalization"
+    mineru_raw_root = deep_root / "raw" / "mineru"
+    cleanup_intermediates = bool(mineru.get("cleanup_successful_intermediates", True))
     deep_documents: list[dict[str, Any]] = list(existing_by_id.values())
     attempts: list[dict[str, Any]] = []
     failed_by_paper: dict[str, list[str]] = {}
+    timed_out_by_paper: dict[str, list[str]] = {}
     quality_config = {
         "min_main_characters": int(mineru.get("min_main_characters", 1000)),
         "min_supplementary_characters": int(mineru.get("min_supplementary_characters", 100)),
@@ -190,34 +203,58 @@ def _deep_normalize_passed_papers(
             result,
         )
         status = str(result.get("status") or "missing")
-        attempts.append(
-            {
-                "paper_id": document["paper_id"],
-                "document_id": document["document_id"],
-                "parser": "mineru",
-                "status": status,
-                "quality": quality,
-                "error": result.get("error"),
-                "output_path": result.get("markdown_path"),
-                "duration_seconds": result.get("duration_seconds"),
-            }
-        )
+        timed_out = status == "timeout"
+        attempt = {
+            "paper_id": document["paper_id"],
+            "document_id": document["document_id"],
+            "parser": "mineru",
+            "status": status,
+            "quality": quality,
+            "error": result.get("error"),
+            "output_path": result.get("markdown_path"),
+            "duration_seconds": result.get("duration_seconds"),
+            "retry_suppressed_reason": result.get("retry_suppressed_reason"),
+        }
+        attempts.append(attempt)
         if status in {"success", "reused"} and quality["passed"]:
+            stable_result = _materialize_mineru_parser_outputs(
+                result,
+                deep_root=deep_root,
+                document_id=str(document["document_id"]),
+            )
             deep = materialize_document(
                 document,
                 text,
                 "mineru",
-                result,
+                stable_result,
                 quality,
                 deep_root,
                 run_id,
                 stage_name="stage04",
             )
+            cleanup = (
+                _remove_successful_mineru_raw(
+                    mineru_raw_root,
+                    document_id=str(document["document_id"]),
+                )
+                if cleanup_intermediates
+                else {"status": "retained_by_config", "bytes_removed": 0, "files_removed": 0}
+            )
             deep["stage01_selected_parser"] = document.get("selected_parser")
-            deep["deep_normalization"] = {"status": "completed", "selected_parser": "mineru"}
+            deep["deep_normalization"] = {
+                "status": "completed",
+                "selected_parser": "mineru",
+                "intermediate_cleanup": cleanup,
+            }
+            attempt["output_path"] = deep["normalized_markdown_path"]
+            attempt["intermediate_cleanup"] = cleanup
             deep_documents.append(deep)
             continue
         failed_by_paper.setdefault(document["paper_id"], []).append(document["document_id"])
+        if timed_out:
+            timed_out_by_paper.setdefault(document["paper_id"], []).append(
+                document["document_id"]
+            )
         deep_documents.append(
             {
                 **document,
@@ -229,6 +266,10 @@ def _deep_normalize_passed_papers(
                 ),
                 "processing_status": "failed",
                 "decision": "deep_parse_failed",
+                "passed": False,
+                "failure_disposition": "terminal" if timed_out else "retryable",
+                "failure_class": "mineru_timeout" if timed_out else "mineru_parse_failed",
+                "error": result.get("error"),
                 "selected_parser": None,
                 "quality": quality,
                 "deep_normalization": {
@@ -252,6 +293,9 @@ def _deep_normalize_passed_papers(
         if record.get("paper_id") not in passed_ids:
             continue
         failed_documents = sorted(set(failed_by_paper.get(record["paper_id"], [])))
+        timed_out_documents = sorted(
+            set(timed_out_by_paper.get(record["paper_id"], []))
+        )
         pending_documents = sorted(set(unresolved_by_paper.get(record["paper_id"], [])))
         record["gate_decision"] = record["decision"]
         record["deep_normalization"] = {
@@ -259,6 +303,7 @@ def _deep_normalize_passed_papers(
                 "failed" if failed_documents else "pending" if pending_documents else "completed"
             ),
             "failed_document_ids": failed_documents,
+            "timed_out_document_ids": timed_out_documents,
             "pending_document_ids": pending_documents,
             "document_count": sum(
                 row.get("paper_id") == record["paper_id"] for row in deep_documents
@@ -268,7 +313,20 @@ def _deep_normalize_passed_papers(
             record["decision"] = "deep_parse_failed"
             record["passed"] = False
             record["processing_status"] = "failed"
-            record["failure_disposition"] = "retryable"
+            record["failure_disposition"] = (
+                "terminal" if timed_out_documents else "retryable"
+            )
+            record["failure_class"] = (
+                "mineru_timeout" if timed_out_documents else "mineru_parse_failed"
+            )
+            if timed_out_documents:
+                record["error"] = {
+                    "error_type": "MinerUTimeout",
+                    "message": (
+                        "MinerU exceeded the configured timeout for document(s): "
+                        + ", ".join(timed_out_documents)
+                    ),
+                }
         elif pending_documents:
             record["decision"] = "processing_pending"
             record["passed"] = False
@@ -294,3 +352,84 @@ def _read_optional(value):
         return ""
     path = Path(str(value))
     return path.read_text(encoding="utf-8", errors="replace") if path.is_file() else ""
+
+
+_MINERU_STRUCTURED_PATH_KEYS = (
+    "content_list_v2_path",
+    "content_list_path",
+    "middle_json_path",
+    "model_json_path",
+)
+
+
+def _materialize_mineru_parser_outputs(result, *, deep_root: Path, document_id: str):
+    """Promote reusable MinerU results before its raw directory is removed."""
+
+    stable = dict(result)
+    target = (deep_root / "normalized" / document_id).resolve()
+    target.mkdir(parents=True, exist_ok=True)
+    structured_root = target / "parser_structured"
+    promoted = []
+    for key in _MINERU_STRUCTURED_PATH_KEYS:
+        source_value = result.get(key)
+        if not source_value:
+            continue
+        source = Path(str(source_value)).expanduser().resolve()
+        if not source.is_file():
+            continue
+        structured_root.mkdir(parents=True, exist_ok=True)
+        destination = structured_root / source.name
+        _link_or_copy(source, destination)
+        stable[key] = str(destination.resolve())
+        promoted.append(str(destination.resolve()))
+
+    markdown_value = result.get("markdown_path")
+    if markdown_value:
+        markdown = Path(str(markdown_value)).expanduser().resolve()
+        images = markdown.parent / "images"
+        if images.is_dir():
+            destination = target / "images"
+            if destination.exists():
+                shutil.rmtree(destination)
+            shutil.copytree(images, destination, copy_function=_link_or_copy)
+            stable["images_path"] = str(destination.resolve())
+            promoted.append(str(destination.resolve()))
+
+    stable["markdown_path"] = str((target / "normalized_document.md").resolve())
+    stable["output_dir"] = str(target)
+    stable["promoted_artifacts"] = promoted
+    return stable
+
+
+def _link_or_copy(source, destination):
+    """Hard-link local parser artifacts when possible, with a copy fallback."""
+
+    source_path = Path(source)
+    destination_path = Path(destination)
+    destination_path.parent.mkdir(parents=True, exist_ok=True)
+    if destination_path.exists() or destination_path.is_symlink():
+        destination_path.unlink()
+    try:
+        os.link(source_path, destination_path)
+    except OSError:
+        shutil.copy2(source_path, destination_path)
+    return str(destination_path)
+
+
+def _remove_successful_mineru_raw(raw_root: Path, *, document_id: str):
+    """Delete only the validated per-document MinerU raw directory."""
+
+    root = raw_root.expanduser().resolve()
+    candidate = (root / document_id).resolve()
+    if candidate.parent != root or candidate.name != document_id:
+        raise ValueError("refusing to remove a MinerU path outside the raw document root")
+    if not candidate.exists():
+        return {"status": "already_absent", "bytes_removed": 0, "files_removed": 0}
+    files = [path for path in candidate.rglob("*") if path.is_file() and not path.is_symlink()]
+    bytes_removed = sum(path.stat().st_size for path in files)
+    shutil.rmtree(candidate)
+    return {
+        "status": "removed",
+        "bytes_removed": bytes_removed,
+        "files_removed": len(files),
+    }

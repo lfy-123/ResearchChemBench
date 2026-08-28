@@ -310,7 +310,6 @@ class SandboxPipelineRuntime:
         if self.client is None:
             raise RuntimeError("sandbox runtime is not active")
         return self.client
-
     def _proxy_json(self, method: str, **kwargs) -> dict[str, Any]:
         try:
             return self._client().proxy_json(method, **kwargs)
@@ -381,8 +380,63 @@ class SandboxPipelineRuntime:
         self._lock_handle = None
 
 
+class PooledMineruPipelineRuntime:
+    """Use one service sandbox plus a supervised sandbox pool for MinerU."""
+
+    def __init__(
+        self,
+        *,
+        service_options: SandboxRunOptions,
+        mineru_options: SandboxRunOptions,
+        pool_count: int,
+        state_root: Path,
+        startup_concurrency: int = 8,
+        supervisor_interval_seconds: float = 15.0,
+        max_attempts: int = 2,
+        retry_delay_seconds: float = 5.0,
+    ) -> None:
+        from src.sandbox.mineru_pool import MineruSandboxPool
+
+        self.service_runtime = SandboxPipelineRuntime(service_options)
+        self.mineru_pool = MineruSandboxPool(
+            options=mineru_options,
+            count=pool_count,
+            state_root=state_root,
+            startup_concurrency=startup_concurrency,
+            supervisor_interval_seconds=supervisor_interval_seconds,
+            max_attempts=max_attempts,
+            retry_delay_seconds=retry_delay_seconds,
+        )
+        self.options = service_options
+
+    def __enter__(self) -> PooledMineruPipelineRuntime:
+        self.service_runtime.__enter__()
+        try:
+            self.mineru_pool.__enter__()
+        except Exception:
+            try:
+                self.service_runtime.__exit__(None, None, None)
+            except Exception:
+                pass
+            raise
+        return self
+
+    def __exit__(self, exc_type, exc, traceback) -> bool:
+        try:
+            self.mineru_pool.__exit__(exc_type, exc, traceback)
+        finally:
+            self.service_runtime.__exit__(exc_type, exc, traceback)
+        return False
+
+    def run_mineru(self, *args, **kwargs):
+        return self.mineru_pool.run_mineru(*args, **kwargs)
+
+    def __getattr__(self, name):
+        return getattr(self.service_runtime, name)
+
+
 def os_replace_directory(source: Path, destination: Path) -> None:
     source.rename(destination)
 
 
-__all__ = ["SandboxPipelineRuntime"]
+__all__ = ["PooledMineruPipelineRuntime", "SandboxPipelineRuntime"]

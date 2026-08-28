@@ -1,15 +1,17 @@
 # 数据管线脚本
 
-脚本只保留四类稳定入口：
+脚本只保留五类稳定入口：
 
 ```text
 scripts/
 ├── bootstrap/                    # 建立主 Conda 环境、第三方服务和模型缓存
+├── maintenance/                  # 已完成运行的可审计存储维护
 ├── patches/                      # 第三方固定版本补丁
 ├── stage03_llm/                  # rlaunch worker、vLLM 网关和 MinerU 服务切换
 ├── WORKER_LAUNCH_GUIDE.md        # worker 资源、创建和复用规范
 ├── workflows/run_pipeline.sh     # 完整 Stage00-07 流程入口
 ├── workflows/run_stage00_04_batches.sh # 分轮复制并运行 Stage00-04
+├── workflows/run_2026_stage00_05_batches.sh # 按发布日期运行完整 KPS 快照
 ├── workflows/run_stage04_05_resume.py  # 从已完成 Stage03 的运行目录恢复 Stage04-05
 ├── run_stage04_05_resume.sh            # Stage04-05 恢复入口
 ├── resume_pipeline.sh                   # Stage00-05 论文/文档级统一恢复入口
@@ -32,6 +34,15 @@ bash scripts/workflows/run_stage00_04_batches.sh \
   --initial-delay-hours 5
 python scripts/sync_toolbox_capabilities.py
 ```
+
+按正式发布日期筛选完整 KPS 快照，并以每批 1000 篇、32 个 MinerU 沙箱运行 Stage00-05：
+
+```bash
+bash scripts/workflows/run_2026_stage00_05_batches.sh
+```
+
+脚本先构建并复用远端 PDF/元数据交集索引，自动计算满足
+`publication_date >= 2026-01-01` 的实际论文总数；无日期或日期无法解析的记录不进入任务。
 
 Stage00-05 推荐使用统一的论文/文档级恢复入口。先只生成计划：
 

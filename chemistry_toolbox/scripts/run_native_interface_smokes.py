@@ -107,7 +107,9 @@ PROBES: dict[str, tuple[str, list[str]]] = {
     "automekin": ("amk.sh", ["--version"]),
     "bagel": ("BAGEL", ["interface_smoke.json"]),
     "censo": ("censo", ["--version"]),
-    "charmm": ("charmm", ["-h"]),
+    # CHARMM has no non-interactive ``--help`` route; feed a minimal valid
+    # input so the probe verifies dynamic linking and normal termination.
+    "charmm": ("charmm", []),
     "cp2k": ("cp2k", ["--help"]),
     "critic2": ("critic2", ["--version"]),
     "deepmd": ("dp", ["--version"]),
@@ -149,7 +151,7 @@ PROBES: dict[str, tuple[str, list[str]]] = {
     "sisso": ("SISSO", []),
     "tdep": ("extract_forceconstants", ["--version"]),
     "theodore": ("theodore", ["--version"]),
-    "vesta": ("VESTA", ["-h"]),
+    "vesta": ("VESTA", ["-nogui", "-h"]),
     "vaspkit": ("vaspkit", ["-help"]),
     "vina": ("vina", ["--version"]),
     "vmd": ("vmd", ["-dispdev", "text", "-eofexit"]),
@@ -157,7 +159,10 @@ PROBES: dict[str, tuple[str, list[str]]] = {
     "xtb": ("xtb", ["--version"]),
     "yambo": ("p2y", ["--version"]),
 }
-STDIN_PROBES = {"airss", "multiwfn", "packmol", "siesta"}
+STDIN_PROBES = {"airss", "charmm", "multiwfn", "packmol", "siesta"}
+STDIN_PROBE_CONTENT = {
+    "charmm": "* ResearchChemBench interface smoke\nstop\n",
+}
 CONFIG_PROBES = {
     "nequip": ("interface_smoke.yaml", "{}\n"),
     "pysisyphus": (
@@ -302,7 +307,7 @@ def execute(
         stdin_target = None
         if software_id in STDIN_PROBES:
             source = workspace / "code" / f"{software_id}_interface_smoke.stdin"
-            source.write_text("\n", encoding="utf-8")
+            source.write_text(STDIN_PROBE_CONTENT.get(software_id, "\n"), encoding="utf-8")
             stdin_target = "interface_smoke.stdin"
             staged_inputs = [
                 StagedInput(

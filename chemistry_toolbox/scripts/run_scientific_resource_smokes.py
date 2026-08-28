@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import sys
@@ -21,6 +22,7 @@ for path in (SOURCE_ROOT, ROOT):
         sys.path.insert(0, str(path))
 
 from chemistry_toolbox.src.service import execute_action
+from chemistry_toolbox.src.paths import portable_report_value
 
 
 STATUS_PATH = TOOLBOX_ROOT / "evidence" / "status" / "scientific_resource_smoke_status.json"
@@ -590,7 +592,15 @@ def compact_result(value: Any) -> Any:
     return result
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=STATUS_PATH,
+        help="Status JSON destination.",
+    )
+    args = parser.parse_args(argv)
     with tempfile.TemporaryDirectory(prefix="researchchem-resource-smoke-") as temporary:
         workspace = Path(temporary)
         os.environ["RESEARCHCHEMBENCH_WORKSPACE"] = str(workspace)
@@ -635,11 +645,14 @@ def main() -> int:
         },
         "cases": results,
     }
-    STATUS_PATH.write_text(
+    payload = portable_report_value(payload)
+    output = args.output.resolve()
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    print(STATUS_PATH)
+    print(output)
     print(json.dumps(payload["summary"], ensure_ascii=False))
     return 0 if payload["summary"]["all_ok"] else 1
 

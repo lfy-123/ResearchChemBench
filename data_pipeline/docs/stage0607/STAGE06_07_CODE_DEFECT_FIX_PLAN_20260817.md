@@ -1,64 +1,89 @@
-# Stage06/07 通用代码缺陷修复方案（2026-08-17）
+# Stage06/07 通用代码缺陷修复方案（2026-08-17，修订版）
 
-## 目标
+## 目标与边界
 
-本轮只修复编排器、发布门禁、数据完整性校验、工具箱事实匹配和可观测性问题，不针对六篇测试论文写特例，也不替 Agent 做科学路线选择。
+本轮只修复妨碍 Agent 发挥作用的编排、数据归一化、交付、预算和可观测性问题，不针对六篇测试论文写特例，也不让代码替代 Agent 做科学裁决。
 
-工具箱只向 Stage06/07 提供已安装软件清单。软件匹配按 `software_id`、显示名和 alias 判断；软件版本号不参与缺失判断，也不比较版本号。预设 Action 不进入两个阶段的判断。
+- Stage06 Agent 依据正文、SI、PDF 和解析证据选择完整、可复现且尽可能复杂的计算工作流，并构建两个任务模式。
+- Stage07 Agent 负责科学审计、修复、必要时重设计或拒绝。
+- 代码只验证运行/交付事实和 receipt 自洽性，不根据固定 schema、复杂度、Ground Truth 内容或路线泄漏规则改判科学结论。
+- 两阶段只读取已安装软件清单，不读取 preset Action。软件版本完全不参与可用性判断；同一软件家族的不同 release/version 不产生软件缺口。
 
-## 修改项
+## 基线回归确认的问题
 
-### 1. Stage07 发布前重新执行确定性任务树审计（P0）
+### P0：Stage07 事后门禁覆盖 Agent 科学结论
 
-在 Agent 完成修复和 autonomous public-surface guard 之后，对最终 `outputs/task_pair` 执行 `validate_task_pair`。把结果写入最终 receipt，并将确定性 findings 与 Agent outcomes 合并。
+旧实现会在 Agent 完成审计和修复之后执行 `deterministic_stage07_audit()`，并把固定 validator 的 findings 直接合并为 blocking scientific findings。实际回归中，Agent 明确认为工作流科学完整、可复现并返回 `approved_with_repairs`，代码却在 Agent 不可见的事后阶段统一改成 `rejected_scientific_unrepairable`。
 
-若批准结果仍有任务树结构、公共输入、Ground Truth、双模式一致性、路线隔离或 evidence 完整性问题，则禁止发布为 approved；输出可追溯的 Stage07 rejection 记录。单纯的软件缺口不阻断发布，而标记为 `needs_software`。
+修复：Stage07 最终编排不再运行任务科学有效性 validator，不再由代码检查工作流完整性、复杂度、Ground Truth 质量、模式泄漏或 evidence 语义并据此改判。科学拒绝只能来自 Stage07 Agent。
 
-### 2. Guard 修改后重新计算审计语义（P0）
+### P0：批准 receipt 自相矛盾时没有回到 Agent
 
-Guard 只能做机械的文件规范化；规范化完成后必须重新生成最终审计摘要、findings、outcomes、toolbox 状态和 repair 记录，避免 receipt 描述修改前的任务树。
+部分 Agent receipt 同时返回 approved 和高严重度关键数据缺失。这不是代码可以替 Agent 裁决的科学问题，但 receipt 本身不自洽。
 
-### 3. 新 repair 路径增加 Agent receipt 语义校验（P1）
+修复：只做最小状态合同检查。若 approved receipt 同时声明非软件 blocking/critical/high 问题、`resource_status=infeasible`、空 final task ID，或 redesign 状态互相冲突，则标记 `invalid_phase_contract` 并触发同一 Stage07 Agent 的 recovery。代码不得把它改写成科学拒绝。
 
-`stage07_audit_repair` 使用和旧 objective audit 相同的 `validate_agent_audit` 合同检查，但不把模型科学判断硬编码为代码规则。
+### P0：Stage06 `input_assets` 表达漂移导致元数据物化中断
 
-### 4. 增加通用输入 artifact 完整性检查（P1）
+Agent 可能把 `public_task_basis.input_assets` 输出为 list，也可能输出为以资产名为 key 的 map。旧代码假设一定为 list[dict]，对字符串调用 `.get()`，导致 `metadata_materialization_deferred:AttributeError`，并跳过部分 handoff 元数据。
 
-对 `task_spec.input_assets` 对应的公共输入文件执行通用检查：文件非空、JSON/文本不为明显占位内容、结构化 JSON 不得完全由 null/空值组成。该检查不解析具体化学含义。
+修复：
 
-### 5. 增强 Ground Truth 占位检查（P1）
+1. 对 list/map 两类资产声明做语法归一化；
+2. 若非标准声明无法恢复可信资产，无条件回退到已生成 reproduction/autonomous `task_spec.input_assets`；
+3. 所有 scaffold/projection 迭代只处理 dict row；
+4. 不凭描述生成结构、坐标或其他科学数据。
 
-识别“待从 SI 提取”“后续补充”“TBD”等说明性字符串，防止它们被当成 canonical answer。真实数值、类别、结构或文字命题继续允许作为 Ground Truth。
+### P1：代码侧 public-surface guard 修改任务科学内容
 
-### 6. 增加最终 evidence ID 全量扫描（P1）
+旧 guard 会重命名两个模式的 XYZ、改写 comment 和正文/JSON 引用，并删除固定文件名。它既改变论文复现模式的路线表达，也把科学泄漏审核责任从 Agent 转移到代码。
 
-递归扫描最终任务树中 `evidence_id(s)`、`source_evidence_ids`、`evidence_refs` 字段，并与最终 `evidence_index.json` 对比。未知 ID 作为发布前完整性问题。
+修复：删除代码侧文件重命名、comment 改写、文本替换和路线文件删除。Stage07 Agent 自己审核并修复 autonomous public surface。代码只刷新已有 copy-provenance hash、两个 mode manifest 和 task-pair manifest，不修改任务科学内容。
 
-### 7. 工具箱按 canonical ID/alias 匹配，忽略软件版本（P1）
+### P1：原生 Responses 路径 token 统计为零
 
-根据 Stage07 输入的只读 `installed_software` 清单，建立规范化软件名匹配：忽略大小写、空格、标点和版本后缀，并使用清单中的 aliases。Gaussian09、Gaussian16、G09、G16、Gaussian 统一视为 Gaussian 软件条目；不得因为版本字符串不同而标记缺失。
+Codex 原生 Responses 输出在 `_agent_stdout.jsonl` 的 `turn.completed.usage` 中包含真实 token，但 bridge 没有 usage record，旧代码仍写入全零。
 
-工具箱缺口只生成 `needs_software` 和建议清单，不改变科学通过/拒绝结论。
+修复：增加通用 Codex stdout usage parser。当 bridge totals 为零时，从最后一个 `turn.completed` 回填 input、cached input、cache miss、output、reasoning output 和 total token；保留统计来源，避免与 provider-request count 混淆。
 
-### 8. 明确 Stage06 provisional 状态语义（P1）
+### P1：Stage07 工具调用预算偏紧
 
-保留 Stage06 将草稿交给 Stage07 修复的设计，但将 `provisional_constructed` 与科学通过状态分开记录，避免 `passed=true` 被误解为最终可发布。Stage07 仍可接收 provisional handoff。
+基线 Stage07 已达到 88、94、95/96 次调用，Agent 在最终验证阶段没有余量。
 
-### 9. 减少 Stage07 工作区的重复材料（P2）
+修复：Stage07 primary 从 96 调整为 120，recovery 从 128 调整为 160，finalization reserve 至少 16。更高预算是上限，不要求 Agent 用满；同时移除重复 prompt 和事后复杂门禁，降低无效调用。
 
-保留 Stage06 candidate 和 source materials 的职责边界；避免将同一份源材料重复嵌套到 task pair 中。该项只做通用路径/复制整理，不按论文名称删除文件。
+### P1：软件版本与可用性边界需要统一
 
-### 10. 增加阶段级状态心跳（P2）
+Prompt 和代码均必须遵循：只按 software family、canonical ID、display name 和 alias 与已安装清单匹配；完全忽略版本字符串。Gaussian 09/16、G09/G16 等均视为同一 Gaussian 软件家族。不存在 preset Action 不是软件缺失，软件暂缺也不导致科学拒绝。
 
-在 Stage06/07 的论文 workspace 写入稳定的阶段、phase、attempt、最后更新时间和错误类别，便于监测运行，不再依赖只有启动/结束时间的顶层状态。
+## 具体代码修改
+
+1. `stage06_task_builder/stage.py`
+   - 增加资产声明语法归一化；
+   - 修复 task-spec fallback；
+   - scaffold/projection 防御非 dict row。
+2. `stage07_task_judge/stage.py`
+   - 最终步骤只对账安装软件、刷新 manifests/provenance；
+   - 删除 post-Agent scientific gate 和 deterministic content guard；
+   - 增加 approved receipt 最小一致性检查并通过 recovery 修复。
+3. `stage07_task_judge/prompts.py`
+   - 明确 Agent 自己负责 autonomous public-surface 审核和修复；
+   - 删除 orchestrator 会自动修改任务内容的错误承诺和重复句；
+   - 强调软件版本完全忽略。
+4. `agents/harness.py`
+   - 从 Codex stdout 回填原生 Responses usage。
+5. `config.py`、`config.example.json`
+   - Stage07 预算改为 120/160，finalization reserve 改为 16。
+6. `tests/test_stage0607_agents.py`
+   - 增加 map/list 资产恢复、manifest-only guard、Agent 决策不被 validator 覆盖、receipt 冲突触发 recovery、stdout usage 和版本无关软件匹配测试。
 
 ## 验收标准
 
-1. Agent 返回批准后，最终任务树仍必须通过确定性审计才可进入 `audited_tasks`。
-2. Agent receipt 与最终文件事实一致；Guard 后重新生成审计摘要。
-3. Gaussian09/G16 等版本别名在已安装 Gaussian 条目存在时不再产生软件缺口。
-4. 软件缺失只产生 `needs_software`，不会单独导致科学 rejection。
-5. 空数据、全 null 数据、明显占位 Ground Truth、未知 evidence ID 不得被发布为 approved。
-6. 不添加论文、分子、软件或路线特例；不向 Agent 暴露预设 Action。
-7. 六篇测试的每一轮结果、代码版本、发现的问题和后续修复记录到单独的迭代日志。
-
+1. Agent 的 approved/rejected 科学结论不再被代码 validator 改判。
+2. approved receipt 自相矛盾时触发 Agent recovery，而不是代码生成科学拒绝。
+3. map 形态 `input_assets` 不再产生 AttributeError，且不制造科学输入。
+4. 发布后的机械步骤不重命名、删除或重写任务科学内容，只刷新 manifest/provenance。
+5. Stage07 原生 Responses token 不再记录为零。
+6. 两阶段 prompt 和软件对账都完全忽略版本，不使用 preset Action 判断。
+7. 不添加论文、分子、软件或路线特例；核心代码复杂度较旧 final-gate 版本下降。
+8. 定向测试、全项目测试、ruff 和 py_compile 通过后，以新 Git 提交重跑六篇，并在迭代日志记录每轮真实效果。

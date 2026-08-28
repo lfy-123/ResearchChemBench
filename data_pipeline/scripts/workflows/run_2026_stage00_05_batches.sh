@@ -122,6 +122,6 @@ exec bash "${pipeline_root}/scripts/resume_pipeline.sh" \
   --run-root "${run_root}" \
   --total "${total}" \
   --batch-size "${batch_size}" \
-  --start-stage stage00 \
-  --stop-stage stage05 \
+  --start-stage "${RCB_RESUME_START_STAGE:-stage00}" \
+  --stop-stage "${RCB_RESUME_STOP_STAGE:-stage05}" \
   --resume-config current

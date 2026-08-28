@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# The installed TheoDORE/pycolt combination exposes an empty top-level parser.
+# Keep the documented action form usable while dispatching to TheoDORE itself.
+SHIM_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd -- "${SHIM_DIR}/../../.." && pwd)"
+PYTHON_BIN="${PROJECT_ROOT}/.envs/general-modern-openmpi5/bin/python"
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" || $# == 0 ]]; then
+    cat <<'EOF'
+usage: theodore <analyze_tden|analyze_sden> [-f FILE|--ifile FILE]
+
+Dispatches the selected TheoDORE action using the configured Python runtime.
+EOF
+    exit 0
+fi
+
+ACTION="$1"
+shift
+INPUT="dens_ana.in"
+while (($#)); do
+    case "$1" in
+        -f|--ifile)
+            [[ $# -ge 2 ]] || { echo "theodore: missing input after $1" >&2; exit 2; }
+            INPUT="$2"
+            shift 2
+            ;;
+        options=*)
+            ACTION="${1#options=}"
+            shift
+            ;;
+        ifile=*)
+            INPUT="${1#ifile=}"
+            shift
+            ;;
+        *)
+            echo "theodore: unsupported argument '$1'" >&2
+            exit 2
+            ;;
+    esac
+done
+
+case "$ACTION" in
+    analyze_tden)
+        MODULE="theodore.actions.analyze_tden"
+        CLASS="AnalyzeTden"
+        ;;
+    analyze_sden)
+        MODULE="theodore.actions.analyze_sden"
+        CLASS="AnalyzeSden"
+        ;;
+    *)
+        echo "theodore: unsupported action '$ACTION'" >&2
+        exit 2
+        ;;
+esac
+
+exec "${PYTHON_BIN}" -c \
+    "from ${MODULE} import ${CLASS}; ${CLASS}.run(ifile=${INPUT@Q})"

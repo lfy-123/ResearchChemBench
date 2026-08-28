@@ -35,12 +35,15 @@ def run_stage00(config: dict[str, Any], workspace: Path, run_id: str) -> dict[st
         outer_batch_id=config.get("_resume_outer_batch_id"),
         target_slot_start=int(config.get("_resume_target_slot_start", 1)),
         retry_only=bool(config.get("_resume_retry_only", False)),
+        publication_date_from=config.get("publication_date_from"),
+        publication_index_path=config.get("publication_index_path"),
     )
     summary = {
         **record_header(run_id=run_id, stage="stage00"),
         "status": "completed",
         "corpus_root": raw["corpus_root"],
         "source_summary": raw["summary"],
+        "publication_date_from": config.get("publication_date_from"),
     }
     write_json(stage_root / "stage_summary.json", summary)
     return summary

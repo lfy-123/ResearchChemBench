@@ -28,7 +28,10 @@ auxiliary_environments:
     pip_packages: [censo==2.1.2]
     modules: []
     commands: [censo, xtb, orca]
-    prepend_path_entries: [.software_cache/installations/orca/6.1.1, .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin]
+    # The shim expands the portable CENSO config at invocation time.  Keep it
+    # ahead of the cached environment's console script so relocation works
+    # from any checkout and working directory.
+    prepend_path_entries: [chemistry_toolbox/environment/shims, .software_cache/installations/orca/6.1.1, .software_cache/shared/mpi/openmpi/4.1.8-fortran/bin]
     prepend_library_path_entries: [.software_cache/shared/mpi/openmpi/4.1.8-fortran/lib, .software_cache/installations/orca/6.1.1]
     cache_paths: [.software_cache/state/censo/home/.censo2rc, .software_cache/validation/censo/smoke_prescreen3, .software_cache/installations/orca/6.1.1, .software_cache/shared/mpi/openmpi/4.1.8-fortran]
     environment_variables:
@@ -92,6 +95,7 @@ auxiliary_environments:
     conda_name: researchchem-theodore
     environment: .envs/general-modern-openmpi5
     description: TheoDORE 2.5.0 excited-state analysis runtime with cclib.
+    prepend_path_entries: [chemistry_toolbox/environment/shims]
     conda_packages: [numpy, scipy, matplotlib, cclib]
     pip_packages: [theodore=2.5.0]
     modules: [theodore, cclib]
@@ -101,7 +105,7 @@ auxiliary_environments:
   vesta:
     conda_name: researchchem-binary-runtime-vesta
     environment: .envs/general-modern-openmpi5
-    description: VESTA 3.90.5a GTK3 x86_64 GUI runtime with locally extracted system libraries.
+    description: VESTA 3.90.5a x86_64 runtime with a verified headless command path and optional GTK3 GUI.
     conda_packages: []
     pip_packages: []
     modules: []
@@ -110,8 +114,8 @@ auxiliary_environments:
     library_path_entries: [.software_cache/installations/vesta/3.90.5a, .software_cache/installations/vesta/deps/root/usr/lib/x86_64-linux-gnu]
     cache_paths: [.software_cache/installations/vesta/3.90.5a, .software_cache/installations/vesta/deps]
     smoke_commands:
-      - [bash, -c, 'timeout 5s xvfb-run -a VESTA >/dev/null 2>&1; code=$?; [ "$code" -eq 0 ] || [ "$code" -eq 124 ]']
-    notes: Dynamic libraries resolve and bounded Xvfb startup passes. Interactive rendering still depends on a host display/OpenGL stack.
+      - [VESTA, -nogui, -h]
+    notes: Headless startup passes. Interactive GUI rendering additionally requires the host GTK3, Wayland/X11, GBM, EGL, and OpenGL stack.
 
   vmd:
     conda_name: researchchem-vmd

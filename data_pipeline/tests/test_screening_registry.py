@@ -94,6 +94,172 @@ def test_registry_commits_stage03_rejection_before_deleting_stage00_bundle(
     assert software == ("Molpro", 0)
 
 
+def test_registry_prunes_rejected_stage01_attempt_attachment(tmp_path: Path) -> None:
+    stage_root, bundle, manifest, row = _stage00_fixture(tmp_path)
+    acquisition = (
+        tmp_path
+        / "run"
+        / "resume_attempts"
+        / "generation-0002"
+        / "stage01_package"
+        / "stage_01_document_preparation"
+        / "package"
+        / "acquisition"
+        / "files"
+        / row["paper_id"]
+    )
+    acquisition.mkdir(parents=True)
+    (acquisition / "publisher-si.docx").write_bytes(b"downloaded-si")
+    registry = _registry(tmp_path)
+    registry.start_run(
+        run_id="run-acquisition",
+        workspace=tmp_path / "run",
+        config_path=tmp_path / "config.json",
+        config_hash="config-hash",
+    )
+    registry.register_stage00_manifest(
+        run_id="run-acquisition",
+        manifest_path=manifest,
+        corpus_root=stage_root / "corpus",
+    )
+
+    summary = registry.record_stage_results(
+        run_id="run-acquisition",
+        stage="stage02",
+        rows=[
+            {
+                "paper_id": row["paper_id"],
+                "decision": "computational_content_not_found",
+                "passed": False,
+                "processing_status": "completed",
+            }
+        ],
+    )
+
+    assert not bundle.exists()
+    assert not acquisition.exists()
+    assert summary["auxiliary_deleted"] == 1
+    assert summary["auxiliary_bytes_freed"] == len(b"downloaded-si")
+    with sqlite3.connect(registry.database) as connection:
+        action, status = connection.execute(
+            """
+            SELECT action, status FROM artifact_events
+            WHERE action='delete_stage01_acquisition_bundle'
+            """
+        ).fetchone()
+    assert (action, status) == ("delete_stage01_acquisition_bundle", "deleted")
+
+
+def test_registry_keeps_retryable_stage01_attempt_attachment(tmp_path: Path) -> None:
+    stage_root, bundle, manifest, row = _stage00_fixture(tmp_path)
+    acquisition = (
+        tmp_path
+        / "run"
+        / "resume_attempts"
+        / "generation-0002"
+        / "stage01_package"
+        / "stage_01_document_preparation"
+        / "package"
+        / "acquisition"
+        / "files"
+        / row["paper_id"]
+    )
+    acquisition.mkdir(parents=True)
+    (acquisition / "publisher-si.docx").write_bytes(b"downloaded-si")
+    registry = _registry(tmp_path)
+    registry.start_run(
+        run_id="run-retryable",
+        workspace=tmp_path / "run",
+        config_path=tmp_path / "config.json",
+        config_hash="config-hash",
+    )
+    registry.register_stage00_manifest(
+        run_id="run-retryable",
+        manifest_path=manifest,
+        corpus_root=stage_root / "corpus",
+    )
+
+    summary = registry.record_stage_results(
+        run_id="run-retryable",
+        stage="stage02",
+        rows=[
+            {
+                "paper_id": row["paper_id"],
+                "decision": "processing_failed",
+                "passed": False,
+                "processing_status": "failed",
+                "failure_disposition": "retryable",
+            }
+        ],
+    )
+
+    assert bundle.is_dir()
+    assert acquisition.is_dir()
+    assert summary["auxiliary_deleted"] == 0
+
+
+@pytest.mark.parametrize(
+    ("decision", "processing_status", "failure_disposition"),
+    [
+        ("processing_failed", "failed", "retryable"),
+        ("processing_pending", "pending", "pending"),
+        ("uncertain", "completed", None),
+    ],
+)
+def test_registry_prunes_every_nonpassing_stage01_result(
+    tmp_path: Path,
+    decision: str,
+    processing_status: str,
+    failure_disposition: str | None,
+) -> None:
+    stage_root, bundle, manifest, row = _stage00_fixture(tmp_path)
+    acquisition = (
+        tmp_path
+        / "run"
+        / "resume_attempts"
+        / "generation-0002"
+        / "stage01_package"
+        / "stage_01_document_preparation"
+        / "package"
+        / "acquisition"
+        / "files"
+        / row["paper_id"]
+    )
+    acquisition.mkdir(parents=True)
+    (acquisition / "publisher-si.docx").write_bytes(b"downloaded-si")
+    registry = _registry(tmp_path)
+    registry.start_run(
+        run_id="run-stage01-terminal",
+        workspace=tmp_path / "run",
+        config_path=tmp_path / "config.json",
+        config_hash="config-hash",
+    )
+    registry.register_stage00_manifest(
+        run_id="run-stage01-terminal",
+        manifest_path=manifest,
+        corpus_root=stage_root / "corpus",
+    )
+
+    summary = registry.record_stage_results(
+        run_id="run-stage01-terminal",
+        stage="stage01",
+        rows=[
+            {
+                "paper_id": row["paper_id"],
+                "decision": decision,
+                "passed": False,
+                "processing_status": processing_status,
+                "failure_disposition": failure_disposition,
+            }
+        ],
+    )
+
+    assert not bundle.exists()
+    assert not acquisition.exists()
+    assert summary["deleted_paper_ids"] == [row["paper_id"]]
+    assert summary["auxiliary_deleted"] == 1
+
+
 def test_registry_never_prunes_stage04_or_later_rejections(tmp_path: Path) -> None:
     for stage in ("stage04", "stage05", "stage06", "stage07"):
         stage_root, bundle, manifest, row = _stage00_fixture(tmp_path / stage)

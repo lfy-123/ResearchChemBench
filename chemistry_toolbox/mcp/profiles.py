@@ -195,6 +195,11 @@ def profile_runtime_environment(name: str) -> dict[str, str]:
         str(environment / "lib"),
         *_profile_entries(profile, "library_path_entries"),
     ]
+    python_entries = [
+        *_profile_entries(profile, "prepend_python_path_entries"),
+        str(PROJECT_ROOT),
+        *_profile_entries(profile, "python_path_entries"),
+    ]
     preload_entries = _profile_preload_entries(profile, environment)
     values = {
         PROFILE_ENV: name,
@@ -204,7 +209,7 @@ def profile_runtime_environment(name: str) -> dict[str, str]:
             [*library_entries, os.environ.get("LD_LIBRARY_PATH", "")]
         ),
         "PYTHONPATH": os.pathsep.join(
-            [str(PROJECT_ROOT), os.environ.get("PYTHONPATH", "")]
+            [*python_entries, os.environ.get("PYTHONPATH", "")]
         ),
     }
     if preload_entries or os.environ.get("LD_PRELOAD"):

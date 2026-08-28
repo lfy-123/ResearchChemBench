@@ -166,3 +166,30 @@ Agent-visible `agent_input` 均不含该路线文件。
 发现的剩余质量问题：`paper_611...` 的 `task_info.json` 数据描述仍写“30-atom”，而实际 XYZ 为 31 原子；Stage07
 只修复了 task.md，未同步该自由文本描述。这不构成技术 Gate 失败，但会造成输入说明歧义，后续应让 Stage07
 审计同步修正 task_info 描述，或由生成 Prompt 要求所有输入数量描述与文件一致。
+
+### 4.5 最终代码回归与反泄漏修复（2026-08-27）
+
+在发现上述 30/31 描述问题后，Common Gate 增加了两项通用且窄的合同保护：
+
+1. 对 `task_info.data.description` 中明确写出的 `N-atom` 与对应 XYZ 首行计数做一致性核对；
+2. 对公开 `data/**/*.json` 递归检查明确命名为 reference/target/expected/tolerance/winner/ordering 或
+   `reaction_energy_*` 的答案字段；温度、碰撞能和定性 observed channel 不受影响。
+
+相应 Prompt 也明确禁止把这些答案字段写入公开输入。新增 11 个 v25 定向测试全部通过。
+
+最终回归目录：
+`runs/stage0607-v25-gpt-5.6-sol-20260827-five-rerun3`；同一五篇、`gpt-5.6-sol`、high、并发 5，全部一次
+结束，`technical_blocked=0`、`failed_count=0`：
+
+| paper | Stage06 | Stage07 / 最终结果 |
+|---|---|---|
+| `paper_2aca1dd116799b28` | scientific rejection：结构/连接性输入无法闭合 | 未运行 |
+| `paper_611000e1de080f6f` | constructed | `approved_with_repairs`，双模式发布；31-atom 描述已一致 |
+| `paper_76ae2dc25f0a5aeb` | constructed | `approved_with_repairs`，仅 reproduction 发布 |
+| `paper_9455a82229de2427` | constructed，但公开输入含答案字段 | `rejected_scientific_unrepairable`，未发布；Stage06 Gate 成功捕获泄露 |
+| `paper_a5564360a31f760b` | constructed | `approved_with_repairs`，双模式发布 |
+
+三篇发布任务全部通过最终外部 Gate；每个保留模式都有四段任务指令、过程关键点、最终结论关键点、具体
+evaluator 规则、非空私有 `paper_route.md`（仅 Stage06/07 内部），且 `agent_input` 无 PDF/SI/路线文件/旧
+论文级 ID。945 的拒绝表明反泄漏保护生效；该任务若人工确认可将数值实验约束改为隐藏 evaluator 中的条件，
+仍可在不改变 scientific objective 的情况下重建，但本轮 Stage07 选择了保守拒绝。

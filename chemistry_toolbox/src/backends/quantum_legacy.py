@@ -277,6 +277,8 @@ def gaussian(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     inputs, method, settings = request_parts(request)
     structure, symbols, _coordinates = _molecular_structure(inputs["structure"])
     directory = output_directory(action_id, "gaussian")
+    scratch_directory = directory / "scratch"
+    scratch_directory.mkdir()
     input_path = directory / "job.gjf"
     input_path.write_text(
         _render_gaussian(
@@ -295,6 +297,7 @@ def gaussian(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         directory=directory,
         stdin_text=input_path.read_text(encoding="utf-8"),
         timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        environment_overrides={"GAUSS_SCRDIR": str(scratch_directory)},
     )
     output_path = directory / "job.log"
     output_path.write_text(completed["stdout"], encoding="utf-8")
@@ -536,12 +539,20 @@ def gamess(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         encoding="utf-8",
     )
     cores = max(1, int(request.get("resource_limits", {}).get("cpu_cores") or 1))
+    scratch_directory = directory / "scratch"
+    restart_directory = directory / "restart"
+    scratch_directory.mkdir()
+    restart_directory.mkdir()
     completed = run_external(
         executable="rungms",
         environment_variable="CHEMGRAPH_GAMESS_COMMAND",
         arguments=[job_name, "00", str(cores), str(cores)],
         directory=directory,
         timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        environment_overrides={
+            "GMS_SCRATCH": str(scratch_directory),
+            "GMS_RESTART": str(restart_directory),
+        },
     )
     output_path = directory / f"{job_name}.log"
     output_path.write_text(completed["stdout"], encoding="utf-8")

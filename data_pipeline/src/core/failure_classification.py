@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-
 RETRYABLE_DECISIONS = {
     "copy_incomplete",
     "deep_parse_failed",
@@ -26,6 +25,38 @@ def classify_stage_record(stage: str, row: dict[str, Any]) -> WorkDisposition:
     processing = str(row.get("processing_status") or "").casefold()
     passed = bool(row.get("passed"))
 
+    # Stage01 is the terminal document-completeness gate. Only a complete
+    # package or successfully normalized document is reusable; every other
+    # outcome is audited and then terminally pruned instead of retried.
+    if stage == "stage01_package":
+        package_status = str(row.get("package_status") or "").casefold()
+        if package_status in {"complete_with_si", "complete_confirmed_no_si"} and processing not in {
+            "failed",
+            "pending",
+            "processing_failed",
+            "retryable_failed",
+        }:
+            return WorkDisposition("forwarded")
+        return WorkDisposition("terminal_reject", "stage01_package_incomplete")
+    if stage == "stage01":
+        if (passed or decision == "pass") and processing not in {
+            "failed",
+            "pending",
+            "processing_failed",
+            "retryable_failed",
+        }:
+            return WorkDisposition("forwarded")
+        return WorkDisposition("terminal_reject", "stage01_document_incomplete")
+
+    # A Stage04 MinerU timeout is the configured cost ceiling, rather than a
+    # transient parser/service failure. Keep its audit row but do not schedule
+    # it again in a later resume generation.
+    if stage == "stage04" and str(row.get("failure_disposition") or "").casefold() == "terminal":
+        return WorkDisposition(
+            "terminal_reject",
+            str(row.get("failure_class") or "mineru_timeout"),
+        )
+
     if processing == "pending" or decision == "processing_pending":
         return WorkDisposition("pending", "awaiting_pending_documents")
     if processing in {"failed", "processing_failed", "retryable_failed"}:
@@ -39,19 +70,7 @@ def classify_stage_record(stage: str, row: dict[str, Any]) -> WorkDisposition:
             return WorkDisposition("succeeded")
         return WorkDisposition("retryable_failed", "remote_copy_incomplete")
 
-    if stage == "stage01_package":
-        package_status = str(row.get("package_status") or "").casefold()
-        if package_status in {"complete_with_si", "complete_confirmed_no_si"}:
-            return WorkDisposition("forwarded")
-        if package_status in {
-            "retryable_acquisition_error",
-            "incomplete_si_unavailable",
-            "invalid_main_document",
-        }:
-            return WorkDisposition("retryable_failed", package_status)
-        return WorkDisposition("terminal_reject")
-
-    if stage in {"stage01", "stage02", "stage03", "stage04", "stage05"}:
+    if stage in {"stage02", "stage03", "stage04", "stage05"}:
         if passed or decision == "pass":
             return WorkDisposition("forwarded")
         if stage == "stage05" and decision == "needs_builder_review":

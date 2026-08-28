@@ -11,10 +11,11 @@
   只追加新目标槽位和新批次。Stage00-03 淘汰后即使源文件已删除，历史 URI 仍不会重选。
 - Stage01 按论文包和文档恢复；Stage02/03 按论文恢复；Stage04 按 MinerU 文档恢复；
   Stage05 分别 checkpoint Router、Auditor 原始响应和最终确定性合同结论。
-- 正常科学拒绝与正常 uncertain 直接复用；API、GROBID、MinerU、沙箱等客观失败以及
+- 正常科学拒绝与正常 uncertain 直接复用；Stage02-05 的 API、MinerU、沙箱等客观失败以及
   从未开始的任务重新入队。上游未通过时，下游状态为 `blocked_by_upstream`。
-- 只有 Stage00-03 的终止性科学拒绝允许删除 Stage00 正文/SI；客观失败、pending、
-  running、blocked 均禁止删除。
+- Stage01 是例外的文档完整性终止门：任何未通过结果（包括解析失败、pending、retryable 和
+  uncertain）先写入 registry，再删除正文/SI 和 Stage01 下载附件并标为 `pruned_terminal`。
+  Stage02/03 的客观失败、pending、running 和 blocked 仍禁止删除原始资产。
 - 同一 `run_root` 使用 OS 文件锁加 SQLite 心跳 lease，下一次恢复会把陈旧 running
   转为 `retryable_failed/interrupted_external`。
 - 旧 JSONL 首次迁移使用带版本的完成标记；后续启动不再反复扫描同一批次，迁移中断时

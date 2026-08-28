@@ -10,6 +10,8 @@ Each environment contains:
 - `environment.yml`: human-maintained Conda requirements and ABI constraints;
 - `requirements.txt`: pip-only packages, including exact VCS revisions where
   applicable;
+- `requirements-no-deps.txt`: optional offline wheels whose dependencies are
+  supplied by the Conda environment or `requirements.txt`;
 - `linux-64.explicit.txt`: exact Conda artifact URLs captured from the tested
   server;
 - `linux-64.pip-freeze.txt`: the corresponding pip inventory.
@@ -60,5 +62,8 @@ export RESEARCHCHEMBENCH_ENV_ROOT=/path/to/researchchem-envs
   OpenMPI-5 general runtime.
 - gmx_MMPBSA 1.6.5 requires Python 3.11 and AmberTools 23.6, so it remains
   isolated from the Python 3.12/AmberTools 26 molecular-simulation runtime.
+- ACPYPE uses its managed, isolated cache runtime because its Open Babel ABI is
+  incompatible with the molecular-simulation environment. PMX is installed
+  without dependency resolution from the cache wheel pinned to commit 0dd5f0a.
 - xTB 6.7.1 runs in the reaction/kinetics prefix because its tblite dependency
   conflicts with the older tblite ABI required by DFTB+ 25.1 in the general prefix.

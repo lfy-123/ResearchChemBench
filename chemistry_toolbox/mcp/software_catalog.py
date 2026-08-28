@@ -25,7 +25,11 @@ from chemistry_toolbox.src.resource_budget import resource_budget_record
 from chemistry_toolbox.src.search_index import BM25Index, normalize_scores, weighted_text
 from chemistry_toolbox.src.semantic_embeddings import MODEL_ID, embedding_cache_path, semantic_scores
 from chemistry_toolbox.src.timeout_policy import timeout_policy_record
-from chemistry_toolbox.src.environment_layout import resolve_configured_path
+from chemistry_toolbox.src.environment_layout import (
+    environment_path,
+    resolve_configured_path,
+    software_root,
+)
 
 from .execution_models import (
     AnalysisRuntimeListRequest,
@@ -331,16 +335,18 @@ def _resolve_guided_executable(
 ) -> str | None:
     configured = command_guide.get("configured_path")
     if configured:
-        path = Path(str(configured)).expanduser()
-        if not path.is_absolute():
-            path = PROJECT_ROOT / path
-        resolved = path.resolve(strict=False)
-        try:
-            resolved.relative_to(PROJECT_ROOT.resolve())
-        except ValueError as exc:
+        resolved = resolve_configured_path(str(configured))
+        allowed_roots = [PROJECT_ROOT.resolve(), software_root().resolve()]
+        if runtime_root := environment_path(runtime):
+            allowed_roots.append(runtime_root.resolve())
+        if not any(
+            resolved == root or resolved.is_relative_to(root)
+            for root in allowed_roots
+        ):
             raise ValueError(
-                f"Configured native executable escapes project root: {configured}"
-            ) from exc
+                "Configured native executable escapes the project, software, and "
+                f"runtime roots: {configured}"
+            )
         return str(resolved) if resolved.is_file() and resolved.stat().st_mode & 0o111 else None
     return resolve_executable(runtime, executable)
 

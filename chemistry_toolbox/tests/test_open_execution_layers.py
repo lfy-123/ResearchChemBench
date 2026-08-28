@@ -31,12 +31,14 @@ from chemistry_toolbox.mcp.open_execution import (
     write_workspace_text,
 )
 from chemistry_toolbox.mcp.software_catalog import (
+    _resolve_guided_executable,
     inspect_software,
     list_software,
     load_native_guides,
     validate_native_guides,
 )
 from chemistry_toolbox.src.catalog import backend_specs
+from chemistry_toolbox.src.environment_layout import SOFTWARE_ROOT_ENV
 from chemistry_toolbox.src.models import ResourceLimits
 
 
@@ -72,6 +74,44 @@ def test_native_guides_cover_backend_executables_and_may_expose_extra_commands()
     assert guides["amber_pmemd"]["commands"]["mpirun"]["enabled"] is False
     assert guides["sharc"]["runtime"] == "sharc"
     assert "verdi" in guides["aiida"]["commands"]
+
+
+def test_guided_executable_accepts_the_configured_external_software_root(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    software_root = tmp_path / "external-software-cache"
+    executable = software_root / "installations" / "example" / "bin" / "example"
+    executable.parent.mkdir(parents=True)
+    executable.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    executable.chmod(0o755)
+    monkeypatch.setenv(SOFTWARE_ROOT_ENV, str(software_root))
+
+    resolved = _resolve_guided_executable(
+        "core",
+        "example",
+        {"configured_path": ".software_cache/installations/example/bin/example"},
+    )
+
+    assert resolved == str(executable.resolve())
+
+
+def test_guided_executable_rejects_paths_outside_configured_roots(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    software_root = tmp_path / "external-software-cache"
+    software_root.mkdir()
+    executable = tmp_path / "untrusted" / "example"
+    executable.parent.mkdir()
+    executable.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    executable.chmod(0o755)
+    monkeypatch.setenv(SOFTWARE_ROOT_ENV, str(software_root))
+
+    with pytest.raises(ValueError, match="escapes the project, software, and runtime roots"):
+        _resolve_guided_executable(
+            "core",
+            "example",
+            {"configured_path": str(executable)},
+        )
 
 
 def test_software_inventory_explains_native_and_module_only_access():
@@ -350,6 +390,46 @@ def test_job_environment_restricts_openmpi_to_allocated_cpus(
     )
     assert environment["OMPI_MCA_hwloc_base_cpu_list"] == "8,9,10,11"
     assert environment["PRTE_MCA_hwloc_default_cpu_list"] == "8,9,10,11"
+
+
+def test_gamess_job_environment_uses_job_local_writable_directories(
+    chemistry_workspace: Path,
+) -> None:
+    job_directory = chemistry_workspace / "outputs" / "execution_jobs" / "job_gamess"
+    environment = _job_environment(
+        "gamess",
+        "job_gamess",
+        job_directory,
+        {"cpu_cores": 1, "memory_mb": 1024, "gpu_count": 0},
+        {"cpu_ids": [8], "gpu_ids": []},
+        job_type="native_software",
+    )
+
+    assert environment["GMS_SCRATCH"] == str(job_directory / ".tmp" / "gamess")
+    assert environment["GMS_RESTART"] == str(
+        job_directory / "outputs" / "gamess-restart"
+    )
+    assert Path(environment["GMS_SCRATCH"]).is_dir()
+    assert Path(environment["GMS_RESTART"]).is_dir()
+
+
+def test_openmolcas_job_environment_uses_job_local_writable_scratch(
+    chemistry_workspace: Path,
+) -> None:
+    job_directory = chemistry_workspace / "outputs" / "execution_jobs" / "job_openmolcas"
+    environment = _job_environment(
+        "openmolcas",
+        "job_openmolcas",
+        job_directory,
+        {"cpu_cores": 1, "memory_mb": 1024, "gpu_count": 0},
+        {"cpu_ids": [8], "gpu_ids": []},
+        job_type="native_software",
+    )
+
+    assert environment["MOLCAS_WORKDIR"] == str(
+        job_directory / ".tmp" / "openmolcas"
+    )
+    assert Path(environment["MOLCAS_WORKDIR"]).is_dir()
 
 
 def test_programmable_layer_enforces_walltime(

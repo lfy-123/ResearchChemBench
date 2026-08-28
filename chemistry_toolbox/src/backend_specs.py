@@ -290,7 +290,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         "ACPYPE 2023.10.27 GAFF-family small-molecule topology generation and explicit AMBER-to-GROMACS conversion.",
         modules=("acpype", "openbabel"), executables=("acpype",),
         environment=("CHEMGRAPH_ACPYPE_COMMAND",),
-        conda=("openbabel=3.1.1", "ambertools=26.0"), pip=("acpype==2023.10.27",),
+        install_notes="ACPYPE and its compatible Open Babel/AmberTools dependencies are supplied by the managed isolated software-cache runtime.",
         required_methods={
             "generate_small_molecule_topology": (
                 "atom_type", "charge_method", "net_charge", "multiplicity", "charge_program",
@@ -2559,7 +2559,7 @@ BACKEND_SPECS: tuple[BackendSpec, ...] = (
         "gnina", "GNINA", "docking", ("dock_ligand",),
         "GNINA docking using prepared structures and an explicit search box/model.", executables=("gnina",),
         environment=("CHEMGRAPH_GNINA_COMMAND",),
-        install_notes="Configured from registered GNINA 1.3.3 CUDA 12.8 binary; rerun chemistry_toolbox/scripts/configure_toolbox_resources.py to verify/relink.",
+        install_notes="Configured from the registered GNINA 1.3.3 CUDA 12.8 binary with profile-local CUDA 12.8 and cuDNN 9 runtime wheels; rerun chemistry_toolbox/scripts/configure_toolbox_resources.py to verify/relink.",
         method_schema={
             "cnn_model": "builtin_default or an explicit GNINA built-in --cnn model name",
             "cnn_scoring": "optional GNINA mode: none|rescore|refinement|metrorescore|metrorefine|all",

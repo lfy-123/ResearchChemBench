@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sys
+from pathlib import Path
 from types import SimpleNamespace
 
 import httpx
@@ -35,6 +36,61 @@ def test_psi4_multi_irrep_orbitals_are_flattened_with_matching_occupations():
     assert electronic._psi4_restricted_occupations(
         _PsiDimension(2, 0, 1), _PsiDimension(1, 0, 1), [3, 0, 1]
     ) == [2.0, 1.0, 0.0, 2.0]
+
+
+def test_psi4_uses_action_local_scratch(tmp_path, monkeypatch):
+    directory = tmp_path / "psi4-action"
+    directory.mkdir()
+    previous_directory = Path.cwd()
+    scratch_paths = []
+    io_manager = SimpleNamespace(set_default_path=scratch_paths.append)
+    calculation_directories = []
+
+    def fake_energy(*_args, **_kwargs):
+        calculation_directories.append(Path.cwd())
+        return -75.0, SimpleNamespace()
+
+    core = SimpleNamespace(
+        clean=lambda: None,
+        IOManager=SimpleNamespace(shared_object=lambda: io_manager),
+        set_output_file=lambda *_args: None,
+    )
+    psi4 = SimpleNamespace(
+        core=core,
+        set_memory=lambda *_args: None,
+        set_num_threads=lambda *_args: None,
+        geometry=lambda value: value,
+        set_options=lambda *_args: None,
+        energy=fake_energy,
+    )
+    monkeypatch.setitem(sys.modules, "psi4", psi4)
+    monkeypatch.setattr(electronic, "output_directory", lambda *_args: directory)
+    monkeypatch.setattr(electronic, "relative_workspace_path", lambda path: str(path))
+
+    response = electronic._psi4(
+        "calculate_energy",
+        {
+            "inputs": {
+                "structure": {
+                    "atoms": [
+                        {"element": "H", "position_angstrom": [0.0, 0.0, 0.0]},
+                        {"element": "H", "position_angstrom": [0.0, 0.0, 0.74]},
+                    ],
+                    "charge": 0,
+                    "multiplicity": 1,
+                }
+            },
+            "method_spec": {"method": "hf", "basis": "sto-3g"},
+            "action_settings": {},
+            "resource_limits": {"memory_mb": 512, "cpu_cores": 1},
+        },
+    )
+
+    assert response["status"] == "success"
+    assert scratch_paths == [str(directory / "scratch")]
+    assert calculation_directories == [directory]
+    assert (directory / "scratch").is_dir()
+    assert Path.cwd() == previous_directory
 
 
 def _cp2k_request() -> dict:

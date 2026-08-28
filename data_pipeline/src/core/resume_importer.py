@@ -7,8 +7,9 @@ from typing import Any
 
 from src.config import load_config
 from src.contracts import canonical_hash
-from src.core.io import read_jsonl, sha256_file, write_json
+from src.core.io import read_jsonl, write_json
 from src.core.resume import (
+    FINAL_STATUSES,
     ResumeStateStore,
     document_input_fingerprint,
     input_fingerprint,
@@ -17,7 +18,6 @@ from src.core.resume import (
     scientific_stage_fingerprints,
     stable_input_value,
 )
-
 
 STAGE_FILES = {
     "stage01": (
@@ -333,13 +333,32 @@ def reconcile_dependencies(
         for document in package_documents:
             documents_by_paper.setdefault(str(document["paper_id"]), []).append(document)
 
+        # ``plan_work`` is intentionally transactional, but opening a new
+        # SQLite connection for every already-final item is prohibitively slow
+        # on the shared filesystem.  Load each stage's current rows once and
+        # only call plan_work for missing/non-final or changed items.
+        current_cache: dict[str, dict[tuple[str, str], dict[str, Any]]] = {}
+
+        def current_item(
+            stage: str,
+            paper_id: str,
+            document_id: str | None = None,
+            *,
+            _cache=current_cache,
+            _batch_name=batch_dir.name,
+        ):
+            if stage not in _cache:
+                _cache[stage] = {
+                    (str(item["paper_id"]), str(item.get("document_id") or "")): item
+                    for item in store.current_work_items(
+                        outer_batch_id=_batch_name, stage=stage
+                    )
+                }
+            return _cache[stage].get((paper_id, document_id or ""))
+
         for source in source_rows:
             paper_id = str(source["paper_id"])
-            stage00_item = store.current_work_item(
-                outer_batch_id=batch_dir.name,
-                stage="stage00",
-                paper_id=paper_id,
-            )
+            stage00_item = current_item("stage00", paper_id)
             if not stage00_item or stage00_item["status"] not in {"succeeded", "forwarded"}:
                 continue
             _ensure_pending(
@@ -350,14 +369,11 @@ def reconcile_dependencies(
                 None,
                 fingerprints["stage01_package"],
                 input_fingerprint(stable_input_value(source)),
+                existing=current_item("stage01_package", paper_id),
             )
 
-        for paper_id, paper in package_by_id.items():
-            package_item = store.current_work_item(
-                outer_batch_id=batch_dir.name,
-                stage="stage01_package",
-                paper_id=paper_id,
-            )
+        for paper_id, _paper in package_by_id.items():
+            package_item = current_item("stage01_package", paper_id)
             if not package_item or package_item["status"] != "forwarded":
                 continue
             for document in documents_by_paper.get(paper_id, []):
@@ -369,6 +385,7 @@ def reconcile_dependencies(
                     str(document["document_id"]),
                     fingerprints["stage01"],
                     document_input_fingerprint(document),
+                    existing=current_item("stage01", paper_id, str(document["document_id"])),
                 )
 
         if stop_index < 2:
@@ -388,6 +405,7 @@ def reconcile_dependencies(
                 None,
                 fingerprints["stage02"],
                 paper_input_fingerprint(row, docs),
+                existing=current_item("stage02", paper_id),
             )
 
         if stop_index < 3:
@@ -403,6 +421,7 @@ def reconcile_dependencies(
                     None,
                     fingerprints["stage03"],
                     paper_input_fingerprint(row, []),
+                    existing=current_item("stage03", paper_id),
                 )
 
         if stop_index < 4:
@@ -424,21 +443,27 @@ def reconcile_dependencies(
                     str(document["document_id"]),
                     fingerprints["stage04"],
                     document_input_fingerprint(document),
+                    existing=current_item("stage04", paper_id, str(document["document_id"])),
                 )
 
         if stop_index < 5:
             continue
         stage04 = _paper_work_results(store, batch_dir.name, "stage04")
+        # Fetch the completed deep-normalization documents once.  The previous
+        # implementation called ``current_results(stage04)`` inside the
+        # per-paper loop below, rereading the entire Stage04 result set for
+        # every paper during resume reconciliation.  On a large run this
+        # turned startup into an O(papers * documents) shared-disk scan.
+        deep_documents_by_paper: dict[str, list[dict[str, Any]]] = {}
+        for document in store.current_results(outer_batch_id=batch_dir.name, stage="stage04"):
+            if document.get("document_id"):
+                deep_documents_by_paper.setdefault(str(document.get("paper_id")), []).append(
+                    document
+                )
         for paper_id, row in stage04.items():
             if not row.get("passed") or row.get("document_id"):
                 continue
-            deep_docs = [
-                item
-                for item in store.current_results(
-                    outer_batch_id=batch_dir.name, stage="stage04"
-                )
-                if item.get("document_id") and str(item.get("paper_id")) == paper_id
-            ]
+            deep_docs = deep_documents_by_paper.get(paper_id, [])
             fingerprint = paper_input_fingerprint(row, deep_docs)
             _ensure_pending(
                 store,
@@ -448,6 +473,7 @@ def reconcile_dependencies(
                 None,
                 fingerprints["stage05_router"],
                 fingerprint,
+                existing=current_item("stage05_router", paper_id),
             )
             _ensure_pending(
                 store,
@@ -457,6 +483,7 @@ def reconcile_dependencies(
                 None,
                 fingerprints["stage05_auditor"],
                 fingerprint,
+                existing=current_item("stage05_auditor", paper_id),
             )
             _ensure_pending(
                 store,
@@ -466,6 +493,7 @@ def reconcile_dependencies(
                 None,
                 fingerprints["stage05"],
                 fingerprint,
+                existing=current_item("stage05", paper_id),
             )
 
     store.mark_blocked_by_missing_upstream(through_stage=stop_stage)
@@ -474,7 +502,27 @@ def reconcile_dependencies(
     return summary
 
 
-def _ensure_pending(store, batch, stage, paper_id, document_id, config_hash, input_hash):
+def _ensure_pending(
+    store,
+    batch,
+    stage,
+    paper_id,
+    document_id,
+    config_hash,
+    input_hash,
+    *,
+    existing: dict[str, Any] | None = None,
+):
+    if existing and str(existing.get("status")) in FINAL_STATUSES:
+        recorded_config = str(existing.get("config_fingerprint") or "")
+        recorded_input = str(existing.get("input_fingerprint") or "")
+        # Imported legacy rows can lack an input fingerprint.  They are still
+        # safe to reuse here; a changed non-empty fingerprint or configuration
+        # is sent through plan_work and receives the normal stale/retry path.
+        if recorded_config == config_hash and (
+            not recorded_input or recorded_input == input_hash
+        ):
+            return
     store.plan_work(
         outer_batch_id=batch,
         stage=stage,

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# AiiDA stores the SQLite filepath relative to the process directory. Native
+# jobs run in isolated temporary directories, so materialize a short-lived
+# config with the current repository path before dispatching the real CLI.
+SHIM_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd -- "${SHIM_DIR}/../../.." && pwd)"
+ENV_BIN="${PROJECT_ROOT}/.envs/general-modern-openmpi5/bin"
+PYTHON_BIN="${ENV_BIN}/python"
+export PATH="${ENV_BIN}:${PATH}"
+AIIDA_ROOT="${AIIDA_PATH:-${PROJECT_ROOT}/.software_cache/state/aiida}"
+AIIDA_ROOT="${AIIDA_ROOT%%:*}"
+if [[ "$(basename -- "${AIIDA_ROOT}")" == ".aiida" ]]; then
+    AIIDA_CONFIG_DIR="${AIIDA_ROOT}"
+else
+    AIIDA_CONFIG_DIR="${AIIDA_ROOT}/.aiida"
+fi
+REPOSITORY_ROOT="${AIIDA_CONFIG_DIR}/repository"
+SOURCE_CONFIG="${AIIDA_CONFIG_DIR}/config.json"
+TEMP_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/researchchem-aiida.XXXXXX")"
+trap 'rm -rf "${TEMP_ROOT}"' EXIT
+"${PYTHON_BIN}" "${PROJECT_ROOT}/chemistry_toolbox/scripts/prepare_aiida_runtime.py" \
+    --source "${SOURCE_CONFIG}" \
+    --destination "${TEMP_ROOT}/.aiida/config.json" \
+    --repository-root "${REPOSITORY_ROOT}"
+export AIIDA_PATH="${TEMP_ROOT}"
+cd -- "${TEMP_ROOT}/.aiida"
+exec "${PYTHON_BIN}" -c 'import sys; from aiida.cmdline.commands.cmd_verdi import verdi; sys.argv[0] = "verdi"; raise SystemExit(verdi())' "$@"

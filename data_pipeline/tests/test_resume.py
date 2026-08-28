@@ -5,15 +5,22 @@ from pathlib import Path
 
 import pytest
 
-from src.core.resume import ResumeConfigurationMismatch, ResumeStateStore
+from src.config import load_config
+from src.core.io import write_json
+from src.core.resume import (
+    ResumeConfigurationMismatch,
+    ResumeStateStore,
+    scientific_stage_fingerprints,
+)
 from src.core.resume_importer import import_legacy_run
 from src.core.resume_workflow import (
+    BatchSpec,
+    _effective_batch_start_stage,
     _stage_range_requires_sandbox,
     command_digest,
     expanded_invalidation,
     prepare_resume,
 )
-from src.core.io import write_json
 
 
 def _record(paper_id: str, *, decision: str, passed: bool, failed: bool = False):
@@ -23,6 +30,33 @@ def _record(paper_id: str, *, decision: str, passed: bool, failed: bool = False)
         "decision": decision,
         "passed": passed,
     }
+
+
+def test_uninitialized_batch_automatically_resumes_from_stage00(tmp_path: Path):
+    workspace = tmp_path / "batches" / "batch-0012"
+    spec = BatchSpec(
+        batch_id="batch-0012",
+        index=12,
+        target_slot_start=11001,
+        count=1000,
+        config_path=tmp_path / "configs" / "batch-0012.json",
+        workspace=workspace,
+        is_new=False,
+    )
+
+    assert (
+        _effective_batch_start_stage(spec, requested_start_stage="stage02")
+        == "stage00"
+    )
+
+    write_json(
+        workspace / "stage_00_remote_corpus" / "stage_summary.json",
+        {"stage": "stage00"},
+    )
+    assert (
+        _effective_batch_start_stage(spec, requested_start_stage="stage02")
+        == "stage02"
+    )
 
 
 def test_resume_reuses_scientific_reject_and_retries_objective_failure(tmp_path: Path):
@@ -92,6 +126,38 @@ def test_pending_stage_record_stays_pending_instead_of_becoming_reject(tmp_path:
         outer_batch_id="batch-0001", stage="stage04", paper_id="paper-a"
     )
     assert item["status"] == "pending"
+
+
+def test_stage04_timeout_is_terminal_and_not_resumed(tmp_path: Path):
+    store = ResumeStateStore.for_run_root(tmp_path)
+    row = _record("paper-a", decision="deep_parse_failed", passed=False, failed=True) | {
+        "failure_disposition": "terminal",
+        "failure_class": "mineru_timeout",
+        "error": {"error_type": "MinerUTimeout", "message": "deadline exceeded"},
+    }
+    store.record_result(
+        generation=1,
+        outer_batch_id="batch-0001",
+        stage="stage04",
+        paper_id="paper-a",
+        document_id=None,
+        config_fingerprint="config-a",
+        input_fingerprint="input-a",
+        row=row,
+        imported=False,
+    )
+
+    planned = store.plan_work(
+        outer_batch_id="batch-0001",
+        stage="stage04",
+        paper_id="paper-a",
+        document_id=None,
+        config_fingerprint="config-a",
+        input_fingerprint="input-a",
+    )
+
+    assert planned.action == "reuse"
+    assert planned.status == "terminal_reject"
 
 
 def test_resume_invalidates_missing_artifact_and_requires_explicit_config_change(
@@ -213,6 +279,81 @@ def test_terminal_pruning_does_not_invalidate_reusable_upstream_artifact(tmp_pat
 
     assert plan.action == "reuse"
     assert plan.status == "forwarded"
+
+
+@pytest.mark.parametrize("stage", ["stage01", "stage01_package"])
+def test_stage01_nonpass_is_terminal_instead_of_retryable(tmp_path: Path, stage: str):
+    store = ResumeStateStore.for_run_root(tmp_path)
+    row = _record("paper-a", decision="processing_failed", passed=False, failed=True)
+    if stage == "stage01_package":
+        row["package_status"] = "retryable_acquisition_error"
+    store.record_result(
+        generation=1,
+        outer_batch_id="batch-0001",
+        stage=stage,
+        paper_id="paper-a",
+        document_id=None,
+        config_fingerprint="config-a",
+        input_fingerprint="input-a",
+        row=row,
+        imported=False,
+    )
+
+    item = store.current_work_item(
+        outer_batch_id="batch-0001", stage=stage, paper_id="paper-a"
+    )
+    assert item["status"] == "terminal_reject"
+
+
+def test_pruned_legacy_stage01_failure_is_not_requeued(tmp_path: Path):
+    store = ResumeStateStore.for_run_root(tmp_path)
+    selection = store.reserve_selection(
+        dataset="dataset",
+        source_main_uri="s3://bucket/a.pdf",
+        normalized_doi=None,
+        source_record_key="a.pdf",
+        paper_id="paper-a",
+        target_slot_ordinal=1,
+        outer_batch_id="batch-0001",
+    )
+    store.update_selection_copy(
+        selection["selection_id"],
+        copy_state="materialized",
+        local_assets_state="pruned_terminal",
+    )
+    store.record_retryable_failure(
+        generation=1,
+        outer_batch_id="batch-0001",
+        stage="stage01",
+        paper_id="paper-a",
+        document_id=None,
+        config_fingerprint="config-a",
+        input_fingerprint="input-a",
+        failure_class="document_parse_failed",
+        error={"message": "legacy retryable result"},
+    )
+    with store.transaction() as connection:
+        connection.execute(
+            "UPDATE stage_work_items SET status='retryable_failed' WHERE stage='stage01'"
+        )
+
+    assert store.terminalize_pruned_stage01_work() == 1
+
+    plan = store.plan_work(
+        outer_batch_id="batch-0001",
+        stage="stage01",
+        paper_id="paper-a",
+        document_id=None,
+        config_fingerprint="config-a",
+        input_fingerprint="input-a",
+    )
+
+    assert plan.action == "reuse"
+    assert plan.status == "terminal_reject"
+    item = store.current_work_item(
+        outer_batch_id="batch-0001", stage="stage01", paper_id="paper-a"
+    )
+    assert item["failure_class"] == "stage01_assets_pruned_terminal"
 
 
 def test_resume_detects_missing_declared_artifact_without_manifest(tmp_path: Path):
@@ -438,6 +579,57 @@ def test_dry_run_expansion_does_not_create_batch_configs(tmp_path: Path):
 
 def test_command_digest_accepts_cli_paths(tmp_path: Path):
     assert command_digest({"run_root": tmp_path, "batches": ["batch-0001"]})
+
+
+def test_resume_store_defaults_to_shared_filesystem_safe_journal(tmp_path: Path):
+    import sqlite3
+
+    store = ResumeStateStore.for_run_root(tmp_path)
+    with store.connect() as connection:
+        assert connection.execute("PRAGMA journal_mode").fetchone()[0] == "delete"
+        connection.execute("BEGIN IMMEDIATE")
+        connection.execute(
+            "INSERT INTO import_events VALUES (?, ?, ?, ?)",
+            ("test", str(tmp_path), "sha", "2026-01-01T00:00:00+00:00"),
+        )
+        connection.commit()
+    with sqlite3.connect(store.database) as connection:
+        assert connection.execute("SELECT COUNT(*) FROM import_events").fetchone()[0] == 1
+
+
+def test_stage01_runtime_service_injection_keeps_scientific_fingerprint(tmp_path: Path):
+    config_path = tmp_path / "config.json"
+    write_json(config_path, _minimal_config(tmp_path))
+    baseline = load_config(config_path)
+    prepared = json.loads(json.dumps(baseline))
+    grobid = prepared["stage01"]["normalization"]["grobid"]
+
+    assert grobid["environment"] == {}
+    grobid.update(
+        {
+            "_sandbox_instance": 0,
+            "_sandbox_runtime": None,
+            "base_url": "http://127.0.0.1:39117",
+            "manage_service": True,
+            "timeout_seconds": 14_700,
+        }
+    )
+
+    assert scientific_stage_fingerprints(prepared)["stage01"] == (
+        scientific_stage_fingerprints(baseline)["stage01"]
+    )
+
+
+def test_stage04_storage_cleanup_keeps_scientific_fingerprint(tmp_path: Path):
+    config_path = tmp_path / "config.json"
+    write_json(config_path, _minimal_config(tmp_path))
+    baseline = load_config(config_path)
+    retained = json.loads(json.dumps(baseline))
+    retained["stage04"]["mineru"]["cleanup_successful_intermediates"] = False
+
+    assert scientific_stage_fingerprints(retained)["stage04"] == (
+        scientific_stage_fingerprints(baseline)["stage04"]
+    )
 
 
 def test_stage_range_only_requests_sandbox_for_local_services():

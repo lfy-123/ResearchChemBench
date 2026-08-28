@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
 import threading
 import uuid
@@ -13,7 +14,6 @@ from typing import Any, Iterable
 from src.contracts import canonical_hash
 from src.core.failure_classification import WorkDisposition, classify_stage_record
 from src.core.io import sha256_file, write_json, write_jsonl
-
 
 FINAL_STATUSES = {"succeeded", "terminal_reject", "forwarded", "not_applicable"}
 RETRYABLE_STATUSES = {"pending", "retryable_failed"}
@@ -261,6 +261,28 @@ class ResumeStateStore:
             )
         return int(cursor.rowcount)
 
+    def terminalize_pruned_stage01_work(self) -> int:
+        """Close legacy Stage01 retries whose source bundle was already pruned."""
+
+        with self.transaction() as connection:
+            cursor = connection.execute(
+                """
+                UPDATE stage_work_items
+                SET status='terminal_reject',
+                    failure_class='stage01_assets_pruned_terminal', updated_at=?
+                WHERE stage IN ('stage01','stage01_package')
+                  AND status NOT IN ('succeeded','terminal_reject','forwarded','not_applicable')
+                  AND EXISTS (
+                      SELECT 1 FROM corpus_selections selection
+                      WHERE selection.paper_id=stage_work_items.paper_id
+                        AND selection.active=1
+                        AND selection.local_assets_state='pruned_terminal'
+                  )
+                """,
+                (_now(),),
+            )
+        return int(cursor.rowcount)
+
     def selected_main_uris(self, dataset: str) -> set[str]:
         with self.connect() as connection:
             rows = connection.execute(
@@ -326,7 +348,37 @@ class ResumeStateStore:
                     "UPDATE stage_work_items SET input_fingerprint=?, updated_at=? WHERE work_item_id=?",
                     (input_fingerprint, _now(), current["work_item_id"]),
                 )
+            if (
+                current
+                and stage in {"stage01", "stage01_package"}
+                and str(current["status"]) not in FINAL_STATUSES
+                and self._paper_was_terminally_pruned(connection, paper_id)
+            ):
+                connection.execute(
+                    """
+                    UPDATE stage_work_items SET status='terminal_reject',
+                        failure_class='stage01_assets_pruned_terminal', updated_at=?
+                    WHERE work_item_id=?
+                    """,
+                    (_now(), current["work_item_id"]),
+                )
+                return PlannedWork(
+                    "reuse",
+                    "terminal_reject",
+                    _loads(current["result_json"]),
+                    reason="stage01_assets_pruned_terminal",
+                )
             if current and current["status"] in FINAL_STATUSES:
+                fast_reuse = os.environ.get(
+                    "RCB_RESUME_FAST_FINAL_REUSE", ""
+                ).strip().lower() in {"1", "true", "yes"}
+                if fast_reuse:
+                    return PlannedWork(
+                        "reuse",
+                        str(current["status"]),
+                        _loads(current["result_json"]),
+                        reason="fast_final_reuse",
+                    )
                 if self._paper_was_terminally_pruned(connection, paper_id) or self._artifacts_valid(
                     connection, current["work_item_id"]
                 ):
@@ -507,6 +559,11 @@ class ResumeStateStore:
             "passed": False,
             "error": error,
         }
+        disposition = (
+            WorkDisposition("terminal_reject", "stage01_execution_failed")
+            if stage in {"stage01", "stage01_package"}
+            else WorkDisposition("retryable_failed", failure_class)
+        )
         return self._record_attempt(
             generation=generation,
             outer_batch_id=outer_batch_id,
@@ -515,7 +572,7 @@ class ResumeStateStore:
             document_id=document_id,
             config_fingerprint=config_fingerprint,
             input_fingerprint=input_fingerprint,
-            disposition=WorkDisposition("retryable_failed", failure_class),
+            disposition=disposition,
             row=row,
             artifacts=(),
             runtime_fingerprint="",
@@ -1042,6 +1099,19 @@ class ResumeStateStore:
         return int(cursor.rowcount)
 
     def _artifacts_valid(self, connection, work_item_id: str) -> bool:
+        # A resume reconciliation can touch tens of gigabytes of normalized
+        # documents.  Full SHA-256 verification is the strongest check, but it
+        # is unnecessarily expensive for every already-final work item during
+        # startup.  ``metadata`` still detects missing/truncated artifacts and
+        # lets the stage itself validate newly consumed inputs; callers that
+        # require content integrity can retain the default ``full`` mode.
+        validation_mode = os.environ.get(
+            "RCB_RESUME_ARTIFACT_VALIDATION", "full"
+        ).strip().lower()
+        if validation_mode not in {"full", "metadata"}:
+            raise ValueError(
+                "RCB_RESUME_ARTIFACT_VALIDATION must be 'full' or 'metadata'"
+            )
         work_item = connection.execute(
             "SELECT result_json FROM stage_work_items WHERE work_item_id=?",
             (work_item_id,),
@@ -1070,7 +1140,7 @@ class ResumeStateStore:
             path = Path(row["path"])
             if not path.is_file() or path.stat().st_size != int(row["size_bytes"]):
                 return False
-            if sha256_file(path) != row["sha256"]:
+            if validation_mode == "full" and sha256_file(path) != row["sha256"]:
                 return False
         return True
 
@@ -1200,7 +1270,13 @@ class ResumeStateStore:
         connection.row_factory = sqlite3.Row
         connection.execute("PRAGMA foreign_keys=ON")
         connection.execute("PRAGMA busy_timeout=60000")
-        connection.execute("PRAGMA journal_mode=WAL")
+        journal_mode = os.environ.get("RCB_RESUME_SQLITE_JOURNAL_MODE", "DELETE").upper()
+        if journal_mode not in {"DELETE", "TRUNCATE", "PERSIST", "WAL"}:
+            connection.close()
+            raise ValueError(
+                "RCB_RESUME_SQLITE_JOURNAL_MODE must be DELETE, TRUNCATE, PERSIST, or WAL"
+            )
+        connection.execute(f"PRAGMA journal_mode={journal_mode}")
         connection.execute("PRAGMA synchronous=FULL")
         return connection
 
@@ -1382,6 +1458,7 @@ def _scientific_value(value: Any) -> Any:
         "buffer_size",
         "cache",
         "cleanup",
+        "cleanup_successful_intermediates",
         "connect_timeout_seconds",
         "credentials",
         "lifecycle_minutes",

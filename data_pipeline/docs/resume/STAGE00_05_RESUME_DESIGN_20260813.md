@@ -288,13 +288,14 @@ Stage00 持久化远端候选目录的 snapshot ID、对象 identity 和 priorit
 Stage01 包含论文包整理、补充材料补全和 GROBID/pdftotext 低成本解析。恢复单位为文档：
 
 - 复用质量检查通过且输入 SHA256、parser 版本和配置 hash 一致的标准化文本；
-- 网络补充材料获取失败、GROBID 连接失败、超时、沙箱回收为 `retryable_failed`；
 - 确认无补充材料是正常结论，不重试；
 - GROBID 失败但 pdftotext 成功且达到当前质量门时，是成功结果；
-- 正文或任一已知 SI 最终未成功时，论文状态为 `retryable_failed`，不能进入 Stage02；
 - 文档成功后重新计算论文包汇总，只有完整包才释放 Stage02。
 
-现有 Stage01 通过论文删除策略保持不变，但客观失败论文不得删除源 PDF/SI。
+2026-08-15 起采用更严格的存储策略：Stage01 只保留通过论文。正文或任一已知 SI 未成功、
+`processing_failed`、等待重试和 `uncertain` 都必须先写入 registry，再将该论文标为
+`pruned_terminal` 并删除 Stage00 正文、SI 及 Stage01 下载附件；同一 run 不再自动重试这些
+论文。Stage02/03 的客观失败仍遵循本文其他章节的可恢复语义。
 
 ## 8. Stage02 恢复
 

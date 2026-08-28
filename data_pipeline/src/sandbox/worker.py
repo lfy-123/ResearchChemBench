@@ -440,7 +440,7 @@ class PipelineSandboxServer(ThreadingHTTPServer):
                     cli,
                     stdout=stdout,
                     stderr=stderr,
-                    timeout=int(value.get("timeout_seconds") or 3600),
+                    timeout=int(value.get("timeout_seconds") or 3000),
                     check=False,
                     env=environment,
                     cwd=str(DATA_PIPELINE_ROOT / ".model_cache"),

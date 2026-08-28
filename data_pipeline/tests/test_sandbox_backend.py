@@ -8,10 +8,12 @@ import urllib.request
 import pytest
 import yaml
 
+from src.pipeline import _sandbox_options_from_config, _sandbox_runtime_from_config
 from src.sandbox.control import SandboxError
 from src.sandbox.manager import SandboxManager, SandboxRunOptions
+from src.sandbox.mineru_pool import MineruSandboxPool
 from src.sandbox.proxy import LocalSandboxProxy
-from src.sandbox.runtime import SandboxPipelineRuntime
+from src.sandbox.runtime import PooledMineruPipelineRuntime, SandboxPipelineRuntime
 from src.sandbox.worker import PipelineSandboxServer
 
 
@@ -198,6 +200,116 @@ def test_manager_retries_transient_ensure_failure(tmp_path, monkeypatch):
 
     assert manager.ensure_with_retry(attempts=2) is worker
     assert calls == 2
+
+
+def test_pipeline_builds_pooled_mineru_runtime_from_config(tmp_path):
+    config = {
+        "workspace": str(tmp_path / "run" / "batches" / "batch-0001"),
+        "execution": {
+            "sandbox": {
+                "cpu": 64,
+                "memory": "128Gi",
+                "source": str(tmp_path / "main.yaml"),
+                "inventory": str(tmp_path / "main.json"),
+            },
+            "mineru_sandbox_pool": {
+                "enabled": True,
+                "count": 32,
+                "cpu": 16,
+                "memory": "32Gi",
+                "state_root": str(tmp_path / "pool"),
+                "startup_concurrency": 32,
+                "max_attempts": 2,
+                "retry_delay_seconds": 5,
+            },
+        },
+    }
+
+    options = _sandbox_options_from_config(config)
+    runtime = _sandbox_runtime_from_config(config, options=options)
+
+    assert options.cpu == 64
+    assert options.memory == "128Gi"
+    assert isinstance(runtime, PooledMineruPipelineRuntime)
+    assert runtime.mineru_pool.count == 32
+    assert runtime.mineru_pool.options.cpu == 16
+    assert runtime.mineru_pool.options.memory == "32Gi"
+
+
+def test_mineru_pool_does_not_retry_execution_timeout(tmp_path, monkeypatch):
+    pool = MineruSandboxPool(
+        options=SandboxRunOptions(
+            source=tmp_path / "source.yaml",
+            inventory=tmp_path / "inventory.json",
+        ),
+        count=1,
+        state_root=tmp_path / "pool",
+        max_attempts=2,
+        retry_delay_seconds=0,
+    )
+    pool._started = True
+    calls = 0
+
+    def run_once(*_args, **_kwargs):
+        nonlocal calls
+        calls += 1
+        return {"status": "timeout", "error": "configured deadline exceeded"}
+
+    monkeypatch.setattr(pool, "_run_once", run_once)
+    result = pool.run_mineru(
+        {"source_path": str(tmp_path / "paper.pdf")},
+        tmp_path / "output",
+        command="mineru",
+        method="auto",
+        backend="pipeline",
+        timeout_seconds=3000,
+        environment=None,
+        extra_args=None,
+    )
+
+    assert calls == 1
+    assert result["status"] == "timeout"
+    assert result["attempt"] == 1
+    assert result["retry_count"] == 0
+    assert result["retry_suppressed_reason"] == "mineru_timeout"
+
+
+def test_mineru_pool_still_retries_non_timeout_failure(tmp_path, monkeypatch):
+    pool = MineruSandboxPool(
+        options=SandboxRunOptions(
+            source=tmp_path / "source.yaml",
+            inventory=tmp_path / "inventory.json",
+        ),
+        count=1,
+        state_root=tmp_path / "pool",
+        max_attempts=2,
+        retry_delay_seconds=0,
+    )
+    pool._started = True
+    statuses = iter(("failed", "success"))
+    calls = 0
+
+    def run_once(*_args, **_kwargs):
+        nonlocal calls
+        calls += 1
+        return {"status": next(statuses)}
+
+    monkeypatch.setattr(pool, "_run_once", run_once)
+    result = pool.run_mineru(
+        {"source_path": str(tmp_path / "paper.pdf")},
+        tmp_path / "output",
+        command="mineru",
+        method="auto",
+        backend="pipeline",
+        timeout_seconds=3000,
+        environment=None,
+        extra_args=None,
+    )
+
+    assert calls == 2
+    assert result["status"] == "success"
+    assert result["attempt"] == 2
+    assert result["retry_count"] == 1
 
 
 class FakeProxyClient:

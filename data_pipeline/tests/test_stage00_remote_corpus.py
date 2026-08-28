@@ -18,6 +18,7 @@ class FakeStore:
         self.rows = [
             {
                 "doi": "10.1000/one",
+                "publication_date": "03 January 2026",
                 "pdf_filename": "10.1000_one.pdf",
                 "relative_path": "pdfs/10.1000_one.pdf",
                 "support_path": ["support/10.1000_one_sup_1.pdf"],
@@ -26,6 +27,7 @@ class FakeStore:
             },
             {
                 "doi": "10.1000/two",
+                "publication_date": "31 December 2025",
                 "pdf_filename": "10.1000_two.pdf",
                 "relative_path": "pdfs/10.1000_two.pdf",
                 "support_path": [],
@@ -78,6 +80,66 @@ def test_stage00_groups_main_and_supplementary_and_resumes(tmp_path, monkeypatch
     resumed = prepare_remote_corpus(tmp_path, dataset=dataset, count=2, store=FakeStore())
     assert resumed["summary"]["reused"] is True
     assert len(list((tmp_path / "corpus").glob("*/paper.json"))) == 2
+
+
+def test_stage00_filters_by_publication_date_before_copy(tmp_path, monkeypatch):
+    dataset = "fake-publication-window"
+    monkeypatch.setitem(
+        DATASETS,
+        dataset,
+        {
+            "root": "s3://example/",
+            "pdf_prefix": "s3://example/pdfs/",
+            "metadata_uri": "s3://example/metadata.jsonl",
+            "metadata_root": "s3://example/",
+            "supplementary_prefix": "s3://example/support/",
+        },
+    )
+    index = tmp_path / "publication-index.jsonl"
+
+    result = prepare_remote_corpus(
+        tmp_path / "stage00",
+        dataset=dataset,
+        count=1,
+        publication_date_from="2026-01-01",
+        publication_index_path=index,
+        store=FakeStore(),
+    )
+
+    assert result["summary"]["papers"] == 1
+    assert result["records"][0]["doi"] == "10.1000/one"
+    assert result["records"][0]["publication_date_normalized"] == "2026-01-03"
+    summary = json.loads(
+        index.with_suffix(".jsonl.summary.json").read_text(encoding="utf-8")
+    )
+    assert summary["eligible_metadata_rows"] == 1
+    assert summary["available_pdfs"] == 1
+
+
+def test_stage00_date_filter_rejects_unavailable_requested_count(tmp_path, monkeypatch):
+    import pytest
+
+    dataset = "fake-publication-shortfall"
+    monkeypatch.setitem(
+        DATASETS,
+        dataset,
+        {
+            "root": "s3://example/",
+            "pdf_prefix": "s3://example/pdfs/",
+            "metadata_uri": "s3://example/metadata.jsonl",
+            "metadata_root": "s3://example/",
+            "supplementary_prefix": "s3://example/support/",
+        },
+    )
+
+    with pytest.raises(RuntimeError, match="found only 1 new PDFs"):
+        prepare_remote_corpus(
+            tmp_path / "stage00",
+            dataset=dataset,
+            count=2,
+            publication_date_from="2026-01-01",
+            store=FakeStore(),
+        )
 
 
 def test_stage00_restores_existing_slot_before_expanding(tmp_path, monkeypatch):

@@ -20,4 +20,9 @@ for candidate in "$TOOLBOX_ROOT/config.local.env" "$TOOLBOX_ROOT/../config.local
   fi
 done
 
+# The catalog's evaluator default is sized for the full benchmark worker.  A
+# local/container smoke test may have a smaller CPU affinity, which nproc
+# reports correctly.
+export RESEARCHCHEMBENCH_AVAILABLE_CPU_CORES="${RESEARCHCHEMBENCH_AVAILABLE_CPU_CORES:-$(nproc)}"
+
 exec "$RUNTIME_PYTHON" "$REACT_DIR/react_agent.py" "$@"

@@ -1150,6 +1150,8 @@ def _openmolcas(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     )
     output_path = directory / f"{project}.log"
     error_path = directory / f"{project}.err"
+    scratch_path = directory / "scratch"
+    scratch_path.mkdir()
     cores = max(1, int(request.get("resource_limits", {}).get("cpu_cores") or 1))
     completed = run_external(
         executable="pymolcas",
@@ -1160,6 +1162,7 @@ def _openmolcas(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
         ],
         directory=directory,
         timeout_seconds=int(request.get("resource_limits", {}).get("walltime_seconds", 1800)),
+        environment_overrides={"MOLCAS_WORKDIR": str(scratch_path)},
     )
     (directory / "driver.stdout.log").write_text(completed["stdout"], encoding="utf-8")
     (directory / "driver.stderr.log").write_text(completed["stderr"], encoding="utf-8")
@@ -2475,58 +2478,66 @@ def _psi4(action_id: str, request: dict[str, Any]) -> dict[str, Any]:
     inputs, method, settings = request_parts(request)
     directory = output_directory(action_id, "psi4")
     output_path = directory / "psi4.out"
-    psi4.core.clean()
-    psi4.set_memory(f"{int(request.get('resource_limits', {}).get('memory_mb') or 1000)} MB")
-    psi4.set_num_threads(int(request.get("resource_limits", {}).get("cpu_cores") or 1))
-    psi4.core.set_output_file(str(output_path), False)
-    molecule = psi4.geometry(_psi4_geometry(inputs["structure"]))
-    model = f"{method['method']}/{method['basis']}"
-    psi4.set_options(dict(method.get("options") or {}))
-    if action_id == "calculate_hessian":
-        matrix = np.asarray(psi4.hessian(model, molecule=molecule), dtype=float)
-        result = {"matrix": matrix.tolist(), "unit": "hartree/bohr^2", "model": model}
-    else:
-        energy, wavefunction = psi4.energy(model, molecule=molecule, return_wfn=True)
-        common = {"energy_hartree": float(energy), "model": model}
-        if action_id == "calculate_energy":
-            result = {**common, "energy": float(energy), "unit": "hartree"}
-        elif action_id == "calculate_dipole_moment":
-            psi4.oeprop(wavefunction, "DIPOLE")
-            dipole_au = np.asarray(psi4.core.variable("SCF DIPOLE"), dtype=float).reshape(-1)
-            if dipole_au.size != 3:
-                raise RuntimeError("Psi4 SCF DIPOLE did not contain three Cartesian components")
-            dipole = (dipole_au * 2.541746473).tolist()
-            result = {**common, "dipole": dipole, "unit": "debye"}
-        elif action_id == "calculate_atomic_charges":
-            psi4.oeprop(wavefunction, "MULLIKEN_CHARGES")
-            charges = np.asarray(wavefunction.atomic_point_charges(), dtype=float).tolist()
-            result = {**common, "charges": charges, "analysis": "mulliken", "unit": "elementary_charge"}
-        elif action_id == "calculate_orbitals":
-            alpha_blocks = _psi4_irrep_blocks(wavefunction.epsilon_a())
-            alpha_sizes = [len(block) for block in alpha_blocks]
-            restricted = bool(wavefunction.same_a_b_orbs())
-            result = {
-                **common,
-                "alpha_energies_hartree": [value for block in alpha_blocks for value in block],
-                "alpha_occupations": (
-                    _psi4_restricted_occupations(
-                        wavefunction.nalphapi(), wavefunction.nbetapi(), alpha_sizes
-                    )
-                    if restricted
-                    else _psi4_irrep_occupations(wavefunction.nalphapi(), alpha_sizes, 1.0)
-                ),
-                "alpha_irrep_dimensions": alpha_sizes,
-            }
-            if not restricted:
-                beta_blocks = _psi4_irrep_blocks(wavefunction.epsilon_b())
-                beta_sizes = [len(block) for block in beta_blocks]
-                result["beta_energies_hartree"] = [value for block in beta_blocks for value in block]
-                result["beta_occupations"] = _psi4_irrep_occupations(
-                    wavefunction.nbetapi(), beta_sizes, 1.0
-                )
-                result["beta_irrep_dimensions"] = beta_sizes
+    previous_directory = Path.cwd()
+    os.chdir(directory)
+    try:
+        psi4.core.clean()
+        scratch_directory = directory / "scratch"
+        scratch_directory.mkdir()
+        psi4.core.IOManager.shared_object().set_default_path(str(scratch_directory))
+        psi4.set_memory(f"{int(request.get('resource_limits', {}).get('memory_mb') or 1000)} MB")
+        psi4.set_num_threads(int(request.get("resource_limits", {}).get("cpu_cores") or 1))
+        psi4.core.set_output_file(str(output_path), False)
+        molecule = psi4.geometry(_psi4_geometry(inputs["structure"]))
+        model = f"{method['method']}/{method['basis']}"
+        psi4.set_options(dict(method.get("options") or {}))
+        if action_id == "calculate_hessian":
+            matrix = np.asarray(psi4.hessian(model, molecule=molecule), dtype=float)
+            result = {"matrix": matrix.tolist(), "unit": "hartree/bohr^2", "model": model}
         else:
-            return unsupported(f"Psi4 does not implement {action_id}")
+            energy, wavefunction = psi4.energy(model, molecule=molecule, return_wfn=True)
+            common = {"energy_hartree": float(energy), "model": model}
+            if action_id == "calculate_energy":
+                result = {**common, "energy": float(energy), "unit": "hartree"}
+            elif action_id == "calculate_dipole_moment":
+                psi4.oeprop(wavefunction, "DIPOLE")
+                dipole_au = np.asarray(psi4.core.variable("SCF DIPOLE"), dtype=float).reshape(-1)
+                if dipole_au.size != 3:
+                    raise RuntimeError("Psi4 SCF DIPOLE did not contain three Cartesian components")
+                dipole = (dipole_au * 2.541746473).tolist()
+                result = {**common, "dipole": dipole, "unit": "debye"}
+            elif action_id == "calculate_atomic_charges":
+                psi4.oeprop(wavefunction, "MULLIKEN_CHARGES")
+                charges = np.asarray(wavefunction.atomic_point_charges(), dtype=float).tolist()
+                result = {**common, "charges": charges, "analysis": "mulliken", "unit": "elementary_charge"}
+            elif action_id == "calculate_orbitals":
+                alpha_blocks = _psi4_irrep_blocks(wavefunction.epsilon_a())
+                alpha_sizes = [len(block) for block in alpha_blocks]
+                restricted = bool(wavefunction.same_a_b_orbs())
+                result = {
+                    **common,
+                    "alpha_energies_hartree": [value for block in alpha_blocks for value in block],
+                    "alpha_occupations": (
+                        _psi4_restricted_occupations(
+                            wavefunction.nalphapi(), wavefunction.nbetapi(), alpha_sizes
+                        )
+                        if restricted
+                        else _psi4_irrep_occupations(wavefunction.nalphapi(), alpha_sizes, 1.0)
+                    ),
+                    "alpha_irrep_dimensions": alpha_sizes,
+                }
+                if not restricted:
+                    beta_blocks = _psi4_irrep_blocks(wavefunction.epsilon_b())
+                    beta_sizes = [len(block) for block in beta_blocks]
+                    result["beta_energies_hartree"] = [value for block in beta_blocks for value in block]
+                    result["beta_occupations"] = _psi4_irrep_occupations(
+                        wavefunction.nbetapi(), beta_sizes, 1.0
+                    )
+                    result["beta_irrep_dimensions"] = beta_sizes
+            else:
+                return unsupported(f"Psi4 does not implement {action_id}")
+    finally:
+        os.chdir(previous_directory)
     result_path = write_json(directory, "result.json", result)
     return success(
         result,

@@ -171,7 +171,7 @@ bash tests/react/run_react.sh
 ```
 
 `run_react.sh` 会检查 `.envs/minichem`、自动加载工具箱根目录或上一级目录中的
-`config.local.env`，并将附加参数原样传递给 `react_agent.py`。
+`config.local.env`，按当前进程的 CPU affinity 设置本地评测预算，并将附加参数原样传递给 `react_agent.py`。
 
 可用参数：
 

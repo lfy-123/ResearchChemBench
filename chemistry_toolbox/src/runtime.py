@@ -142,6 +142,11 @@ def runtime_environment(name: str) -> dict[str, str]:
         str(environment / "lib"),
         *_runtime_entries(specification, "library_path_entries"),
     ]
+    python_entries = [
+        *_runtime_entries(specification, "prepend_python_path_entries"),
+        str(PROJECT_ROOT),
+        *_runtime_entries(specification, "python_path_entries"),
+    ]
     preload_entries = _runtime_preload_entries(specification, environment)
     values = {
         SOFTWARE_ROOT_ENV: str(software_root()),
@@ -150,7 +155,7 @@ def runtime_environment(name: str) -> dict[str, str]:
             [*library_entries, os.environ.get("LD_LIBRARY_PATH", "")]
         ),
         "PYTHONPATH": os.pathsep.join(
-            [str(PROJECT_ROOT), os.environ.get("PYTHONPATH", "")]
+            [*python_entries, os.environ.get("PYTHONPATH", "")]
         ),
         "RESEARCHCHEM_BACKEND_RUNTIME": name,
     }

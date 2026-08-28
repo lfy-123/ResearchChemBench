@@ -55,7 +55,7 @@ def request(inputs: dict[str, Any], settings: dict[str, Any]) -> dict[str, Any]:
         "inputs": inputs,
         "method_spec": {},
         "action_settings": settings,
-        "resource_limits": {"cpu_cores": 2, "walltime_seconds": 300},
+        "resource_limits": {"cpu_cores": 2},
     }
 
 

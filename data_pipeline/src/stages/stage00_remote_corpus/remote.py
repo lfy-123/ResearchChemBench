@@ -4,9 +4,10 @@ import json
 import os
 import hashlib
 import heapq
+import fcntl
 import re
 import shutil
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any, Protocol
 
@@ -15,6 +16,19 @@ from src.core.logging import log_progress
 from src.integrations.xinghe import XingheObjectStore
 
 STAGE00_SCHEMA_VERSION = 2
+PUBLICATION_INDEX_SCHEMA_VERSION = 1
+PUBLICATION_METADATA_FIELDS = (
+    "doi",
+    "publication_date",
+    "issue_publication_date",
+    "article_url",
+    "pdf_filename",
+    "relative_path",
+    "support_path",
+    "title",
+    "journal_name",
+    "issn",
+)
 
 
 DATASETS: dict[str, dict[str, str]] = {
@@ -109,6 +123,8 @@ def prepare_remote_corpus(
     outer_batch_id: str | None = None,
     target_slot_start: int = 1,
     retry_only: bool = False,
+    publication_date_from: str | None = None,
+    publication_index_path: str | Path | None = None,
 ) -> dict[str, Any]:
     if count < 1:
         raise ValueError("Stage 00 count must be at least 1")
@@ -129,6 +145,17 @@ def prepare_remote_corpus(
         )
     if existing and any(item.get("dataset") != dataset for item in existing):
         raise RuntimeError(f"{root} already contains a different Stage 00 dataset")
+    normalized_date_from = _normalize_date_threshold(publication_date_from)
+    if existing and normalized_date_from and any(
+        not _date_is_on_or_after(
+            item.get("publication_date_normalized") or item.get("publication_date"),
+            normalized_date_from,
+        )
+        for item in existing
+    ):
+        raise RuntimeError(
+            f"{root} contains records outside publication_date_from={normalized_date_from}"
+        )
     if selection not in {"remote_order", "seeded_sample"}:
         raise ValueError("Stage 00 selection must be remote_order or seeded_sample")
     if existing:
@@ -150,6 +177,26 @@ def prepare_remote_corpus(
         if credentials is None:
             raise ValueError("Stage 00 credentials are required for remote access")
         store = XingheObjectStore(credentials, outside=outside)
+
+    publication_index: dict[str, dict[str, Any]] = {}
+    publication_index_summary: dict[str, Any] | None = None
+    if normalized_date_from:
+        index_path = (
+            Path(publication_index_path).expanduser().resolve()
+            if publication_index_path
+            else root / "publication_candidates.jsonl"
+        )
+        publication_index_summary = build_publication_index(
+            index_path,
+            dataset=dataset,
+            publication_date_from=normalized_date_from,
+            store=store,
+        )
+        publication_index = {
+            str(row["remote_uri"]): row
+            for row in _read_rows(index_path)
+            if row.get("remote_uri")
+        }
 
     cursor = read_json(cursor_path) if resume and cursor_path.is_file() else {}
     start_after = cursor.get("last_main_uri")
@@ -185,6 +232,9 @@ def prepare_remote_corpus(
         seed=seed,
         start_after=start_after,
         excluded_main_uris=excluded_main_uris | set(retry_uris),
+        candidate_uris=(
+            sorted(publication_index) if normalized_date_from else None
+        ),
         ),
     ]
     if not retry_only and len(selected_uris) < needed:
@@ -192,7 +242,19 @@ def prepare_remote_corpus(
             f"Stage 00 found only {len(selected_uris)} new PDFs; {needed} are required"
         )
 
-    metadata = _metadata_for_selected(store, spec, selected_uris)
+    if normalized_date_from:
+        missing_from_index = [uri for uri in selected_uris if uri not in publication_index]
+        if missing_from_index:
+            raise RuntimeError(
+                "Stage 00 resume selection is outside the configured publication window: "
+                + ", ".join(missing_from_index[:3])
+            )
+        metadata = {
+            _basename(uri).casefold(): dict(publication_index[uri].get("metadata") or {})
+            for uri in selected_uris
+        }
+    else:
+        metadata = _metadata_for_selected(store, spec, selected_uris)
     supplementary_index, supplementary_inventory, supplementary_failures = _supplementary_for_selected(
         store,
         spec,
@@ -291,6 +353,17 @@ def prepare_remote_corpus(
                     str(Path(path).expanduser().resolve())
                     for path in (exclude_selected_manifests or [])
                 ],
+                "publication_date_from": normalized_date_from,
+                "publication_index_path": (
+                    publication_index_summary.get("index_path")
+                    if publication_index_summary
+                    else None
+                ),
+                "publication_candidates": (
+                    publication_index_summary.get("available_pdfs")
+                    if publication_index_summary
+                    else None
+                ),
                 "updated_at": _now(),
             },
         )
@@ -384,13 +457,19 @@ def _select_main_uris(
     seed: int,
     start_after: str | None,
     excluded_main_uris: set[str] | None = None,
+    candidate_uris: list[str] | None = None,
 ) -> list[str]:
     if count <= 0:
         return []
     excluded = excluded_main_uris or set()
+    candidates = (
+        (uri for uri in candidate_uris if not start_after or uri > start_after)
+        if candidate_uris is not None
+        else store.iter_uris(prefix, start_after=start_after)
+    )
     if selection == "remote_order":
         output: list[str] = []
-        for uri in store.iter_uris(prefix, start_after=start_after):
+        for uri in candidates:
             if uri.casefold().endswith(".pdf") and uri not in excluded:
                 output.append(uri)
             if len(output) >= count:
@@ -400,7 +479,8 @@ def _select_main_uris(
     # unreserved objects therefore extends a seeded sample without reordering
     # any target slot already frozen in the selection ledger.
     heap: list[tuple[int, str]] = []
-    for uri in store.iter_uris(prefix):
+    candidates = candidate_uris if candidate_uris is not None else store.iter_uris(prefix)
+    for uri in candidates:
         if not uri.casefold().endswith(".pdf") or uri in excluded:
             continue
         priority = int.from_bytes(
@@ -412,6 +492,116 @@ def _select_main_uris(
         elif candidate > heap[0]:
             heapq.heapreplace(heap, candidate)
     return [uri for _priority, uri in sorted(heap, key=lambda item: (-item[0], item[1]))]
+
+
+def build_publication_index(
+    index_path: str | Path,
+    *,
+    dataset: str,
+    publication_date_from: str,
+    credentials: str | Path | None = None,
+    outside: bool = False,
+    store: ObjectStore | None = None,
+    force: bool = False,
+) -> dict[str, Any]:
+    """Index remotely available PDFs whose metadata date meets a lower bound."""
+
+    threshold = _normalize_date_threshold(publication_date_from)
+    if not threshold:
+        raise ValueError("publication_date_from is required")
+    spec = _dataset_spec(dataset)
+    if not spec.get("metadata_uri"):
+        raise ValueError(f"Stage 00 dataset {dataset!r} has no metadata for date filtering")
+    target = Path(index_path).expanduser().resolve()
+    summary_path = target.with_suffix(target.suffix + ".summary.json")
+    signature = {
+        "schema_version": PUBLICATION_INDEX_SCHEMA_VERSION,
+        "dataset": dataset,
+        "publication_date_from": threshold,
+        "metadata_uri": spec["metadata_uri"],
+        "pdf_prefix": spec["pdf_prefix"],
+    }
+    target.parent.mkdir(parents=True, exist_ok=True)
+    lock_path = target.with_suffix(target.suffix + ".lock")
+    with lock_path.open("a+", encoding="utf-8") as lock:
+        fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+        if not force and target.is_file() and summary_path.is_file():
+            cached = read_json(summary_path)
+            if all(cached.get(key) == value for key, value in signature.items()):
+                return {**cached, "reused": True, "index_path": str(target)}
+        if store is None:
+            if credentials is None:
+                raise ValueError("Stage 00 credentials are required for remote access")
+            store = XingheObjectStore(credentials, outside=outside)
+
+        metadata_rows = 0
+        dated_rows = 0
+        eligible_rows = 0
+        duplicate_filenames = 0
+        eligible_by_name: dict[str, dict[str, Any]] = {}
+        for row in store.iter_jsonl(spec["metadata_uri"]):
+            metadata_rows += 1
+            normalized = _normalize_publication_date(row.get("publication_date"))
+            if not normalized:
+                continue
+            dated_rows += 1
+            if normalized < threshold:
+                continue
+            eligible_rows += 1
+            name = str(
+                row.get("pdf_filename")
+                or PurePosixPath(str(row.get("relative_path") or "")).name
+            ).strip()
+            if not name:
+                continue
+            key = name.casefold()
+            if key in eligible_by_name:
+                duplicate_filenames += 1
+                continue
+            metadata = {
+                field: row.get(field)
+                for field in PUBLICATION_METADATA_FIELDS
+                if row.get(field) is not None
+            }
+            metadata["publication_date_normalized"] = normalized
+            eligible_by_name[key] = metadata
+
+        records: list[dict[str, Any]] = []
+        remote_pdf_objects = 0
+        for uri in store.iter_uris(spec["pdf_prefix"]):
+            if not uri.casefold().endswith(".pdf"):
+                continue
+            remote_pdf_objects += 1
+            metadata = eligible_by_name.get(_basename(uri).casefold())
+            if metadata is None:
+                continue
+            records.append(
+                {
+                    "remote_uri": uri,
+                    "publication_date": metadata["publication_date_normalized"],
+                    "metadata": metadata,
+                }
+            )
+        records.sort(key=lambda row: str(row["remote_uri"]))
+        temporary = target.with_suffix(target.suffix + ".tmp")
+        write_jsonl(temporary, records)
+        os.replace(temporary, target)
+        summary = {
+            **signature,
+            "metadata_rows": metadata_rows,
+            "dated_metadata_rows": dated_rows,
+            "eligible_metadata_rows": eligible_rows,
+            "eligible_unique_filenames": len(eligible_by_name),
+            "duplicate_filenames": duplicate_filenames,
+            "remote_pdf_objects": remote_pdf_objects,
+            "available_pdfs": len(records),
+            "missing_pdf_objects": len(eligible_by_name) - len(records),
+            "built_at": _now(),
+            "index_path": str(target),
+            "reused": False,
+        }
+        write_json(summary_path, summary)
+        return summary
 
 
 def _excluded_main_uris(manifests: list[str | Path]) -> set[str]:
@@ -602,7 +792,21 @@ def _materialize_paper(
         "journal_name": metadata.get("journal_name"),
         "issn": metadata.get("issn"),
         "article_url": metadata.get("article_url"),
-        "source_record": {key: metadata.get(key) for key in ("relative_path", "pdf_filename", "support_path")},
+        "publication_date": metadata.get("publication_date"),
+        "publication_date_normalized": (
+            metadata.get("publication_date_normalized")
+            or _normalize_publication_date(metadata.get("publication_date"))
+        ),
+        "source_record": {
+            key: metadata.get(key)
+            for key in (
+                "relative_path",
+                "pdf_filename",
+                "support_path",
+                "publication_date",
+                "publication_date_normalized",
+            )
+        },
         "supplementary_discovery": {
             "method": supplementary_inventory.get("method"),
             "inventory_prefix": supplementary_inventory.get("prefix"),
@@ -746,6 +950,44 @@ def _normalize_doi(value: Any) -> str:
 def _doi_from_filename(name: str) -> str:
     stem = name[:-4] if name.casefold().endswith(".pdf") else name
     return stem.replace("_", "/", 1) if stem.startswith("10.") else ""
+
+
+def _normalize_date_threshold(value: str | None) -> str | None:
+    if value is None or not str(value).strip():
+        return None
+    raw = str(value).strip()
+    try:
+        return date.fromisoformat(raw).isoformat()
+    except ValueError as exc:
+        raise ValueError(
+            f"publication_date_from must use YYYY-MM-DD, received {value!r}"
+        ) from exc
+
+
+def _normalize_publication_date(value: Any) -> str | None:
+    raw = str(value or "").strip()
+    if not raw:
+        return None
+    formats = (
+        "%Y-%m-%d",
+        "%Y/%m/%d",
+        "%d %B %Y",
+        "%d %b %Y",
+        "%B %d, %Y",
+        "%b %d, %Y",
+        "%Y",
+    )
+    for pattern in formats:
+        try:
+            return datetime.strptime(raw, pattern).date().isoformat()
+        except ValueError:
+            continue
+    return None
+
+
+def _date_is_on_or_after(value: Any, threshold: str) -> bool:
+    normalized = _normalize_publication_date(value)
+    return normalized is not None and normalized >= threshold
 
 
 def _safe_name(value: str) -> str:

@@ -13,8 +13,8 @@ Stage 00-07 组织在 `src/stages/` 中；不再保留旧版阶段、旧编排�
 | Stage 03 | 提取实际使用的软件和资源，按工具箱原生软件目录与资源预算筛选 | `src/stages/stage03_toolbox_resource_gate/` |
 | Stage 04 | 只对 Stage03 通过论文执行 MinerU 高质量解析 | `src/stages/stage04_mineru_normalization/` |
 | Stage 05 | 判断完整科研流程和 benchmark 方向适用性 | `src/stages/stage05_benchmark_suitability/` |
-| Stage 06 | 构建自主科研与论文复现两种任务 | `src/stages/stage06_task_builder/` |
-| Stage 07 | 确定性检查、独立 Judge 和可选 Gold Run | `src/stages/stage07_task_judge/` |
+| Stage 06 | 独立 Agent 审查完整工作流，先构建自主科研任务，再复制增补为论文复现任务，并生成共同隐藏评分合同 | `src/stages/stage06_task_builder/` |
+| Stage 07 | 在独立只读工作区执行确定性检查和 Agent 客观审计，报告数据、软件、成本、隔离与评分问题 | `src/stages/stage07_task_judge/` |
 
 Stage01-05 采用有界微批流水线。Stage02/03 可以分别调用 OpenAI-compatible API，API-only
 模式不会创建 rlaunch worker；旧配置仍可显式使用共享的部署模型。沙箱在整次任务开始前创建，
@@ -91,7 +91,12 @@ bash scripts/workflows/run_pipeline.sh /absolute/path/to/config.local.json
 - Stage02/03 默认分别使用 `models.stage02_screening` 和 `models.stage03_screening`；如需兼容
   旧式部署方式，可将两者的 `model_role` 改回 `screening`。
 - Stage05 使用 `stage05_router` 做高召回证据路由，再由 `suitability` 审核候选；Stage06、07
-  分别使用 `builder`、`judge`。
+  分别使用 `builder`、`judge` 模型配置，并通过 `harness` 选择 `codex`、`claude` 或
+  `opencode`。默认使用 `codex`；`direct_api` 仅用于旧配置兼容。
+- Stage06/07 Agent 只读取冻结的化学工具箱能力快照，不修改工具箱。工具箱暂缺会进入
+  `toolbox_requirements.json` 和 Stage07 `needs_software` outcome，不会让 Stage06 自动淘汰论文。
+- Stage06/07 每个 phase 使用独立工作区和输入指纹 checkpoint。模型/API 波动时可逐 phase
+  重试与 resume；正式任务只在全部校验通过后原子提交。
 - `models.screening.existing_worker` 可填写一个已运行 worker 的完整 SSH 地址。此时管理脚本
   跳过 `rlaunch`，只部署/切换 Qwen 与 MinerU；流水线退出时不会停止该外部 worker。
 - `models.screening.preserve_worker_on_exit` 只供外层批处理控制器使用。启用后各轮复用同一个

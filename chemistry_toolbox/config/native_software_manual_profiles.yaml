@@ -986,17 +986,17 @@ software:
   vesta:
     display_name: VESTA
     installed_version: 3.90.5a
-    operational_status: runnable_headless_gui
+    operational_status: runnable_headless
     official_docs: [https://jp-minerals.org/vesta/en/, https://jp-minerals.org/vesta/en/doc.html]
     primary_task: interactive visualization and conversion of crystal, volumetric, and project files
     task_types: [structure visualization, density visualization, project export, format conversion]
     inputs: [CIF, POSCAR, cube, density, or VESTA project file]
     outputs: [interactive session, images, converted structures, VESTA project]
-    normal_markers: [headless GUI remained healthy for bounded smoke, export completed]
+    normal_markers: [headless command completed, export completed]
     convergence_notes: VESTA is not a scientific solver; validate that the intended structure or field was loaded and exported correctly.
-    resource_notes: All required shared libraries resolve. Xvfb supports bounded headless launch; an interactive session still needs a display/OpenGL stack. VESTA is a visualization tool, not a numerical solver.
+    resource_notes: The non-GUI command path is verified. Interactive rendering additionally requires a host display plus GTK3, Wayland/X11, GBM, EGL, and OpenGL libraries. VESTA is a visualization tool, not a numerical solver.
     known_errors:
-      - ["shared library cannot be opened", "the migrated host lacks the locally bundled GUI runtime libraries", "copy .software_cache/installations/vesta/deps and preserve the configured library path"]
+      - ["shared library cannot be opened", "the migrated host lacks an optional GUI runtime library", "use -nogui for headless work or provide the complete host GTK3/OpenGL stack"]
       - ["cannot open display", "no X server is available", "run in a graphical environment or use a non-GUI alternative"]
 
   vina:

@@ -81,6 +81,7 @@ class MineruSandboxPool:
                "inventory": base_inventory}
         )
         base_manager = SandboxManager(base_spec)
+        managers = [base_manager]
         try:
             first_worker = base_manager.ensure_with_retry()
         except Exception:
@@ -104,6 +105,7 @@ class MineruSandboxPool:
             # manager will create only the missing sandbox instance.
             spec.source.parent.mkdir(parents=True, exist_ok=True)
             spec_manager = SandboxManager(spec)
+            managers.append(spec_manager)
             existing = spec_manager._load_source()
             existing_environment_id = str(
                 (existing.get("environment") or {}).get("environment_id") or ""
@@ -114,27 +116,23 @@ class MineruSandboxPool:
                 ))
             specs.append(spec)
 
-        def ensure(spec: SandboxRunOptions):
-            manager = SandboxManager(spec)
-            last_error: Exception | None = None
-            for attempt in range(1, 11):
-                try:
-                    worker = manager.ensure()
-                    break
-                except SandboxError as exc:
-                    last_error = exc
-                    if exc.status not in {409, 429, 500, 502, 503, 504} or attempt == 10:
-                        raise
-                    time.sleep(min(30, 3 * attempt))
-            else:  # pragma: no cover - loop always breaks or raises
-                raise RuntimeError(f"sandbox startup failed: {last_error}")
+        def ensure(manager: SandboxManager):
+            worker = manager.ensure_with_retry()
             return manager, worker, worker.client()
 
         # A small startup fan-out avoids flooding the control plane while still
         # booting a large pool concurrently.
-        with ThreadPoolExecutor(max_workers=self.startup_concurrency) as executor:
-            slots = [(base_manager, first_worker, first_worker.client())]
-            slots.extend(executor.map(ensure, specs))
+        try:
+            with ThreadPoolExecutor(max_workers=self.startup_concurrency) as executor:
+                slots = [(base_manager, first_worker, first_worker.client())]
+                slots.extend(executor.map(ensure, managers[1:]))
+        except Exception:
+            for manager in reversed(managers):
+                try:
+                    manager.cleanup()
+                except Exception:
+                    continue
+            raise
         with self._slot_lock:
             self._records = [
                 {"index": i, "manager": manager, "worker": worker, "client": client,
@@ -198,7 +196,7 @@ class MineruSandboxPool:
                 )
             except Exception as exc:  # defensive isolation for one paper
                 result = {
-                    "status": "failed",
+                    "status": "timeout" if isinstance(exc, TimeoutError) else "failed",
                     "error": {"error_type": type(exc).__name__, "message": str(exc)},
                 }
             result["attempt"] = attempt
@@ -207,6 +205,12 @@ class MineruSandboxPool:
             last = result
             if str(result.get("status")) in {"success", "reused"}:
                 return result
+            if str(result.get("status")) == "timeout":
+                # Exceeding the configured execution budget is terminal for
+                # this document. Repeating the same work would only consume a
+                # second sandbox slot for another full timeout window.
+                result["retry_suppressed_reason"] = "mineru_timeout"
+                return result
         return last
 
     def _run_once(self, item, target, *, command, method, backend, timeout_seconds,
@@ -214,7 +218,6 @@ class MineruSandboxPool:
         slot = self._slots.get()
         with self._slot_lock:
             slot["busy"] = True
-        manager = slot["manager"]
         worker = slot["worker"]
         client = slot["client"]
         job_id = f"mineru-{uuid.uuid4().hex}"

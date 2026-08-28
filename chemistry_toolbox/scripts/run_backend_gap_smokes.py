@@ -175,7 +175,7 @@ def main() -> int:
                 "backend_id": "openbabel",
                 "inputs": {"molecule": "CCO"},
                 "method_spec": {"force_field": "uff"},
-                "action_settings": {"timeout_seconds": 120},
+                "action_settings": {},
             },
         )
         run(
@@ -198,7 +198,7 @@ def main() -> int:
                 "inputs": {"structure": WATER},
                 "method_spec": {"method": "rhf", "basis": "sto-3g"},
                 "action_settings": {"scf_convergence": 1.0e-8},
-                "resource_limits": {"walltime_seconds": 300, "memory_mb": 1024, "cpu_cores": 1},
+                "resource_limits": {"memory_mb": 1024, "cpu_cores": 1},
             },
         )
         run(
@@ -210,7 +210,7 @@ def main() -> int:
                 "inputs": {"structure": WATER},
                 "method_spec": {"method": "hf", "basis": "sto-3g"},
                 "action_settings": {},
-                "resource_limits": {"walltime_seconds": 300, "memory_mb": 1024, "cpu_cores": 1},
+                "resource_limits": {"memory_mb": 1024, "cpu_cores": 1},
             },
         )
         run(
@@ -222,7 +222,7 @@ def main() -> int:
                 "inputs": {"structure": WATER},
                 "method_spec": {"scftyp": "RHF", "gbasis": "STO", "ngauss": 3},
                 "action_settings": {"scf_convergence": 1.0e-8},
-                "resource_limits": {"walltime_seconds": 300, "memory_mb": 1024, "cpu_cores": 1},
+                "resource_limits": {"memory_mb": 1024, "cpu_cores": 1},
             },
         )
         gaussian = run(
@@ -234,7 +234,7 @@ def main() -> int:
                 "inputs": {"structure": WATER},
                 "method_spec": {"method": "HF", "basis": "STO-3G"},
                 "action_settings": {"scf_convergence": "Tight"},
-                "resource_limits": {"walltime_seconds": 600, "memory_mb": 1024, "cpu_cores": 1},
+                "resource_limits": {"memory_mb": 1024, "cpu_cores": 1},
             },
         )
         if gaussian.get("status") in {"success", "partial_success"}:
@@ -256,8 +256,20 @@ def main() -> int:
                             "output_file": output_file,
                         },
                         "method_spec": {},
-                        "action_settings": {"temperature_kelvin": 298.15, "frequency_scale": 1.0},
-                        "resource_limits": {"walltime_seconds": 300, "memory_mb": 1024, "cpu_cores": 1},
+                        "action_settings": {
+                            "temperature_kelvin": 298.15,
+                            "standard_state": "gas_1atm",
+                            "entropy_model": "grimme",
+                            "enthalpy_model": "head_gordon",
+                            "frequency_scale_factor": 1.0,
+                            "zpe_scale_factor": 1.0,
+                            "symmetry_correction": False,
+                            "imaginary_frequency_policy": "retain",
+                            "entropy_frequency_cutoff_cm1": 100.0,
+                            "enthalpy_frequency_cutoff_cm1": 100.0,
+                            "free_rotor_inertia_model": "global",
+                        },
+                        "resource_limits": {"memory_mb": 1024, "cpu_cores": 1},
                     },
                 )
 
@@ -277,7 +289,7 @@ def main() -> int:
                     "scf_algorithm": "ot",
                 },
                 "action_settings": {"scf_convergence": 1.0e-6, "max_scf_cycles": 100},
-                "resource_limits": {"walltime_seconds": 600, "memory_mb": 2048, "cpu_cores": 1},
+                "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
             },
         )
         run(
@@ -294,7 +306,7 @@ def main() -> int:
                     "default_dtype": "float64",
                 },
                 "action_settings": {},
-                "resource_limits": {"walltime_seconds": 600, "memory_mb": 4096, "cpu_cores": 2},
+                "resource_limits": {"memory_mb": 4096, "cpu_cores": 2},
             },
         )
         run(
@@ -310,7 +322,7 @@ def main() -> int:
                     "allow_model_download": True,
                 },
                 "action_settings": {},
-                "resource_limits": {"walltime_seconds": 600, "memory_mb": 4096, "cpu_cores": 2},
+                "resource_limits": {"memory_mb": 4096, "cpu_cores": 2},
             },
         )
         run(
@@ -322,7 +334,7 @@ def main() -> int:
                 "inputs": {"molecule": WATER},
                 "method_spec": {"method": "gfn2", "charge": 0, "multiplicity": 1},
                 "action_settings": {"energy_window_kcal_mol": 3.0},
-                "resource_limits": {"walltime_seconds": 600, "memory_mb": 2048, "cpu_cores": 2},
+                "resource_limits": {"memory_mb": 2048, "cpu_cores": 2},
             },
         )
         run(
@@ -345,7 +357,7 @@ def main() -> int:
                     "num_modes": 1,
                     "energy_range_kcal_mol": 3.0,
                 },
-                "resource_limits": {"walltime_seconds": 180, "memory_mb": 1024, "cpu_cores": 1},
+                "resource_limits": {"memory_mb": 1024, "cpu_cores": 1},
             },
         )
         run(
@@ -365,7 +377,7 @@ def main() -> int:
                     "force_tolerance_kj_mol_nm": 1000.0,
                     "max_iterations": 10,
                 },
-                "resource_limits": {"walltime_seconds": 180, "memory_mb": 1024, "cpu_cores": 1},
+                "resource_limits": {"memory_mb": 1024, "cpu_cores": 1},
             },
         )
         run(
@@ -388,7 +400,7 @@ def main() -> int:
                     "max_iterations": 10,
                     "max_evaluations": 100,
                 },
-                "resource_limits": {"walltime_seconds": 180, "memory_mb": 1024, "cpu_cores": 1},
+                "resource_limits": {"memory_mb": 1024, "cpu_cores": 1},
             },
         )
 
@@ -423,7 +435,7 @@ def main() -> int:
                     "rigid_bonds": "none",
                 },
                 "action_settings": {"max_iterations": 2, "report_interval": 1},
-                "resource_limits": {"walltime_seconds": 180, "memory_mb": 1024, "cpu_cores": 1},
+                "resource_limits": {"memory_mb": 1024, "cpu_cores": 1},
             },
         )
 
@@ -457,7 +469,7 @@ def main() -> int:
                     "gradient_tolerance_kcal_mol_angstrom": 1.0,
                     "report_interval": 1,
                 },
-                "resource_limits": {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
+                "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
             },
         )
 
@@ -500,7 +512,7 @@ def main() -> int:
                     "gradient_tolerance_kcal_mol_angstrom": 1000.0,
                     "report_interval": 1,
                 },
-                "resource_limits": {"walltime_seconds": 300, "memory_mb": 2048, "cpu_cores": 1},
+                "resource_limits": {"memory_mb": 2048, "cpu_cores": 1},
             },
         )
 

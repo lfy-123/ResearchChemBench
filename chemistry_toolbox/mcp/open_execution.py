@@ -1004,6 +1004,17 @@ def _job_environment(
     temporary.mkdir(parents=True, exist_ok=True)
     home.mkdir(parents=True, exist_ok=True)
     environment.setdefault("HOME", str(home))
+    if runtime == "gamess":
+        gamess_scratch = temporary / "gamess"
+        gamess_restart = job_directory / "outputs" / "gamess-restart"
+        gamess_scratch.mkdir(parents=True, exist_ok=True)
+        gamess_restart.mkdir(parents=True, exist_ok=True)
+        environment["GMS_SCRATCH"] = str(gamess_scratch)
+        environment["GMS_RESTART"] = str(gamess_restart)
+    elif runtime == "openmolcas":
+        openmolcas_scratch = temporary / "openmolcas"
+        openmolcas_scratch.mkdir(parents=True, exist_ok=True)
+        environment["MOLCAS_WORKDIR"] = str(openmolcas_scratch)
     environment.update(
         {
             "TMPDIR": str(temporary),

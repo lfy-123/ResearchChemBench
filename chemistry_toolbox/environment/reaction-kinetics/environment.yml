@@ -30,7 +30,8 @@ dependencies:
   - pyyaml
   - python-dotenv
   - pip:
-      - censo==2.1.2
+      # CENSO 2.1.2 is not published for Python 3.11 on public PyPI.
+      - "censo @ git+https://github.com/grimme-lab/CENSO.git@1f23ec6fb1a990215f11f07379a298b542681c20"
       - CoolProp==8.0.0
       - numdifftools==0.9.42
       - gplearn==0.4.3

@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import shutil
+import subprocess
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -12,6 +14,16 @@ from typing import Any
 
 from .legacy_layout import classify_legacy_path, load_legacy_layout
 from .receipts import write_json
+
+
+def _portable_root_label(path: Path, *, destination: bool = False) -> str:
+    """Return a stable receipt label instead of exposing a host checkout path."""
+
+    return (
+        "${RESEARCHCHEMBENCH_SOFTWARE_ROOT}"
+        if destination
+        else "${LEGACY_SOFTWARE_CACHE_ROOT}"
+    )
 
 
 def _link_or_copy(source: Path, destination: Path) -> str:
@@ -113,6 +125,187 @@ _GAMESS_RUNTIME_PATHS = (
     ),
 )
 
+_GAMESS_WRITABLE_DIRECTORY_ASSIGNMENTS = (
+    (
+        re.compile(
+            r"(?m)^(?P<indent>\s*)set SCR="
+            r"\$RESEARCHCHEMBENCH_SOFTWARE_ROOT/validation/gamess/"
+            r"2024-r2-p1/scratch\s*$"
+        ),
+        r"\g<indent>if ( $?GMS_SCRATCH ) set SCR=$GMS_SCRATCH",
+    ),
+    (
+        re.compile(
+            r"(?m)^(?P<indent>\s*)set USERSCR="
+            r"\$RESEARCHCHEMBENCH_SOFTWARE_ROOT/installations/gamess/"
+            r"2024-r2-p1/restart\s*$"
+        ),
+        r"\g<indent>if ( $?GMS_RESTART ) set USERSCR=$GMS_RESTART",
+    ),
+)
+
+_ACPYPE_LAUNCHER = Path("installations/acpype/2023.10.27/python/bin/acpype")
+_KINBOT_REACTION_FAMILY = Path(
+    "installations/kinbot/source-2.2.2/kinbot/reac_family.py"
+)
+
+# These locally compiled binaries have historically carried build-host RPATHs.
+# Runtime profiles already provide the required library directories, so keeping
+# an embedded path makes a migrated cache non-relocatable and can select stale
+# system libraries.  Keep this list deliberately narrow: arbitrary binaries
+# must not be rewritten during cache migration.
+_STALE_RPATH_BINARIES = (
+    Path("installations/charmm/50b2/install/bin/charmm"),
+    Path("installations/vasp/6.3.2/bin/vasp_std"),
+)
+
+_VASP_MAKEFILE = Path("installations/vasp/6.3.2/makefile.include")
+_VASP_LEGACY_ENV = re.compile(
+    r"(?m)^VASP_ENV\s*=\s*/(?:inspire|mnt|home)/[^\n]+$"
+)
+_VASP_PORTABLE_ENV = """# Keep the build configuration relocatable.  A caller may override
+# RESEARCHCHEMBENCH_ENV_ROOT for a staged environment; otherwise derive the
+# consolidated general environment from this file's location.
+ifeq ($(strip $(RESEARCHCHEMBENCH_ENV_ROOT)),)
+VASP_ENV    ?= $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../../../../.envs/general-modern-openmpi5)
+else
+VASP_ENV    ?= $(RESEARCHCHEMBENCH_ENV_ROOT)/general-modern-openmpi5
+endif"""
+
+
+def _clear_stale_binary_rpaths(cache_root: Path) -> list[dict[str, str]]:
+    """Remove embedded RPATHs from known profile-managed ELF entrypoints.
+
+    ``chrpath`` is an optional migration helper.  Missing helper support is
+    reported rather than treated as a migration failure; the profile remains
+    usable when it supplies ``LD_LIBRARY_PATH`` explicitly.
+    """
+
+    helper = shutil.which("chrpath")
+    records: list[dict[str, str]] = []
+    for relative in _STALE_RPATH_BINARIES:
+        path = cache_root / relative
+        record = {"path": relative.as_posix()}
+        if not path.is_file() or path.is_symlink():
+            record["status"] = "missing"
+            records.append(record)
+            continue
+        if helper is None:
+            record["status"] = "helper_missing"
+            records.append(record)
+            continue
+        listed = subprocess.run(
+            [helper, "-l", str(path)],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+        )
+        if "no rpath or runpath tag" in listed.stdout.lower():
+            record["status"] = "already_portable"
+            records.append(record)
+            continue
+        if listed.returncode != 0:
+            record["status"] = "not_elf"
+            records.append(record)
+            continue
+        # ``migrate_v2`` may have created a hardlink from the legacy cache.
+        # Break that link before mutating the ELF so the source remains intact.
+        if path.stat().st_nlink > 1:
+            temporary = path.with_name(f".{path.name}.rpath-copy-{os.getpid()}")
+            shutil.copy2(path, temporary)
+            temporary.replace(path)
+        cleared = subprocess.run(
+            [helper, "-d", str(path)],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+        )
+        record["status"] = "cleared" if cleared.returncode == 0 else "clear_failed"
+        if cleared.returncode != 0:
+            record["output"] = cleared.stdout.strip()[-500:]
+        records.append(record)
+    return records
+
+
+def _rewrite_vasp_makefile(cache_root: Path) -> dict[str, str]:
+    """Replace the VASP build host's absolute environment path with a relative rule."""
+
+    path = cache_root / _VASP_MAKEFILE
+    record = {"path": _VASP_MAKEFILE.as_posix()}
+    if not path.is_file() or path.is_symlink():
+        record["status"] = "missing"
+        return record
+    text = path.read_text(encoding="utf-8")
+    if "/inspire/" not in text and "/mnt/" not in text and "/home/" not in text:
+        record["status"] = "already_portable"
+        return record
+    rewritten, count = _VASP_LEGACY_ENV.subn(_VASP_PORTABLE_ENV, text, count=1)
+    if count != 1:
+        record["status"] = "unexpected_format"
+        return record
+    temporary = path.with_name(f".{path.name}.relocate-{os.getpid()}")
+    temporary.write_text(rewritten, encoding="utf-8")
+    shutil.copystat(path, temporary)
+    temporary.replace(path)
+    record["status"] = "rewritten"
+    return record
+
+
+def _rewrite_acpype_launcher(cache_root: Path) -> dict[str, str]:
+    """Replace the cached console script's build-host Python with its bundled runtime."""
+
+    path = cache_root / _ACPYPE_LAUNCHER
+    if not path.is_file() or path.is_symlink():
+        return {"path": _ACPYPE_LAUNCHER.as_posix(), "status": "missing"}
+    expected = """#!/usr/bin/env bash
+set -euo pipefail
+install_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
+export PYTHONPATH="${install_root}/python${PYTHONPATH:+:${PYTHONPATH}}"
+export BABEL_LIBDIR="${BABEL_LIBDIR:-${install_root}/deps/lib/openbabel/3.1.0}"
+export BABEL_DATADIR="${BABEL_DATADIR:-${install_root}/deps/share/openbabel/3.1.0}"
+exec "${install_root}/deps/bin/python" -m acpype.cli "$@"
+"""
+    if path.read_text(encoding="utf-8") == expected:
+        return {"path": _ACPYPE_LAUNCHER.as_posix(), "status": "already_portable"}
+    temporary = path.with_name(f".{path.name}.relocate-{os.getpid()}")
+    temporary.write_text(expected, encoding="utf-8")
+    shutil.copystat(path, temporary)
+    temporary.replace(path)
+    return {"path": _ACPYPE_LAUNCHER.as_posix(), "status": "rewritten"}
+
+
+def _patch_kinbot_nwchem_reaction_family(cache_root: Path) -> dict[str, str]:
+    """Add KinBot's missing NWChem template identifiers idempotently."""
+
+    path = cache_root / _KINBOT_REACTION_FAMILY
+    if not path.is_file() or path.is_symlink():
+        return {"path": _KINBOT_REACTION_FAMILY.as_posix(), "status": "missing"}
+    text = path.read_text(encoding="utf-8")
+    expected = (
+        "    elif rxn.qc.qc == 'nwchem':\n"
+        "        code = 'nwchem'\n"
+        "        Code = 'NWChem'\n"
+    )
+    if expected in text:
+        return {
+            "path": _KINBOT_REACTION_FAMILY.as_posix(),
+            "status": "already_portable",
+        }
+    anchor = "    elif rxn.qc.qc == 'nn_pes' and step >= rxn.max_step:\n"
+    if text.count(anchor) != 1:
+        return {
+            "path": _KINBOT_REACTION_FAMILY.as_posix(),
+            "status": "unexpected_source",
+        }
+    rewritten = text.replace(anchor, expected + anchor, 1)
+    temporary = path.with_name(f".{path.name}.relocate-{os.getpid()}")
+    temporary.write_text(rewritten, encoding="utf-8")
+    shutil.copystat(path, temporary)
+    temporary.replace(path)
+    return {"path": _KINBOT_REACTION_FAMILY.as_posix(), "status": "rewritten"}
+
 
 def _rewrite_relative_exec_wrapper(path: Path, cache_root: Path) -> bool:
     """Replace a legacy absolute cache reference with a launcher-relative path."""
@@ -153,6 +346,8 @@ def _rewrite_gamess_runtime_paths(path: Path) -> bool:
         return False
     rewritten = text
     for pattern, replacement in _GAMESS_RUNTIME_PATHS:
+        rewritten = pattern.sub(replacement, rewritten)
+    for pattern, replacement in _GAMESS_WRITABLE_DIRECTORY_ASSIGNMENTS:
         rewritten = pattern.sub(replacement, rewritten)
     if rewritten == text:
         return False
@@ -233,6 +428,66 @@ def _write_portable_config_files(cache_root: Path) -> list[dict[str, str]]:
     return records
 
 
+def _rewrite_aiida_config(cache_root: Path) -> dict[str, str]:
+    """Repair AiiDA's SQLite repository path after a cache relocation.
+
+    AiiDA stores the repository path in JSON and older deployments wrote the
+    complete checkout path there.  Keep the persisted value project-relative;
+    the profile's ``AIIDA_PATH`` supplies the current checkout at runtime.
+    """
+
+    relative = Path("state/aiida/.aiida/config.json")
+    path = cache_root / relative
+    if not path.is_file() or path.is_symlink():
+        return {"path": relative.as_posix(), "status": "missing"}
+    try:
+        document = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        return {"path": relative.as_posix(), "status": f"invalid:{exc.__class__.__name__}"}
+
+    profiles = document.get("profiles")
+    profile = profiles.get("researchchembench") if isinstance(profiles, dict) else None
+    storage = profile.get("storage") if isinstance(profile, dict) else None
+    config = storage.get("config") if isinstance(storage, dict) else None
+    raw = config.get("filepath") if isinstance(config, dict) else None
+    if not isinstance(raw, str) or not raw.strip():
+        return {"path": relative.as_posix(), "status": "missing_filepath"}
+
+    project_root = cache_root.parent
+    configured = Path(raw).expanduser()
+    current = configured if configured.is_absolute() else project_root / configured
+    repository_root = cache_root / "state/aiida/.aiida/repository"
+    # Prefer the repository referenced by the old config, then fall back to a
+    # single repository migrated with the cache.  Never invent a missing path.
+    candidates = []
+    if current.is_dir() and (current / "database.sqlite").is_file():
+        candidates.append(current)
+    if repository_root.is_dir():
+        candidates.extend(
+            item for item in sorted(repository_root.iterdir())
+            if item.is_dir() and (item / "database.sqlite").is_file()
+        )
+    if not candidates:
+        return {"path": relative.as_posix(), "status": "repository_missing"}
+    selected = candidates[0]
+    # AiiDA resolves the SQLite filepath relative to the process directory.
+    # The relocatable ``verdi`` shim changes into the profile's ``.aiida``
+    # directory before invoking AiiDA, so persist only the repository-relative
+    # component and never the checkout path.
+    portable = (Path("repository") / selected.name).as_posix()
+    if raw == portable:
+        return {"path": relative.as_posix(), "status": "already_portable"}
+    config["filepath"] = portable
+    temporary = path.with_name(f".{path.name}.relocate-{os.getpid()}")
+    temporary.write_text(
+        json.dumps(document, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    shutil.copystat(path, temporary)
+    temporary.replace(path)
+    return {"path": relative.as_posix(), "status": "rewritten"}
+
+
 def relocate_v2(cache_root: Path) -> dict[str, Any]:
     """Apply deterministic, copy-on-write portability repairs to an existing v2 cache."""
 
@@ -275,11 +530,16 @@ def relocate_v2(cache_root: Path) -> dict[str, Any]:
     report = {
         "schema_version": 1,
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "cache_root": str(cache_root),
+        "cache_root": _portable_root_label(cache_root, destination=True),
         "portable_shebangs": records,
         "portable_wrappers": wrapper_records,
         "portable_gamess_files": _rewrite_gamess_files(cache_root),
+        "portable_acpype_launcher": _rewrite_acpype_launcher(cache_root),
+        "kinbot_nwchem_reaction_family": _patch_kinbot_nwchem_reaction_family(cache_root),
+        "binary_rpaths": _clear_stale_binary_rpaths(cache_root),
+        "vasp_makefile": _rewrite_vasp_makefile(cache_root),
         "portable_configs": _write_portable_config_files(cache_root),
+        "aiida_config": _rewrite_aiida_config(cache_root),
         "compatibility_links": _ensure_compatibility_links(cache_root),
     }
     write_json(cache_root / "receipts" / "v2-relocation.json", report)
@@ -310,7 +570,7 @@ def plan_v2(legacy_root: Path) -> dict[str, Any]:
         roots[relative.parts[0]] += 1
     return {
         "schema_version": 1,
-        "legacy_root": str(legacy_root),
+        "legacy_root": _portable_root_label(legacy_root),
         "classified_paths": len(destination_paths),
         "roles": dict(sorted(roles.items())),
         "source_roots": dict(sorted(roots.items())),
@@ -401,13 +661,18 @@ def migrate_v2(legacy_root: Path, destination_root: Path) -> dict[str, Any]:
     report = {
         "schema_version": 1,
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "legacy_root": str(legacy_root),
-        "destination_root": str(destination_root),
+        "legacy_root": _portable_root_label(legacy_root),
+        "destination_root": _portable_root_label(destination_root, destination=True),
         "counts": counts,
         "plan": plan,
         "unresolved_symlinks": unresolved_links,
         "portable_gamess_files": _rewrite_gamess_files(destination_root),
+        "portable_acpype_launcher": _rewrite_acpype_launcher(destination_root),
+        "kinbot_nwchem_reaction_family": _patch_kinbot_nwchem_reaction_family(destination_root),
+        "binary_rpaths": _clear_stale_binary_rpaths(destination_root),
+        "vasp_makefile": _rewrite_vasp_makefile(destination_root),
         "portable_configs": _write_portable_config_files(destination_root),
+        "aiida_config": _rewrite_aiida_config(destination_root),
         "compatibility_links": _ensure_compatibility_links(destination_root),
     }
     write_json(destination_root / "receipts" / "legacy-v2-migration.json", report)

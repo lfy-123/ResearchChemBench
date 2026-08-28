@@ -2,6 +2,7 @@ sella==2.5.0
 pysisyphus==1.0.0
 pyscf==2.13.1
 # Override legacy Conda builds that hang or fail with this Python/NumPy stack.
-censo==2.1.2
+# v2.1.2 resolved tag; this release is not available for Python 3.11 on public PyPI.
+censo @ git+https://github.com/grimme-lab/CENSO.git@1f23ec6fb1a990215f11f07379a298b542681c20
 CoolProp==8.0.0
 numdifftools==0.9.42

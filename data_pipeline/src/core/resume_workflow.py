@@ -9,12 +9,11 @@ from typing import Any, Iterable
 from src.config import load_config
 from src.contracts import canonical_hash
 from src.core.io import merge_dict, write_json
-from src.core.resume import ResumeStateStore
-from src.core.resume import scientific_stage_fingerprints
+from src.core.resume import ResumeStateStore, scientific_stage_fingerprints
 from src.core.resume_importer import import_legacy_run, reconcile_dependencies
 from src.core.run_lease import RunLease
 from src.pipeline import run_pipeline
-
+from src.runtime import ManagedScreeningServiceError
 
 STAGES = tuple(f"stage{index:02d}" for index in range(6))
 CHILD_STAGES = {
@@ -55,6 +54,7 @@ def prepare_resume(
     store = ResumeStateStore.for_run_root(root)
     migration = import_legacy_run(root, store)
     reconcile_dependencies(root, store, stop_stage=stop_stage)
+    store.terminalize_pruned_stage01_work()
     old_target = _configured_target(root, store)
     if total < old_target:
         raise ValueError(
@@ -133,6 +133,10 @@ def execute_resume(
             )
             for spec in specs
         ]
+        batch_start_stages = [
+            _effective_batch_start_stage(spec, requested_start_stage=start_stage)
+            for spec in specs
+        ]
         for spec, config_path in zip(specs, runtime_configs, strict=True):
             fingerprints = scientific_stage_fingerprints(load_config(config_path))
             mismatches = store.configuration_mismatches(
@@ -160,35 +164,61 @@ def execute_resume(
             reconcile_dependencies(store.database.parents[1], store, stop_stage=stop_stage)
             shared_sandbox = _shared_sandbox(
                 runtime_configs,
-                start_stage=start_stage,
+                start_stage=min(
+                    batch_start_stages,
+                    key=lambda value: int(value.removeprefix("stage")),
+                    default=start_stage,
+                ),
                 stop_stage=stop_stage,
             )
             with shared_sandbox as sandbox_runtime:
-                for spec, runtime_config in zip(specs, runtime_configs, strict=True):
-                    result = run_pipeline(
-                        runtime_config,
-                        execution_backend=("sandbox" if sandbox_runtime is not None else "local"),
-                        stop_after=stop_stage,
-                        resume_options={
-                            "store": store,
-                            "generation": generation,
-                            "outer_batch_id": spec.batch_id,
-                            "target_slot_start": spec.target_slot_start,
-                            "start_stage": start_stage,
-                            "stop_stage": stop_stage,
-                            "retry_only": retry_only,
-                            "invalidated_stages": invalidated,
-                        },
-                        sandbox_runtime=sandbox_runtime,
-                    )
+                for spec, runtime_config, batch_start_stage in zip(
+                    specs, runtime_configs, batch_start_stages, strict=True
+                ):
+                    try:
+                        result = run_pipeline(
+                            runtime_config,
+                            execution_backend=("sandbox" if sandbox_runtime is not None else "local"),
+                            stop_after=stop_stage,
+                            resume_options={
+                                "store": store,
+                                "generation": generation,
+                                "outer_batch_id": spec.batch_id,
+                                "target_slot_start": spec.target_slot_start,
+                                "start_stage": batch_start_stage,
+                                "stop_stage": stop_stage,
+                                "retry_only": retry_only,
+                                "invalidated_stages": invalidated,
+                            },
+                            sandbox_runtime=sandbox_runtime,
+                        )
+                    except ManagedScreeningServiceError as exc:
+                        # The stage has journaled retryable paper failures before
+                        # raising.  Do not mark this batch (or generation) complete,
+                        # and do not run later stages with an empty upstream set.
+                        results.append(
+                            {
+                                "batch": spec.batch_id,
+                                "status": "retryable_infrastructure_failure",
+                                "error": str(exc),
+                            }
+                        )
+                        generation_status = "partial"
+                        break
                     results.append(
                         {
                             "batch": spec.batch_id,
                             "status": result.get("status"),
                             "workspace": result.get("workspace"),
+                            "effective_start_stage": batch_start_stage,
                         }
                     )
-            generation_status = "completed"
+            if generation_status != "partial":
+                generation_status = (
+                    "completed"
+                    if all(item.get("status") == "completed" for item in results)
+                    else "partial"
+                )
     finally:
         store.finish_generation(generation, status=generation_status)
         summary = store.export_audit_files()
@@ -198,6 +228,23 @@ def execute_resume(
         "batches": results,
         "summary": summary,
     }
+
+
+def _effective_batch_start_stage(
+    spec: BatchSpec, *, requested_start_stage: str
+) -> str:
+    """Initialize an untouched batch before applying a later-stage resume.
+
+    A cumulative run may contain configured batches that Stage00 has not
+    materialized yet.  Such a batch cannot reconstruct any downstream input,
+    so it must begin at Stage00 even when older selected batches resume later.
+    """
+
+    requested = _normalize_stage(requested_start_stage)
+    if requested == "stage00":
+        return requested
+    stage00_summary = spec.workspace / "stage_00_remote_corpus" / "stage_summary.json"
+    return requested if stage00_summary.is_file() else "stage00"
 
 
 def append_batches(
@@ -461,10 +508,11 @@ def _shared_sandbox(
         return contextlib.nullcontext(None)
     if not _stage_range_requires_sandbox(config, start_stage, stop_stage):
         return contextlib.nullcontext(None)
-    from src.pipeline import _sandbox_options_from_config
-    from src.sandbox.runtime import SandboxPipelineRuntime
+    from src.pipeline import _sandbox_options_from_config, _sandbox_runtime_from_config
 
-    return SandboxPipelineRuntime(_sandbox_options_from_config(config))
+    return _sandbox_runtime_from_config(
+        config, options=_sandbox_options_from_config(config)
+    )
 
 
 def _stage_range_requires_sandbox(

@@ -23,17 +23,27 @@ PIPELINE_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_TEMPLATE = PIPELINE_ROOT / "config.example.json"
 DEFAULT_API_BASE_URL = "http://127.0.0.1:13000/v1"
 DEFAULT_MODELS = {
-    "stage02_screening": "Qwen3.6-27B",
-    "stage03_screening": "DeepSeek-V4-Flash",
-    "stage05_router": "DeepSeek-V4-Flash-DSpark",
+    "stage02_screening": "DeepSeek-V4-Pro",
+    "stage03_screening": "Nex-N2-Pro",
+    "stage05_router": "DeepSeek-V4-Flash",
     "suitability": "<selected-at-preflight>",
 }
 DEFAULT_STAGE02_FALLBACKS = (
+    "Nex-N2-Pro",
     "DeepSeek-V4-Flash",
-    "Kimi-K2.6",
+    "Nex-N2-Pro-w8a8",
+    "DeepSeek-V4-Flash-DSpark",
+    "MiniMax-M2.7",
+    "Mimo-V2.5-Pro",
+    "Qwen3.6-27B",
 )
 DEFAULT_STAGE03_FALLBACKS = (
-    "GLM-5.2",
+    "DeepSeek-V4-Pro",
+    "DeepSeek-V4-Flash",
+    "Nex-N2-Pro-w8a8",
+    "DeepSeek-V4-Flash-DSpark",
+    "MiniMax-M2.7",
+    "Mimo-V2.5-Pro",
     "Qwen3.6-27B",
 )
 DEFAULT_STAGE05_ROUTER_FALLBACKS = (
@@ -65,19 +75,46 @@ def main() -> int:
     os.environ[args.api_key_env] = api_key
     stop_index = int(args.stop_after.replace("stage", ""))
     fixed_models = {
-        key: value
+        key: os.environ.get(_model_env_name(key), "") or value
         for key, value in DEFAULT_MODELS.items()
         if key in {"stage02_screening", "stage03_screening"}
         or (stop_index >= 5 and key == "stage05_router")
     }
-    fallback_names = {
-        *DEFAULT_STAGE02_FALLBACKS,
-        *DEFAULT_STAGE03_FALLBACKS,
-        *(DEFAULT_STAGE05_ROUTER_FALLBACKS if stop_index >= 5 else ()),
+    fallback_chains = {
+        "stage02_screening": _configured_fallback_names(
+            "stage02_screening", DEFAULT_STAGE02_FALLBACKS
+        ),
+        "stage03_screening": _configured_fallback_names(
+            "stage03_screening", DEFAULT_STAGE03_FALLBACKS
+        ),
     }
-    _preflight_api(args.api_base_url, api_key, fixed_models, fallback_names=fallback_names)
+    if stop_index >= 5:
+        fallback_chains["stage05_router"] = _configured_fallback_names(
+            "stage05_router", DEFAULT_STAGE05_ROUTER_FALLBACKS
+        )
+    model_preflight = _preflight_api(
+        args.api_base_url,
+        api_key,
+        fixed_models,
+        fallback_chains=fallback_chains,
+    )
+    runtime_chains = _promote_usable_models(
+        fixed_models, fallback_chains, model_preflight
+    )
+    args.stage02_model, args.stage02_fallback_models = runtime_chains[
+        "stage02_screening"
+    ]
+    args.stage03_model, args.stage03_fallback_models = runtime_chains[
+        "stage03_screening"
+    ]
+    if stop_index >= 5:
+        args.stage05_router_model, args.stage05_router_fallback_models = runtime_chains[
+            "stage05_router"
+        ]
     auditor_preflight: list[dict[str, Any]] = []
-    models = dict(fixed_models)
+    models = {
+        role: primary for role, (primary, _fallbacks) in runtime_chains.items()
+    }
     if stop_index >= 5:
         candidates = tuple(
             item.strip()
@@ -95,6 +132,7 @@ def main() -> int:
             raise RuntimeError("no Stage05B auditor candidate passed API preflight")
         args.stage05_auditor_candidates_resolved = tuple(usable)
         args.stage05_auditor_model = usable[0]
+        os.environ["RCB_NEW_STAGE05_AUDITOR_MODEL"] = usable[0]
         args.stage05_auditor_chat_template_kwargs = _model_chat_template_kwargs(
             usable[0], thinking=True
         )
@@ -109,7 +147,9 @@ def main() -> int:
     template = json.loads(Path(args.template).expanduser().resolve().read_text(encoding="utf-8"))
     batches = (args.total + args.batch_size - 1) // args.batch_size
     status_path = run_root / "batch_status.json"
-    status = _initial_status(args, run_root, batches, models, auditor_preflight)
+    status = _initial_status(
+        args, run_root, batches, models, auditor_preflight, model_preflight
+    )
     if status_path.is_file():
         previous = read_json(status_path)
         status["first_started_at"] = previous.get("first_started_at") or previous.get(
@@ -258,12 +298,27 @@ def _batch_config(
             "memory": args.sandbox_memory,
             "lifecycle_minutes": 1440,
             "startup_timeout_seconds": args.sandbox_startup_timeout_seconds,
-            "cleanup": "keep",
+            "cleanup": args.sandbox_cleanup,
             "source": str(run_root / ".sandboxes.local.yaml"),
             "inventory": str(run_root / ".sandbox_inventory.local.json"),
             "api_key_env": "RCB_SANDBOX_API_KEY",
         }
     )
+    if args.mineru_sandbox_count > 0:
+        config["execution"]["mineru_sandbox_pool"] = {
+            "enabled": True,
+            "count": args.mineru_sandbox_count,
+            "cpu": args.mineru_sandbox_cpu,
+            "memory": args.mineru_sandbox_memory,
+            "lifecycle_minutes": 1440,
+            "startup_timeout_seconds": args.sandbox_startup_timeout_seconds,
+            "startup_concurrency": args.mineru_sandbox_startup_concurrency,
+            "supervisor_interval_seconds": 15,
+            "max_attempts": 2,
+            "retry_delay_seconds": 5,
+            "cleanup": "stop",
+            "state_root": str(run_root / ".mineru_pool"),
+        }
     config["source"] = {"root": str(PIPELINE_ROOT / "datasets" / "en-paper-hzzj")}
     config["stage00"] = {
         "enabled": True,
@@ -274,6 +329,8 @@ def _batch_config(
         "resume": True,
         "selection": "remote_order",
         "seed": args.seed + batch_index,
+        "publication_date_from": args.publication_date_from,
+        "publication_index_path": args.publication_index_path,
         "exclude_selected_manifests": [str(path) for path in exclusions],
     }
     config["stage01"]["package"].update({"workers": 32, "network_workers": 32})
@@ -309,7 +366,12 @@ def _batch_config(
             ),
             "api_concurrency": max(
                 1,
-                int(args.stage04_api_concurrency)
+                min(
+                    int(args.stage04_api_concurrency),
+                    int(args.mineru_sandbox_count),
+                )
+                if args.mineru_sandbox_count > 0
+                else int(args.stage04_api_concurrency)
                 // max(1, int(args.stage04_microbatch_concurrency)),
             ),
             "request_batch_size": 1,
@@ -341,47 +403,55 @@ def _batch_config(
     config["models"]["stage02_screening"] = _api_model_config(
         args,
         role="stage02_screening",
-        model=DEFAULT_MODELS["stage02_screening"],
+        model=getattr(args, "stage02_model", DEFAULT_MODELS["stage02_screening"]),
         workers=args.stage02_workers,
         max_tokens=STAGE02_CLASSIFICATION_MAX_TOKENS,
         context_window_tokens=SCREENING_CONTEXT_WINDOW_TOKENS,
         context_safety_margin_tokens=SCREENING_CONTEXT_SAFETY_MARGIN_TOKENS,
         chat_template_kwargs=_model_chat_template_kwargs(
-            DEFAULT_MODELS["stage02_screening"], thinking=True
+            getattr(args, "stage02_model", DEFAULT_MODELS["stage02_screening"]),
+            thinking=False,
         ),
         fallback_models=_fallback_model_configs(
-            DEFAULT_STAGE02_FALLBACKS,
+            getattr(args, "stage02_fallback_models", DEFAULT_STAGE02_FALLBACKS),
             max_tokens=STAGE02_CLASSIFICATION_MAX_TOKENS,
-            thinking=True,
+            thinking=False,
         ),
     )
     config["models"]["stage03_screening"] = _api_model_config(
         args,
         role="stage03_screening",
-        model=DEFAULT_MODELS["stage03_screening"],
+        model=getattr(args, "stage03_model", DEFAULT_MODELS["stage03_screening"]),
         workers=args.stage03_workers,
         max_tokens=STAGE03_MAX_TOKENS,
         context_window_tokens=SCREENING_CONTEXT_WINDOW_TOKENS,
         context_safety_margin_tokens=SCREENING_CONTEXT_SAFETY_MARGIN_TOKENS,
         chat_template_kwargs=_model_chat_template_kwargs(
-            DEFAULT_MODELS["stage03_screening"], thinking=True
+            getattr(args, "stage03_model", DEFAULT_MODELS["stage03_screening"]),
+            thinking=False,
         ),
         fallback_models=_fallback_model_configs(
-            DEFAULT_STAGE03_FALLBACKS,
+            getattr(args, "stage03_fallback_models", DEFAULT_STAGE03_FALLBACKS),
             max_tokens=STAGE03_MAX_TOKENS,
-            thinking=True,
+            thinking=False,
         ),
     )
     if int(stop_after.replace("stage", "")) >= 5:
         config["models"]["stage05_router"] = _api_model_config(
             args,
             role="stage05_router",
-            model=DEFAULT_MODELS["stage05_router"],
+            model=getattr(
+                args, "stage05_router_model", DEFAULT_MODELS["stage05_router"]
+            ),
             workers=args.stage05_workers,
             max_tokens=3072,
             chat_template_kwargs={"thinking": False},
             fallback_models=_fallback_model_configs(
-                DEFAULT_STAGE05_ROUTER_FALLBACKS,
+                getattr(
+                    args,
+                    "stage05_router_fallback_models",
+                    DEFAULT_STAGE05_ROUTER_FALLBACKS,
+                ),
                 max_tokens=4096,
                 thinking=False,
             ),
@@ -446,7 +516,9 @@ def _api_model_config(
         "base_url_env": "RCB_NEW_API_BASE_URL",
         "api_key_env": args.api_key_env,
         "model": model,
-        "model_env": f"RCB_NEW_{role.upper()}_MODEL",
+        # Environment overrides have already been applied before preflight.
+        # Freeze the live candidate chosen for this batch run.
+        "model_env": f"RCB_RUN_SELECTED_{role.upper()}_MODEL",
         "workers": workers,
         "max_tokens": max_tokens,
         "timeout_seconds": 1200,
@@ -460,6 +532,42 @@ def _api_model_config(
     if context_safety_margin_tokens is not None:
         config["context_safety_margin_tokens"] = int(context_safety_margin_tokens)
     return config
+
+
+def _model_env_name(role: str) -> str:
+    return {
+        "stage02_screening": "RCB_STAGE02_SCREENING_MODEL",
+        "stage03_screening": "RCB_STAGE03_SCREENING_MODEL",
+        "stage05_router": "RCB_NEW_STAGE05_ROUTER_MODEL",
+        "stage05_auditor": "RCB_NEW_STAGE05_AUDITOR_MODEL",
+    }.get(role, f"RCB_{role.upper()}_MODEL")
+
+
+def _promote_usable_models(
+    primary_models: dict[str, str],
+    fallback_chains: dict[str, tuple[str, ...]],
+    audits: list[dict[str, Any]],
+) -> dict[str, tuple[str, tuple[str, ...]]]:
+    usable = {str(row["role"]): str(row["usable_model"]) for row in audits}
+    output: dict[str, tuple[str, tuple[str, ...]]] = {}
+    for role, primary in primary_models.items():
+        ordered = list(dict.fromkeys((primary, *fallback_chains.get(role, ()))))
+        selected = usable[role]
+        selected_index = ordered.index(selected)
+        fallbacks = tuple(ordered[selected_index + 1 :] + ordered[:selected_index])
+        output[role] = (selected, fallbacks)
+    return output
+
+
+def _configured_fallback_names(role: str, defaults: tuple[str, ...]) -> tuple[str, ...]:
+    env_name = {
+        "stage02_screening": "RCB_STAGE02_SCREENING_FALLBACK_MODELS",
+        "stage03_screening": "RCB_STAGE03_SCREENING_FALLBACK_MODELS",
+        "stage05_router": "RCB_STAGE05_ROUTER_FALLBACK_MODELS",
+    }[role]
+    raw = os.environ.get(env_name, "")
+    values = tuple(item.strip() for item in raw.split(",") if item.strip())
+    return values or defaults
 
 
 def _fallback_model_configs(models, *, max_tokens: int, thinking: bool):
@@ -482,8 +590,8 @@ def _preflight_api(
     api_key: str,
     models: dict[str, str],
     *,
-    fallback_names: set[str] | None = None,
-) -> None:
+    fallback_chains: dict[str, tuple[str, ...]] | None = None,
+) -> list[dict[str, Any]]:
     request = urllib.request.Request(
         f"{base_url.rstrip('/')}/models",
         headers={"Authorization": f"Bearer {api_key}"},
@@ -496,34 +604,65 @@ def _preflight_api(
         body = exc.read().decode("utf-8", errors="replace")[:500]
         raise RuntimeError(f"New API preflight HTTP {exc.code}: {body}") from exc
     available = {str(row.get("id")) for row in payload.get("data") or []}
-    missing = sorted((set(models.values()) | set(fallback_names or ())) - available)
+    fallback_chains = fallback_chains or {}
+    configured = set(models.values())
+    for values in fallback_chains.values():
+        configured.update(values)
+    missing = sorted(configured - available)
     if missing:
         raise RuntimeError(f"New API does not expose configured models: {missing}")
-    probes = [
-        (models["stage02_screening"], {"enable_thinking": False}),
-        (models["stage03_screening"], {"thinking": False}),
-    ]
-    if "stage05_router" in models:
-        probes.append((models["stage05_router"], {"thinking": False}))
-    for model, template_kwargs in probes:
-        response, _audit = call_json_chat(
-            model=model,
-            base_url=base_url,
-            api_key=api_key,
-            system_prompt="Return one JSON object only.",
-            user_content='Return {"status":"ok"}.',
-            timeout_seconds=120,
-            max_tokens=128,
-            retries=2,
-            chat_template_kwargs=template_kwargs,
-            proxy_url="",
+    audits: list[dict[str, Any]] = []
+    for role, primary in models.items():
+        candidates = tuple(dict.fromkeys((primary, *fallback_chains.get(role, ()))))
+        outcomes: list[dict[str, Any]] = []
+        for model in candidates:
+            try:
+                response, _audit = call_json_chat(
+                    model=model,
+                    base_url=base_url,
+                    api_key=api_key,
+                    system_prompt="Return one JSON object only.",
+                    user_content='Return {"status":"ok"}.',
+                    timeout_seconds=120,
+                    max_tokens=128,
+                    retries=0,
+                    chat_template_kwargs=_model_chat_template_kwargs(
+                        model, thinking=False
+                    ),
+                    proxy_url="",
+                )
+                ok = response.get("status") == "ok"
+                outcomes.append({"model": model, "ok": ok})
+                if ok:
+                    break
+            except Exception as exc:
+                outcomes.append(
+                    {
+                        "model": model,
+                        "ok": False,
+                        "error": f"{type(exc).__name__}: {exc}"[:500],
+                    }
+                )
+        usable = next((row["model"] for row in outcomes if row["ok"]), None)
+        audits.append(
+            {
+                "role": role,
+                "primary_model": primary,
+                "usable_model": usable,
+                "fallback_required": usable != primary,
+                "outcomes": outcomes,
+            }
         )
-        if response.get("status") != "ok":
-            raise RuntimeError(f"New API probe returned an invalid response for {model}")
+        if usable is None:
+            raise RuntimeError(
+                f"no configured model is currently usable for {role}: {candidates}"
+            )
     print(
-        "New API preflight passed: " + ", ".join(dict.fromkeys(models.values())),
+        "New API preflight passed: "
+        + ", ".join(f"{row['role']}={row['usable_model']}" for row in audits),
         flush=True,
     )
+    return audits
 
 
 def _select_stage05_auditor(
@@ -761,6 +900,7 @@ def _initial_status(
     batches: int,
     models: dict[str, str],
     auditor_preflight: list[dict[str, Any]],
+    model_preflight: list[dict[str, Any]],
 ) -> dict[str, Any]:
     return {
         "state": "initializing",
@@ -772,11 +912,14 @@ def _initial_status(
         "batches": batches,
         "api_base_url": args.api_base_url,
         "models": models,
+        "model_preflight": model_preflight,
         "stage05_auditor_preflight": auditor_preflight,
         "sandbox_cpu": args.sandbox_cpu,
         "sandbox_memory": args.sandbox_memory,
         "stage04_microbatch_concurrency": args.stage04_microbatch_concurrency,
         "stage04_api_concurrency": args.stage04_api_concurrency,
+        "publication_date_from": args.publication_date_from,
+        "mineru_sandbox_count": args.mineru_sandbox_count,
         "completed_batches": [],
         "batch_results": [],
         "current_batch": None,
@@ -794,6 +937,14 @@ def _parse_args():
     parser.add_argument("--stop-after", choices=("stage03", "stage05"), default="stage05")
     parser.add_argument("--dataset", default="en-paper-hzzj")
     parser.add_argument(
+        "--publication-date-from",
+        help="only select papers with metadata publication_date on or after YYYY-MM-DD",
+    )
+    parser.add_argument(
+        "--publication-index-path",
+        help="shared Stage00 publication candidate index reused by every batch",
+    )
+    parser.add_argument(
         "--credentials",
         default="/mnt/shared-storage-user/liyuqiang/benchmark/pipline_demo/pdfs/xinghe.txt",
     )
@@ -807,12 +958,12 @@ def _parse_args():
     parser.add_argument("--api-key-env", default="RCB_NEW_API_KEY")
     parser.add_argument("--microbatch-size", type=int, default=10)
     parser.add_argument("--microbatch-concurrency", type=int, default=8)
-    parser.add_argument("--stage02-workers", type=int, default=8)
-    parser.add_argument("--stage03-workers", type=int, default=8)
+    parser.add_argument("--stage02-workers", type=int, default=4)
+    parser.add_argument("--stage03-workers", type=int, default=4)
     parser.add_argument("--stage04-microbatch-concurrency", type=int, default=1)
     parser.add_argument("--stage04-api-concurrency", type=int, default=8)
-    parser.add_argument("--stage05-workers", type=int, default=8)
-    parser.add_argument("--stage05-auditor-max-tokens", type=int, default=8192)
+    parser.add_argument("--stage05-workers", type=int, default=4)
+    parser.add_argument("--stage05-auditor-max-tokens", type=int, default=12288)
     parser.add_argument(
         "--stage05-auditor-candidates",
         default=",".join(DEFAULT_STAGE05_AUDITOR_CANDIDATES),
@@ -821,6 +972,11 @@ def _parse_args():
     parser.add_argument("--sandbox-cpu", type=int, default=64)
     parser.add_argument("--sandbox-memory", default="128Gi")
     parser.add_argument("--sandbox-startup-timeout-seconds", type=int, default=14400)
+    parser.add_argument("--sandbox-cleanup", choices=("keep", "stop", "delete"), default="keep")
+    parser.add_argument("--mineru-sandbox-count", type=int, default=0)
+    parser.add_argument("--mineru-sandbox-cpu", type=int, default=16)
+    parser.add_argument("--mineru-sandbox-memory", default="32Gi")
+    parser.add_argument("--mineru-sandbox-startup-concurrency", type=int, default=32)
     parser.add_argument("--prepare-only", action="store_true")
     return parser.parse_args()
 
@@ -839,13 +995,27 @@ def _validate_args(args) -> None:
         "stage05_auditor_max_tokens",
         "stage05_auditor_probe_attempts",
         "sandbox_cpu",
+        "mineru_sandbox_cpu",
+        "mineru_sandbox_startup_concurrency",
     ):
         if int(getattr(args, name)) < 1:
             raise ValueError(f"--{name.replace('_', '-')} must be positive")
+    if args.mineru_sandbox_count < 0:
+        raise ValueError("--mineru-sandbox-count must be zero or positive")
     if not Path(args.credentials).expanduser().is_file():
         raise FileNotFoundError(f"remote credentials not found: {args.credentials}")
     if args.sandbox_startup_timeout_seconds < 60:
         raise ValueError("--sandbox-startup-timeout-seconds must be at least 60")
+    if args.publication_date_from:
+        try:
+            datetime.strptime(args.publication_date_from, "%Y-%m-%d")
+        except ValueError as exc:
+            raise ValueError("--publication-date-from must use YYYY-MM-DD") from exc
+        if not args.publication_index_path:
+            args.publication_index_path = str(
+                Path(args.run_root).expanduser().resolve()
+                / "stage00_publication_candidates.jsonl"
+            )
 
 
 def _now() -> str:

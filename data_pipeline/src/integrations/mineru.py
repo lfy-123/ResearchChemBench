@@ -49,7 +49,7 @@ def run_mineru_queue(
     command: str = "mineru",
     method: str = "auto",
     backend: str | None = None,
-    timeout_seconds: int = 3600,
+    timeout_seconds: int = 3000,
     working_directory: str | Path | None = None,
     environment: dict[str, str] | None = None,
     extra_args: list[str] | None = None,

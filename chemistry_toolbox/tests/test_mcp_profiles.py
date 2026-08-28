@@ -9,6 +9,7 @@ from chemistry_toolbox.mcp.profiles import (
     MODEL_CACHE_ENV,
     load_profile_config,
     profile_runtime_environment,
+    profile_python,
     public_server_spec,
     project_model_cache_path,
     project_runtime_cache_path,
@@ -21,7 +22,7 @@ from evaluation.execution.runner import TaskRunner
 from chemistry_toolbox.src.catalog import action_specs, backend_specs
 from chemistry_toolbox.src.environment_layout import software_root
 from chemistry_toolbox.src.environment_layout import SOFTWARE_ROOT_ENV
-from chemistry_toolbox.src.runtime import runtime_environment
+from chemistry_toolbox.src.runtime import runtime_environment, runtime_python
 
 
 def test_runtimes_cover_each_backend_once():
@@ -174,9 +175,38 @@ def test_manual_runtime_paths_are_exact_and_project_relative_values_are_resolved
     )
     assert Path(gaussian["GAUSS_SCRDIR"]).is_absolute()
     assert gaussian["GAUSS_SCRDIR"] == str(software_root() / "validation/gaussian/g16/scratch")
-    assert profile_runtime_environment("gamess")["CHEMGRAPH_GAMESS_COMMAND"] == str(
+    gamess = profile_runtime_environment("gamess")
+    assert gamess["CHEMGRAPH_GAMESS_COMMAND"] == str(
         software_root() / "installations/gamess/2024-r2-p1/source/rungms"
     )
+    assert "GMS_SCRATCH" not in gamess
+    assert "GMS_RESTART" not in gamess
+    assert "MOLCAS_WORKDIR" not in profile_runtime_environment("openmolcas")
+    kinbot_source = software_root() / "installations/kinbot/source-2.2.2"
+    assert str(kinbot_source) in profile_runtime_environment("kinbot")[
+        "PYTHONPATH"
+    ].split(os.pathsep)
+    acpype_root = software_root() / "installations/acpype/2023.10.27"
+    acpype = profile_runtime_environment("acpype")
+    acpype_worker = runtime_environment("acpype")
+    expected_python = (acpype_root / "deps/bin/python").resolve()
+    assert profile_python("acpype").resolve() == expected_python
+    assert runtime_python("acpype").resolve() == expected_python
+    assert acpype["CHEMGRAPH_ACPYPE_COMMAND"] == str(
+        acpype_root / "python/bin/acpype"
+    )
+    for environment in (acpype, acpype_worker):
+        python_paths = environment["PYTHONPATH"].split(os.pathsep)
+        assert str(acpype_root / "python") in python_paths
+        assert str(
+            Path(".envs/molecular-simulation-openff/lib/python3.12/site-packages").resolve()
+        ) in python_paths
+        assert str(acpype_root / "deps/lib/python3.12/site-packages") not in python_paths
+        assert str(acpype_root / "deps/lib") in environment[
+            "LD_LIBRARY_PATH"
+        ].split(os.pathsep)
+    assert acpype["BABEL_LIBDIR"] == str(acpype_root / "deps/lib/openbabel/3.1.0")
+    assert acpype["BABEL_DATADIR"] == str(acpype_root / "deps/share/openbabel/3.1.0")
     assert profile_runtime_environment("namd")["CHEMGRAPH_NAMD_COMMAND"] == str(
         software_root() / "installations/namd/3.0.2/multicore-avx512/namd3"
     )
@@ -187,6 +217,29 @@ def test_manual_runtime_paths_are_exact_and_project_relative_values_are_resolved
     assert profile_runtime_environment("charmm")["CHEMGRAPH_CHARMM_COMMAND"] == str(
         software_root() / "installations/charmm/50b2/install/bin/charmm"
     )
+    expected_mesmer = str(software_root() / "installations/mesmer/7.1")
+    assert profile_runtime_environment("mesmer")["MESMER_DIR"] == expected_mesmer
+    assert runtime_environment("mesmer")["MESMER_DIR"] == expected_mesmer
+
+
+def test_docking_runtime_scopes_cuda_12_libraries_to_gnina_profile():
+    docking = profile_runtime_environment("docking")
+    libraries = docking["LD_LIBRARY_PATH"].split(os.pathsep)
+
+    for package in (
+        "cudnn",
+        "cuda_runtime",
+        "cublas",
+        "cufft",
+        "cusparse",
+        "cusolver",
+        "nvjitlink",
+    ):
+        expected = Path(
+            f".envs/molecular-simulation-openff/lib/python3.12/site-packages/nvidia/{package}/lib"
+        ).resolve()
+        assert str(expected) in libraries
+    assert not any("site-packages/nvidia" in item for item in profile_runtime_environment("quantum")["LD_LIBRARY_PATH"].split(os.pathsep))
 
 
 def test_native_binary_compatibility_libraries_are_resolved_portably(monkeypatch):
