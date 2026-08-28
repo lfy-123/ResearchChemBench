@@ -1,0 +1,390 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "method_description",
+          "geometry_strategy",
+          "orbital_extraction",
+          "geometry_trials"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "method_description": {
+            "type": "string"
+          },
+          "geometry_strategy": {
+            "type": "string"
+          },
+          "orbital_extraction": {
+            "type": "string"
+          },
+          "geometry_trials": {
+            "type": "string"
+          }
+        }
+      },
+      "neutral": {
+        "type": "object",
+        "required": [
+          "charge",
+          "multiplicity",
+          "validation",
+          "homo_eV",
+          "lumo_eV",
+          "gap_eV",
+          "localization",
+          "geometry_evidence",
+          "optimized_geometry"
+        ],
+        "properties": {
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "optimization_converged",
+              "stationarity_check",
+              "identity_check"
+            ],
+            "properties": {
+              "optimization_converged": {
+                "type": "boolean"
+              },
+              "stationarity_check": {
+                "type": "string"
+              },
+              "identity_check": {
+                "type": "string"
+              }
+            }
+          },
+          "homo_eV": {
+            "type": "number"
+          },
+          "lumo_eV": {
+            "type": "number"
+          },
+          "gap_eV": {
+            "type": "number"
+          },
+          "localization": {
+            "type": "string"
+          },
+          "geometry_evidence": {
+            "type": "string"
+          },
+          "optimized_geometry": {
+            "type": "object",
+            "required": [
+              "format",
+              "structure"
+            ],
+            "properties": {
+              "format": {
+                "type": "string"
+              },
+              "structure": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "protonated": {
+        "type": "object",
+        "required": [
+          "charge",
+          "multiplicity",
+          "validation",
+          "homo_eV",
+          "lumo_eV",
+          "gap_eV",
+          "localization",
+          "geometry_evidence",
+          "optimized_geometry"
+        ],
+        "properties": {
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "validation": {
+            "type": "object",
+            "required": [
+              "optimization_converged",
+              "stationarity_check",
+              "identity_check"
+            ],
+            "properties": {
+              "optimization_converged": {
+                "type": "boolean"
+              },
+              "stationarity_check": {
+                "type": "string"
+              },
+              "identity_check": {
+                "type": "string"
+              }
+            }
+          },
+          "homo_eV": {
+            "type": "number"
+          },
+          "lumo_eV": {
+            "type": "number"
+          },
+          "gap_eV": {
+            "type": "number"
+          },
+          "localization": {
+            "type": "string"
+          },
+          "geometry_evidence": {
+            "type": "string"
+          },
+          "optimized_geometry": {
+            "type": "object",
+            "required": [
+              "format",
+              "structure"
+            ],
+            "properties": {
+              "format": {
+                "type": "string"
+              },
+              "structure": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "gap_change_eV",
+          "direction",
+          "orbital_change"
+        ],
+        "properties": {
+          "gap_change_eV": {
+            "type": "number"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "orbital_change": {
+            "type": "string"
+          }
+        }
+      },
+      "attempted_states": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "$ref": "#/$defs/attempted_state"
+        }
+      },
+      "failure": {
+        "type": "object",
+        "required": [
+          "attempted_scope",
+          "cause",
+          "available_evidence"
+        ],
+        "properties": {
+          "attempted_scope": {
+            "type": "string"
+          },
+          "cause": {
+            "type": "string"
+          },
+          "available_evidence": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string"
+        }
+      },
+      "coverage_and_stopping_basis": {
+        "type": "string"
+      }
+    },
+    "oneOf": [
+      {
+        "required": [
+          "status",
+          "method",
+          "neutral",
+          "protonated",
+          "comparison",
+          "conclusion",
+          "limitations",
+          "coverage_and_stopping_basis"
+        ],
+        "properties": {
+          "status": {
+            "const": "complete"
+          }
+        }
+      },
+      {
+        "required": [
+          "status",
+          "method",
+          "attempted_states",
+          "failure",
+          "conclusion",
+          "limitations",
+          "coverage_and_stopping_basis"
+        ],
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        }
+      }
+    ],
+    "$defs": {
+      "validation": {
+        "type": "object",
+        "required": [
+          "optimization_converged",
+          "stationarity_check",
+          "identity_check"
+        ],
+        "properties": {
+          "optimization_converged": {
+            "type": "boolean"
+          },
+          "stationarity_check": {
+            "type": "string"
+          },
+          "identity_check": {
+            "type": "string"
+          }
+        }
+      },
+      "complete_state": {
+        "type": "object",
+        "required": [
+          "charge",
+          "multiplicity",
+          "validation",
+          "homo_eV",
+          "lumo_eV",
+          "gap_eV",
+          "localization",
+          "geometry_evidence"
+        ],
+        "properties": {
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "validation": {
+            "$ref": "#/$defs/validation"
+          },
+          "homo_eV": {
+            "type": "number"
+          },
+          "lumo_eV": {
+            "type": "number"
+          },
+          "gap_eV": {
+            "type": "number"
+          },
+          "localization": {
+            "type": "string"
+          },
+          "geometry_evidence": {
+            "type": "string"
+          }
+        }
+      },
+      "attempted_state": {
+        "type": "object",
+        "required": [
+          "state",
+          "charge",
+          "multiplicity",
+          "validation",
+          "available_results"
+        ],
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": [
+              "neutral",
+              "protonated"
+            ]
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "validation": {
+            "$ref": "#/$defs/validation"
+          },
+          "available_results": {
+            "type": "string"
+          }
+        }
+      },
+      "complete_comparison": {
+        "type": "object",
+        "required": [
+          "gap_change_eV",
+          "direction",
+          "orbital_change"
+        ],
+        "properties": {
+          "gap_change_eV": {
+            "type": "number"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "orbital_change": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

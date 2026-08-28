@@ -1,0 +1,13 @@
+{
+  "system_id": "1f_plus_2a",
+  "reactants": [
+    {"id": "maleimide_1f", "name": "3-(methylsulfonyl)-4-phenyl-1H-pyrrole-2,5-dione", "smiles": "CS(=O)(=O)C1=C(c2ccccc2)C(=O)NC1=O", "formula": "C11H9NO4S", "charge": 0, "ground_state_multiplicity": 1, "protonation": "neutral NH tautomer shown by SMILES"},
+    {"id": "ethynylbenzene_2a", "name": "ethynylbenzene (phenylacetylene)", "smiles": "C#Cc1ccccc1", "formula": "C8H6", "charge": 0, "ground_state_multiplicity": 1, "protonation": "neutral terminal alkyne"}
+  ],
+  "reaction_environment": {"solvent": "acetonitrile", "temperature_K": 298.15, "overall_charge": 0},
+  "channel_definitions": {
+    "channel_4plus2": "formation of a new six-membered carbocycle fused to the original phenyl ring, followed by loss of methanesulfinic acid/aromatization to a naphthalene-fused imide",
+    "channel_2plus2": "formation of a four-membered cyclobutene/cyclobutane-type ring by coupling the maleimide alkene unit with the alkyne"
+  },
+  "starting_geometry_policy": "Generate independent 3D conformers from the supplied connectivity; no source-derived intermediate or transition-state geometry is provided."
+}

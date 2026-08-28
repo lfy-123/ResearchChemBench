@@ -1,0 +1,91 @@
+{
+  "paper_id": "paper_03deb7fdd833c466",
+  "rules": [
+    {
+      "rule_id": "r_ar_state",
+      "reference_id": "kp_ar_state",
+      "type": "condition",
+      "expected": "Both states are independently defined and validated before comparison.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.neutral.validation",
+          "$.protonated.validation"
+        ],
+        "comparison": "expert check of per-state validation"
+      },
+      "applicable_outcome": "complete"
+    },
+    {
+      "rule_id": "r_ar_pair",
+      "reference_id": "kp_ar_pair",
+      "type": "condition",
+      "expected": "A reproducible same-unit paired gap comparison with explicit orbital assignment and coverage is reported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method",
+          "$.neutral.gap_eV",
+          "$.protonated.gap_eV",
+          "$.comparison"
+        ],
+        "comparison": "expert process comparison"
+      },
+      "applicable_outcome": "complete"
+    },
+    {
+      "rule_id": "r_ar_direction",
+      "reference_id": "kp_ar_direction",
+      "type": "condition",
+      "expected": "The protonated state is reported to have a lower frontier gap.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.direction",
+          "$.comparison.gap_change_eV"
+        ],
+        "comparison": "expert comparison bound to the submitted pair"
+      },
+      "applicable_outcome": "complete"
+    },
+    {
+      "rule_id": "r_ar_interpret",
+      "reference_id": "kp_ar_interpret",
+      "type": "semantic",
+      "expected": "Interpretation uses orbital redistribution as bounded qualitative evidence and states what is not established.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "applicable_outcome": "complete"
+    },
+    {
+      "rule_id": "r_ar_final",
+      "reference_id": "c_ar_final",
+      "type": "semantic",
+      "expected": "Independent, limitation-aware conclusion that protonation-driven electronic change plausibly contributes to acidochromism.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "applicable_outcome": "complete"
+    }
+  ]
+}
