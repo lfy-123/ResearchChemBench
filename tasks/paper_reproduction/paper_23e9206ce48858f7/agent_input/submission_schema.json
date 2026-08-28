@@ -1,0 +1,25 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "methodology", "validation_summary", "steps", "conclusion", "limitations"],
+    "properties": {
+      "status": {"type": "string"},
+      "methodology": {"type": "string"},
+      "validation_summary": {"type": "string"},
+      "steps": {
+        "type": "object",
+        "required": ["addition", "cyclization", "capture"],
+        "properties": {
+          "addition": {"type": "object", "required": ["barrier_kcal_mol", "unit", "preceding_state", "following_state", "frequency_evidence", "connectivity_evidence", "energy_definition"], "properties": {"barrier_kcal_mol": {"type": "number"}, "unit": {"type": "string"}, "preceding_state": {"type": "string"}, "following_state": {"type": "string"}, "frequency_evidence": {"type": "string"}, "connectivity_evidence": {"type": "string"}, "energy_definition": {"type": "string"}}},
+          "cyclization": {"type": "object", "required": ["barrier_kcal_mol", "unit", "preceding_state", "following_state", "frequency_evidence", "connectivity_evidence", "energy_definition"], "properties": {"barrier_kcal_mol": {"type": "number"}, "unit": {"type": "string"}, "preceding_state": {"type": "string"}, "following_state": {"type": "string"}, "frequency_evidence": {"type": "string"}, "connectivity_evidence": {"type": "string"}, "energy_definition": {"type": "string"}}},
+          "capture": {"type": "object", "required": ["barrier_kcal_mol", "unit", "preceding_state", "following_state", "frequency_evidence", "connectivity_evidence", "energy_definition"], "properties": {"barrier_kcal_mol": {"type": "number"}, "unit": {"type": "string"}, "preceding_state": {"type": "string"}, "following_state": {"type": "string"}, "frequency_evidence": {"type": "string"}, "connectivity_evidence": {"type": "string"}, "energy_definition": {"type": "string"}}}
+        }
+      },
+      "conclusion": {"type": "string"},
+      "limitations": {"type": "string"}
+    },
+    "additionalProperties": true
+  }
+}

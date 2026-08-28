@@ -1,0 +1,15 @@
+# Scientific objective
+
+For the public two-atom diamond-Ge cell, independently test the authors' qualitative hypothesis that selectively correcting Ge s-like band states can improve the coupled structural, electronic and elastic description. Compute the zero-pressure equilibrium lattice constant a, the Γ–Γ and Γ–L fundamental gaps, and cubic elastic constants B0, C11, C12 and C44. Report units, sign conventions, band-edge identities, and numerical uncertainty. The research object is the bulk ground-state crystal, not a defect, surface, finite-temperature free energy or phonon calculation.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/germanium_diamond.json`. It uniquely fixes elemental Ge, the diamond Fd-3m cell, two fractional coordinates, neutral charge, singlet/nonmagnetic state, and three-dimensional periodicity. Use a nonrelativistic PAW Ge pseudopotential including 3d electrons and identify its exact file/provenance. You may generate equivalent conventional or primitive representations, but must preserve composition and connectivity. The author hypothesis is qualitative only: a localized correction to Ge 4s-like states may repair s–p band-edge mixing; choose and justify a computational test independently. Do not assume any paper numerical result or method parameter. The measured quantities are a in Å, gaps in eV, and elastic constants in GPa. Define the Γ and L points used and the experimental temperature convention used for comparison.
+
+# Required scientific validation/investigation
+
+Plan and execute a reproducible calculation. Demonstrate relaxation/energy-volume or equation-of-state convergence sufficient to identify a zero-pressure minimum; demonstrate k-point, basis/pseudopotential and any correction/convergence sensitivity relevant to the reported values; and distinguish direct Γ–Γ from indirect Γ–L gaps by identifying the valence maximum and conduction minima. Obtain all four cubic elastic constants from a documented strain/stress or energy-response calculation, with enough independent strains and fit diagnostics to show stability. If a correction is used, define its projector, coefficient, occupations and implementation and include an uncorrected comparison. The calculation is complete when every requested observable has a value or a scientifically justified bounded-failure status, provenance and uncertainty. Stop when convergence evidence supports the stated uncertainty or when a documented resource/implementation limitation prevents it; in the latter case report completed observables, attempted checks and the limitation rather than inventing values.
+
+# Deliverables
+
+Submit the required `report/results.json` plus supporting files listed in the submission schema. Include methods, exact software/pseudopotential, input provenance, convergence/validation evidence, all observables or bounded-failure branches, comparison to experimental boundary data, conclusion about the qualitative hypothesis, and limitations. Keep machine-readable values consistent with the narrative; distinguish calculated results from literature comparisons.

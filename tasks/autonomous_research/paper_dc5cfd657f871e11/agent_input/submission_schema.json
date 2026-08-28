@@ -1,0 +1,24 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "method", "states", "hypotheses", "validation", "conclusion", "limitations"],
+    "oneOf": [
+      {"required": ["branches", "metrics"], "properties": {"status": {"const": "complete"}}},
+      {"required": ["failure_details"], "properties": {"status": {"const": "bounded_failure"}}}
+    ],
+    "properties": {
+      "status": {"type": "string", "enum": ["complete", "bounded_failure"]},
+      "method": {"type": "object", "required": ["description", "software", "charge", "spin", "thermochemical_convention"], "properties": {"description": {"type": "string"}, "software": {"type": "string"}, "charge": {"type": "integer"}, "spin": {"type": "string"}, "thermochemical_convention": {"type": "string"}}},
+      "states": {"type": "array", "minItems": 6, "items": {"oneOf": [
+        {"type": "object", "required": ["id", "free_energy", "unit", "converged", "validation_evidence"], "properties": {"id": {"type": "string"}, "free_energy": {"type": "number"}, "unit": {"type": "string"}, "converged": {"const": true}, "validation_evidence": {"type": "array", "minItems": 1}}},
+        {"type": "object", "required": ["id", "converged", "missing_reason", "attempted_coverage"], "properties": {"id": {"type": "string"}, "converged": {"const": false}, "missing_reason": {"type": "string"}, "attempted_coverage": {"type": "string"}}}
+      ]}},
+      "branches": {"type": "array", "minItems": 2, "items": {"type": "object", "required": ["id", "steps", "pds_id", "pds_value"], "properties": {"id": {"type": "string"}, "steps": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["from", "to", "delta_g"], "properties": {"from": {"type": "string"}, "to": {"type": "string"}, "delta_g": {"type": "number"}}}}, "pds_id": {"type": "string"}, "pds_value": {"type": "number"}}}},
+      "metrics": {"type": "object", "required": ["ddg_oer", "orr_h2o2_delta_g", "h2o2_preference"], "properties": {"ddg_oer": {"type": "number"}, "orr_h2o2_delta_g": {"type": "number"}, "h2o2_preference": {"type": "string"}}},
+      "failure_details": {"type": "object", "required": ["missing_states", "attempted_coverage", "scientific_limitation"], "properties": {"missing_states": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "attempted_coverage": {"type": "string"}, "scientific_limitation": {"type": "string"}}},
+      "hypotheses": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["statement", "calculation_test", "outcome"], "properties": {"statement": {"type": "string"}, "calculation_test": {"type": "string"}, "outcome": {"type": "string"}}}}, "validation": {"type": "array", "minItems": 1}, "conclusion": {"type": "string"}, "limitations": {"type": "array", "minItems": 1}
+    }
+  }
+}

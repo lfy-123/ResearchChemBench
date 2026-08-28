@@ -1,0 +1,86 @@
+{
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "type": "condition",
+      "expected": "All three named conformers have individual minimum-validation evidence or an honest bounded failure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conformers[*].id",
+          "$.conformers[*].minimum_validation"
+        ],
+        "comparison": "expert verification"
+      },
+      "reference_id": "pr_process_minima"
+    },
+    {
+      "rule_id": "pr_r2",
+      "type": "condition",
+      "expected": "Temperature, formula and three-member normalization scope are explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method.temperature_K",
+          "$.normalization"
+        ],
+        "comparison": "expert verification"
+      },
+      "reference_id": "pr_process_population"
+    },
+    {
+      "rule_id": "pr_r3_energy",
+      "type": "numeric",
+      "expected": "For each named conformer identity, the relative Gibbs energy agrees with the SI subset within 0.5 kcal/mol.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conformers[*].relative_gibbs_kcal_mol"
+        ],
+        "comparison": "per-identity absolute difference in kcal/mol"
+      },
+      "reference_id": "pr_result_values",
+      "target": 0.0,
+      "unit": "kcal/mol",
+      "tolerance": 0.5
+    },
+    {
+      "rule_id": "pr_r3_population",
+      "type": "numeric",
+      "expected": "For each named conformer identity, the population agrees with the SI subset within 5 percentage points.",
+      "binding": {
+        "artifact_paths": ["report/results.json"],
+        "fields": ["$.conformers[*].population_percent"],
+        "comparison": "per-identity absolute difference in percentage points"
+      },
+      "reference_id": "pr_result_values",
+      "target": 0.0,
+      "unit": "percent",
+      "tolerance": 5.0
+    },
+    {
+      "rule_id": "pr_c1",
+      "type": "semantic",
+      "expected": "Final conclusion identifies the bounded three-conformer scope and its limitation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.most_populated_conformer",
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final_bounded"
+    }
+  ],
+  "paper_id": "paper_9d091f4337662e78"
+}

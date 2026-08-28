@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_adbbf3d29d1cd737",
+  "task_type": "paper_reproduction",
+  "title": "Independent gas/aqueous electronic-descriptor test of a Cs/PEG-SrO model",
+  "category": "quantum chemistry property validation",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The model and observables are fixed, but the Agent must independently select a defensible calculation route, validate charge/state/convergence, and test a qualitative author hypothesis across two phases."
+  ],
+  "paper": {
+    "title": "Investigating the catalytic and antimicrobial properties of ternary cesium/polyethylene glycol-SrO supported by molecular docking and DFT analysis",
+    "doi": "10.1039/d6ra00841k",
+    "journal": "RSC Advances",
+    "publication_date": "2026-03-02"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Canonical XYZ geometry and system boundary for the neutral-singlet Cs/PEG-SrO cluster."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured phase descriptors, validation, comparison, and conclusion."
+    },
+    {
+      "path": "report/methods_and_validation.md",
+      "description": "Reproducible methods, identity/state/convergence checks, and limitations."
+    }
+  ]
+}

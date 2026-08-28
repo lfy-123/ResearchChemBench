@@ -1,0 +1,80 @@
+{
+  "paper_id": "paper_2f2aa11ea61a32bb",
+  "rules": [
+    {
+      "rule_id": "r_kp_validation",
+      "reference_id": "kp_validation",
+      "type": "semantic",
+      "expected": "Each named molecule has molecule-specific convergence and geometry validation evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[].validation"
+        ],
+        "comparison": "expert scientific comparison"
+      }
+    },
+    {
+      "rule_id": "r_kp_assignment",
+      "reference_id": "kp_assignment",
+      "type": "semantic",
+      "expected": "The selected absorption feature has an explicit state identity and assignment rule that considers oscillator strength.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[].selected_feature"
+        ],
+        "comparison": "expert scientific comparison"
+      }
+    },
+    {
+      "rule_id": "r_kp_shift",
+      "reference_id": "kp_shift",
+      "type": "semantic",
+      "expected": "The four-member series is compared for structure-dependent absorption shifts.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.series_comparison"
+        ],
+        "comparison": "expert scientific comparison"
+      }
+    },
+    {
+      "rule_id": "r_c_final",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "expected": "Validated calculations support or delimit a structure-dependent explanation of the absorption series and intensity-sensitive assignment.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.overall_conclusion"
+        ],
+        "comparison": "expert scientific comparison"
+      }
+    },
+    {
+      "rule_id": "r_c_limit",
+      "reference_id": "c_limit",
+      "type": "semantic",
+      "expected": "Solution bands and isolated-molecule vertical calculations have model and assignment limitations that must be disclosed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert scientific comparison"
+      }
+    }
+  ]
+}

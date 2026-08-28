@@ -1,0 +1,117 @@
+{
+  "rules": [
+    {
+      "rule_id": "r_ar_minima",
+      "type": "condition",
+      "expected": "Each species has species-specific stationary-point validation and a structure artifact, or exact bounded failure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].imaginary_frequency_count",
+          "$.species[*].structure_file",
+          "$.species[*].status"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_ar_process_minima"
+    },
+    {
+      "rule_id": "r_ar_provenance",
+      "type": "semantic",
+      "expected": "Atom identity and charge-analysis provenance are explicit and retained across species.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method.mapping_notes",
+          "$.method.charge_analysis",
+          "$.species[*].charges[*].atom_index"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_ar_process_provenance"
+    },
+    {
+      "rule_id": "r_ar_geometry",
+      "type": "semantic",
+      "expected": "The report gives explicit atom-indexed contact measurements and distinguishes the contact patterns of PO and PA.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].distances"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_ar_geometry"
+    },
+    {
+      "rule_id": "r_ar_charges",
+      "type": "semantic",
+      "expected": "ADCH charge redistribution involving P and \u03b1H/\u03b2H is reported with signs, species, and provenance.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].charges",
+          "$.method.charge_analysis"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_ar_charges"
+    },
+    {
+      "rule_id": "r_ar_mep",
+      "type": "semantic",
+      "expected": "MEP observation and interpretation are separated and tied to a species and artifact.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.species[*].mep_observation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_ar_mep"
+    },
+    {
+      "rule_id": "r_ar_final",
+      "type": "semantic",
+      "expected": "A bounded independent conclusion connects geometry, charge, and MEP evidence to phosphorus-centered interaction without claiming more than the model establishes.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.mechanistic_claim",
+          "$.conclusion.supporting_observations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "con_ar_final"
+    },
+    {
+      "rule_id": "r_ar_limits",
+      "type": "semantic",
+      "expected": "The report states limitations and gives an alternative interpretation when evidence is insufficient.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.alternative_or_scope",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "con_ar_limits"
+    }
+  ],
+  "paper_id": "paper_ef26687d63a37e29"
+}

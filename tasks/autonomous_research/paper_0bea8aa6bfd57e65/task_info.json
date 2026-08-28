@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_0bea8aa6bfd57e65",
+  "task_type": "autonomous_research",
+  "title": "Independent investigation of taurine–donor interaction energies",
+  "category": "computational chemistry / hypothesis discrimination",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must generate and prioritize a substantial set of binding poses and conformers for three complexes.",
+    "The agent must formulate and discriminate plausible energetic explanations while validating minima and BSSE-corrected energies."
+  ],
+  "paper": {
+    "title": "Separation of taurine and Na2SO4 via the in situ formation of deep eutectic solvents: experiments and computational simulation",
+    "doi": "10.1039/d5nj04739k",
+    "journal": "New Journal of Chemistry",
+    "publication_date": "2026-01-12"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Complete public chemical identity specification for Tau, Im, Gly (glycerol), MEA, charge, multiplicity, and 1:2 complex stoichiometry."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated energies, candidate records, protocol, proposed explanations and discriminating evidence, ordering, and limitations."
+    }
+  ]
+}

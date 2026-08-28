@@ -1,0 +1,127 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "structures",
+      "conditions",
+      "delta_g_sol",
+      "conclusion",
+      "limitations",
+      "failure_details"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      },
+      "structures": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "label",
+            "file",
+            "atom_count",
+            "validation",
+            "free_energy"
+          ],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "file": {
+              "type": "string"
+            },
+            "atom_count": {
+              "type": "integer"
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "stationary_point",
+                "imaginary_frequencies"
+              ],
+              "properties": {
+                "stationary_point": {
+                  "type": "boolean"
+                },
+                "imaginary_frequencies": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "notes": {
+                  "type": "string"
+                }
+              }
+            },
+            "free_energy": {
+              "anyOf": [{"type": "number"}, {"type": "null"}]
+            },
+            "free_energy_unit": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "conditions": {
+        "type": "object",
+        "required": [
+          "temperature",
+          "temperature_unit",
+          "standard_state",
+          "method",
+          "solvation"
+        ],
+        "properties": {
+          "temperature": {
+            "type": "number"
+          },
+          "temperature_unit": {
+            "type": "string"
+          },
+          "standard_state": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "solvation": {
+            "type": "string"
+          }
+        }
+      },
+      "delta_g_sol": {
+        "anyOf": [{"type": "number"}, {"type": "null"}]
+      },
+      "delta_g_unit": {
+        "type": "string"
+      },
+      "sign_convention": {
+        "type": "string"
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      },
+      "provenance": {
+        "type": "string"
+      },
+      "failure_details": {
+        "type": "string"
+      }
+    }
+  }
+}

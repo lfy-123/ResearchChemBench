@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_0bcc3a25c664788b",
+  "task_type": "paper_reproduction",
+  "title": "Independent TD excited-state comparison of TPAAN annihilators in two solvents",
+  "category": "excited-state electronic structure",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "Six fixed molecule-solvent cases require state-specific excited-state calculations and validation",
+    "The evaluated Agent must independently choose and justify a computational route while testing a qualitative author hypothesis"
+  ],
+  "paper": {
+    "title": "Color-Tunable Triplet–Triplet Annihilation Upconversion under Single Wavelength Excitation via Solvatochromic Annihilators",
+    "doi": "10.1021/acs.jpcc.5c07494",
+    "journal": "The Journal of Physical Chemistry C",
+    "publication_date": "2026-01-05"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Six labeled neutral-singlet S0 XYZ geometries: TPAAN-OMe, TPAAN-H, and TPAAN-CHO in n-hexane and chloroform; each filename and XYZ comment gives unique identity."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured six-case energies, validation records, hypothesis test, and limitations."
+    }
+  ]
+}

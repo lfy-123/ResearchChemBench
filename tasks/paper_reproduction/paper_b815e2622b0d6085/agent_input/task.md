@@ -1,0 +1,15 @@
+# Scientific objective
+
+Independently determine how replacing the meta-ring halogen in the three named quasi-1D pyridinium lead bromide crystals affects their periodic electronic band gap. Test the authors' qualitative hypothesis that substituent-dependent lattice geometry, especially the a-axis, is associated with the gap trend, while treating that hypothesis as a testable proposal rather than a supplied result. Report each crystal's gap in eV, direct/indirect character, band-edge locations, and evidence-supported band-edge orbital character.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/crystal_records.json`. The objects are exactly the 300 K experimental CCDC records 2499860 (Cl), 2499862 (Br), and 2499861 (I), each P21/c with Z=4. The CCDC connector is an allowed controlled database input; no paper, SI, general-web search, or unpinned substitute structure may be used. Preserve identity, charge/protonation, occupancy, cell and coordinates from each record. You may generate conformers only where needed for a deterministic periodic input conversion; do not alter the crystal composition. The measured object is the electronic band gap of each periodic crystal and its band-edge character. SOC may be computed directly or represented by a clearly labelled validated approximation, but the two must not be conflated.
+
+# Required scientific validation/investigation
+
+Plan and execute an independently justified periodic electronic-structure workflow. State functional, relativistic treatment, pseudopotential/basis, k-point sampling, smearing/occupancy, convergence and band-path choices. For each named object, demonstrate numerical stability of the reported gap against at least one relevant numerical setting, inspect a band dispersion over a stated path or dense mesh, and support orbital character with projected DOS, projections, or an explicitly justified alternative. Deduplicate and retain the three object IDs in all outputs. Compare a-axis (or an explicitly defined structural proxy) with gaps only after defining the proxy and its sign. Completion requires either validated results for all three objects or a bounded-failure report identifying the exact failed object, attempted calculations, evidence and scientific consequence. Stop when all three objects meet the validation criteria, or when the chosen method/resource boundary makes another attempt non-informative; report coverage and limitations.
+
+# Deliverables
+
+Submit `report/results.json` plus cited computational artifacts (logs, input files, band/DOS data or plots) under paths declared in the JSON. The JSON must contain per-object identity, method summary, gap, gap uncertainty or stability estimate, directness, edge locations, orbital-character evidence, validation status, structural comparison, final conclusion and limitations. Numeric values must be in eV and all claims must be traceable to submitted artifacts. If bounded failure is used, include the failed-object branch and do not fabricate missing values.

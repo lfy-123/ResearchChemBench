@@ -1,0 +1,42 @@
+{
+  "paper_id": "paper_0dcba54d6a1436bd",
+  "items": [
+    {
+      "key_point_id": "kp_process_minima",
+      "key_point_type": "process",
+      "statement": "Each public molecule is treated as a neutral singlet and the optimized geometry is checked for minimum character or failure is documented.",
+      "evidence_ids": [
+        "ev_doc_7b7d744c61ea_000135_d0e098c6d1e0"
+      ],
+      "expected": "Per-system minimum diagnostic and charge/multiplicity record."
+    },
+    {
+      "key_point_id": "kp_process_states",
+      "key_point_type": "process",
+      "statement": "Five lowest singlet states are explicitly tracked with state labels, energies, oscillator strengths and dominant configurations.",
+      "evidence_ids": [
+        "ev_doc_d911feeb2792_000212_75db7cf57992",
+        "ev_doc_d911feeb2792_000214_d9bc23006b37"
+      ],
+      "expected": "S1-S5 state-resolved records for each molecule or bounded diagnostic branch."
+    },
+    {
+      "key_point_id": "kp_result_npc",
+      "key_point_type": "result",
+      "statement": "NPCZCS has S1\u2013S5 vertical transitions consistent with the SI transition table.",
+      "evidence_ids": [
+        "ev_doc_d911feeb2792_000212_75db7cf57992"
+      ],
+      "expected": "2.9521, 3.2985, 3.3637, 3.6504, 3.7792 eV with corresponding oscillator strengths and wavelengths."
+    },
+    {
+      "key_point_id": "kp_result_aqc",
+      "key_point_type": "result",
+      "statement": "AQCZCS has S1\u2013S5 vertical transitions consistent with the SI transition table.",
+      "evidence_ids": [
+        "ev_doc_d911feeb2792_000214_d9bc23006b37"
+      ],
+      "expected": "2.5853, 3.0280, 3.1077, 3.2424, 3.3895 eV with corresponding oscillator strengths and wavelengths."
+    }
+  ]
+}

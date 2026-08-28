@@ -1,0 +1,174 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "completion_status",
+      "method",
+      "relaxed_structure",
+      "magnetic_analysis",
+      "valley_analysis",
+      "validation",
+      "conclusion",
+      "failure_details"
+    ],
+    "properties": {
+      "completion_status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "model_chemistry",
+          "convergence"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "model_chemistry": {
+            "type": "string"
+          },
+          "convergence": {
+            "type": "string"
+          }
+        }
+      },
+      "relaxed_structure": {
+        "type": "object",
+        "required": [
+          "cell_angstrom",
+          "fractional_coordinates"
+        ],
+        "properties": {
+          "cell_angstrom": {
+            "type": "array"
+          },
+          "fractional_coordinates": {
+            "type": "array"
+          }
+        }
+      },
+      "magnetic_analysis": {
+        "type": "object",
+        "required": [
+          "candidates",
+          "selected_state",
+          "v_moment_muB"
+        ],
+        "properties": {
+          "candidates": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": [
+                "state_id",
+                "description",
+                "energy_eV",
+                "validation_evidence"
+              ],
+              "properties": {
+                "state_id": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "energy_eV": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "validation_evidence": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "selected_state": {
+            "type": "string"
+          },
+          "v_moment_muB": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      },
+      "valley_analysis": {
+        "type": "object",
+        "required": [
+          "vbm_k_eV",
+          "vbm_kprime_eV",
+          "signed_splitting_meV",
+          "absolute_splitting_meV"
+        ],
+        "properties": {
+          "vbm_k_eV": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "vbm_kprime_eV": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "signed_splitting_meV": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "absolute_splitting_meV": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "soc_check",
+          "sensitivity_check",
+          "uncertainty_meV"
+        ],
+        "properties": {
+          "soc_check": {
+            "type": "string"
+          },
+          "sensitivity_check": {
+            "type": "string"
+          },
+          "uncertainty_meV": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "failure_details": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_ca7d01cfbc90780c",
+  "items": [
+    {
+      "key_point_id": "ar_process_search",
+      "key_point_type": "process",
+      "statement": "The submission independently generates, deduplicates and discriminates multiple plausible ATM active-site poses before selecting simulations.",
+      "evidence_ids": [
+        "ev_doc_53b029e6367b_000178_8060773c9bf0"
+      ],
+      "expected": "Pose identities, generation method, deduplication rule, selection rationale and coverage/stopping evidence are explicit."
+    },
+    {
+      "key_point_id": "ar_process_md",
+      "key_point_type": "process",
+      "statement": "The reported trajectory is preceded by physical-system validation and uses explicit analysis definitions.",
+      "evidence_ids": [
+        "ev_doc_baa6d3d5842e_000040_cc9eacd9ead2"
+      ],
+      "expected": "Minimization, equilibration, ligand retention, convergence, imaging and hydrogen-bond criteria are documented."
+    },
+    {
+      "key_point_id": "ar_rmsd",
+      "key_point_type": "result",
+      "statement": "The selected complex exhibits a bounded RMSD behavior over the analyzed production window, or the evidence supports a scientifically explained instability.",
+      "evidence_ids": [
+        "ev_doc_53b029e6367b_000179_fe09f533d7be"
+      ],
+      "expected": "RMSD window summaries, uncertainty and the decision rule are reported without relying on an undisclosed answer."
+    },
+    {
+      "key_point_id": "ar_contacts",
+      "key_point_type": "result",
+      "statement": "RMSF and intermolecular hydrogen-bond measurements are used jointly with RMSD to support an independent stability conclusion or a justified limitation.",
+      "evidence_ids": [
+        "ev_doc_53b029e6367b_000180_072fce83b0e8"
+      ],
+      "expected": "Residue flexibility and contact persistence are quantified and interpreted within sampling limits."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+# Scientific objective
+
+Test whether a local, overlapping-fragment quantum workflow can reconstruct the global atomic mutual-information (AMI) and residue-level fragment mutual-information (FMI) correlation map of the specified two-chain human insulin structure. The reproduction mode additionally asks whether the authors' qualitative locality/cut-wise hypothesis is supported: local calculations should recover chemically meaningful correlations while potentially omitting weak long-range interactions.
+
+# Public inputs and scientific boundaries
+
+Use every field in `data/inputs/system_spec.json` and retrieve exactly PDB 3I40 from RCSB. Preserve chain A/B and residue identities. The measured objects are orbital MI, atom-pair AMI and residue-pair FMI; report matrix indexing, symmetry convention, units (nat for information), diagonal handling and cap-atom exclusion. The quantum system is protein-only after solvent/ion removal. You may choose software and model chemistry, but must disclose them and the selected charge/multiplicity. The author hypothesis is qualitative only; no winning candidate, numerical target, or paper protocol is provided.
+
+# Required scientific validation/investigation
+
+Define and enumerate your fragment candidates before calculations, retaining center residue/atom, radius, included atoms, caps and geometry provenance. Deduplicate identical candidates and state the advancement rule. Compute or otherwise obtain a defensible AMI/FMI result for the selected set, stitch atom pairs using a stated overlap rule, and validate symmetry, atom/residue mapping, cap exclusion and coverage. Compare the 5.0 Å case to an independently obtained full-system or accepted reference calculation when feasible; if infeasible, provide a bounded failure report with completed artifacts and explain the limitation. Report whether the reconstructed map contains the three known insulin disulfide pairs and the Glu17(A)-Arg22(B) contact, and whether radius sensitivity changes that contact. Completion requires a machine-readable result plus provenance for every reported matrix and a coverage/stopping statement. Stop when the declared candidate set has been evaluated and either the comparison is complete or the stated bounded limitation prevents further progress; do not claim unperformed calculations.
+
+# Deliverables
+
+Write `report/results.json` conforming to `submission_schema.json`. The result must contain explicit system identity and atom mapping; state and geometry provenance; one record per fragment with center, radius, included atoms, caps and geometry provenance; validation checks and coverage; separate entries for each of the three named disulfide pairs and the Glu17(A)-Arg22(B) radius cases; AMI/FMI definitions, matrix artifacts and metrics; and a structured conclusion covering locality, disulfides and radius sensitivity. A bounded-failure branch is acceptable only when it contains the completed process evidence and explicit missing endpoint; do not fabricate unavailable matrices or comparison values.

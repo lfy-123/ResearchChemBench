@@ -1,0 +1,11 @@
+{
+  "molecules": {
+    "H2": {"formula":"H2","charge":0,"multiplicity":1,"connectivity":"[H][H]"},
+    "HMF": {"name":"5-(hydroxymethyl)furan-2-carbaldehyde","formula":"C6H6O3","charge":0,"multiplicity":1,"mapped_smiles":"[O:1]=[CH:2][c:3]1[o:4][c:5]([CH2:6][OH:7])[cH:8][cH:9]1"}
+  },
+  "surfaces": {
+    "Ni111": {"bulk":"elemental fcc Ni","miller_index":[1,1,1],"surface_supercell":[4,4],"metal_layers":3,"substitution":"none"},
+    "NiPt111": {"parent":"Ni111","substitution":"replace exactly one Ni atom in the exposed top layer by Pt; choices are translationally equivalent in the clean ideal periodic cell"}
+  },
+  "shared_boundary": {"adsorbates_per_cell":1,"minimum_vacuum_angstrom":15.0,"fixed_atoms":"bottom metal layer only","periodicity":"three-dimensional periodic cell with vacuum normal to (111)"}
+}

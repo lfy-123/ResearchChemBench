@@ -1,0 +1,80 @@
+{
+  "rules": [
+    {
+      "rule_id": "r1",
+      "reference_id": "kp1",
+      "type": "semantic",
+      "expected": "Per-candidate identity validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidate_validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r2",
+      "reference_id": "kp2",
+      "type": "semantic",
+      "expected": "Candidate and excited-state validation context.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r3",
+      "reference_id": "kp3",
+      "type": "semantic",
+      "expected": "Anchor and broad-pattern comparison.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.ecd_comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r4",
+      "reference_id": "c1",
+      "type": "semantic",
+      "expected": "Supported assignment or truthful inconclusive result.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r5",
+      "reference_id": "c2",
+      "type": "semantic",
+      "expected": "Limitations are explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "paper_id": "paper_f171fa1f83158f7c"
+}

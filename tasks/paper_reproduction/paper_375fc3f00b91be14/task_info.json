@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_375fc3f00b91be14",
+  "task_type": "paper_reproduction",
+  "title": "Independent thermochemical test of PyDIG photoisomer basicity",
+  "category": "conformer_thermochemistry_property_calibration",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The fixed endpoint requires paired neutral/protonated thermochemistry and conformer coverage, while the agent must independently choose and validate a route.",
+    "Protonated PyDIG has multiple close-lying conformational possibilities, making state selection and sensitivity analysis substantive."
+  ],
+  "paper": {
+    "title": "Photo-DAC: Light-Driven Ambient-Temperature Direct Air Capture by a Photobase",
+    "doi": "10.1021/jacs.5c18831",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-06"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained PyDIG structures and aqueous experimental context."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated computational pKa estimates, process evidence, sensitivity and conclusion."
+    }
+  ]
+}

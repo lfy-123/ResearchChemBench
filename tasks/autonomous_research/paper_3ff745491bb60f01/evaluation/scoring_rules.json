@@ -1,0 +1,150 @@
+{
+  "paper_id": "paper_3ff745491bb60f01",
+  "rules": [
+    {
+      "rule_id": "r_identity",
+      "reference_id": "kp_identity",
+      "key_point_id": "kp_identity",
+      "type": "semantic",
+      "expected": "Both input files, atom counts, charge and multiplicity are explicitly and correctly identified.",
+      "applicability": "all outcomes; identity and charge/multiplicity remain required",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_protocol",
+      "reference_id": "kp_protocol",
+      "key_point_id": "kp_protocol",
+      "type": "semantic",
+      "expected": "Paired protocol and per-structure validation are reproducibly documented, or bounded failure is honestly documented.",
+      "applicability": "all outcomes; provenance and validation or bounded-failure diagnostics are required",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.provenance",
+          "$.structures[*].validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_cso",
+      "reference_id": "kp_gaps",
+      "key_point_id": "kp_gaps",
+      "type": "numeric",
+      "target": 2.59,
+      "unit": "eV",
+      "tolerance": 0.2,
+      "applicability": "status=complete only",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures[0].gap_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_prod",
+      "reference_id": "kp_gaps",
+      "key_point_id": "kp_gaps",
+      "type": "numeric",
+      "target": 2.99,
+      "unit": "eV",
+      "tolerance": 0.2,
+      "applicability": "status=complete only",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures[1].gap_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_diff",
+      "reference_id": "kp_gaps",
+      "key_point_id": "kp_gaps",
+      "type": "numeric",
+      "target": 0.4,
+      "unit": "eV",
+      "tolerance": 0.2,
+      "applicability": "status=complete only",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.difference_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final",
+      "conclusion_id": "c_final",
+      "type": "semantic",
+      "expected": "Product gap is larger by about 0.40 eV and this supports a qualified blue-shift interpretation.",
+      "applicability": "status=complete only",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_limit",
+      "reference_id": "c_limit",
+      "conclusion_id": "c_limit",
+      "type": "semantic",
+      "expected": "Report distinguishes orbital gap from optical excitation/emission and states limitations.",
+      "applicability": "all outcomes; limitation statement is required",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_interpretation",
+      "reference_id": "kp_interpretation",
+      "type": "semantic",
+      "expected": "The report states that the larger product gap supports a qualified blue-shift interpretation.",
+      "applicability": "status=complete only",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.paired_interpretation",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

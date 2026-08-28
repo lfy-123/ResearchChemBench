@@ -1,0 +1,16 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "candidate_ledger", "search_record", "validation", "conclusion", "limitations"],
+    "properties": {
+      "status": {"type": "string", "enum": ["completed", "bounded_failure"]},
+      "candidate_ledger": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["candidate_id", "identity", "disposition", "evidence"], "properties": {"candidate_id": {"type": "string"}, "identity": {"type": "string"}, "disposition": {"type": "string"}, "evidence": {"type": "string"}}}},
+      "search_record": {"type": "object", "required": ["generation_rules", "deduplication", "coverage", "stopping_rationale"], "properties": {"generation_rules": {"type": "string"}, "deduplication": {"type": "string"}, "coverage": {"type": "string"}, "stopping_rationale": {"type": "string"}}},
+      "validation": {"type": "object", "oneOf": [{"required": ["selected_candidate_id", "frequency_check", "path_check", "method", "temperature_K", "reactant_reference", "ts_structure", "barrier_kJ_mol"], "properties": {"barrier_kJ_mol": {"type": "number"}}}, {"required": ["selected_candidate_id", "frequency_check", "path_check", "method", "temperature_K", "reactant_reference", "validation_attempts"], "properties": {"validation_attempts": {"type": "string"}}}], "properties": {"selected_candidate_id": {"type": "string"}, "frequency_check": {"type": "string"}, "path_check": {"type": "string"}, "method": {"type": "string"}, "temperature_K": {"type": "number"}, "barrier_kJ_mol": {"type": "number"}, "reactant_reference": {"type": "string"}, "ts_structure": {"type": "string"}, "validation_attempts": {"type": "string"}}},
+      "conclusion": {"type": "string"},
+      "limitations": {"type": "string"}
+    }
+  }
+}

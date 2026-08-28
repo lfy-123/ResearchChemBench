@@ -1,0 +1,158 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "states", "pka_by_isomer", "delta_pka", "coverage", "sensitivity", "conclusion", "limitations", "hypotheses"],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      },
+      "states": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "isomer",
+            "state_role",
+            "charge",
+            "multiplicity",
+            "validated",
+            "pka",
+            "validation_evidence",
+            "method"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "isomer": {
+              "type": "string",
+              "enum": [
+                "E,E",
+                "Z,Z"
+              ]
+            },
+            "state_role": {
+              "type": "string",
+              "enum": ["neutral", "conjugate_acid"]
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer"
+            },
+            "validated": {
+              "type": "boolean"
+            },
+            "pka": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "uncertainty": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "validation_evidence": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "method": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "pka_by_isomer": {
+        "type": "object",
+        "required": ["E,E", "Z,Z"],
+        "properties": {
+          "E,E": {"type": ["number", "null"]},
+          "Z,Z": {"type": ["number", "null"]}
+        }
+      },
+      "delta_pka": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "hypotheses": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "statement",
+            "test",
+            "outcome"
+          ],
+          "properties": {
+            "statement": {
+              "type": "string"
+            },
+            "test": {
+              "type": "string"
+            },
+            "outcome": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "coverage": {
+        "type": "string"
+      },
+      "sensitivity": {
+        "type": "string"
+      },
+      "failure": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {"const": "completed"},
+          "states": {"minItems": 4},
+          "pka_by_isomer": {
+            "properties": {"E,E": {"type": "number"}, "Z,Z": {"type": "number"}}
+          },
+          "delta_pka": {"type": "number"}
+        }
+      },
+      {
+        "properties": {
+          "status": {"const": "bounded_failure"},
+          "failure": {"type": "string", "minLength": 1},
+          "delta_pka": {"type": "null"}
+        },
+        "required": ["failure"]
+      }
+    ]
+  }
+}

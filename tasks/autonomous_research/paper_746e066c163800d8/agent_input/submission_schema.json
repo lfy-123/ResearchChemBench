@@ -1,0 +1,146 @@
+{
+  "type": "object",
+  "required": ["status"],
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status"],
+    "oneOf": [
+      {"properties": {"status": {"const": "complete"}}, "required": ["method", "candidate", "validation", "torsions", "mean_torsion_deg", "mean_definition", "uncertainty_deg", "interpretation", "limitations"]},
+      {"properties": {"status": {"const": "bounded_failure"}}, "required": ["method", "candidate", "validation", "failure_diagnostics", "limitations"]}
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "model",
+          "charge",
+          "multiplicity"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          }
+        }
+      },
+      "candidate": {
+        "type": "object",
+        "required": [
+          "id",
+          "geometry_source",
+          "converged"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "geometry_source": {
+            "type": "string"
+          },
+          "converged": {
+            "type": "boolean"
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "minimum_test",
+          "imaginary_modes",
+          "independent_check",
+          "search_coverage",
+          "stopping_reason"
+        ],
+        "properties": {
+          "minimum_test": {
+            "type": "string"
+          },
+          "imaginary_modes": {
+            "type": "integer"
+          },
+          "independent_check": {
+            "type": "string"
+          },
+          "search_coverage": {
+            "type": "string"
+          },
+          "stopping_reason": {
+            "type": "string"
+          }
+        }
+      },
+      "torsions": {
+        "type": "array",
+        "minItems": 5,
+        "maxItems": 5,
+        "items": {
+          "type": "object",
+          "required": [
+            "label",
+            "atom_indices",
+            "value_deg",
+            "convention"
+          ],
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "atom_indices": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": {
+                "type": "integer"
+              }
+            },
+            "value_deg": {
+              "type": "number"
+            },
+            "convention": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "mean_torsion_deg": {
+        "type": "number"
+      },
+      "mean_definition": {
+        "type": "string"
+      },
+      "uncertainty_deg": {
+        "type": "number",
+        "minimum": 0
+      },
+      "interpretation": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      },
+      "failure_diagnostics": {
+        "type": "string"
+      }
+    }
+  }
+}

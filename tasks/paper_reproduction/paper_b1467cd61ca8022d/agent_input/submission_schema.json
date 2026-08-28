@@ -1,0 +1,33 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {
+        "required": ["status", "candidates", "selected_candidate_id", "energies", "binding_energy_eV", "validation", "method", "coverage", "selected_candidate_rationale", "geometry_interpretation", "uncertainty", "conclusion", "limitations"],
+        "properties": {
+          "status": {"const": "success"},
+          "candidates": {"type": "array", "items": {"type": "object", "required": ["candidate_id", "description", "converged", "minimum_validated"], "properties": {"candidate_id": {"type": "string"}, "description": {"type": "string"}, "converged": {"type": "boolean"}, "minimum_validated": {"type": "boolean"}}}},
+          "selected_candidate_id": {"type": "string"},
+          "energies": {"type": "object", "required": ["complex_eV", "lithium_eV", "tfpm_eV"], "properties": {"complex_eV": {"type": "number"}, "lithium_eV": {"type": "number"}, "tfpm_eV": {"type": "number"}}},
+          "binding_energy_eV": {"type": "number"},
+          "validation": {"type": "object", "required": ["frequency_or_equivalent", "details"], "properties": {"frequency_or_equivalent": {"type": "boolean"}, "details": {"type": "string"}}},
+          "method": {"type": "object", "required": ["software", "model_chemistry"], "properties": {"software": {"type": "string"}, "model_chemistry": {"type": "string"}}},
+          "coverage": {"type": "object", "required": ["generation", "stopping"], "properties": {"generation": {"type": "string"}, "stopping": {"type": "string"}}},
+          "selected_candidate_rationale": {"type": "string"}, "geometry_interpretation": {"type": "string"}, "uncertainty": {"type": "string"}, "conclusion": {"type": "string"}, "limitations": {"type": "string"}
+        }
+      },
+      {
+        "required": ["status", "candidates", "selected_candidate_id", "energies", "binding_energy_eV", "validation", "method", "coverage", "selected_candidate_rationale", "geometry_interpretation", "uncertainty", "conclusion", "limitations", "failure_reason"],
+        "properties": {
+          "status": {"const": "bounded_failure"},
+          "candidates": {"type": "array", "items": {"type": "object", "required": ["candidate_id", "description", "converged", "minimum_validated"], "properties": {"candidate_id": {"type": "string"}, "description": {"type": "string"}, "converged": {"type": "boolean"}, "minimum_validated": {"type": "boolean"}}}},
+          "selected_candidate_id": {"type": ["string", "null"]}, "energies": {"type": ["object", "null"]}, "binding_energy_eV": {"type": ["number", "null"]}, "validation": {"type": ["object", "null"]}, "method": {"type": ["object", "null"]},
+          "coverage": {"type": "object", "required": ["generation", "stopping"], "properties": {"generation": {"type": "string"}, "stopping": {"type": "string"}}},
+          "selected_candidate_rationale": {"type": "string"}, "geometry_interpretation": {"type": "string"}, "uncertainty": {"type": "string"}, "conclusion": {"type": "string"}, "limitations": {"type": "string"}, "failure_reason": {"type": "string"}
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,163 @@
+{
+    "paper_id": "paper_0543918936df2fba",
+    "rules": [
+        {
+            "rule_id": "r_pr_process_search",
+            "applies_when": "status is complete",
+            "reference_id": "pr_process_search",
+            "type": "semantic",
+            "expected": "Per-surface candidate inventory, deduplication, validation and stopping are scientifically specific.",
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.surfaces",
+                    "$.ni111_coverage_and_stopping",
+                    "$.nipt111_coverage_and_stopping"
+                ],
+                "comparison": "expert semantic comparison"
+            }
+        },
+        {
+            "rule_id": "r_pr_process_path",
+            "applies_when": "status is complete",
+            "reference_id": "pr_process_path",
+            "type": "semantic",
+            "expected": "Both named surfaces provide endpoint/path validation and a numerical sensitivity test.",
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.surfaces",
+                    "$.ni111_path_validation",
+                    "$.nipt111_path_validation",
+                    "$.convergence_test"
+                ],
+                "comparison": "expert semantic comparison"
+            }
+        },
+        {
+            "rule_id": "r_pr_h2_ni",
+            "applies_when": "status is complete",
+            "reference_id": "pr_h2_ni",
+            "type": "numeric",
+            "target": -0.38,
+            "unit": "eV",
+            "tolerance": 0.15,
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.ni111_h2_adsorption_energy_ev"
+                ],
+                "comparison": "absolute difference"
+            }
+        },
+        {
+            "rule_id": "r_pr_h2_nipt",
+            "applies_when": "status is complete",
+            "reference_id": "pr_h2_nipt",
+            "type": "numeric",
+            "target": -0.23,
+            "unit": "eV",
+            "tolerance": 0.15,
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.nipt111_h2_adsorption_energy_ev"
+                ],
+                "comparison": "absolute difference"
+            }
+        },
+        {
+            "rule_id": "r_pr_barrier_ni",
+            "applies_when": "status is complete",
+            "reference_id": "pr_barrier_ni",
+            "type": "numeric",
+            "target": 0.55,
+            "unit": "eV",
+            "tolerance": 0.15,
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.ni111_parallel_to_tilted_barrier_ev"
+                ],
+                "comparison": "absolute difference"
+            }
+        },
+        {
+            "rule_id": "r_pr_barrier_nipt",
+            "applies_when": "status is complete",
+            "reference_id": "pr_barrier_nipt",
+            "type": "numeric",
+            "target": 0.34,
+            "unit": "eV",
+            "tolerance": 0.15,
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.nipt111_parallel_to_tilted_barrier_ev"
+                ],
+                "comparison": "absolute difference"
+            }
+        },
+        {
+            "rule_id": "r_pr_ordering",
+            "applies_when": "status is complete",
+            "reference_id": "pr_ordering",
+            "type": "condition",
+            "expected": "tilted_minus_parallel_energy_ev is positive for both Ni111 and NiPt111",
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.ni111_tilted_minus_parallel_energy_ev",
+                    "$.nipt111_tilted_minus_parallel_energy_ev"
+                ],
+                "comparison": "sign and expert verification"
+            }
+        },
+        {
+            "rule_id": "r_pr_final_effect",
+            "applies_when": "status is complete",
+            "reference_id": "pr_final_effect",
+            "type": "semantic",
+            "expected": "Pt weakens H2 binding and lowers the HMF reorientation barrier within the stated model scope.",
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.comparative_conclusion"
+                ],
+                "comparison": "expert semantic comparison"
+            }
+        },
+        {
+            "rule_id": "r_pr_limitations",
+            "applies_when": "status is complete or bounded_failure",
+            "reference_id": "pr_limitations",
+            "type": "semantic",
+            "expected": "The report states ideal-slab and electronic-energy limitations and does not overclaim kinetics or selectivity.",
+            "binding": {
+                "artifact_paths": [
+                    "report/results.json"
+                ],
+                "fields": [
+                    "$.limitations"
+                ],
+                "comparison": "expert semantic comparison"
+            }
+        }
+    ]
+}

@@ -1,0 +1,104 @@
+{
+  "rules": [
+    {
+      "rule_id": "ar_rule_1",
+      "type": "semantic",
+      "expected": "Explicit model IDs and per-system candidate search, deduplication and stopping evidence are retained.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.models",
+          "$.systems[*].candidates",
+          "$.systems[*].search_summary"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_1"
+    },
+    {
+      "rule_id": "ar_rule_2",
+      "type": "semantic",
+      "expected": "Every selected system has convergence and independent validation evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].validation",
+          "$.systems[*].fragment_energies",
+          "$.method.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_2"
+    },
+    {
+      "rule_id": "ar_rule_3",
+      "type": "semantic",
+      "expected": "Complete submissions report all six named combinations with identifiable eV binding energies; bounded failures name every missing system and its cause.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.systems[*].system",
+          "$.systems[*].outcome",
+          "$.systems[*].binding_energy_eV",
+          "$.failure_details"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_result_1"
+    },
+    {
+      "rule_id": "ar_rule_4",
+      "type": "semantic",
+      "expected": "Conclusion is derived from submitted calculations and states scope/uncertainty.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_result_2"
+    },
+    {
+      "rule_id": "ar_conclusion_1",
+      "type": "semantic",
+      "expected": "Independent calculation-based final claim about matched Sn/Pb selectivity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final_1"
+    },
+    {
+      "rule_id": "ar_conclusion_2",
+      "type": "semantic",
+      "expected": "Molecular-vs-bulk limitation is explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final_2"
+    }
+  ],
+  "paper_id": "paper_c9165ac90930fc76"
+}

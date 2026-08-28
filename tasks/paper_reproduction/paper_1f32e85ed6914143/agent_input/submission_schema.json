@@ -1,0 +1,18 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["completion_status", "protocol", "search", "channels", "comparison", "conclusion", "limitations", "provenance"],
+    "properties": {
+      "completion_status": {"type":"string","enum":["complete","bounded_failure"]},
+      "protocol": {"type":"object","required":["method","geometry","thermochemistry","solvent","software"],"properties":{"method":{"type":"string"},"geometry":{"type":"string"},"thermochemistry":{"type":"string"},"solvent":{"type":"string"},"software":{"type":"string"}}},
+      "search": {"type":"object","required":["candidate_generation","deduplication","coverage","stopping_condition"],"properties":{"candidate_generation":{"type":"string"},"deduplication":{"type":"string"},"coverage":{"type":"string"},"stopping_condition":{"type":"string"}}},
+      "channels": {"type":"array","minItems":3,"items":{"type":"object","required":["channel","candidates"],"properties":{"channel":{"type":"string"},"candidates":{"type":"array","minItems":1,"items":{"type":"object","required":["candidate_id","status","reacting_bond","proton_acceptor","frequency_validation","connectivity_validation"],"properties":{"candidate_id":{"type":"string"},"status":{"type":"string"},"reacting_bond":{"type":"string"},"proton_acceptor":{"type":"string"},"frequency_validation":{"type":"object","required":["imaginary_frequency_count","assessment"],"properties":{"imaginary_frequency_count":{"type":"number"},"assessment":{"type":"string"}}},"connectivity_validation":{"type":"object","required":["method","assessment"],"properties":{"method":{"type":"string"},"assessment":{"type":"string"}}},"barrier_kcal_mol":{"type":["number","null"]}}}}}}},
+      "comparison": {"type":"object","required":["reference_state"],"properties":{"reference_state":{"type":"string"}},"oneOf":[{"required":["barriers","ordering","reaction_free_energy"],"properties":{"barriers":{"type":"object","required":["meta","para","ortho"],"properties":{"meta":{"type":"number"},"para":{"type":"number"},"ortho":{"type":"number"}}},"ordering":{"type":"string"},"reaction_free_energy":{"type":"number"}}},{"required":["barriers","ordering","reaction_free_energy"],"properties":{"barriers":{"type":"object","required":["meta","para","ortho"],"properties":{"meta":{"type":"null"},"para":{"type":"null"},"ortho":{"type":"null"}}},"ordering":{"type":"null"},"reaction_free_energy":{"type":"null"}}}]},
+      "conclusion": {"type":"string"},
+      "limitations": {"type":"array","minItems":1,"items":{"type":"string"}},
+      "provenance": {"type":"object","required":["input_paths","calculation_paths"],"properties":{"input_paths":{"type":"array"},"calculation_paths":{"type":"array"}}}
+    }
+  }
+}

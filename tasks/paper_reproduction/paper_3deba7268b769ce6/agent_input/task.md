@@ -1,0 +1,15 @@
+# Scientific objective
+
+Determine, for the uniquely specified singly deprotonated E-imine dye-3 chromophore in implicit dichloromethane, the lowest-energy visible singlet Franck–Condon excitation from an optimized ground-state structure. Test the authors' qualitative hypothesis that this band is a phenolate-donor to nitroaryl-acceptor intramolecular charge-transfer (ICT) transition. Report the excitation energy in kcal/mol, oscillator strength when available, and the evidence supporting the electronic assignment. The object is the molecule in `data/inputs/dye3_phenolate.smiles`; do not substitute dyes 2 or 4–6.
+
+# Public inputs and scientific boundaries
+
+`data/inputs/dye3_phenolate.smiles` is the authoritative connectivity and formal charge: the E-imine of 4-aminophenol and 4′-nitro-[1,1′-biphenyl]-4-carbaldehyde, with a singly deprotonated phenolate (net charge −1). `data/inputs/system_spec.json` fixes charge −1, singlet multiplicity 1, dichloromethane implicit continuum (ε=9.08, n=1.424), and the target as the lowest-energy visible singlet excitation from the optimized ground-state minimum. Generate 3-D coordinates and document stereochemical/conformer choices. This is a vertical electronic-structure benchmark; solvent dynamics, vibronic envelopes, photochemistry, and an ensemble-average spectrum are outside scope. The paper's software, method, ordered protocol, numerical result, and selected geometry are not public instructions.
+
+# Required scientific validation/investigation
+
+Independently choose and justify a computational route compatible with the fixed system and boundary. Optimize the ground-state geometry, then demonstrate that the reported structure is a minimum using a frequency, Hessian, or an explicitly justified equivalent validation. Compute and identify the lowest-energy visible singlet transition, retaining state index, energy, oscillator strength, and orbital or transition-density evidence. Explicitly test the qualitative phenolate-to-nitroaryl ICT hypothesis by locating the donor and acceptor character in the computed transition. Record convergence settings, any alternative starting conformers or state assignments examined, and sensitivity that materially affects the conclusion. The calculation is complete when one converged candidate structure has a documented minimum validation and a state assignment supported by quantitative and electronic evidence. Stop after convergence and after additional starting conformers no longer change the selected state assignment materially; if resources or convergence prevent this, stop and submit the bounded-failure branch with all attempted calculations and the limitation.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. Include the validated structure or a reproducible structure reference, calculation provenance, minimum-validation evidence, the selected transition and its energy, and an evidence-based final conclusion. A bounded failure is acceptable only when the failure branch contains the attempted route, diagnostic evidence, and a scientifically specific limitation.

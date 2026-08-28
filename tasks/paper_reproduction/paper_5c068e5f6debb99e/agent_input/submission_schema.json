@@ -1,0 +1,332 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "channels",
+      "comparison",
+      "search_summary",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "channels": {
+        "type": "object",
+        "required": [
+          "O_site",
+          "C_site"
+        ],
+        "properties": {
+          "O_site": {
+            "type": "object",
+            "required": [
+              "channel_id",
+              "validated",
+              "identity"
+            ],
+            "properties": {
+              "channel_id": {
+                "type": "string"
+              },
+              "candidate_id": {
+                "type": "string"
+              },
+              "validated": {
+                "type": "boolean"
+              },
+              "barrier_kcal_mol": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "identity": {
+                "type": "object",
+                "required": [
+                  "forming_bond",
+                  "breaking_bond"
+                ],
+                "properties": {
+                  "forming_bond": {
+                    "type": "string"
+                  },
+                  "breaking_bond": {
+                    "type": "string"
+                  }
+                }
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "frequency_statement",
+                  "path_statement",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "frequency_statement": {
+                    "type": "string"
+                  },
+                  "path_statement": {
+                    "type": "string"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "failure_reason": {
+                "type": "string"
+              },
+              "attempted_search": {
+                "type": "string"
+              }
+            },
+            "oneOf": [
+              {
+                "required": [
+                  "candidate_id",
+                  "barrier_kcal_mol",
+                  "validation"
+                ],
+                "properties": {
+                  "validated": {
+                    "const": true
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "validation": {
+                    "type": "object"
+                  }
+                }
+              },
+              {
+                "required": [
+                  "failure_reason",
+                  "attempted_search"
+                ],
+                "properties": {
+                  "validated": {
+                    "const": false
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "null"
+                  },
+                  "failure_reason": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "attempted_search": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            ]
+          },
+          "C_site": {
+            "type": "object",
+            "required": [
+              "channel_id",
+              "validated",
+              "identity"
+            ],
+            "properties": {
+              "channel_id": {
+                "type": "string"
+              },
+              "candidate_id": {
+                "type": "string"
+              },
+              "validated": {
+                "type": "boolean"
+              },
+              "barrier_kcal_mol": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "identity": {
+                "type": "object",
+                "required": [
+                  "forming_bond",
+                  "breaking_bond"
+                ],
+                "properties": {
+                  "forming_bond": {
+                    "type": "string"
+                  },
+                  "breaking_bond": {
+                    "type": "string"
+                  }
+                }
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "frequency_statement",
+                  "path_statement",
+                  "evidence_files"
+                ],
+                "properties": {
+                  "frequency_statement": {
+                    "type": "string"
+                  },
+                  "path_statement": {
+                    "type": "string"
+                  },
+                  "evidence_files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "failure_reason": {
+                "type": "string"
+              },
+              "attempted_search": {
+                "type": "string"
+              }
+            },
+            "oneOf": [
+              {
+                "required": [
+                  "candidate_id",
+                  "barrier_kcal_mol",
+                  "validation"
+                ],
+                "properties": {
+                  "validated": {
+                    "const": true
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "number"
+                  },
+                  "validation": {
+                    "type": "object"
+                  }
+                }
+              },
+              {
+                "required": [
+                  "failure_reason",
+                  "attempted_search"
+                ],
+                "properties": {
+                  "validated": {
+                    "const": false
+                  },
+                  "barrier_kcal_mol": {
+                    "type": "null"
+                  },
+                  "failure_reason": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "attempted_search": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "reference_definition"
+        ],
+        "properties": {
+          "ordering": {
+            "type": "string"
+          },
+          "barrier_difference_kcal_mol": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "reference_definition": {
+            "type": "string"
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "ordering",
+              "barrier_difference_kcal_mol"
+            ],
+            "properties": {
+              "ordering": {
+                "type": "string",
+                "minLength": 1
+              },
+              "barrier_difference_kcal_mol": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "required": [
+              "ordering",
+              "barrier_difference_kcal_mol"
+            ],
+            "properties": {
+              "ordering": {
+                "type": "string",
+                "minLength": 1
+              },
+              "barrier_difference_kcal_mol": {
+                "type": "null"
+              }
+            }
+          }
+        ]
+      },
+      "search_summary": {
+        "type": "object",
+        "required": [
+          "candidate_generation",
+          "deduplication",
+          "coverage",
+          "stopping",
+          "limitations"
+        ],
+        "properties": {
+          "candidate_generation": {
+            "type": "string"
+          },
+          "deduplication": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "string"
+          },
+          "stopping": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_084ee9610f1503dd",
+  "task_type": "autonomous_research",
+  "title": "Autonomous electronic-structure investigation of benzimidazole–acrylonitrile luminogen 1",
+  "category": "excited_state_spectroscopy_photochemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The Agent must explore a finite conformer space, optimize and validate each candidate, compute and characterize five excited states, and perform an independent sensitivity check; autonomous research additionally requires route-neutral interpretation."
+  ],
+  "paper": {
+    "title": "Tunable aggregation-induced emission to aggregation-caused quenching transition in benzimidazole&#x2013;acrylonitrile luminogens: experimental and theoretical insights",
+    "doi": "10.1039/d5nj04441c",
+    "journal": "New Journal of Chemistry",
+    "publication_date": "2026-01-06"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained stereospecific molecular identity, charge, multiplicity, tautomer, solvent, endpoint, and exclusions."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured validated conformer, S1–S5 observables, sensitivity, interpretation, and limitations."
+    },
+    {
+      "path": "report/methods.md",
+      "description": "Reproducible computational and validation record."
+    }
+  ]
+}

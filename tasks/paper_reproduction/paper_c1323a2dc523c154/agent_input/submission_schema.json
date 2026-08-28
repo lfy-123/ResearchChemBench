@@ -1,0 +1,20 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["system", "status", "model", "geometry_validation", "attempts", "conclusion", "limitations"],
+    "properties": {
+      "system": {"type": "object", "required": ["input_path", "formula", "charge", "multiplicity"]},
+      "status": {"type": "string", "enum": ["success", "bounded_failure"]},
+      "model": {"type": "object", "required": ["software", "electronic_structure_method", "relativistic_treatment", "basis_or_ecp", "xes_intensity_method"]},
+      "geometry_validation": {"type": "object", "required": ["method", "validated", "pd_pd_distance_angstrom", "nearest_pd_cl_distances_angstrom", "evidence"], "properties": {"nearest_pd_cl_distances_angstrom": {"type": "array", "minItems": 6, "maxItems": 6}}},
+      "attempts": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["model", "outcome", "diagnostics", "evidence"]}}, "conclusion": {"type": "string"}, "limitations": {"type": "array", "minItems": 1},
+      "spectrum": {"type": "object", "required": ["energy_alignment", "broadening", "transitions", "sampled_curve", "features", "regeneration_evidence"], "properties": {"energy_alignment": {"type": "object", "required": ["raw_energy_definition", "aligned_energy_definition", "method"]}, "broadening": {"type": "object", "required": ["kernel", "width", "units"]}, "transitions": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["transition_id", "raw_energy", "aligned_energy", "intensity", "donor_orbital", "pd_d_character", "cl_p_or_pd_cl_character"]}}, "sampled_curve": {"type": "array", "minItems": 2, "items": {"type": "object", "required": ["energy", "intensity"]}}, "features": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["feature_id", "assignment", "supporting_transition_ids", "center_energy", "relative_intensity", "width"]}}, "regeneration_evidence": {"type": "string"}}},
+      "sensitivity_test": {"type": "object", "required": ["variable", "comparison", "feature_identity_robust"]},
+      "hypothesis_verdict": {"type": "object", "required": ["supported", "evidence"]},
+      "failure": {"type": "object", "required": ["reason", "partial_evidence", "strongest_supported_claim"]}
+    },
+    "oneOf": [{"required": ["spectrum", "sensitivity_test", "hypothesis_verdict"], "properties": {"status": {"enum": ["success"]}}}, {"required": ["failure"], "properties": {"status": {"enum": ["bounded_failure"]}}}]
+  }
+}

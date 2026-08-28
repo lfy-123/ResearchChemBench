@@ -1,0 +1,80 @@
+{
+  "paper_id": "paper_a45d7e9815bcf075",
+  "rules": [
+    {
+      "rule_id": "r1",
+      "reference_id": "p1",
+      "type": "semantic",
+      "expected": "identity",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r2",
+      "reference_id": "p2",
+      "type": "semantic",
+      "expected": "fragment provenance",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r3",
+      "reference_id": "p3",
+      "type": "semantic",
+      "expected": "disulfides",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r4",
+      "reference_id": "p4",
+      "type": "semantic",
+      "expected": "radius sensitivity",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r5",
+      "reference_id": "c1",
+      "type": "semantic",
+      "expected": "locality conclusion",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

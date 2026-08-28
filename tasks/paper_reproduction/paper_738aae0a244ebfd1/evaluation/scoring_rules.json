@@ -1,0 +1,101 @@
+{
+  "paper_id": "paper_738aae0a244ebfd1",
+  "rules": [
+    {
+      "rule_id": "r_minimum",
+      "reference_id": "kp_process_minimum",
+      "type": "condition",
+      "expected": "Optimization convergence, charge/multiplicity retention and explicit frequency evidence are present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.minimum_validation.validation_statement",
+          "$.method.convergence_evidence"
+        ],
+        "comparison": "expert verification"
+      }
+    },
+    {
+      "rule_id": "r_excitation_process",
+      "reference_id": "kp_process_excitation",
+      "type": "condition",
+      "expected": "An excitation output path, selection rule and orbital assignment are reported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.excitation.selection_rule",
+          "$.excitation.assignment"
+        ],
+        "comparison": "expert verification"
+      }
+    },
+    {
+      "rule_id": "r_gap",
+      "reference_id": "kp_result_gap",
+      "type": "numeric",
+      "target": 6.008,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.electronic_structure.gap_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_uv",
+      "reference_id": "kp_result_uv",
+      "type": "numeric",
+      "target": 271.84,
+      "unit": "nm",
+      "tolerance": 10.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.excitation.dominant_wavelength_nm"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final_electronic",
+      "type": "semantic",
+      "expected": "The submitted conclusion connects minimum validation, orbital gap and UV transition to a bounded gas-phase stability/electronic-response claim.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.claim"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_limitation",
+      "reference_id": "c_limitation",
+      "type": "semantic",
+      "expected": "The report states molecular gas-phase interpretation limits and acknowledges sensitivity/coverage.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

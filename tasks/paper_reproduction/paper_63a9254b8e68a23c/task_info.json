@@ -1,0 +1,30 @@
+{
+  "paper_id": "paper_63a9254b8e68a23c",
+  "task_type": "paper_reproduction",
+  "title": "Equilibrium radius of a MoSSe/MoS2 nanoscroll",
+  "category": "continuum nanomaterial mechanics",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must search a continuous positive inner-radius domain rather than evaluate a fixed candidate.",
+    "The energy is piecewise by complete versus incomplete outer-segment turn, so regime consistency and the global lowest valid minimum must be checked.",
+    "The result requires independent numerical convergence and local-minimum/stationarity validation."
+  ],
+  "paper": {
+    "title": "Controlling Spontaneously-Formed Nanoscrolls by In-Plane Janus TMD/Traditional TMD Heterostructures",
+    "doi": "10.1021/acsami.5c22081",
+    "journal": "ACS Applied Materials & Interfaces",
+    "publication_date": "2026-01-21"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Closed JSON specification of the ordered two-segment ribbon and continuum material parameters."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated radius, geometry, regime, numerical checks, interpretation and limitations."
+    }
+  ]
+}

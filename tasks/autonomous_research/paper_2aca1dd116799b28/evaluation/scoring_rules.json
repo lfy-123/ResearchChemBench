@@ -1,0 +1,57 @@
+{
+  "paper_id": "paper_2aca1dd116799b28",
+  "rules": [
+    {
+      "rule_id": "r_freq",
+      "reference_id": "kp_freq",
+      "type": "condition",
+      "expected": "All accepted reactants have zero imaginary frequencies and all accepted TSs have exactly one cyclization-associated imaginary frequency.",
+      "binding": {"artifact_paths":["report/results.json"],"fields":["$.molecules[].name","$.molecules[].reactant_imaginary_frequencies","$.molecules[].ts_imaginary_frequencies","$.molecules[].validation"],"comparison":"identity-preserving expert validation for each named molecule"}
+    },
+    {
+      "rule_id": "r_15",
+      "reference_id": "kp_barriers",
+      "type": "numeric",
+      "target": 46.89,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.molecules[].name","$.molecules[].barrier"],
+        "comparison": "absolute difference for the barrier object explicitly named EDY 15"
+      }
+    },
+    {"rule_id":"r_16","reference_id":"kp_barriers","type":"numeric","target":45.96,"unit":"kcal/mol","tolerance":2.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.molecules[].name","$.molecules[].barrier"],"comparison":"absolute difference for the barrier object explicitly named EDY 16"}},
+    {"rule_id":"r_17","reference_id":"kp_barriers","type":"numeric","target":47.69,"unit":"kcal/mol","tolerance":2.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.molecules[].name","$.molecules[].barrier"],"comparison":"absolute difference for the barrier object explicitly named EDY 17"}},
+    {
+      "rule_id": "r_order",
+      "reference_id": "kp_order",
+      "type": "ordering",
+      "expected": "EDY 17 > EDY 15 > EDY 16",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.molecules[].name","$.molecules[].barrier","$.conclusion"],
+        "comparison": "identity-preserving comparison of named molecule barriers, with stated ordering"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "expected": "Supports lower barrier for EDY 16 and explains differences using charge transfer and geometric distortion with explicit limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["system", "method", "conformer_search", "selected_structure", "stationarity", "properties", "sensitivity", "conclusion", "limitations"],
+    "properties": {
+      "system": {"type": "object", "required": ["name", "charge", "multiplicity"], "properties": {"name": {"type": "string"}, "charge": {"type": "integer"}, "multiplicity": {"type": "integer"}}},
+      "method": {"type": "object", "required": ["software", "electronic_structure_method", "basis_or_representation", "phase", "justification"], "properties": {"software": {"type": "string"}, "electronic_structure_method": {"type": "string"}, "basis_or_representation": {"type": "string"}, "phase": {"type": "string"}, "justification": {"type": "string"}}},
+      "conformer_search": {"type": "object", "required": ["generated_count", "deduplicated_count", "advanced_count", "frequency_validated_count", "energy_span_kcal_mol", "deduplication", "candidates", "stopping_evidence", "coverage_rationale"], "properties": {"generated_count": {"type": "integer", "minimum": 1}, "deduplicated_count": {"type": "integer", "minimum": 1}, "advanced_count": {"type": "integer", "minimum": 1}, "frequency_validated_count": {"type": "integer", "minimum": 1}, "energy_span_kcal_mol": {"type": "number"}, "deduplication": {"type": "string"}, "candidates": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["candidate_id", "relative_energy_kcal_mol", "advanced", "validation_evidence"], "properties": {"candidate_id": {"type": "string"}, "relative_energy_kcal_mol": {"type": "number"}, "advanced": {"type": "boolean"}, "validation_evidence": {"type": "string"}}}}, "stopping_evidence": {"type": "string"}, "coverage_rationale": {"type": "string"}}},
+      "selected_structure": {"type": "object", "required": ["xyz", "selection_basis"], "properties": {"xyz": {"type": "string"}, "selection_basis": {"type": "string"}}},
+      "stationarity": {"type": "object", "required": ["imaginary_frequency_count", "lowest_frequency_cm_1", "evidence"], "properties": {"imaginary_frequency_count": {"type": "integer", "minimum": 0}, "lowest_frequency_cm_1": {"type": "number"}, "evidence": {"type": "string"}}},
+      "properties": {"type": "object", "required": ["homo_ev", "lumo_ev", "gap_ev", "dipole_debye", "ip_ev", "ea_ev", "hardness_ev", "softness_ev_inverse", "chemical_potential_ev", "electronegativity_ev", "electrophilicity_ev"], "properties": {"homo_ev": {"type": "number"}, "lumo_ev": {"type": "number"}, "gap_ev": {"type": "number"}, "dipole_debye": {"type": "number"}, "ip_ev": {"type": "number"}, "ea_ev": {"type": "number"}, "hardness_ev": {"type": "number"}, "softness_ev_inverse": {"type": "number"}, "chemical_potential_ev": {"type": "number"}, "electronegativity_ev": {"type": "number"}, "electrophilicity_ev": {"type": "number"}}},
+      "sensitivity": {"type": "object", "required": ["test", "delta_homo_ev", "delta_lumo_ev", "delta_gap_ev", "delta_dipole_debye", "interpretation"], "properties": {"test": {"type": "string"}, "delta_homo_ev": {"type": "number"}, "delta_lumo_ev": {"type": "number"}, "delta_gap_ev": {"type": "number"}, "delta_dipole_debye": {"type": "number"}, "interpretation": {"type": "string"}}},
+      "conclusion": {"type": "string"},
+      "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+    }
+  }
+}

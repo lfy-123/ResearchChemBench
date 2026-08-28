@@ -1,0 +1,115 @@
+{
+  "paper_id": "paper_1c0f720a42bf16b8",
+  "rules": [
+    {
+      "rule_id": "rule_ar_kp1",
+      "reference_id": "kp_ar_process_1",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods.md"
+        ],
+        "fields": [
+          "$.validation"
+        ],
+        "comparison": "expert verification of state convergence and stationary-point evidence"
+      },
+      "expected": "required validation condition is met and evidenced"
+    },
+    {
+      "rule_id": "rule_ar_kp2",
+      "reference_id": "kp_ar_process_2",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods.md"
+        ],
+        "fields": [
+          "$.observables.bright_transition"
+        ],
+        "comparison": "expert verification of explicit bright-state selection and orbital assignment"
+      },
+      "expected": "required validation condition is met and evidenced"
+    },
+    {
+      "rule_id": "rule_ar_kp3",
+      "reference_id": "kp_ar_result_1",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.bright_transition.assignment",
+          "$.observables.bright_transition.dominant_percentage"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "source-backed scientific agreement with the referenced statement"
+    },
+    {
+      "rule_id": "rule_ar_kp4",
+      "reference_id": "kp_ar_result_2",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "source-backed scientific agreement with the referenced statement"
+    },
+    {
+      "rule_id": "rule_ar_kp5",
+      "reference_id": "kp_ar_result_3",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods.md"
+        ],
+        "fields": [
+          "$.observables.gap_eV"
+        ],
+        "comparison": "expert comparison with stated model boundary"
+      },
+      "expected": "source-backed scientific agreement with the referenced statement"
+    },
+    {
+      "rule_id": "rule_ar_con1",
+      "reference_id": "con_ar_final_1",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interpretation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "source-backed scientific agreement with the referenced statement"
+    },
+    {
+      "rule_id": "rule_ar_con2",
+      "reference_id": "con_ar_limit_1",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods.md"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "source-backed scientific agreement with the referenced statement"
+    }
+  ]
+}

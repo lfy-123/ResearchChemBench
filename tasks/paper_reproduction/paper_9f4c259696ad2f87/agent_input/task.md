@@ -1,0 +1,15 @@
+## Scientific objective
+
+Determine the vertical lowest singlet excitation (S1) of neutral singlet benzoyl-PXX compound 1, and determine whether that excitation is dominated by a single HOMO-to-LUMO orbital transition. Report the S1 excitation energy in eV, the occupied and virtual orbital identifiers used for the dominant contribution, its percentage, and a conclusion about the computational optical assignment. In this reproduction mode, the authors' qualitative hypothesis is that the lowest-energy absorption band can be interpreted through an essentially HOMO-to-LUMO S1 excitation; test that hypothesis independently without assuming a numerical answer or the authors' software, model chemistry, or protocol.
+
+## Public inputs and scientific boundaries
+
+The sole molecular input is `data/inputs/compound_1_optimized.xyz`: a 74-atom Cartesian geometry with formula C43H28O3, representing compound 1. Treat it as one neutral molecule with charge 0 and singlet multiplicity 1 in implicit dichloromethane. The research object is this molecule only; do not add a Lewis acid, counterion, solvent molecule, or alternate protonation state. The measured quantities are the lowest singlet vertical excitation energy and orbital-transition composition. You may re-optimize or validate the supplied geometry and may choose computational methods, basis sets, solvation treatment, and analysis software, but state those choices and their limitations. Experimental spectra are context only, not a substitute for the requested calculation.
+
+## Required scientific validation/investigation
+
+First verify that the XYZ parses, has 74 coordinate rows, formula C43H28O3, and is chemically consistent with a neutral singlet. Establish a defensible ground-state geometry (either use the supplied geometry with justification or optimize it) and document convergence or any bounded failure. Compute singlet excited states sufficiently to identify the lowest-energy S1 state, and inspect the orbital decomposition of that state. Report the dominant occupied-to-virtual transition and contribution percentage, with orbital indexing conventions. A calculation is complete when the geometry/state calculation is converged or a scientifically explicit bounded-failure report explains why it could not converge, and when S1 plus its orbital decomposition have been extracted or shown unavailable. Stop after this endpoint and the associated checks; do not search other molecules or adducts. If alternative conformers or methods are explored, report the explored set and use them as sensitivity/limitation analysis rather than silently selecting a favorable result.
+
+## Deliverables
+
+Submit `report/results.json` conforming to the supplied schema. It must contain the input identity checks, computational protocol, convergence/validation evidence, S1 energy and units when obtained, orbital contribution details when obtained, a bounded-failure branch when either quantity is unavailable, and a concise final conclusion. Include paths to logs or output files if produced. Do not include the paper, SI, hidden reference values, or claims that cannot be traced to your calculations.

@@ -1,0 +1,33 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "oneOf": [
+      {
+        "type": "object",
+        "required": ["status", "system", "approach", "hypotheses", "states", "validation", "interpretation", "files"],
+        "properties": {
+          "status": {"type": "string", "const": "complete"},
+          "system": {"type": "object", "required": ["charge", "multiplicity", "atom_count", "geometry_source", "connectivity_check"], "properties": {"charge": {"type": "integer"}, "multiplicity": {"type": "integer"}, "atom_count": {"type": "integer"}, "geometry_source": {"type": "string"}, "connectivity_check": {"type": "string"}}},
+          "approach": {"type": "object", "required": ["method_selection", "justification", "electronic_state_provenance"], "properties": {"method_selection": {"type": "string"}, "justification": {"type": "string"}, "electronic_state_provenance": {"type": "string"}}},
+          "hypotheses": {"type": "array", "minItems": 2, "items": {"type": "object", "required": ["hypothesis_id", "proposed_character", "rationale", "supporting_or_contrary_evidence"], "properties": {"hypothesis_id": {"type": "string"}, "proposed_character": {"type": "string"}, "rationale": {"type": "string"}, "supporting_or_contrary_evidence": {"type": "string"}}}},
+          "states": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"type": "object", "required": ["label", "wavelength_nm", "oscillator_strength", "character", "character_evidence"], "properties": {"label": {"type": "string"}, "wavelength_nm": {"type": "number"}, "oscillator_strength": {"type": "number"}, "character": {"type": "string"}, "character_evidence": {"type": "string"}}}},
+          "validation": {"type": "object", "required": ["methods", "convergence", "sensitivity", "state_ordering_effect", "coverage", "uncertainty"], "properties": {"methods": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "convergence": {"type": "string"}, "sensitivity": {"type": "string"}, "state_ordering_effect": {"type": "string"}, "coverage": {"type": "string"}, "uncertainty": {"type": "string"}}},
+          "interpretation": {"type": "object", "required": ["hypothesis_comparison", "pfy_comparison", "dynamics_interpretation", "conclusion", "limitations"], "properties": {"hypothesis_comparison": {"type": "string"}, "pfy_comparison": {"type": "string"}, "dynamics_interpretation": {"type": "string"}, "conclusion": {"type": "string"}, "limitations": {"type": "string"}}},
+          "files": {"type": "array", "minItems": 2, "items": {"type": "string"}}
+        }
+      },
+      {
+        "type": "object",
+        "required": ["status", "system", "approach", "failure", "files"],
+        "properties": {
+          "status": {"type": "string", "const": "bounded_failure"},
+          "system": {"type": "object", "required": ["charge", "multiplicity", "atom_count", "geometry_source", "connectivity_check"], "properties": {"charge": {"type": "integer"}, "multiplicity": {"type": "integer"}, "atom_count": {"type": "integer"}, "geometry_source": {"type": "string"}, "connectivity_check": {"type": "string"}}},
+          "approach": {"type": "object", "required": ["method_selection", "justification", "electronic_state_provenance"], "properties": {"method_selection": {"type": "string"}, "justification": {"type": "string"}, "electronic_state_provenance": {"type": "string"}}},
+          "failure": {"type": "object", "required": ["failed_step", "partial_results", "recovery_attempt", "missing_evidence", "stopping_rationale", "limitations"], "properties": {"failed_step": {"type": "string"}, "partial_results": {"type": "string"}, "recovery_attempt": {"type": "string"}, "missing_evidence": {"type": "string"}, "stopping_rationale": {"type": "string"}, "limitations": {"type": "string"}}},
+          "files": {"type": "array", "minItems": 2, "items": {"type": "string"}}
+        }
+      }
+    ]
+  }
+}

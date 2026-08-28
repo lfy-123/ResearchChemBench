@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_65942ef347127508",
+  "task_type": "paper_reproduction",
+  "title": "Free-energy barrier for axial racemization of phosphorodithiolated styrene 3a",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The endpoint identities are fixed, but the agent must formulate a search/optimization strategy and locate a racemization saddle rather than receiving its result-bearing geometry; frequency, connectivity and free-energy validation are coupled."
+  ],
+  "paper": {
+    "title": "Organocatalytic enantioselective construction of axially chiral phosphorodithiolated styrenes",
+    "doi": "10.1016/j.cclet.2025.111219",
+    "journal": "Chinese Chemical Letters",
+    "publication_date": "2026-01-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "57-atom XYZ endpoint geometries for 3a and ent-3a; no result-bearing transition-state geometry is provided."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated stationary-point, connectivity, free-energy barrier and interpretation results."
+    }
+  ]
+}

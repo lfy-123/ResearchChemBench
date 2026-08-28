@@ -1,0 +1,54 @@
+{
+  "paper_id": "paper_36722b90a0c12825",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "reference_id": "pr_process",
+      "type": "semantic",
+      "expected": "Both named endpoints have explicit method, convergence and stationary-point evidence in their individual validation fields, or endpoint-specific bounded failure details.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.close",
+          "$.validation.open"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r2",
+      "reference_id": "pr_result",
+      "type": "numeric",
+      "target": 0.997,
+      "unit": "eV",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.open_minus_close"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": "success branch only; bounded_failure branch is scientifically acceptable when comparison cannot be obtained."
+    },
+    {
+      "rule_id": "pr_r3",
+      "reference_id": "pr_final",
+      "type": "semantic",
+      "expected": "Scope-qualified interpretation of near-degeneracy and limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

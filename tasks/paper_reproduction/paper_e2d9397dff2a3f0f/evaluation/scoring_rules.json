@@ -1,0 +1,86 @@
+{
+  "paper_id": "paper_e2d9397dff2a3f0f",
+  "rules": [
+    {
+      "rule_id": "r_pr_freq",
+      "reference_id": "kp_pr_process_freq",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures.reference",
+          "$.structures.target",
+          "$.method"
+        ],
+        "comparison": "expert validation"
+      },
+      "expected": "optimization and frequency workflow is documented for both named structures"
+    },
+    {
+      "rule_id": "r_pr_ts",
+      "reference_id": "kp_pr_process_ts",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures.target.imaginary_frequency_count",
+          "$.barrier.mode_assignment"
+        ],
+        "comparison": "exact count plus expert mode assessment"
+      },
+      "expected": "one imaginary frequency and N\u2013O cleavage mode evidence"
+    },
+    {
+      "rule_id": "r_pr_barrier",
+      "reference_id": "kp_pr_result_barrier",
+      "type": "numeric",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.barrier.value_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "target": 6.2,
+      "unit": "kcal/mol",
+      "tolerance": 2.0
+    },
+    {
+      "rule_id": "r_pr_final",
+      "reference_id": "c_pr_final",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.barrier.evidence",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "validated fixed-pair barrier conclusion with stated hypothesis test"
+    },
+    {
+      "rule_id": "r_pr_limit",
+      "reference_id": "c_pr_limit",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "method and convergence limitations are explicit"
+    }
+  ]
+}

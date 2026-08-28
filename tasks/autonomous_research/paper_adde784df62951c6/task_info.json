@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_adde784df62951c6",
+  "task_type": "autonomous_research",
+  "title": "Autonomous mechanism discovery for remote migratory acetate substitution",
+  "category": "computational organic reaction mechanism",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must formulate and discriminate a broad mechanism, conformer and transition-state space without an author-route hint, then justify search coverage and stopping."
+  ],
+  "paper": {
+    "title": "Metal-Free Synthesis of Conjugated Dienyl Esters via Coupling of Halopenta-1,4-dienes with Carboxylic Acids",
+    "doi": "10.1021/acs.joc.5c02264",
+    "journal": "The Journal of Organic Chemistry",
+    "publication_date": "2026-01-09"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained JSON defining substrate, acetate, base, solvent, charge, multiplicity, stereochemistry and known product connectivity."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured autonomous investigation report with candidate inventory, validation, energies, coverage, limitations and conclusion."
+    }
+  ]
+}

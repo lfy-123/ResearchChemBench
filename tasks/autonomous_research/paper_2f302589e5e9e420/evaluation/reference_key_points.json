@@ -1,0 +1,42 @@
+{
+  "paper_id": "paper_2f302589e5e9e420",
+  "items": [
+    {
+      "key_point_id": "kp_process_minimum",
+      "key_point_type": "process",
+      "statement": "Both named fragments are optimized with a stated protocol and the submitted validation evidence supports minima or a documented bounded failure.",
+      "evidence_ids": [
+        "ev_doc_6fcbe6c501d3_000190_8ba207dcd7ac",
+        "ev_doc_6fcbe6c501d3_000191_ab4d5ab200d1"
+      ],
+      "expected": "Per-fragment optimization and minimum-test evidence is present, with fragment IDs preserved."
+    },
+    {
+      "key_point_id": "kp_process_consistent",
+      "key_point_type": "process",
+      "statement": "The two fragment properties are computed on consistently defined validated structures and the comparison protocol is explicit.",
+      "evidence_ids": [
+        "ev_doc_6fcbe6c501d3_000302_18a146d62fe2"
+      ],
+      "expected": "The report identifies both structures, method, dipole definition and comparison basis."
+    },
+    {
+      "key_point_id": "kp_result_dipole",
+      "key_point_type": "result",
+      "statement": "The methoxy-bearing EPI2 fragment has a lower dipole magnitude than EPI1, approximately 1.9036 D versus 2.2223 D under the paper reference protocol.",
+      "evidence_ids": [
+        "ev_doc_6fcbe6c501d3_000303_deaaaad57e30"
+      ],
+      "expected": "Reported values and comparison support a reduction, allowing method/conformer caveats."
+    },
+    {
+      "key_point_id": "kp_result_esp",
+      "key_point_type": "result",
+      "statement": "The hydroxyl oxygen in EPI2 has less negative ESP than EPI1 in the paper analysis, consistent with reduced local polarity.",
+      "evidence_ids": [
+        "ev_doc_6fcbe6c501d3_000304_9eb7ebf8962d"
+      ],
+      "expected": "If ESP is reported, EPI2 is less negative than EPI1; otherwise the limitation is explicit."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {"required": ["status", "method", "candidates", "coverage", "conclusion"], "properties": {"status": {"const": "completed"}, "conclusion": {"required": ["strongest_candidate_id"]}}},
+      {"required": ["status", "method", "candidates", "coverage", "conclusion", "failure_reason"], "properties": {"status": {"const": "bounded_failure"}, "failure_reason": {"type": "string", "minLength": 1}}}
+    ],
+    "properties": {
+      "status": {"type": "string", "enum": ["completed", "bounded_failure"]},
+      "method": {"type": "object", "required": ["software", "model", "optimization", "frequency_or_stationary_test", "energy_unit", "interaction_energy_formula"], "properties": {"software": {"type": "string"}, "model": {"type": "string"}, "optimization": {"type": "string"}, "frequency_or_stationary_test": {"type": "string"}, "energy_unit": {"type": "string"}, "interaction_energy_formula": {"type": "string"}}},
+      "candidates": {"type": "array", "items": {"type": "object", "required": ["candidate_id", "generation_context", "optimized_geometry_or_reference", "optimization_status", "validation", "contacts", "energies", "interaction_energy", "duplicate_status"], "properties": {"candidate_id": {"type": "string"}, "generation_context": {"type": "string"}, "optimized_geometry_or_reference": {"type": "string"}, "optimization_status": {"type": "string"}, "validation": {"type": "object", "required": ["method", "is_local_minimum", "imaginary_mode_count"], "properties": {"method": {"type": "string"}, "is_local_minimum": {"type": "boolean"}, "imaginary_mode_count": {"type": "integer", "minimum": 0}}}, "contacts": {"type": "array", "items": {"type": "string"}}, "energies": {"type": "object", "required": ["complex", "imidazole_monomer", "salicylic_acid_monomer", "unit"], "properties": {"complex": {"type": "number"}, "imidazole_monomer": {"type": "number"}, "salicylic_acid_monomer": {"type": "number"}, "unit": {"type": "string"}}}, "interaction_energy": {"type": "number"}, "duplicate_status": {"type": "string"}}}},
+      "coverage": {"type": "object", "required": ["generation_rules", "attempted_count", "advanced_count", "validated_minimum_count", "deduplication_rule", "stopping_rule", "limitations"], "properties": {"generation_rules": {"type": "string"}, "attempted_count": {"type": "integer", "minimum": 0}, "advanced_count": {"type": "integer", "minimum": 0}, "validated_minimum_count": {"type": "integer", "minimum": 0}, "deduplication_rule": {"type": "string"}, "stopping_rule": {"type": "string"}, "limitations": {"type": "string"}}},
+      "conclusion": {"type": "object", "required": ["interpretation", "evidence_basis", "limitations"], "properties": {"strongest_candidate_id": {"type": "string"}, "interpretation": {"type": "string"}, "evidence_basis": {"type": "string"}, "limitations": {"type": "string"}}},
+      "failure_reason": {"type": "string", "minLength": 1}
+    }
+  }
+}

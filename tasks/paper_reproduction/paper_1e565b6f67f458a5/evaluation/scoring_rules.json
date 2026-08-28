@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_1e565b6f67f458a5",
+  "rules": [
+    {
+      "rule_id": "r_states",
+      "expected": "State-specific convergence and frequency evidence, including chemically interpreted imaginary modes, is present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.candidates"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_states",
+      "type": "semantic"
+    },
+    {
+      "rule_id": "r_assembly",
+      "expected": "The submitted reaction free energy is assembled transparently from stated components and convention.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method",
+          "$.reaction_definition"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_assembly",
+      "type": "semantic"
+    },
+    {
+      "rule_id": "r_dg",
+      "target": -34.7,
+      "unit": "kcal/mol",
+      "tolerance": 1.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.delta_g_kcal_mol"
+        ],
+        "comparison": "absolute difference",
+        "applicability": "Only when $.status is success; bounded_failure is evaluated through the process, coverage, stopping_condition, uncertainty and conclusion fields and must not contain a fabricated numeric result."
+      },
+      "reference_id": "kp_result_delta_g",
+      "type": "numeric"
+    },
+    {
+      "rule_id": "r_scope",
+      "expected": "Conclusion addresses favorability and molecular-model limitation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_result_scope",
+      "type": "semantic"
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "con_final",
+      "type": "semantic",
+      "expected": "The final conclusion states favorability and the isolated molecular-model limitation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

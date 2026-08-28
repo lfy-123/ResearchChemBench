@@ -1,0 +1,21 @@
+# Scientific objective
+
+Determine how replacing one exposed Ni atom by Pt in an otherwise ideal Ni(111) surface changes (i) intact molecular H2 adsorption and (ii) the accessible adsorption-orientation landscape of neutral HMF. For each surface, calculate molecular H2 adsorption energy, identify the lowest relaxed parallel and tilted HMF states, calculate their relative energy and the minimum-energy forward barrier from parallel to tilted, and state the supported comparative conclusion without presuming its direction.
+
+# Public inputs and scientific boundaries
+
+All identities are defined in `data/inputs/system_spec.json`. HMF is neutral closed-shell 5-(hydroxymethyl)furan-2-carbaldehyde with explicit mapped SMILES; H2 is neutral singlet. Surface `Ni111` is an ideal periodic 4×4 three-layer fcc Ni(111) slab. Surface `NiPt111` is the same slab with exactly one exposed top-layer Ni atom replaced by Pt; top-layer sites are translationally equivalent in the clean ideal cell. Use one adsorbate per 4×4 cell, at least 15 Å vacuum, and fix only the bottom metal layer. Optimize or justify the bulk Ni lattice parameter and report it.
+
+Define molecular H2 adsorption energy as `E(slab+H2) - E(clean slab) - E(isolated H2)` in eV using one consistent physical model. Generate “parallel” HMF from ring-plane angles within 30° of the surface plane and “tilted” HMF from angles of at least 50° with aldehyde O directed toward a metal site; classify relaxed structures by final ring-plane angle and bonding contacts. Define the forward barrier as the highest electronic energy on a validated minimum-energy path from the lowest discovered parallel minimum to the lowest discovered tilted minimum, relative to the parallel minimum. Solvent, zeolite/support models, atomic-H adsorption, full hydrogenation chemistry, finite-temperature rates, and product selectivity are outside the scored boundary.
+
+# Required scientific validation/investigation
+
+Choose and justify a periodic electronic-structure model that includes metallic spin polarization and dispersion, and keep it consistent across both surfaces. For intact H2, search atop, bridge, and hollow neighborhoods with multiple molecular orientations, relax, deduplicate by adsorption site and geometry, and retain a per-candidate record. For HMF, search multiple rotations and local site neighborhoods in both orientation classes, relax, and deduplicate by adsorption contacts, ring-plane angle, and energy. Select the lowest validated minimum in each class independently for each surface.
+
+Connect the selected HMF endpoints with a path search. Validate endpoint connectivity and the highest-energy image or saddle by one unstable mode dominated by the orientation-change coordinate, or an equally strong path-tangent/force test when a Hessian is impractical. Test at least one tighter numerical setting and report its effect on the energy differences. Compare the two surfaces only after these per-object validations.
+
+Completion requires a candidate inventory and selected validated H2 and HMF states for both named surfaces, all requested energies, two validated paths, convergence evidence, and a comparative conclusion. Stop candidate generation after all defined site neighborhoods and orientation classes have been sampled and a further symmetry-distinct batch yields no new minimum under explicit structural and energetic deduplication criteria. Stop path refinement once barriers meet the reported path/electronic stability criteria. If a required path or endpoint remains unavailable, terminate as `bounded_failure` with the attempted search, diagnostics, trustworthy partial results, and limitation; do not invent values.
+
+# Deliverables
+
+Submit `report/results.json` matching `submission_schema.json`. Include model choices, lattice parameter, convergence test, named-surface candidate arrays with individual validation evidence, selected states, H2 adsorption energies, HMF relative energies and barriers in eV, path validation, and a bounded comparative conclusion. Use status `complete` only when both surfaces meet the completion criterion; otherwise use `bounded_failure`.

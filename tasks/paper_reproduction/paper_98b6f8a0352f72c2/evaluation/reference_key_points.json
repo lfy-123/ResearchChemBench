@@ -1,0 +1,58 @@
+{
+  "paper_id": "paper_98b6f8a0352f72c2",
+  "items": [
+    {
+      "key_point_id": "pr_process_1",
+      "key_point_type": "process",
+      "statement": "The submitted calculation uses the supplied 12a connectivity as a neutral singlet in a chloroform continuum and documents a converged ground-state geometry optimization.",
+      "expected_result": "Explicit identity/charge/multiplicity/solvent match and a reproducible convergence or stationary-point record.",
+      "evidence_ids": [
+        "ev_doc_100a35fc592f_000195_26ea32ff4dce",
+        "ev_doc_100a35fc592f_000261_2781ecb61339"
+      ],
+      "expected": "Explicit identity/charge/multiplicity/solvent match and a reproducible convergence or stationary-point record."
+    },
+    {
+      "key_point_id": "pr_process_2",
+      "key_point_type": "process",
+      "statement": "The submitted workflow identifies S1 from an excited-state calculation and performs an object-bound validation check rather than reporting an unverified single output.",
+      "expected_result": "State index and selection evidence are given; an independent conformer, implementation, or sensitivity check is tied to 12a and its outcome is reported.",
+      "evidence_ids": [
+        "ev_doc_100a35fc592f_000261_2781ecb61339"
+      ],
+      "expected": "State index and selection evidence are given; an independent conformer, implementation, or sensitivity check is tied to 12a and its outcome is reported."
+    },
+    {
+      "key_point_id": "pr_result_1",
+      "key_point_type": "result",
+      "statement": "The S1 vertical excitation energy for 12a in CHCl3 is approximately 3.65 eV.",
+      "expected_result": "3.65 eV as the reported reference, with method-dependent deviations interpreted using the stated validation record.",
+      "evidence_ids": [
+        "ev_doc_100a35fc592f_000145_52f54bf06200"
+      ],
+      "expected": "3.65 eV as the reported reference, with method-dependent deviations interpreted using the stated validation record."
+    },
+    {
+      "key_point_id": "pr_result_2",
+      "key_point_type": "result",
+      "statement": "The S1 oscillator strength for 12a in CHCl3 is approximately 0.64.",
+      "expected_result": "0.64.",
+      "evidence_ids": [
+        "ev_doc_100a35fc592f_000145_52f54bf06200"
+      ],
+      "expected": "0.64."
+    },
+    {
+      "key_point_id": "pr_result_3",
+      "key_point_type": "result",
+      "statement": "The S1 radiative lifetime for 12a in CHCl3 is approximately 2.70 ns.",
+      "expected_result": "About 2.70 ns, derived/reported with the Einstein oscillator-strength relation.",
+      "evidence_ids": [
+        "ev_doc_100a35fc592f_000143_2d3b0e4050f9",
+        "ev_doc_100a35fc592f_000144_5a87d78ad9a7",
+        "ev_doc_36d3623749e7_000087_7b5e05cbbfe6"
+      ],
+      "expected": "About 2.70 ns, derived/reported with the Einstein oscillator-strength relation."
+    }
+  ]
+}

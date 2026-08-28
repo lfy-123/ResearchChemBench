@@ -1,0 +1,110 @@
+{
+  "paper_id": "paper_7574d99707125e60",
+  "rules": [
+    {
+      "rule_id": "pr_rule_01",
+      "type": "semantic",
+      "expected": "Explicit isolated G1 identity, charge, multiplicity and coordinate provenance are documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system",
+          "$.workflow"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_process_01"
+    },
+    {
+      "rule_id": "pr_rule_02",
+      "type": "semantic",
+      "expected": "Convergence, S1 state identity and stationary-point validation are evidenced for the endpoint.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation",
+          "$.workflow"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_process_02"
+    },
+    {
+      "rule_id": "pr_rule_03",
+      "type": "numeric",
+      "target": 540.3,
+      "unit": "nm",
+      "tolerance": 15.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.endpoint.emission_wavelength_nm"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "pr_result_01"
+    },
+    {
+      "rule_id": "pr_rule_04",
+      "type": "semantic",
+      "expected": "Submitted orbital or transition-density evidence supports intramolecular CT in G1 and distinguishes it from host--guest transfer.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.transition_analysis"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_result_02"
+    },
+    {
+      "rule_id": "pr_rule_05",
+      "type": "semantic",
+      "expected": "Final conclusion connects the validated endpoint and wavelength comparison with method scope.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.endpoint", "$.final_conclusion", "$.limitations"],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final_01"
+    },
+    {
+      "rule_id": "pr_rule_06",
+      "type": "semantic",
+      "expected": "Final mechanistic conclusion is explicitly bounded to isolated G1 and supported by submitted analysis.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.transition_analysis", "$.final_conclusion"],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final_02"
+    },
+    {
+      "rule_id": "pr_rule_07",
+      "type": "semantic",
+      "expected": "Relevant method, conformer and state-tracking limitations are disclosed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_limit_01"
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "paper_id": "paper_b60db7142fb28611",
+  "rules": [
+    {
+      "rule_id": "r_pr_minima",
+      "reference_id": "kp_pr_process_minima",
+      "type": "condition",
+      "expected": "All four named candidates have zero-imaginary-frequency product validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[].product_validation"
+        ],
+        "comparison": "candidate-specific validation"
+      }
+    },
+    {
+      "rule_id": "r_pr_ts",
+      "reference_id": "kp_pr_process_ts",
+      "type": "condition",
+      "expected": "All four named candidates have one-imaginary-frequency TS and reaction-coordinate evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[].ts_validation"
+        ],
+        "comparison": "candidate-specific validation"
+      }
+    },
+    {
+      "rule_id": "r_pr_thermo",
+      "reference_id": "kp_pr_thermo",
+      "type": "ordering",
+      "expected": "Pdt2 > Pdt1 > Pdt3 > Pdt4.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.thermodynamic_ordering"
+        ],
+        "comparison": "ordered candidate comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_final",
+      "reference_id": "c_pr_final",
+      "type": "semantic",
+      "expected": "Pdt2 is identified as preferred by both computed criteria, with model limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_kinetic_pdt1",
+      "reference_id": "kp_pr_kinetic",
+      "type": "semantic",
+      "expected": "Candidate Pdt1 reports activation_energy_kcal_mol = 16.4327 kcal/mol (source value; judge numerical agreement).",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[].id",
+          "$.candidates[].activation_energy_kcal_mol"
+        ],
+        "comparison": "bind the item whose id is Pdt1; compare its activation energy to 16.4327 kcal/mol"
+      }
+    },
+    {
+      "rule_id": "r_pr_kinetic_pdt2",
+      "reference_id": "kp_pr_kinetic",
+      "type": "semantic",
+      "expected": "Candidate Pdt2 reports activation_energy_kcal_mol = 15.1815 kcal/mol (source value; judge numerical agreement).",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[].id",
+          "$.candidates[].activation_energy_kcal_mol"
+        ],
+        "comparison": "bind the item whose id is Pdt2; compare its activation energy to 15.1815 kcal/mol"
+      }
+    },
+    {
+      "rule_id": "r_pr_kinetic_pdt3",
+      "reference_id": "kp_pr_kinetic",
+      "type": "semantic",
+      "expected": "Candidate Pdt3 reports activation_energy_kcal_mol = 24.0031 kcal/mol (source value; judge numerical agreement).",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[].id",
+          "$.candidates[].activation_energy_kcal_mol"
+        ],
+        "comparison": "bind the item whose id is Pdt3; compare its activation energy to 24.0031 kcal/mol"
+      }
+    },
+    {
+      "rule_id": "r_pr_kinetic_pdt4",
+      "reference_id": "kp_pr_kinetic",
+      "type": "semantic",
+      "expected": "Candidate Pdt4 reports activation_energy_kcal_mol = 22.4967 kcal/mol (source value; judge numerical agreement).",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[].id",
+          "$.candidates[].activation_energy_kcal_mol"
+        ],
+        "comparison": "bind the item whose id is Pdt4; compare its activation energy to 22.4967 kcal/mol"
+      }
+    }
+  ]
+}

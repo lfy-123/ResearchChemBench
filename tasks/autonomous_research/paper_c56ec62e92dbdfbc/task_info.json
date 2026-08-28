@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_c56ec62e92dbdfbc",
+  "task_type": "autonomous_research",
+  "title": "Discover the mechanism and stereochemical preference of a CBSCA-catalyzed isochroman synthesis",
+  "category": "computational chemistry / autonomous mechanism research",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The mechanism is not supplied, so materially distinct ionization, binding, bond-forming and proton-transfer hypotheses must be generated before stereochemical conformer and transition-state searches.",
+    "The final claim requires validated R/S pathways, hypothesis discrimination, common-reference thermochemistry and an explicit coverage/stopping argument."
+  ],
+  "paper": {
+    "title": "Catalytic Enantioselective Synthesis of 1,1-Disubstituted Isochromans",
+    "doi": "10.1021/jacs.5c19331",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-07"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained XYZ coordinates plus explicit component identity, connectivity, charge, multiplicity, stereochemistry, product and model boundary; no mechanism is supplied."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Machine-readable hypothesis search, candidate validation, free-energy comparison, conclusion or bounded-failure record."
+    }
+  ]
+}

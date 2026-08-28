@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_e1acfacf7feef111",
+  "task_type": "autonomous_research",
+  "title": "Autonomous local BiBr4 geometry and Raman validation",
+  "category": "computational chemistry validation",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The object is fixed, while the Agent must independently select a computational model and validate a minimum and six low-frequency mode assignments.",
+    "Explicit pairing and aggregate geometry/frequency metrics are required."
+  ],
+  "paper": {
+    "title": "A new multifunctional one-dimensional bromo-bismuthate(iii): synthesis, structural features, characterization, and optical properties of (C10H13N4)[BiBr4]·2H2O",
+    "doi": "10.1039/d5ra09435f",
+    "journal": "RSC Advances",
+    "publication_date": "2026-02-16"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "One explicit 5-atom BiBr4 fragment XYZ; atom 1 Bi, atoms 2-5 Br, charge -1 and singlet state."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "JSON report of provenance, optimized geometry, six frequencies, validation and comparison metrics."
+    }
+  ]
+}

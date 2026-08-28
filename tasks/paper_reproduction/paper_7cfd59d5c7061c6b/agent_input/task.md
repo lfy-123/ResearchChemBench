@@ -1,0 +1,19 @@
+# Scientific objective
+
+Independently test the authors' proposed competing mechanisms for N-demethylation of the supplied N,N-dimethylaniline (DMA) complex with the cationic, sextet Fe(III)-peroxo 12-TMC model. The qualitative hypothesis to test is that a route initiated by peroxide O–O homolysis and followed by substrate H-atom transfer may compete with, or dominate over, direct H-atom abstraction by the peroxo reactant. Determine the stationary points, connectivity, and electronic barriers for both chemically distinct routes without assuming any numerical result.
+
+# Public inputs and scientific boundaries
+
+The file `data/inputs/1rc_dma.xyz` is a 67-atom Cartesian XYZ geometry containing the complete 1RC model: [Fe(III)(O2)(12-TMC)]+ with one DMA molecule. Its first line is the atom count and its comment identifies the source geometry. Treat the modeled complex as net charge +1 and sextet multiplicity (2S+1=6). Atom order is the order in the XYZ file; the two adjacent oxygen atoms bound to Fe are the peroxo O atoms, and the DMA fragment is the aniline-containing fragment separated from the metal complex in the supplied geometry. Do not alter connectivity, protonation, charge, multiplicity, or isotope identity without reporting the change and its scientific consequence.
+
+The research object is the electronic potential-energy surface of this fixed model. Report electronic energies relative to the supplied 1RC reference in kcal/mol, and state the electronic-structure method, solvent model, dispersion treatment, and geometry/frequency settings actually used. The target states are (i) a direct-HAT transition state from 1RC and its associated product-side stationary point and (ii) an O–O-cleavage transition state, the resulting oxo/oxyl intermediate, a subsequent DMA HAT transition state, and the product-side stationary point(s). Alternative chemically defensible stationary-point labels are allowed if atom mapping and structures make the correspondence unambiguous.
+
+# Required scientific validation/investigation
+
+Plan and execute calculations independently. Generate at least one candidate for each route, deduplicate candidates by connectivity and atom mapping, and retain the identity and starting geometry of every advanced candidate. A candidate may be advanced only after geometry convergence and a frequency calculation; label a transition state only when the frequency pattern has one reaction-coordinate imaginary mode and the mode visibly involves the proposed bond-making/breaking or H-transfer event. Validate each claimed route by IRC in both directions or by an equivalently explicit endpoint-following analysis, and report the endpoint structures and mapping. Compare the validated electronic barriers from the same 1RC reference and explain whether the two mechanisms are distinguishable at the chosen level.
+
+The calculation is complete when both routes have either a validated stationary-point/connection set and barrier comparison, or a documented bounded failure for each missing state. Stop after all independently generated candidates for each route have either been validated, rejected with a reason, or shown to converge repeatedly to an already retained structure; report search coverage, duplicate handling, failed attempts, and the reason for stopping. Do not claim discovery of a unique lowest pathway unless the explored alternatives and limitations support that claim.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. Include calculation provenance, a candidate-by-candidate validation table, relative electronic energies/barriers with units, endpoint/connectivity evidence, the route comparison, and limitations. If a route cannot be completed, use the bounded-failure branch and include the attempted candidates and evidence rather than fabricating values.

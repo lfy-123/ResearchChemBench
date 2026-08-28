@@ -1,0 +1,24 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["system", "method", "states", "validation", "conclusion", "provenance"],
+    "properties": {
+      "system": {"type": "object", "required": ["record_id", "formula", "charge", "s0_multiplicity", "solvent_treatment"], "properties": {"record_id": {"type": "string"}, "formula": {"type": "string"}, "charge": {"type": "integer"}, "s0_multiplicity": {"type": "integer"}, "solvent_treatment": {"type": "string"}}},
+      "method": {"type": "object", "required": ["software", "method", "basis", "excited_state_model", "dispersion", "environment", "wavelength_conversion"], "properties": {"software": {"type": "string"}, "method": {"type": "string"}, "basis": {"type": "string"}, "excited_state_model": {"type": "string"}, "dispersion": {"type": "string"}, "environment": {"type": "string"}, "wavelength_conversion": {"type": "string"}}},
+      "states": {"type": "object", "required": ["S0", "S1", "T1"], "properties": {
+        "S0": {"type": "object", "required": ["multiplicity", "geometry_file", "optimization_status", "frequency_or_minimum_check"], "properties": {"multiplicity": {"type": "integer"}, "geometry_file": {"type": "string"}, "optimization_status": {"type": "string"}, "frequency_or_minimum_check": {"type": "string"}}},
+        "S1": {"type": "object", "required": ["multiplicity", "geometry_file", "optimization_status", "state_tracking", "frequency_or_minimum_check", "character_evidence"], "properties": {"multiplicity": {"type": "integer"}, "geometry_file": {"type": "string"}, "optimization_status": {"type": "string"}, "state_tracking": {"type": "string"}, "frequency_or_minimum_check": {"type": "string"}, "character_evidence": {"type": "string"}}},
+        "T1": {"type": "object", "required": ["multiplicity", "geometry_file", "optimization_status", "state_tracking", "frequency_or_minimum_check", "character_evidence"], "properties": {"multiplicity": {"type": "integer"}, "geometry_file": {"type": "string"}, "optimization_status": {"type": "string"}, "state_tracking": {"type": "string"}, "frequency_or_minimum_check": {"type": "string"}, "character_evidence": {"type": "string"}}}
+      }},
+      "validation": {"type": "object", "required": ["state_identity", "geometry_validation", "sensitivity_or_stability", "coverage_and_stopping"], "properties": {"state_identity": {"type": "string"}, "geometry_validation": {"type": "string"}, "sensitivity_or_stability": {"type": "string"}, "coverage_and_stopping": {"type": "string"}}},
+      "conclusion": {"type": "string"},
+      "provenance": {"type": "object", "required": ["input_source", "calculation_files", "logs"], "properties": {"input_source": {"type": "string"}, "calculation_files": {"type": "array", "items": {"type": "string"}}, "logs": {"type": "array", "items": {"type": "string"}}}}
+    },
+    "oneOf": [
+      {"required": ["status", "observables"], "properties": {"status": {"const": "complete"}, "observables": {"type": "object", "required": ["s1_to_s0_wavelength_nm", "t1_to_s0_wavelength_nm"], "properties": {"s1_to_s0_wavelength_nm": {"type": "number"}, "t1_to_s0_wavelength_nm": {"type": "number"}}}}},
+      {"required": ["status", "observables", "failure"], "properties": {"status": {"const": "bounded_failure"}, "observables": {"type": "object", "required": ["s1_to_s0_wavelength_nm", "t1_to_s0_wavelength_nm"], "properties": {"s1_to_s0_wavelength_nm": {"type": "null"}, "t1_to_s0_wavelength_nm": {"type": "null"}}}, "failure": {"type": "object", "required": ["missing_endpoints", "diagnostics", "attempted_alternatives", "limitations"], "properties": {"missing_endpoints": {"type": "array", "items": {"type": "string"}}, "diagnostics": {"type": "string"}, "attempted_alternatives": {"type": "string"}, "limitations": {"type": "string"}}}}}
+    ]
+  }
+}

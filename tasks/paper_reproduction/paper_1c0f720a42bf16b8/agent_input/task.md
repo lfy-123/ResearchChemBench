@@ -1,0 +1,15 @@
+# Scientific objective
+
+For the isolated neutral singlet molecule C1 supplied in `data/inputs/c1_identity.json`, independently plan and perform calculations that test the authors' qualitative proposal that the N,O-chelated BF2 chromophore has a bright, predominantly HOMO-to-LUMO pi-to-pi-star first excitation and that geometry/dipole changes help distinguish localized-excitation and charge-transfer contributions. Determine the optimized ground state and first singlet excited state, their dipole moments and selected chelate torsion(s), and the vertical absorption spectrum. The measured quantities are energies/gaps (eV), wavelengths (nm), oscillator strengths (dimensionless), orbital-transition composition (%), dipoles (D), and explicitly defined dihedral angles (degrees).
+
+# Public inputs and scientific boundaries
+
+The only molecular input is the explicit C1 SMILES, formula C17H16BF2N2O, neutral charge, and singlet multiplicity in `data/inputs/c1_identity.json`. It represents one isolated molecule in the gas phase. No solvent, counterion, aggregate, crystal, experimental correction, or paper-derived coordinates are part of the task. You may generate 3-D geometries and use any available quantum-chemistry software. Define every atom ordering and dihedral used in your report from the supplied connectivity. Do not use the paper, SI, general web, or hidden evaluator files during the investigation.
+
+# Required scientific validation/investigation
+
+Generate and deduplicate a documented set of starting conformers; state the generation method and coverage. Optimize the lowest-energy neutral singlet ground-state candidate and verify a stationary point with an appropriate frequency or equivalent curvature check. From that state, optimize the lowest relevant singlet excited state and document its state identity and convergence. Compute at least the first 10 singlet excitations (30 is encouraged), identify the lowest bright transition by a stated oscillator-strength rule, and report its wavelength, oscillator strength, dominant orbital transition and percentage. Report HOMO, LUMO, gap, GS/S1 dipoles, and at least two named chelate torsions. Cross-check units, state labels, and orbital numbering. The calculation is complete when one candidate has passed geometry/state checks and all requested observables are extracted; stop after that plus a documented conformer search, or report bounded failure with the attempted coverage and the precise missing validation. Do not claim a mechanism beyond what these observables support.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json` and `report/methods.md`. Include success or bounded-failure status, object identity, conformer coverage, convergence/stationary-point evidence, all observables (or an explicit unavailable list with reason), state/transition assignment, uncertainty or sensitivity discussion, and a concise conclusion about the qualitative author hypothesis. Include paths to raw output files or hashes sufficient for audit. A result is complete only when the JSON and methods report are mutually consistent and the stopping condition is stated.

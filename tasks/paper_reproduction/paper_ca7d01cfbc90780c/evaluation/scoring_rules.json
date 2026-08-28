@@ -1,0 +1,84 @@
+{
+  "paper_id": "paper_ca7d01cfbc90780c",
+  "rules": [
+    {
+      "rule_id": "pr_rule_pose",
+      "type": "condition",
+      "expected": "Record identifiers and independent pose-selection evidence are present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system",
+          "$.poses"
+        ],
+        "comparison": "expert verification"
+      },
+      "reference_id": "pr_process_pose"
+    },
+    {
+      "rule_id": "pr_rule_md",
+      "type": "condition",
+      "expected": "Protocol and validation fields document a physically checked trajectory and defined analyses.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.protocol",
+          "$.validation"
+        ],
+        "comparison": "expert verification"
+      },
+      "reference_id": "pr_process_md"
+    },
+    {
+      "rule_id": "pr_rule_rmsd",
+      "type": "semantic",
+      "expected": "RMSD behavior is summarized over a declared post-equilibration window with context.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.rmsd"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_rmsd"
+    },
+    {
+      "rule_id": "pr_rule_contacts",
+      "type": "semantic",
+      "expected": "RMSF and hydrogen-bond evidence are both reported and interpreted.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.rmsf",
+          "$.observables.hydrogen_bonds"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_rmsf_hbond"
+    },
+    {
+      "rule_id": "pr_rule_final",
+      "type": "semantic",
+      "expected": "Final stability claim is linked to the three observables and limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final"
+    }
+  ]
+}

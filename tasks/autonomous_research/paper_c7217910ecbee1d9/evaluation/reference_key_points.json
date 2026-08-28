@@ -1,0 +1,80 @@
+{
+  "items": [
+    {
+      "key_point_id": "ar_process_minimum",
+      "key_point_type": "process",
+      "statement": "The report independently defines candidate generation, deduplication, optimization, endpoint validation and stopping coverage for both charge states.",
+      "expected_result": "Candidate-specific structures, multiplicities, energies, convergence and frequency/equivalent validation are retained, with limitations honestly stated.",
+      "evidence_ids": [
+        "ev_doc_4f9490507c88_000002_2257e7560ecc"
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates",
+          "$.coverage",
+          "$.endpoints"
+        ]
+      },
+      "expected": "Candidate-specific structures, multiplicities, energies, convergence and frequency/equivalent validation are retained, with limitations honestly stated."
+    },
+    {
+      "key_point_id": "ar_process_aea_definition",
+      "key_point_type": "process",
+      "statement": "The AEA uses the adiabatic neutral/anionic energy difference and an explicit ZPE convention.",
+      "expected_result": "Formula, units, endpoint energies and ZPE treatment are explicit.",
+      "evidence_ids": [
+        "ev_doc_4f9490507c88_000002_2257e7560ecc"
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.aea",
+          "$.endpoints"
+        ]
+      },
+      "expected": "Formula, units, endpoint energies and ZPE treatment are explicit."
+    },
+    {
+      "key_point_id": "ar_result_aea",
+      "key_point_type": "result",
+      "statement": "The source endpoint AEA is 3.93 eV.",
+      "expected_result": 3.93,
+      "evidence_ids": [
+        "ev_doc_6507cac94f8a_000182_3943e25f7727"
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.aea.value"
+        ]
+      },
+      "expected": 3.93
+    },
+    {
+      "key_point_id": "ar_result_framework",
+      "key_point_type": "result",
+      "statement": "The optimized ligated system retains the specified PAl12 core framework within the isolated-cluster model.",
+      "expected_result": "A structure-based framework comparison is reported, with uncertainty and scope.",
+      "evidence_ids": [
+        "ev_doc_6507cac94f8a_000027_3943e25f7727"
+      ],
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.framework_assessment"
+        ]
+      },
+      "expected": "A structure-based framework comparison is reported, with uncertainty and scope."
+    }
+  ],
+  "paper_id": "paper_c7217910ecbee1d9"
+}

@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_370af1a4d45028ae",
+  "task_type": "paper_reproduction",
+  "title": "Independent phase-stability and voltage analysis of Na_xVTi(PO4)3",
+  "category": "periodic materials / sodium-ion cathode",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires enumerating and deduplicating Na/vacancy orderings across seven compositions, then validating relaxed periodic energies and a convex hull."
+  ],
+  "paper": {
+    "title": "Unlocking Multi-Electron Reactions in NASICON-Na1+xVxTi2-x(PO4)3 Cathodes through a Synergistic DFT and Experimental Approach",
+    "doi": "10.1021/acsami.5c19410",
+    "journal": "ACS Applied Materials & Interfaces",
+    "publication_date": "2026-01-10"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Crystallographic seed and composition/formula definition for the Na_xVTi(PO4)3 investigation."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured candidate, energy, hull, voltage, volume and conclusion results."
+    },
+    {
+      "path": "report/methods.md",
+      "description": "Reproducible computational and validation protocol."
+    }
+  ]
+}

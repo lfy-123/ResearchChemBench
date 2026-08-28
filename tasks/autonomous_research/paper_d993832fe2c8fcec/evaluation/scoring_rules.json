@@ -1,0 +1,115 @@
+{
+  "paper_id": "paper_d993832fe2c8fcec",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "type": "condition",
+      "expected": "frequency validation and auditable four-atom selectors are present",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates",
+          "$.atom_mapping"
+        ],
+        "comparison": "expert condition"
+      },
+      "reference_id": "ar_process_minimum"
+    },
+    {
+      "rule_id": "ar_r2",
+      "type": "condition",
+      "expected": "distinct candidates, per-candidate validation and reproducible stopping statement",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates",
+          "$.conclusion.limitations"
+        ],
+        "comparison": "expert condition"
+      },
+      "reference_id": "ar_process_coverage"
+    },
+    {
+      "rule_id": "ar_r3",
+      "type": "numeric",
+      "target": 177.9,
+      "unit": "degree",
+      "tolerance": 3.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.candidates[*].phi_1_2_3_4_deg"],
+        "comparison": "absolute difference for selected candidate"
+      },
+      "reference_id": "ar_result_torsions"
+    },
+    {"rule_id":"ar_r3b","type":"numeric","target":59.7,"unit":"degree","tolerance":3.0,"binding":{"artifact_paths":["report/results.json"],"fields":["$.candidates[*].phi_2_3_4_5_deg"],"comparison":"absolute difference for selected candidate"},"reference_id":"ar_result_torsions"},
+    {
+      "rule_id": "ar_r4",
+      "type": "numeric",
+      "target": -916.122625,
+      "unit": "hartree",
+      "tolerance": 0.01,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].electronic_energy_hartree"
+        ],
+        "comparison": "absolute difference for selected candidate when matching method is claimed"
+      },
+      "reference_id": "ar_result_energy"
+    },
+    {
+      "rule_id": "ar_r5",
+      "type": "semantic",
+      "expected": "bounded independent conformational conclusion with submitted geometry evidence and explicit phase limits",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_result_interpretation"
+    },
+    {
+      "rule_id": "ar_c1",
+      "type": "semantic",
+      "expected": "independently selected validated type-II-like minimum near published torsions",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final"
+    },
+    {
+      "rule_id": "ar_c2",
+      "type": "semantic",
+      "expected": "search coverage and gas-phase limitations are explicit",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_limit"
+    }
+  ]
+}

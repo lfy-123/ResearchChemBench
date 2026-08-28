@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_f8f6374342916191",
+  "task_type": "paper_reproduction",
+  "title": "Independent MD test of glyme-dependent potassium aggregate formation",
+  "category": "molecular_dynamics_free_energy",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Twelve coupled bulk systems require model construction, trajectory sampling, per-anion identity tracking, and convergence assessment.",
+    "The agent must validate RDF shells and distinguish glyme-length and concentration effects across the complete matrix."
+  ],
+  "paper": {
+    "title": "d5dt02781k 3346..3362 ++",
+    "doi": "10.1039/d5dt02781k",
+    "journal": "Dalton Transactions",
+    "publication_date": "2026-01-16"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Molecular identities, charges, compositions, boxes, and AGG measurement definition."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated per-system results, provenance, uncertainty, coverage, and conclusion."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+# Scientific objective
+
+Determine whether independent electronic-structure calculations on the cation [Ag(N-methylphenothiazine)4]+ reproduce the prominent UV–Vis absorption features and support the authors' qualitative interpretation. The authors propose that the spectrum can be explained by ligand-organized electronic excitation involving silver; independently test that proposed route. Report excitation wavelengths, oscillator strengths, the rule used to identify prominent bands, and an evidence-based assignment of the feature near 310 nm. The scored object is the isolated cation, not its counterion or hydrate.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/system.json`. It defines four distinct 10-methylphenothiazine ligands (SMILES `Cn1c2ccccc2Sc2ccccc21`) bound monodentately through their ring sulfur atoms to Ag(I), whole-system charge +1 and singlet multiplicity. No counterion, hydrate, or solvent molecule is included. Generate 3D starting geometries yourself and document their provenance. The measured quantities are vertical excitation wavelengths in nm, oscillator strengths, and orbital/fragment character. Solvation, geometry model, electronic-structure method, number of states, and convergence criteria are choices to be justified by the Agent; do not assume a paper protocol.
+
+# Required scientific validation/investigation
+
+Generate and deduplicate at least two chemically distinct starting arrangements or explain why fewer were possible; optimize each with a defensible method and retain only converged structures whose vibrational analysis supports a minimum (or explicitly report a bounded failure). Perform an excited-state calculation on every retained structure with a stated solvent treatment. Define “prominent” before inspecting the answer (for example by an oscillator-strength/intensity rule), report all states considered, and state coverage and stopping rule: stop when all retained minima have been evaluated and no new starting arrangement satisfying the stated generation rule remains, or report the exact limitation. Compare prominent bands across retained structures/methods rather than cherry-picking. For the near-310-nm feature, inspect transition contributions and spatial/fragment character and state whether the proposed ligand-to-Ag interpretation is supported, uncertain, or contradicted.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. Include method and software, the states considered, geometry provenance and minimum checks, candidate coverage including discarded structures, every reported prominent band with structure identity, state index, wavelength and oscillator strength, uncertainty/limitation information, and a conclusion tied to the submitted evidence. Completion requires either a validated comparison based on at least one converged minimum and an explicit limitation statement, or a truthful bounded-failure branch containing attempted calculations and the reason completion was impossible; the bounded-failure branch must not invent bands or conclusions.

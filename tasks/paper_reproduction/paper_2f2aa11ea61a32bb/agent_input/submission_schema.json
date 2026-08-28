@@ -1,0 +1,145 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+      "required": [
+        "status",
+        "method_summary",
+        "molecules",
+        "series_comparison",
+        "overall_conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "method_summary": {
+        "type": "string"
+      },
+      "molecules": {
+        "type": "array",
+        "minItems": 4,
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "calculation_status",
+            "validation",
+            "selected_feature",
+            "comparison"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "enum": ["1a", "1b", "1c", "1d"]
+            },
+            "calculation_status": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "geometry_status",
+                "imaginary_frequency_count",
+                "evidence"
+              ],
+              "properties": {
+                "geometry_status": {
+                  "type": "string"
+                },
+                "imaginary_frequency_count": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "evidence": {
+                  "type": "string"
+                }
+              }
+            },
+            "selected_feature": {
+              "type": "object",
+              "required": [
+                "assignment_rule",
+                "state_label",
+                "wavelength_nm",
+                "excitation_energy_ev",
+                "oscillator_strength",
+                "transition_character"
+              ],
+              "properties": {
+                "assignment_rule": {
+                  "type": "string"
+                },
+                "state_label": {
+                  "type": "string"
+                },
+                "wavelength_nm": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "excitation_energy_ev": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "oscillator_strength": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "transition_character": {
+                  "type": "string"
+                }
+              }
+            },
+            "comparison": {
+              "type": "object",
+              "required": [
+                "experimental_max_nm",
+                "difference_nm",
+                "interpretation"
+              ],
+              "properties": {
+                "experimental_max_nm": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "difference_nm": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "interpretation": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "overall_conclusion": {
+        "type": "string"
+      },
+      "series_comparison": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      }
+    }
+  }
+}

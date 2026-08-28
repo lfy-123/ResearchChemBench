@@ -1,0 +1,65 @@
+{
+  "paper_id": "paper_d82912082c8ff147",
+  "items": [
+    {
+      "key_point_id": "kp_process_01",
+      "key_point_type": "process",
+      "statement": "The investigation must retain a reproducible candidate-generation record, explicit deduplication rule, and accounting of attempted, validated, duplicate, and failed candidates.",
+      "evidence_ids": [
+        "ev_doc_587a3c47e777_000102_06942bb59f9f",
+        "ev_doc_587a3c47e777_000108_bd697fe694ed"
+      ],
+      "expected": "A candidate audit trail and stopping/coverage statement are present."
+    },
+    {
+      "key_point_id": "kp_process_02",
+      "key_point_type": "process",
+      "statement": "Retained conformers are validated as minima rather than relying on optimized energies alone.",
+      "evidence_ids": [
+        "ev_doc_587a3c47e777_000112_d9468f5a36da"
+      ],
+      "expected": "Each retained conformer has convergence and vibrational/minimum validation context."
+    },
+    {
+      "key_point_id": "kp_process_03",
+      "key_point_type": "process",
+      "statement": "Population analysis is normalized over an explicitly stated conformer ensemble and the pathway search preserves endpoint identity and transition-state validation context.",
+      "evidence_ids": [
+        "ev_doc_587a3c47e777_000293_e303066c51b3",
+        "ev_doc_587a3c47e777_000438_1bd5e6026ae3"
+      ],
+      "expected": "The report states the 450 K normalization scope and records pair endpoints, barrier definition, and TS validation or bounded failure."
+    },
+    {
+      "key_point_id": "kp_result_01",
+      "key_point_type": "result",
+      "statement": "The source-supported low-energy Ala3 landscape contains a lowest electronic-energy 5N/7eq/g+(t) motif and multiple additional low-energy structures, including 5N/7eq/t(t) and 5N/7eq/7eqC motifs.",
+      "evidence_ids": [
+        "ev_doc_1353336e731f_000000_d04345046dd8",
+        "ev_doc_1353336e731f_000006_25d8fb38fe32",
+        "ev_doc_587a3c47e777_000227_da774b75a275"
+      ],
+      "expected": "The submitted independently discovered set contains or discusses these source-supported motif classes without treating labels as input facts."
+    },
+    {
+      "key_point_id": "kp_result_02",
+      "key_point_type": "result",
+      "statement": "At approximately 450 K, entropy can make less ordered Ala3 conformers important; the lowest electronic-energy conformer is reported as barely populated under the no-relaxation model.",
+      "evidence_ids": [
+        "ev_doc_587a3c47e777_000323_d9bbe28c984c",
+        "ev_doc_587a3c47e777_000324_c401e2013490"
+      ],
+      "expected": "The conclusion distinguishes electronic ordering from 450 K Gibbs populations and discusses entropy/ensemble dependence."
+    },
+    {
+      "key_point_id": "kp_result_03",
+      "key_point_type": "result",
+      "statement": "Barrier-limited interconversion is scientifically relevant in the Ar jet; the paper uses approximately 800 cm^-1 as a critical barrier scale and reports low-barrier Ala3 pathways.",
+      "evidence_ids": [
+        "ev_doc_587a3c47e777_000432_697334ef0c83",
+        "ev_doc_587a3c47e777_000438_1bd5e6026ae3"
+      ],
+      "expected": "The report identifies a barrier criterion or explicitly bounded alternative and interprets relaxation as a limitation/model rather than an exact kinetic prediction."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_ddf161258a0d214b",
+  "task_type": "autonomous_research",
+  "title": "Autonomous validation of methane C-H activation by a borylene",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must propose and discriminate pathway initializations and validate connectivity.",
+    "A large 92-atom system and undisclosed TS protocol require coverage and stopping justification."
+  ],
+  "paper": {
+    "title": "Electronic structure analysis of borylenes and their role in small molecule activation",
+    "doi": "10.1039/d6ra00186f",
+    "journal": "RSC Advances",
+    "publication_date": "2026-02-20"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Verified SI Figure S2 XYZ geometry for neutral singlet NCB(H)-CH3 complex 8."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Candidate search, validated pathway/barrier or bounded failure, diagnostics, uncertainty and conclusion."
+    }
+  ]
+}

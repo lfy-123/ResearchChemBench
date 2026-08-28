@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_80441aced6051d86",
+  "task_type": "autonomous_research",
+  "title": "Independent computation of G1 packing descriptors",
+  "category": "computational chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The systems are fixed, while the agent must independently select a computational model, validate endpoints, and infer packing organization from geometry."
+  ],
+  "paper": {
+    "title": "Concentration- and cucurbit[ n ]urils-regulated molecular packing modes for constructing continuously red-shifted multi-stimuli responsive luminescent system",
+    "doi": "10.1016/j.dyepig.2025.113456",
+    "journal": "Dyes and Pigments",
+    "publication_date": "2026-04-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Two XYZ starting geometries for the G1 monomer and G1 dimer; stated charge and multiplicity are in file comments."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "JSON report containing route, verification, validation, six geometric observables, structures and independent conclusion."
+    }
+  ]
+}

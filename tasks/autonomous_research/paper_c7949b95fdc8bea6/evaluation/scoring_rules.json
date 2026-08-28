@@ -1,0 +1,102 @@
+{
+  "paper_id": "paper_c7949b95fdc8bea6",
+  "rules": [
+    {
+      "rule_id": "r_ar_system",
+      "type": "condition",
+      "expected": "supplied system, composition, charge states and endpoint mapping are verified",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system"
+        ],
+        "comparison": "expert validation"
+      },
+      "reference_id": "kp_ar_process_system"
+    },
+    {
+      "rule_id": "r_ar_search",
+      "type": "semantic",
+      "expected": "independent candidate generation, validation, sensitivity and stopping are documented",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.path_validation",
+          "$.method",
+          "$.artifact_references"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_ar_process_search"
+    },
+    {
+      "rule_id": "r_ar_barrier",
+      "type": "semantic",
+      "expected": "charge-state barrier conclusion is supported by both state records or an honest bounded-failure branch",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.states",
+          "$.charge_state_comparison",
+          "$.conclusion"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_ar_result_barrier"
+    },
+    {
+      "rule_id": "r_ar_scope",
+      "type": "semantic",
+      "expected": "mechanistic claim is evidence-based and model-bounded",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.electronic_assessment",
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_ar_result_scope"
+    },
+    {
+      "rule_id": "r_ar_final_claim",
+      "type": "semantic",
+      "expected": "final conclusion is explicitly stated and supported by cited key points",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_ar_final"
+    },
+    {
+      "rule_id": "r_ar_limitations",
+      "type": "semantic",
+      "expected": "limitations are explicitly stated and bounded to the supplied model",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_ar_limit"
+    }
+  ]
+}

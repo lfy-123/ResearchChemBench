@@ -1,0 +1,15 @@
+# Scientific objective
+
+Determine, independently, how glyme chain length (G1–G4) and glyme:KTf2N ratio (2:1, 3:1, 4:1) affect potassium–anion aggregation in the 12 named periodic bulk systems. Test the authors' qualitative proposal that glyme coordination competes with K+–Tf2N− contact, and quantify the fraction of Tf2N− anions coordinated by at least two distinct K+ ions. The measured outputs are per-system AGG fraction (%), anion K+-coordination populations, K–O RDFs/first-shell distances, and a qualitative comparison to Raman ν(SN) coordination trends. This is a classical bulk-solvation study, not a battery or reaction calculation.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/molecules.json`, `systems.json`, and `measurement_definition.json`. These define the unique molecular identities, neutral/ionic charge and singlet state, atom roles, 12 compositions, molecule/formula-unit counts, cubic box lengths, periodic boundary, and 350.15 K target. You may generate conformers, coordinates, topology, charges, force-field terms, and executable models; document the provenance and any alternatives. Do not use the paper, SI, general web, or result-bearing source material. An AGG is exactly a Tf2N− anion with at least two distinct K+ ions within the submitted anion first-shell cutoff; report the atom selector and cutoff in your results. The physical boundary is bulk periodic mixtures; electrode, reaction, and battery-cycle claims are out of scope.
+
+# Required scientific validation/investigation
+
+Plan and execute a defensible independent MD/trajectory-analysis route. For each advanced system, verify charge neutrality, molecule counts, atom typing, periodic cell, temperature control, and stable energy/volume/temperature behavior. Establish K–O RDFs and justify first-shell cutoffs from the submitted data; compute per-anion coordination histograms and AGG fractions from individual anion identities, not only a global count. Use independent seeds, blocks, replicas, or another quantitative uncertainty/convergence method where feasible, and state any limitation. Analyze all 12 systems or explicitly report which systems were not completed and why. Completion requires either (a) validated results for all 12 systems with coverage and uncertainty, or (b) a scientifically honest bounded-failure report listing completed systems, failed systems, cause, validation performed, and the next limiting calculation. Stop when the stated coverage/uncertainty criterion is met or when the declared computational/resource boundary prevents further progress; do not claim a trend from unvalidated or missing systems.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`, plus any referenced trajectory, RDF, histogram, topology, log, or analysis files under `report/`. The JSON must contain method provenance, per-system identity and status, per-system observables where completed, validation evidence, uncertainty/limitations, coverage, and a final conclusion about glyme/concentration trends and Raman consistency. A bounded-failure branch is allowed but must remain scientifically explicit.

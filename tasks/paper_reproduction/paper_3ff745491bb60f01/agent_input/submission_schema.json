@@ -1,0 +1,123 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "oneOf": [
+      {"required": ["status", "provenance", "structures", "comparison", "conclusion", "limitations"], "properties": {"status": {"const": "complete"}, "structures": {"items": {"required": ["homo_eV", "lumo_eV", "gap_eV"]}}, "comparison": {"required": ["difference_eV", "direction", "paired_interpretation"]}}},
+      {"required": ["status", "provenance", "structures", "comparison", "conclusion", "limitations"], "properties": {"status": {"const": "bounded_failure"}, "structures": {"items": {"required": ["failure_stage", "diagnostics"]}}, "comparison": {"required": ["comparison_status", "explanation"]}}}
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "provenance": {
+        "type": "object",
+        "required": [
+          "software",
+          "method",
+          "basis",
+          "charge",
+          "multiplicity",
+          "solvent_treatment",
+          "validation_summary"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "basis": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "string"
+          },
+          "multiplicity": {
+            "type": "string"
+          },
+          "solvent_treatment": {
+            "type": "string"
+          },
+          "validation_summary": {
+            "type": "string"
+          }
+        }
+      },
+      "structures": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "name",
+            "input_file",
+            "atom_count",
+            "identity_check",
+            "calculation_status",
+            "validation"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "input_file": {
+              "type": "string"
+            },
+            "atom_count": {
+              "type": "integer"
+            },
+            "identity_check": {
+              "type": "string"
+            },
+            "calculation_status": {
+              "type": "string"
+            },
+            "homo_eV": {
+              "type": "number"
+            },
+            "lumo_eV": {
+              "type": "number"
+            },
+            "gap_eV": {
+              "type": "number"
+            },
+            "validation": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "comparison": {
+        "type": "object",
+        "required": [
+          "paired_interpretation"
+        ],
+        "properties": {
+          "difference_eV": {
+            "type": "number"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "paired_interpretation": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

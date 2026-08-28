@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_3ff745491bb60f01",
+  "task_type": "autonomous_research",
+  "title": "Autonomous paired orbital-gap investigation for CSO-CY",
+  "category": "computational chemistry / electronic structure",
+  "difficulty": "easy",
+  "difficulty_reasons": [
+    "The two scientific objects and requested observable are fixed; the agent mainly plans and validates a paired calculation."
+  ],
+  "paper": {
+    "title": "Dual-functional fluorescence probe for detecting hydroxylamine and viscosity in living cells and zebrafish",
+    "doi": "10.1016/j.dyepig.2025.113218",
+    "journal": "Dyes and Pigments",
+    "publication_date": "2026-02-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs/cso.xyz",
+      "description": "Neutral singlet S0 Cartesian coordinates for CSO-CY, 51 atoms."
+    },
+    {
+      "path": "data/inputs/product.xyz",
+      "description": "Neutral singlet S0 Cartesian coordinates for hydroxylamine-derived CSO-CY product, 38 atoms."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated paired orbital-gap results, provenance, conclusion, and limitations."
+    }
+  ]
+}

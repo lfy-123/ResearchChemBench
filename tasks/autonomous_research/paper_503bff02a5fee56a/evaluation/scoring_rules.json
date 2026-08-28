@@ -1,0 +1,87 @@
+{
+  "paper_id": "paper_503bff02a5fee56a",
+  "rules": [
+    {
+      "rule_id": "r1",
+      "key_point_id": "kp_process_inputs",
+      "type": "semantic",
+      "expected": "Explicit named systems, candidate records, deduplication and convergence evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems",
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_inputs"
+    },
+    {
+      "rule_id": "r2",
+      "key_point_id": "kp_process_charge",
+      "type": "semantic",
+      "expected": "Reproducible domain partition, sign convention and uncertainty or limitation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.charge_transfer"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_charge"
+    },
+    {
+      "rule_id": "r3",
+      "key_point_id": "kp_result_adsorption",
+      "type": "semantic",
+      "expected": "System-identified E_ads values or truthful bounded failure, with formula and units.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_result_adsorption"
+    },
+    {
+      "rule_id": "r4",
+      "key_point_id": "kp_result_transfer",
+      "type": "semantic",
+      "expected": "Charge redistribution conclusion or justified limitation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.charge_transfer",
+          "$.conclusion"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "kp_result_transfer"
+    },
+    {
+      "rule_id": "r5",
+      "conclusion_id": "c_final",
+      "type": "semantic",
+      "expected": "Final conclusion compares the two systems and respects validation and limitation boundaries.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final"
+    }
+  ]
+}

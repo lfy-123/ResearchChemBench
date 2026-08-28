@@ -1,0 +1,116 @@
+{
+  "paper_id": "paper_08c040bf4e456891",
+  "rules": [
+    {
+      "rule_id": "paper_reproduction_pr_process_states",
+      "reference_id": "pr_process_states",
+      "type": "condition",
+      "expected": "The submitted record contains the stated process validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states"
+        ],
+        "comparison": "expert condition check"
+      }
+    },
+    {
+      "rule_id": "paper_reproduction_pr_process_paths",
+      "reference_id": "pr_process_paths",
+      "type": "condition",
+      "expected": "The submitted record contains the stated process validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels"
+        ],
+        "comparison": "expert condition check"
+      }
+    },
+    {
+      "rule_id": "paper_reproduction_aie",
+      "reference_id": "pr_aie",
+      "type": "numeric",
+      "target": 11.9,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states.aie"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "paper_reproduction_r1",
+      "reference_id": "pr_r1",
+      "type": "numeric",
+      "target": 12.4,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels.chlorine_loss.appearance_energy"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "paper_reproduction_r2",
+      "reference_id": "pr_r2",
+      "type": "numeric",
+      "target": 13.5,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels.fluorine_loss.appearance_energy"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "paper_reproduction_pr_final_energies",
+      "reference_id": "pr_final_energies",
+      "type": "semantic",
+      "expected": "AIE, R1 and R2 values are all close to the three reference values and supported by process evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "paper_reproduction_pr_route_test",
+      "reference_id": "pr_route_test",
+      "type": "semantic",
+      "expected": "The conclusion explicitly relates individually validated path character to the qualitative author hypothesis and states limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

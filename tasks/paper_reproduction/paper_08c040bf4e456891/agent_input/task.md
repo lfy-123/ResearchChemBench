@@ -1,0 +1,15 @@
+# Scientific objective
+
+Independently test the authors' qualitative proposal that CHClF2+ loses chlorine by comparatively simple C–Cl cleavage, while F loss requires a more involved rearranging cation path. Compute the adiabatic first ionization energy and appearance energies for CHF2+ + neutral Cl and CHFCl+ + neutral F. Report electronic energies in eV relative to optimized neutral CHClF2; identify whether each path is a simple coordinate scan or a multidimensional minimum-energy path based on your own calculations.
+
+# Public inputs and scientific boundaries
+
+The system is isolated gas-phase CHClF2, connectivity FC(F)Cl with one H bonded to C, atom order C,H,Cl,F1,F2, supplied in `data/inputs/system.json` and the XYZ starter files. Use charge 0/multiplicity 1 for neutral CHClF2 and charge +1/multiplicity 2 for CHClF2+. The two fixed channels are (i) CHF2+ + Cl(2P) and (ii) CHFCl+ + F(2P), with products separated far enough that interaction is negligible. The reference zero is the optimized neutral electronic energy. Choose and disclose computational methods; do not assume paper software or model chemistry. Do not score dication chemistry. Experimental appearance energies are context only and must not be substituted for computed values.
+
+# Required scientific validation/investigation
+
+Optimize the neutral and monocation, verify charge, multiplicity, connectivity and genuine stationary-point convergence, and calculate the adiabatic ionization energy from their electronic energies. For each named channel, generate at least one explicit reactant-to-separated-products path, retain its endpoint structures and per-image/scan energies, and demonstrate that the endpoint has the stated fragment identities and conserved total charge and electron count. Use a relaxed one-coordinate treatment only if it remains continuous and chemically valid; otherwise use a multidimensional path method and explain why. Repeat at least one key energy with a second reasonable method or basis and report the sensitivity. A calculation is complete when both channel endpoints are separated/converged, all three requested energies are reported with units and method provenance, and validation evidence is attached. Stop after these conditions are met; if a path cannot be validated after two documented alternative path constructions, submit a bounded-failure report with the failed channel, attempted coverage, evidence and limitation.
+
+# Deliverables
+
+Submit `report/results.json` plus referenced geometry/path files. The JSON must state completion status, method, neutral/cation energies, AIE, per-channel endpoint identities, dissociation energies, appearance energies, validation observations, sensitivity result, and a conclusion comparing the two channels to the qualitative author hypothesis. Include enough candidate/image identity to make every claim auditable. Completion means every required successful field is present, or the bounded-failure branch truthfully documents the failed channel and stopping evidence.

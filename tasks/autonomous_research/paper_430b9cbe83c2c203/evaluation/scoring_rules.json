@@ -1,0 +1,89 @@
+{
+  "paper_id": "paper_430b9cbe83c2c203",
+  "rules": [
+    {
+      "rule_id": "r_stationary",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conformers",
+          "$.conformers[].stationary"
+        ],
+        "comparison": "expert validation of per-conformer diagnostics"
+      },
+      "reference_id": "kp_process_stationary",
+      "type": "semantic",
+      "expected": "Evaluate the bound submitted fields against the concrete statement in the referenced key point or conclusion."
+    },
+    {
+      "rule_id": "r_shifts",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.methods.reference",
+          "$.conformers[].se_sites",
+          "$.conformers[].shifts_ppm",
+          "$.comparison"
+        ],
+        "comparison": "expert validation of per-site shifts and observed-feature comparison"
+      },
+      "reference_id": "kp_process_observable",
+      "type": "semantic",
+      "expected": "Evaluate the bound submitted fields against the concrete statement in the referenced key point or conclusion."
+    },
+    {
+      "rule_id": "r_energy",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.relative_energy.value_kcal_mol",
+          "$.relative_energy.uncertainty"
+        ],
+        "comparison": "condition: near-degenerate within 1 kcal/mol or justified bounded failure"
+      },
+      "reference_id": "kp_result_energy",
+      "type": "condition",
+      "expected": "Evaluate the bound submitted fields against the concrete statement in the referenced key point or conclusion."
+    },
+    {
+      "rule_id": "r_assignment",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.assignment",
+          "$.comparison.evidence",
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_result_signals",
+      "type": "semantic",
+      "expected": "Evaluate the bound submitted fields against the concrete statement in the referenced key point or conclusion."
+    },
+    {
+      "rule_id": "r_final",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final_assignment",
+      "type": "semantic",
+      "expected": "Evaluate the bound submitted fields against the concrete statement in the referenced key point or conclusion."
+    }
+  ]
+}

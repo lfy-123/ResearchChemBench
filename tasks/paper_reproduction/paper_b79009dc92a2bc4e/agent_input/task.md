@@ -1,0 +1,15 @@
+# Scientific objective
+
+Independently test the authors' qualitative hypothesis that a base-generated oxindole enolate and cinnamonitrile can form an electron-donor–acceptor complex whose excited electronic state is relevant to the observed radical C3-cyanoalkylation. For the explicitly supplied anionic 36-atom complex, calculate the Gibbs free-energy difference ΔG = G(triplet) − G(singlet), in kcal/mol, and assess whether the triplet electronic density supports donor-to-acceptor charge transfer. The answer is the submitted calculation and validation, not a quotation of the paper.
+
+# Public inputs and scientific boundaries
+
+`data/inputs/L-1_L2_ground.xyz` is the complete 36-atom Cartesian geometry of the anionic EDA complex in its singlet state (charge −1, multiplicity 1). `data/inputs/L-1_L2_triplet.xyz` is the complete 36-atom Cartesian geometry of the same complex in its triplet state (charge −1, multiplicity 3). Coordinates are in Å; element order is part of the identity and must not be changed except by a documented, chemically neutral reorientation. The object is the complex itself, not a sum of isolated fragments. Acetonitrile is the experimental solvent context, but the computational model and software are chosen by you. Do not use the paper, SI or general web as an input.
+
+# Required scientific validation/investigation
+
+Choose and justify a reproducible electronic-structure and thermochemistry protocol. Treat the two states consistently and report charge, multiplicity, geometry provenance, solvent treatment, thermal convention and energy units. Optimize or otherwise establish a stationary structure for each state, and provide frequency/stationarity evidence: a minimum requires no imaginary vibrational modes, while any failure must be reported with the failed state and diagnostic. Compute ΔG from the two state Gibbs free energies with an explicit Hartree-to-kcal/mol conversion (or equivalent documented unit path). Independently inspect the triplet density using a charge-transfer diagnostic (for example hole–electron, orbital, population or density-difference analysis) and identify the donor and acceptor regions, or report inability with evidence. The calculation is complete when both state identities and thermochemistry are traceable, validation is reported for both states, the gap is reproducibly derived, and the charge-transfer assessment is supported or honestly bounded. Stop after these endpoint checks and one documented consistency/sensitivity check; do not claim a global conformational or mechanistic search.
+
+# Deliverables
+
+Write `report/results.json` conforming to `submission_schema.json`. Include the state energies, gap, validation evidence, protocol, charge-transfer assessment, limitations, and complete/bounded-failure status. Preserve enough command, output-file or log references for an evaluator to audit the calculation. If either state cannot be converged or validated, use the failure branch and identify the missing observable rather than fabricating a numerical gap.

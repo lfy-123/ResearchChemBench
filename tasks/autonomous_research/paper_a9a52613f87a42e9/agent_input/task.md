@@ -1,0 +1,15 @@
+# Scientific objective
+
+Characterize how NIR-IND's conformational freedom in glycerol affects its lowest strong singlet absorption and electronic transition character. Independently generate and discriminate plausible conformers within the public torsional boundary, identify a validated absorption endpoint, and assess its relationship to the measured glycerol absorption maximum of 631 nm. Formulate your own explanation for any planar, perpendicular, ICT or TICT-like behavior observed; no author mechanism or preferred conformer is supplied.
+
+# Public inputs and scientific boundaries
+
+The public file `data/inputs/nir_ind_identity.json` defines NIR-IND as the singly charged C24H29N2+ hemicyanine cation with the supplied isomeric SMILES, singlet multiplicity, and glycerol as the implicit solvent. The searchable conformational boundary is the donor–acceptor dihedral between the mean planes of the 4-(dimethylamino)phenyl donor ring and indole acceptor ring, with 0° and 90° as mandatory starting families; additional angles or cis/trans variants are allowed only when explicitly defined and covered in the report. The measured glycerol absorption maximum, 631 nm, is a public experimental boundary for comparison, not a computational answer. Choose and disclose your own software, electronic-structure model, solvation treatment and numerical settings. Do not use the paper, SI, general web or an uncontrolled database as an input.
+
+# Required scientific validation/investigation
+
+Propose a finite candidate-generation strategy covering both mandatory torsional families and any additional candidates you claim are needed. Record candidate identity, starting torsion, optimized torsion, connectivity, and deduplication rationale. Advance candidates only after a true-minimum check (frequency analysis or a scientifically justified equivalent), and report failed candidates and diagnostics. For each retained candidate, calculate singlet vertical excitations, identify the state used as the absorption endpoint, oscillator strength, wavelength, and leading orbital/configuration contribution. Compare the selected endpoint or ensemble of endpoints with 631 nm and distinguish computed evidence from interpretation. Completion requires documented coverage of both mandatory families, validated state-resolved results, and a stopping rule grounded in candidate-family exhaustion or a reproducible method/resource limitation. If completion is blocked, submit the bounded-failure branch with all attempted candidates, diagnostics, coverage and the scientifically meaningful limitation.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. Include the proposed search strategy, candidate and validation records, excitation records, selected endpoint, quantitative deviation from 631 nm, your independently reasoned mechanistic/electronic conclusion, and limitations. Do not claim that a result is supported by the authors or reproduce a paper-specific protocol unless independently justified in your report.

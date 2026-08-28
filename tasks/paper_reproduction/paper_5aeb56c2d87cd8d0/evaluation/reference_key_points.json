@@ -1,0 +1,10 @@
+{
+  "paper_id": "paper_5aeb56c2d87cd8d0",
+  "items": [
+    {"key_point_id": "pr_kp_process_minima", "key_point_type": "process", "statement": "The reported low-energy L1–IBU complex candidates are optimized stationary structures and each candidate retains its own minimum-validation evidence.", "expected": "The authors fully optimized the species and used harmonic frequency calculations to confirm minima; a valid submission provides candidate-specific minimum checks rather than a global assertion.", "evidence_ids": ["ev_method_minima", "ev_complex_isomers"]},
+    {"key_point_id": "pr_kp_process_coverage", "key_point_type": "process", "statement": "The search retains and compares multiple distinct L1–IBU binding isomers before selecting the leading motif.", "expected": "The source investigation reports seven different complex isomers in each solvent, demonstrating that selection from multiple binding geometries is scientifically material.", "evidence_ids": ["ev_complex_isomers"]},
+    {"key_point_id": "pr_kp_binding_energy", "key_point_type": "result", "statement": "The consistently defined DMSO binding energy for the most stable reference structures is favorable.", "expected": "Using the paper's electronic binding-energy convention, the DMSO value is -42.5 kJ mol-1.", "evidence_ids": ["ev_binding_energy"]},
+    {"key_point_id": "pr_kp_binding_motif", "key_point_type": "result", "statement": "The leading DMSO complex has carboxylate–squaramide hydrogen bonding and aromatic stacking contacts.", "expected": "Both carboxylate oxygens participate in hydrogen bonds with the two squaramide NH hydrogens in the most stable DMSO isomer, and the ibuprofen aromatic ring stacks with an aromatic group attached to L1's squaramide.", "evidence_ids": ["ev_complex_isomers", "ev_stacking"]},
+    {"key_point_id": "pr_kp_spectral_shift", "key_point_type": "result", "statement": "Complex formation shifts the lowest-energy absorption band of L1 to longer wavelength.", "expected": "The calculated complex spectrum shows a red shift relative to free L1 without net NH deprotonation.", "evidence_ids": ["ev_red_shift"]}
+  ]
+}

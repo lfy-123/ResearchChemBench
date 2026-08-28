@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_6818d4d7426cf7a5",
+  "task_type": "paper_reproduction",
+  "title": "Independent computational test of anomeric selectivity in Ni-catalyzed glycosyl C–Ge coupling",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Two competing transition-state families must be discovered and validated from precursor models; conformer coverage and TS characterization are nontrivial."
+  ],
+  "paper": {
+    "title": "Stereoselective C(sp3)-Si/Ge bond formation via nickel-catalyzed decarboxylative couplings",
+    "doi": "10.1016/j.chempr.2025.102713",
+    "journal": "Chem",
+    "publication_date": "2026-02-12"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Explicit XYZ precursor geometries for the glycosyl NHPI model, Ni(0)L model and common radical-addition precursor; coordinates in Å and atom order fixed."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated independent pathway search, barriers, comparison, evidence, uncertainty and conclusion conforming to submission_schema.json."
+    }
+  ]
+}

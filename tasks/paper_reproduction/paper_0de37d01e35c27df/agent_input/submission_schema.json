@@ -1,0 +1,124 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "states",
+      "distance_change",
+      "validation",
+      "coverage",
+      "limitations",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "states": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "state",
+            "charge",
+            "multiplicity",
+            "sulfur_distance_angstrom",
+            "provenance",
+            "validation"
+          ],
+          "properties": {
+            "state": {
+              "type": "string"
+            },
+            "charge": {
+              "type": "integer"
+            },
+            "multiplicity": {
+              "type": "integer"
+            },
+            "sulfur_distance_angstrom": {
+              "type": "number"
+            },
+            "provenance": {
+              "type": "object",
+              "required": [
+                "file",
+                "atom_indices"
+              ],
+              "properties": {
+                "file": {
+                  "type": "string"
+                },
+                "atom_indices": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "converged",
+                "stationary_point_evidence"
+              ],
+              "properties": {
+                "converged": {
+                  "type": "boolean"
+                },
+                "stationary_point_evidence": {
+                  "type": "string"
+                },
+                "imaginary_frequency_count": {
+                  "type": "integer"
+                },
+                "spin_diagnostic": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "distance_change": {
+        "type": "object",
+        "required": [
+          "value_angstrom",
+          "definition"
+        ],
+        "properties": {
+          "value_angstrom": {
+            "type": "number"
+          },
+          "definition": {
+            "type": "string"
+          }
+        }
+      },
+      "validation": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "coverage": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      }
+    }
+  }
+}

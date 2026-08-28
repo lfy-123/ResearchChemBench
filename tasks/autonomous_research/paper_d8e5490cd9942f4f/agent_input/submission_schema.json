@@ -1,0 +1,191 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "route",
+      "endpoints",
+      "investigation",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      },
+      "route": {
+        "type": "object",
+        "required": [
+          "method_summary",
+          "temperature_K",
+          "standard_state"
+        ],
+        "properties": {
+          "method_summary": {
+            "type": "string"
+          },
+          "temperature_K": {
+            "type": "number"
+          },
+          "standard_state": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "endpoints": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+          "id",
+          "identity",
+          "validation_status",
+            "free_energy",
+            "free_energy_unit",
+            "imaginary_mode_count"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "identity": {
+              "type": "string"
+            },
+            "validation_status": {
+              "type": "string"
+            },
+            "free_energy": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "free_energy_unit": {
+              "type": "string"
+            },
+            "imaginary_mode_count": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "structure_path": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "investigation": {
+        "type": "object",
+        "required": [
+          "formula",
+          "coverage",
+          "validation_summary"
+        ],
+        "properties": {
+          "formula": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "string"
+          },
+          "validation_summary": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "conclusion": {
+        "type": "object",
+        "required": [
+          "delta_g_conf",
+          "delta_g_unit",
+          "preferred_endpoint",
+          "text"
+        ],
+        "properties": {
+          "delta_g_conf": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "delta_g_unit": {
+            "type": "string"
+          },
+          "preferred_endpoint": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "failure": {
+        "type": "object",
+        "properties": {
+          "stage": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "diagnostics": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {"const": "completed"},
+          "endpoints": {
+            "items": {
+              "properties": {
+                "free_energy": {"type": "number"},
+                "validation_status": {"type": "string"}
+              }
+            }
+          },
+          "conclusion": {
+            "required": ["delta_g_conf", "preferred_endpoint"],
+            "properties": {
+              "delta_g_conf": {"type": "number"},
+              "preferred_endpoint": {"type": "string"}
+            }
+          }
+        }
+      },
+      {
+        "required": ["failure"],
+        "properties": {
+          "status": {"const": "bounded_failure"},
+          "failure": {"required": ["stage", "reason", "diagnostics"]},
+          "conclusion": {
+            "properties": {
+              "delta_g_conf": {"type": "null"},
+              "preferred_endpoint": {"type": "null"}
+            }
+          }
+        }
+      }
+    ],
+    "additionalProperties": true
+  }
+}

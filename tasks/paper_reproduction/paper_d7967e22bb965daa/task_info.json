@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_d7967e22bb965daa",
+  "task_type": "paper_reproduction",
+  "title": "Quartet migratory-insertion barriers in Fe-catalyzed hydrodisilylation",
+  "category": "reaction mechanism and regioselectivity",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "Four fixed but nontrivial transition-state refinements must be validated by frequencies and a consistent thermochemical reference.",
+    "The Agent must independently choose and defend computational details while comparing a small candidate set."
+  ],
+  "paper": {
+    "title": "Iron-Catalyzed Synthesis of Unsymmetrical Disilanes",
+    "doi": "10.1021/jacs.5c18484",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-07"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Four SI-labeled 68-atom quartet XYZ starting geometries for TS3A-quartet, TS3B-quartet, TS3C-quartet, and TS3D-quartet. The public reference system is defined by source-backed INT1A-sextet and 2a component identities and must be assembled/documented by the Agent."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated per-candidate frequencies and relative barriers, ordering, provenance, limitations and final mechanistic conclusion."
+    }
+  ]
+}

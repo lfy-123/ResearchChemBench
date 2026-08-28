@@ -1,0 +1,43 @@
+{
+  "paper_id": "paper_e8da3be56e9450b0",
+  "items": [
+    {
+      "key_point_id": "ar_kp_process_identity",
+      "key_point_type": "process",
+      "statement": "The submitted calculation preserves the named periodic systems: Ba7ZnTi7CoO24 BZCT with one Zn on Ba and one Co on Ti, neutral and no oxygen vacancy, and a matching undoped BaTiO3 control.",
+      "expected": "Both system records identify BZCT and BTO and report verified composition/identity.",
+      "evidence_ids": [
+        "ev_doc_63c3e04330d3_000090_c55578bfe136",
+        "ev_doc_63c3e04330d3_000116_bec995f7b0ef"
+      ]
+    },
+    {
+      "key_point_id": "ar_kp_process_validation",
+      "key_point_type": "process",
+      "statement": "Relaxation and polarization are validated with documented convergence and at least one observable-specific sensitivity check, including a stated Berry-phase branch/reference convention.",
+      "expected": "Each system has convergence evidence, a named sensitivity check/change, and a branch/reference path.",
+      "evidence_ids": [
+        "ev_doc_63c3e04330d3_000082_41547d6aa94e",
+        "ev_doc_b5ee13e40aa3_000034_000000000000"
+      ]
+    },
+    {
+      "key_point_id": "ar_kp_result_polarization",
+      "key_point_type": "result",
+      "statement": "The BZCT spontaneous polarization is approximately 32.41 \u03bcC/cm\u00b2 on the reported branch convention.",
+      "expected": 32.41,
+      "evidence_ids": [
+        "ev_doc_63c3e04330d3_000237_6b1dc4a4932e"
+      ]
+    },
+    {
+      "key_point_id": "ar_kp_result_control",
+      "key_point_type": "result",
+      "statement": "The undoped BTO control has a lower reported spontaneous polarization of approximately 26.86 \u03bcC/cm\u00b2.",
+      "expected": 26.86,
+      "evidence_ids": [
+        "ev_doc_63c3e04330d3_000237_6b1dc4a4932e"
+      ]
+    }
+  ]
+}

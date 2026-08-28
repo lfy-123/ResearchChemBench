@@ -1,0 +1,79 @@
+{
+  "paper_id": "paper_28f5c63db105c913",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "type": "semantic",
+      "expected": "independent harmonic method, sign convention and sensitivity evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.harmonic",
+          "$.investigation.settings"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_harmonic"
+    },
+    {
+      "rule_id": "ar_r2",
+      "type": "semantic",
+      "expected": "finite-temperature scope, criterion, coverage and stopping rule are reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.finite_temperature",
+          "$.investigation.stopping_rule"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_thermal"
+    },
+    {
+      "rule_id": "ar_r3",
+      "type": "condition",
+      "expected": "When harmonic.status is completed, harmonic.imaginary_modes is true; when status is bounded_failure, the submission reports the attempted scope and reason without fabricating a harmonic result.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.harmonic.status", "$.harmonic.imaginary_modes"],
+        "comparison": "condition"
+      },
+      "reference_id": "ar_result_harmonic"
+    },
+    {
+      "rule_id": "ar_r4",
+      "type": "condition",
+      "expected": "When finite_temperature.status is completed, finite_temperature.retained is true for the sampled interval; when status is bounded_failure, the submission reports the attempted scope and reason without fabricating finite-temperature observables.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.finite_temperature.status", "$.finite_temperature.retained"],
+        "comparison": "condition"
+      },
+      "reference_id": "ar_result_thermal"
+    },
+    {
+      "rule_id": "ar_r5",
+      "type": "semantic",
+      "expected": "finite-temperature persistence despite harmonic instability is concluded within stated scope, with limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final"
+    }
+  ]
+}

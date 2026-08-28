@@ -1,0 +1,82 @@
+{
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "type": "semantic",
+      "expected": "Two or more hypotheses, discriminating tests and candidate/stopping coverage are reported.",
+      "reference_id": "ar_process_search",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "type": "semantic",
+      "expected": "Per-system frequency and connectivity validation is reported.",
+      "reference_id": "ar_process_validate",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r3",
+      "type": "semantic",
+      "expected": "The object identified as L12 methyl-versus-methylene reports a computed ratio consistent with the source value 1.69 (within the stated uncertainty), while all six ligand/site objects retain explicit identity.",
+      "reference_id": "ar_result",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].ratio"
+        ],
+        "comparison": "expert semantic comparison of object_id, ligand, site and reported ratio"
+      }
+    },
+    {
+      "rule_id": "ar_c1",
+      "type": "semantic",
+      "expected": "Final conclusion is evidence-based, scoped and independent of an author-route assertion.",
+      "reference_id": "ar_final",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_c2",
+      "type": "semantic",
+      "expected": "Limitations and alternative explanations are disclosed.",
+      "reference_id": "ar_limit",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.coverage.limitations",
+          "$.hypotheses"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "paper_id": "paper_a3aca8a17ca674f9"
+}

@@ -1,0 +1,10 @@
+{
+  "description":"Closed molecular system for independent computational investigation of aqueous basicity of two PyDIG geometric isomers.",
+  "molecules":[
+    {"id":"EE_neutral","label":"E,E-PyDIG neutral base","smiles":"C1=CC=CC=N1/C=C/NNC(=N)NN/C=C/2N=CC=CC2","formal_charge":0,"multiplicity":1,"protonation":"neutral PyDIG","stereochemistry":"E,E at both pyridylmethylene C=N bonds"},
+    {"id":"ZZ_neutral","label":"Z,Z-PyDIG neutral base","smiles":"C1=CC=CC=N1/C=C\\NNC(=N)NN/C=C\\2N=CC=CC2","formal_charge":0,"multiplicity":1,"protonation":"neutral PyDIG","stereochemistry":"Z,Z at both pyridylmethylene C=N bonds"},
+    {"id":"EE_protonated","label":"E,E-PyDIG singly protonated conjugate acid","smiles":"C1=CC=CC=N1/C=C/NNC(=[NH2+])NN/C=C/2N=CC=CC2","formal_charge":1,"multiplicity":1,"protonation":"one added proton on central guanidine imine nitrogen"},
+    {"id":"ZZ_protonated","label":"Z,Z-PyDIG singly protonated conjugate acid","smiles":"C1=CC=CC=N1/C=C\\NNC(=[NH2+])NN/C=C\\2N=CC=CC2","formal_charge":1,"multiplicity":1,"protonation":"one added proton on central guanidine imine nitrogen"}
+  ],
+  "endpoint":"aqueous thermodynamic pKa for each geometric isomer and their difference"
+}

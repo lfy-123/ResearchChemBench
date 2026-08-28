@@ -1,0 +1,33 @@
+{
+  "paper_id": "paper_a3aca8a17ca674f9",
+  "items": [
+    {
+      "key_point_id": "pr_process_freq",
+      "key_point_type": "process",
+      "statement": "Each retained methyl/methylene stationary point is frequency-classified, with minima having no imaginary mode and CMD TSs having one relevant imaginary mode.",
+      "evidence_ids": [
+        "ev_doc_54d7748e04a2_000188_875fb600cd6b"
+      ],
+      "expected": "Frequency evidence is reported for each ligand/site object."
+    },
+    {
+      "key_point_id": "pr_process_irc",
+      "key_point_type": "process",
+      "statement": "Retained CMD transition structures are connectivity-validated to the corresponding reactant and product-side minima.",
+      "evidence_ids": [
+        "ev_doc_54d7748e04a2_000190_edf50d18c232"
+      ],
+      "expected": "Bidirectional IRC or a specifically justified equivalent is reported per TS."
+    },
+    {
+      "key_point_id": "pr_barriers",
+      "key_point_type": "result",
+      "statement": "The calculated methyl barriers and methyl/methylene free-energy differences reproduce the reported ligand-dependent values and trend.",
+      "evidence_ids": [
+        "ev_doc_54d7748e04a2_000181_e26ff1863cfc",
+        "ev_doc_54d7748e04a2_000185_f1890bf0f49f"
+      ],
+      "expected": "L7, L9 and L12 barrier and ratio fields are supplied with units and uncertainty."
+    }
+  ]
+}

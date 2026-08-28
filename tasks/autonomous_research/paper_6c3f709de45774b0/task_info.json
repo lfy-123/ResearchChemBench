@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_6c3f709de45774b0",
+  "task_type": "autonomous_research",
+  "title": "Independent computational stereochemical investigation of compound 10",
+  "category": "stereochemical_assignment",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The candidate space is finite and explicit, but the Agent must independently choose and justify a computational comparison and validation strategy."
+  ],
+  "paper": {
+    "title": "Ferroptosis-inhibitory compounds from the deep-sea-derived Penicillium sp.",
+    "doi": "10.1016/j.bioorg.2026.109574",
+    "journal": "Bioorganic Chemistry",
+    "publication_date": "2026-04-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Explicit constitution, charge, multiplicity, atom-label convention, two candidate configurations and experimental NMR observations for compound 10."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured candidate comparison, computed shifts/fit metrics, probability analysis, validation context and conclusion."
+    }
+  ]
+}

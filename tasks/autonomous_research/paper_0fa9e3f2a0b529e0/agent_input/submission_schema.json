@@ -1,0 +1,16 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "system", "method", "validation", "observables", "conclusion"],
+    "properties": {
+      "status": {"type": "string", "enum": ["success", "bounded_failure"]},
+      "system": {"type": "object", "required": ["name", "smiles", "formula", "formal_charge", "multiplicity"], "properties": {"name": {"type": "string"}, "smiles": {"type": "string"}, "formula": {"type": "string"}, "formal_charge": {"type": "integer"}, "multiplicity": {"type": "integer"}}},
+      "method": {"type": "object", "required": ["software", "method", "basis", "geometry_strategy", "provenance", "descriptor_formulas"], "properties": {"software": {"type": "string"}, "method": {"type": "string"}, "basis": {"type": "string"}, "geometry_strategy": {"type": "string"}, "provenance": {"type": "string"}, "descriptor_formulas": {"type": "string"}}},
+      "validation": {"type": "object", "required": ["optimization_converged", "minimum_check", "imaginary_frequency_count", "identity_check", "details"], "properties": {"optimization_converged": {"type": "boolean"}, "minimum_check": {"type": "string"}, "imaginary_frequency_count": {"type": "integer"}, "identity_check": {"type": "boolean"}, "details": {"type": "string"}}},
+      "observables": {"type": "object", "required": ["ehomo_ev", "elumo_ev", "gap_ev", "ionization_potential_ev", "electron_affinity_ev", "chemical_potential_ev", "electronegativity_ev", "hardness_ev", "softness_ev_inv", "electrophilicity_ev", "units", "availability_note"], "properties": {"ehomo_ev": {"type": ["number", "null"]}, "elumo_ev": {"type": ["number", "null"]}, "gap_ev": {"type": ["number", "null"]}, "ionization_potential_ev": {"type": ["number", "null"]}, "electron_affinity_ev": {"type": ["number", "null"]}, "chemical_potential_ev": {"type": ["number", "null"]}, "electronegativity_ev": {"type": ["number", "null"]}, "hardness_ev": {"type": ["number", "null"]}, "softness_ev_inv": {"type": ["number", "null"]}, "electrophilicity_ev": {"type": ["number", "null"]}, "units": {"type": "string"}, "availability_note": {"type": "string"}}},
+      "conclusion": {"type": "object", "required": ["claim", "scope", "limitations"], "properties": {"claim": {"type": "string"}, "scope": {"type": "string"}, "limitations": {"type": "string"}}}
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "dichloro(eta2-nitrato)bis(triphenylphosphine)iridium(III)",
+  "formula": "C36H30Cl2IrNO3P2",
+  "charge": 0,
+  "multiplicity": 1,
+  "coordination_and_connectivity": {
+    "central_atom": "Ir1, formal Ir(III)",
+    "ligands": ["Cl1 and Cl2 are separate monatomic chloride ligands bound to Ir1", "P1 and P2 are separate neutral triphenylphosphine ligands; each P is bonded to three phenyl ipso carbons", "N1 is the nitrogen of one nitrate group; O1 and O2 are nitrate oxygens bonded to Ir1 and N1; O3 is the terminal nitrate oxygen bonded only to N1"],
+    "nitrate_binding": "O1-Ir1 and O2-Ir1 are both coordination bonds; N1-O1, N1-O2 and N1-O3 complete the nitrate connectivity",
+    "phosphine_definition": "Each PPh3 ligand is P bonded to three unsubstituted phenyl rings (six carbons per ring, one ipso carbon bonded to P and five CH carbons)."
+  },
+  "atom_labels_for_report": ["Ir1", "Cl1", "Cl2", "P1", "P2", "N1", "O1", "O2", "O3"],
+  "model_boundary": "isolated molecule; no counterion, solvent molecule, crystal symmetry or periodic cell",
+  "construction_rule": "Generate a chemically sensible six-coordinate pseudo-octahedral starting geometry with bidentate O1/O2 nitrate and two PPh3 ligands, document the construction and any alternative conformers, then optimize without constraining the scored coordinates."
+}

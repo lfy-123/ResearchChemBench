@@ -1,0 +1,8 @@
+{
+  "reaction": {"substrate": "quinoline N-oxide", "substrate_smiles": "[O-][n+]1ccc2ccccc2c1", "carbodiimide": "N,N'-dicyclohexylcarbodiimide (DCC)", "carbodiimide_smiles": "C1CCC(CC1)N=C=NC1CCCCC1", "product_boundary": "C2-ureidation of quinoline N-oxide; product identity is not a scored unknown"},
+  "catalyst_model": {"name": "Cu(II)-2,2'-bipyridine molecular model with DMSO ligands", "ligand_smiles": "c1ccc(-c2ccccn2)nc1", "metal": "Cu(II)", "solvent_ligand": "dimethyl sulfoxide", "solvent_smiles": "CS(C)=O"},
+  "states": {"catalyzed": "substrate + DCC + Cu(II)-bipyridine model in DMSO", "uncatalyzed": "substrate + DCC without copper model"},
+  "electronic_state": {"catalyst_model_total_charge": 2, "catalyst_model_multiplicity": 2, "uncatalyzed_total_charge": 0, "uncatalyzed_multiplicity": 1},
+  "units": {"geometry": "angstrom", "energy": "kcal/mol for relative Gibbs energies", "electronic_energy": "hartree if reported"},
+  "allowed_resources": "local quantum-chemistry software and documented controlled databases; do not use the paper, SI or general web as a source of answer values"
+}

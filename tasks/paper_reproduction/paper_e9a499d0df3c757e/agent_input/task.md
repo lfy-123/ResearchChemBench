@@ -1,0 +1,15 @@
+# Scientific objective
+
+Independently plan and execute a computational test of the authors' qualitative proposal that Cu(II) coordination to the carbodiimide can enable a stepwise C2-ureidation mechanism. Determine the key relative Gibbs free-energy barrier for the catalyzed model and the corresponding barrier for the uncatalyzed quinoline-N-oxide + DCC reaction, in kcal/mol, and state which is lower. You may use the qualitative route as a hypothesis to test, but the winning stationary point, numerical result and paper protocol are not provided.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/system.json` as the complete identity specification: quinoline N-oxide is the explicit SMILES `[O-][n+]1ccc2ccccc2c1`; DCC is `C1CCC(CC1)N=C=NC1CCCCC1`; the catalyst model is a Cu(II)-2,2'-bipyridine molecular model with DMSO ligation, charge +2 and doublet multiplicity; the uncatalyzed model is the neutral singlet reactant pair. The modeled boundary is a molecular cluster, not periodic MOF-253. Relative Gibbs energies must use a clearly stated common reference for each pathway. Do not use the paper, SI or general web as an answer source.
+
+# Required scientific validation/investigation
+
+Generate and deduplicate plausible reactant, intermediate and transition-state structures for both pathways. Advance a candidate only when its connectivity and spin/charge are chemically stated. Validate each reported minimum by frequency analysis with zero imaginary frequencies and each reported transition state by exactly one imaginary frequency; report the associated mode or a chemically meaningful displacement description and, where feasible, connectivity checks or an intrinsic-reaction-coordinate/path-following check. Compute a documented Gibbs free-energy profile and identify the highest validated transition state relative to the stated reactant reference in each pathway. The investigation is complete when both pathway endpoints have at least one validated barrier candidate, the numerical energy bookkeeping is reproducible from the report, and all attempted candidates and failures are summarized. Stop after this coverage is achieved or, if it cannot be achieved, submit the bounded-failure branch with the missing validation and a scientifically justified limitation.
+
+# Deliverables
+
+Write `report/results.json` conforming to `submission_schema.json`. Include method/software, charge, multiplicity, solvent and standard-state choices; candidate identities and validation evidence; catalyzed and uncatalyzed barrier values when available; their difference and ordering; and a concise conclusion about whether Cu coordination supports the proposed stepwise explanation. Include enough intermediate energies or formulas to recompute every reported relative barrier.

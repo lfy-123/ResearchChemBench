@@ -1,0 +1,87 @@
+{
+  "paper_id": "paper_3235db287859287e",
+  "rules": [
+    {
+      "rule_id": "r_kp_process_minima",
+      "type": "semantic",
+      "expected": "Both named objects have object-specific configuration/connectivity validation and zero imaginary frequencies when accepted as minima.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.objects[*].connectivity_verified",
+          "$.objects[*].minimum_validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_minima",
+      "paper_id": "paper_3235db287859287e"
+    },
+    {
+      "rule_id": "r_kp_protocol",
+      "type": "semantic",
+      "expected": "The report declares a common protocol, temperature, environment and energy convention.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.protocol"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_common_protocol",
+      "paper_id": "paper_3235db287859287e"
+    },
+    {
+      "rule_id": "r_kp_difference",
+      "type": "semantic",
+      "expected": "When status is complete, compare the reported numeric signed ΔG(E)−ΔG(Z) in kcal/mol to the source value 1.5 kcal/mol within 1.0 kcal/mol; when status is bounded_failure, accept a null difference only when the report identifies the failed validation and does not claim a favored object.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.delta_G_E_minus_Z_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result_signed_difference",
+      "paper_id": "paper_3235db287859287e"
+    },
+    {
+      "rule_id": "r_final",
+      "type": "semantic",
+      "expected": "The report gives a supported favored stereoisomer and signed free-energy comparison, or a truthful bounded failure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final_preference",
+      "paper_id": "paper_3235db287859287e"
+    },
+    {
+      "rule_id": "r_limit",
+      "type": "semantic",
+      "expected": "Limitations stay within the isolated stereoisomer model and do not overclaim kinetics or mechanism.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_limitation",
+      "paper_id": "paper_3235db287859287e"
+    }
+  ]
+}

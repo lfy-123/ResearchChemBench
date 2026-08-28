@@ -1,0 +1,79 @@
+{
+  "paper_id": "paper_ba190e5225cd154f",
+  "rules": [
+    {
+      "rule_id": "r_process",
+      "reference_id": "kp_process_cycle",
+      "type": "condition",
+      "expected": "For success, state_records, all seven energy terms, both arithmetic strings and per-state validation are internally consistent; for bounded_failure, partial_state_records and partial_energy_terms identify the available evidence and failure identifies every failed state, missing term, diagnostic and attempted remedy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.method",
+          "$.state_records",
+          "$.energy_cycle",
+          "$.validation",
+          "$.partial_state_records",
+          "$.partial_energy_terms",
+          "$.failure",
+          "$.conclusion"
+        ],
+        "comparison": "expert branch-aware condition verification against the required success or bounded_failure schema branch"
+      }
+    },
+    {
+      "rule_id": "r_le",
+      "reference_id": "kp_lambda_e",
+      "type": "numeric",
+      "target": 0.5153,
+      "unit": "eV",
+      "tolerance": 0.06,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.energy_cycle.lambda_e_eV"
+        ],
+        "comparison": "absolute difference when status is success; not applicable to bounded_failure"
+      }
+    },
+    {
+      "rule_id": "r_lh",
+      "reference_id": "kp_lambda_h",
+      "type": "numeric",
+      "target": 0.4152,
+      "unit": "eV",
+      "tolerance": 0.06,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.energy_cycle.lambda_h_eV"
+        ],
+        "comparison": "absolute difference when status is success; not applicable to bounded_failure"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "expected": "When status is success, lambda_h is below lambda_e for BImCY2 and interpretation is restricted to isolated-molecule internal reorganization energy; bounded_failure must not claim a carrier ordering from unavailable values.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert branch-aware semantic comparison"
+      }
+    }
+  ]
+}

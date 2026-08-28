@@ -1,0 +1,95 @@
+{
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome"
+        ],
+        "comparison": "expert check of candidate-specific validation"
+      },
+      "reference_id": "pr_process_minima",
+      "expected": "candidate-specific validation is documented"
+    },
+    {
+      "rule_id": "pr_r2",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome"
+        ],
+        "comparison": "expert check of band/mode identity"
+      },
+      "reference_id": "pr_process_spectral",
+      "expected": "candidate-specific validation is documented"
+    },
+    {
+      "rule_id": "pr_r3",
+      "type": "semantic",
+      "expected": "supports hydration-induced reorganization beginning at n=3 within the stated isolated-cluster scope",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final_claim"
+    },
+    {
+      "rule_id": "pr_r4",
+      "type": "semantic",
+      "expected": "reports model dependence and does not overclaim bulk behavior",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_limitation"
+    },
+    {
+      "rule_id": "pr_result_transition_rule",
+      "reference_id": "pr_result_transition",
+      "type": "semantic",
+      "expected": "reported and supported by candidate observables",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_result_spectrum_rule",
+      "reference_id": "pr_result_spectrum",
+      "type": "semantic",
+      "expected": "reported and supported by candidate observables",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "paper_id": "paper_6e09640463562644"
+}

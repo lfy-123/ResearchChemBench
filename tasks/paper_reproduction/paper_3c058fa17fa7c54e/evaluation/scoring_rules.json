@@ -1,0 +1,69 @@
+{
+  "paper_id": "paper_3c058fa17fa7c54e",
+  "rules": [
+    {
+      "rule_id": "r_geometry",
+      "reference_id": "kp_geometry",
+      "type": "semantic",
+      "expected": "Auditable geometry identity, convergence and stationary point evidence for both named systems.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[].geometry",
+          "$.systems[].validation"
+        ],
+        "comparison": "expert process validation"
+      }
+    },
+    {
+      "rule_id": "r_states",
+      "reference_id": "kp_states",
+      "type": "semantic",
+      "expected": "Explicit lowest-state assignment and provenance for both systems.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[].validation"
+        ],
+        "comparison": "expert process validation"
+      }
+    },
+    {
+      "rule_id": "r_energies",
+      "reference_id": "kp_energies",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[]"
+        ],
+        "comparison": "expert scientific comparison with source values or bounded-failure validation"
+      },
+      "expected": "For each system, compare submitted S1/T1 energies and derived gaps in a consistent eV convention against the corresponding source values when the system reports success; accept an exact bounded-failure diagnosis instead of fabricated numbers when observables are unavailable."
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final",
+      "type": "semantic",
+      "expected": "Per-system assessment of both inequalities, overall bounded interpretation, sensitivity source and coverage statement.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[].inequality_assessment",
+          "$.conclusion",
+          "$.sensitivity",
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "paper_id": "paper_221aafe4bd916a11",
+  "rules": [
+    {
+      "rule_id": "r1",
+      "reference_id": "ar_process_freq",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.reactant_minimum"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "candidate-specific frequency validation is present or bounded failure is honestly documented"
+    },
+    {
+      "rule_id": "r2",
+      "reference_id": "ar_process_hypotheses",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hypotheses"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "multiple hypotheses with candidate-specific discrimination tests and outcomes are reported"
+    },
+    {
+      "rule_id": "r3",
+      "reference_id": "ar_result_barrier",
+      "type": "numeric",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      },
+      "target": 21.8,
+      "unit": "kcal/mol",
+      "tolerance": 3.0,
+      "applicability": "Only when submission.status is complete; bounded_failure is judged from its documented failure branch."
+    },
+    {
+      "rule_id": "r4",
+      "reference_id": "ar_result_scope",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "conclusion states stoichiometric scope and does not claim established catalysis"
+    },
+    {
+      "rule_id": "r5",
+      "reference_id": "ar_final",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.mechanism_conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "final claim integrates hypothesis discrimination, candidate validation, barrier and limitations without relying on author-route information"
+    }
+  ]
+}

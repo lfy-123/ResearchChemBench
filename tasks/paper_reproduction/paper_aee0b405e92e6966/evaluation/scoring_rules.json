@@ -1,0 +1,105 @@
+{
+  "paper_id": "paper_aee0b405e92e6966",
+  "rules": [
+    {
+      "rule_id": "r_pr_kp_minima",
+      "type": "condition",
+      "expected": "Both A_OH_N and A_NH_O have explicit minimum validation evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[0].minimum_status",
+          "$.states[0].validation_evidence",
+          "$.states[1].minimum_status",
+          "$.states[1].validation_evidence"
+        ],
+        "comparison": "expert condition check"
+      },
+      "reference_id": "kp_pr_process_minima"
+    },
+    {
+      "rule_id": "r_pr_kp_common",
+      "type": "condition",
+      "expected": "A common energy convention and subtraction definition are stated.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.definition",
+          "$.method_record.method",
+          "$.method_record.environment"
+        ],
+        "comparison": "expert condition check"
+      },
+      "reference_id": "kp_pr_process_comparable"
+    },
+    {
+      "rule_id": "r_pr_order",
+      "type": "semantic",
+      "expected": "A-NH_O is identified as lower than A-OH_N.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_result_order"
+    },
+    {
+      "rule_id": "r_pr_energy",
+      "type": "numeric",
+      "target": 5.3,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.relative_energy"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_pr_result_magnitude"
+    },
+    {
+      "rule_id": "r_pr_final",
+      "type": "semantic",
+      "expected": "Validated two-state computation supports A-NH_O lower by approximately the source-reported amount within the stated boundary.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_pr_final"
+    },
+    {
+      "rule_id": "r_pr_limit",
+      "type": "semantic",
+      "expected": "Limitations distinguish the computational comparison from experimental pH or fluorescence claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_pr_limit"
+    }
+  ]
+}

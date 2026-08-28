@@ -1,0 +1,139 @@
+{
+  "paper_id": "paper_d82912082c8ff147",
+  "rules": [
+    {
+      "rule_id": "r_kp_process_01",
+      "target_type": "key_point",
+      "type": "semantic",
+      "expected": "candidate generation, deduplication, accounting and stopping/coverage are reproducibly documented",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.search_accounting"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_01"
+    },
+    {
+      "rule_id": "r_kp_process_02",
+      "target_type": "key_point",
+      "type": "condition",
+      "expected": "every retained conformer records optimization and minimum validation, including an honest failure/alternative branch where applicable",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conformers[*].minimum_validation"
+        ],
+        "comparison": "expert condition check"
+      },
+      "reference_id": "kp_process_02"
+    },
+    {
+      "rule_id": "r_kp_process_03",
+      "target_type": "key_point",
+      "type": "semantic",
+      "expected": "450 K normalization scope and endpoint-specific pathway/TS evidence are stated",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.population_analysis",
+          "$.pathways[*]"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_process_03"
+    },
+    {
+      "rule_id": "r_kp_result_01",
+      "target_type": "key_point",
+      "type": "semantic",
+      "expected": "independent conformer results include source-compatible low-energy bent motif classes or transparently report bounded discovery failure",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conformers",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_result_01"
+    },
+    {
+      "rule_id": "r_kp_result_02",
+      "target_type": "key_point",
+      "type": "semantic",
+      "expected": "electronic ordering and 450 K Gibbs population are distinguished and entropy/ensemble effects are interpreted",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.population_analysis",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_result_02"
+    },
+    {
+      "rule_id": "r_kp_result_03",
+      "target_type": "key_point",
+      "type": "semantic",
+      "expected": "barrier-limited relaxation is analyzed with a stated criterion and limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.pathways",
+          "$.limitations",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_result_03"
+    },
+    {
+      "rule_id": "r_c_final_01",
+      "target_type": "conclusion",
+      "type": "semantic",
+      "expected": "Ala3 interpretation combines conformer motifs, 450 K thermochemistry and barrier-limited relaxation rather than lowest electronic energy alone",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final_01"
+    },
+    {
+      "rule_id": "r_c_limit_01",
+      "target_type": "conclusion",
+      "type": "semantic",
+      "expected": "model dependence and inability of computation alone to establish a unique measured population are acknowledged",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_limit_01"
+    }
+  ]
+}

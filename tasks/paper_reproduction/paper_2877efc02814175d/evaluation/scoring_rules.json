@@ -1,0 +1,94 @@
+{
+  "paper_id": "paper_2877efc02814175d",
+  "rules": [
+    {
+      "rule_id": "r_state",
+      "reference_id": "p_state",
+      "type": "semantic",
+      "expected": "identity and state checks",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.state_checks.details"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_conv",
+      "reference_id": "p_converge",
+      "type": "semantic",
+      "expected": "per-object convergence or failure",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.complexes[].validation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_gap",
+      "reference_id": "p_gap",
+      "type": "semantic",
+      "expected": "per-object gaps",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+      "fields": ["$.complexes[].observables"],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_desc",
+      "reference_id": "p_desc",
+      "type": "semantic",
+      "expected": "hardness and electrophilicity",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method.descriptor_definitions",
+          "$.complexes[].observables"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_trend",
+      "reference_id": "c_trend",
+      "type": "semantic",
+      "expected": "qualified trend",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_lim",
+      "reference_id": "c_limits",
+      "type": "semantic",
+      "expected": "limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

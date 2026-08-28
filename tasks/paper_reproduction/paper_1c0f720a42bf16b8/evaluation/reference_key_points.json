@@ -1,0 +1,54 @@
+{
+  "paper_id": "paper_1c0f720a42bf16b8",
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_1",
+      "key_point_type": "process",
+      "statement": "The calculation validates a converged neutral-singlet ground state as a stationary point and documents a separately converged first singlet excited-state optimization.",
+      "expected": "Both state optimizations are reported with convergence evidence; the ground state has no reported imaginary frequency or an explicitly justified equivalent stationary-point test.",
+      "evidence_ids": [
+        "ev_doc_29c0280b4f8d_000007_97843c12f191",
+        "ev_doc_29c0280b4f8d_000015_b81fe30a62b6",
+        "ev_doc_29c0280b4f8d_000016_b384b44b785a"
+      ]
+    },
+    {
+      "key_point_id": "kp_pr_process_2",
+      "key_point_type": "process",
+      "statement": "The first bright absorption is selected from a stated set of singlet TD-DFT states using oscillator strength and its orbital composition is checked.",
+      "expected": "The report identifies the selected state, wavelength, oscillator strength, and dominant orbital contribution rather than silently equating the first state with the bright state.",
+      "evidence_ids": [
+        "ev_doc_29c0280b4f8d_000007_97843c12f191",
+        "ev_doc_29c0280b4f8d_000030_3650a30a8894"
+      ]
+    },
+    {
+      "key_point_id": "kp_pr_result_1",
+      "key_point_type": "result",
+      "statement": "The principal calculated absorption is predominantly a HOMO-to-LUMO pi-to-pi-star transition with a dominant contribution exceeding 72 percent.",
+      "expected": "The submitted transition assignment identifies HOMO\u2192LUMO pi\u2192pi-star character and reports a dominant contribution above 72 percent, or explains a method-dependent discrepancy.",
+      "evidence_ids": [
+        "ev_doc_ff6d864a9e6f_000150_ed9b741859c7"
+      ]
+    },
+    {
+      "key_point_id": "kp_pr_result_2",
+      "key_point_type": "result",
+      "statement": "C1 belongs to the set whose frontier-orbital distributions are interpreted as local-excitation-like rather than the C4/C8 HLCT-localized-LUMO case.",
+      "expected": "The conclusion supports an LE-like C1 interpretation while acknowledging that orbital localization is method- and visualization-dependent.",
+      "evidence_ids": [
+        "ev_doc_ff6d864a9e6f_000150_ed9b741859c7"
+      ]
+    },
+    {
+      "key_point_id": "kp_pr_result_3",
+      "key_point_type": "result",
+      "statement": "The computed gap for the compound series is reported in the 3.13\u20133.53 eV range and calculated absorption is described as consistent with experiment.",
+      "expected": "The report places its C1 gap in the paper's series range if directly comparable and discusses calculated-versus-experimental spectral consistency without treating the experimental value as a gas-phase calculation target.",
+      "evidence_ids": [
+        "ev_doc_ff6d864a9e6f_000146_1a8e644ea65a",
+        "ev_doc_ff6d864a9e6f_000150_ed9b741859c7"
+      ]
+    }
+  ]
+}

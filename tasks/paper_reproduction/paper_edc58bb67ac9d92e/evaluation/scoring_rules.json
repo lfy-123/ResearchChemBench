@@ -1,0 +1,129 @@
+{
+  "paper_id": "paper_edc58bb67ac9d92e",
+  "rules": [
+    {
+      "rule_id": "r_freq",
+      "type": "condition",
+      "expected": "Frequency evidence explicitly supports zero imaginary frequencies for minima and one for each claimed TS.",
+      "reference_id": "kp_process_freq",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[*].frequency_validation"
+        ],
+        "comparison": "expert comparison"
+      }
+    },
+    {
+      "rule_id": "r_irc",
+      "type": "condition",
+      "expected": "IRC or equivalent path evidence binds each TS to its named neighboring states.",
+      "reference_id": "kp_process_irc",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[*].irc_validation"
+        ],
+        "comparison": "expert comparison"
+      }
+    },
+    {
+      "rule_id": "r_profile",
+      "type": "condition",
+      "expected": "Profile states and relative-energy arithmetic are explicit and internally consistent.",
+      "reference_id": "kp_result_profile",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.profile"
+        ],
+        "comparison": "expert comparison"
+      }
+    },
+    {
+      "rule_id": "r_tsb",
+      "type": "numeric",
+      "target": 11.5,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "reference_id": "kp_result_tsb",
+      "applicability": "Only when submission.status is completed; a bounded_failure submission is judged under the failure disclosure rule and is not required to provide this numeric field.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.profile.ts_b_c_barrier_kcal_mol"
+        ],
+        "comparison": "expert comparison"
+      }
+    },
+    {
+      "rule_id": "r_overall",
+      "type": "numeric",
+      "target": 21.6,
+      "unit": "kcal/mol",
+      "tolerance": 2.5,
+      "reference_id": "kp_result_overall",
+      "applicability": "Only when submission.status is completed; a bounded_failure submission is judged under the failure disclosure rule and is not required to provide this numeric field.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.profile.overall_barrier_kcal_mol"
+        ],
+        "comparison": "expert comparison"
+      }
+    },
+    {
+      "rule_id": "r_conclusion",
+      "type": "semantic",
+      "expected": "The submission supports the proposed pre-oxidation sequence and identifies C-H borylation/electrophilic substitution as rate-determining within scope.",
+      "reference_id": "c_final_mechanism",
+      "applicability": "Only when submission.status is completed.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert comparison"
+      }
+    },
+    {
+      "rule_id": "r_limits",
+      "type": "semantic",
+      "expected": "Limitations keep interpretation within the modeled pre-oxidation profile and acknowledge alternatives outside scope.",
+      "reference_id": "c_final_limits",
+      "applicability": "All outcomes; bounded_failure must additionally identify the missing state and impact in failure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert comparison"
+      }
+    },
+    {
+      "rule_id": "r_bounded_failure",
+      "type": "condition",
+      "expected": "When status is bounded_failure, failure identifies each missing or unresolved state, the attempted searches, and the scientific impact; no unsupported barrier or rate-determining conclusion is asserted.",
+      "reference_id": "kp_process_irc",
+      "binding": {
+        "artifact_paths": ["report/results.json"],
+        "fields": ["$.failure"],
+        "comparison": "expert comparison when status is bounded_failure"
+      }
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "type": "object",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "required": [
+    "status",
+    "method",
+    "thermodynamics",
+    "kinetics",
+    "validation",
+    "hypotheses",
+    "conclusion",
+    "limitations"
+  ],
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "thermodynamics",
+      "kinetics",
+      "validation",
+      "hypotheses",
+      "conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "code",
+          "model",
+          "convergence"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "convergence": {
+            "type": "string"
+          }
+        }
+      },
+      "thermodynamics": {
+        "type": "object",
+        "required": [
+          "states",
+          "clean_reference",
+          "top_site_onset"
+        ],
+        "properties": {
+          "states": {
+            "type": "array",
+            "minItems": 5,
+            "items": {
+              "type": "object",
+              "required": [
+                "coverage_ML",
+                "deltaGdiff_eV",
+                "potential_V",
+                "structure_id",
+                "validation",
+                "candidate_search"
+              ],
+              "properties": {
+                "coverage_ML": {
+                  "type": "number"
+                },
+                "deltaGdiff_eV": {
+                  "type": "number"
+                },
+                "potential_V": {
+                  "type": "number"
+                },
+                "structure_id": {
+                  "type": "string"
+                },
+                "validation": {
+                  "type": "string"
+                },
+                "candidate_search": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "clean_reference": {
+            "type": "object",
+            "required": ["structure_id", "validation"],
+            "properties": {
+              "structure_id": {"type": "string"},
+              "validation": {"type": "string"}
+            }
+          },
+          "top_site_onset": {
+            "type": "object",
+            "required": [
+              "coverage_ML",
+              "potential_V",
+              "site",
+              "evidence"
+            ],
+            "properties": {
+              "coverage_ML": {
+                "type": "number"
+              },
+              "potential_V": {
+                "type": "number"
+              },
+              "site": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "kinetics": {
+        "type": "object",
+        "required": [
+          "attempts"
+        ],
+        "properties": {
+          "attempts": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": ["coverage_ML", "initial_state", "final_state", "outcome", "evidence"],
+              "properties": {
+                "coverage_ML": {"type": "number"},
+                "initial_state": {"type": "string"},
+                "final_state": {"type": "string"},
+                "outcome": {"type": "string"},
+                "evidence": {"type": "string"}
+              },
+              "oneOf": [
+                {
+                  "required": ["barrier_eV", "path_validation"],
+                  "properties": {
+                    "barrier_eV": {"type": "number"},
+                    "path_validation": {"type": "string"}
+                  }
+                },
+                {
+                  "required": ["barrier_eV", "diagnostics", "stopping_condition"],
+                  "properties": {
+                    "barrier_eV": {"type": "null"},
+                    "diagnostics": {"type": "string"},
+                    "stopping_condition": {"type": "string"}
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "structure_checks",
+          "energy_checks",
+          "stopping_rule"
+        ],
+        "properties": {
+          "structure_checks": {
+            "type": "string"
+          },
+          "energy_checks": {
+            "type": "string"
+          },
+          "stopping_rule": {
+            "type": "string"
+          }
+        }
+      },
+      "hypotheses": {
+        "type": "string"
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      }
+    }
+  }
+}

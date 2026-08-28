@@ -1,0 +1,89 @@
+{
+  "paper_id": "paper_0a62b797f51de2c0",
+  "rules": [
+    {
+      "rule_id": "pr_rule_identity",
+      "reference_id": "pr_process_identity",
+      "type": "semantic",
+      "expected": "Three named molecules retain their supplied structures and neutral-singlet identity with reproducible calculation metadata.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[].id",
+          "$.molecules[].structure.smiles",
+          "$.molecules[].method.charge",
+          "$.molecules[].method.multiplicity",
+          "$.molecules[].validation.notes"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "pr_rule_esp",
+      "reference_id": "pr_process_esp",
+      "type": "semantic",
+      "expected": "ESP definition, units, and spatial regions are explicit and consistently applied.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecules[].esp.definition",
+          "$.molecules[].validation.notes"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "pr_rule_dipole_trend",
+      "reference_id": "pr_result_trend",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.dipole_ordering",
+          "$.comparison.esp_ordering",
+          "$.comparison.trend_statement"
+        ],
+        "comparison": "reported ordering compared with source-supported trend"
+      },
+      "expected": "The reported cross-series comparison states the dipole/polarization trend or transparently reports that it is indeterminate under bounded failure."
+    },
+    {
+      "rule_id": "pr_rule_pattern",
+      "reference_id": "pr_result_pattern",
+      "type": "semantic",
+      "expected": "positive thiophene-side and negative cyano-side polarization is supported or appropriately qualified.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.trend_statement",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_rule_final",
+      "reference_id": "pr_final_conclusion",
+      "type": "semantic",
+      "expected": "The final conclusion supports stronger cyano-driven polarization while bounding claims to computed ground-state observables.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

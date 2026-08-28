@@ -1,0 +1,16 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "methods", "conformers", "relative_energy", "comparison", "conclusion", "limitations"],
+    "properties": {
+      "status": {"type": "string", "enum": ["complete", "bounded_failure"]},
+      "methods": {"type": "object", "required": ["geometry", "nmr", "reference"], "properties": {"geometry": {"type": "string"}, "nmr": {"type": "string"}, "reference": {"type": "string"}}},
+      "conformers": {"type": "array", "minItems": 2, "items": {"type": "object", "required": ["name", "stationary", "se_sites", "diagnostics"], "properties": {"name": {"type": "string"}, "stationary": {"type": "boolean"}, "se_sites": {"type": "array", "minItems": 3, "items": {"type": "string"}}, "diagnostics": {"type": "string"}, "shifts_ppm": {"type": "array", "minItems": 3, "items": {"type": "number"}}}, "oneOf": [{"required": ["shifts_ppm"]}, {"required": ["diagnostics"]}]}},
+      "relative_energy": {"type": "object", "required": ["zero", "uncertainty"], "properties": {"value_kcal_mol": {"type": "number"}, "zero": {"type": "string"}, "uncertainty": {"type": "string"}, "failure_diagnostics": {"type": "string"}}, "oneOf": [{"required": ["value_kcal_mol"]}, {"required": ["failure_diagnostics"]}]},
+      "comparison": {"type": "object", "required": ["observed_features_ppm", "evidence"], "properties": {"observed_features_ppm": {"type": "array", "items": {"type": "number"}}, "assignment": {"type": "string"}, "evidence": {"type": "string"}, "failure_diagnostics": {"type": "string"}}, "oneOf": [{"required": ["assignment"]}, {"required": ["failure_diagnostics"]}]},
+      "conclusion": {"type": "string"}, "limitations": {"type": "string"}, "failure_diagnostics": {"type": "string"}
+    }
+  }
+}

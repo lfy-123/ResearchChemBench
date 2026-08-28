@@ -1,0 +1,14 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "records", "methods", "conclusion"],
+    "properties": {
+      "status": {"type": "string"},
+      "records": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"oneOf": [{"type": "object", "required": ["id", "outcome", "binding_energy_eV", "dipole_D", "geometry_reference", "component_energies", "validation"], "properties": {"id": {"type": "string", "enum": ["DEGDME", "DPGDME", "DPGMPE-1", "DPGMPE-2"]}, "outcome": {"const": "validated_result"}, "binding_energy_eV": {"type": "number"}, "dipole_D": {"type": "number"}, "geometry_reference": {"type": "string"}, "component_energies": {"type": "object", "required": ["solvent_eV", "cation_eV", "complex_eV"], "properties": {"solvent_eV": {"type": "number"}, "cation_eV": {"type": "number"}, "complex_eV": {"type": "number"}}}, "validation": {"type": "object", "required": ["charge_multiplicity", "optimization", "energy_subtraction", "evidence"], "properties": {"charge_multiplicity": {"type": "string"}, "optimization": {"type": "string"}, "energy_subtraction": {"type": "string"}, "evidence": {"type": "string"}}}}}, {"type": "object", "required": ["id", "outcome", "binding_energy_eV", "dipole_D", "geometry_reference", "component_energies", "validation"], "properties": {"id": {"type": "string", "enum": ["DEGDME", "DPGDME", "DPGMPE-1", "DPGMPE-2"]}, "outcome": {"const": "bounded_failure"}, "binding_energy_eV": {"type": "null"}, "dipole_D": {"type": "null"}, "geometry_reference": {"type": "string"}, "component_energies": {"type": "object", "required": ["solvent_eV", "cation_eV", "complex_eV"], "properties": {"solvent_eV": {"type": ["number", "null"]}, "cation_eV": {"type": ["number", "null"]}, "complex_eV": {"type": ["number", "null"]}}}, "validation": {"type": "object", "required": ["charge_multiplicity", "optimization", "energy_subtraction", "evidence"], "properties": {"charge_multiplicity": {"type": "string"}, "optimization": {"type": "string"}, "energy_subtraction": {"type": "string"}, "evidence": {"type": "string"}}}}}] }},
+      "methods": {"type": "object", "required": ["electronic_structure", "coverage", "stopping"], "properties": {"electronic_structure": {"type": "string"}, "coverage": {"type": "string"}, "stopping": {"type": "string"}}},
+      "conclusion": {"type": "object", "required": ["claim", "hypothesis_test", "limitations"], "properties": {"claim": {"type": "string"}, "hypothesis_test": {"type": "string"}, "limitations": {"type": "string"}}}
+    }
+  }
+}

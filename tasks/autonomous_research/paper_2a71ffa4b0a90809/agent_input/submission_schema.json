@@ -1,0 +1,295 @@
+{
+  "required_files": [
+    "report/results.json",
+    "report/README.md"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "system",
+      "scan_states",
+      "validation",
+      "limitations"
+    ],
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+        "barrier_result": {"type": "object"},
+        "sensitivity": {"type": "object"},
+          "conclusion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "barrier_result",
+          "sensitivity",
+          "conclusion"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          },
+        "barrier_result": {"type": "object"},
+        "sensitivity": {"type": "object"},
+          "conclusion": {
+            "type": "string"
+          },
+          "failure_summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "barrier_result",
+          "sensitivity",
+          "conclusion",
+          "failure_summary"
+        ]
+      }
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "formula",
+          "charge",
+          "multiplicity",
+          "coordinate_file",
+          "solvent_boundary",
+          "temperature_K",
+          "dihedral_definition",
+          "atom_indices"
+        ],
+        "properties": {
+          "formula": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "coordinate_file": {
+            "type": "string"
+          },
+          "solvent_boundary": {
+            "type": "string"
+          },
+          "temperature_K": {
+            "type": "number"
+          },
+          "dihedral_definition": {
+            "type": "string"
+          },
+          "atom_indices": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 4,
+            "maxItems": 4
+          }
+        }
+      },
+      "scan_states": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "state_id",
+            "dihedral_deg",
+            "converged",
+            "validation_evidence"
+          ],
+          "oneOf": [
+            {
+              "properties": {
+                "converged": {
+                  "const": true
+                },
+                "gibbs_relative_kcal_mol": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "gibbs_relative_kcal_mol"
+              ]
+            },
+            {
+              "properties": {
+                "converged": {
+                  "const": false
+                },
+                "failure_reason": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "failure_reason"
+              ]
+            }
+          ],
+          "properties": {
+            "state_id": {
+              "type": "string"
+            },
+            "dihedral_deg": {
+              "type": "number"
+            },
+            "gibbs_relative_kcal_mol": {
+              "type": "number"
+            },
+            "converged": {
+              "type": "boolean"
+            },
+          "validation_evidence": {
+            "type": "string"
+          },
+          "failure_reason": {
+            "type": "string"
+          }
+          }
+        }
+      },
+      "barrier_result": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "barrier_kcal_mol",
+              "reference_state",
+              "maximum_state_id",
+              "extraction_method",
+              "profile_coverage"
+            ],
+            "properties": {
+              "barrier_kcal_mol": {
+                "type": "number"
+              },
+              "reference_state": {
+                "type": "string"
+              },
+              "maximum_state_id": {
+                "type": "string"
+              },
+              "extraction_method": {
+                "type": "string"
+              },
+              "profile_coverage": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "barrier_status",
+              "profile_coverage",
+              "limitation"
+            ],
+            "properties": {
+              "barrier_status": {
+                "type": "string"
+              },
+              "profile_coverage": {
+                "type": "string"
+              },
+              "limitation": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "optimization_convergence",
+          "connectivity_preserved",
+          "profile_continuity",
+          "frequency_or_stationarity_check",
+          "limitations"
+        ],
+        "properties": {
+          "optimization_convergence": {
+            "type": "string"
+          },
+          "connectivity_preserved": {
+            "type": "string"
+          },
+          "profile_continuity": {
+            "type": "string"
+          },
+          "frequency_or_stationarity_check": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string"
+          }
+        }
+      },
+      "sensitivity": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "test_description",
+              "result",
+              "barrier_change_kcal_mol"
+            ],
+            "properties": {
+              "test_description": {
+                "type": "string"
+              },
+              "result": {
+                "type": "string"
+              },
+              "barrier_change_kcal_mol": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "test_description",
+              "result"
+            ],
+            "properties": {
+              "test_description": {
+                "type": "string"
+              },
+              "result": {
+                "type": "string"
+              },
+              "barrier_change_kcal_mol": {
+                "type": "number"
+              }
+            }
+          }
+        ]
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      }
+    }
+  }
+}

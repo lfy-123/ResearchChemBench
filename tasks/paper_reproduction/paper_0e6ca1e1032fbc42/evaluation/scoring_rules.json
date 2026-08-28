@@ -1,0 +1,87 @@
+{
+  "rules": [
+    {
+      "rule_id": "p_r1",
+      "type": "semantic",
+      "expected": "Named cases include convergence and endpoint/TS validation evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation",
+          "$.cases[*].validation_note"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "p_proc_conv"
+    },
+    {
+      "rule_id": "p_r2",
+      "type": "semantic",
+      "expected": "Per-case Bader partition and sign convention are stated.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.model.charge_convention",
+          "$.cases[*].support",
+          "$.cases[*].film_layers",
+          "$.cases[*].charge_transfer"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "p_proc_charge"
+    },
+    {
+      "rule_id": "p_r3",
+      "type": "numeric",
+      "target": -1.66,
+      "unit": "eV",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.cases[*].reaction_energy"
+        ],
+        "comparison": "absolute difference for 1-ML Pt case"
+      },
+      "reference_id": "p_res_pt"
+    },
+    {
+      "rule_id": "p_r4",
+      "type": "ordering",
+      "expected": "Pt > Pd > Au > Ag reactivity for 1-ML cases",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert ordering comparison"
+      },
+      "reference_id": "p_res_order"
+    },
+    {
+      "rule_id": "p_c1",
+      "type": "semantic",
+      "expected": "Charge-transfer hypothesis assessed with Pt-leading trend and limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "p_final"
+    }
+  ],
+  "paper_id": "paper_0e6ca1e1032fbc42"
+}

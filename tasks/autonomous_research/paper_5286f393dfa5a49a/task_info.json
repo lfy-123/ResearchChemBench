@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_5286f393dfa5a49a",
+  "task_type": "autonomous_research",
+  "title": "Bounded conformer thermochemistry investigation for di-ClPDI-Ph",
+  "category": "computational chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The object set is fixed, but the agent must independently select the computational model, validate three structures and distinguish bounded ordering from global-minimum claims."
+  ],
+  "paper": {
+    "title": "Chiroπ-Extended Helitwistacene: Resolving the Planarity-Helicity Dilemma for Broadband Circularly Polarized Light Detection",
+    "doi": "10.1002/anie.202525044",
+    "journal": "Angewandte Chemie International Edition",
+    "publication_date": "2026-01-14"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Three labeled 138-atom XYZ starting geometries for neutral singlet di-ClPDI-Ph."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated relative-energy results, provenance, conclusion and limitations."
+    }
+  ]
+}

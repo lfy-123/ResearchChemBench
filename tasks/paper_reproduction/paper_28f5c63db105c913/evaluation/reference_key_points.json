@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_28f5c63db105c913",
+  "items": [
+    {
+      "key_point_id": "pr_process_harmonic",
+      "key_point_type": "process",
+      "statement": "Submission performs a harmonic phonon analysis on the supplied periodic fcc-HoH3 structure and states its frequency-sign convention and convergence/sensitivity check.",
+      "evidence_ids": [
+        "ev_doc_1e04117422c9_000089_a2f11494d497"
+      ],
+      "expected": "A traceable harmonic phonon calculation with explicit settings and a sensitivity result."
+    },
+    {
+      "key_point_id": "pr_process_thermal",
+      "key_point_type": "process",
+      "statement": "Submission validates finite-temperature dynamics using a defined sampling domain and an explicit structural-retention criterion.",
+      "evidence_ids": [
+        "ev_doc_1e04117422c9_000089_a2f11494d497"
+      ],
+      "expected": "Temperature, sampling duration or equivalent domain, criterion, and observed outcome are reported."
+    },
+    {
+      "key_point_id": "pr_result_harmonic",
+      "key_point_type": "result",
+      "statement": "The 0-K harmonic fcc-HoH3 spectrum contains imaginary modes.",
+      "evidence_ids": [
+        "ev_doc_f9328a31c412_000326_b17a32172ffe"
+      ],
+      "expected": "imaginary_modes is true with supporting frequency evidence."
+    },
+    {
+      "key_point_id": "pr_result_thermal",
+      "key_point_type": "result",
+      "statement": "Finite-temperature dynamics support retention without a phase transition or structural collapse over the sampled interval.",
+      "evidence_ids": [
+        "ev_doc_f9328a31c412_000326_b17a32172ffe"
+      ],
+      "expected": "retained is true for the reported finite sampling, with limitations."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+# Scientific objective
+
+Independently test the authors' qualitative hypothesis that the emissive triplet in cyclometalated Ir(III) arylacetylides is primarily acetylide-localized rather than a conventional metal-to-cyclometalating-ligand charge-transfer state. For each named complex, compute and report the lowest vertical S0→S1 and S0→T1 excitation energies and identify the dominant orbital transition and its localization. The two fixed research objects are `IrF2ppz/H` and `IrF2ppz/CN`; treat each as a neutral singlet ground-state molecule.
+
+# Public inputs and scientific boundaries
+
+The public inputs are `data/inputs/irf2ppz_h.xyz` and `data/inputs/irf2ppz_cn.xyz`. Each is an XYZ file containing 58 atoms, element symbols, and Cartesian coordinates in Å for the named complex's optimized starting geometry from the SI. No solvent molecules are included. Use the neutral molecular charge and singlet ground-state multiplicity. The measured quantities are vertical electronic excitation energies in eV from the supplied S0 geometry, the dominant S0→T1 configuration (occupied and virtual orbital labels plus percentage/contribution if available), and evidence for whether the relevant orbitals are localized on the arylacetide ligand or substantially on Ir/cyclometalating ligands. Singlet and triplet solvent treatments are distinct observables and must be stated explicitly. Do not use the paper, SI, general web, or hidden reference values.
+
+# Required scientific validation/investigation
+
+Choose and justify an independent electronic-structure protocol. Optimize or otherwise relax the supplied S0 starting geometry as appropriate, then verify the reported structure is a stationary minimum with a frequency or equivalent curvature check. Compute the requested lowest singlet and triplet vertical states from the same clearly identified reference geometry, and retain state number, spin, solvent model, basis/model chemistry, and convergence information. Inspect the triplet transition decomposition and orbital populations/plots; bind every interpretation to the named complex. Deduplicate repeated states or equivalent orbital descriptions before reporting. Completion requires either both complexes having all requested observables plus validation evidence, or a bounded-failure report identifying the failed calculation and the evidence needed to limit the conclusion. Stop when both complexes have passed the minimum/state/boundary checks and the triplet assignment is supported, or when a reproducible computational limitation prevents that; report attempted coverage and the limitation.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. Include per-complex method and validation records, the requested energies and triplet assignments when obtained, explicit bounded-failure records when not obtained, and a concise conclusion about the authors' qualitative hypothesis with uncertainty and limitations. Include paths or identifiers for logs, orbital analyses, and geometry/frequency evidence when available.

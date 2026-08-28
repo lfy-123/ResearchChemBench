@@ -1,0 +1,13 @@
+{
+  "units": "SMILES; charges and multiplicities are explicit",
+  "species": [
+    {"id":"cyclohexyl_radical","role":"alkyl radical","smiles":"[C]1CCCCC1","charge":0,"multiplicity":2},
+    {"id":"carbon_monoxide","role":"carbonylating reagent","smiles":"[C-]#[O+]","charge":0,"multiplicity":1},
+    {"id":"iodocyclohexane","role":"iodine-atom donor","smiles":"IC1CCCCC1","charge":0,"multiplicity":1},
+    {"id":"morpholine","role":"amine candidate","smiles":"C1COCCN1","charge":0,"multiplicity":1},
+    {"id":"aniline","role":"amine candidate","smiles":"Nc1ccccc1","charge":0,"multiplicity":1},
+    {"id":"N_methylaniline","role":"amine candidate","smiles":"CNc1ccccc1","charge":0,"multiplicity":1},
+    {"id":"N_ethylaniline","role":"amine candidate","smiles":"CCNc1ccccc1","charge":0,"multiplicity":1}
+  ],
+  "allowed_model_boundary": {"solvent":"acetonitrile continuum or a clearly justified equivalent", "radical_surface":"doublet", "amine_surface":"singlet", "temperature":"ambient unless reported and justified"}
+}

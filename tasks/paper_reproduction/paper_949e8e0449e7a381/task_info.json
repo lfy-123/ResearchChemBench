@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_949e8e0449e7a381",
+  "task_type": "paper_reproduction",
+  "title": "Test the MnKstD2 A395G catalytic-geometry hypothesis",
+  "category": "enzyme molecular dynamics",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires matched WT/mutant molecular simulations, explicit atom mapping, convergence and sensitivity validation, and interpretation of multiple structural observables.",
+    "The author route is disclosed only qualitatively, while the evaluated Agent must independently choose model chemistry and sampling."
+  ],
+  "paper": {
+    "title": "Green upcycling of tigogenin from sisal waste: Chemoenzymatic cascade synthesis of progesterone derivatives as an alternative to traditional steroid production processes",
+    "doi": "10.1016/j.cej.2026.173841",
+    "journal": "Chemical Engineering Journal",
+    "publication_date": "2026-03-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Closed system definition identifying MnKstD2 AHG53938, WT/A395G states, FAD CID 643975, 4-PG identity and atom labels."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured comparative observables, validation, model disclosure, coverage and conclusion."
+    }
+  ]
+}

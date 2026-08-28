@@ -1,0 +1,48 @@
+{
+  "paper_id": "paper_d1ed10494ff39835",
+  "task_type": "autonomous_research",
+  "title": "Autonomous electronic-structure investigation of LuFe(SO4)3(H2O)",
+  "category": "periodic electronic structure",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must independently formulate and discriminate bonding/localization interpretations in addition to executing a converged periodic DOS and real-space analysis."
+  ],
+  "paper": {
+    "title": "Crystal Structures, Optical Behavior, and Magnetic Properties in Hydrated Lanthanide Iron Sulfates",
+    "doi": "10.1021/acs.inorgchem.5c04526",
+    "journal": "Inorganic Chemistry",
+    "publication_date": "2026-01-22"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Source-supported compound-14 CIF with complete cell, symmetry and asymmetric-unit identity."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "report/results.json"
+    },
+    {
+      "path": "report/structure.cif",
+      "description": "report/structure.cif"
+    },
+    {
+      "path": "report/dos.csv",
+      "description": "report/dos.csv"
+    },
+    {
+      "path": "report/elf.cube",
+      "description": "report/elf.cube"
+    },
+    {
+      "path": "report/convergence.json",
+      "description": "report/convergence.json"
+    },
+    {
+      "path": "report/log.txt",
+      "description": "report/log.txt"
+    }
+  ]
+}

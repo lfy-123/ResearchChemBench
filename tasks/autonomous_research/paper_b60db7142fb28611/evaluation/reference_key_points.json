@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_b60db7142fb28611",
+  "items": [
+    {
+      "key_point_id": "kp_ar_process_minima",
+      "key_point_type": "process",
+      "statement": "Each accepted product stationary point is validated as a minimum with zero imaginary frequencies and preserved candidate identity.",
+      "expected": "All four product candidates have zero imaginary frequencies and connectivity-preservation evidence.",
+      "evidence_ids": [
+        "ev_doc_bf7dc1235aa4_000064_55cb819cb8d5"
+      ]
+    },
+    {
+      "key_point_id": "kp_ar_process_ts",
+      "key_point_type": "process",
+      "statement": "Each accepted pathway transition state has exactly one imaginary frequency and a mapped reaction-coordinate connection.",
+      "expected": "Four TS records each report one imaginary frequency and reaction-coordinate validation.",
+      "evidence_ids": [
+        "ev_doc_bf7dc1235aa4_000065_8cfdc807d089"
+      ]
+    },
+    {
+      "key_point_id": "kp_ar_thermo",
+      "key_point_type": "result",
+      "statement": "The source-supported thermodynamic ordering is Pdt2, Pdt1, Pdt3, Pdt4.",
+      "expected": "thermodynamic_ordering lists Pdt2 > Pdt1 > Pdt3 > Pdt4.",
+      "evidence_ids": [
+        "ev_doc_bf7dc1235aa4_000062_349f1bd0ecc5"
+      ]
+    },
+    {
+      "key_point_id": "kp_ar_kinetic",
+      "key_point_type": "result",
+      "statement": "The source-supported activation-energy ordering is Pdt2, Pdt1, Pdt4, Pdt3.",
+      "expected": "kinetic_ordering lists Pdt2 > Pdt1 > Pdt4 > Pdt3 when lower activation energy is preferred.",
+      "evidence_ids": [
+        "ev_doc_bf7dc1235aa4_000066_d25863aa6365"
+      ]
+    }
+  ]
+}

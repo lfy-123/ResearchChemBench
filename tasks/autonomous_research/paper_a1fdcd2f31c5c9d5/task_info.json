@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_a1fdcd2f31c5c9d5",
+  "task_type": "autonomous_research",
+  "title": "Autonomous Cu(111) hydrogen coverage thermodynamics and Tafel kinetics",
+  "category": "electrocatalysis / periodic-surface DFT",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The direct endpoints are fixed, while the agent must generate and discriminate adsorption placements and independently select and validate a Tafel pathway."
+  ],
+  "paper": {
+    "title": "Calculations on the Catalytic Activity of Irregular Cu Nanoparticles for H2 Evolution",
+    "doi": "10.1021/acs.jpcc.5c06733",
+    "journal": "The Journal of Physical Chemistry C",
+    "publication_date": "2026-01-21"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Neutral Cu(111) POSCAR, neutral H2 XYZ reference, and explicit system definition."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Structured thermodynamic, kinetic, validation, conclusion and limitation report."
+    }
+  ]
+}

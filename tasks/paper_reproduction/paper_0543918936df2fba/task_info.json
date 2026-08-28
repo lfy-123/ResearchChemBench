@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_0543918936df2fba",
+  "task_type": "paper_reproduction",
+  "title": "Independent test of Pt-modulated HMF adsorption on Ni(111)",
+  "category": "periodic_surface_adsorption_bonding",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires multi-start adsorption candidate discovery, deduplication and validated transition-path searches on two metallic slabs.",
+    "The paper omits complete coordinates and several numerical settings, so reproducibility requires explicit independent model and sensitivity justification."
+  ],
+  "paper": {
+    "title": "Tuning 5-hydroxymethylfurfural hydrogenation selectivity with MFI-confined PtNi bimetallic catalysts",
+    "doi": "10.1016/j.cej.2025.172097",
+    "journal": "Chemical Engineering Journal",
+    "publication_date": "2026-01-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained molecular identities and deterministic Ni(111)/NiPt(111) model boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated calculations, candidate inventories, energies, paths and conclusion."
+    }
+  ]
+}

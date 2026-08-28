@@ -1,0 +1,110 @@
+{
+  "rules": [
+    {
+      "rule_id": "r_process_frequency",
+      "type": "condition",
+      "expected": "Per-object stationary-point validation is reported, including frequency count and TS mode assignment/connection evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation_summary"
+        ],
+        "comparison": "expert check"
+      },
+      "reference_id": "kp_process_frequency"
+    },
+    {
+      "rule_id": "r_process_coverage",
+      "type": "condition",
+      "expected": "Candidate log/profile retains identity for coordination, both insertion branches and both metathesis branches and states a stopping rule or bounded limitation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.audit_text"
+        ],
+        "comparison": "expert check"
+      },
+      "reference_id": "kp_process_coverage"
+    },
+    {
+      "rule_id": "r_profile_numbers",
+      "type": "condition",
+      "expected": "For every reported profile object, provide a kcal/mol relative free energy with explicit object/event identity and source-comparable provenance; expert review matches each object/event to the source profile and considers the stated uncertainty.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome.profile[].relative_free_energy_kcal_mol"
+        ],
+        "comparison": "expert check of each identified object/event against the source profile, with the agent's stated uncertainty"
+      },
+      "reference_id": "kp_result_profile"
+    },
+    {
+      "rule_id": "r_selectivity",
+      "type": "semantic",
+      "expected": "The submitted branch mapping assigns the linear 1,2 insertion to anti-Markovnikov connectivity and the branched 2,1 insertion to Markovnikov connectivity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.branch_conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_result_selectivity"
+    },
+    {
+      "rule_id": "r_rate",
+      "type": "semantic",
+      "expected": "The conclusion identifies linear-branch sigma-bond metathesis as the turnover-relevant highest-barrier event and supports the statement with the profile.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.rate_conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_result_rate"
+    },
+    {
+      "rule_id": "r_final",
+      "type": "semantic",
+      "expected": "A scoped final mechanistic conclusion connects validated profile evidence to linear/anti-Markovnikov preference and metathesis rate control.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.audit_text"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final_mechanism"
+    },
+    {
+      "rule_id": "r_limitation",
+      "type": "semantic",
+      "expected": "The report states the truncated molecular-model and finite-search limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.scope_limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_limitation"
+    }
+  ],
+  "paper_id": "paper_9897b87641707c46"
+}

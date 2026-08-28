@@ -1,0 +1,27 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["status", "methods", "search", "candidates", "completion", "limitations", "outcome"],
+    "properties": {
+      "status": {"type": "string", "enum": ["resolved", "bounded_failure"]},
+      "methods": {"type": "object", "additionalProperties": false, "required": ["geometry_method", "energy_method", "solvation", "frequency_or_minimum_test", "excited_state_method", "temperature_k", "standard_state"], "properties": {"geometry_method": {"type": "string"}, "energy_method": {"type": "string"}, "solvation": {"type": "string"}, "frequency_or_minimum_test": {"type": "string"}, "excited_state_method": {"type": "string"}, "temperature_k": {"type": "number"}, "standard_state": {"type": "string"}}},
+      "search": {"type": "object", "additionalProperties": false, "required": ["generation", "deduplication", "advancement", "coverage"], "properties": {"generation": {"type": "string"}, "deduplication": {"type": "string"}, "advancement": {"type": "string"}, "coverage": {"type": "string"}}},
+      "candidates": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["candidate_id", "geometry_id", "contacts", "minimum_validation"], "properties": {"candidate_id": {"type": "string"}, "geometry_id": {"type": "string"}, "relative_energy_kj_mol": {"type": "number"}, "relative_energy_definition": {"type": "string"}, "contacts": {"type": "string"}, "minimum_validation": {"type": "string"}}}},
+      "sensitivity": {"type": "object", "additionalProperties": false, "required": ["test", "effect_on_conclusion"], "properties": {"test": {"type": "string"}, "effect_on_conclusion": {"type": "string"}}},
+      "completion": {"type": "object", "additionalProperties": false, "required": ["criterion_assessed", "stopping_reason"], "properties": {"criterion_assessed": {"type": "string"}, "stopping_reason": {"type": "string"}}},
+      "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+      "outcome": {"oneOf": [
+        {"type": "object", "additionalProperties": false, "required": ["selected_candidate_ids", "binding_energy_kj_mol", "binding_energy_definition", "binding_energy_corrections", "absorption_shift_nm", "spectral_assignment", "leading_binding_motif", "conclusion"], "properties": {"selected_candidate_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}, "binding_energy_kj_mol": {"type": "number"}, "binding_energy_definition": {"type": "string"}, "binding_energy_corrections": {"type": "string"}, "absorption_shift_nm": {"type": "number"}, "spectral_assignment": {"type": "string"}, "leading_binding_motif": {"type": "string"}, "conclusion": {"type": "string"}}},
+        {"type": "object", "additionalProperties": false, "required": ["unresolved_criteria", "partial_findings", "failure_reason"], "properties": {"unresolved_criteria": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "partial_findings": {"type": "string"}, "failure_reason": {"type": "string"}}}
+      ]}
+    },
+    "allOf": [
+      {"if": {"properties": {"status": {"const": "resolved"}}}, "then": {"required": ["sensitivity"], "properties": {"candidates": {"minItems": 1, "items": {"required": ["candidate_id", "geometry_id", "relative_energy_kj_mol", "relative_energy_definition", "contacts", "minimum_validation"]}}, "outcome": {"required": ["selected_candidate_ids", "binding_energy_kj_mol", "binding_energy_definition", "binding_energy_corrections", "absorption_shift_nm", "spectral_assignment", "leading_binding_motif", "conclusion"]}}}},
+      {"if": {"properties": {"status": {"const": "bounded_failure"}}}, "then": {"properties": {"outcome": {"required": ["unresolved_criteria", "partial_findings", "failure_reason"]}}}}
+    ]
+  }
+}

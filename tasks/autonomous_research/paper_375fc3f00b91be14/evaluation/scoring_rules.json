@@ -1,0 +1,117 @@
+{
+  "paper_id": "paper_375fc3f00b91be14",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "type": "semantic",
+      "expected": "Four identity-preserving charge-balanced state records with per-state validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_identity"
+    },
+    {
+      "rule_id": "ar_r2",
+      "type": "semantic",
+      "expected": "Conformer/state coverage and bounded limitations are explicitly investigated.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.coverage",
+          "$.sensitivity"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_coverage"
+    },
+    {
+      "rule_id": "ar_r3",
+      "type": "numeric",
+      "target": 7.04,
+      "unit": "pKa units",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[?isomer=E,E].pka"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "ar_result_ee"
+    },
+    {
+      "rule_id": "ar_r4",
+      "type": "numeric",
+      "target": 9.6,
+      "unit": "pKa units",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[?isomer=Z,Z].pka"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "ar_result_zz"
+    },
+    {
+      "rule_id": "ar_r5",
+      "type": "numeric",
+      "target": 2.56,
+      "unit": "pKa units",
+      "tolerance": 0.6,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.delta_pka"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "ar_result_delta"
+    },
+    {
+      "rule_id": "ar_c1",
+      "type": "semantic",
+      "expected": "Within the stated boundary, Z,Z is substantially more basic than E,E.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final_basicity"
+    },
+    {
+      "rule_id": "ar_c2",
+      "type": "semantic",
+      "expected": "States conformer and model limitations and avoids unsupported photochemical/kinetic claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_limitations"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_ca7d01cfbc90780c",
+  "rules": [
+    {
+      "rule_id": "ar_rule_search",
+      "type": "condition",
+      "expected": "Independent finite pose search, deduplication, discrimination and stopping are documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.poses",
+          "$.validation.stopping_reason"
+        ],
+        "comparison": "expert verification"
+      },
+      "reference_id": "ar_process_search"
+    },
+    {
+      "rule_id": "ar_rule_md",
+      "type": "condition",
+      "expected": "Protocol and validation fields document physical checks and analysis definitions.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.protocol",
+          "$.validation"
+        ],
+        "comparison": "expert verification"
+      },
+      "reference_id": "ar_process_md"
+    },
+    {
+      "rule_id": "ar_rule_rmsd",
+      "type": "semantic",
+      "expected": "RMSD evidence supports the stated independent stability or instability decision.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.rmsd",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_rmsd"
+    },
+    {
+      "rule_id": "ar_rule_contacts",
+      "type": "semantic",
+      "expected": "RMSF and hydrogen-bond evidence are jointly reported with scope limits.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.rmsf",
+          "$.observables.hydrogen_bonds"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_contacts"
+    },
+    {
+      "rule_id": "ar_rule_final",
+      "type": "semantic",
+      "expected": "Independent final claim is evidence-linked and bounded by search and sampling limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final"
+    }
+  ]
+}

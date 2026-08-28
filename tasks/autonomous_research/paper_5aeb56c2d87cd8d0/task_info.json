@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_5aeb56c2d87cd8d0",
+  "task_type": "autonomous_research",
+  "title": "Autonomous discovery of L1–ibuprofen association in DMSO",
+  "category": "computational supramolecular chemistry",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The Agent must formulate and search multiple binding hypotheses without a supplied binding site or preferred interaction motif.",
+    "A broad conformer and encounter-geometry space must be reduced while validating solution thermochemistry and optical response."
+  ],
+  "paper": {
+    "title": "Synthesis and binding studies of two new coumarin-squaramide-based receptors for NSAIDs",
+    "doi": "10.1039/d5ra08698a",
+    "journal": "RSC Advances",
+    "publication_date": "2026-01-19"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained component identities, charges, multiplicities, 1:1 stoichiometry, solvent, temperature, and stereochemical boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Machine-readable hypothesis search, candidate validation, computed observables, conclusion, and limitations."
+    }
+  ]
+}

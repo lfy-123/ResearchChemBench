@@ -1,0 +1,263 @@
+{
+  "type": "object",
+  "required": [
+    "required_files",
+    "primary_result_file",
+    "result_schema"
+  ],
+  "properties": {
+    "required_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "primary_result_file": {
+      "type": "string"
+    },
+    "result_schema": {
+      "type": "object",
+      "required": [
+        "status",
+        "method",
+        "candidates",
+        "conclusion"
+      ],
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "method": {
+          "type": "object",
+          "required": [
+            "software",
+            "model_chemistry",
+            "solvent",
+            "thermochemistry"
+          ],
+          "properties": {
+            "software": {
+              "type": "string"
+            },
+            "model_chemistry": {
+              "type": "string"
+            },
+            "solvent": {
+              "type": "string"
+            },
+            "thermochemistry": {
+              "type": "string"
+            }
+          }
+        },
+        "candidates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "candidate_id",
+              "identity",
+              "starting_guess_path",
+              "geometry_path",
+              "validation",
+              "advanced"
+            ],
+            "properties": {
+              "candidate_id": {
+                "type": "string"
+              },
+              "identity": {"type": "string"},
+              "starting_guess_path": {"type": "string"},
+              "geometry_path": {
+                "type": "string"
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "imaginary_frequency_count",
+                  "connectivity_test",
+                  "reactant_minimum",
+                  "product_minimum"
+                ],
+                "properties": {
+                  "imaginary_frequency_count": {
+                    "type": "integer"
+                  },
+                  "connectivity_test": {
+                    "type": "string"
+                  },
+                  "reactant_minimum": {
+                    "type": "boolean"
+                  },
+                  "product_minimum": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "advanced": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "selected_candidate": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "activation_free_energy_kcal_mol",
+            "reaction_free_energy_kcal_mol",
+            "evidence_paths"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "activation_free_energy_kcal_mol": {
+              "type": "number"
+            },
+            "reaction_free_energy_kcal_mol": {
+              "type": "number"
+            },
+            "evidence_paths": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "failure": {
+          "type": "object",
+          "required": ["attempted_candidate_classes", "limitations", "stopping_reason"],
+          "properties": {
+            "attempted_candidate_classes": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+            "limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+            "stopping_reason": {"type": "string"}
+          }
+        },
+        "conclusion": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+      "required": ["status", "method", "candidates", "conclusion"],
+      "oneOf": [
+        {"required": ["selected_candidate"], "properties": {"status": {"const": "successful"}}},
+        {"required": ["failure"], "properties": {"status": {"const": "bounded_failure"}}}
+      ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "model_chemistry",
+          "solvent",
+          "thermochemistry"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "model_chemistry": {
+            "type": "string"
+          },
+          "solvent": {
+            "type": "string"
+          },
+          "thermochemistry": {
+            "type": "string"
+          }
+        }
+      },
+      "candidates": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "geometry_path",
+            "validation",
+            "advanced"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "geometry_path": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "imaginary_frequency_count",
+                "connectivity_test",
+                "reactant_minimum",
+                "product_minimum"
+              ],
+              "properties": {
+                "imaginary_frequency_count": {
+                  "type": "integer"
+                },
+                "connectivity_test": {
+                  "type": "string"
+                },
+                "reactant_minimum": {
+                  "type": "boolean"
+                },
+                "product_minimum": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "advanced": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "selected_candidate": {
+        "type": "object",
+        "required": [
+          "candidate_id",
+          "activation_free_energy_kcal_mol",
+          "reaction_free_energy_kcal_mol",
+          "evidence_paths"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string"
+          },
+          "activation_free_energy_kcal_mol": {
+            "type": "number"
+          },
+          "reaction_free_energy_kcal_mol": {
+            "type": "number"
+          },
+          "evidence_paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "paper_id": "paper_1257710b003be407",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "reference_id": "pr_process_frequency",
+      "type": "condition",
+      "expected": "zero imaginary modes for the reactant and exactly one chemically relevant imaginary mode for the selected XAT TS",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates"
+        ],
+        "comparison": "expert validation of declared frequency evidence"
+      }
+    },
+    {
+      "rule_id": "pr_r2",
+      "reference_id": "pr_process_connectivity",
+      "type": "semantic",
+      "expected": "two-sided connectivity supports the stated XAT reactant and post-XAT valleys",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r3",
+      "reference_id": "pr_result_barrier",
+      "type": "semantic",
+      "expected": "When a validated-success branch is submitted, the selected candidate reports a model-computed activation Gibbs free energy in kcal/mol with an explicit reference state and thermochemical construction; a bounded-failure branch is accepted only when it omits an unvalidated numeric barrier and gives specific attempted-candidate failures.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.selected", "$.coverage_stopping"],
+        "comparison": "conditional expert comparison of numeric success or scientifically specific bounded failure"
+      }
+    },
+    {
+      "rule_id": "pr_r4",
+      "reference_id": "pr_final_mechanism",
+      "type": "semantic",
+      "expected": "validated computation supports XAT/radical activation within explicit limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

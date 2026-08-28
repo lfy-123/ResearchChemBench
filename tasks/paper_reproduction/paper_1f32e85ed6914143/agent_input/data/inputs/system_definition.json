@@ -1,0 +1,14 @@
+{
+  "system": "Pd-catalyzed directing-group-free C-H arylation selectivity model",
+  "substrate": {"name": "tert-butylbenzene", "smiles": "CC(C)(C)c1ccccc1", "charge": 0, "multiplicity": 1},
+  "mpaa_ligand": {"name": "N-acetyl-L-phenylalanine", "smiles": "CC(=O)N[C@@H](Cc1ccccc1)C(=O)O", "charge": 0, "multiplicity": 1},
+  "auxiliary_ligand": {"name": "L22, 2-(tert-butyl)-1,2,3,4-tetrahydrophenazine", "identity_note": "Use the uniquely named SI ligand; do not substitute a constitutional isomer.", "charge": 0, "multiplicity": 1},
+  "catalyst_precursor": {"name": "palladium(II) acetate", "formula": "Pd(OAc)2", "charge": 0, "multiplicity": 1},
+  "oxidant": {"name": "silver carbonate", "formula": "Ag2CO3", "role": "silver oxidant in the reported reaction system; state whether and how it is represented in the electronic-structure model", "charge": 0, "multiplicity": 1},
+  "solvent": {"name": "1,1,1,3,3,3-hexafluoro-2-propanol", "abbreviation": "HFIP"},
+  "arylating_agent": {"name": "cyclohex-2-en-1-ol", "smiles": "CC1=CCCC(O)C1", "charge": 0, "multiplicity": 1},
+  "public_geometry": "reactant_complex.xyz",
+  "geometry_scope": "The XYZ is the SI-labeled reactant-complex starting geometry. It is not a transition-state or product geometry.",
+  "coordinate_convention": "Cartesian coordinates are in Angstrom; element symbols replace SI atomic numbers.",
+  "boundary": "The scored event is the selectivity-determining C-H activation of tert-butylbenzene in the dual-ligand Pd model. Product formation after this event is outside the scored boundary."
+}

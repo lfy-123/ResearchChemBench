@@ -1,0 +1,15 @@
+# Scientific objective
+
+For the four explicitly identified triaryl-heptazines in `data/inputs/heptazines.json`, independently characterize how substituent identity affects low-energy singlet electronic excitations and frontier-orbital localization. Determine validated neutral-singlet ground-state structures, vertical singlet excitations, oscillator strengths and dominant orbital contributions, and formulate a data-supported structure–property conclusion across the set. No author mechanism or candidate interpretation is provided; any explanation must be inferred from the submitted calculations.
+
+# Public inputs and scientific boundaries
+
+The four systems are identified by stable local IDs, complete names, formulas, SMILES, charge 0 and multiplicity 1 in the input JSON. Use those structures as the molecular identity; do not infer alternative protonation, connectivity or atom mapping. The physical system is an isolated molecule with implicit acetonitrile solvation. The measured quantities are ground-state minimum validation, vertical singlet excitation energies/wavelengths, oscillator strengths, dominant orbital transitions, and qualitative spatial localization of HOMO/LUMO (and any orbitals needed for the selected band). Solid-state packing, vibronic structure, fluorescence lifetimes, catalytic yields and reaction mechanisms are outside scope.
+
+# Required scientific validation/investigation
+
+For all four named molecules, choose and document a defensible electronic-structure workflow. Generate or optimize at least one 3-D conformer per molecule, retain the conformer actually used, and report charge, multiplicity, convergence and whether a frequency analysis supports a minimum (or explicitly report a bounded failure). Calculate enough low-lying singlet states to cover the first visible/near-visible absorption and report state number, energy, wavelength, oscillator strength and dominant orbital contributions. Define visible as 380–700 nm and state how the band is selected when multiple states occur. Inspect orbital densities using a stated reproducible criterion and identify whether HOMO and LUMO density is primarily on the heptazine core or peripheral aryl substituents. Propose and test a substituent-based explanation using only the submitted calculations. Completion requires either validated results for all four systems or a truthful per-system bounded-failure record containing attempted method, failure point and limitation. Stop when every system has that record and the first visible/near-visible states plus localization analysis are documented; do not claim exhaustive higher-state coverage beyond what was calculated.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. Include per-system structures and validation, transitions, orbital-localization observations, the independently derived cross-system conclusion, computational provenance and limitations. Include enough evidence paths or excerpts from the agent's own outputs to make each object-specific claim auditable.

@@ -1,0 +1,87 @@
+{
+  "paper_id": "paper_d2d08c91f34da1cb",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "type": "condition",
+      "expected": "Both states attempted with explicit state, charge/multiplicity and convergence evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.route.validation"
+        ],
+        "comparison": "expert check"
+      },
+      "reference_id": "pr_process_geometry"
+    },
+    {
+      "rule_id": "pr_r2",
+      "type": "condition",
+      "expected": "Harmonic frequencies, imaginary modes, 0\u2013125 cm\u22121 scope and matching basis are reported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.comparison.pairs",
+          "$.route.validation"
+        ],
+        "comparison": "expert check"
+      },
+      "reference_id": "pr_process_frequency_validation"
+    },
+    {
+      "rule_id": "pr_r3",
+      "type": "semantic",
+      "expected": "The report supplies MAE and maximum absolute deviation for observed pairs when available, and interprets agreement against the source-reported below-3 cm^-1 result without treating that value as a universal pass threshold; missing observations and model limitations are retained.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.metrics",
+          "$.comparison.coverage",
+          "$.limitations"
+        ],
+        "comparison": "expert scientific comparison"
+      },
+      "reference_id": "pr_result_numeric_agreement"
+    },
+    {
+      "rule_id": "pr_r4",
+      "type": "semantic",
+      "expected": "The conclusion identifies xanthene redshift and carboxyphenyl blueshift trends, with mixed-mode limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_result_state_shifts"
+    },
+    {
+      "rule_id": "pr_c1",
+      "type": "semantic",
+      "expected": "Close support for SLT assignments within scope, with limitations including mixed modes and the unpaired near-107 cm^-1 feature.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final_validation"
+    }
+  ]
+}

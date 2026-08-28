@@ -1,0 +1,89 @@
+{
+  "paper_id": "paper_448a476b0a7dd835",
+  "rules": [
+    {
+      "rule_id": "ar_s1",
+      "type": "semantic",
+      "target": "process",
+      "expected": "unbiased candidate search, identity retention and stopping are reproducible",
+      "binding": {
+        "artifact_paths": [
+          "report/validation.json"
+        ],
+        "fields": [
+          "$.search",
+          "$.candidates",
+          "$.stopping"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_p1"
+    },
+    {
+      "rule_id": "ar_s2",
+      "type": "semantic",
+      "target": "minimum",
+      "expected": "minimum validation and consistent monomer/dimer bookkeeping are evidenced",
+      "binding": {
+        "artifact_paths": [
+          "report/validation.json"
+        ],
+        "fields": [
+          "$.minimum_validation",
+          "$.energy_bookkeeping"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_p2"
+    },
+    {
+      "rule_id": "ar_s3",
+      "type": "numeric",
+      "target": -10.675,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.interaction_enthalpy.value"
+        ],
+      "comparison": "absolute difference",
+      "applicability": "Apply only when report/results.json status is complete; bounded failure is judged by the process and limitation rules without an enthalpy value."
+      },
+      "reference_id": "ar_r1"
+    },
+    {
+      "rule_id": "ar_s4",
+      "type": "semantic",
+      "target": "limitations",
+      "expected": "conclusion addresses geometry and gas-phase model limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_r2"
+    },
+    {
+      "rule_id": "ar_s5",
+      "reference_id": "ar_c1",
+      "type": "semantic",
+      "expected": "final conclusion is supported by reported calculations and bounded by model limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

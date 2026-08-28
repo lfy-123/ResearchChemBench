@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_a6e8c57709329bdb",
+  "items": [
+    {
+      "key_point_id": "pr_p1",
+      "key_point_type": "process",
+      "statement": "The submitted HL calculation uses the supplied neutral singlet connectivity and reports a converged geometry with an explicit stationary-point or force validation.",
+      "evidence_ids": [
+        "ev_doc_7edda6dfd229_000190_42aaf9b591d3"
+      ],
+      "expected": "A converged isolated HL geometry is reported with charge 0, multiplicity 1, and reproducible convergence/force evidence."
+    },
+    {
+      "key_point_id": "pr_p2",
+      "key_point_type": "process",
+      "statement": "The reported gap is independently checked as E(LUMO) minus E(HOMO), and orbital localization is tied to the submitted structure.",
+      "evidence_ids": [
+        "ev_doc_7edda6dfd229_000192_e54fd4476170"
+      ],
+      "expected": "The arithmetic is consistent and localization evidence is supplied rather than asserted without an orbital analysis."
+    },
+    {
+      "key_point_id": "pr_r1",
+      "key_point_type": "result",
+      "statement": "The calculated HL frontier orbitals are in the paper's reported energy regime.",
+      "evidence_ids": [
+        "ev_doc_7edda6dfd229_000192_e54fd4476170"
+      ],
+      "expected": "HOMO about -5.44 eV, LUMO about -1.12 eV, and gap about 4.32 eV, allowing method-appropriate evaluator tolerance."
+    },
+    {
+      "key_point_id": "pr_r2",
+      "key_point_type": "result",
+      "statement": "The frontier-orbital localization supports donor and ICT interpretation.",
+      "evidence_ids": [
+        "ev_doc_7edda6dfd229_000192_e54fd4476170"
+      ],
+      "expected": "HOMO is described over azomethine nitrogen and nearby aromatic regions; LUMO includes aromatic/imine regions and the methylene unit."
+    }
+  ]
+}

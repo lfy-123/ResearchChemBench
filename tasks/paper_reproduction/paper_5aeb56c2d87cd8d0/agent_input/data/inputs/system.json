@@ -1,0 +1,32 @@
+{
+  "system_name": "L1 with ibuprofen anion in DMSO",
+  "components": [
+    {
+      "id": "L1",
+      "name": "3-(benzylamino)-4-((2-oxo-4-(trifluoromethyl)-2H-chromen-7-yl)amino)cyclobut-3-ene-1,2-dione",
+      "smiles": "O=C1C(=O)C(NCc2ccccc2)=C(Nc2ccc3oc(=O)cc(C(F)(F)F)c3c2)1",
+      "charge": 0,
+      "multiplicity": 1,
+      "stereochemistry": "No configurational stereocenter is specified."
+    },
+    {
+      "id": "IBU_anion",
+      "name": "2-(4-isobutylphenyl)propanoate (ibuprofen anion)",
+      "smiles": "CC(C)Cc1ccc(cc1)C(C)C(=O)[O-]",
+      "charge": -1,
+      "multiplicity": 1,
+      "stereochemistry": "The source system does not select an ibuprofen enantiomer; treat the guest as racemic/unspecified and do not claim enantioselectivity."
+    }
+  ],
+  "complex": {
+    "stoichiometry": "1 L1 : 1 IBU_anion",
+    "charge": -1,
+    "multiplicity": 1
+  },
+  "environment": {
+    "solvent": "dimethyl sulfoxide (DMSO)",
+    "phase_model_boundary": "A solution-phase molecular model is required. Implicit, explicit, or hybrid solvation may be used, but the choice and its limitations must be reported.",
+    "temperature_k": 298.15,
+    "standard_state": "Report the standard-state convention used for every thermochemical quantity."
+  }
+}

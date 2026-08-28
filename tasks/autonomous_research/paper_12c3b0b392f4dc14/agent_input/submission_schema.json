@@ -1,0 +1,22 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "system", "method", "coverage", "conclusion", "limitations"],
+    "properties": {
+      "status": {"type": "string", "enum": ["completed", "bounded_failure"]},
+      "system": {"type": "object", "required": ["record_id", "formula", "charge", "multiplicity", "atom_mapping", "identity_verification"], "properties": {"record_id": {"type": "string"}, "formula": {"type": "string"}, "charge": {"type": "number"}, "multiplicity": {"type": "integer"}, "atom_mapping": {"type": "string"}, "identity_verification": {"type": "string"}}},
+      "method": {"type": "object", "required": ["software", "model", "optimization_and_validation"], "properties": {"software": {"type": "string"}, "model": {"type": "string"}, "optimization_and_validation": {"type": "string"}}},
+      "coverage": {"type": "object", "required": ["candidates_attempted", "deduplication", "coverage_statement", "candidate_records"], "properties": {"candidates_attempted": {"type": "integer"}, "deduplication": {"type": "string"}, "coverage_statement": {"type": "string"}, "candidate_records": {"type": "array", "items": {"type": "string"}}}},
+      "selected_minimum": {"type": "object", "required": ["candidate_id", "validation_status", "validation_evidence", "optimized_structure"], "properties": {"candidate_id": {"type": "string"}, "validation_status": {"type": "string"}, "validation_evidence": {"type": "string"}, "optimized_structure": {"type": "string"}}},
+      "orbitals": {"type": "object", "required": ["homo_eV", "lumo_eV", "gap_eV", "units"], "properties": {"homo_eV": {"type": "number"}, "lumo_eV": {"type": "number"}, "gap_eV": {"type": "number"}, "units": {"type": "string"}}},
+      "geometry_comparison": {"type": "object", "required": ["metric", "bond_lengths", "bond_angles", "torsions", "mapping_basis"], "properties": {"metric": {"type": "string"}, "bond_lengths": {"type": "string"}, "bond_angles": {"type": "string"}, "torsions": {"type": "string"}, "mapping_basis": {"type": "string"}}},
+      "conclusion": {"type": "string"}, "limitations": {"type": "string"}, "failure_diagnostics": {"type": "string"}
+    },
+    "oneOf": [
+      {"required": ["status", "selected_minimum", "orbitals", "geometry_comparison"], "properties": {"status": {"const": "completed"}}},
+      {"required": ["status", "failure_diagnostics"], "properties": {"status": {"const": "bounded_failure"}}}
+    ]
+  }
+}

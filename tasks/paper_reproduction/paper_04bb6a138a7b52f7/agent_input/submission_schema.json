@@ -1,0 +1,97 @@
+{
+  "type": "object",
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "oneOf": [
+      {
+        "type": "object",
+        "required": ["status", "method", "validation", "geometry", "states", "observables", "conclusion"],
+        "properties": {
+          "status": {"type": "string", "enum": ["complete"]},
+          "method": {
+            "type": "object",
+            "required": ["software", "method_description", "route_rationale", "geometry_source", "soc_convention", "settings"],
+            "properties": {
+              "software": {"type": "string"},
+              "method_description": {"type": "string"},
+              "route_rationale": {"type": "string"},
+              "geometry_source": {"type": "string"},
+              "soc_convention": {"type": "string"},
+              "settings": {"type": "string"}
+            }
+          },
+          "validation": {
+            "type": "object",
+            "required": ["identity_confirmed", "optimization_converged", "stationarity_check", "state_indexing_evidence", "limitations"],
+            "properties": {
+              "identity_confirmed": {"type": "boolean"},
+              "optimization_converged": {"type": "boolean"},
+              "stationarity_check": {"type": "string"},
+              "state_indexing_evidence": {"type": "string"},
+              "limitations": {"type": "string"}
+            }
+          },
+          "geometry": {
+            "type": "object",
+            "required": ["coordinate_units", "atoms"],
+            "properties": {
+              "coordinate_units": {"type": "string"},
+              "atoms": {"type": "array", "items": {"type": "object", "required": ["element", "x", "y", "z"], "properties": {"element": {"type": "string"}, "x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}}}
+            }
+          },
+          "states": {
+            "type": "object",
+            "required": ["S1", "T1", "T6", "T7"],
+            "properties": {
+              "S1": {"type": "object", "required": ["energy_eV", "assignment"], "properties": {"energy_eV": {"type": "number"}, "assignment": {"type": "string"}}},
+              "T1": {"type": "object", "required": ["energy_eV", "assignment"], "properties": {"energy_eV": {"type": "number"}, "assignment": {"type": "string"}}},
+              "T6": {"type": "object", "required": ["energy_eV", "assignment"], "properties": {"energy_eV": {"type": "number"}, "assignment": {"type": "string"}}},
+              "T7": {"type": "object", "required": ["energy_eV", "assignment"], "properties": {"energy_eV": {"type": "number"}, "assignment": {"type": "string"}}}
+            }
+          },
+          "observables": {
+            "type": "object",
+            "required": ["s1_t1_gap_eV", "soc_s1_t1_cm1", "soc_s1_t6_cm1", "soc_s1_t7_cm1"],
+            "properties": {
+              "s1_t1_gap_eV": {"type": "number"},
+              "soc_s1_t1_cm1": {"type": "number"},
+              "soc_s1_t6_cm1": {"type": "number"},
+              "soc_s1_t7_cm1": {"type": "number"}
+            }
+          },
+          "conclusion": {"type": "string"}
+        }
+      },
+      {
+        "type": "object",
+        "required": ["status", "method", "validation", "limitation_report", "conclusion"],
+        "properties": {
+          "status": {"type": "string", "enum": ["limited"]},
+          "method": {
+            "type": "object",
+            "required": ["software", "method_description", "route_rationale", "geometry_source", "soc_convention", "settings"],
+            "properties": {
+              "software": {"type": "string"}, "method_description": {"type": "string"}, "route_rationale": {"type": "string"}, "geometry_source": {"type": "string"}, "soc_convention": {"type": "string"}, "settings": {"type": "string"}
+            }
+          },
+          "validation": {
+            "type": "object",
+            "required": ["identity_confirmed", "optimization_converged", "stationarity_check", "state_indexing_evidence", "limitations"],
+            "properties": {
+              "identity_confirmed": {"type": "boolean"}, "optimization_converged": {"type": "boolean"}, "stationarity_check": {"type": "string"}, "state_indexing_evidence": {"type": "string"}, "limitations": {"type": "string"}
+            }
+          },
+          "limitation_report": {
+            "type": "object",
+            "required": ["affected_object", "failed_validation", "missing_observables"],
+            "properties": {
+              "affected_object": {"type": "string"}, "failed_validation": {"type": "string"}, "missing_observables": {"type": "array", "items": {"type": "string"}}
+            }
+          },
+          "conclusion": {"type": "string"}
+        }
+      }
+    ]
+  }
+}

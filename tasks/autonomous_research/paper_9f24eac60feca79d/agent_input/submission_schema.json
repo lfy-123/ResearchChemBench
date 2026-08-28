@@ -1,0 +1,19 @@
+{
+  "required_files":["report/results.json"],
+  "primary_result_file":"report/results.json",
+  "result_schema":{
+    "type":"object",
+    "required":["completion_status","method_summary","pathways","cycloaddition_barrier_kcal_mol","aza_claisen_barrier_kcal_mol","barrier_difference_kcal_mol","preferred_pathway","validation_summary","coverage_and_stopping","conclusion"],
+    "properties":{
+      "completion_status":{"type":"string","enum":["complete","bounded_failure"]},
+      "method_summary":{"type":"object","required":["software_or_code","electronic_structure_method","solvent_model","temperature_K","standard_state"],"properties":{"software_or_code":{"type":"string"},"electronic_structure_method":{"type":"string"},"solvent_model":{"type":"string"},"temperature_K":{"type":"number"},"standard_state":{"type":"string"}}},
+      "pathways":{"type":"array","minItems":2,"items":{"type":"object","required":["pathway_id","pathway_description","selected_ts_identity","barrier_kcal_mol","barrier_available","validation","candidate_records"],"properties":{"pathway_id":{"type":"string","enum":["cycloaddition","aza_claisen"]},"pathway_description":{"type":"string"},"selected_ts_identity":{"type":"string"},"barrier_kcal_mol":{"type":["number","null"]},"barrier_available":{"type":"boolean"},"validation":{"type":"object","required":["frequency_evidence","electronic_state_evidence","connectivity_evidence"],"properties":{"frequency_evidence":{"type":"string"},"electronic_state_evidence":{"type":"string"},"connectivity_evidence":{"type":"string"}}},"candidate_records":{"type":"array","items":{"type":"object","required":["candidate_identity","starting_structure","connectivity_assignment","validation_status","evidence"],"properties":{"candidate_identity":{"type":"string"},"starting_structure":{"type":"string"},"connectivity_assignment":{"type":"string"},"validation_status":{"type":"string"},"evidence":{"type":"string"}}}}}}},
+      "cycloaddition_barrier_kcal_mol":{"type":["number","null"]},"aza_claisen_barrier_kcal_mol":{"type":["number","null"]},"barrier_difference_kcal_mol":{"type":["number","null"]},
+      "preferred_pathway":{"type":"string"},"validation_summary":{"type":"string"},"coverage_and_stopping":{"type":"string"},"conclusion":{"type":"string"}
+    },
+    "oneOf":[
+      {"properties":{"completion_status":{"const":"complete"},"cycloaddition_barrier_kcal_mol":{"type":"number"},"aza_claisen_barrier_kcal_mol":{"type":"number"},"barrier_difference_kcal_mol":{"type":"number"}},"required":["cycloaddition_barrier_kcal_mol","aza_claisen_barrier_kcal_mol","barrier_difference_kcal_mol"]},
+      {"properties":{"completion_status":{"const":"bounded_failure"}},"required":["completion_status"]}
+    ]
+  }
+}

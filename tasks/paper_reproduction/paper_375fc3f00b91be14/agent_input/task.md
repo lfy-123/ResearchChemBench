@@ -1,0 +1,15 @@
+# Scientific objective
+
+Determine, by an independently planned computational study, whether the aqueous thermodynamic basicity of E,E-PyDIG and Z,Z-PyDIG differs in the direction and approximate magnitude needed to support the authors' qualitative hypothesis that photoisomerization changes PyDIG basicity and thereby drives a pH swing. The measured quantities are the pKa of each isomer and ΔpKa = pKa(Z,Z) − pKa(E,E), with units of log10 equilibrium constant (dimensionless). The authors propose that photoisomerization alters the acid–base energetics through conformational/electronic reorganization; test that hypothesis without assuming a winning conformer or numerical outcome.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/pydig_structures.json` as the authoritative molecular identity: it defines connectivity, E,E/Z,Z geometry, neutral charge 0 singlet and singly protonated charge +1 singlet states, and the protonation site. Use `data/inputs/experimental_context.json` only for aqueous, ambient-temperature context and the observed reversible E,E/Z,Z channel. You may generate 3-D conformers and choose computational methods, but may not consult the paper, SI, general web, or hidden evaluator. The object is isolated PyDIG acid–base thermochemistry in water; explicit solvent, GlyGly, CO2 capture kinetics, excited states and device energy are outside scope.
+
+# Required scientific validation/investigation
+
+Plan and execute calculations for both neutral/conjugate-acid pairs. Define how conformers are generated, deduplicated, optimized, frequency-checked, assigned to E,E or Z,Z, and combined or selected for a pKa estimate. Report charge, multiplicity, proton location, atom mapping, solvent treatment, standard-state convention, proton free-energy convention, degeneracy treatment and all equations. Validate that accepted minima have no imaginary frequency (or state and justify a bounded alternative), that the proton-transfer bookkeeping is chemically balanced, and that the two isomer labels remain intact after optimization. If multiple states are explored, retain a per-state identity, energy and validation record. Completion requires either validated pKa estimates and ΔpKa for both isomers, or a scientifically honest bounded-failure report containing the exact completed states, diagnostics, limitation and next calculation needed. Stop when both state pairs have validated endpoint estimates and a sensitivity/coverage assessment, or when a reproducible resource or convergence limit prevents that; report the limit rather than silently substituting values.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. Include the numerical pKa estimates and ΔpKa when completed, state-level computational/validation evidence, method and uncertainty/sensitivity information, and a concise conclusion about whether the calculated change supports the qualitative hypothesis. Include a bounded-failure branch when completion was prevented. Do not cite or reproduce private paper values.

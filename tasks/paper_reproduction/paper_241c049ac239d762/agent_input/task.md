@@ -1,0 +1,15 @@
+# Scientific objective
+
+Independently test the authors' qualitative proposal that substitution at the position ortho to a nitro group can make photoexcitation into the triplet state more demanding and thereby help explain slower reductive C–N coupling. Compute and compare the singlet-to-triplet excitation energy for the two fixed neutral molecules in the public input: nitrobenzene and methyl 2-nitrobenzoate. The scored observables are one gap for each named molecule, their signed difference (methyl 2-nitrobenzoate minus nitrobenzene), and the ordering. Treat a gap as the submitted energy of the specified triplet state relative to the corresponding singlet reference under your declared energy convention.
+
+# Public inputs and scientific boundaries
+
+`data/inputs/system.json` uniquely defines the two molecules by canonical SMILES, names, neutral charge, and singlet/triplet multiplicities. You may generate 3-D geometries and conformers. The calculation is limited to isolated molecules or a declared continuum-solvent model; do not use experimental kinetics as a substitute for electronic energies. Do not use the paper, SI or general web. Do not assume atom labels or author starting coordinates. A mechanistic interpretation may be qualitative and must distinguish computed energetic support from proof of complete photochemical kinetics.
+
+# Required scientific validation/investigation
+
+For each named molecule, document connectivity and charge/multiplicity checks, geometry and conformer handling, the method and basis, treatment of solvent and thermal corrections, and how singlet and triplet states are made comparable. Validate optimized stationary points with frequencies when optimization is performed, or provide an equivalent state/geometry quality check for a fixed-geometry calculation. Report whether more than one conformer was considered and how the final conformer was selected. The investigation is complete when both molecules have a reproducible gap, the difference and ordering are calculated, all validation fields are populated, and limitations/sensitivity are stated. Stop after the declared conformer and state search has been exhausted; if a requested state cannot be converged, report bounded failure with diagnostics and the completed molecule rather than fabricating a value.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. Include the two per-molecule gaps, signed difference, ordering, method/state/geometry disclosures, validation evidence, and a concise conclusion about whether the energy comparison supports the qualitative author hypothesis. Include a truthful `status` branch if one or both calculations fail.

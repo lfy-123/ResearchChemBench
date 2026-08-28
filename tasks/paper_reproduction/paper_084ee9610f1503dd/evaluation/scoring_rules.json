@@ -1,0 +1,212 @@
+{
+  "paper_id": "paper_084ee9610f1503dd",
+  "rules": [
+    {
+      "rule_id": "pr_rule_process_conformer",
+      "reference_id": "pr_process_conformer",
+      "type": "semantic",
+      "expected": "Conformer generation, deduplication, optimization, and stability evidence are all present for the named selected_conformer object.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods.md"
+        ],
+        "fields": [
+          "$.selected_conformer",
+          "$.conformer_evaluations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_rule_process_endpoint",
+      "reference_id": "pr_process_endpoint",
+      "type": "semantic",
+      "expected": "The methods record separates ground-state optimization and vertical singlet excitation and includes a leading-band sensitivity check.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json",
+          "report/methods.md"
+        ],
+        "fields": [
+          "$.sensitivity_check",
+          "$.selected_conformer"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_rule_s1",
+      "reference_id": "pr_s1",
+      "type": "semantic",
+      "expected": "The state object with state=1 identifies the strongest low-energy transition and HOMO→LUMO leading character.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[0].configuration",
+          "$.states[0].oscillator_strength"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_rule_spectrum_s1_energy",
+      "reference_id": "pr_spectrum",
+      "type": "numeric",
+      "target": 3.4888,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "applicable_outcome": "complete",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[0].state",
+          "$.states[0].energy_eV"
+        ],
+        "comparison": "require state=1, then absolute energy difference"
+      }
+    },
+    {
+      "rule_id": "pr_rule_spectrum_s2_energy",
+      "reference_id": "pr_spectrum",
+      "type": "numeric",
+      "target": 4.3681,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "applicable_outcome": "complete",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[1].state",
+          "$.states[1].energy_eV"
+        ],
+        "comparison": "require state=2, then absolute energy difference"
+      }
+    },
+    {
+      "rule_id": "pr_rule_spectrum_s3_energy",
+      "reference_id": "pr_spectrum",
+      "type": "numeric",
+      "target": 4.48,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "applicable_outcome": "complete",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[2].state",
+          "$.states[2].energy_eV"
+        ],
+        "comparison": "require state=3, then absolute energy difference"
+      }
+    },
+    {
+      "rule_id": "pr_rule_spectrum_s4_energy",
+      "reference_id": "pr_spectrum",
+      "type": "numeric",
+      "target": 4.7571,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "applicable_outcome": "complete",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[3].state",
+          "$.states[3].energy_eV"
+        ],
+        "comparison": "require state=4, then absolute energy difference"
+      }
+    },
+    {
+      "rule_id": "pr_rule_spectrum_s5_energy",
+      "reference_id": "pr_spectrum",
+      "type": "numeric",
+      "target": 5.2615,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "applicable_outcome": "complete",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states[4].state",
+          "$.states[4].energy_eV"
+        ],
+        "comparison": "require state=5, then absolute energy difference"
+      }
+    },
+    {
+      "rule_id": "pr_rule_spectrum_pattern",
+      "reference_id": "pr_spectrum",
+      "type": "semantic",
+      "expected": "S1–S5 contain wavelengths, oscillator strengths, and leading configurations in the source-supported ordering and character pattern.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_rule_gap",
+      "reference_id": "pr_gap",
+      "type": "numeric",
+      "target": 3.33,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.ground_state_gap_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "pr_rule_final",
+      "reference_id": "pr_final_photophysics",
+      "type": "semantic",
+      "expected": "The final interpretation states whether computed evidence supports a dominant HOMO→LUMO charge-transfer character within the monomer vertical-absorption scope.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "pr_rule_limits",
+      "reference_id": "pr_limitations",
+      "type": "semantic",
+      "expected": "Limitations cover conformer, solvent/model, vertical excitation, and excluded aggregation/emission claims.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

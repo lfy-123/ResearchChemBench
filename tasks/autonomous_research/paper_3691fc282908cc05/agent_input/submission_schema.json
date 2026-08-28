@@ -1,0 +1,124 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "system",
+      "candidates",
+      "conclusion"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "system": {
+        "type": "object",
+        "required": [
+          "charge",
+          "multiplicity",
+          "input_path"
+        ],
+        "properties": {
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          },
+          "input_path": {
+            "type": "string"
+          }
+        }
+      },
+      "candidates": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": ["candidate_id", "structure_path", "validation", "imaginary_frequencies_cm1", "barrier_kcal_mol"],
+              "properties": {
+                "candidate_id": {"type": "string"},
+                "structure_path": {"type": "string"},
+                "validation": {"type": "string"},
+                "imaginary_frequencies_cm1": {"type": "array", "items": {"type": "number"}},
+                "barrier_kcal_mol": {"type": "number"},
+                "method": {"type": "string"},
+                "convergence": {"type": "string"},
+                "energy_terms": {"type": "string"}
+              }
+            },
+            {
+              "type": "object",
+              "required": ["candidate_id", "validation", "failure_reason"],
+              "properties": {
+                "candidate_id": {"type": "string"},
+                "validation": {"type": "string"},
+                "failure_reason": {"type": "string"},
+                "method": {"type": "string"},
+                "convergence": {"type": "string"}
+              }
+            }
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "structure_path": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "string"
+            },
+            "imaginary_frequencies_cm1": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "barrier_kcal_mol": {
+              "type": "number"
+            },
+            "failure_reason": {"type": "string"}
+          }
+        }
+      },
+      "conclusion": {
+        "type": "object",
+        "required": [
+          "pathway_assignment",
+          "barrier_available",
+          "limitations"
+        ],
+        "properties": {
+          "pathway_assignment": {
+            "type": "string"
+          },
+          "barrier_available": {
+            "type": "boolean"
+          },
+          "limitations": {
+            "type": "string"
+          },
+          "computational_approach": {
+            "type": "string"
+          },
+          "hypotheses_and_comparison": {
+            "type": "string"
+          }
+        }
+      },
+      "failure_report": {
+        "type": "string"
+      }
+    }
+  }
+}

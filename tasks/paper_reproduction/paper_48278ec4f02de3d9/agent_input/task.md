@@ -1,0 +1,15 @@
+# Scientific objective
+
+Determine whether the proposed Rh-catalyzed keto-(5+2) cycloaddition of the explicitly supplied oxygen-bridged keto-VCP model substrate 1t is kinetically viable. Independently construct and validate the relevant stationary points for the authors' qualitative hypothesis: VCP coordination/opening followed by keto coordination and either classical C=O insertion or an allylic-Rh/metallo-ene alternative. Also test an oxidative-cyclization alternative. Report relative Gibbs free energies, activation free energies, and the evidence-bounded mechanistic conclusion.
+
+# Public inputs and scientific boundaries
+
+`data/inputs/substrate_1t.xyz` is neutral singlet (23 atoms) substrate 1t, (E)-1-((3-cyclopropylallyl)oxy)propan-2-one, with atom identities and Cartesian coordinates supplied. `catalyst.xyz` is the neutral singlet [Rh(CO)2Cl]2 starting complex (8 atoms); model a monomeric Rh catalyst fragment only when explicitly justified. `co.xyz` is neutral singlet carbon monoxide. These XYZ files are the complete molecular identity inputs; do not infer atom mappings from paper labels. The measured quantities are relative Gibbs free energies and barriers in kcal/mol, referenced to a clearly stated separated-reactant convention. You may choose computational methods, solvent treatment, standard states, and conformers, but must report them and must not claim experimental rates. The scored scope is the keto-(5+2) candidate surface and the oxidative-cyclization alternative for this system.
+
+# Required scientific validation/investigation
+
+Generate a finite, chemically justified set of pathway candidates for VCP coordination/opening, keto coordination, classical C=O insertion, allylic-Rh/metallo-ene chemistry, and oxidative cyclization. Deduplicate candidates by connectivity and conformational identity, and retain an unambiguous candidate ID. Optimize each advanced structure, classify minima versus transition states by frequencies, and provide IRC or equivalent endpoint/connection evidence for every scored transition state. Use consistent energy referencing and state the standard-state and thermal conventions. The investigation is complete when each of the five mechanism classes has either a validated representative stationary-point sequence or a documented failed search with attempted structures and limitation; stop when additional starting geometries produce no new connectivity/transition-state class and the report gives coverage and a reasoned stopping decision.
+
+# Deliverables
+
+Write `report/results.json` conforming to `submission_schema.json`. Include candidate identities, structures or coordinate-file references, frequency/connection validation, method details, relative Gibbs energies for every scored object found, barriers, uncertainty/limitations, search coverage, and a final conclusion about kinetic viability. A bounded-failure branch is allowed only when it identifies the failed or incomplete mechanism search and supplies all attempted-candidate and validation fields. Do not use paper labels without mapping them to submitted structures.

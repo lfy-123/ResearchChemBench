@@ -1,0 +1,94 @@
+{
+  "paper_id": "paper_cb289b1dcc8f0d7c",
+  "rules": [
+    {
+      "rule_id": "pr_s1",
+      "type": "semantic",
+      "expected": "all seven explicit member and state identities are present",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.members"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_p1"
+    },
+    {
+      "rule_id": "pr_s2",
+      "type": "semantic",
+      "expected": "per-member validation and provenance are supplied",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.members[*].validation", "$.members[*].provenance", "$.method"],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_p2"
+    },
+    {
+      "rule_id": "pr_s3",
+      "type": "semantic",
+      "expected": "heavy-halogen SOC/ISC enhancement is identified with caveats",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.members"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_r1"
+    },
+    {
+      "rule_id": "pr_s4",
+      "type": "semantic",
+      "expected": "high and low fluorescence-yield groups are correctly described",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_r2"
+    },
+    {
+      "rule_id": "pr_c1",
+      "type": "semantic",
+      "expected": "validated calculations support the qualitative author hypothesis",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_c1"
+    },
+    {
+      "rule_id": "pr_c2",
+      "type": "semantic",
+      "expected": "limitations include model sensitivity and qualitative agreement",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_c2"
+    }
+  ]
+}

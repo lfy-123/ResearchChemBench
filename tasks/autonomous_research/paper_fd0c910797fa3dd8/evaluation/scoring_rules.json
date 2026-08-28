@@ -1,0 +1,186 @@
+{
+  "paper_id": "paper_fd0c910797fa3dd8",
+  "rules": [
+    {
+      "rule_id": "r_kp_process_geometry",
+      "reference_id": "kp_process_geometry",
+      "type": "condition",
+      "expected": "optimization_converged is true and geometry_validation contains a minimum check, or status is bounded_failure with a specific failure_reason",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.geometry_validation.optimization_converged",
+          "$.geometry_validation.minimum_check"
+        ],
+        "comparison": "expert process validation"
+      }
+    },
+    {
+      "rule_id": "r_kp_process_state_analysis",
+      "reference_id": "kp_process_state_analysis",
+      "type": "condition",
+      "expected": "two auditable transition records identify S1 and S2 with units, orbital labels, contribution percentages and validation notes",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.transitions[].state",
+          "$.transitions[].wavelength_nm",
+          "$.transitions[].dominant_transition"
+        ],
+        "comparison": "expert process validation"
+      }
+    },
+    {
+      "rule_id": "r_s1_wavelength",
+      "reference_id": "kp_result_s1",
+      "type": "numeric",
+      "target": 397.0,
+      "unit": "nm",
+      "tolerance": 12.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.transitions[].wavelength_nm"
+        ],
+        "comparison": "absolute difference for the S1 record"
+      },
+      "applicability": {
+        "status": "success"
+      }
+    },
+    {
+      "rule_id": "r_s1_osc",
+      "reference_id": "kp_result_s1",
+      "type": "numeric",
+      "target": 1.5896,
+      "unit": "dimensionless oscillator strength",
+      "tolerance": 0.2,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.transitions[].oscillator_strength"
+        ],
+        "comparison": "absolute difference for the S1 record"
+      },
+      "applicability": {
+        "status": "success"
+      }
+    },
+    {
+      "rule_id": "r_s1_orbital",
+      "reference_id": "kp_result_s1",
+      "type": "semantic",
+      "expected": "S1 is assigned predominantly to HOMO\u2192LUMO with contribution close to the reported dominant share",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.transitions[].dominant_transition",
+          "$.transitions[].contribution_percent"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "applicability": {
+        "status": "success"
+      }
+    },
+    {
+      "rule_id": "r_s2_wavelength",
+      "reference_id": "kp_result_s2",
+      "type": "numeric",
+      "target": 328.0,
+      "unit": "nm",
+      "tolerance": 12.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.transitions[].wavelength_nm"
+        ],
+        "comparison": "absolute difference for the S2 record"
+      },
+      "applicability": {
+        "status": "success"
+      }
+    },
+    {
+      "rule_id": "r_s2_osc",
+      "reference_id": "kp_result_s2",
+      "type": "numeric",
+      "target": 1.0343,
+      "unit": "dimensionless oscillator strength",
+      "tolerance": 0.2,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.transitions[].oscillator_strength"
+        ],
+        "comparison": "absolute difference for the S2 record"
+      },
+      "applicability": {
+        "status": "success"
+      }
+    },
+    {
+      "rule_id": "r_s2_orbital",
+      "reference_id": "kp_result_s2",
+      "type": "semantic",
+      "expected": "S2 is assigned predominantly to HOMO\u22121\u2192LUMO+1 with contribution close to the reported dominant share",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.transitions[].dominant_transition",
+          "$.transitions[].contribution_percent"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "applicability": {
+        "status": "success"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final_excited_pattern",
+      "type": "semantic",
+      "expected": "the conclusion uses the validated S1/S2 pattern to assess the photocyclization rationale without claiming more than vertical TD-DFT supports",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_limitation",
+      "reference_id": "c_limitation",
+      "type": "semantic",
+      "expected": "limitations distinguish computed vertical electronic evidence from full photochemical kinetics or mechanism",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

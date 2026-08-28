@@ -1,0 +1,12 @@
+{
+  "type":"object","required_files":["report/results.json"],"primary_result_file":"report/results.json",
+  "result_schema":{"type":"object","required":["status","candidates","validation","method","conclusion","limitations"],"properties":{
+    "status":{"type":"string","enum":["success","bounded_failure"]},
+    "candidates":{"type":"array","items":{"type":"object","required":["candidate_id","charge","coordinates","optimization_status","relative_energy_eV","validation"],"properties":{"candidate_id":{"type":"string"},"charge":{"type":"integer"},"coordinates":{"type":"array"},"optimization_status":{"type":"string"},"relative_energy_eV":{"type":["number","null"]},"validation":{"type":"object","required":["converged","deduplicated","evidence"]}}}},
+    "validation":{"type":"object","required":["coverage","sensitivity","stopping_statement"],"properties":{"coverage":{"type":"string"},"sensitivity":{"type":"string"},"stopping_statement":{"type":"string"}}},
+    "method":{"type":"object","required":["software_or_code","model","charge_and_spin","energy_conventions"]},"conclusion":{"type":"string"},"limitations":{"type":"string"},
+    "selected_minima":{"type":"object","properties":{"neutral_candidate_id":{"type":"string"},"anion_candidate_id":{"type":"string"}}},
+    "observables":{"type":"object","properties":{"neutral_homo_lumo_gap_eV":{"type":["number","null"]},"neutral_binding_energy_eV":{"type":["number","null"]},"anion_ADE_eV":{"type":["number","null"]},"anion_VDE_eV":{"type":["number","null"]}}},
+    "failure":{"type":"object","required":["stage","reason","established_results"]}},
+    "oneOf":[{"properties":{"status":{"const":"success"},"selected_minima":{"type":"object","required":["neutral_candidate_id","anion_candidate_id"],"properties":{"neutral_candidate_id":{"type":"string"},"anion_candidate_id":{"type":"string"}}},"observables":{"type":"object","required":["neutral_homo_lumo_gap_eV","neutral_binding_energy_eV","anion_ADE_eV","anion_VDE_eV"],"properties":{"neutral_homo_lumo_gap_eV":{"type":["number","null"]},"neutral_binding_energy_eV":{"type":["number","null"]},"anion_ADE_eV":{"type":["number","null"]},"anion_VDE_eV":{"type":["number","null"]}}}},"required":["selected_minima","observables"]},{"properties":{"status":{"const":"bounded_failure"},"failure":{"type":"object","required":["stage","reason","established_results"]}},"required":["failure"]}]}
+  }

@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_448a476b0a7dd835",
+  "task_type": "autonomous_research",
+  "title": "Independent gas-phase study of a methyl-capped IIPO-oIPP base pair",
+  "category": "computational chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The object is fixed but the agent must explore orientations without a supplied mechanistic route and discriminate explanations."
+  ],
+  "paper": {
+    "title": "Investigating Halogen Bonds as Pairing Force in an Artificial DNA Base Pair",
+    "doi": "10.1021/jacs.5c23044",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-02-12"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Unique methyl-capped IIPO and oIPP identities and gas-phase boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Candidate comparison, interaction enthalpy, geometry and conclusion."
+    },
+    {
+      "path": "report/validation.json",
+      "description": "Search coverage, hypotheses, convergence and minimum-validation provenance."
+    }
+  ]
+}

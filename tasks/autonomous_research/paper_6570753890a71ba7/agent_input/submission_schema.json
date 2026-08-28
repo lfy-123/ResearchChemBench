@@ -1,0 +1,14 @@
+{
+  "type":"object",
+  "required":["status","candidates","conclusion","limitations","energy_a","energy_b","energy_c"],
+  "properties":{
+    "status":{"type":"string"},
+    "candidates":{"type":"array","minItems":3,"items":{"type":"object","required":["candidate_id","calculation_status","electronic_energy_hartree","lowest_frequencies_cm-1","free_energy_hartree","imaginary_frequency_count","mode_interpretation","validation_evidence","connectivity_comparison"],"properties":{"candidate_id":{"type":"string","enum":["A","B","C"]},"calculation_status":{"type":"string"},"electronic_energy_hartree":{"type":["number","null"]},"lowest_frequencies_cm-1":{"type":"array","minItems":3,"items":{"type":["number","null"]}},"free_energy_hartree":{"type":["number","null"]},"imaginary_frequency_count":{"type":["integer","null"]},"mode_interpretation":{"type":"string"},"validation_evidence":{"type":"string"},"connectivity_comparison":{"type":"string"}}}},
+    "conclusion":{"type":"string"},"limitations":{"type":"string"},
+    "energy_a":{"type":["number","null"]},"energy_b":{"type":["number","null"]},"energy_c":{"type":["number","null"]}
+  },
+  "additionalProperties":false,
+  "required_files":["report/results.json","report/methods.md"],
+  "primary_result_file":"report/results.json",
+  "result_schema":{"type":"object","required":["status","candidates","conclusion","limitations","energy_a","energy_b","energy_c"],"properties":{"status":{"type":"string"},"candidates":{"type":"array","minItems":3,"items":{"type":"object","required":["candidate_id","calculation_status","electronic_energy_hartree","lowest_frequencies_cm-1","free_energy_hartree","imaginary_frequency_count","mode_interpretation","validation_evidence","connectivity_comparison"],"properties":{"candidate_id":{"type":"string","enum":["A","B","C"]},"calculation_status":{"type":"string"},"electronic_energy_hartree":{"type":["number","null"]},"lowest_frequencies_cm-1":{"type":"array","minItems":3,"items":{"type":["number","null"]}},"free_energy_hartree":{"type":["number","null"]},"imaginary_frequency_count":{"type":["integer","null"]},"mode_interpretation":{"type":"string"},"validation_evidence":{"type":"string"},"connectivity_comparison":{"type":"string"}}}},"conclusion":{"type":"string"},"limitations":{"type":"string"},"energy_a":{"type":["number","null"]},"energy_b":{"type":["number","null"]},"energy_c":{"type":["number","null"]}},"additionalProperties":false}
+}

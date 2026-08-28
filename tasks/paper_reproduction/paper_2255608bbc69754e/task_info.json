@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_2255608bbc69754e",
+  "task_type": "paper_reproduction",
+  "title": "Independent computational test of the EtzB cascade mechanism",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The supplied model is fixed, but the agent must generate and validate multiple transition-state, intermediate, stereochemical and competing-pathway candidates before assembling a profile."
+  ],
+  "paper": {
+    "title": "A Flavin Enzyme Catalyzes Epoxidation and Furofuran Formation in the Biosynthesis of Mycotoxin Erythroskyrines",
+    "doi": "10.1021/jacs.5c20055",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-16"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained neutral-singlet cal-1 XYZ structure and coordinates."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated candidate/profile/mechanism report conforming to submission_schema.json."
+    }
+  ]
+}

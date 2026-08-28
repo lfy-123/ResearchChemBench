@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {"type": "object",
+  "required": ["status", "method", "coverage", "limitations"],
+  "oneOf": [
+    {"properties": {"status": {"const": "completed"}}, "required": ["states", "profile", "conclusion"]},
+    {"properties": {"status": {"const": "bounded_failure"}}, "required": ["failure"]}
+  ],
+  "properties": {
+    "status": {"type": "string", "enum": ["completed", "bounded_failure"]},
+    "method": {"type": "object", "required": ["software", "electronic_structure", "solvent_model", "thermal_convention"], "properties": {"software": {"type": "string"}, "electronic_structure": {"type": "string"}, "solvent_model": {"type": "string"}, "thermal_convention": {"type": "string"}}},
+    "states": {"type": "array", "items": {"type": "object", "required": ["state_id", "role", "charge", "multiplicity", "structure_provenance", "frequency_validation", "irc_validation", "free_energy_kcal_mol"], "properties": {"state_id": {"type": "string"}, "role": {"type": "string"}, "charge": {"type": "integer"}, "multiplicity": {"type": "integer"}, "structure_provenance": {"type": "string"}, "frequency_validation": {"type": "string"}, "irc_validation": {"type": "string"}, "free_energy_kcal_mol": {"type": "number"}}}},
+    "profile": {"type": "object", "required": ["reference_state", "ts_b_c_barrier_kcal_mol", "overall_barrier_kcal_mol", "rate_determining_state", "arithmetic_provenance"], "properties": {"reference_state": {"type": "string"}, "ts_b_c_barrier_kcal_mol": {"type": "number"}, "overall_barrier_kcal_mol": {"type": "number"}, "rate_determining_state": {"type": "string"}, "arithmetic_provenance": {"type": "string"}}},
+    "conclusion": {"type": "string"},
+    "coverage": {"type": "object", "required": ["candidate_generation", "deduplication", "stopping_basis"], "properties": {"candidate_generation": {"type": "string"}, "deduplication": {"type": "string"}, "stopping_basis": {"type": "string"}}},
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "failure": {"type": "object", "properties": {"missing_states": {"type": "array", "items": {"type": "string"}}, "attempts": {"type": "string"}, "impact": {"type": "string"}}}
+  }}
+}

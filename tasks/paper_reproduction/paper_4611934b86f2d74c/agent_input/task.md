@@ -1,0 +1,15 @@
+## Scientific objective
+
+Test the authors' proposed photoinduced carbamate-photolysis route independently. Starting from the supplied potassium benzophenothiazine–CO2 carbamate 2A(S0), determine whether excitation, intersystem crossing, and triplet-surface C–N homolysis can produce persistent radical 4 and potassium CO2 radical anion. Quantify the two cleavage free-energy barriers and overall reaction free energy in kcal/mol, relative to 2A(S0). The author hypothesis to test is that a photoactive carbamate undergoes singlet excitation followed by triplet access and cleavage; this statement is qualitative and is not a target result.
+
+## Public inputs and scientific boundaries
+
+`data/inputs/carbamate_2A_S0.xyz` is the complete starting geometry: 32 atoms in Å, containing C/H/N/S/O/K, with the neutral singlet carbamate connectivity and one potassium counterion as represented by the coordinates. Treat the supplied geometry as the 2A(S0) reference; do not infer or import any paper geometry. The physical boundary is this isolated molecular system on S0, S1, and T1 surfaces, with separated 4 + CO2•−K+ as the cleavage endpoint. The measured quantities are stationary-point energies/free energies, the S1/T1 crossing energy relative to the S1 minimum, the two C–N cleavage barriers, and the overall reaction free energy. You may choose software, method, solvation treatment, thermal model, and conformer strategy, but state them explicitly. No paper, SI, general web, or hidden structures may be used.
+
+## Required scientific validation/investigation
+
+Plan and execute an independent calculation. Optimize and classify relevant S0, S1, and T1 stationary points; locate or otherwise quantitatively characterize an S1/T1 crossing; investigate both chemically distinct C–N homolysis channels; and identify the separated products. Validate minima and transition states with frequencies or an equivalently justified method. Validate each transition-state assignment by IRC, endpoint following, relaxed scan, or a clearly justified alternative that demonstrates both endpoints. Report charge, multiplicity, convergence, and the exact energy convention. The investigation is complete when both channels have a defensible validated pathway or a documented bounded failure, all requested observables are reported or marked unavailable with reasons, and numerical uncertainty/sensitivity is discussed. Stop after the supplied starting structure has been systematically explored for the chosen model and additional searches no longer change the channel set or conclusion; report coverage and limitations rather than claiming global exhaustiveness.
+
+## Deliverables
+
+Submit `report/results.json` conforming to the submission schema. Include a completion status, method, reference-state definition, state/crossing evidence, per-channel candidate identity and validation context, barrier and reaction-energy values when available, uncertainty, and a final mechanistic conclusion. A bounded-failure branch is allowed only when it includes attempted calculations, the failure cause, and the resulting limitation.

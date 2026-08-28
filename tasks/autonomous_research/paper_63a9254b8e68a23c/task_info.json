@@ -1,0 +1,30 @@
+{
+  "paper_id": "paper_63a9254b8e68a23c",
+  "task_type": "autonomous_research",
+  "title": "Independent investigation of a heterostructured nanoscroll radius",
+  "category": "continuum nanomaterial mechanics",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must search a continuous positive inner-radius domain and establish coverage rather than stop at the first stationary point.",
+    "The piecewise complete/incomplete-turn geometry requires competing regime treatments and consistency checks.",
+    "The agent must formulate and discriminate at least two scientifically plausible model treatments, then independently validate convergence and local stability."
+  ],
+  "paper": {
+    "title": "Controlling Spontaneously-Formed Nanoscrolls by In-Plane Janus TMD/Traditional TMD Heterostructures",
+    "doi": "10.1021/acsami.5c22081",
+    "journal": "ACS Applied Materials & Interfaces",
+    "publication_date": "2026-01-21"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Closed JSON specification of the ordered two-segment ribbon and continuum material parameters."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Independent radius investigation with candidate comparison, validation and limitations."
+    }
+  ]
+}

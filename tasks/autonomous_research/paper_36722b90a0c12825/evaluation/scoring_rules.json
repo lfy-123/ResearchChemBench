@@ -1,0 +1,69 @@
+{
+  "paper_id": "paper_36722b90a0c12825",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "reference_id": "ar_search",
+      "type": "semantic",
+      "expected": "Candidate generation, identity, deduplication, advancement, validation and stopping are explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.search_coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "reference_id": "ar_validation",
+      "type": "semantic",
+      "expected": "Both named endpoints have candidate-specific convergence and stationary-point evidence or endpoint-specific bounded failure.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation.close",
+          "$.validation.open"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r3",
+      "reference_id": "ar_result",
+      "type": "numeric",
+      "target": 0.997,
+      "unit": "eV",
+      "tolerance": 0.25,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.open_minus_close"
+        ],
+        "comparison": "absolute difference"
+      },
+      "applicability": "success branch only; bounded_failure branch is scientifically acceptable when comparison cannot be obtained."
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "ar_final",
+      "type": "semantic",
+      "expected": "Independent, scope-qualified conclusion with uncertainty and limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

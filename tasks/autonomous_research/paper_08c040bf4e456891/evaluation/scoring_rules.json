@@ -1,0 +1,116 @@
+{
+  "paper_id": "paper_08c040bf4e456891",
+  "rules": [
+    {
+      "rule_id": "autonomous_research_ar_process_states",
+      "reference_id": "ar_process_states",
+      "type": "condition",
+      "expected": "The submitted record contains the stated process validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states"
+        ],
+        "comparison": "expert condition check"
+      }
+    },
+    {
+      "rule_id": "autonomous_research_ar_process_paths",
+      "reference_id": "ar_process_paths",
+      "type": "condition",
+      "expected": "The submitted record contains the stated process validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels"
+        ],
+        "comparison": "expert condition check"
+      }
+    },
+    {
+      "rule_id": "autonomous_research_aie",
+      "reference_id": "ar_aie",
+      "type": "numeric",
+      "target": 11.9,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states.aie"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "autonomous_research_r1",
+      "reference_id": "ar_r1",
+      "type": "numeric",
+      "target": 12.4,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels.chlorine_loss.appearance_energy"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "autonomous_research_r2",
+      "reference_id": "ar_r2",
+      "type": "numeric",
+      "target": 13.5,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.channels.fluorine_loss.appearance_energy"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "autonomous_research_ar_final_energies",
+      "reference_id": "ar_final_energies",
+      "type": "semantic",
+      "expected": "Three values near 11.9, 12.4 and 13.5 eV are reported with auditable validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "autonomous_research_ar_final_interpretation",
+      "reference_id": "ar_final_interpretation",
+      "type": "semantic",
+      "expected": "A scoped, evidence-based interpretation compares the two independently investigated paths and states unresolved sensitivity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

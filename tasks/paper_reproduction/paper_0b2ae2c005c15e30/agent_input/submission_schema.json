@@ -1,0 +1,36 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "oneOf": [
+      {
+        "type": "object",
+        "required": ["status", "input_provenance", "route", "candidates", "mapping", "observables", "aggregate_metrics", "conclusion", "limitations"],
+        "properties": {
+          "status": {"const": "completed"},
+          "input_provenance": {"type": "object", "required": ["database", "record_id", "charge", "multiplicity"], "properties": {"database": {"type": "string"}, "record_id": {"type": "string"}, "charge": {"type": "integer"}, "multiplicity": {"type": "integer"}}},
+          "route": {"type": "object", "required": ["method", "software", "environment", "convergence"], "properties": {"method": {"type": "string"}, "software": {"type": "string"}, "environment": {"type": "string"}, "convergence": {"type": "string"}}},
+          "candidates": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["candidate_id", "validation_status", "diagnostics"], "properties": {"candidate_id": {"type": "string"}, "validation_status": {"type": "string"}, "diagnostics": {"type": "string"}}}},
+          "mapping": {"type": "object", "required": ["atom_label_map", "mapping_validation"], "properties": {"atom_label_map": {"type": "object"}, "mapping_validation": {"type": "string"}}},
+          "observables": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["observable_id", "kind", "atoms", "experimental", "computed", "unit", "absolute_error", "squared_absolute_error"], "properties": {"observable_id": {"type": "string"}, "kind": {"type": "string"}, "atoms": {"type": "array", "minItems": 2, "items": {"type": "string"}}, "experimental": {"type": "number"}, "computed": {"type": "number"}, "unit": {"type": "string"}, "absolute_error": {"type": "number"}, "squared_absolute_error": {"type": "number"}}}},
+          "aggregate_metrics": {"type": "object", "required": ["length_mae", "length_msae", "angle_mae", "angle_msae"], "properties": {"length_mae": {"type": "number"}, "length_msae": {"type": "number"}, "angle_mae": {"type": "number"}, "angle_msae": {"type": "number"}}},
+          "conclusion": {"type": "string"}, "limitations": {"type": "string"}
+        }
+      },
+      {
+        "type": "object",
+        "required": ["status", "input_provenance", "route", "candidates", "mapping", "observables", "aggregate_metrics", "conclusion", "limitations"],
+        "properties": {
+          "status": {"const": "bounded_failure"},
+          "input_provenance": {"type": "object", "required": ["database", "record_id", "charge", "multiplicity"], "properties": {"database": {"type": "string"}, "record_id": {"type": "string"}, "charge": {"type": "integer"}, "multiplicity": {"type": "integer"}}},
+          "route": {"type": "object", "required": ["method", "software", "environment", "convergence"], "properties": {"method": {"type": "string"}, "software": {"type": "string"}, "environment": {"type": "string"}, "convergence": {"type": "string"}}},
+          "candidates": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["candidate_id", "validation_status", "diagnostics"], "properties": {"candidate_id": {"type": "string"}, "validation_status": {"type": "string"}, "diagnostics": {"type": "string"}}}},
+          "mapping": {"type": "object", "required": ["atom_label_map", "mapping_validation"], "properties": {"atom_label_map": {"type": "object"}, "mapping_validation": {"type": "string"}}},
+          "observables": {"type": "array", "maxItems": 0},
+          "aggregate_metrics": {"type": "object", "required": ["length_mae", "length_msae", "angle_mae", "angle_msae"], "properties": {"length_mae": {"type": ["number", "null"]}, "length_msae": {"type": ["number", "null"]}, "angle_mae": {"type": ["number", "null"]}, "angle_msae": {"type": ["number", "null"]}}},
+          "conclusion": {"type": "string"}, "limitations": {"type": "string"}
+        }
+      }
+    ]
+  }
+}

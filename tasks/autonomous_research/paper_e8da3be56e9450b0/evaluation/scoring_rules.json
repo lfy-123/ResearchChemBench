@@ -1,0 +1,90 @@
+{
+  "paper_id": "paper_e8da3be56e9450b0",
+  "rules": [
+    {
+      "rule_id": "ar_r_identity",
+      "type": "condition",
+      "expected": "Both named systems and the stated substitutions/neutral boundary are verified.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].system_id",
+          "$.systems[*].composition_verified"
+        ],
+        "comparison": "expert condition check"
+      },
+      "reference_id": "ar_kp_process_identity"
+    },
+    {
+      "rule_id": "ar_r_validation",
+      "type": "condition",
+      "expected": "Each system reports relaxation evidence, a sensitivity check/change, and a branch/reference path.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].relaxation",
+          "$.systems[*].polarization.reference_path",
+          "$.systems[*].validation"
+        ],
+        "comparison": "expert condition check"
+      },
+      "reference_id": "ar_kp_process_validation"
+    },
+    {
+      "rule_id": "ar_r_bzct",
+      "type": "numeric",
+      "target": 32.41,
+      "unit": "\u03bcC/cm\u00b2",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].polarization.value"
+        ],
+        "selector": "system_id=bzct_2x2x2_neutral",
+        "comparison": "absolute difference"
+      },
+      "reference_id": "ar_kp_result_polarization"
+    },
+    {
+      "rule_id": "ar_r_bto",
+      "type": "numeric",
+      "target": 26.86,
+      "unit": "\u03bcC/cm\u00b2",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].polarization.value"
+        ],
+        "selector": "system_id=bto_2x2x2_control",
+        "comparison": "absolute difference"
+      },
+      "reference_id": "ar_kp_result_control"
+    },
+    {
+      "rule_id": "ar_r_final",
+      "type": "semantic",
+      "expected": "The conclusion supports higher BZCT polarization than BTO and states the model/branch limitation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.enhancement_statement",
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_c_final"
+    }
+  ]
+}

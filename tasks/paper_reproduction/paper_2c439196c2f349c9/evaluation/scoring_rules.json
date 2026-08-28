@@ -1,0 +1,111 @@
+{
+  "paper_id": "paper_2c439196c2f349c9",
+  "rules": [
+    {
+      "rule_id": "r_process",
+      "type": "condition",
+      "statement": "Identity, convergence and frequency evidence are explicit.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.molecule",
+          "$.method.optimization_converged",
+          "$.geometry_validation"
+        ],
+        "comparison": "expert validation"
+      },
+      "reference_id": "kp_process",
+      "expected": "explicit identity, convergence and frequency evidence",
+      "applicability": "Completed results require convergence and frequency evidence; bounded_failure requires explicit truthful attempted-step evidence."
+    },
+    {
+      "rule_id": "r_homo",
+      "type": "numeric",
+      "target": -0.23029,
+      "unit": "hartree",
+      "tolerance": 0.03,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.frontier_orbitals.homo_au"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result",
+      "applicability": "Only when $.status == completed; bounded_failure is evaluated for truthful failure evidence and is not penalized for absent numerical observables."
+    },
+    {
+      "rule_id": "r_lumo",
+      "type": "numeric",
+      "target": -0.10866,
+      "unit": "hartree",
+      "tolerance": 0.03,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.frontier_orbitals.lumo_au"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result",
+      "applicability": "Only when $.status == completed; bounded_failure is evaluated for truthful failure evidence and is not penalized for absent numerical observables."
+    },
+    {
+      "rule_id": "r_gap",
+      "type": "numeric",
+      "target": 3.31,
+      "unit": "eV",
+      "tolerance": 0.2,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.frontier_orbitals.gap_ev"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "kp_result",
+      "applicability": "Only when $.status == completed; bounded_failure is evaluated for truthful failure evidence and is not penalized for absent numerical observables."
+    },
+    {
+      "rule_id": "r_final",
+      "type": "semantic",
+      "expected": "gap supports insulator-like or wide-gap and limited polarizability interpretation",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final",
+      "applicability": "Completed results; bounded_failure is evaluated for an explicit limitation-aware conclusion."
+    },
+    {
+      "rule_id": "r_limit",
+      "type": "semantic",
+      "expected": "acknowledges molecular-versus-solid-state limitation and thermal NLO contribution",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.coverage.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_limit",
+      "applicability": "Completed results; bounded_failure is evaluated for an explicit limitation-aware conclusion."
+    }
+  ]
+}

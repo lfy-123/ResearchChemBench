@@ -1,0 +1,15 @@
+{
+  "type":"object",
+  "required_files":["report/results.json"],
+  "primary_result_file":"report/results.json",
+  "result_schema":{
+    "type":"object",
+    "required":["results","conclusion","methods","limitations"],
+    "properties":{
+      "results":{"type":"array","minItems":3,"items":{"type":"object","required":["compound","identity","status","barrier_kcal_mol","rate_s_inv","units","endpoint_ids","ts_id","validation","evidence","search_record","failure_reason"],"properties":{"compound":{"type":"string"},"identity":{"type":"string"},"status":{"type":"string","enum":["validated","partial","bounded_failure"]},"barrier_kcal_mol":{"type":["number","null"]},"rate_s_inv":{"type":["number","null"]},"units":{"type":"object","required":["barrier","rate"],"properties":{"barrier":{"type":"string"},"rate":{"type":"string"}},"additionalProperties":false},"endpoint_ids":{"type":"object","required":["enol","keto"],"properties":{"enol":{"type":"string"},"keto":{"type":"string"}},"additionalProperties":false},"ts_id":{"type":["string","null"]},"validation":{"type":"object","required":["minimums","ts_frequency","connectivity"],"properties":{"minimums":{"type":"string"},"ts_frequency":{"type":"string"},"connectivity":{"type":"string"}},"additionalProperties":false},"evidence":{"type":"array","items":{"type":"string"}},"search_record":{"type":"string"},"failure_reason":{"type":["string","null"]}},"additionalProperties":false}},
+      "conclusion":{"type":"string"},
+      "methods":{"type":"object","required":["electronic_structure","state","temperature_K","charge_multiplicity","thermochemistry","solvent"],"properties":{"electronic_structure":{"type":"string"},"state":{"type":"string"},"temperature_K":{"type":"number"},"charge_multiplicity":{"type":"string"},"thermochemistry":{"type":"string"},"solvent":{"type":"string"}},"additionalProperties":false},
+      "limitations":{"type":"string"}
+    },"additionalProperties":false
+  }
+}

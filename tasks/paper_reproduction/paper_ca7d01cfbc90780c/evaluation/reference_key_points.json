@@ -1,0 +1,41 @@
+{
+  "paper_id": "paper_ca7d01cfbc90780c",
+  "items": [
+    {
+      "key_point_id": "pr_process_pose",
+      "key_point_type": "process",
+      "statement": "The submission identifies the exact 6I3U receptor and exact A36 chemical record, and documents independent pose generation, deduplication and selection before simulation.",
+      "evidence_ids": [
+        "ev_doc_53b029e6367b_000178_8060773c9bf0"
+      ],
+      "expected": "Unique record identifiers, formal charge/multiplicity, pose identities, and a reproducible selection rationale are provided."
+    },
+    {
+      "key_point_id": "pr_process_md",
+      "key_point_type": "process",
+      "statement": "The reported trajectory is preceded by minimization/equilibration and is analyzed with explicit atom selections and hydrogen-bond criteria.",
+      "evidence_ids": [
+        "ev_doc_baa6d3d5842e_000040_cc9eacd9ead2"
+      ],
+      "expected": "Validation covers minimization, equilibration, imaging/centering, ligand retention and convergence, with analysis definitions."
+    },
+    {
+      "key_point_id": "pr_rmsd",
+      "key_point_type": "result",
+      "statement": "The complex reaches an RMSD plateau after equilibration rather than showing unbounded drift.",
+      "evidence_ids": [
+        "ev_doc_53b029e6367b_000179_fe09f533d7be"
+      ],
+      "expected": "A post-equilibration RMSD time-window summary and uncertainty/replicate context support a stable plateau."
+    },
+    {
+      "key_point_id": "pr_rmsf_hbond",
+      "key_point_type": "result",
+      "statement": "The trajectory supports low residue flexibility and persistent protein\u2013ligand hydrogen bonding consistent with a stable complex.",
+      "evidence_ids": [
+        "ev_doc_53b029e6367b_000180_072fce83b0e8"
+      ],
+      "expected": "RMSF distribution and hydrogen-bond count/occupancy are reported with definitions and limitations."
+    }
+  ]
+}

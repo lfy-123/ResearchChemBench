@@ -1,0 +1,208 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "method",
+      "systems",
+      "coverage",
+      "conclusion",
+      "uncertainty"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "model_chemistry",
+          "state_preparation",
+          "conformer_strategy",
+          "electronic_energy_units",
+          "gap_definition",
+          "unit_conversion",
+          "justification"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "model_chemistry": {
+            "type": "string"
+          },
+          "state_preparation": {
+            "type": "string"
+          },
+          "conformer_strategy": {
+            "type": "string"
+          },
+          "electronic_energy_units": {
+            "type": "string"
+          },
+          "gap_definition": {
+            "type": "string"
+          },
+          "unit_conversion": {
+            "type": "string"
+          },
+          "justification": {
+            "type": "string"
+          }
+        }
+      },
+      "systems": {
+        "type": "object",
+        "required": [
+          "C1",
+          "C2",
+          "C3"
+        ],
+        "properties": {
+          "C1": {
+            "$ref": "#/$defs/system"
+          },
+          "C2": {
+            "$ref": "#/$defs/system"
+          },
+          "C3": {
+            "$ref": "#/$defs/system"
+          }
+        }
+      },
+      "coverage": {
+        "type": "object",
+        "required": [
+          "declared_search_budget",
+          "deduplication_criterion",
+          "advancement_criterion",
+          "coverage_exhausted",
+          "stopping_condition"
+        ],
+        "properties": {
+          "declared_search_budget": {
+            "type": "string"
+          },
+          "deduplication_criterion": {
+            "type": "string"
+          },
+          "advancement_criterion": {
+            "type": "string"
+          },
+          "coverage_exhausted": {
+            "type": "boolean"
+          },
+          "stopping_condition": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "uncertainty": {
+        "type": "string"
+      },
+      "gaps_kj_mol": {
+        "type": "object",
+        "required": [
+          "C1",
+          "C2",
+          "C3"
+        ],
+        "properties": {
+          "C1": {
+            "type": "number"
+          },
+          "C2": {
+            "type": "number"
+          },
+          "C3": {
+            "type": "number"
+          }
+        }
+      },
+      "ordering_assessment": {
+        "type": "string"
+      },
+      "partial_gaps_kj_mol": {
+        "type": "object",
+        "required": [
+          "C1",
+          "C2",
+          "C3"
+        ],
+        "properties": {
+          "C1": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "C2": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "C3": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      },
+      "unresolved_states": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "available_comparison": {
+        "type": "string"
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {
+          "status": {
+            "const": "complete"
+          },
+          "systems": {
+            "properties": {
+              "C1": {"properties": {"HS": {"properties": {"outcome": {"const": "selected"}}}, "LS": {"properties": {"outcome": {"const": "selected"}}}}},
+              "C2": {"properties": {"HS": {"properties": {"outcome": {"const": "selected"}}}, "LS": {"properties": {"outcome": {"const": "selected"}}}}},
+              "C3": {"properties": {"HS": {"properties": {"outcome": {"const": "selected"}}}, "LS": {"properties": {"outcome": {"const": "selected"}}}}}
+            }
+          }
+        },
+        "required": [
+          "gaps_kj_mol",
+          "ordering_assessment"
+        ]
+      },
+      {
+        "properties": {
+          "status": {
+            "const": "bounded_failure"
+          }
+        },
+        "required": [
+          "partial_gaps_kj_mol",
+          "unresolved_states",
+          "available_comparison"
+        ]
+      }
+    ]
+  }
+}

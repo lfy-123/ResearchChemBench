@@ -1,0 +1,341 @@
+{
+    "required_files": [
+        "report/results.json"
+    ],
+    "primary_result_file": "report/results.json",
+    "result_schema": {
+        "type": "object",
+        "required": [
+            "objects",
+            "method",
+            "validation",
+            "structural_comparison",
+            "conclusion",
+            "limitations"
+        ],
+        "properties": {
+            "objects": {
+                "type": "object",
+                "required": [
+                    "cl_crystal",
+                    "br_crystal",
+                    "i_crystal"
+                ],
+                "properties": {
+                    "cl_crystal": {
+                        "type": "object",
+                        "required": [
+                            "object_id",
+                            "compound",
+                            "status",
+                            "gap_eV",
+                            "gap_stability_eV",
+                            "directness",
+                            "edge_locations",
+                            "orbital_evidence",
+                            "validation_evidence",
+                            "failure_reason",
+                            "attempted_evidence",
+                            "scientific_consequence"
+                        ],
+                        "properties": {
+                            "object_id": {
+                                "type": "string"
+                            },
+                            "compound": {
+                                "type": "string"
+                            },
+                            "status": {
+                                "type": "string"
+                            },
+                            "gap_eV": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "gap_stability_eV": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "directness": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "edge_locations": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "orbital_evidence": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "validation_evidence": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "failure_reason": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "attempted_evidence": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "scientific_consequence": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        }
+                    },
+                    "br_crystal": {
+                        "type": "object",
+                        "required": [
+                            "object_id",
+                            "compound",
+                            "status",
+                            "gap_eV",
+                            "gap_stability_eV",
+                            "directness",
+                            "edge_locations",
+                            "orbital_evidence",
+                            "validation_evidence",
+                            "failure_reason",
+                            "attempted_evidence",
+                            "scientific_consequence"
+                        ],
+                        "properties": {
+                            "object_id": {
+                                "type": "string"
+                            },
+                            "compound": {
+                                "type": "string"
+                            },
+                            "status": {
+                                "type": "string"
+                            },
+                            "gap_eV": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "gap_stability_eV": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "directness": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "edge_locations": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "orbital_evidence": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "validation_evidence": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "failure_reason": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "attempted_evidence": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "scientific_consequence": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        }
+                    },
+                    "i_crystal": {
+                        "type": "object",
+                        "required": [
+                            "object_id",
+                            "compound",
+                            "status",
+                            "gap_eV",
+                            "gap_stability_eV",
+                            "directness",
+                            "edge_locations",
+                            "orbital_evidence",
+                            "validation_evidence",
+                            "failure_reason",
+                            "attempted_evidence",
+                            "scientific_consequence"
+                        ],
+                        "properties": {
+                            "object_id": {
+                                "type": "string"
+                            },
+                            "compound": {
+                                "type": "string"
+                            },
+                            "status": {
+                                "type": "string"
+                            },
+                            "gap_eV": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "gap_stability_eV": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            "directness": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "edge_locations": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "orbital_evidence": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "validation_evidence": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "failure_reason": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "attempted_evidence": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "scientific_consequence": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "method": {
+                "type": "object",
+                "required": [
+                    "summary",
+                    "settings",
+                    "artifacts"
+                ],
+                "properties": {
+                    "summary": {
+                        "type": "string"
+                    },
+                    "settings": {
+                        "type": "string"
+                    },
+                    "artifacts": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "validation": {
+                "type": "object",
+                "required": [
+                    "status",
+                    "evidence",
+                    "coverage"
+                ],
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "string"
+                    },
+                    "coverage": {
+                        "type": "string"
+                    }
+                }
+            },
+            "structural_comparison": {
+                "type": "object",
+                "required": [
+                    "descriptor",
+                    "sign_convention",
+                    "evidence"
+                ],
+                "properties": {
+                    "descriptor": {
+                        "type": "string"
+                    },
+                    "sign_convention": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "string"
+                    }
+                }
+            },
+            "conclusion": {
+                "type": "string"
+            },
+            "limitations": {
+                "type": "string"
+            }
+        }
+    }
+}

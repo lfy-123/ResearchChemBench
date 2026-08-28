@@ -1,0 +1,15 @@
+# Scientific objective
+
+Determine, for the supplied neutral spiro-iminoindoline-pyrazoline 3a geometry, the NPA partial charges (in |e|) on two explicitly defined imine carbons: (A) the carbon double-bonded to the amidine nitrogen and bonded to the sulfonamide nitrogen, and (B) the carbon double-bonded to the hydrazone nitrogen in the pyrazoline substituent. Independently plan and perform calculations that test the authors' qualitative hypothesis that the amidine imine is the more electrophilic site and therefore the site preferentially reduced by hydride. Do not assume the paper's numerical values or computational protocol.
+
+# Public inputs and scientific boundaries
+
+The only molecular input is `data/inputs/intermediate_3a.xyz`, a 67-atom neutral molecule in ångström Cartesian coordinates; its atom numbering is the line order after the XYZ header. Use charge 0 and singlet multiplicity unless your independently justified treatment explicitly requires another state. The system boundary is the isolated molecule, without DIBAL-H, solvent, counterions, or a reaction complex. The measured quantities are the two atom-resolved NPA charges and their difference/ordering. Atom identity must be established from connectivity and reported as both XYZ index and chemical description; do not use an undefined paper atom label. No source paper, SI, or general web search is available during evaluation.
+
+# Required scientific validation/investigation
+
+Choose and document a defensible electronic-structure method and geometry strategy. Optimize or otherwise justify the geometry used for charge analysis, and report whether it is a stationary point using a frequency or other explicit validation; if stationarity cannot be established, report that limitation rather than claiming success. Perform NPA (or an explicitly named, scientifically justified equivalent only if NPA is unavailable) on the same identified structure, retain output provenance, and extract charges for A and B. Check atom mapping, total charge/state, convergence, and numerical units. Compare A and B and explain whether the result supports the qualitative author hypothesis, without claiming that charges alone prove a complete reduction mechanism. Completion requires a reproducible method description, atom mapping, validation evidence, both charge fields or a truthful bounded-failure branch, and a conclusion. Stop after one converged validated calculation plus any sensitivity check needed to establish robustness; if it fails, stop after documenting the failure and the most informative attempted remedy.
+
+# Deliverables
+
+Submit `report/results.json` conforming to the submission schema. Include calculation provenance, geometry/stationarity validation, explicit atom selectors, both charges when available, their difference and ordering when available, limitations, and a final interpretation. A bounded-failure result is acceptable only when it identifies the failed stage and still supplies all applicable diagnostics.

@@ -1,0 +1,15 @@
+# Scientific objective
+
+Independently determine the mechanistic origin of α/β selectivity in the supplied Ni-catalyzed decarboxylative glycosyl C–Ge coupling by computationally investigating competing anomeric radical-addition pathways and comparing their activation Gibbs free energies. Formulate and discriminate plausible mechanistic explanations from the supplied molecular models; do not assume an author mechanism or any expected result direction.
+
+# Public inputs and scientific boundaries
+
+The public inputs are `data/inputs/glycosyl_nhpi_22c.xyz` (45-atom glycosyl NHPI ester model, neutral singlet), `data/inputs/ni0_ligand_complex.xyz` (29-atom Ni(0)L model, neutral singlet), and `data/inputs/int1_reference_precursor.xyz` (51-atom radical-addition precursor model, neutral singlet). XYZ coordinates are in Å; element symbols are explicit and atom order is fixed within each file. Combine or transform these structures only when chemically justified and document every transformation, charge and multiplicity. The research object is the pair of chemically distinct anomeric radical-addition pathways from a common defined precursor. Product stereochemistry, optimized transition-state geometries and all numerical reference results are hidden. Compute activation free energies at 298.15 K relative to one common reactant/reference state, in kcal mol−1, using a defensible treatment of your choice. The experimental boundary is qualitative observed α-selectivity; it is not a numerical target.
+
+# Required scientific validation/investigation
+
+State at least two plausible mechanistic hypotheses before searching and define observables that discriminate them. Generate a finite, chemically distinct candidate set for each proposed pathway, deduplicate by connectivity and stereochemical identity, and record generation and screening. Optimize or otherwise converge advanced candidates, verify intended connectivity and transition-state character with an appropriate validation test, and retain failed/ambiguous cases. Compare pathways on a common reference convention, report conformer/search coverage, uncertainty and method sensitivity, and explain whether the data support one hypothesis, multiple hypotheses or no firm discrimination. Completion requires either validated best candidates for every pathway needed by the conclusion or an explicitly documented bounded failure with attempted-search evidence. Stop when the stated search protocol produces no chemically distinct validated improvement or the stated resource boundary is reached; report the stopping reason and limitations.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. Include hypotheses, candidate identities and validation evidence, reference-state convention, barriers and units when available, barrier comparison, uncertainty/coverage, and a final mechanistic conclusion. A bounded-failure branch is allowed only with required failure explanation and attempted-search record. Do not include paper text or evaluator files.

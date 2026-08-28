@@ -1,0 +1,15 @@
+# Scientific objective
+
+Independently test the authors' qualitative hypothesis that strengthening the acceptor in an anthraquinone donor–acceptor molecule changes intramolecular charge transfer and the first singlet–triplet gap. For the explicitly supplied AQ and EQ molecules, calculate and compare ΔE_ST = E(T1) − E(S1), HOMO–LUMO gaps, dipole moments, and donor/acceptor localization of frontier orbitals. The author hypothesis is disclosed only as a qualitative route: cyano-functionalization is proposed to strengthen the acceptor and promote charge-transfer/ISC behavior; you must independently test it and may reject it.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/molecular_systems.json`. It defines the constitution, formula, neutral charge (0), and singlet multiplicity (1) of AQ and EQ. Create an explicit structure file or canonical SMILES for each from those definitions and include the exact structures in the report. The scored system is two isolated gas-phase molecules. Solvent, DPPC, ultrasound, ROS chemistry, bacteria, and biological performance are outside the scored boundary. Dimers may be reported only as an unscored extension clearly separated from monomer results. The measured quantities are electronic energies in eV, ΔE_ST in eV, HOMO–LUMO gap in eV, dipole in Debye, and qualitative orbital localization.
+
+# Required scientific validation/investigation
+
+Choose and document a defensible electronic-structure method; do not assume the paper method. Generate at least one reproducible starting geometry per molecule and search enough conformers to support the reported selected structure. Deduplicate conformers using a stated structural/RMSD rule, optimize retained candidates, and identify the final conformer by a stated energy and stationarity criterion. Validate the ground state with frequencies or an equivalent stationary-point check, verify charge and multiplicity, and perform an excited-state calculation that identifies S1 and T1 consistently for both molecules. Show the arithmetic for ΔE_ST and units, inspect HOMO/LUMO localization, and report method/conformer sensitivity or explain why it could not be tested. Calculation is complete when both molecules have a validated final structure and all requested observables, or when a scientifically justified failure branch documents the blocked observable, attempted scope, evidence, and limitation. Stop after the declared conformer/method scope has been exhausted and no unresolved validation failure remains; report coverage and any bounded failure rather than silently substituting a result.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. Include structure provenance, method and software, candidate/conformer validation, per-molecule observables, comparison, conclusion, limitations, and a completion status. A bounded failure is acceptable only with attempted scope and explicit missing fields; do not fabricate numerical values. Include enough output/log references or hashes for an independent reader to audit the calculation.

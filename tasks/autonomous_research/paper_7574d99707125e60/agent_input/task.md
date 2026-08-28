@@ -1,0 +1,15 @@
+# Scientific objective
+
+Independently determine the S1 fluorescence emission wavelength of the isolated cationic G1 molecule from the supplied 242-atom geometry and characterize the electronic nature of the emitting transition. Formulate and test plausible explanations (intramolecular charge transfer, local excitation, or another state character) from the computed evidence; do not assume any author hypothesis.
+
+# Public inputs and scientific boundaries
+
+The file `data/inputs/G1GS.xyz` is the complete SI Cartesian coordinate block labeled G1GS. It defines one isolated molecular system with 242 atoms; use charge +1 and singlet multiplicity unless a chemically justified alternative is explicitly tested and reported. No cucurbituril host, solvent molecule, experimental spectrum, target wavelength, paper method, author interpretation, or preselected excited-state geometry is provided. You may choose software, electronic-structure model, basis, relativistic treatment, solvation approximation, conformer protocol and state-tracking procedure, but must disclose them. The scored object is the isolated G1 molecule.
+
+# Required scientific validation/investigation
+
+Design and execute a reproducible workflow from the supplied geometry to a validated S1 emission endpoint. Establish charge/multiplicity, convergence, state identity and geometry provenance. Validate stationary points with a Hessian/frequency check or a scientifically equivalent diagnostic. Generate and compare any additional conformers or competing excited states that your method identifies as plausible, deduplicate them by structure/state identity, and report the search coverage and stopping rule. Analyze the emitting transition with NTOs, attachment/detachment densities, transition density, or an equivalent diagnostic, then discriminate among plausible transition-character explanations using the evidence. Completion requires either a validated emission endpoint plus conclusion, or a bounded failure explanation with attempted coverage and limitations. Stop when the selected endpoint and interpretation are stable under the reported checks; otherwise stop with a limitation report rather than inventing a result.
+
+# Deliverables
+
+Submit `report/results.json` and any supporting files referenced by it. The JSON must state `status` (`complete` or `bounded_failure`), system identity, charge/multiplicity, search candidates and deduplication/advancement context, method and software, workflow steps, endpoint provenance, emission wavelength in nm when available (use `null` when bounded failure prevents a defensible wavelength), uncertainty/alternative values when justified, geometry/Hessian/state validation, evidence-based transition-character conclusion, a concise final conclusion, search coverage, stopping condition, and limitations. A bounded failure must include failure stage, scientific cause, evidence paths and the additional work needed. Do not cite or reproduce the paper, SI text, hidden reference values or evaluator files.

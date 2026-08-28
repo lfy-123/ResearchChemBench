@@ -1,0 +1,32 @@
+{
+  "paper_id": "paper_e2d9397dff2a3f0f",
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_freq",
+      "key_point_type": "process",
+      "statement": "The submission independently optimizes the supplied reference and target geometries and performs vibrational analyses, reporting convergence and charge/multiplicity.",
+      "evidence_ids": [
+        "ev_doc_d29674c1bddc_000540_d8dcc822e989"
+      ],
+      "expected": "Both fixed structures have documented optimization and frequency results with explicit computational settings."
+    },
+    {
+      "key_point_id": "kp_pr_process_ts",
+      "key_point_type": "process",
+      "statement": "The target stationary point is validated as a first-order saddle and its imaginary displacement is assigned to N\u2013O cleavage.",
+      "evidence_ids": [
+        "ev_doc_d29674c1bddc_000817_76da90988e7c"
+      ],
+      "expected": "Exactly one imaginary frequency is reported for the target and the mode evidence addresses N\u2013O cleavage."
+    },
+    {
+      "key_point_id": "kp_pr_result_barrier",
+      "key_point_type": "result",
+      "statement": "The computed Gibbs barrier for N\u2013O cleavage is reported with a defined equation and units.",
+      "evidence_ids": [
+        "ev_doc_7419176c5781_000765_81f1905507d0"
+      ],
+      "expected": "A reproducible numerical barrier in kcal/mol is supplied or a justified bounded failure is documented."
+    }
+  ]
+}

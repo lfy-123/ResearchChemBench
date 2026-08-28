@@ -1,0 +1,13 @@
+{
+  "components": {
+    "SnI2": {"formula": "SnI2", "smiles": "[Sn+2]([I-])[I-]", "charge": 0, "multiplicity": 1},
+    "PbI2": {"formula": "PbI2", "smiles": "[Pb+2]([I-])[I-]", "charge": 0, "multiplicity": 1},
+    "FAI": {"formula": "CH(NH2)2I", "smiles": "C(=[NH2+])N.[I-]", "charge": 0, "multiplicity": 1},
+    "HDC": {"formula": "N2H6Cl2 (hydrazinium dichloride)", "smiles": "[NH3+][NH3+].[Cl-].[Cl-]", "charge": 0, "multiplicity": 1},
+    "DMSO": {"formula": "C2H6OS", "smiles": "CS(C)=O", "charge": 0, "multiplicity": 1}
+  },
+  "complex_families": ["BX2-FAI", "BX2-HDC", "BX2-HDC-DMSO"],
+  "definition": "Study B = Sn and Pb with one BX2 unit. For each family use one BX2 and the named ligand package; HDC-DMSO means HDC plus one DMSO. Preserve component stoichiometry and total charge, report atom mapping, and state any proton-transfer/coordination model. The input defines the candidate families, not the preferred structure or outcome.",
+  "energy_definition": "Report E_bind = E(complex) - sum(E(isolated components)) in eV, with a consistent level for complexes and fragments. More negative means stronger association.",
+  "scope": "Finite molecular/cluster calculations; claims must be limited to the modeled species and tested search space."
+}

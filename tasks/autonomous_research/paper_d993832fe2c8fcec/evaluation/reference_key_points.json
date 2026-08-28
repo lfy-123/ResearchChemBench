@@ -1,0 +1,55 @@
+{
+  "paper_id": "paper_d993832fe2c8fcec",
+  "items": [
+    {
+      "key_point_id": "ar_process_minimum",
+      "key_point_type": "process",
+      "statement": "The submitted selected structure is supported as a true local minimum by a frequency analysis and the reported atom mapping defines both requested dihedrals.",
+      "expected_result": "No imaginary frequencies for the selected converged structure, or a scientifically explicit bounded-failure explanation; both four-atom dihedral selectors are auditable.",
+      "evidence_ids": [
+        "ev_doc_d8d216122569_000042_cadd2963e73f"
+      ],
+      "expected": "The submitted selected structure is supported as a true local minimum by a frequency analysis and the reported atom mapping defines both requested dihedrals."
+    },
+    {
+      "key_point_id": "ar_process_coverage",
+      "key_point_type": "process",
+      "statement": "The investigation explores distinct starting orientations, records per-candidate outcomes, and states a reproducible stopping/limitation rule.",
+      "expected_result": "At least two non-duplicate candidate starts, per-candidate validation, and an honest coverage statement.",
+      "evidence_ids": [
+        "ev_doc_d8d216122569_000120"
+      ],
+      "expected": "The investigation explores distinct starting orientations, records per-candidate outcomes, and states a reproducible stopping/limitation rule."
+    },
+    {
+      "key_point_id": "ar_result_torsions",
+      "key_point_type": "result",
+      "statement": "The selected 2d minimum has bridge torsions near the published DFT geometry.",
+      "expected_result": "\u03c61\u22122\u22123\u22124 approximately 177.9\u00b0 and \u03c62\u22123\u22124\u22125 approximately 59.7\u00b0.",
+      "evidence_ids": [
+        "ev_doc_d8d216122569_000199_ec9ba494b1c2"
+      ],
+      "expected": "The selected 2d minimum has bridge torsions near the published DFT geometry."
+    },
+    {
+      "key_point_id": "ar_result_energy",
+      "key_point_type": "result",
+      "statement": "The selected optimized gas-phase structure can reproduce the published electronic energy under the matching model chemistry.",
+      "expected_result": "Electronic energy approximately \u2212916.122625 hartree when the submitted method convention matches the SI calculation.",
+      "evidence_ids": [
+        "ev_doc_9b3537121f4e_000182_22e9670298b4"
+      ],
+      "expected": "The selected optimized gas-phase structure can reproduce the published electronic energy under the matching model chemistry."
+    },
+    {
+      "key_point_id": "ar_result_interpretation",
+      "key_point_type": "result",
+      "statement": "The final interpretation distinguishes calculated gas-phase evidence from solid-state observation and supports any interaction claim with submitted geometry.",
+      "expected_result": "A bounded conformational conclusion with explicit method/phase limitations; the published 2d discussion identifies type II geometry and an ortho-hydroxy/iminyl interaction.",
+      "evidence_ids": [
+        "ev_doc_d8d216122569_000197_f3c36e4aff01"
+      ],
+      "expected": "The final interpretation distinguishes calculated gas-phase evidence from solid-state observation and supports any interaction claim with submitted geometry."
+    }
+  ]
+}

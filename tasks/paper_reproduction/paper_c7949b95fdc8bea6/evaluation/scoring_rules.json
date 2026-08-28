@@ -1,0 +1,101 @@
+{
+  "paper_id": "paper_c7949b95fdc8bea6",
+  "rules": [
+    {
+      "rule_id": "r_pr_endpoints",
+      "type": "condition",
+      "expected": "endpoint mapping and composition verified",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system.endpoint_mapping_verified",
+          "$.system.atom_count"
+        ],
+        "comparison": "expert validation"
+      },
+      "reference_id": "kp_pr_process_endpoints"
+    },
+    {
+      "rule_id": "r_pr_path",
+      "type": "semantic",
+      "expected": "continuous path, saddle/max validation, candidate identity and stopping rule are documented",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.path_validation",
+          "$.artifact_references"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_process_path"
+    },
+    {
+      "rule_id": "r_pr_effect",
+      "type": "ordering",
+      "expected": "barrier(excess electron) < barrier(neutral), or bounded failure honestly reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.states",
+          "$.charge_state_comparison",
+          "$.conclusion"
+        ],
+        "comparison": "charge-state barrier ordering"
+      },
+      "reference_id": "kp_pr_result_effect"
+    },
+    {
+      "rule_id": "r_pr_interpret",
+      "type": "semantic",
+      "expected": "electronic interpretation is tied to computed evidence and bounded by the model",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.electronic_assessment",
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "kp_pr_result_interpretation"
+    },
+    {
+      "rule_id": "r_pr_final_claim",
+      "type": "semantic",
+      "expected": "final conclusion is explicitly stated and supported by cited key points",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_pr_final"
+    },
+    {
+      "rule_id": "r_pr_limitations",
+      "type": "semantic",
+      "expected": "limitations are explicitly stated and bounded to the supplied model",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_pr_limit"
+    }
+  ]
+}

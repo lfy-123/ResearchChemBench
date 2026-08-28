@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_47b659434cda4eab",
+  "task_type": "autonomous_research",
+  "title": "Independent investigation of chain-length-dependent carbocation pathways",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The Agent must formulate, search and discriminate multiple pathway hypotheses across six open-shell charged models.",
+    "Search coverage, deduplication, validation and bounded failure must be justified without a supplied author route."
+  ],
+  "paper": {
+    "title": "Sustainable alkane production from waste fatty acids via electrochemically coupled decarboxylation and hydrogenation",
+    "doi": "10.1038/s41467-025-66858-7",
+    "journal": "Nature Communications",
+    "publication_date": "2026-01-06"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Explicit linear C10/C15/C17 alpha and beta carbocation models with charge and multiplicity."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Independent candidate search, validation and evidence-weighted conclusion."
+    }
+  ]
+}

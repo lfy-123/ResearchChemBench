@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_23e9206ce48858f7",
+  "task_type": "paper_reproduction",
+  "title": "Independent computational test of electrochemical selenium cyclization barriers",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Three connected transition-state searches and IRC validations are required for a large peptide-like substrate with selenium species.",
+    "The agent must independently generate and validate stationary points before extracting three barriers."
+  ],
+  "paper": {
+    "title": "Electrochemical selenylation of tyrosine oligopeptides to benzo[bfuran-functionalized peptides",
+    "doi": "10.1016/j.cclet.2025.111928",
+    "journal": "Chinese Chemical Letters",
+    "publication_date": "2026-03-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Exact substrate and diphenyl-diselenide structures plus thermodynamic boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated barriers, process evidence, conclusion and limitations."
+    }
+  ]
+}

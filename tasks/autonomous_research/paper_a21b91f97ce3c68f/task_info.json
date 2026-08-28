@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_a21b91f97ce3c68f",
+  "task_type": "autonomous_research",
+  "title": "Independent heavy-atom NMR coupling calculation for a fixed organotin structure",
+  "category": "NMR coupling / relativistic quantum chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The endpoint and molecular system are fixed, but the agent must select a defensible heavy-atom relativistic/NMR approach, execute a direct calculation, and validate stationarity and atom-pair identity."
+  ],
+  "paper": {
+    "title": "Hyperconjugation Controls One-Bond Carbon–Tin Coupling Constants in Anomeric Tin Compounds: A Theoretical Study",
+    "doi": "10.1021/acs.joc.5c02630",
+    "journal": "The Journal of Organic Chemistry",
+    "publication_date": "2026-01-21"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Neutral-singlet 43-atom XYZ geometry for the fixed axial galactose-derived tributyltin molecule."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated calculation results and independent scientific interpretation conforming to submission_schema.json."
+    }
+  ]
+}

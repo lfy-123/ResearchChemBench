@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_dfde479f760c1fe5",
+  "task_type": "paper_reproduction",
+  "title": "Hydration-dependent chloride PMF in EcCLC",
+  "category": "molecular_dynamics_free_energy",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "Requires constructing two membrane-protein conditions and converging multidimensional windowed transport sampling.",
+    "Requires independent validation of PMF valleys, four barriers and hydration-linked interpretation."
+  ],
+  "paper": {
+    "title": "Molecular dynamics investigation of the interaction between central-site chloride binding and proton transport in EcCLC",
+    "doi": "10.1039/d5cp03799a",
+    "journal": "Physical Chemistry Chemical Physics",
+    "publication_date": "2026-01-08"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Closed EcCLC structure identity and model-boundary specification."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated PMF profiles, barriers, diagnostics, provenance and conclusion."
+    }
+  ]
+}

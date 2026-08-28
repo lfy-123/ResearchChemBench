@@ -1,0 +1,14 @@
+{
+  "system_name":"bulk styrene oxide ring-opening competition",
+  "model_boundary":"A bulk molecular model with one proton catalyst and implicit ethanol solvent; do not include graphene oxide or a graphene framework.",
+  "species":[
+    {"id":"styrene_oxide","role":"epoxide substrate","smiles":"c1ccccc1C1CO1","charge":0,"multiplicity":1},
+    {"id":"dmea","role":"amine nucleophile, 2,6-dimethylaniline","smiles":"Cc1cccc(C)c1N","charge":0,"multiplicity":1},
+    {"id":"ethanol","role":"alcohol nucleophile and solvent component","smiles":"CCO","charge":0,"multiplicity":1},
+    {"id":"proton","role":"catalytic proton","smiles":"[H+]","charge":1,"multiplicity":1}
+  ],
+  "channels":[{"id":"aminolysis","nucleophile":"dmea","product_bond":"N–epoxide carbon bond"},{"id":"alcoholysis","nucleophile":"ethanol","product_bond":"O–epoxide carbon bond"}],
+  "measured_endpoint":"activation free energy from the first protonated epoxide intermediate (IM1) to the first nucleophilic-attack transition state (TS1) for each channel",
+  "units":"kJ/mol",
+  "public_boundary_note":"The task does not provide optimized intermediates, transition states, conformer rankings, energies or expected values. Generate structures independently."
+}

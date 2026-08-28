@@ -1,0 +1,80 @@
+{
+  "paper_id": "paper_b60db7142fb28611",
+  "rules": [
+    {
+      "rule_id": "r_ar_minima",
+      "reference_id": "kp_ar_process_minima",
+      "type": "condition",
+      "expected": "All four candidates have zero-imaginary-frequency product validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[].product_validation"
+        ],
+        "comparison": "candidate-specific validation"
+      }
+    },
+    {
+      "rule_id": "r_ar_ts",
+      "reference_id": "kp_ar_process_ts",
+      "type": "condition",
+      "expected": "All four candidates have one-imaginary-frequency TS and reaction-coordinate evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[].ts_validation"
+        ],
+        "comparison": "candidate-specific validation"
+      }
+    },
+    {
+      "rule_id": "r_ar_thermo",
+      "reference_id": "kp_ar_thermo",
+      "type": "ordering",
+      "expected": "Pdt2 > Pdt1 > Pdt3 > Pdt4.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.thermodynamic_ordering"
+        ],
+        "comparison": "ordered candidate comparison"
+      }
+    },
+    {
+      "rule_id": "r_ar_kinetic",
+      "reference_id": "kp_ar_kinetic",
+      "type": "ordering",
+      "expected": "Pdt2 > Pdt1 > Pdt4 > Pdt3 by increasing activation energy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.kinetic_ordering"
+        ],
+        "comparison": "ordered candidate comparison"
+      }
+    },
+    {
+      "rule_id": "r_ar_final",
+      "reference_id": "c_ar_final",
+      "type": "semantic",
+      "expected": "Pdt2 is supported as both computed preferences and the boundary is stated.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

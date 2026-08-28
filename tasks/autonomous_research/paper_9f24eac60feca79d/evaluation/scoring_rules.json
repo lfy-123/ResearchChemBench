@@ -1,0 +1,84 @@
+{
+  "paper_id": "paper_9f24eac60feca79d",
+  "rules": [
+    {
+      "rule_id": "arr1",
+      "reference_id": "ar1",
+      "type": "semantic",
+      "expected": "Validation is present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.validation_summary"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "arr2",
+      "reference_id": "ar2",
+      "type": "semantic",
+      "expected": "State checks are present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.pathways[].validation.electronic_state_evidence"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "arr3",
+      "reference_id": "ar3",
+      "type": "numeric",
+      "target": 31.0,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.pathways[].barrier_kcal_mol"
+        ],
+        "comparison": "pathway identified absolute difference"
+      }
+    },
+    {
+      "rule_id": "arr3b",
+      "reference_id": "ar3",
+      "type": "numeric",
+      "target": 37.1,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.aza_claisen_barrier_kcal_mol"
+        ],
+        "comparison": "identified aza-Claisen barrier"
+      }
+    },
+    {
+      "rule_id": "arrc",
+      "reference_id": "arc",
+      "type": "semantic",
+      "expected": "Preferred pathway conclusion is supported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

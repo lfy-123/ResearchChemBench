@@ -1,0 +1,80 @@
+{
+  "paper_id": "paper_0e835b370ddd37b6",
+  "rules": [
+    {
+      "rule_id": "r_minima",
+      "type": "condition",
+      "expected": "for every system, when outcome_status is validated_success, optimized=true and imaginary_frequencies=0 with evidence; a bounded_failure system must still identify the minimum-search outcome truthfully in its minimum object",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].minimum"
+        ],
+        "comparison": "expert validation"
+      },
+      "reference_id": "kp_minima"
+    },
+    {
+      "rule_id": "r_ts",
+      "type": "condition",
+      "expected": "for every system, candidates_attempted, candidates_validated, coverage and evidence document the H2-activation search; validated_success requires a one-imaginary-frequency H-H-cleavage TS and endpoint evidence, while bounded_failure requires the attempted coverage and explicit failure reason",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].ts_search"
+        ],
+        "comparison": "expert validation"
+      },
+      "reference_id": "kp_ts"
+    },
+    {
+      "rule_id": "r_barriers",
+      "type": "condition",
+      "expected": "validated_success systems report a kcal/mol barrier computed from separated silylene + H2 reactants to the validated H-H-activation TS; bounded_failure systems report null and an explicit failure reason. When both systems succeed, compare the two barriers on the same stated model and preserve each named system identity",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].barrier"
+        ],
+        "comparison": "expert comparison"
+      },
+      "reference_id": "kp_barriers"
+    },
+    {
+      "rule_id": "r_final",
+      "type": "semantic",
+      "expected": "supported relative conclusion or honest unresolved outcome",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_final"
+    },
+    {
+      "rule_id": "r_limit",
+      "type": "semantic",
+      "expected": "limitations state search coverage and model dependence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "c_limit"
+    }
+  ]
+}

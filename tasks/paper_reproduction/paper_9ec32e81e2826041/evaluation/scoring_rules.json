@@ -1,0 +1,66 @@
+{
+  "paper_id": "paper_9ec32e81e2826041",
+  "rules": [
+    {
+      "rule_id": "r_pr_process_inputs",
+      "reference_id": "pr_process_inputs",
+      "type": "semantic",
+      "expected": "The required validation is reported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures[*].stationary_point"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_process_validation",
+      "reference_id": "pr_process_validation",
+      "type": "semantic",
+      "expected": "The required validation is reported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.structures[*].stationary_point"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_pr_result_delta",
+      "reference_id": "pr_result_delta",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison"
+        ],
+        "comparison": "absolute difference"
+      },
+      "expected": "The submission reports the signed G_coplanar − G_perpendicular comparison in kJ mol−1 when both calculations are complete, or gives a truthful bounded-failure explanation without a fabricated number."
+    },
+    {
+      "rule_id": "r_pr_final_conclusion",
+      "reference_id": "pr_final_conclusion",
+      "type": "semantic",
+      "expected": "The conclusion is bounded and limitation-aware.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "rules": [
+    {
+      "rule_id": "r_pr_min",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.minimum.imaginary_frequency_count",
+          "$.minimum.frequency_evidence"
+        ],
+        "comparison": "expert validation"
+      },
+      "expected": "count 0 with evidence",
+      "reference_id": "kp_pr_process_minimum",
+      "type": "condition"
+    },
+    {
+      "rule_id": "r_pr_ts",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.outcome"
+        ],
+        "comparison": "expert validation"
+      },
+      "expected": "count 1, inversion mode and connectivity",
+      "reference_id": "kp_pr_process_ts",
+      "type": "condition"
+    },
+    {
+      "rule_id": "r_pr_barrier",
+      "unit": "kcal/mol",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.outcome"
+        ],
+        "comparison": "conditional expert validation: when status is validated_success, inspect outcome.barrier.value against the source-backed 44 kcal/mol reference within the stated scientific tolerance; when bounded_failure, do not require a barrier"
+      },
+      "reference_id": "kp_pr_result_barrier",
+      "type": "condition",
+      "expected": "on validated_success, outcome.ts has one inversion imaginary frequency with connectivity evidence and outcome.barrier is reported; on bounded_failure, attempt evidence and failure reason are sufficient and no barrier is required"
+    },
+    {
+      "rule_id": "r_pr_conclusion",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "high barrier supports stability with explicit computational limitations",
+      "reference_id": "con_pr_final",
+      "type": "semantic"
+    }
+  ],
+  "paper_id": "paper_c6ded2da7e1a021b"
+}

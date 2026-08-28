@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_3f9a65e6dea8acf8",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "reference_id": "pr_process_minimum",
+      "type": "condition",
+      "expected": "No imaginary frequencies are documented and the reported system is neutral singlet, or bounded failure is transparently documented.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.success.minimum_validation",
+          "$.failure"
+        ],
+        "comparison": "expert validation of submitted frequency evidence"
+      }
+    },
+    {
+      "rule_id": "pr_r2",
+      "reference_id": "pr_process_consistency",
+      "type": "semantic",
+      "expected": "The submitted gap, hardness and electrophilicity are derived consistently from the submitted orbital energies with units and formulas stated.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.success.formula_check"
+        ],
+        "comparison": "expert consistency check"
+      }
+    },
+    {
+      "rule_id": "pr_r3",
+      "reference_id": "pr_result_gap",
+      "type": "numeric",
+      "target": 3.29,
+      "unit": "eV",
+      "tolerance": 0.5,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.success.gap_eV"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "pr_r4",
+      "reference_id": "pr_result_descriptors",
+      "type": "semantic",
+      "expected": "The report gives hardness and electrophilicity values and compares them with the source-supported low-hardness/high-electrophilicity interpretation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.success.hardness_eV",
+          "$.success.electrophilicity_eV",
+          "$.success.conclusion"
+        ],
+        "comparison": "expert semantic and numeric-context comparison"
+      }
+    },
+    {
+      "rule_id": "pr_r5",
+      "reference_id": "pr_final_conclusion",
+      "type": "semantic",
+      "expected": "A bounded, method-aware conclusion about whether the descriptors support the qualitative 10f softness/reactivity hypothesis.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.success.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

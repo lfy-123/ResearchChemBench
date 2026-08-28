@@ -1,0 +1,15 @@
+# Scientific objective
+
+Determine the relative electronic energies of the three supplied neutral-singlet di-ClPDI-Ph geometries (`crystal`, `(RRRR)-MM`, `(SSSS)-MM`) after independently choosing and documenting a defensible quantum-chemical workflow. Test the author hypothesis that chiral side-chain organization can make one helical conformer lower in energy than its opposite; do not assume the winning conformer or any numerical result. The supplied geometries are the fixed objects to compare; do not treat an input or any source geometry as a result to copy.
+
+# Public inputs and scientific boundaries
+
+The public inputs are `data/inputs/crystal.xyz`, `rrrr.xyz`, and `ssss.xyz`. Each is a 138-atom Cartesian geometry in Å for the same neutral molecular composition C80H42Cl4N4O8, with charge 0 and multiplicity 1. Labels identify only the three starting structures: the crystal-derived geometry, `(RRRR)-MM`, and `(SSSS)-MM`; they do not specify the answer. Study the isolated molecule. You may select an implicit solvent and electronic-structure method, but state them, and do not interpret this as a periodic-crystal lattice-energy calculation. Report electronic relative energies in kJ/mol using a clearly stated zero/reference.
+
+# Required scientific validation/investigation
+
+Validate atom count, elements, charge and multiplicity before calculation. Compute comparable single-point electronic energies for the three supplied labeled geometries (or, if you relax them, retain and report the fixed-input energies as the primary comparison and identify relaxation as a separate sensitivity check). Establish numerical convergence and, where feasible, stationary-point character using frequency or another explicit diagnostic; do not claim to have reproduced hidden optimized coordinates. Report per-label outcomes and diagnostics. The investigation is complete when all three inputs have a documented outcome and the relative-energy table, ordering, validation evidence, uncertainty and limitations are supplied. Stop after these three labeled structures have been treated; do not claim exhaustive conformer coverage. If a calculation cannot be completed, provide the bounded-failure branch and explain what conclusion remains unsupported.
+
+# Deliverables
+
+Submit `report/results.json` conforming to the schema. Include per-structure identity and validation context, optimized-geometry/energy outcomes, a relative-energy table, the `(RRRR)-MM` versus `(SSSS)-MM` difference if computable, ordering, conclusion, and limitations. Include enough provenance to reproduce the chosen calculations.

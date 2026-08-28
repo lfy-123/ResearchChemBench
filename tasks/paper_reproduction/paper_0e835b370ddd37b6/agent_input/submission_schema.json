@@ -1,0 +1,314 @@
+{
+  "type": "object",
+  "required": [
+    "status",
+    "systems",
+    "method",
+    "comparison",
+    "conclusion",
+    "limitations"
+  ],
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "method": {
+      "type": "object",
+      "required": [
+        "software",
+        "method",
+        "basis",
+        "solvent",
+        "temperature_K",
+        "pressure_atm",
+        "charge",
+        "multiplicity"
+      ],
+      "properties": {
+        "software": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string"
+        },
+        "basis": {
+          "type": "string"
+        },
+        "solvent": {
+          "type": "string"
+        },
+        "temperature_K": {
+          "type": "number"
+        },
+        "pressure_atm": {
+          "type": "number"
+        },
+        "charge": {
+          "type": "string"
+        },
+        "multiplicity": {
+          "type": "string"
+        }
+      }
+    },
+    "systems": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "system_id",
+          "minimum",
+          "ts_search",
+          "barrier"
+        ],
+        "oneOf": [
+          {
+            "required": ["outcome_status"],
+            "properties": {
+              "outcome_status": {"const": "validated_success"},
+              "barrier": {"type": "number"}
+            }
+          },
+          {
+            "required": ["outcome_status", "failure_reason"],
+            "properties": {
+              "outcome_status": {"const": "bounded_failure"},
+              "barrier": {"type": "null"},
+              "failure_reason": {"type": "string", "minLength": 1}
+            }
+          }
+        ],
+        "properties": {
+          "system_id": {
+            "type": "string"
+          },
+          "minimum": {
+            "type": "object",
+            "required": [
+              "optimized",
+              "imaginary_frequencies",
+              "evidence"
+            ],
+            "properties": {
+              "optimized": {
+                "type": "boolean"
+              },
+              "imaginary_frequencies": {
+                "type": "number"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "ts_search": {
+            "type": "object",
+            "required": [
+              "candidates_attempted",
+              "candidates_validated",
+              "coverage",
+              "evidence"
+            ],
+            "properties": {
+              "candidates_attempted": {
+                "type": "integer"
+              },
+              "candidates_validated": {
+                "type": "integer"
+              },
+              "coverage": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          },
+          "barrier": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "outcome_status": {
+            "enum": ["validated_success", "bounded_failure"]
+          },
+          "failure_reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "comparison": {
+      "type": "string"
+    },
+    "conclusion": {
+      "type": "string"
+    },
+    "limitations": {
+      "type": "string"
+    }
+  },
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "systems",
+      "method",
+      "comparison",
+      "conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "method",
+          "basis",
+          "solvent",
+          "temperature_K",
+          "pressure_atm",
+          "charge",
+          "multiplicity"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "basis": {
+            "type": "string"
+          },
+          "solvent": {
+            "type": "string"
+          },
+          "temperature_K": {
+            "type": "number"
+          },
+          "pressure_atm": {
+            "type": "number"
+          },
+          "charge": {
+            "type": "string"
+          },
+          "multiplicity": {
+            "type": "string"
+          }
+        }
+      },
+      "systems": {
+        "type": "array",
+        "minItems": 2,
+      "items": {
+        "type": "object",
+          "required": [
+            "system_id",
+            "minimum",
+            "ts_search",
+          "barrier"
+        ],
+        "oneOf": [
+          {
+            "required": ["outcome_status"],
+            "properties": {
+              "outcome_status": {"const": "validated_success"},
+              "barrier": {"type": "number"}
+            }
+          },
+          {
+            "required": ["outcome_status", "failure_reason"],
+            "properties": {
+              "outcome_status": {"const": "bounded_failure"},
+              "barrier": {"type": "null"},
+              "failure_reason": {"type": "string", "minLength": 1}
+            }
+          }
+        ],
+        "properties": {
+            "system_id": {
+              "type": "string"
+            },
+            "minimum": {
+              "type": "object",
+              "required": [
+                "optimized",
+                "imaginary_frequencies",
+                "evidence"
+              ],
+              "properties": {
+                "optimized": {
+                  "type": "boolean"
+                },
+                "imaginary_frequencies": {
+                  "type": "number"
+                },
+                "evidence": {
+                  "type": "string"
+                }
+              }
+            },
+            "ts_search": {
+              "type": "object",
+              "required": [
+                "candidates_attempted",
+                "candidates_validated",
+                "coverage",
+                "evidence"
+              ],
+              "properties": {
+                "candidates_attempted": {
+                  "type": "integer"
+                },
+                "candidates_validated": {
+                  "type": "integer"
+                },
+                "coverage": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "string"
+                }
+              }
+            },
+          "barrier": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "outcome_status": {
+            "enum": ["validated_success", "bounded_failure"]
+          },
+          "failure_reason": {
+            "type": "string"
+          }
+          }
+        }
+      },
+      "comparison": {
+        "type": "string"
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      }
+    },
+    "required_files": [
+      "report/results.json"
+    ],
+    "primary_result_file": "report/results.json"
+  }
+}

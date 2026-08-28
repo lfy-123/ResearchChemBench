@@ -1,0 +1,29 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "system", "method", "validation", "conclusion", "limitations"],
+    "properties": {
+      "status": {"type": "string", "enum": ["completed", "bounded_failure"]},
+      "system": {"type": "object", "required": ["smiles", "formal_charge", "multiplicity", "solvent"], "properties": {"smiles": {"type": "string"}, "formal_charge": {"type": "integer"}, "multiplicity": {"type": "integer"}, "solvent": {"type": "string"}}},
+      "method": {"type": "object", "required": ["software", "ground_state", "excited_state", "geometry_protocol"], "properties": {"software": {"type": "string"}, "ground_state": {"type": "string"}, "excited_state": {"type": "string"}, "geometry_protocol": {"type": "string"}}},
+      "validation": {"type": "object", "required": ["geometry_converged", "transition_selection", "checks", "evidence", "failure_detail"], "properties": {"geometry_converged": {"type": "boolean"}, "transition_selection": {"type": "string"}, "checks": {"type": "array", "items": {"type": "string"}}, "evidence": {"type": "array", "items": {"type": "string"}}, "failure_detail": {"type": "string"}}},
+      "conclusion": {"type": "string"}, "limitations": {"type": "array", "items": {"type": "string"}}
+    },
+    "oneOf": [
+      {
+        "required": ["result"],
+        "properties": {
+          "status": {"const": "completed"},
+          "result": {"type": "object", "required": ["state_index", "excitation_energy_ev", "wavelength_nm", "oscillator_strength", "transition_dipole_debye", "character"], "properties": {"state_index": {"type": "integer"}, "excitation_energy_ev": {"type": "number"}, "wavelength_nm": {"type": "number"}, "oscillator_strength": {"type": "number"}, "transition_dipole_debye": {"type": ["number", "null"]}, "character": {"type": "string"}}}
+        }
+      },
+      {
+        "not": {"required": ["result"]},
+        "required": ["validation"],
+        "properties": {"status": {"const": "bounded_failure"}}
+      }
+    ]
+  }
+}

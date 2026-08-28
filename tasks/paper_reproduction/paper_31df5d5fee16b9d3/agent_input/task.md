@@ -1,0 +1,15 @@
+# Scientific objective
+
+Independently test the authors' qualitative proposal that the bilayer V₂O₅·H₂O cell is better described after unconstrained relaxation than by enforcing the nominal monoclinic symmetry, and determine whether calculated Γ-point/Raman vibrations identify water-derived features. Do not assume the final symmetry, peak positions, or mode assignments. Report relaxed lattice parameters, selected vibrational/Raman peaks, water-mode assignments, and a reasoned comparison with the experimental observations supplied only as measurement boundaries.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/v2o5_h2o_p1.json`, the SI Table S1 P1 cell: neutral singlet V₈O₂₅H₈ (the O* atom is the water oxygen; H(1)–H(8) are water hydrogens), fractional coordinates and triclinic cell are explicit. The physical boundary is this periodic bilayer unit cell; generate Cartesian coordinates/conformers as needed. The measured quantities are cell lengths/angles and Γ-point vibrational/Raman wavenumbers in cm⁻¹. You may use any defensible electronic-structure, lattice-dynamics, and Raman implementation and must state it. Experimental comparison boundaries are the PDF lattice cell and observed hydrated-V₂O₅ Raman features, without treating them as computational targets.
+
+# Required scientific validation/investigation
+
+Relax the supplied structure, documenting convergence and whether symmetry constraints are imposed. Compute Γ-point vibrational modes and identify Raman-active or Raman-intense modes. Validate that the structure is chemically intact, the force/stress convergence is reported, and unstable/imaginary modes are explicitly disclosed. Assign at least three water-dominated modes using eigenvector or projected-activity evidence and distinguish them from framework modes. Compare lattice and spectral observables to the supplied experimental boundary, including uncertainty/measurement mismatch. Completion requires a reproducible method record, a validated relaxed structure, frequencies/activities, assignments, and a conclusion on the qualitative symmetry/water-band hypothesis. Stop after one converged relaxation plus one independently checked Γ-point vibrational/Raman analysis; if convergence or Raman evaluation is impossible, submit the bounded-failure branch with diagnostics and limitations.
+
+# Deliverables
+
+Submit `report/results.json` conforming to `submission_schema.json`. In the complete branch, include method/settings, relaxed cell, convergence checks (including explicit treatment of imaginary modes), and at least three vibrational peaks. For every peak, preserve an input atom-label or chemically unique object identity and provide mode-level eigenvector, projection, or Raman-tensor evidence; distinguish water from framework assignments. Include experimental comparisons with their uncertainty or measurement-mismatch statement, conclusion, and limitations. If the requested calculation cannot be completed, use the bounded-failure branch: report the attempted method, failure reason, diagnostics, limitations, and proposed scientifically meaningful next step without fabricated numerical results.

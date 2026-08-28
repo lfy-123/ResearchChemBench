@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_8e4994cea4744520",
+  "task_type": "paper_reproduction",
+  "title": "Independent DFT calibration of dipole moments in diphenylamine fragments",
+  "category": "computational chemistry",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The five molecular objects are fixed, but the Agent must independently construct conformers, optimize them, validate minima, and test a qualitative author hypothesis."
+  ],
+  "paper": {
+    "title": "Effect of fluorination positions at diphenylamino flanking groups on the photovoltaic performance for nonfused ring electron acceptors",
+    "doi": "10.1016/j.cclet.2025.111622",
+    "journal": "Chinese Chemical Letters",
+    "publication_date": "2026-01-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Explicit SMILES, charge, multiplicity, and identities for five isolated fragments."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated fragment dipoles, provenance, conformer coverage, metrics, hypothesis conclusion, or bounded failures."
+    }
+  ]
+}

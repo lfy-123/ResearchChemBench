@@ -1,0 +1,139 @@
+{
+  "paper_id": "paper_944ba64bd3d280bc",
+  "rules": [
+    {
+      "rule_id": "ar_rule_01",
+      "type": "semantic",
+      "expected": "Both E-H2bte and Z-H2bte are individually identified, neutral singlets, and validated as optimized structures.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers[0].id",
+          "$.isomers[0].structure_validation",
+          "$.isomers[1].id",
+          "$.isomers[1].structure_validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_01"
+    },
+    {
+      "rule_id": "ar_rule_02",
+      "type": "semantic",
+      "expected": "At least one explicit explanation is tested against object-labeled matched calculations and limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.explanations[0].hypothesis",
+          "$.explanations[0].test",
+          "$.explanations[0].outcome"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_process_02"
+    },
+    {
+      "rule_id": "ar_rule_03_0",
+      "reference_id": "ar_result_01",
+      "type": "numeric",
+      "target": -40.41,
+      "unit": "kcal/mol",
+      "tolerance": 3.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers[0].esp.minimum_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "ar_rule_03_1",
+      "reference_id": "ar_result_01",
+      "type": "numeric",
+      "target": 70.01,
+      "unit": "kcal/mol",
+      "tolerance": 3.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers[0].esp.maximum_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "ar_rule_03_2",
+      "reference_id": "ar_result_01",
+      "type": "numeric",
+      "target": -46.88,
+      "unit": "kcal/mol",
+      "tolerance": 3.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers[1].esp.minimum_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "ar_rule_03_3",
+      "reference_id": "ar_result_01",
+      "type": "numeric",
+      "target": 79.07,
+      "unit": "kcal/mol",
+      "tolerance": 3.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.isomers[1].esp.maximum_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "ar_rule_04",
+      "type": "semantic",
+      "expected": "E has more extensive pi-stacking and hydrogen-bond NCI features and continuous LOL-p; Z has reduced features and discontinuous LOL-p.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.comparison.nci_comparison",
+          "$.comparison.lol_pi_comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_result_02"
+    },
+    {
+      "rule_id": "ar_conclusion_01",
+      "type": "semantic",
+      "expected": "An independently reasoned molecular explanation supports the paired contrasts while limiting claims about bulk causality.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final_01"
+    }
+  ]
+}

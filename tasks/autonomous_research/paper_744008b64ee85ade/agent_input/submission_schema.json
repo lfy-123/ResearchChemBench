@@ -1,0 +1,178 @@
+{
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status"],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "hypotheses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "hypothesis_id",
+            "statement",
+            "discriminating_test",
+            "outcome"
+          ],
+          "properties": {
+            "hypothesis_id": {
+              "type": "string"
+            },
+            "statement": {
+              "type": "string"
+            },
+            "discriminating_test": {
+              "type": "string"
+            },
+            "outcome": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "candidates": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "surface",
+            "structure_or_identifier",
+            "validation",
+            "channel_assignment"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "surface": {
+              "type": "string"
+            },
+            "structure_or_identifier": {
+              "type": "string"
+            },
+            "validation": {
+              "type": "object",
+              "required": [
+                "optimization_evidence",
+                "frequency_evidence",
+                "classification"
+              ],
+              "properties": {
+                "optimization_evidence": {
+                  "type": "string"
+                },
+                "frequency_evidence": {
+                  "type": "string"
+                },
+                "classification": {
+                  "type": "string"
+                }
+              }
+            },
+            "channel_assignment": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "rates": {
+        "type": "object",
+        "required": [
+          "units",
+          "points",
+          "branching_summary"
+        ],
+        "properties": {
+          "units": {
+            "type": "string"
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "temperature_K",
+                "total_rate",
+                "channel_rates",
+                "branching_fractions"
+              ],
+              "properties": {
+                "temperature_K": {
+                  "type": "number"
+                },
+                "total_rate": {
+                  "type": "number"
+                },
+                "channel_rates": {
+                  "type": "object"
+                },
+                "branching_fractions": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "branching_summary": {
+            "type": "string"
+          }
+        }
+      },
+      "validation_520K": {
+        "type": "object",
+        "required": [
+          "temperature_K",
+          "pressure_Torr",
+          "acetic_acid_mole_fraction",
+          "comparison_basis"
+        ],
+        "properties": {
+          "temperature_K": {
+            "type": "number"
+          },
+          "pressure_Torr": {
+            "type": "number"
+          },
+          "acetic_acid_mole_fraction": {
+            "type": "number"
+          },
+          "comparison_basis": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "coverage": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "string"
+      },
+      "failure_details": {
+        "type": "string"
+      }
+    },
+    "oneOf": [
+      {
+        "properties": {"status": {"const": "complete"}},
+        "required": ["status", "hypotheses", "candidates", "rates", "validation_520K", "conclusion", "coverage", "limitations"]
+      },
+      {
+        "properties": {"status": {"const": "bounded_failure"}},
+        "required": ["status", "hypotheses", "candidates", "conclusion", "coverage", "limitations", "failure_details"]
+      }
+    ]
+  }
+}

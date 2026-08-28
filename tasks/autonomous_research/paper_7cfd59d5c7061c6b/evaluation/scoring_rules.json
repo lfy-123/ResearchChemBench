@@ -1,0 +1,85 @@
+{
+  "paper_id": "paper_7cfd59d5c7061c6b",
+  "rules": [
+    {
+      "rule_id": "r_process_discovery",
+      "reference_id": "kp_process_discovery",
+      "type": "semantic",
+      "expected": "The report documents independently proposed hypotheses, candidate generation, deduplication, convergence/frequency checks and connectivity validation with per-candidate identity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.validated_routes"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_cleavage_numeric",
+      "reference_id": "kp_result_cleavage",
+      "type": "numeric",
+      "target": 13.1,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.cleavage_barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference for the independently identified cleavage route"
+      }
+    },
+    {
+      "rule_id": "r_hat_numeric",
+      "reference_id": "kp_result_hat",
+      "type": "numeric",
+      "target": 9.2,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hat_barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference for the independently identified post-activation HAT route"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final_independent",
+      "type": "semantic",
+      "expected": "The conclusion is based on independently proposed and validated route evidence, and identifies O-O-cleavage-first as the lower-barrier explanation when supported.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_limit",
+      "reference_id": "c_limit_scope",
+      "type": "semantic",
+      "expected": "The report states search coverage/stopping and finite-cluster/model-chemistry limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

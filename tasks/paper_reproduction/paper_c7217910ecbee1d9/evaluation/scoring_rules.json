@@ -1,0 +1,101 @@
+{
+  "paper_id": "paper_c7217910ecbee1d9",
+  "rules": [
+    {
+      "rule_id": "pr_r1",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.endpoints",
+          "$.candidates",
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "validated endpoint candidates with convergence, stationary-point evidence, and explicit coverage/stopping",
+      "reference_id": "pr_process_minimum"
+    },
+    {
+      "rule_id": "pr_r2",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.aea",
+          "$.endpoints"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "explicit AEA formula, endpoint energies, units and ZPE convention",
+      "reference_id": "pr_process_aea_definition"
+    },
+    {
+      "rule_id": "pr_r3",
+      "type": "numeric",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.aea.value"
+        ],
+        "comparison": "absolute difference"
+      },
+      "target": 3.93,
+      "unit": "eV",
+      "tolerance": 0.3,
+      "reference_id": "pr_result_aea"
+    },
+    {
+      "rule_id": "pr_r4",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.framework_assessment"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "explicit structure-based assessment of retention of the specified PAl12 framework",
+      "reference_id": "pr_result_framework"
+    },
+    {
+      "rule_id": "pr_c1",
+      "type": "semantic",
+      "expected": "final AEA and framework conclusion is supported by validated calculations and bounded coverage",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.coverage"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final_claim"
+    },
+    {
+      "rule_id": "pr_c2",
+      "type": "semantic",
+      "expected": "limitations identify model and finite-search boundaries",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_limit_claim"
+    }
+  ]
+}

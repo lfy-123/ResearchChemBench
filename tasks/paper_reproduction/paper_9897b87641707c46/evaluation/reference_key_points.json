@@ -1,0 +1,56 @@
+{
+  "paper_id": "paper_9897b87641707c46",
+  "items": [
+    {
+      "key_point_id": "kp_process_frequency",
+      "key_point_type": "process",
+      "statement": "Every reported minimum is frequency-validated with zero imaginary frequencies and every reported transition state with exactly one imaginary frequency assigned to the claimed bond-making/bond-breaking event.",
+      "evidence_ids": [
+        "ev_doc_027b8abd2a51_000422_f0e313903ba2",
+        "ev_doc_027b8abd2a51_000205_4caddbdae68e"
+      ],
+      "expected": "Submission provides per-object frequency counts and a reaction-coordinate assignment/connection check for each TS."
+    },
+    {
+      "key_point_id": "kp_process_coverage",
+      "key_point_type": "process",
+      "statement": "The investigation covers the coordination state, both alkene insertion regio-branches, and both subsequent HBpin sigma-bond-metathesis branches with retained object identity.",
+      "evidence_ids": [
+        "ev_doc_4c7bdca3a157_000205_4caddbdae68e",
+        "ev_doc_4c7bdca3a157_000221_9f5e745f6092"
+      ],
+      "expected": "Profile and candidate log distinguish linear/1,2 from branched/2,1 insertion and their corresponding metathesis events, and report stopping/limitations."
+    },
+    {
+      "key_point_id": "kp_result_profile",
+      "key_point_type": "result",
+      "statement": "The computed profile contains source-comparable relative energies for INT-1, the two insertion branches and their transition states, and the two metathesis transition states.",
+      "evidence_ids": [
+        "ev_doc_4c7bdca3a157_000205_4caddbdae68e",
+        "ev_doc_027b8abd2a51_000208_6028c0ac80e4",
+        "ev_doc_027b8abd2a51_000210_c1ab68790f7f"
+      ],
+      "expected": "Numerical values are reported in kcal/mol with a stated reference state and provenance."
+    },
+    {
+      "key_point_id": "kp_result_selectivity",
+      "key_point_type": "result",
+      "statement": "The linear 1,2-insertion branch is associated with anti-Markovnikov product formation, while the branched 2,1 branch corresponds to Markovnikov connectivity.",
+      "evidence_ids": [
+        "ev_doc_4c7bdca3a157_000205_4caddbdae68e",
+        "ev_doc_4c7bdca3a157_000221_9f5e745f6092"
+      ],
+      "expected": "Conclusion explicitly maps branch identity to product connectivity and distinguishes model evidence from experimental observation."
+    },
+    {
+      "key_point_id": "kp_result_rate",
+      "key_point_type": "result",
+      "statement": "The largest turnover-relevant barrier in the reported cycle is the sigma-bond-metathesis event on the linear branch.",
+      "evidence_ids": [
+        "ev_doc_4c7bdca3a157_000218_5cb680c19d1d",
+        "ev_doc_4c7bdca3a157_000221_9f5e745f6092"
+      ],
+      "expected": "Conclusion identifies the event and supports it using the submitted barrier/profile, without relying only on a label."
+    }
+  ]
+}

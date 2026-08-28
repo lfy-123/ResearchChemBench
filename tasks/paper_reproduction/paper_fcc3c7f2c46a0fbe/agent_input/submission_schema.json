@@ -1,0 +1,326 @@
+{
+  "type": "object",
+  "required": ["status"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "complete",
+        "bounded_failure"
+      ]
+    },
+    "method": {
+      "type": "object",
+      "required": [
+        "software",
+        "model",
+        "charge",
+        "multiplicity"
+      ],
+      "properties": {
+        "software": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "charge": {
+          "type": "integer"
+        },
+        "multiplicity": {
+          "type": "integer"
+        }
+      }
+    },
+    "optimization": {
+      "type": "object",
+      "required": [
+        "converged",
+        "coordinates_xyz"
+      ],
+      "properties": {
+        "converged": {
+          "type": "boolean"
+        },
+        "coordinates_xyz": {
+          "type": "string"
+        }
+      }
+    },
+    "frequency_validation": {
+      "type": "object",
+      "required": [
+        "performed",
+        "minimum_status",
+        "frequencies_cm-1"
+      ],
+      "properties": {
+        "performed": {
+          "type": "boolean"
+        },
+        "minimum_status": {
+          "type": "string"
+        },
+        "frequencies_cm-1": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "comparisons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "observable",
+          "atoms",
+          "xrd",
+          "calculated",
+          "deviation"
+        ],
+        "properties": {
+          "observable": {
+            "type": "string"
+          },
+          "atoms": {
+            "type": "string"
+          },
+          "xrd": {
+            "type": "number"
+          },
+          "calculated": {
+            "type": "number"
+          },
+          "deviation": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "required": [
+        "bond_length_mae",
+        "angle_mae",
+        "torsion_mae"
+      ],
+      "properties": {
+        "bond_length_mae": {
+          "type": "number"
+        },
+        "angle_mae": {
+          "type": "number"
+        },
+        "torsion_mae": {
+          "type": "number"
+        },
+        "bond_length_r2": {
+          "type": "number"
+        },
+        "angle_r2": {
+          "type": "number"
+        }
+      }
+    },
+    "conclusion": {
+      "type": "string"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "failure": {
+      "type": "object",
+      "properties": {
+        "diagnostics": {
+          "type": "string"
+        },
+        "attempted_steps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "report": {
+      "type": "object"
+    }
+  },
+  "oneOf": [
+    {"required":["status","method","optimization","frequency_validation","comparisons","metrics","conclusion","limitations"],"properties":{"status":{"const":"complete"}}},
+    {"required":["status","failure","conclusion","limitations"],"properties":{"status":{"const":"bounded_failure"},"failure":{"type":"object","required":["diagnostics","attempted_steps"],"properties":{"diagnostics":{"type":"string"},"attempted_steps":{"type":"array","items":{"type":"string"}}}}}}
+  ],
+  "additionalProperties": true,
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "conclusion", "limitations"],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "bounded_failure"
+        ]
+      },
+      "method": {
+        "type": "object",
+        "required": [
+          "software",
+          "model",
+          "charge",
+          "multiplicity"
+        ],
+        "properties": {
+          "software": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "charge": {
+            "type": "integer"
+          },
+          "multiplicity": {
+            "type": "integer"
+          }
+        }
+      },
+      "optimization": {
+        "type": "object",
+        "required": [
+          "converged",
+          "coordinates_xyz"
+        ],
+        "properties": {
+          "converged": {
+            "type": "boolean"
+          },
+          "coordinates_xyz": {
+            "type": "string"
+          }
+        }
+      },
+      "frequency_validation": {
+        "type": "object",
+        "required": [
+          "performed",
+          "minimum_status",
+          "frequencies_cm-1"
+        ],
+        "properties": {
+          "performed": {
+            "type": "boolean"
+          },
+          "minimum_status": {
+            "type": "string"
+          },
+          "frequencies_cm-1": {
+            "type": "array",
+            "items": {
+              "type": "number"
+    },
+    "oneOf": [
+      {"required":["status","method","optimization","frequency_validation","comparisons","metrics","conclusion","limitations"],"properties":{"status":{"const":"complete"}}},
+      {"required":["status","failure","conclusion","limitations"],"properties":{"status":{"const":"bounded_failure"},"failure":{"type":"object","required":["diagnostics","attempted_steps"],"properties":{"diagnostics":{"type":"string"},"attempted_steps":{"type":"array","items":{"type":"string"}}}}}}
+    ]
+  }
+}
+      },
+      "comparisons": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "observable",
+            "atoms",
+            "xrd",
+            "calculated",
+            "deviation"
+          ],
+          "properties": {
+            "observable": {
+              "type": "string"
+            },
+            "atoms": {
+              "type": "string"
+            },
+            "xrd": {
+              "type": "number"
+            },
+            "calculated": {
+              "type": "number"
+            },
+            "deviation": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "metrics": {
+        "type": "object",
+        "required": [
+          "bond_length_mae",
+          "angle_mae",
+          "torsion_mae"
+        ],
+        "properties": {
+          "bond_length_mae": {
+            "type": "number"
+          },
+          "angle_mae": {
+            "type": "number"
+          },
+          "torsion_mae": {
+            "type": "number"
+          },
+          "bond_length_r2": {
+            "type": "number"
+          },
+          "angle_r2": {
+            "type": "number"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "failure": {
+        "type": "object",
+        "properties": {
+          "diagnostics": {
+            "type": "string"
+          },
+          "attempted_steps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "report": {
+        "type": "object"
+      }
+    },
+    "additionalProperties": true,
+    "oneOf": [
+      {"required":["method","optimization","frequency_validation","comparisons","metrics"],"properties":{"status":{"const":"complete"}}},
+      {"required":["failure"],"properties":{"status":{"const":"bounded_failure"},"failure":{"type":"object","required":["diagnostics","attempted_steps"],"properties":{"diagnostics":{"type":"string"},"attempted_steps":{"type":"array","items":{"type":"string"}}}}}}
+    ]
+  }
+}

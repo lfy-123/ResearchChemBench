@@ -1,0 +1,7 @@
+{
+  "systems": [{"label": "system_1", "formula": "C13H16BrCuN3OS", "ligand": "deprotonated N-propyl-N-(5-bromosalicylidene)ethane-1,2-diamine (L1)", "polymer_unit": "[Cu(L1)(mu1,3-NCS)]n", "ccdc_record_id": "2453268"}, {"label": "system_2", "formula": "C13H16ClCuN3OS", "ligand": "deprotonated N-propyl-N-(5-chlorosalicylidene)ethane-1,2-diamine (L2)", "polymer_unit": "[Cu(L2)(mu1,3-NCS)]n", "ccdc_record_id": "2453269"}],
+  "structure_recovery": {"connector": "CCDC", "records_are_required_for_coordinates": true, "deterministic_transformation": "Retrieve each deposited record, select the asymmetric unit containing one Cu, one tridentate ligand and one NCS group, preserve deposited identity/stereochemistry, terminate only the chain bond needed for an isolated monomer, and report the edit and charge."},
+  "states": [{"name": "neutral", "electron_count_change": 0, "formal_charge": 0, "spin_multiplicity": 3}, {"name": "one_electron_reduced", "electron_count_change": 1, "formal_charge": -1, "spin_multiplicity": 2}],
+  "observable_definition": {"name": "Cu_local_fukui_plus", "formula": "f_k_plus(Cu) = q_Cu(neutral) - q_Cu(one-electron-reduced)", "q_units": "dimensionless atomic charge", "same_charge_partitioning_required": true},
+  "reaction_context": {"substrate": "3,5-di-tert-butylcatechol (3,5-DTBC)", "oxidized_product": "3,5-di-tert-butylquinone (3,5-DTBQ)", "conditions": "methanol, aerobic, 25 °C"}
+}

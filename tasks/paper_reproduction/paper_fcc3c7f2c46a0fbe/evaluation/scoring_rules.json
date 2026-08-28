@@ -1,0 +1,62 @@
+{
+  "paper_id": "paper_fcc3c7f2c46a0fbe",
+  "rules": [
+    {
+      "rule_id": "r1",
+      "type": "condition",
+      "condition": "The report selects the complete branch with a converged optimization and method/coordinates, or selects bounded_failure and supplies the required failure diagnostics.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.status"],
+        "comparison": "presence and expert semantic comparison"
+      },
+      "reference_id": "p1",
+      "expected": "optimization.converged is true and method/coordinates are present"
+    },
+    {
+      "rule_id": "r2",
+      "type": "condition",
+      "condition": "The complete branch reports frequency validation and minimum status, or the bounded_failure branch honestly documents the failed validation.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.status"],
+        "comparison": "presence and expert semantic comparison"
+      },
+      "reference_id": "p2",
+      "expected": "frequency_validation is performed and minimum status is explicitly classified"
+    },
+    {
+      "rule_id": "r3",
+      "type": "semantic",
+      "expected": "complete atom-labeled comparison supports close geometry agreement",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": ["$.status"],
+        "comparison": "presence and expert semantic comparison"
+      },
+      "reference_id": "p3"
+    },
+    {
+      "rule_id": "r4",
+      "type": "semantic",
+      "expected": "final conclusion states validated minimum, close XRD agreement and limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "presence and expert semantic comparison"
+      },
+      "reference_id": "c1"
+    }
+  ]
+}

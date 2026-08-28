@@ -1,0 +1,352 @@
+{
+  "type": "object",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "required": [
+    "protocol",
+    "hypotheses",
+    "events",
+    "comparison",
+    "conclusion"
+  ],
+  "properties": {
+    "protocol": {
+      "type": "object",
+      "required": [
+        "method",
+        "thermochemistry",
+        "temperature_K"
+      ],
+      "properties": {
+        "method": {
+          "type": "string"
+        },
+        "thermochemistry": {
+          "type": "string"
+        },
+        "temperature_K": {
+          "type": "number"
+        }
+      }
+    },
+    "hypotheses": {
+      "type": "object",
+      "required": [
+        "space_definition",
+        "candidates",
+        "coverage",
+        "stopping_rule"
+      ],
+      "properties": {
+        "space_definition": {
+          "type": "string"
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "candidate_id",
+              "hypothesis",
+              "status",
+              "validation"
+            ],
+            "properties": {
+              "candidate_id": {
+                "type": "string"
+              },
+              "hypothesis": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "validation": {
+                "type": "object",
+                "required": [
+                  "frequency_summary",
+                  "connectivity_evidence"
+                ],
+                "properties": {
+                  "frequency_summary": {
+                    "type": "string"
+                  },
+                  "connectivity_evidence": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "coverage": {
+          "type": "string"
+        },
+        "stopping_rule": {
+          "type": "string"
+        }
+      }
+    },
+    "events": {
+      "type": "object",
+      "required": [
+        "prompt_N2_loss",
+        "N2_retention"
+      ],
+      "properties": {
+        "prompt_N2_loss": {
+          "type": "object",
+          "required": [
+            "status",
+            "barrier_kcal_mol",
+            "validation_basis",
+            "saddle_candidate_id"
+          ],
+          "properties": {
+            "status": {
+              "type": "string"
+            },
+            "barrier_kcal_mol": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "validation_basis": {
+              "type": "string"
+            },
+            "saddle_candidate_id": {
+              "type": ["string", "null"]
+            }
+          }
+        },
+        "N2_retention": {
+          "type": "object",
+          "required": [
+            "status",
+            "barrier_kcal_mol",
+            "validation_basis",
+            "saddle_candidate_id"
+          ],
+          "properties": {
+            "status": {
+              "type": "string"
+            },
+            "barrier_kcal_mol": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "validation_basis": {
+              "type": "string"
+            },
+            "saddle_candidate_id": {
+              "type": ["string", "null"]
+            }
+          }
+        }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "required": ["ordering", "difference_kcal_mol", "basis"],
+      "properties": {
+        "ordering": {"type": "string"},
+        "difference_kcal_mol": {"type": ["number", "null"]},
+        "basis": {"type": "string"}
+      }
+    },
+    "conclusion": {
+      "type": "object",
+      "required": [
+        "statement",
+        "limitations"
+      ],
+      "properties": {
+        "statement": {
+          "type": "string"
+        },
+        "limitations": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "protocol",
+      "hypotheses",
+      "events",
+      "comparison",
+      "conclusion"
+    ],
+    "properties": {
+      "protocol": {
+        "type": "object",
+        "required": [
+          "method",
+          "thermochemistry",
+          "temperature_K"
+        ],
+        "properties": {
+          "method": {
+            "type": "string"
+          },
+          "thermochemistry": {
+            "type": "string"
+          },
+          "temperature_K": {
+            "type": "number"
+          }
+        }
+      },
+      "hypotheses": {
+        "type": "object",
+        "required": [
+          "space_definition",
+          "candidates",
+          "coverage",
+          "stopping_rule"
+        ],
+        "properties": {
+          "space_definition": {
+            "type": "string"
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "candidate_id",
+                "hypothesis",
+                "status",
+                "validation"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string"
+                },
+                "hypothesis": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "validation": {
+                  "type": "object",
+                  "required": [
+                    "frequency_summary",
+                    "connectivity_evidence"
+                  ],
+                  "properties": {
+                    "frequency_summary": {
+                      "type": "string"
+                    },
+                    "connectivity_evidence": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "coverage": {
+            "type": "string"
+          },
+          "stopping_rule": {
+            "type": "string"
+          }
+        }
+      },
+      "events": {
+        "type": "object",
+        "required": [
+          "prompt_N2_loss",
+          "N2_retention"
+        ],
+        "properties": {
+          "prompt_N2_loss": {
+            "type": "object",
+            "required": [
+              "status",
+              "barrier_kcal_mol",
+              "validation_basis",
+              "saddle_candidate_id"
+            ],
+            "properties": {
+              "status": {
+                "type": "string"
+              },
+              "barrier_kcal_mol": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+                "validation_basis": {
+                  "type": "string"
+                },
+                "saddle_candidate_id": {
+                  "type": ["string", "null"]
+              }
+            }
+          },
+          "N2_retention": {
+            "type": "object",
+            "required": [
+              "status",
+              "barrier_kcal_mol",
+              "validation_basis",
+              "saddle_candidate_id"
+            ],
+            "properties": {
+              "status": {
+                "type": "string"
+              },
+              "barrier_kcal_mol": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+                "validation_basis": {
+                  "type": "string"
+                },
+                "saddle_candidate_id": {
+                  "type": ["string", "null"]
+              }
+            }
+          }
+        }
+      },
+          "comparison": {
+            "type": "object",
+            "required": ["ordering", "difference_kcal_mol", "basis"],
+            "properties": {
+              "ordering": {"type": "string"},
+              "difference_kcal_mol": {"type": ["number", "null"]},
+              "basis": {"type": "string"}
+            }
+          },
+          "conclusion": {
+        "type": "object",
+        "required": [
+          "statement",
+          "limitations"
+        ],
+        "properties": {
+          "statement": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

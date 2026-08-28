@@ -1,0 +1,28 @@
+{
+  "paper_id": "paper_738aae0a244ebfd1",
+  "task_type": "paper_reproduction",
+  "title": "Independent gas-phase AMP-TFA electronic-structure reproduction",
+  "category": "quantum chemistry / electronic structure",
+  "difficulty": "medium",
+  "difficulty_reasons": [
+    "The object is fixed, but the Agent must choose and validate a defensible optimization and excitation workflow and assess conformer sensitivity."
+  ],
+  "paper": {
+    "title": "Structural, vibrational, and electronic properties of bis (2-ammonium-2 methyl-1-propanol trifluoroacetate): A DFT and spectroscopic approach",
+    "doi": "10.1016/j.molstruc.2025.143894",
+    "journal": "Journal of Molecular Structure",
+    "publication_date": "2026-01-15"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Connectivity-complete AMP cation/trifluoroacetate input, charge, multiplicity and gas-phase boundary."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Validated calculation report including method, structures, frequencies, orbital gap, excitation selection, evidence paths and conclusion."
+    }
+  ]
+}

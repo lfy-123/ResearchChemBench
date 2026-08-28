@@ -1,0 +1,15 @@
+# Scientific objective
+
+Test the proposed base-assisted elementary coupling between the supplied iminotriazole anion and nitrosotriazole, with neutral 3,3′-azo-1,2,4-triazole as the product endpoint. Independently plan and perform a defensible molecular electronic-structure investigation of the stationary points and report the coupling activation free energy and reaction free energy. The authors qualitatively proposed that base-assisted deprotonation enables this coupling; test that hypothesis without assuming a published numerical result.
+
+# Public inputs and scientific boundaries
+
+The public files are `data/inputs/iminotriazole_anion.xyz` (9 atoms, charge −1, multiplicity 1) and `data/inputs/nitrosotriazole.xyz` (9 atoms, charge 0, multiplicity 1). The product is answer-neutrally defined as neutral 3,3′-azo-1,2,4-triazole: two 1,2,4-triazol-3-yl units joined by an N=N bond at their 3 positions; construct or optimize that connectivity yourself. Do not infer alternate protonation or silently change atom identity, charge, multiplicity, or product connectivity. The calculation boundary is the isolated molecular reaction in a methanol-like solution model, with the coupling reactants and azo product as the endpoint. The photocatalyst, oxygen, and the rest of the catalytic cycle are outside the scored endpoint. Choose and disclose your own electronic-structure method, solvent treatment, thermal convention, conformer handling, and energy reference.
+
+# Required scientific validation/investigation
+
+Optimize and characterize the supplied reactants and the answer-neutrally defined product, generate at least one chemically plausible coupling transition-state candidate, and retain candidate identity, geometry provenance, and computational settings. A minimum must have no imaginary frequency; a transition state must have one relevant imaginary mode and an intrinsic-reaction-coordinate calculation or an explicitly justified equivalent connection test to the stated reactant and product basins. Compute the activation free energy relative to the separated supplied reactants and the reaction free energy to the defined azo product, reporting the exact convention and units. If no validated TS is found, submit a bounded-failure report listing attempted candidates, diagnostics, coverage, and the next limitation. Completion requires either a `validated` report with one validated TS and both energies or a `bounded_failure` report; do not fabricate energies when no TS is validated. Stop when the validated endpoint is converged under your stated geometry/TS search protocol or when additional searches no longer produce a new validated connection; report search coverage and limitations.
+
+# Deliverables
+
+Submit `report/results.json` conforming to the submission schema. Include method/settings, state and candidate identities, stationary-point frequency diagnostics, TS connection evidence, activation and reaction free energies when available, and a concise mechanistic conclusion. You may attach supporting files under `report/`, but the JSON is the scored primary result.

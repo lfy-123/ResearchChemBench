@@ -1,0 +1,96 @@
+{
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.hypotheses",
+          "$.outcome"
+        ],
+        "comparison": "expert check of independent hypothesis and coverage record"
+      },
+      "reference_id": "ar_process_hypotheses",
+      "expected": "candidate-specific validation is documented"
+    },
+    {
+      "rule_id": "ar_r2",
+      "type": "condition",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome"
+        ],
+        "comparison": "expert check of candidate-specific validation"
+      },
+      "reference_id": "ar_process_validation",
+      "expected": "candidate-specific validation is documented"
+    },
+    {
+      "rule_id": "ar_r3",
+      "type": "semantic",
+      "expected": "supports hydration-induced reorganization beginning at n=3 within isolated-cluster scope",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_final_claim"
+    },
+    {
+      "rule_id": "ar_r4",
+      "type": "semantic",
+      "expected": "states coverage and model limitations and avoids bulk overclaim",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "ar_limitation"
+    },
+    {
+      "rule_id": "ar_result_transition_rule",
+      "reference_id": "ar_result_transition",
+      "type": "semantic",
+      "expected": "reported and supported by candidate observables",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_result_spectral_rule",
+      "reference_id": "ar_result_spectral",
+      "type": "semantic",
+      "expected": "reported and supported by candidate observables",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.outcome"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ],
+  "paper_id": "paper_6e09640463562644"
+}

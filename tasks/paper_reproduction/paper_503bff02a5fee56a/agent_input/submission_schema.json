@@ -1,0 +1,19 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "systems", "charge_transfer", "method", "coverage", "conclusion"],
+    "properties": {
+      "status": {"type": "string", "enum": ["complete", "partial", "bounded_failure"]},
+      "systems": {"type": "array", "minItems": 2, "items": {"oneOf": [
+        {"type": "object", "required": ["system_id", "status", "adsorption_energy_eV", "reference_energies", "validation", "candidates"], "properties": {"system_id": {"type": "string", "enum": ["nio", "coo_nio_13"]}, "status": {"type": "string", "enum": ["validated", "partial"]}, "adsorption_energy_eV": {"type": "number"}, "reference_energies": {"type": "object", "required": ["complex_eV", "hmf_eV", "surface_eV", "formula"]}, "validation": {"type": "object", "required": ["geometry", "electronic", "reference_consistency"]}, "candidates": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["candidate_id", "identity", "status"], "properties": {"candidate_id": {"type": "string"}, "identity": {"type": "string"}, "status": {"type": "string"}, "validation": {"type": "string"}}}}}},
+        {"type": "object", "required": ["system_id", "status", "failure_reason", "validation", "candidates"], "properties": {"system_id": {"type": "string", "enum": ["nio", "coo_nio_13"]}, "status": {"type": "string", "enum": ["bounded_failure", "partial"]}, "failure_reason": {"type": "string", "minLength": 1}, "validation": {"type": "object", "required": ["attempted", "limitations"]}, "candidates": {"type": "array", "items": {"type": "object", "required": ["candidate_id", "identity", "status"]}}}}
+      ]}},
+      "charge_transfer": {"oneOf": [{"type": "object", "required": ["status", "value_e", "sign_convention", "partition", "uncertainty_e"], "properties": {"status": {"type": "string", "enum": ["validated", "partial"]}, "value_e": {"type": "number"}, "sign_convention": {"type": "string"}, "partition": {"type": "string"}, "uncertainty_e": {"type": "number"}}}, {"type": "object", "required": ["status", "failure_reason"], "properties": {"status": {"type": "string", "enum": ["bounded_failure", "partial"]}, "failure_reason": {"type": "string", "minLength": 1}}}]},
+      "method": {"type": "object", "required": ["software_or_code", "model", "convergence"]},
+      "coverage": {"type": "object", "required": ["candidate_generation", "deduplication", "stopping_condition", "limitations"]},
+      "conclusion": {"type": "string", "minLength": 1}
+    }
+  }
+}

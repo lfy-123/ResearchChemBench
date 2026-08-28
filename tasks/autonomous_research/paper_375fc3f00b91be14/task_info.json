@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_375fc3f00b91be14",
+  "task_type": "autonomous_research",
+  "title": "Independent discovery of PyDIG isomer basicity change",
+  "category": "conformer_thermochemistry_property_calibration",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must formulate plausible thermochemical explanations and search/validate conformers without an author route.",
+    "The paired acid-base endpoint and close-lying states require coverage, discrimination and sensitivity justification."
+  ],
+  "paper": {
+    "title": "Photo-DAC: Light-Driven Ambient-Temperature Direct Air Capture by a Photobase",
+    "doi": "10.1021/jacs.5c18831",
+    "journal": "Journal of the American Chemical Society",
+    "publication_date": "2026-01-06"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Self-contained PyDIG structures and aqueous context."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Independent validated pKa investigation, candidate evidence, sensitivity and conclusion."
+    }
+  ]
+}

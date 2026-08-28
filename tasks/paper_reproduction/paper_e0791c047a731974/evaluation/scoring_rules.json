@@ -1,0 +1,123 @@
+{
+  "rules": [
+    {
+      "rule_id": "pr_s1",
+      "type": "semantic",
+      "expected": "system identity, charge, multiplicity, iodide omission and S0 validation are explicitly evidenced",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system",
+          "$.validation.s0_stationary",
+          "$.validation.frequency_evidence"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_p1"
+    },
+    {
+      "rule_id": "pr_s2",
+      "type": "semantic",
+      "expected": "vertical and adiabatic states are distinguished with convergence and multiplicity evidence",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables",
+          "$.validation.state_identity",
+          "$.validation.t1_relaxation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_p2"
+    },
+    {
+      "rule_id": "pr_s3",
+      "type": "numeric",
+      "target": 1.8909,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.vertical.s1.energy_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "pr_r1"
+    },
+    {
+      "rule_id": "pr_s4",
+      "type": "numeric",
+      "target": 1.0556,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.vertical.t1.energy_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "pr_r1"
+    },
+    {
+      "rule_id": "pr_s5",
+      "type": "numeric",
+      "target": 2.1221,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.vertical.t2.energy_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "pr_r1"
+    },
+    {
+      "rule_id": "pr_s6",
+      "type": "numeric",
+      "target": 1.09,
+      "unit": "eV",
+      "tolerance": 0.15,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.adiabatic_t1.energy_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "reference_id": "pr_r2"
+    },
+    {
+      "rule_id": "pr_s7",
+      "type": "semantic",
+      "expected": "final conclusion tests the qualitative hypothesis, uses the validated state energetics and states method limitations",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_c1"
+    }
+  ],
+  "paper_id": "paper_e0791c047a731974"
+}

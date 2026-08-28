@@ -1,0 +1,29 @@
+{
+  "paper_id": "paper_5c068e5f6debb99e",
+  "task_type": "autonomous_research",
+  "title": "Autonomous discrimination of sulfur-transfer channels",
+  "category": "reaction_mechanism_selectivity",
+  "difficulty": "hard",
+  "difficulty_reasons": [
+    "The agent must independently formulate and prioritize structural and mechanistic hypotheses for both endpoint-defined channels.",
+    "Transition-state discovery, coverage justification, validation, and model-sensitivity analysis are all required before a conclusion."
+  ],
+  "paper": {
+    "title": "Protecting-group-dependent chemo- and regioselective cascade rearrangement of N-arylhydroxylamines with N-thiophthalimides",
+    "doi": "10.1016/j.cclet.2025.111196",
+    "journal": "Chinese Chemical Letters",
+    "publication_date": "2026-02-01"
+  },
+  "data": [
+    {
+      "path": "data/inputs",
+      "description": "Mapped SMILES and route-neutral system boundary for two reactants, sodium tert-butoxide, two channel atom maps, DME, and 213.15 K."
+    }
+  ],
+  "required_deliverables": [
+    {
+      "path": "report/results.json",
+      "description": "Independent hypotheses, candidate validation, barriers, comparison, explanation, and limitations."
+    }
+  ]
+}

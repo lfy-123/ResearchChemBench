@@ -1,0 +1,103 @@
+{
+  "rules": [
+    {
+      "rule_id": "pr_rule_1",
+      "type": "semantic",
+      "expected": "Per-system finite search, deduplication and stopping/coverage evidence is present.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].candidates",
+          "$.systems[*].search_summary",
+          "$.systems[*].validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_process_1"
+    },
+    {
+      "rule_id": "pr_rule_2",
+      "type": "semantic",
+      "expected": "Every selected system has convergence and independent validation evidence.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems[*].validation",
+          "$.systems[*].fragment_energies",
+          "$.method.validation"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_process_2"
+    },
+    {
+      "rule_id": "pr_rule_3",
+      "type": "semantic",
+      "expected": "Complete submissions report all six named combinations with identifiable eV binding energies; bounded failures name every missing system and its cause.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.status",
+          "$.systems[*].system",
+          "$.systems[*].outcome",
+          "$.systems[*].binding_energy_eV",
+          "$.failure_details"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_result_1"
+    },
+    {
+      "rule_id": "pr_rule_4",
+      "type": "semantic",
+      "expected": "Conclusion compares matched Sn/Pb ligand packages and addresses HDC selectivity.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_result_2"
+    },
+    {
+      "rule_id": "pr_conclusion_1",
+      "type": "semantic",
+      "expected": "Scope-limited selective Sn coordination conclusion supported by submitted calculations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final_1"
+    },
+    {
+      "rule_id": "pr_conclusion_2",
+      "type": "semantic",
+      "expected": "Limitations distinguish molecular evidence from bulk mechanism.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final_2"
+    }
+  ],
+  "paper_id": "paper_c9165ac90930fc76"
+}

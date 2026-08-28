@@ -1,0 +1,120 @@
+{
+  "paper_id": "paper_a6e8c57709329bdb",
+  "rules": [
+    {
+      "rule_id": "pr_s1",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.system",
+          "$.validation"
+        ],
+        "comparison": "expert validation of identity and convergence"
+      },
+      "expected": "Identity and convergence/force validation are explicit.",
+      "type": "condition",
+      "reference_id": "pr_p1"
+    },
+    {
+      "rule_id": "pr_s2",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.gap_eV",
+          "$.validation.gap_recomputed",
+          "$.orbital_localization.evidence"
+        ],
+        "comparison": "arithmetic and evidence check"
+      },
+      "expected": "Gap equals LUMO minus HOMO and localization is evidenced.",
+      "type": "condition",
+      "reference_id": "pr_p2"
+    },
+    {
+      "rule_id": "pr_s3",
+      "target": -5.44,
+      "unit": "eV (HOMO)",
+      "tolerance": 0.75,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.homo_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "type": "numeric",
+      "reference_id": "pr_r1"
+    },
+    {
+      "rule_id": "pr_s4",
+      "target": -1.12,
+      "unit": "eV (LUMO)",
+      "tolerance": 0.75,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.lumo_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "type": "numeric",
+      "reference_id": "pr_r1"
+    },
+    {
+      "rule_id": "pr_s5",
+      "target": 4.32,
+      "unit": "eV (gap)",
+      "tolerance": 0.75,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.observables.gap_eV"
+        ],
+        "comparison": "absolute difference"
+      },
+      "type": "numeric",
+      "reference_id": "pr_r1"
+    },
+    {
+      "rule_id": "pr_s6",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.orbital_localization"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "HOMO aromatic/azomethine and LUMO aromatic/imine plus methylene localization are supported.",
+      "type": "semantic",
+      "reference_id": "pr_r2"
+    },
+    {
+      "rule_id": "pr_s7",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "expected": "Conclusion supports the qualitative hypothesis while stating model limitations.",
+      "type": "semantic",
+      "reference_id": "pr_c1"
+    }
+  ]
+}

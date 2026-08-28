@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "system", "method", "coverage", "artifacts", "final_conclusion"],
+    "properties": {
+      "status": {"type": "string", "enum": ["complete_validated", "bounded_failure"]},
+      "system": {
+        "type": "object", "required": ["name", "charge", "multiplicity", "fe_atom_indices"],
+        "properties": {
+          "name": {"type": "string"}, "charge": {"type": "integer"}, "multiplicity": {"type": "integer"},
+          "fe_atom_indices": {"type": "object", "required": ["Fe1", "Fe2"], "properties": {"Fe1": {"type": "integer"}, "Fe2": {"type": "integer"}}}
+        }
+      },
+      "method": {
+        "type": "object", "required": ["software", "optimization", "solvation", "spin_treatment"],
+        "properties": {"software": {"type": "string"}, "optimization": {"type": "string"}, "solvation": {"type": "string"}, "spin_treatment": {"type": "string"}, "details": {"type": "string"}}
+      },
+      "coverage": {
+        "type": "object", "required": ["candidates_attempted", "deduplication_rule", "stopping_condition", "limitations"],
+        "properties": {"candidates_attempted": {"type": "array", "items": {"type": "string"}}, "deduplication_rule": {"type": "string"}, "stopping_condition": {"type": "string"}, "limitations": {"type": "string"}}
+      },
+      "artifacts": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+      "final_conclusion": {"type": "string"},
+      "failure_report": {
+        "type": "object", "required": ["attempted_calculations", "scientific_reason", "unresolved_observables"],
+        "properties": {"attempted_calculations": {"type": "array", "items": {"type": "string"}, "minItems": 1}, "scientific_reason": {"type": "string"}, "unresolved_observables": {"type": "array", "items": {"type": "string"}}}
+      },
+      "validation": {
+        "type": "object", "required": ["optimized_structure", "imaginary_frequency_count", "fe_fe_distance_angstrom"],
+        "properties": {"optimized_structure": {"type": "string"}, "imaginary_frequency_count": {"type": "integer", "minimum": 0}, "fe_fe_distance_angstrom": {"type": "number"}, "frequency_summary": {"type": "string"}}
+      },
+      "spin_comparison": {
+        "type": "object", "required": ["broken_symmetry_energy_hartree", "high_spin_energy_hartree", "energy_difference_hartree", "sign_convention", "conclusion"],
+        "properties": {"broken_symmetry_energy_hartree": {"type": "number"}, "high_spin_energy_hartree": {"type": "number"}, "energy_difference_hartree": {"type": "number"}, "sign_convention": {"type": "string"}, "conclusion": {"type": "string"}, "comparison_artifact": {"type": "string"}, "structure_comparability": {"type": "string"}}
+      },
+      "mossbauer": {
+        "type": "object", "required": ["Fe1", "Fe2", "calibration_or_method"],
+        "properties": {
+          "Fe1": {"type": "object", "required": ["isomer_shift_mm_per_s", "electron_density_or_equivalent"], "properties": {"isomer_shift_mm_per_s": {"type": "number"}, "electron_density_or_equivalent": {"type": "number"}}},
+          "Fe2": {"type": "object", "required": ["isomer_shift_mm_per_s", "electron_density_or_equivalent"], "properties": {"isomer_shift_mm_per_s": {"type": "number"}, "electron_density_or_equivalent": {"type": "number"}}},
+          "calibration_or_method": {"type": "string"}
+        }
+      }
+    },
+    "oneOf": [
+      {"properties": {"status": {"const": "complete_validated"}, "validation": {"required": ["optimized_structure", "imaginary_frequency_count", "fe_fe_distance_angstrom", "frequency_summary"]}, "spin_comparison": {"required": ["broken_symmetry_energy_hartree", "high_spin_energy_hartree", "energy_difference_hartree", "sign_convention", "conclusion", "comparison_artifact", "structure_comparability"]}, "mossbauer": {"required": ["Fe1", "Fe2", "calibration_or_method"]}}, "required": ["validation", "spin_comparison", "mossbauer"]},
+      {"properties": {"status": {"const": "bounded_failure"}}, "required": ["failure_report"]}
+    ]
+  }
+}

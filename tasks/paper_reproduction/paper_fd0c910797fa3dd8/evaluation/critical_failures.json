@@ -1,0 +1,25 @@
+{
+  "paper_id": "paper_fd0c910797fa3dd8",
+  "items": [
+    {
+      "failure_id": "cf_wrong_system",
+      "condition": "The submission changes the 77-atom open-ring molecule, charge, multiplicity or system boundary without documenting a deliberate non-scored control.",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "cf_unvalidated_endpoint",
+      "condition": "The submission reports S1/S2 as final results from an unconverged optimization or without a minimum/endpoint validation record.",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "cf_state_identity_loss",
+      "condition": "The report merges S1 and S2, omits units or orbital identity, or presents values that cannot be mapped to individual states.",
+      "severity": "critical"
+    },
+    {
+      "failure_id": "cf_overclaim",
+      "condition": "The conclusion presents vertical excitations as a proven rate, quantum yield or complete reaction mechanism.",
+      "severity": "critical"
+    }
+  ]
+}

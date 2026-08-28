@@ -1,0 +1,42 @@
+{
+  "paper_id": "paper_fd0c910797fa3dd8",
+  "items": [
+    {
+      "key_point_id": "kp_process_geometry",
+      "key_point_type": "process",
+      "statement": "The reported computational route optimizes the open-ring and closed-ring ground-state geometries before TD-DFT and uses the optimized structure for vertical excitations.",
+      "expected": "The submission documents a converged ground-state optimization for 3(o), a minimum check or explicit bounded failure, and uses that endpoint for S1/S2 analysis.",
+      "evidence_ids": [
+        "ev_doc_113465ed1edb_000170_579eea56ab84"
+      ]
+    },
+    {
+      "key_point_id": "kp_process_state_analysis",
+      "key_point_type": "process",
+      "statement": "The excited-state analysis must preserve state identity, oscillator strength, wavelength units and leading orbital contributions rather than reporting an unlabeled spectrum.",
+      "expected": "The submission contains separately identified S1 and S2 records with wavelength, oscillator strength, dominant transition, contribution and validation notes.",
+      "evidence_ids": [
+        "ev_doc_113465ed1edb_000032_0816377df625",
+        "ev_doc_113465ed1edb_000034_c2d1f91580bd"
+      ]
+    },
+    {
+      "key_point_id": "kp_result_s1",
+      "key_point_type": "result",
+      "statement": "The source identifies the principal S0\u2192S1 absorption of 3(o) and its dominant orbital character.",
+      "expected": "S1 is reported near 397 nm with oscillator strength near 1.5896 and dominant HOMO\u2192LUMO character at about 94.8%.",
+      "evidence_ids": [
+        "ev_doc_113465ed1edb_000032_0816377df625"
+      ]
+    },
+    {
+      "key_point_id": "kp_result_s2",
+      "key_point_type": "result",
+      "statement": "The source identifies the second principal S0\u2192S2 absorption of 3(o) and its dominant orbital character.",
+      "expected": "S2 is reported near 328 nm with oscillator strength near 1.0343 and dominant HOMO\u22121\u2192LUMO+1 character at about 82.7%.",
+      "evidence_ids": [
+        "ev_doc_113465ed1edb_000034_c2d1f91580bd"
+      ]
+    }
+  ]
+}

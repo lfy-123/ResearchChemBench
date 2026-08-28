@@ -1,0 +1,144 @@
+{
+  "type": "object",
+  "required_files": [
+    "report/results.json"
+  ],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "hypotheses",
+      "model",
+      "candidates",
+      "cases",
+      "validation",
+      "conclusion",
+      "limitations"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "completed",
+          "bounded_failure"
+        ]
+      },
+      "hypotheses": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "statement",
+            "discrimination_test"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "statement": {
+              "type": "string"
+            },
+            "discrimination_test": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "model": {
+        "type": "object",
+        "required": [
+          "method",
+          "settings",
+          "gas_reference",
+          "charge_convention"
+        ],
+        "properties": {
+          "method": {
+            "type": "string"
+          },
+          "settings": {
+            "type": "object"
+          },
+          "gas_reference": {
+            "type": "string"
+          },
+          "charge_convention": {
+            "type": "string"
+          }
+        }
+      },
+      "candidates": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "candidate_id",
+            "identity",
+            "validation_status"
+          ],
+          "properties": {
+            "candidate_id": {
+              "type": "string"
+            },
+            "identity": {
+              "type": "string"
+            },
+            "validation_status": {
+              "type": "string"
+            },
+            "evidence": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "cases": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "oneOf": [
+            {"required": ["case_id", "support", "film_layers", "endpoint_status", "reaction_energy", "barrier", "charge_transfer", "validation_note"], "properties": {"case_id": {"type": "string"}, "support": {"type": "string"}, "film_layers": {"type": "integer"}, "endpoint_status": {"type": "string"}, "reaction_energy": {"type": "number"}, "barrier": {"type": ["number", "null"]}, "charge_transfer": {"type": "number"}, "units": {"type": "string"}, "validation_note": {"type": "string"}}, "additionalProperties": true},
+            {"required": ["case_id", "support", "film_layers", "endpoint_status", "reaction_energy", "barrier", "charge_transfer", "failure_stage", "failure_evidence", "validation_note"], "properties": {"case_id": {"type": "string"}, "support": {"type": "string"}, "film_layers": {"type": "integer"}, "endpoint_status": {"type": "string"}, "reaction_energy": {"type": "null"}, "barrier": {"type": "null"}, "charge_transfer": {"type": "null"}, "failure_stage": {"type": "string"}, "failure_evidence": {"type": "string"}, "units": {"type": "string"}, "validation_note": {"type": "string"}}, "additionalProperties": true}
+          ]
+        }
+      },
+      "validation": {
+        "type": "object",
+        "required": [
+          "convergence",
+          "endpoint_checks",
+          "ts_checks",
+          "coverage"
+        ],
+        "properties": {
+          "convergence": {
+            "type": "string"
+          },
+          "endpoint_checks": {
+            "type": "string"
+          },
+          "ts_checks": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "string"
+          }
+        }
+      },
+      "conclusion": {
+        "type": "string"
+      },
+      "limitations": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

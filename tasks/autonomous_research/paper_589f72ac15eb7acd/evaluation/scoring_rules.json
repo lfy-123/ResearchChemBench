@@ -1,0 +1,118 @@
+{
+  "paper_id": "paper_589f72ac15eb7acd",
+  "rules": [
+    {
+      "rule_id": "ar_r1",
+      "reference_id": "ar_process_plan",
+      "type": "semantic",
+      "expected": "independent reproducible plan with finite coverage and stopping",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.plan",
+          "$.coverage"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r2",
+      "reference_id": "ar_process_validation",
+      "type": "semantic",
+      "expected": "per-system state validation and bounded-failure distinction",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems"
+        ],
+        "comparison": "expert process comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r3a",
+      "reference_id": "ar_result_values",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.C1",
+          "$.method",
+          "$.uncertainty"
+        ],
+        "comparison": "expert scientific comparison against source sign/object and internally supported result"
+      },
+      "expected": "reports the paper-defined E_HS\u2212E_LS gap for C1 with state-specific energies, units, sign audit and method-appropriate uncertainty; no fixed numerical value is demanded across methods"
+    },
+    {
+      "rule_id": "ar_r3b",
+      "reference_id": "ar_result_values",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.C2",
+          "$.method",
+          "$.uncertainty"
+        ],
+        "comparison": "expert scientific comparison against source sign/object and internally supported result"
+      },
+      "expected": "reports the paper-defined E_HS\u2212E_LS gap for C2 with state-specific energies, units, sign audit and method-appropriate uncertainty; no fixed numerical value is demanded across methods"
+    },
+    {
+      "rule_id": "ar_r3c",
+      "reference_id": "ar_result_values",
+      "type": "semantic",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.systems.C3",
+          "$.method",
+          "$.uncertainty"
+        ],
+        "comparison": "expert scientific comparison against source sign/object and internally supported result"
+      },
+      "expected": "reports the paper-defined E_HS\u2212E_LS gap for C3 with state-specific energies, units, sign audit and method-appropriate uncertainty; no fixed numerical value is demanded across methods"
+    },
+    {
+      "rule_id": "ar_r4",
+      "reference_id": "ar_result_limit",
+      "type": "semantic",
+      "expected": "isolated electronic trend is separated from solid-state and transition-temperature inference",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion",
+          "$.uncertainty"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "ar_r5",
+      "reference_id": "ar_final",
+      "type": "semantic",
+      "expected": "supports C3 > C2 > C1 with explicit uncertainty",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

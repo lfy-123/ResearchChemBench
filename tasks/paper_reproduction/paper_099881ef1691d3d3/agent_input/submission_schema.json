@@ -1,0 +1,76 @@
+{
+  "required_files": ["report/results.json"],
+  "primary_result_file": "report/results.json",
+  "result_schema": {
+    "type": "object",
+    "required": ["status", "system"],
+    "properties": {
+      "status": {"type": "string", "enum": ["completed", "bounded_failure"]},
+      "system": {
+        "type": "object",
+        "required": ["input_geometry", "charge", "multiplicity", "atom_order_preserved", "method_provenance", "method_rationale"],
+        "properties": {
+          "input_geometry": {"type": "string"},
+          "charge": {"type": "integer"},
+          "multiplicity": {"type": "integer"},
+          "atom_order_preserved": {"type": "boolean"},
+          "method_provenance": {"type": "string"},
+          "method_rationale": {"type": "string"}
+        }
+      },
+      "robustness": {
+        "type": "object",
+        "required": ["method", "result", "interpretation", "provenance"],
+        "properties": {
+          "method": {"type": "string"},
+          "result": {"type": "string"},
+          "interpretation": {"type": "string"},
+          "provenance": {"type": "string"}
+        }
+      },
+      "conclusion": {"type": "string"},
+      "ground_state": {
+        "type": "object",
+        "required": ["optimized_geometry", "convergence_diagnostics", "frequencies", "frequency_unit", "frequency_provenance", "minimum_verified"],
+        "properties": {
+          "optimized_geometry": {"type": "string"},
+          "convergence_diagnostics": {"type": "string"},
+          "frequencies": {"type": "array", "minItems": 1, "items": {"type": "number"}},
+          "frequency_unit": {"type": "string"},
+          "frequency_provenance": {"type": "string"},
+          "minimum_verified": {"type": "boolean"}
+        }
+      },
+      "excited_state": {
+        "type": "object",
+        "required": ["state_label", "state_assignment", "emitting_geometry", "optimization_or_adiabatic_provenance", "dipole_provenance", "electric_dipole", "magnetic_dipole", "dipole_angle", "glum"],
+        "properties": {
+          "state_label": {"type": "string"},
+          "state_assignment": {"type": "string"},
+          "emitting_geometry": {"type": "string"},
+          "optimization_or_adiabatic_provenance": {"type": "string"},
+          "dipole_provenance": {"type": "string"},
+          "electric_dipole": {"type": "object", "required": ["value", "unit"], "properties": {"value": {"type": "number"}, "unit": {"type": "string"}}},
+          "magnetic_dipole": {"type": "object", "required": ["value", "unit"], "properties": {"value": {"type": "number"}, "unit": {"type": "string"}}},
+          "dipole_angle": {"type": "object", "required": ["value", "unit"], "properties": {"value": {"type": "number"}, "unit": {"type": "string"}}},
+          "glum": {"type": "object", "required": ["value", "unit", "convention", "formula"], "properties": {"value": {"type": "number"}, "unit": {"type": "string"}, "convention": {"type": "string"}, "formula": {"type": "string"}}}
+        }
+      },
+      "failure": {
+        "type": "object",
+        "required": ["stage", "diagnostics", "attempted_remedies", "validated_intermediates", "bounded_conclusion"],
+        "properties": {
+          "stage": {"type": "string"},
+          "diagnostics": {"type": "string"},
+          "attempted_remedies": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "validated_intermediates": {"type": "array", "items": {"type": "object", "required": ["scientific_object", "result", "provenance"], "properties": {"scientific_object": {"type": "string"}, "result": {"type": "string"}, "provenance": {"type": "string"}}}},
+          "bounded_conclusion": {"type": "string"}
+        }
+      }
+    },
+    "oneOf": [
+      {"properties": {"status": {"enum": ["completed"]}}, "required": ["ground_state", "excited_state", "robustness", "conclusion"]},
+      {"properties": {"status": {"enum": ["bounded_failure"]}}, "required": ["failure"]}
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+# Scientific objective
+
+Determine computationally how adding zero, one, or two cyano substituents to the explicitly supplied dibromothiophene series changes molecular dipole moment and electrostatic-potential asymmetry. Formulate and test your own explanation of any trend; do not assume an author mechanism. Report calculated evidence, uncertainty, and the limits of inferring charge-transfer behavior from these ground-state observables.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/monomer_series.json`. It defines M-Th-0CN (2,5-dibromothiophene), M-Th-1CN (2,5-dibromo-3-cyanothiophene), and M-Th-2CN (2,5-dibromo-3,4-dicyanothiophene) by SMILES, with charge 0 and multiplicity 1. The boundary is isolated neutral closed-shell ground-state molecules. Solvent, periodic polymer, excited-state, photochemical, and experimental claims are outside scope. Measure dipole moment (D) and a precisely defined ESP asymmetry/potential difference, including units and the extrema/surface/grid convention.
+
+# Required scientific validation/investigation
+
+Plan an independent calculation for all three named molecules. Generate and, where useful, compare conformers; state deduplication, selection, and coverage criteria. Document geometry and electronic-state validation, software/method/basis, convergence, and reproducibility metadata. Calculate both observables consistently, preserve molecule identity in every result, and explain disagreements or failed calculations. Completion requires a validated result or a molecule-specific bounded failure for each molecule, plus an evidence-based cross-series conclusion. Stop when the documented conformer and validation search is exhausted or when additional work is unlikely to change the stated conclusion; report that limitation rather than implying exhaustive search.
+
+# Deliverables
+
+Submit `report/results.json` and supporting artifacts. Include per-molecule identity, structure or path, method metadata, dipole and ESP results when available, validation records, uncertainty/limitations, and your independently reasoned conclusion. Optional polymer calculations must be clearly separated and must define their structures; they are not required for completion. Bounded failure is acceptable only when molecule-specific reasons and all completed validation work are reported.

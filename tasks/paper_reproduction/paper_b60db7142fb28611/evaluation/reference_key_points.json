@@ -1,0 +1,42 @@
+{
+  "paper_id": "paper_b60db7142fb28611",
+  "items": [
+    {
+      "key_point_id": "kp_pr_process_minima",
+      "key_point_type": "process",
+      "statement": "Each accepted product stationary point is validated as a minimum with zero imaginary frequencies and preserved Pdt identity.",
+      "expected": "All four product candidates have zero imaginary frequencies and connectivity-preservation evidence.",
+      "evidence_ids": [
+        "ev_doc_bf7dc1235aa4_000064_55cb819cb8d5"
+      ]
+    },
+    {
+      "key_point_id": "kp_pr_process_ts",
+      "key_point_type": "process",
+      "statement": "Each accepted pathway transition state has exactly one imaginary frequency and connects the mapped reactants to its named product candidate.",
+      "expected": "Four TS records each report one imaginary frequency and a reaction-coordinate validation.",
+      "evidence_ids": [
+        "ev_doc_bf7dc1235aa4_000065_8cfdc807d089",
+        "ev_doc_bf7dc1235aa4_000150_35ff8c61e016"
+      ]
+    },
+    {
+      "key_point_id": "kp_pr_thermo",
+      "key_point_type": "result",
+      "statement": "The product thermodynamic ordering is Pdt2, Pdt1, Pdt3, Pdt4.",
+      "expected": "thermodynamic_ordering lists Pdt2 > Pdt1 > Pdt3 > Pdt4.",
+      "evidence_ids": [
+        "ev_doc_bf7dc1235aa4_000062_349f1bd0ecc5"
+      ]
+    },
+    {
+      "key_point_id": "kp_pr_kinetic",
+      "key_point_type": "result",
+      "statement": "Reported activation energies are Pdt2 15.1815, Pdt1 16.4327, Pdt3 24.0031, and Pdt4 22.4967 kcal/mol.",
+      "expected": "Per-candidate activation energies match these values within the authored tolerance.",
+      "evidence_ids": [
+        "ev_doc_bf7dc1235aa4_000066_d25863aa6365"
+      ]
+    }
+  ]
+}

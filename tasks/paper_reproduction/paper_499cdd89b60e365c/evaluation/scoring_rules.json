@@ -1,0 +1,113 @@
+{
+  "paper_id": "paper_499cdd89b60e365c",
+  "rules": [
+    {
+      "rule_id": "pr_rule_1",
+      "type": "semantic",
+      "expected": "candidate records demonstrate the specified slab boundary, top-layer substitution, fixed bottom layers, and atom-count audit",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates[*].validation",
+          "$.candidates[*].composition"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_process_1"
+    },
+    {
+      "rule_id": "pr_rule_2",
+      "type": "semantic",
+      "expected": "method thermodynamics identify \u03b2-Ga2O3, H2, H2O, H2O/H2 dependence, and omitted solid entropy",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.method.thermodynamic_definition"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_process_2"
+    },
+    {
+      "rule_id": "pr_rule_3",
+      "type": "semantic",
+      "expected": "candidate IDs, convergence, validation and stopping/limitation evidence are reported",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates",
+          "$.validation",
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_process_3"
+    },
+    {
+      "rule_id": "pr_rule_4",
+      "type": "condition",
+      "expected": "reaction_point reports a nonzero stable coverage or a bounded interval that supports nonzero onset at 503.15 K and ratio 0.003",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.reaction_point"
+        ],
+        "comparison": "expert condition comparison"
+      },
+      "reference_id": "pr_result_1"
+    },
+    {
+      "rule_id": "pr_rule_5",
+      "type": "semantic",
+      "expected": "bulk comparison places bulk alloying at higher-temperature/reducing conditions than surface onset",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.bulk_comparison.statement"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_result_2"
+    },
+    {
+      "rule_id": "pr_rule_6",
+      "type": "semantic",
+      "expected": "the final conclusion supports surface relevance near reaction conditions and distinguishes it from bulk alloying",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_final_1"
+    },
+    {
+      "rule_id": "pr_rule_7",
+      "type": "semantic",
+      "expected": "limitations cover reference choice, finite configurations, omitted solid entropy or kinetic interpretation",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      },
+      "reference_id": "pr_limit_1"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "paper_id": "paper_d8e5490cd9942f4f",
+  "rules": [
+    {
+      "rule_id": "r_kp_process_minima",
+      "reference_id": "kp_process_minima",
+      "type": "semantic",
+      "expected": "Two endpoint validation records are present; a completed comparison reports no residual imaginary modes for the selected minima, or bounded failure explicitly records the failed endpoint and diagnostics.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.endpoints[].id",
+          "$.endpoints[].identity",
+          "$.endpoints[].validation_status",
+          "$.endpoints[].imaginary_mode_count",
+          "$.investigation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_kp_process_consistency",
+      "reference_id": "kp_process_consistency",
+      "type": "semantic",
+      "expected": "The same stated thermochemical convention is applied to syn and anti and the signed difference is formed as anti minus syn.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.endpoints[].id",
+          "$.endpoints[].free_energy",
+          "$.endpoints[].free_energy_unit",
+          "$.route",
+          "$.investigation",
+          "$.investigation"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_kp_result_delta_g",
+      "reference_id": "kp_result_delta_g",
+      "type": "numeric",
+      "target": 4.2,
+      "unit": "kcal/mol",
+      "tolerance": 1.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion.delta_g_conf",
+          "$.conclusion.delta_g_unit"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_c_final_preference",
+      "reference_id": "c_final_preference",
+      "type": "semantic",
+      "expected": "Under the published aqueous DFT convention, syn-La-KHQ+ is thermodynamically preferred to anti-La-KHQ+ because G(anti) \u2212 G(syn) is positive.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_c_limitation",
+      "reference_id": "c_limitation",
+      "type": "semantic",
+      "expected": "The comparison is model-dependent and local-minimum based; it does not establish exhaustive global conformational sampling or an experimental free energy.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}

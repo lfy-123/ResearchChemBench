@@ -1,0 +1,15 @@
+# Scientific objective
+
+Determine the neutral-singlet E↔Z torsional isomerization of unsubstituted chalcone 3, (2E)/(2Z)-1,3-diphenylprop-2-en-1-one. Independently plan and execute calculations that test the authors' qualitative hypothesis that rotation about the central C=C bond proceeds through a concerted torsional barrier and a first-order saddle point. Report, separately for gas phase and implicit acetonitrile, the optimized E and Z endpoints, the best validated connecting TS, the specified dihedral, and the barrier of the TS relative to the optimized E minimum. The author hypothesis is qualitative only; no paper protocol or numerical result is supplied.
+
+# Public inputs and scientific boundaries
+
+Use `data/inputs/chalcone3_system.json` as the complete system definition. It supplies mapped E and Z stereochemical SMILES, formula C15H12O, charge 0, multiplicity 1, and atom roles: carbonyl C=2, alpha C=4, beta C=5, beta-phenyl ipso C=6. The measured coordinate is the signed dihedral (2,4,5,6), in degrees. Treat `gas_phase` as an isolated molecule and `acetonitrile_pcm` as an isolated molecule in an implicit continuum acetonitrile model. Do not use the paper, SI, general web, or result-bearing source coordinates. Energies must be electronic relative energies in eV, with each environment's E minimum as zero. Alternative defensible model chemistry is allowed if fully documented.
+
+# Required scientific validation/investigation
+
+Generate and deduplicate a finite set of 3D conformers for each public endpoint and advance only geometries that converge to the intended E or Z connectivity/stereochemistry. Explore a bounded torsional path connecting those endpoints in each environment; report the scanned coordinate range, spacing or adaptive rule, all candidate maxima considered, and the stopping rule. Optimize at least one TS candidate per environment and validate it with a Hessian/frequency calculation showing exactly one imaginary mode whose displacement is consistent with central-bond torsion, and verify that downhill displacements or an equivalent intrinsic-reaction-coordinate/path test connect to the two endpoint basins. Completion requires either a validated TS and both validated endpoints in both environments, or a bounded-failure report that identifies the failed environment/candidate and includes all requested partial observables. Stop when both environments satisfy these validation tests or when documented candidate generation has been exhausted under the stated coverage rule.
+
+# Deliverables
+
+Write `report/results.json` conforming to `submission_schema.json`. Include method/software, convergence settings, conformer and path coverage, per-environment endpoint energies/dihedrals, TS energy/dihedral, barrier relative to E, imaginary-frequency count and validation evidence, plus a conclusion and limitations. Preserve atom-role identity in every structure and candidate record. Do not report a success status without the corresponding structures and validation fields.

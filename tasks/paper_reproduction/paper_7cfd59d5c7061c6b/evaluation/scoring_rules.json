@@ -1,0 +1,101 @@
+{
+  "paper_id": "paper_7cfd59d5c7061c6b",
+  "rules": [
+    {
+      "rule_id": "r_process_stationary",
+      "reference_id": "kp_process_stationary",
+      "type": "semantic",
+      "expected": "The report contains identity-preserving candidate records, convergence and frequency classification, and endpoint connectivity evidence for both compared routes.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.candidates",
+          "$.route_comparison"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_cleavage_numeric",
+      "reference_id": "kp_result_cleavage",
+      "type": "numeric",
+      "target": 13.1,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.route_comparison.OO_cleavage_first.cleavage_barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_hat_numeric",
+      "reference_id": "kp_result_hat",
+      "type": "numeric",
+      "target": 9.2,
+      "unit": "kcal/mol",
+      "tolerance": 2.0,
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.route_comparison.OO_cleavage_first.HAT_barrier_kcal_mol"
+        ],
+        "comparison": "absolute difference"
+      }
+    },
+    {
+      "rule_id": "r_direct_order",
+      "reference_id": "kp_result_direct",
+      "type": "ordering",
+      "expected": "The direct-HAT barrier is higher than the O-O-cleavage barrier.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.route_comparison.direct_HAT.barrier_kcal_mol",
+          "$.route_comparison.OO_cleavage_first.cleavage_barrier_kcal_mol"
+        ],
+        "comparison": "ordered comparison"
+      }
+    },
+    {
+      "rule_id": "r_final",
+      "reference_id": "c_final_mechanism",
+      "type": "semantic",
+      "expected": "Within the supplied model, O-O cleavage first is favored over direct HAT and the following HAT is accessible.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.route_comparison.conclusion"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    },
+    {
+      "rule_id": "r_limit",
+      "reference_id": "c_validation_limit",
+      "type": "semantic",
+      "expected": "The report states finite-cluster, continuum/electronic-energy and DFT/conformational limitations.",
+      "binding": {
+        "artifact_paths": [
+          "report/results.json"
+        ],
+        "fields": [
+          "$.limitations"
+        ],
+        "comparison": "expert semantic comparison"
+      }
+    }
+  ]
+}
