@@ -126,3 +126,104 @@ Gaussian 使用了比简单关键词更严格的识别：
 ## 7. 一句话汇报版
 
 在当前批量合成批次已发布的 258 篇论文、497 个任务模式中，Gaussian 是绝对主流：191 篇论文（74.0%）和 368 个任务模式（74.0%）将其作为至少一个核心计算步骤的软件；其次是 ORCA（37 篇）和 VASP（29 篇）。
+
+
+## 8. 已发布论文的期刊分布与发表月份分布
+
+本节按唯一 `paper_id` 统计，不按两个任务模式重复计算。期刊和发表日期均读取发布任务的 `task_info.json` 中 `paper.journal` 与 `paper.publication_date` 字段；未对外部数据库再次核验。当前快照包含 **258 篇唯一论文**。
+
+### 8.1 期刊分布
+
+共涉及 **43 种期刊**。表中数量之和为 258。
+
+| 期刊 | 论文数 | 占比 |
+|---|---:|---:|
+| Journal of the American Chemical Society | 35 | 13.6% |
+| Dyes and Pigments | 23 | 8.9% |
+| Journal of Molecular Structure | 23 | 8.9% |
+| RSC Advances | 13 | 5.0% |
+| The Journal of Organic Chemistry | 13 | 5.0% |
+| Dalton Transactions | 12 | 4.7% |
+| Organic Letters | 12 | 4.7% |
+| Physical Chemistry Chemical Physics | 12 | 4.7% |
+| Chemical Engineering Journal | 9 | 3.5% |
+| Chinese Chemical Letters | 8 | 3.1% |
+| Green Chemistry | 8 | 3.1% |
+| Inorganic Chemistry | 8 | 3.1% |
+| Nature Communications | 8 | 3.1% |
+| New Journal of Chemistry | 8 | 3.1% |
+| ACS Applied Materials & Interfaces | 7 | 2.7% |
+| The Journal of Physical Chemistry C | 7 | 2.7% |
+| Chemical Communications | 5 | 1.9% |
+| Chemical Science | 5 | 1.9% |
+| Inorganica Chimica Acta | 4 | 1.6% |
+| Journal of Materials Chemistry B | 3 | 1.2% |
+| Journal of Natural Products | 3 | 1.2% |
+| Organic & Biomolecular Chemistry | 3 | 1.2% |
+| ACS Catalysis | 2 | 0.8% |
+| ACS Nano | 2 | 0.8% |
+| Advanced Synthesis & Catalysis | 2 | 0.8% |
+| Angewandte Chemie International Edition | 2 | 0.8% |
+| ChemistrySelect | 2 | 0.8% |
+| Energy & Environmental Science | 2 | 0.8% |
+| Journal of Medicinal Chemistry | 2 | 0.8% |
+| Journal of Organometallic Chemistry | 2 | 0.8% |
+| Analytical Chemistry | 1 | 0.4% |
+| Bioorganic Chemistry | 1 | 0.4% |
+| Catalysis Science & Technology | 1 | 0.4% |
+| Chem | 1 | 0.4% |
+| ChemCatChem | 1 | 0.4% |
+| Chemistry - An Asian Journal | 1 | 0.4% |
+| Green Synthesis and Catalysis | 1 | 0.4% |
+| JACS Au | 1 | 0.4% |
+| Macromolecules | 1 | 0.4% |
+| Nature Chemistry | 1 | 0.4% |
+| Organometallics | 1 | 0.4% |
+| Polyhedron | 1 | 0.4% |
+| Tetrahedron | 1 | 0.4% |
+
+期刊数量最多的是：
+
+- *Journal of the American Chemical Society*：35 篇（13.6%）
+- *Dyes and Pigments*：23 篇（8.9%）
+- *Journal of Molecular Structure*：23 篇（8.9%）
+- *The Journal of Organic Chemistry*：13 篇（5.0%）
+- *RSC Advances*：13 篇（5.0%）
+
+前 5 种期刊合计 107 篇，占 41.5%；其余 38 种期刊合计 151 篇。
+
+### 8.2 按发表月份统计
+
+月份按 `YYYY-MM` 截取；如果日期只有年份或无法解析，则单列为“无法解析”。当前记录全部包含可解析的年月。
+
+| 发表月份 | 论文数 | 占比 |
+|---|---:|---:|
+| 2025-04 | 1 | 0.4% |
+| 2026-01 | 160 | 62.0% |
+| 2026-02 | 68 | 26.4% |
+| 2026-03 | 14 | 5.4% |
+| 2026-04 | 9 | 3.5% |
+| 2026-05 | 4 | 1.6% |
+| 2026-06 | 1 | 0.4% |
+| 2026-07 | 1 | 0.4% |
+
+月份数量之和：**258 篇**。
+
+时间分布特点：
+
+- 2026 年 1 月：160 篇（62.0%）
+- 2026 年 2 月：68 篇（26.4%）
+- 2026 年 3 月：14 篇（5.4%）
+- 2026 年 4 月：9 篇（3.5%）
+- 2026 年 5 月：4 篇（1.6%）
+- 2026 年 6 月：1 篇（0.4%）
+- 2026 年 7 月：1 篇（0.4%）
+
+因此，当前发布集合明显集中在 2026 年第一季度，尤其是 1—2 月。该分布反映的是当前 stage00–05 筛选结果及其元数据记录，不应解释为整个领域的期刊或年份分布。
+
+### 8.3 元数据完整性说明
+
+- 258 篇论文均有非空 `journal` 字段；没有出现期刊为空的记录。
+- 258 篇论文均有可解析到月份的 `publication_date`；没有出现空日期或无法解析日期。
+- 同一论文的两个模式使用同一篇论文元数据；本节只按论文去重一次。
+- 期刊名称按 `task_info.json` 原文保留，不主动合并缩写、出版社品牌或期刊改名前后的名称。
