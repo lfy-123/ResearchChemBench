@@ -948,24 +948,6 @@ def _reduce_evidence_packet(
     ]
 
 
-def _reduce_experiment_packet(
-    evidence: list[dict[str, Any]],
-    *,
-    max_items: int,
-    max_quote_characters: int,
-) -> list[dict[str, Any]]:
-    return [
-        {
-            "evidence_id": item.get("evidence_id"),
-            "exact_quote": str(item.get("exact_quote") or "")[: max(1, max_quote_characters)],
-            "experiment_type": str(item.get("experiment_type") or "")[:120],
-            "attribution": str(item.get("attribution") or "unclear")[:40],
-            "confidence": item.get("confidence"),
-        }
-        for item in evidence[: max(1, max_items)]
-    ]
-
-
 def _compact_string_list(value: Any, max_items: int, max_characters: int) -> list[str]:
     if isinstance(value, list):
         values = value

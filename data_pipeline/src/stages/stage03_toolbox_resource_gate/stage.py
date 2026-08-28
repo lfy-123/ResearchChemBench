@@ -1707,22 +1707,6 @@ def _version_like_residual(value):
     return bool(re.fullmatch(r"[a-z0-9]*", reduced))
 
 
-def _compound_extension_backend(raw_name: str, lookup: dict[str, str]) -> str | None:
-    """Resolve the rightmost known component of a compound plugin/module name."""
-
-    if not re.search(r"\b(?:plugin|module|extension|interface)\b", raw_name, re.I):
-        return None
-    normalized = _normalize(raw_name)
-    candidates: list[tuple[int, int, str]] = []
-    for alias, backend in lookup.items():
-        if len(alias) < 3:
-            continue
-        start = normalized.rfind(alias)
-        if start >= 0:
-            candidates.append((start, len(alias), backend))
-    return max(candidates, default=(-1, -1, None), key=lambda item: (item[0], item[1]))[2]
-
-
 def _decorated_software_backend(raw_name: str, lookup: dict[str, str]) -> str | None:
     """Resolve a catalogued engine inside a slash/hyphen decorated method name."""
 
@@ -2799,31 +2783,6 @@ def _xml10_text(value):
     )
 
 
-def _compact_stage02_review(review):
-    return _compact_json_value(
-        {
-            key: review.get(key)
-            for key in (
-                "centrality",
-                "central_scientific_question",
-                "primary_contribution",
-                "computational_workflow_steps",
-                "central_claims",
-                "experimental_contributions",
-                "counterfactual_without_computation",
-                "counterfactual_without_experiments",
-                "method_families",
-                "computational_actions",
-                "software_clues",
-                "resource_clues",
-                "evidence_ids",
-                "confidence",
-            )
-        },
-        max_items=24,
-    )
-
-
 def _compact_rule_mentions(mentions):
     return [
         {
@@ -2945,15 +2904,3 @@ def _capability_excerpt(entry):
         "limitations",
     )
     return {key: entry.get(key, "unknown") for key in keys}
-
-
-def _constraints_unknown(required, snapshot):
-    for key, value in required.items():
-        if value in (None, "", [], {}):
-            continue
-        supported = snapshot.get(key, "unknown")
-        if supported in (None, "unknown"):
-            return True
-        if isinstance(supported, list) and isinstance(value, str) and value not in supported:
-            return True
-    return False
